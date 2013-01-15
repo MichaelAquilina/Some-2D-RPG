@@ -20,9 +20,12 @@ namespace DivineRightConcept
         SpriteBatch spriteBatch;
 
         Texture2D _groundTextures;
+        int[][] _worldMap;
 
-        int WINDOW_WIDTH = 500;
-        int WINDOW_HEIGHT = 500;
+        int TILE_WIDTH = 8;
+        int TILE_HEIGHT = 8;
+        int MAP_WIDTH = 500;
+        int MAP_HEIGHT = 500;
 
         public DivineRightGame()
         {
@@ -40,6 +43,14 @@ namespace DivineRightConcept
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            Random random = new Random();
+            _worldMap = new int[TILE_WIDTH][];
+            for (int i = 0; i < _worldMap.Length; i++)
+            {
+                _worldMap[i] = new int[TILE_HEIGHT];
+                for (int j = 0; j < _worldMap[i].Length; j++)
+                    _worldMap[i][j] = random.Next(0, 4);
+            }
 
             base.Initialize();
         }
@@ -90,7 +101,14 @@ namespace DivineRightConcept
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            spriteBatch.DrawGroundTexture(_groundTextures, Ground.GROUND_TEXTURE_PEBBLES, new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
+
+            int tileWidth = MAP_WIDTH/_worldMap.Length;
+            int tileHeight = MAP_HEIGHT/_worldMap[0].Length;
+
+            for (int i = 0; i < _worldMap.Length; i++)
+                for (int j = 0; j < _worldMap[i].Length; j++)
+                    spriteBatch.DrawGroundTexture(_groundTextures, _worldMap[i][j], new Rectangle(i*tileWidth,j*tileHeight,tileWidth,tileHeight));
+            
             spriteBatch.End();
 
             base.Draw(gameTime);
