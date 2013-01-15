@@ -19,6 +19,7 @@ namespace DivineRightConcept
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        GameTime prevGameTime = new GameTime();
         int x = 0;
         int y = 0;
         Texture2D _stickManTexture;
@@ -72,6 +73,27 @@ namespace DivineRightConcept
 
             KeyboardState keyboardState = Keyboard.GetState();
 
+                if (keyboardState.IsKeyDown(Keys.Up))
+                {
+                    prevGameTime = gameTime;
+                    y = y - 1;
+                }
+                if (keyboardState.IsKeyDown(Keys.Down))
+                {
+                    prevGameTime = gameTime;
+                    y = y + 1;
+                }
+                if (keyboardState.IsKeyDown(Keys.Left))
+                {
+                    prevGameTime = gameTime;
+                    x = x - 1;
+                }
+                if (keyboardState.IsKeyDown(Keys.Right))
+                {
+                    prevGameTime = gameTime;
+                    x = x + 1;
+                }
+
             base.Update(gameTime);
         }
 
@@ -90,7 +112,7 @@ namespace DivineRightConcept
                     spriteBatch.DrawGroundTexture(_groundTextures, _worldMap[i][j], new Rectangle(i*tileWidth,j*tileHeight,tileWidth,tileHeight));
             
             //DRAW THE USERS CHARACTER
-            spriteBatch.Draw(_stickManTexture, new Rectangle(x * tileWidth, x * tileHeight, tileWidth, tileHeight), Color.White);
+            spriteBatch.Draw(_stickManTexture, new Rectangle(x * tileWidth, y * tileHeight, tileWidth, tileHeight), Color.White);
 
             spriteBatch.End();
 
