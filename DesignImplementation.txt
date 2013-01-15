@@ -1,0 +1,8 @@
+WorldMap
+  - Contains reference to a long term storage file of the generated world map containing a number of tiles
+  - generated world map could possibly be a result of procedural generation
+  - What is displayed on the users screen would be a cubic subset of what the world map would contain
+  - n x m tiles + Some form of buffer space (probably double) to allow smooth transitioning of lazy loading
+	- This way, we can use a jagged array for what is being displayed on the map
+	- A pointer can then be used to specify at which start point the array is being displayed
+	- old content being removed will then simply be overwritten by what is being newly loaded (Similiar to the snake concept)
