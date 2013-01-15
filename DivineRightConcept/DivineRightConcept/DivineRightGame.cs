@@ -19,10 +19,10 @@ namespace DivineRightConcept
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Texture2D _groundTextures;
+
         int WINDOW_WIDTH = 500;
         int WINDOW_HEIGHT = 500;
-
-        Texture2D _groundTextures;
 
         public DivineRightGame()
         {
@@ -90,7 +90,7 @@ namespace DivineRightConcept
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
-            spriteBatch.Draw(_groundTextures, new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), Color.White);
+            spriteBatch.DrawGroundTexture(_groundTextures, Ground.GROUND_TEXTURE_PEBBLES, new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT));
             spriteBatch.End();
 
             base.Draw(gameTime);
