@@ -1,7 +1,0 @@
-C:\Users\Mike\Dropbox\Development\DivineRightConcept\DivineRightConcept\DivineRightConcept\bin\x86\Debug\DivineRightConcept.exe
-C:\Users\Mike\Dropbox\Development\DivineRightConcept\DivineRightConcept\DivineRightConcept\bin\x86\Debug\DivineRightConcept.pdb
-C:\Users\Mike\Dropbox\Development\DivineRightConcept\DivineRightConcept\DivineRightConcept\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\Users\Mike\Dropbox\Development\DivineRightConcept\DivineRightConcept\DivineRightConcept\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
-C:\Users\Mike\Dropbox\Development\DivineRightConcept\DivineRightConcept\DivineRightConcept\obj\x86\Debug\DivineRightConcept.exe
-C:\Users\Mike\Dropbox\Development\DivineRightConcept\DivineRightConcept\DivineRightConcept\obj\x86\Debug\DivineRightConcept.pdb
-C:\Users\Mike\Dropbox\Development\DivineRightConcept\DivineRightConcept\DivineRightConcept\bin\x86\Debug\Content\GroundTextures.xnb
