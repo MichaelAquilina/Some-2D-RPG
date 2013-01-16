@@ -6,3 +6,6 @@ WorldMap
 	- This way, we can use a jagged array for what is being displayed on the map
 	- A pointer can then be used to specify at which start point the array is being displayed
 	- old content being removed will then simply be overwritten by what is being newly loaded (Similiar to the snake concept)
+  - Need some way to be able to quickly identify points in the file which need to be read. CSV quick access?
+  - Need to determine speed at which game would run. I.e. if the user can move at a speed of 1 tile/per move, if its 
+    more action oriented etc...
