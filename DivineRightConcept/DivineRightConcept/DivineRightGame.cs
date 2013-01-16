@@ -17,8 +17,8 @@ namespace DivineRightConcept
         SpriteBatch spriteBatch;
 
         GameTime prevGameTime = new GameTime();
-        int x = 0;
-        int y = 0;
+        int x = 5;
+        int y = 5;
         Texture2D _stickManTexture;
 
         SpriteFont _defaultSpriteFont;
@@ -116,13 +116,20 @@ namespace DivineRightConcept
             int pxTileWidth = MAP_WIDTH/TILE_WIDTH;
             int pxTileHeight = MAP_HEIGHT/TILE_HEIGHT;
 
+            //calculate center position tile
             int centerX = TILE_WIDTH / 2;
             int centerY = TILE_WIDTH / 2;
 
-            for (int i = 0; i < TILE_WIDTH; i++)
-                for (int j = 0; j < TILE_HEIGHT; j++)
+            int topLeftX = x - centerX;
+            int topRightY = y - centerY;
+
+            if(topLeftX<0) topLeftX = 0;
+            if(topRightY<0) topRightY = 0;
+
+            for (int i = topLeftX; i < topLeftX + TILE_WIDTH; i++)
+                for (int j = topRightY; j < topRightY + TILE_HEIGHT; j++)
                 {
-                    spriteBatch.DrawGroundTexture(_groundTextures, _worldMap[i + x][j + y], new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight));
+                    spriteBatch.DrawGroundTexture(_groundTextures, _worldMap[i][j], new Rectangle( (i-x+centerX) * pxTileWidth, (j-y+centerY) * pxTileHeight, pxTileWidth, pxTileHeight));
                     //spriteBatch.DrawString(_defaultSpriteFont, (i + x) + "," + (j + y), new Vector2(i * pxTileWidth, j * pxTileHeight), Color.White);
                 }
             
