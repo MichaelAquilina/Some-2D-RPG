@@ -11,9 +11,6 @@ using Microsoft.Xna.Framework.Media;
 
 namespace DivineRightConcept
 {
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class DivineRightGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
