@@ -33,9 +33,7 @@ namespace DivineRightConcept
 
         //Game Specific Variablies
         double prevGameTime = 0;
-        GameWorld _worldComponent;
-        int PlayerX = 0;
-        int PlayerY = 0;
+        GameWorld _world;
 
         public DivineRightGame()
         {
@@ -46,8 +44,8 @@ namespace DivineRightConcept
 
         protected override void Initialize()
         {
-            _worldComponent = new GameWorld(this, WORLD_WIDTH, WORLD_HEIGHT);
-            _worldComponent.Initialize();
+            _world = new GameWorld(this, WORLD_WIDTH, WORLD_HEIGHT);
+            _world.Initialize();
 
             base.Initialize();
         }
@@ -57,8 +55,7 @@ namespace DivineRightConcept
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _worldComponent.StickManTexture = Content.Load<Texture2D>("StickManTexture");
-            _worldComponent.GroundTextures = Content.Load<Texture2D>("GroundTextures");
+            _world.LoadContent();
 
             _defaultSpriteFont = Content.Load<SpriteFont>("DefaultSpriteFont");
         }
@@ -79,29 +76,29 @@ namespace DivineRightConcept
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    PlayerY = PlayerY - 1;
+                    _world.Player.Y -= 1;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    PlayerY = PlayerY + 1;
+                    _world.Player.Y += 1;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    PlayerX = PlayerX - 1;
+                    _world.Player.X -= 1;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    PlayerX = PlayerX + 1;
+                    _world.Player.X += 1;
                 }
 
                 //prevent from going out of range
-                if (PlayerX < 0) PlayerX = 0;
-                if (PlayerY < 0) PlayerY = 0;
-                if (PlayerX >= WORLD_WIDTH) PlayerX = WORLD_WIDTH - 1;
-                if (PlayerY >= WORLD_HEIGHT) PlayerY = WORLD_HEIGHT - 1;
+                if (_world.Player.X < 0) _world.Player.X = 0;
+                if (_world.Player.Y < 0) _world.Player.Y = 0;
+                if (_world.Player.X >= WORLD_WIDTH) _world.Player.X = WORLD_WIDTH - 1;
+                if (_world.Player.Y >= WORLD_HEIGHT) _world.Player.Y = WORLD_HEIGHT - 1;
             }
 
             base.Update(gameTime);
@@ -115,11 +112,11 @@ namespace DivineRightConcept
 
             spriteBatch.Begin();
 
-            _worldComponent.DrawWorldViewPort(spriteBatch, PlayerX, PlayerY, TILE_WIDTH, TILE_HEIGHT, new Rectangle(50, 0, VIEW_WIDTH, VIEW_HEIGHT));
-            spriteBatch.Draw(_worldComponent.MiniMapTexture, new Rectangle(650, 0, 100, 100), Color.White);
+            _world.DrawWorldViewPort(spriteBatch, TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
+            spriteBatch.Draw(_world.MiniMapTexture, new Rectangle(650, 0, 100, 100), Color.White);
 
             //DRAW DEBUGGING INFORMATION
-            spriteBatch.DrawString(_defaultSpriteFont, PlayerX + "," + PlayerY, new Vector2(0, 0), Color.White);
+            spriteBatch.DrawString(_defaultSpriteFont, _world.Player.X + "," + _world.Player.Y, new Vector2(0, 0), Color.White);
             spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
 
             spriteBatch.End();

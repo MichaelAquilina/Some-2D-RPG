@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameObjects\Actor.cs" />
     <Compile Include="Generators\IWorldGenerator.cs" />
     <Compile Include="Ground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
