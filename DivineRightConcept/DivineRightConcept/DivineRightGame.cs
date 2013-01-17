@@ -54,6 +54,7 @@ namespace DivineRightConcept
 
             CurrentPlayer = new Actor(8, 8);
             _world.Actors.Add(CurrentPlayer);
+            _world.Actors.Add(new Actor(24, 23));
 
             base.Initialize();
         }
