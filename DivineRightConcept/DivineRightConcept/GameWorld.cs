@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
+using DivineRightConcept.Generators;
 
 namespace DivineRightConcept
 {
@@ -16,6 +17,7 @@ namespace DivineRightConcept
         public Texture2D GroundTextures { get; set; }
         public Texture2D StickManTexture { get; set; }
 
+        //interface for retreiving the generated minimap
         public Texture2D MiniMapTexture
         {
             get { return _miniMap; }
@@ -35,22 +37,14 @@ namespace DivineRightConcept
 
         public override void Initialize()
         {
-            //Initialise a (Currently) Random World Map
-            Random random = new Random();
-            _worldMap = new int[WorldHeight][];
-            for (int i = 0; i < _worldMap.Length; i++)
-            {
-                _worldMap[i] = new int[WorldWidth];
-                for (int j = 0; j < _worldMap[i].Length; j++)
-                    _worldMap[i][j] = random.Next(0, 4);
-
-            }
+            RandomWorldGenerator generator = new RandomWorldGenerator();
+            _worldMap = generator.Generate(WorldWidth, WorldHeight);
 
             //DUMP MAP COORDINATES FOR DEBUGGING
             TextWriter writer = new StreamWriter("map_coord.txt");
-            for (int i = 0; i < _worldMap.Length; i++)
+            for (int j = 0; j < WorldHeight; j++)
             {
-                for (int j = 0; j < _worldMap.Length; j++)
+                for (int i = 0; i < WorldWidth; i++)
                     writer.Write(_worldMap[i][j].ToString());
 
                 writer.WriteLine();
@@ -60,9 +54,9 @@ namespace DivineRightConcept
             //create a small scale map for the user (The MiniMap)
             Color[] mapColors = new Color[WorldWidth * WorldHeight];
             _miniMap = new Texture2D(Game.GraphicsDevice, WorldWidth, WorldHeight, false, SurfaceFormat.Color);
-            for (int i = 0; i < _worldMap.Length; i++)
-                for (int j = 0; j < _worldMap[i].Length; j++)
-                    mapColors[i * _worldMap.Length + j] = Ground.TextureColors[_worldMap[i][j]];
+            for (int i = 0; i < WorldWidth; i++)
+                for (int j = 0; j < WorldHeight; j++)
+                    mapColors[j * _worldMap.Length + i] = Ground.TextureColors[_worldMap[i][j]];
             _miniMap.SetData<Color>(mapColors);
 
             base.Initialize();
