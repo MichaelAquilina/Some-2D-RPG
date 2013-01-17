@@ -20,6 +20,7 @@ namespace DivineRightConcept
         public const int GROUND_TEXTURE_THUNDRA = 4;
         public const int GROUND_TEXTURE_NONE = 5;
 
+        //CONSIDER REMOVING STATIC EXTENSION AND USING THIS AS A CLASS
         public static void DrawGroundTexture(this SpriteBatch SpriteBatch, Texture2D GroundTexture, int GroundType, Rectangle DestinationRectangle)
         {
             int i = (GroundType % 3);
