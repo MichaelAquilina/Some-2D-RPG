@@ -20,15 +20,14 @@ namespace DivineRightConcept.Generators
                 for (int j = 0; j < Height; j++)
                     result[i][j] = Ground.GROUND_TEXTURE_GRASS;
 
-            //Add Random Patches of Thundra
-            int thundraCount = randomGen.Next(5, 8);
+            //Add Random Patches of Ground
+            int thundraCount = randomGen.Next(0, Width * Height);
             for (int i = 0; i < thundraCount; i++)
             {
-                int x = randomGen.Next(0, Width - 1);
-                int y = randomGen.Next(0, Height - 1);
+                int x = randomGen.Next(0, Width);
+                int y = randomGen.Next(0, Height);
 
-                result[x][y] = Ground.GROUND_TEXTURE_THUNDRA;
-                result[x + 1][y + 1] = Ground.GROUND_TEXTURE_THUNDRA;
+                result[x][y] = randomGen.Next(0, Ground.TextureColors.Length - 1);
             }
             
             return result;
