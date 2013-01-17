@@ -10,6 +10,11 @@ using DivineRightConcept.GameObjects;
 
 namespace DivineRightConcept
 {
+    /// <summary>
+    /// Class that represents the current state of the game world, including the Actors residing in it. Provides functions
+    /// to draw/render the current state of the world. No Game Logic should occur within this state class apart from 
+    /// initial generation (POSSIBLY).
+    /// </summary>
     public class GameWorld : GameComponent
     {
         #region Variables
@@ -49,17 +54,6 @@ namespace DivineRightConcept
             RandomWorldGenerator generator = new RandomWorldGenerator();
             _worldMap = generator.Generate(WorldWidth, WorldHeight);
 
-            //DUMP MAP COORDINATES FOR DEBUGGING
-            TextWriter writer = new StreamWriter("map_coord.txt");
-            for (int j = 0; j < WorldHeight; j++)
-            {
-                for (int i = 0; i < WorldWidth; i++)
-                    writer.Write(_worldMap[i][j].ToString());
-
-                writer.WriteLine();
-            }
-            writer.Close();
-
             //create a small scale map for the user (The MiniMap)
             Color[] mapColors = new Color[WorldWidth * WorldHeight];
             _miniMap = new Texture2D(Game.GraphicsDevice, WorldWidth, WorldHeight, false, SurfaceFormat.Color);
@@ -71,6 +65,10 @@ namespace DivineRightConcept
             base.Initialize();
         }
 
+        /// <summary>
+        /// Provide an interace which allows the GameWorld to load the necessary content. Should ask all its Actors, Items or anything else
+        /// to also Load their Content so that they may also be rendered correctly when it comes to being drawn.
+        /// </summary>
         public void LoadContent()
         {
             GroundTextures = Game.Content.Load<Texture2D>("GroundTextures");
@@ -133,7 +131,7 @@ namespace DivineRightConcept
             {
                 //DRAW THE ACTOR
                 //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and topLeftY have already been corrected
-                //in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges
+                //in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
                 SpriteBatch.Draw(actor.Representation, new Rectangle(
                     (actor.X - topLeftX) * pxTileWidth + DestRectangle.X,
                     (actor.Y - topLeftY) * pxTileHeight + DestRectangle.Y,

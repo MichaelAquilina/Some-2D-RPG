@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 namespace DivineRightConcept.Generators
 {
@@ -29,6 +30,17 @@ namespace DivineRightConcept.Generators
 
                 result[x][y] = randomGen.Next(0, Ground.TextureColors.Length - 1);
             }
+
+            //DUMP MAP COORDINATES FOR DEBUGGING
+            TextWriter writer = new StreamWriter("map_coord.txt");
+            for (int j = 0; j < Height; j++)
+            {
+                for (int i = 0; i < Width; i++)
+                    writer.Write(result[i][j].ToString());
+
+                writer.WriteLine();
+            }
+            writer.Close();
             
             return result;
         }
