@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System.Text;
 using System.IO;
+using DivineRightConcept.GameObjects;
 
 namespace DivineRightConcept
 {
@@ -27,6 +28,8 @@ namespace DivineRightConcept
 
         const int VIEW_WIDTH = 450;
         const int VIEW_HEIGHT = 450;
+
+        Actor CurrentPlayer;
 
         //Graphic Related Variables
         GraphicsDeviceManager graphics;
@@ -48,6 +51,9 @@ namespace DivineRightConcept
         {
             _world = new GameWorld(this, WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
+
+            CurrentPlayer = new Actor(8, 8);
+            _world.Actors.Add(CurrentPlayer);
 
             base.Initialize();
         }
@@ -78,29 +84,29 @@ namespace DivineRightConcept
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    _world.Player.Y -= 1;
+                    CurrentPlayer.Y -= 1;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    _world.Player.Y += 1;
+                    CurrentPlayer.Y += 1;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    _world.Player.X -= 1;
+                    CurrentPlayer.X -= 1;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    _world.Player.X += 1;
+                    CurrentPlayer.X += 1;
                 }
 
                 //prevent from going out of range
-                if (_world.Player.X < 0) _world.Player.X = 0;
-                if (_world.Player.Y < 0) _world.Player.Y = 0;
-                if (_world.Player.X >= WORLD_WIDTH) _world.Player.X = WORLD_WIDTH - 1;
-                if (_world.Player.Y >= WORLD_HEIGHT) _world.Player.Y = WORLD_HEIGHT - 1;
+                if (CurrentPlayer.X < 0) CurrentPlayer.X = 0;
+                if (CurrentPlayer.Y < 0) CurrentPlayer.Y = 0;
+                if (CurrentPlayer.X >= WORLD_WIDTH) CurrentPlayer.X = WORLD_WIDTH - 1;
+                if (CurrentPlayer.Y >= WORLD_HEIGHT) CurrentPlayer.Y = WORLD_HEIGHT - 1;
             }
 
             base.Update(gameTime);
@@ -114,11 +120,11 @@ namespace DivineRightConcept
 
             spriteBatch.Begin();
 
-                _world.DrawWorldViewPort(spriteBatch, TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
+                _world.DrawWorldViewPort(spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
                 spriteBatch.Draw(_world.MiniMapTexture, new Rectangle(650, 0, 100, 100), Color.White);
 
                 //DRAW DEBUGGING INFORMATION
-                spriteBatch.DrawString(_defaultSpriteFont, _world.Player.X + "," + _world.Player.Y, new Vector2(0, 0), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X + "," + CurrentPlayer.Y, new Vector2(0, 0), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
 
             spriteBatch.End();

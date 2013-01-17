@@ -22,7 +22,7 @@ namespace DivineRightConcept.Generators
                     result[i][j] = Ground.GROUND_TEXTURE_GRASS;
 
             //Add Random Patches of Ground
-            int thundraCount = randomGen.Next(0, Width * Height);
+            int thundraCount = randomGen.Next( Width * Height / 2, Width * Height);
             for (int i = 0; i < thundraCount; i++)
             {
                 int x = randomGen.Next(0, Width);

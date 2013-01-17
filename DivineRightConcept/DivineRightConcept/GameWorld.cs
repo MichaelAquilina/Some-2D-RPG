@@ -26,7 +26,6 @@ namespace DivineRightConcept
 
         //interface for retreiving the generated minimap
         public Texture2D MiniMapTexture { get { return _miniMap; }}
-        public Actor Player { get; private set; }
         public List<Actor> Actors { get; private set; }
 
         //contains actual tile information about the world map
@@ -47,9 +46,6 @@ namespace DivineRightConcept
         public override void Initialize()
         {
             Actors = new List<Actor>();
-            Player = new Actor(8, 8); // TODO: This should be moved outside
-
-            Actors.Add(Player);
 
             RandomWorldGenerator generator = new RandomWorldGenerator();
             _worldMap = generator.Generate(WorldWidth, WorldHeight);
@@ -75,15 +71,6 @@ namespace DivineRightConcept
 
             foreach (Actor actor in Actors)
                 actor.LoadContent(Game.Content);
-        }
-
-        /// <summary>
-        /// Backwards compatible Draw view port methods that will always attempt to automatically center the viewport on the player. This gives the 
-        /// impresion that the camera is following the player around.
-        /// </summary>
-        public void DrawWorldViewPort(SpriteBatch SpriteBatch, int TileWidth, int TileHeight, Rectangle DestRectangle)
-        {
-            DrawWorldViewPort(SpriteBatch, new Vector2(Player.X, Player.Y), TileWidth, TileHeight, DestRectangle);
         }
 
         /// <summary>
