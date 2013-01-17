@@ -52,6 +52,7 @@ namespace DivineRightConcept
 
             _ground = new Ground();
 
+            //TODO: Should Ideally move World Generation outside of this state class!
             RandomWorldGenerator generator = new RandomWorldGenerator();
             _worldMap = generator.Generate(WorldWidth, WorldHeight);
 
@@ -81,8 +82,7 @@ namespace DivineRightConcept
         /// <summary>
         /// Draws a viewport of the current game world at the specified CenterX, CenterY location. The Viewport size and location on the screen must be 
         /// specified in the DestRectangle parameter. The number of Tiles both Width-wise and Height-wise should be specified in the TileWidth and TileHeight
-        /// parameters. TEMP, PlayerX and PlayerY coordinates are shown. These should be removed at a later stage when such a value would be inbuilt within this
-        /// class and rendered according to whether or not it is within the viewport.
+        /// parameters. 
         /// </summary>
         /// <param name="SpriteBatch">SpriteBatch object with which to render the Viewport. Should have already been opened for rendering.</param>
         /// <param name="Center">X and Y Coordinates on the world map specifying where the to be drawn viewport should be rendered.</param>
