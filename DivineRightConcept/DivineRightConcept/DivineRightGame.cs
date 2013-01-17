@@ -17,8 +17,8 @@ namespace DivineRightConcept
     {
         //Constant (Editable) Valuables
         const bool DEBUG = true;
-        const int WORLD_HEIGHT = 20;
-        const int WORLD_WIDTH = 20;
+        const int WORLD_HEIGHT = 500;
+        const int WORLD_WIDTH = 500;
         
         const int TILE_WIDTH = 13;
         const int TILE_HEIGHT = 13;
