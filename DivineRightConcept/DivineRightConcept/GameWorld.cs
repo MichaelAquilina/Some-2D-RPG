@@ -12,26 +12,23 @@ namespace DivineRightConcept
     {
         public int WorldWidth { get; private set; }
         public int WorldHeight { get; private set; }
-        public int TileWidth { get; private set; }
-        public int TileHeight { get; private set; }
 
         public Texture2D GroundTextures { get; set; }
         public Texture2D StickManTexture { get; set; }
 
+        //contains actual tile information about the world map
         private int[][] _worldMap;
 
-        public GameWorld(Game Game, int WorldWidth, int WorldHeight, int TileWidth, int TileHeight)
+        public GameWorld(Game Game, int WorldWidth, int WorldHeight)
             :base(Game)
         {
             this.WorldWidth = WorldWidth;
             this.WorldHeight = WorldHeight;
-
-            this.TileWidth = TileWidth;
-            this.TileHeight = TileHeight;
         }
 
         public override void Initialize()
         {
+            //Initialise a (Currently) Random World Map
             Random random = new Random();
             _worldMap = new int[WorldHeight][];
             for (int i = 0; i < _worldMap.Length; i++)
@@ -57,7 +54,7 @@ namespace DivineRightConcept
         }
 
         //consider changing this so that its independent of player location! It should pan to where we tell it
-        public void DrawWorldViewPort(SpriteBatch SpriteBatch, int PlayerX, int PlayerY, Rectangle DestRectangle)
+        public void DrawWorldViewPort(SpriteBatch SpriteBatch, int PlayerX, int PlayerY, int TileWidth, int TileHeight, Rectangle DestRectangle)
         {
             //DRAW THE WORLD MAP
             int pxTileWidth = DestRectangle.Width / TileWidth;
