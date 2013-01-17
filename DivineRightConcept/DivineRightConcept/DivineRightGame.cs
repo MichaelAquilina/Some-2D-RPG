@@ -145,6 +145,8 @@ namespace DivineRightConcept
 
             if(topLeftX<0) topLeftX = 0;
             if(topLeftY<0) topLeftY = 0;
+            if(topLeftX + centerX*2 >= WORLD_WIDTH ) topLeftX = WORLD_WIDTH - centerX*2;
+            if(topLeftY + centerY*2 >= WORLD_HEIGHT ) topLeftY = WORLD_HEIGHT - centerY*2;
 
             for (int i = 0; i < TILE_WIDTH; i++)
                 for (int j = 0; j < TILE_HEIGHT; j++)
