@@ -26,16 +26,16 @@ namespace DivineRightConcept
         Texture2D _stickManTexture;
 
         SpriteFont _defaultSpriteFont;
-        Texture2D _groundTextures;
-        int[][] _worldMap;
 
         //all this needs to move to a seperate class!
         int WORLD_HEIGHT = 200;
         int WORLD_WIDTH = 200;
-        int TILE_WIDTH = 8;
-        int TILE_HEIGHT = 8;
-        int MAP_WIDTH = 500;
-        int MAP_HEIGHT = 500;
+        int TILE_WIDTH = 15;
+        int TILE_HEIGHT = 15;
+        int VIEW_WIDTH = 500;
+        int VIEW_HEIGHT = 500;
+
+        GameWorld _worldComponent;
 
         public DivineRightGame()
         {
@@ -46,30 +46,8 @@ namespace DivineRightConcept
 
         protected override void Initialize()
         {
-
-            Random random = new Random();
-            _worldMap = new int[WORLD_HEIGHT][];
-            for (int i = 0; i < _worldMap.Length; i++)
-            {
-                _worldMap[i] = new int[WORLD_WIDTH];
-                for (int j = 0; j < _worldMap[i].Length; j++)
-                {
-                    _worldMap[i][j] = random.Next(0, 4);
-                }
-            }
-
-            if (DEBUG)
-            {
-                TextWriter writer = new StreamWriter("map_coord.txt");
-                for (int i = 0; i < _worldMap.Length; i++)
-                {
-                    for (int j = 0; j < _worldMap.Length; j++)
-                        writer.Write(_worldMap[i][j].ToString());
-
-                    writer.WriteLine();
-                }
-                writer.Close();
-            }
+            _worldComponent = new GameWorld(this, WORLD_WIDTH, WORLD_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
+            _worldComponent.Initialize();
 
             base.Initialize();
         }
@@ -79,8 +57,8 @@ namespace DivineRightConcept
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            _groundTextures = Content.Load<Texture2D>("GroundTextures");
-            _stickManTexture = Content.Load<Texture2D>("StickManTexture");
+            _worldComponent.StickManTexture = Content.Load<Texture2D>("StickManTexture");
+            _worldComponent.GroundTextures = Content.Load<Texture2D>("GroundTextures");
 
             _defaultSpriteFont = Content.Load<SpriteFont>("DefaultSpriteFont");
         }
@@ -132,37 +110,7 @@ namespace DivineRightConcept
 
             spriteBatch.Begin();
 
-            //DRAW THE WORLD MAP
-            int pxTileWidth = MAP_WIDTH/TILE_WIDTH;
-            int pxTileHeight = MAP_HEIGHT/TILE_HEIGHT;
-
-            //calculate center position tile
-            int centerX = TILE_WIDTH / 2;
-            int centerY = TILE_WIDTH / 2;
-
-            //determine the topleft world coordinate in the view
-            int topLeftX = x - centerX;
-            int topLeftY = y - centerY;
-
-            //Prevent the View from going outisde of the WORLD coordinates
-            if(topLeftX<0) topLeftX = 0;
-            if(topLeftY<0) topLeftY = 0;
-            if(topLeftX + centerX*2 >= WORLD_WIDTH ) topLeftX = WORLD_WIDTH - centerX*2;
-            if(topLeftY + centerY*2 >= WORLD_HEIGHT ) topLeftY = WORLD_HEIGHT - centerY*2;
-
-            //draw each tile
-            for (int i = 0; i < TILE_WIDTH; i++)
-                for (int j = 0; j < TILE_HEIGHT; j++)
-                {
-                    int tileX = i + topLeftX;
-                    int tileY = j + topLeftY;
-                    spriteBatch.DrawGroundTexture(_groundTextures, _worldMap[tileX][tileY], new Rectangle( i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight));
-                }
-            
-            //DRAW THE USERS CHARACTER
-            //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and topLeftY have already been corrected
-            //in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges
-            spriteBatch.Draw(_stickManTexture, new Rectangle((x - topLeftX) * pxTileWidth, (y - topLeftY) * pxTileHeight, pxTileWidth, pxTileHeight), Color.White);
+            _worldComponent.DrawWorldViewPort(spriteBatch, x, y, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
 
             //DRAW DEBUGGING INFORMATION
             spriteBatch.DrawString(_defaultSpriteFont, x + "," + y, new Vector2(0, 0), Color.White);
