@@ -13,12 +13,15 @@ namespace DivineRightConcept
     {
         public const int GROUND_TEXTURE_WIDTH = 128;
         public const int GROUND_TEXTURE_HEIGHT = 128;
+
         public const int GROUND_TEXTURE_SOIL = 0;
         public const int GROUND_TEXTURE_ROCK = 1;
         public const int GROUND_TEXTURE_PEBBLES = 2;
         public const int GROUND_TEXTURE_GRASS = 3;
         public const int GROUND_TEXTURE_THUNDRA = 4;
         public const int GROUND_TEXTURE_NONE = 5;
+
+        public static Color[] TextureColors = new Color[] {Color.Brown, Color.Gray, Color.DarkGray, Color.Green, Color.Yellow, Color.Black};
 
         //CONSIDER REMOVING STATIC EXTENSION AND USING THIS AS A CLASS
         public static void DrawGroundTexture(this SpriteBatch SpriteBatch, Texture2D GroundTexture, int GroundType, Rectangle DestinationRectangle)

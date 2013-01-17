@@ -112,6 +112,7 @@ namespace DivineRightConcept
             spriteBatch.Begin();
 
             _worldComponent.DrawWorldViewPort(spriteBatch, PlayerX, PlayerY, TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
+            spriteBatch.Draw(_worldComponent.MiniMapTexture, new Rectangle(650, 0, 100, 100), Color.White);
 
             //DRAW DEBUGGING INFORMATION
             spriteBatch.DrawString(_defaultSpriteFont, PlayerX + "," + PlayerY, new Vector2(0, 0), Color.White);

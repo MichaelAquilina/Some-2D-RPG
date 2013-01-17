@@ -16,8 +16,15 @@ namespace DivineRightConcept
         public Texture2D GroundTextures { get; set; }
         public Texture2D StickManTexture { get; set; }
 
+        public Texture2D MiniMapTexture
+        {
+            get { return _miniMap; }
+        }
+
         //contains actual tile information about the world map
         private int[][] _worldMap;
+
+        private Texture2D _miniMap;
 
         public GameWorld(Game Game, int WorldWidth, int WorldHeight)
             :base(Game)
@@ -49,6 +56,14 @@ namespace DivineRightConcept
                 writer.WriteLine();
             }
             writer.Close();
+
+            //create a small scale map for the user (The MiniMap)
+            Color[] mapColors = new Color[WorldWidth * WorldHeight];
+            _miniMap = new Texture2D(Game.GraphicsDevice, WorldWidth, WorldHeight, false, SurfaceFormat.Color);
+            for (int i = 0; i < _worldMap.Length; i++)
+                for (int j = 0; j < _worldMap[i].Length; j++)
+                    mapColors[i * _worldMap.Length + j] = Ground.TextureColors[_worldMap[i][j]];
+            _miniMap.SetData<Color>(mapColors);
 
             base.Initialize();
         }
