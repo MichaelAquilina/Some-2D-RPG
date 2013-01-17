@@ -30,8 +30,8 @@ namespace DivineRightConcept
         int[][] _worldMap;
 
         //all this needs to move to a seperate class!
-        int WORLD_HEIGHT = 20;
-        int WORLD_WIDTH = 20;
+        int WORLD_HEIGHT = 200;
+        int WORLD_WIDTH = 200;
         int TILE_WIDTH = 8;
         int TILE_HEIGHT = 8;
         int MAP_WIDTH = 500;
@@ -140,14 +140,17 @@ namespace DivineRightConcept
             int centerX = TILE_WIDTH / 2;
             int centerY = TILE_WIDTH / 2;
 
+            //determine the topleft world coordinate in the view
             int topLeftX = x - centerX;
             int topLeftY = y - centerY;
 
+            //Prevent the View from going outisde of the WORLD coordinates
             if(topLeftX<0) topLeftX = 0;
             if(topLeftY<0) topLeftY = 0;
             if(topLeftX + centerX*2 >= WORLD_WIDTH ) topLeftX = WORLD_WIDTH - centerX*2;
             if(topLeftY + centerY*2 >= WORLD_HEIGHT ) topLeftY = WORLD_HEIGHT - centerY*2;
 
+            //draw each tile
             for (int i = 0; i < TILE_WIDTH; i++)
                 for (int j = 0; j < TILE_HEIGHT; j++)
                 {
@@ -157,7 +160,8 @@ namespace DivineRightConcept
                 }
             
             //DRAW THE USERS CHARACTER
-            //TODO: Documentation to explain how this is being calculcated!!!
+            //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and topLeftY have already been corrected
+            //in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges
             spriteBatch.Draw(_stickManTexture, new Rectangle((x - topLeftX) * pxTileWidth, (y - topLeftY) * pxTileHeight, pxTileWidth, pxTileHeight), Color.White);
 
             //DRAW DEBUGGING INFORMATION
