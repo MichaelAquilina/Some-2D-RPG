@@ -22,9 +22,10 @@ namespace DivineRightConcept
         public const int GROUND_TEXTURE_GRASS = 3;
         public const int GROUND_TEXTURE_THUNDRA = 4;
         public const int GROUND_TEXTURE_NONE = 5;
+        public const int GROUND_TEXTURE_WATER = 6;
 
         //texture colors that correspond to each type. The index for each color should corrspond to the assigned const value defined above
-        public static Color[] TextureColors = new Color[] {Color.Brown, Color.Gray, Color.DarkGray, Color.Green, Color.Yellow, Color.Black};
+        public static Color[] TextureColors = new Color[] {Color.Brown, Color.Gray, Color.DarkGray, Color.Green, Color.Yellow, Color.Black, Color.LightBlue};
 
         public Texture2D GroundTexture { get; private set; }
 
