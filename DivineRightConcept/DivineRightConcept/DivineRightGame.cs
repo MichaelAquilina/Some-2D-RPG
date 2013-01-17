@@ -17,8 +17,8 @@ namespace DivineRightConcept
     {
         //Constant (Editable) Valuables
         const bool DEBUG = true;
-        const int WORLD_HEIGHT = 500;
-        const int WORLD_WIDTH = 500;
+        const int WORLD_HEIGHT = 50;
+        const int WORLD_WIDTH = 50;
         
         const int TILE_WIDTH = 13;
         const int TILE_HEIGHT = 13;
@@ -115,7 +115,7 @@ namespace DivineRightConcept
 
             spriteBatch.Begin();
 
-            _worldComponent.DrawWorldViewPort(spriteBatch, PlayerX, PlayerY, TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
+            _worldComponent.DrawWorldViewPort(spriteBatch, PlayerX, PlayerY, TILE_WIDTH, TILE_HEIGHT, new Rectangle(50, 0, VIEW_WIDTH, VIEW_HEIGHT));
             spriteBatch.Draw(_worldComponent.MiniMapTexture, new Rectangle(650, 0, 100, 100), Color.White);
 
             //DRAW DEBUGGING INFORMATION

@@ -62,26 +62,44 @@ namespace DivineRightConcept
             base.Initialize();
         }
 
-        //consider changing this so that its independent of player location! It should pan to where we tell it
+        /// <summary>
+        /// Backwards compatible Draw view port methods that will always attempt to automatically center the viewport on the player. This gives the 
+        /// impresion that the camera is following the player around.
+        /// </summary>
         public void DrawWorldViewPort(SpriteBatch SpriteBatch, int PlayerX, int PlayerY, int TileWidth, int TileHeight, Rectangle DestRectangle)
+        {
+            DrawWorldViewPort(SpriteBatch, PlayerX, PlayerY, PlayerX, PlayerY, TileWidth, TileHeight, DestRectangle);
+        }
+
+        /// <summary>
+        /// Draws a viewport of the current game world at the specified CenterX, CenterY location. The Viewport size and location on the screen must be 
+        /// specified in the DestRectangle parameter. The number of Tiles both Width-wise and Height-wise should be specified in the TileWidth and TileHeight
+        /// parameters. TEMP, PlayerX and PlayerY coordinates are showm. These should be removed at a later stage when such a value would be inbuilt within this
+        /// class and rendered according to whether or not it is within the viewport.
+        /// </summary>
+        /// <param name="SpriteBatch">SpriteBatch object with which to render the Viewport. Should have already been opened for rendering.</param>
+        /// <param name="PlayerX">X Coordinate where the player currently is on the world map.</param>
+        /// <param name="PlayerY">Y Coordinate where the player currently is on the world map.</param>
+        /// <param name="CenterX">X Coordinate on the world map specifying where the to be drawn viewport should be rendered.</param>
+        /// <param name="CenterY">Y Coordinate on the world map specifying where the to be drawn viewport should be rendered.</param>
+        /// <param name="TileWidth">Number of Tiles, Width-wise that should be shown within the viewport.</param>
+        /// <param name="TileHeight">Number of Tiles, Height-wise that should be shown within the viewport.</param>
+        /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
+        public void DrawWorldViewPort(SpriteBatch SpriteBatch, int PlayerX, int PlayerY, int CenterX, int CenterY, int TileWidth, int TileHeight, Rectangle DestRectangle)
         {
             //DRAW THE WORLD MAP
             int pxTileWidth = DestRectangle.Width / TileWidth;
             int pxTileHeight = DestRectangle.Height / TileHeight;
 
-            //calculate center position tile
-            int centerX = TileWidth / 2;
-            int centerY = TileHeight / 2;
-
             //determine the topleft world coordinate in the view
-            int topLeftX = PlayerX - centerX;
-            int topLeftY = PlayerY - centerY;
+            int topLeftX = CenterX - (int) Math.Ceiling((double)TileWidth/2);
+            int topLeftY = CenterY - (int) Math.Ceiling((double)TileHeight/2);
 
             //Prevent the View from going outisde of the WORLD coordinates
             if (topLeftX < 0) topLeftX = 0;
             if (topLeftY < 0) topLeftY = 0;
-            if (topLeftX + centerX * 2 >= WorldWidth) topLeftX = WorldWidth - centerX * 2 - 1;
-            if (topLeftY + centerY * 2 >= WorldHeight) topLeftY = WorldHeight - centerY * 2 - 1;
+            if (topLeftX + TileWidth >= WorldWidth) topLeftX = WorldWidth - TileWidth;
+            if (topLeftY + TileHeight >= WorldHeight) topLeftY = WorldHeight - TileHeight;
 
             //draw each tile
             for (int i = 0; i < TileWidth; i++)
