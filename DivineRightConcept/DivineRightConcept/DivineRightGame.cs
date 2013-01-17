@@ -130,6 +130,7 @@ namespace DivineRightConcept
                 //DRAW DEBUGGING INFORMATION
                 spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X + "," + CurrentPlayer.Y, new Vector2(0, 0), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
 
             spriteBatch.End();
 
