@@ -17,10 +17,12 @@ namespace DivineRightConcept
     {
         //Constant (Editable) Valuables
         const bool DEBUG = true;
-        const int WORLD_HEIGHT = 200;
-        const int WORLD_WIDTH = 200;
-        const int TILE_WIDTH = 7;
-        const int TILE_HEIGHT = 7;
+        const int WORLD_HEIGHT = 20;
+        const int WORLD_WIDTH = 20;
+        
+        const int TILE_WIDTH = 13;
+        const int TILE_HEIGHT = 13;
+
         const int VIEW_WIDTH = 450;
         const int VIEW_HEIGHT = 450;
 
@@ -109,6 +111,8 @@ namespace DivineRightConcept
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
+
             spriteBatch.Begin();
 
             _worldComponent.DrawWorldViewPort(spriteBatch, PlayerX, PlayerY, TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
@@ -116,6 +120,7 @@ namespace DivineRightConcept
 
             //DRAW DEBUGGING INFORMATION
             spriteBatch.DrawString(_defaultSpriteFont, PlayerX + "," + PlayerY, new Vector2(0, 0), Color.White);
+            spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
 
             spriteBatch.End();
 
