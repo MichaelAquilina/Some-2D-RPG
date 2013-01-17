@@ -17,6 +17,8 @@ namespace DivineRightConcept
     {
         //Constant (Editable) Valuables
         const bool DEBUG = true;
+        const int INPUT_DELAY = 20;
+
         const int WORLD_HEIGHT = 50;
         const int WORLD_WIDTH = 50;
         
@@ -71,7 +73,7 @@ namespace DivineRightConcept
 
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (gameTime.TotalGameTime.TotalMilliseconds - prevGameTime > 50)
+            if (gameTime.TotalGameTime.TotalMilliseconds - prevGameTime > INPUT_DELAY)
             {
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
@@ -112,12 +114,12 @@ namespace DivineRightConcept
 
             spriteBatch.Begin();
 
-            _world.DrawWorldViewPort(spriteBatch, TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
-            spriteBatch.Draw(_world.MiniMapTexture, new Rectangle(650, 0, 100, 100), Color.White);
+                _world.DrawWorldViewPort(spriteBatch, TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
+                spriteBatch.Draw(_world.MiniMapTexture, new Rectangle(650, 0, 100, 100), Color.White);
 
-            //DRAW DEBUGGING INFORMATION
-            spriteBatch.DrawString(_defaultSpriteFont, _world.Player.X + "," + _world.Player.Y, new Vector2(0, 0), Color.White);
-            spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
+                //DRAW DEBUGGING INFORMATION
+                spriteBatch.DrawString(_defaultSpriteFont, _world.Player.X + "," + _world.Player.Y, new Vector2(0, 0), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
 
             spriteBatch.End();
 
