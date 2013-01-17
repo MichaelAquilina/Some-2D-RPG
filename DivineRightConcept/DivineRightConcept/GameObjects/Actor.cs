@@ -27,6 +27,17 @@ namespace DivineRightConcept.GameObjects
         {
             //by default do nothing
             //classes that inhert should do something over here!
+
+            //SOME NOTES
+            //If each actor is going to handle its own updating, this might restrict how much its going to be capable of performing
+            //certain actions, since it doesnt have much data avaialable to it. It might be smarter applying update logic from an
+            //external class.
+            
+            //This also allows us to perform some neat stuff such as allowing the user to move his character, and then "Possesing"
+            //another actor and moving that one instead! This is simply because we can change the CurrentPlayer reference and then
+            //everything else is transparent
+
+            //TODO: Perform some code refactoring to allow such changes
         }
 
         public virtual void LoadContent(ContentManager Content)
