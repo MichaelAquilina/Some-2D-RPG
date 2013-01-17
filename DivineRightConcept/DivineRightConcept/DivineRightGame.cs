@@ -8,11 +8,15 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Text;
+using System.IO;
 
 namespace DivineRightConcept
 {
     public class DivineRightGame : Microsoft.Xna.Framework.Game
     {
+        const bool DEBUG = true;
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -26,8 +30,8 @@ namespace DivineRightConcept
         int[][] _worldMap;
 
         //all this needs to move to a seperate class!
-        int WORLD_HEIGHT = 500;
-        int WORLD_WIDTH = 500;
+        int WORLD_HEIGHT = 20;
+        int WORLD_WIDTH = 20;
         int TILE_WIDTH = 8;
         int TILE_HEIGHT = 8;
         int MAP_WIDTH = 500;
@@ -42,13 +46,29 @@ namespace DivineRightConcept
 
         protected override void Initialize()
         {
+
             Random random = new Random();
             _worldMap = new int[WORLD_HEIGHT][];
             for (int i = 0; i < _worldMap.Length; i++)
             {
                 _worldMap[i] = new int[WORLD_WIDTH];
                 for (int j = 0; j < _worldMap[i].Length; j++)
+                {
                     _worldMap[i][j] = random.Next(0, 4);
+                }
+            }
+
+            if (DEBUG)
+            {
+                TextWriter writer = new StreamWriter("map_coord.txt");
+                for (int i = 0; i < _worldMap.Length; i++)
+                {
+                    for (int j = 0; j < _worldMap.Length; j++)
+                        writer.Write(_worldMap[i][j].ToString());
+
+                    writer.WriteLine();
+                }
+                writer.Close();
             }
 
             base.Initialize();
@@ -121,20 +141,25 @@ namespace DivineRightConcept
             int centerY = TILE_WIDTH / 2;
 
             int topLeftX = x - centerX;
-            int topRightY = y - centerY;
+            int topLeftY = y - centerY;
 
             if(topLeftX<0) topLeftX = 0;
-            if(topRightY<0) topRightY = 0;
+            if(topLeftY<0) topLeftY = 0;
 
-            for (int i = topLeftX; i < topLeftX + TILE_WIDTH; i++)
-                for (int j = topRightY; j < topRightY + TILE_HEIGHT; j++)
+            for (int i = 0; i < TILE_WIDTH; i++)
+                for (int j = 0; j < TILE_HEIGHT; j++)
                 {
-                    spriteBatch.DrawGroundTexture(_groundTextures, _worldMap[i][j], new Rectangle( (i-x+centerX) * pxTileWidth, (j-y+centerY) * pxTileHeight, pxTileWidth, pxTileHeight));
-                    //spriteBatch.DrawString(_defaultSpriteFont, (i + x) + "," + (j + y), new Vector2(i * pxTileWidth, j * pxTileHeight), Color.White);
+                    int tileX = i + topLeftX;
+                    int tileY = j + topLeftY;
+                    spriteBatch.DrawGroundTexture(_groundTextures, _worldMap[tileX][tileY], new Rectangle( i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight));
                 }
             
             //DRAW THE USERS CHARACTER
-            spriteBatch.Draw(_stickManTexture, new Rectangle(centerX * pxTileWidth, centerY * pxTileHeight, pxTileWidth, pxTileHeight), Color.White);
+            //TODO: Documentation to explain how this is being calculcated!!!
+            spriteBatch.Draw(_stickManTexture, new Rectangle((x - topLeftX) * pxTileWidth, (y - topLeftY) * pxTileHeight, pxTileWidth, pxTileHeight), Color.White);
+
+            //DRAW DEBUGGING INFORMATION
+            spriteBatch.DrawString(_defaultSpriteFont, x + "," + y, new Vector2(0, 0), Color.White);
 
             spriteBatch.End();
 
