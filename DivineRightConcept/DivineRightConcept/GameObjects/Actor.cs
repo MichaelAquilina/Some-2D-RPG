@@ -29,7 +29,7 @@ namespace DivineRightConcept.GameObjects
             //classes that inhert should do something over here!
         }
 
-        public void LoadContent(ContentManager Content)
+        public virtual void LoadContent(ContentManager Content)
         {
             //Default Actor Representation shall be the infamous StickMan!
             this.Representation = Content.Load<Texture2D>("StickManTexture");
