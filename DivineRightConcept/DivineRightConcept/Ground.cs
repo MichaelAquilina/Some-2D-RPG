@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 
 namespace DivineRightConcept
 {
     //Static Ground class containing all information on the Ground Texture and extension methods for Drawing
     //Ground Textures on Sprite Batches
-    public static class Ground
+    //Can be thought of as the Ground Rendering Engine
+    public class Ground
     {
         public const int GROUND_TEXTURE_WIDTH = 128;
         public const int GROUND_TEXTURE_HEIGHT = 128;
@@ -23,8 +25,16 @@ namespace DivineRightConcept
 
         public static Color[] TextureColors = new Color[] {Color.Brown, Color.Gray, Color.DarkGray, Color.Green, Color.Yellow, Color.Black};
 
+        public Texture2D GroundTexture { get; private set; }
+
+        //Load the Required Textures for the Ground Rendering Engine
+        public void LoadContent(ContentManager Content)
+        {
+            GroundTexture = Content.Load<Texture2D>("GroundTextures");
+        }
+
         //CONSIDER REMOVING STATIC EXTENSION AND USING THIS AS A CLASS
-        public static void DrawGroundTexture(this SpriteBatch SpriteBatch, Texture2D GroundTexture, int GroundType, Rectangle DestinationRectangle)
+        public void DrawGroundTexture(SpriteBatch SpriteBatch, int GroundType, Rectangle DestinationRectangle)
         {
             int i = (GroundType % 3);
             int j = (GroundType / 3);

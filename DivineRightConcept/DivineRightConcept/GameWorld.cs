@@ -34,6 +34,9 @@ namespace DivineRightConcept
         //minimap texture generated
         private Texture2D _miniMap;
 
+        //ground rendering class
+        private Ground _ground;
+
         #endregion
 
         public GameWorld(Game Game, int WorldWidth, int WorldHeight)
@@ -46,6 +49,8 @@ namespace DivineRightConcept
         public override void Initialize()
         {
             Actors = new List<Actor>();
+
+            _ground = new Ground();
 
             RandomWorldGenerator generator = new RandomWorldGenerator();
             _worldMap = generator.Generate(WorldWidth, WorldHeight);
@@ -67,7 +72,7 @@ namespace DivineRightConcept
         /// </summary>
         public void LoadContent()
         {
-            GroundTextures = Game.Content.Load<Texture2D>("GroundTextures");
+            _ground.LoadContent(Game.Content);
 
             foreach (Actor actor in Actors)
                 actor.LoadContent(Game.Content);
@@ -111,7 +116,7 @@ namespace DivineRightConcept
                     tileDestRect.X += DestRectangle.X;
                     tileDestRect.Y += DestRectangle.Y;
 
-                    SpriteBatch.DrawGroundTexture(GroundTextures, _worldMap[tileX][tileY], tileDestRect);
+                    _ground.DrawGroundTexture(SpriteBatch, _worldMap[tileX][tileY], tileDestRect);
                 }
 
             foreach (Actor actor in Actors)
