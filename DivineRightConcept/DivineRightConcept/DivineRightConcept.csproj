@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameObjects\Actor.cs" />
+    <Compile Include="GameObjects\SimpleAIActor.cs" />
     <Compile Include="Generators\IWorldGenerator.cs" />
     <Compile Include="Ground.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

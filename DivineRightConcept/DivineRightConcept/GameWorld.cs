@@ -124,14 +124,14 @@ namespace DivineRightConcept
                 //DRAW THE ACTOR
                 //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and topLeftY have already been corrected
                 //in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
-                Rectangle actorRect = new Rectangle(
+                Rectangle actorDestRect = new Rectangle(
                         (actor.X - topLeftX) * pxTileWidth + DestRectangle.X,
                         (actor.Y - topLeftY) * pxTileHeight + DestRectangle.Y,
                         pxTileWidth, pxTileHeight);
 
                 //only render the actor if he is within the specified viewport
-                if(DestRectangle.Contains(actorRect))
-                    SpriteBatch.Draw(actor.Representation, actorRect, Color.White);
+                if (DestRectangle.Contains(actorDestRect))
+                    SpriteBatch.Draw(actor.Representation, actorDestRect, Color.White);
             }
         }
     }

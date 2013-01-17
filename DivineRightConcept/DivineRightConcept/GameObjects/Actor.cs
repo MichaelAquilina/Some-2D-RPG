@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
 
 namespace DivineRightConcept.GameObjects
 {
@@ -20,6 +21,12 @@ namespace DivineRightConcept.GameObjects
         {
             this.X = X;
             this.Y = Y;
+        }
+
+        public virtual void Update(GameTime gameTime)
+        {
+            //by default do nothing
+            //classes that inhert should do something over here!
         }
 
         public void LoadContent(ContentManager Content)

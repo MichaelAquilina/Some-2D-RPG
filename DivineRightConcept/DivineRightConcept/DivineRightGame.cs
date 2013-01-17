@@ -54,7 +54,7 @@ namespace DivineRightConcept
 
             CurrentPlayer = new Actor(8, 8);
             _world.Actors.Add(CurrentPlayer);
-            _world.Actors.Add(new Actor(24, 23));
+            _world.Actors.Add(new SimpleAIActor(24, 23));
 
             base.Initialize();
         }
@@ -109,6 +109,9 @@ namespace DivineRightConcept
                 if (CurrentPlayer.X >= WORLD_WIDTH) CurrentPlayer.X = WORLD_WIDTH - 1;
                 if (CurrentPlayer.Y >= WORLD_HEIGHT) CurrentPlayer.Y = WORLD_HEIGHT - 1;
             }
+
+            foreach( Actor actor in _world.Actors )
+                actor.Update(gameTime);
 
             base.Update(gameTime);
         }
