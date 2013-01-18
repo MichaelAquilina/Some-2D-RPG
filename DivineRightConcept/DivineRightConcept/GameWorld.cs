@@ -117,11 +117,12 @@ namespace DivineRightConcept
                     _ground.DrawGroundTexture(SpriteBatch, _worldMap[tileX][tileY], tileDestRect);
                 }
 
+            //DRAW THE ACTORS
             foreach (Actor actor in Actors)
             {
-                //DRAW THE ACTOR
-                //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and topLeftY have already been corrected
-                //in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
+                //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
+                //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
+                //for panning at the edges.
                 Rectangle actorDestRect = new Rectangle(
                         (actor.X - topLeftX) * pxTileWidth + DestRectangle.X,
                         (actor.Y - topLeftY) * pxTileHeight + DestRectangle.Y,
