@@ -22,8 +22,6 @@ namespace DivineRightConcept
         public int WorldWidth { get; private set; }
         public int WorldHeight { get; private set; }
 
-        public Texture2D GroundTextures { get; set; }
-
         //interface for retreiving the generated minimap
         public Texture2D MiniMapTexture { get { return _miniMap; }}
         public List<Actor> Actors { get; private set; }
