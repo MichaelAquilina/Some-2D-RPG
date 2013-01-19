@@ -47,7 +47,7 @@ namespace DivineRightConcept.GroundPallettes
         }
 
         //CONSIDER REMOVING STATIC EXTENSION AND USING THIS AS A CLASS
-        public void DrawGroundTexture(SpriteBatch SpriteBatch, int GroundType, Rectangle DestinationRectangle)
+        public void DrawGroundTexture(SpriteBatch SpriteBatch, int GroundType, Rectangle DestinationRectangle, FRectangle SourceRectangle)
         {
             int i = (GroundType % 3);
             int j = (GroundType / 3);
@@ -56,10 +56,10 @@ namespace DivineRightConcept.GroundPallettes
                 GroundTexture,
                 DestinationRectangle,
                 new Rectangle(
-                    i * GROUND_TEXTURE_WIDTH,
-                    j * GROUND_TEXTURE_HEIGHT,
-                    GROUND_TEXTURE_WIDTH,
-                    GROUND_TEXTURE_HEIGHT
+                    i * GROUND_TEXTURE_WIDTH + (int) (SourceRectangle.X * GROUND_TEXTURE_WIDTH),
+                    j * GROUND_TEXTURE_HEIGHT + (int) (SourceRectangle.Y * GROUND_TEXTURE_HEIGHT),
+                    (int) SourceRectangle.Width * GROUND_TEXTURE_WIDTH,
+                    (int) SourceRectangle.Height * GROUND_TEXTURE_HEIGHT
                 ),
                 Color.White
             );
