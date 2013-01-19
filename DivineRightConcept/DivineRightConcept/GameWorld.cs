@@ -77,6 +77,15 @@ namespace DivineRightConcept
             this._mipMapTex = null;
         }
 
+        /// <summary>
+        /// Draws a Minitaure version of the current WorldMap as a Texture on the screen, specified by the DestRectangle parameter. The minimap
+        /// will have 1 pixel for each tile on the Worldmap. The color should be roughly represantative of what texture the tile woudld show
+        /// on the location of the map - although this is entirely dependant on the GroundPallette being used (influenced by the GetTileColor
+        /// interface method). On first map load, the MipMap will have to be generated, but subsequent calls to this method will use a cached
+        /// version of the mimimap to prevent excess overhead during draw time.
+        /// </summary>
+        /// <param name="SpriteBatch">An open SpriteBatch object with which to Draw the MiniMap.</param>
+        /// <param name="DestRectangle">A Rectangle specifying the Destination on the screen where the MiniMap should be drawn.</param>
         public void DrawMipMap(SpriteBatch SpriteBatch, Rectangle DestRectangle)
         {
             //CHECK CACHED COPY
@@ -103,8 +112,8 @@ namespace DivineRightConcept
             int pxTileHeight = DestRectangle.Height / TileHeight;
 
             //determine the topleft world coordinate in the view
-            int topLeftX = (int) (Center.X - Math.Ceiling((double)TileWidth/2));
-            int topLeftY = (int) (Center.Y - Math.Ceiling((double)TileHeight/2));
+            float topLeftX = (float) (Center.X - Math.Ceiling((double)TileWidth/2));
+            float topLeftY = (float) (Center.Y - Math.Ceiling((double)TileHeight/2));
 
             //Prevent the View from going outisde of the WORLD coordinates
             if (topLeftX < 0) topLeftX = 0;
@@ -116,14 +125,14 @@ namespace DivineRightConcept
             for (int i = 0; i < TileWidth; i++)
                 for (int j = 0; j < TileHeight; j++)
                 {
-                    int tileX = i + topLeftX;
-                    int tileY = j + topLeftY;
+                    float tileX = (i + topLeftX);
+                    float tileY = (j + topLeftY);
 
                     Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
                     tileDestRect.X += DestRectangle.X;
                     tileDestRect.Y += DestRectangle.Y;
 
-                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap[tileX, tileY], tileDestRect);
+                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap[(int)tileX, (int)tileY], tileDestRect);
                 }
 
             //DRAW THE ACTORS
@@ -132,9 +141,12 @@ namespace DivineRightConcept
                 //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
                 //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                 //for panning at the edges.
+                int actorX = (int) ((actor.X - topLeftX) * pxTileWidth);
+                int actorY = (int) ((actor.Y - topLeftY) * pxTileHeight);
+
                 Rectangle actorDestRect = new Rectangle(
-                        (actor.X - topLeftX) * pxTileWidth + DestRectangle.X,
-                        (actor.Y - topLeftY) * pxTileHeight + DestRectangle.Y,
+                        actorX + DestRectangle.X,
+                        actorY + DestRectangle.Y,
                         pxTileWidth, pxTileHeight);
 
                 //only render the actor if he is within the specified viewport
