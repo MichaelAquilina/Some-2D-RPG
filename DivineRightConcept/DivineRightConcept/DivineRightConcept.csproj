@@ -109,14 +109,15 @@
   <ItemGroup>
     <Compile Include="GameObjects\Actor.cs" />
     <Compile Include="GameObjects\SimpleAIActor.cs" />
-    <Compile Include="Generators\IWorldGenerator.cs" />
-    <Compile Include="Ground.cs" />
+    <Compile Include="GroundPallettes\IGroundPallette.cs" />
+    <Compile Include="WorldGenerators\IWorldGenerator.cs" />
+    <Compile Include="GroundPallettes\Ground.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DivineRightGame.cs" />
     <Compile Include="GameWorld.cs" />
-    <Compile Include="Generators\RandomWorldGenerator.cs" />
+    <Compile Include="WorldGenerators\RandomWorldGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -155,6 +156,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--
