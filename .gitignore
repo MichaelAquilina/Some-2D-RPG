@@ -1,4 +1,32 @@
-DivineRightConcept/DivineRightConcept/bin
-DivineRightConcept/DivineRightConcept/obj
-DivineRightConcept/DivineRightConceptContent/obj
-DivineRightConcept/DivineRightConcept/DivineRightConcept.csproj.Debug.cachefile
+.suo
+*.user
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+*_i.c
+*_p.c
+*.ilk
+*.meta
+*.obj
+*.pch
+*.pdb
+*.pgc
+*.pgd
+*.rsp
+*.sbr
+*.tlb
+*.tli
+*.tlh
+*.tmp
+*.log
+*.vspscc
+*.vssscc
+.builds
+*.cachefile
+
+# Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
+[Bb]in/
+[Oo]bj/
