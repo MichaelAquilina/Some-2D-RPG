@@ -73,6 +73,8 @@ namespace DivineRightConcept
         public void UnloadContent()
         {
             this.WorldMap.GroundPallette.UnloadContent();
+            this._mipMapTex.Dispose();
+            this._mipMapTex = null;
         }
 
         public void DrawMipMap(SpriteBatch SpriteBatch, Rectangle DestRectangle)

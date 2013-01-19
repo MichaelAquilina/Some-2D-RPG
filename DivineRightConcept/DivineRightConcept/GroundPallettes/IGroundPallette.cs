@@ -12,8 +12,6 @@ namespace DivineRightConcept.GroundPallettes
     //for the Game to proporly be able to render the pallette.
     public interface IGroundPallette : ILoadable
     {
-        void LoadContent(ContentManager Content);
-
         void DrawGroundTexture(SpriteBatch SpriteBatch, int TileType, Rectangle DesRectangle);
 
         Color GetTileColor(int TileType);
