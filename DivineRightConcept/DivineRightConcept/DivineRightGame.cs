@@ -124,6 +124,14 @@ namespace DivineRightConcept
             base.Update(gameTime);
         }
 
+        private void DrawRectangle(SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background)
+        {
+            Texture2D rectText = new Texture2D(this.GraphicsDevice, 1, 1);
+            rectText.SetData<Color>(new Color[] { Background });
+
+            SpriteBatch.Draw(rectText, DestRectangle, Color.White);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
@@ -132,7 +140,12 @@ namespace DivineRightConcept
 
             spriteBatch.Begin();
 
-                _world.DrawWorldViewPort(spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
+                Rectangle viewPortRect = new Rectangle(100, 10, VIEW_WIDTH, VIEW_HEIGHT);
+
+                //draw backgrond underneath viewport so we know when it is out of position
+                DrawRectangle(spriteBatch, viewPortRect, Color.Red);
+
+                _world.DrawWorldViewPort(spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, viewPortRect);
                 _world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
 
                 //DRAW DEBUGGING INFORMATION
