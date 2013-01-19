@@ -102,37 +102,47 @@ namespace DivineRightConcept
         /// </summary>
         /// <param name="SpriteBatch">SpriteBatch object with which to render the Viewport. Should have already been opened for rendering.</param>
         /// <param name="Center">X and Y Coordinates on the world map specifying where the to be drawn viewport should be rendered.</param>
-        /// <param name="TileWidth">Number of Tiles, Width-wise that should be shown within the viewport.</param>
-        /// <param name="TileHeight">Number of Tiles, Height-wise that should be shown within the viewport.</param>
+        /// <param name="TileWidth">Integer value specifying the Width in pixels of each Tile on the Map.</param>
+        /// <param name="TileHeight">Integer value specifying the Height in pixels of each Tile on the Map.</param>
         /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
-        public void DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 Center, int TileWidth, int TileHeight, Rectangle DestRectangle)
+        public void DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle)
         {
             //DRAW THE WORLD MAP
-            int pxTileWidth = DestRectangle.Width / TileWidth;
-            int pxTileHeight = DestRectangle.Height / TileHeight;
+            int TileCountX = (int) Math.Ceiling( (double) DestRectangle.Width / pxTileWidth );
+            int TileCountY = (int) Math.Ceiling( (double) DestRectangle.Height / pxTileHeight );
 
             //determine the topleft world coordinate in the view
-            float topLeftX = (float) (Center.X - Math.Ceiling((double)TileWidth/2));
-            float topLeftY = (float) (Center.Y - Math.Ceiling((double)TileHeight/2));
+            float topLeftX = (float) (Center.X - Math.Ceiling((double)TileCountX/2));
+            float topLeftY = (float) (Center.Y - Math.Ceiling((double)TileCountY/2));
 
             //Prevent the View from going outisde of the WORLD coordinates
             if (topLeftX < 0) topLeftX = 0;
             if (topLeftY < 0) topLeftY = 0;
-            if (topLeftX + TileWidth >= WorldMap.Width) topLeftX = WorldMap.Width - TileWidth;
-            if (topLeftY + TileHeight >= WorldMap.Height) topLeftY = WorldMap.Height - TileHeight;
+            if (topLeftX + TileCountX >= WorldMap.Width) topLeftX = WorldMap.Width - TileCountX;
+            if (topLeftY + TileCountY >= WorldMap.Height) topLeftY = WorldMap.Height - TileCountY;
+
+            //calculate any decimal displacement required (For Positions with decimal points)
+            double dispX = topLeftX - Math.Floor(topLeftX);
+            double dispY = topLeftY - Math.Floor(topLeftY);
 
             //draw each tile
-            for (int i = 0; i < TileWidth; i++)
-                for (int j = 0; j < TileHeight; j++)
+            for (int i = 0; i < TileCountX; i++)
+                for (int j = 0; j < TileCountY; j++)
                 {
-                    float tileX = (i + topLeftX);
-                    float tileY = (j + topLeftY);
+                    int tileX = (int) (i + topLeftX);
+                    int tileY = (int) (j + topLeftY);
 
                     Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
+                    
+                    //translate according to the destination rectangle
                     tileDestRect.X += DestRectangle.X;
                     tileDestRect.Y += DestRectangle.Y;
 
-                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap[(int)tileX, (int)tileY], tileDestRect);
+                    //traslate if there is any decimal displacement due to a Center with a floating point
+                    tileDestRect.X -= (int)(dispX * pxTileWidth);
+                    tileDestRect.Y -= (int)(dispY * pxTileHeight);
+
+                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap[tileX, tileY], tileDestRect);
                 }
 
             //DRAW THE ACTORS

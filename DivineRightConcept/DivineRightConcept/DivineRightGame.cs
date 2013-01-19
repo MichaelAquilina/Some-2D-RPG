@@ -24,8 +24,8 @@ namespace DivineRightConcept
         const int WORLD_HEIGHT = 100;
         const int WORLD_WIDTH = 100;
         
-        const int TILE_WIDTH = 13;
-        const int TILE_HEIGHT = 13;
+        const int TILE_WIDTH = 30;
+        const int TILE_HEIGHT = 30;
 
         const int VIEW_WIDTH = 450;
         const int VIEW_HEIGHT = 450;
