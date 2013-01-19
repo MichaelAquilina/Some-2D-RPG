@@ -19,48 +19,23 @@ namespace DivineRightConcept
     {
         #region Variables
 
-        public int WorldWidth { get; private set; }
-        public int WorldHeight { get; private set; }
-
-        //interface for retreiving the generated minimap
-        public Texture2D MiniMapTexture { get { return _miniMap; }}
+        public Map WorldMap { get; set; }
         public List<Actor> Actors { get; private set; }
-
-        //contains actual tile information about the world map
-        private int[][] _worldMap;
-
-        //minimap texture generated
-        private Texture2D _miniMap;
 
         //ground rendering class
         private Ground _ground;
 
         #endregion
 
-        public GameWorld(Game Game, int WorldWidth, int WorldHeight)
+        public GameWorld(Game Game)
             :base(Game)
         {
-            this.WorldWidth = WorldWidth;
-            this.WorldHeight = WorldHeight;
         }
 
         public override void Initialize()
         {
             Actors = new List<Actor>();
-
             _ground = new Ground();
-
-            //TODO: Should Ideally move World Generation outside of this state class!
-            RandomWorldGenerator generator = new RandomWorldGenerator();
-            _worldMap = generator.Generate(WorldWidth, WorldHeight);
-
-            //create a small scale map for the user (The MiniMap)
-            Color[] mapColors = new Color[WorldWidth * WorldHeight];
-            _miniMap = new Texture2D(Game.GraphicsDevice, WorldWidth, WorldHeight, false, SurfaceFormat.Color);
-            for (int i = 0; i < WorldWidth; i++)
-                for (int j = 0; j < WorldHeight; j++)
-                    mapColors[j * _worldMap.Length + i] = Ground.TextureColors[_worldMap[i][j]];
-            _miniMap.SetData<Color>(mapColors);
 
             base.Initialize();
         }
@@ -100,8 +75,8 @@ namespace DivineRightConcept
             //Prevent the View from going outisde of the WORLD coordinates
             if (topLeftX < 0) topLeftX = 0;
             if (topLeftY < 0) topLeftY = 0;
-            if (topLeftX + TileWidth >= WorldWidth) topLeftX = WorldWidth - TileWidth;
-            if (topLeftY + TileHeight >= WorldHeight) topLeftY = WorldHeight - TileHeight;
+            if (topLeftX + TileWidth >= WorldMap.Width) topLeftX = WorldMap.Width - TileWidth;
+            if (topLeftY + TileHeight >= WorldMap.Height) topLeftY = WorldMap.Height - TileHeight;
 
             //draw each tile
             for (int i = 0; i < TileWidth; i++)
@@ -114,7 +89,7 @@ namespace DivineRightConcept
                     tileDestRect.X += DestRectangle.X;
                     tileDestRect.Y += DestRectangle.Y;
 
-                    _ground.DrawGroundTexture(SpriteBatch, _worldMap[tileX][tileY], tileDestRect);
+                    _ground.DrawGroundTexture(SpriteBatch, WorldMap[tileX, tileY], tileDestRect);
                 }
 
             //DRAW THE ACTORS

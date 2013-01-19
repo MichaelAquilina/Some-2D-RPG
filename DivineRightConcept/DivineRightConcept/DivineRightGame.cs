@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using System.Text;
 using System.IO;
 using DivineRightConcept.GameObjects;
+using DivineRightConcept.Generators;
 
 namespace DivineRightConcept
 {
@@ -49,7 +50,10 @@ namespace DivineRightConcept
 
         protected override void Initialize()
         {
-            _world = new GameWorld(this, WORLD_WIDTH, WORLD_HEIGHT);
+            _world = new GameWorld(this);
+            _world.WorldMap = new Map(WORLD_WIDTH, WORLD_HEIGHT, this.GraphicsDevice);
+            _world.WorldMap.Initialize(new RandomWorldGenerator());
+
             _world.Initialize();
 
             CurrentPlayer = new Actor(8, 8);
@@ -125,7 +129,7 @@ namespace DivineRightConcept
             spriteBatch.Begin();
 
                 _world.DrawWorldViewPort(spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(100, 0, VIEW_WIDTH, VIEW_HEIGHT));
-                spriteBatch.Draw(_world.MiniMapTexture, new Rectangle(650, 0, 100, 100), Color.White);
+                spriteBatch.Draw(_world.WorldMap.MiniMapTexture, new Rectangle(650, 0, 100, 100), Color.White);
 
                 //DRAW DEBUGGING INFORMATION
                 spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X + "," + CurrentPlayer.Y, new Vector2(0, 0), Color.White);
