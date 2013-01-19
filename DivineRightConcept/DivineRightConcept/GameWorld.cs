@@ -5,25 +5,28 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
-using DivineRightConcept.Generators;
+using DivineRightConcept.WorldGenerators;
 using DivineRightConcept.GameObjects;
 
 namespace DivineRightConcept
 {
     /// <summary>
     /// Class that represents the current state of the game world, including the Actors residing in it. Provides functions
-    /// to draw/render the current state of the world. No Game Logic should occur within this state class apart from 
-    /// initial generation (POSSIBLY).
+    /// to draw/render the current state of the world, as well as other draw functions such as drawing a MiniMap version
+    /// of the current WorldMap.
     /// </summary>
     public class GameWorld : GameComponent
     {
         #region Variables
 
-        public Map WorldMap { get; set; }
+        public Map WorldMap {
+            get { return _worldMap; }
+            set { _mipMapTex = null; _worldMap = value; }
+        }
         public List<Actor> Actors { get; private set; }
 
-        //ground rendering class
-        private Ground _ground;
+        private Map _worldMap;              //World Map Instance
+        private Texture2D _mipMapTex;       //Cached copy of the MipMapTexture
 
         #endregion
 
@@ -32,10 +35,24 @@ namespace DivineRightConcept
         {
         }
 
+        private Texture2D GenerateMipMapTexture(Map Map)
+        {
+            //GENERATE THE MINIMAP TEXTURE
+            Color[] mapColors = new Color[Map.Width * Map.Height];
+            Texture2D resultTexture = new Texture2D(this.Game.GraphicsDevice, Map.Width, Map.Height, false, SurfaceFormat.Color);
+
+            for (int i = 0; i < Map.Width; i++)
+                for (int j = 0; j < Map.Height; j++)
+                    mapColors[j * Map.Width + i] = Map.GroundPallette.GetTileColor(Map[i, j]);
+
+            resultTexture.SetData<Color>(mapColors);
+
+            return resultTexture;
+        }
+
         public override void Initialize()
         {
             Actors = new List<Actor>();
-            _ground = new Ground();
 
             base.Initialize();
         }
@@ -46,10 +63,19 @@ namespace DivineRightConcept
         /// </summary>
         public void LoadContent()
         {
-            _ground.LoadContent(Game.Content);
+            this.WorldMap.GroundPallette.LoadContent(Game.Content);
 
             foreach (Actor actor in Actors)
                 actor.LoadContent(Game.Content);
+        }
+
+        public void DrawMipMap(SpriteBatch SpriteBatch, Rectangle DestRectangle)
+        {
+            //CHECK CACHED COPY
+            if (_mipMapTex == null)
+                _mipMapTex = GenerateMipMapTexture(this.WorldMap);
+
+            SpriteBatch.Draw(_mipMapTex, DestRectangle, Color.White);
         }
 
         /// <summary>
@@ -89,7 +115,7 @@ namespace DivineRightConcept
                     tileDestRect.X += DestRectangle.X;
                     tileDestRect.Y += DestRectangle.Y;
 
-                    _ground.DrawGroundTexture(SpriteBatch, WorldMap[tileX, tileY], tileDestRect);
+                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap[tileX, tileY], tileDestRect);
                 }
 
             //DRAW THE ACTORS
