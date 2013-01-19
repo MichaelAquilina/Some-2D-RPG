@@ -30,6 +30,8 @@ namespace DivineRightConcept
         const int VIEW_WIDTH = 450;
         const int VIEW_HEIGHT = 450;
 
+        const float MOVEMENT_SPEED = 0.4f;
+
         Actor CurrentPlayer;
 
         //Graphic Related Variables
@@ -91,22 +93,22 @@ namespace DivineRightConcept
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    CurrentPlayer.Y -= 1;
+                    CurrentPlayer.Y -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    CurrentPlayer.Y += 1;
+                    CurrentPlayer.Y += MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    CurrentPlayer.X -= 1;
+                    CurrentPlayer.X -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    CurrentPlayer.X += 1;
+                    CurrentPlayer.X += MOVEMENT_SPEED;
                 }
 
                 //prevent from going out of range
@@ -134,7 +136,7 @@ namespace DivineRightConcept
                 _world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
 
                 //DRAW DEBUGGING INFORMATION
-                spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X + "," + CurrentPlayer.Y, new Vector2(0, 0), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), new Vector2(0, 0), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
 
