@@ -101,7 +101,7 @@ namespace DivineRightConcept
         /// parameters. 
         /// </summary>
         /// <param name="SpriteBatch">SpriteBatch object with which to render the Viewport. Should have already been opened for rendering.</param>
-        /// <param name="Center">X and Y Coordinates on the world map specifying where the to be drawn viewport should be rendered.</param>
+        /// <param name="Center">X and Y Coordinates on the world map specifying where the viewport should be Centered.</param>
         /// <param name="TileWidth">Integer value specifying the Width in pixels of each Tile on the Map.</param>
         /// <param name="TileHeight">Integer value specifying the Height in pixels of each Tile on the Map.</param>
         /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
@@ -133,7 +133,8 @@ namespace DivineRightConcept
                     int tileY = (int) (j + topLeftY);
 
                     Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
-                    
+                    FRectangle tileSrcRect = new FRectangle(0.0f, 0.0f, 1.0f, 1.0f);
+
                     //translate according to the destination rectangle
                     tileDestRect.X += DestRectangle.X;
                     tileDestRect.Y += DestRectangle.Y;
@@ -142,7 +143,25 @@ namespace DivineRightConcept
                     tileDestRect.X -= (int)(dispX * pxTileWidth);
                     tileDestRect.Y -= (int)(dispY * pxTileHeight);
 
-                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap[tileX, tileY], tileDestRect);
+                    //TODO MAKE THIS NEATER, THIS IS VERY HACKISH
+                    //CONDITIONAL BRANCHES SHOULD BE AVOIDED, KEEP EVERYTHING MATHEMATICAL WHERE POSSIBLE!
+                    if (i == 0)
+                    {
+                        //TODO NEED TO ALSO UPDATE THE SOURCE RECT
+                        int prevWidth = tileDestRect.Width;
+                        tileDestRect.Width = (int) Math.Ceiling(tileDestRect.Width * (1.0f - dispX));
+                        tileDestRect.X += (prevWidth - tileDestRect.Width);
+                    }
+
+                    if (j == 0)
+                    {
+                        //TODO NEED TO ALSO UPDATE THE SOURCE RECT
+                        int prevHeight = tileDestRect.Height;
+                        tileDestRect.Height = (int) Math.Ceiling(tileDestRect.Height * (1.0f - dispY));
+                        tileDestRect.Y += (prevHeight - tileDestRect.Height);
+                    }
+
+                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap[tileX, tileY], tileDestRect, tileSrcRect);
                 }
 
             //DRAW THE ACTORS
@@ -163,6 +182,9 @@ namespace DivineRightConcept
                 if (DestRectangle.Contains(actorDestRect))
                     SpriteBatch.Draw(actor.Representation, actorDestRect, Color.White);
             }
+
+            //DEBUGGING - DRAW THE BORDERS
+
         }
     }
 }
