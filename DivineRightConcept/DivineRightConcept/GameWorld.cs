@@ -15,13 +15,14 @@ namespace DivineRightConcept
     /// to draw/render the current state of the world, as well as other draw functions such as drawing a MiniMap version
     /// of the current WorldMap.
     /// </summary>
+    /// TODO: Possibly convert this class from a GameComponent into an ILoadable
     public class GameWorld : GameComponent
     {
         #region Variables
 
         public Map WorldMap {
             get { return _worldMap; }
-            set { _mipMapTex = null; _worldMap = value; }
+            set { _mipMapTex = null; _worldMap = value; }       //clear the cached mipmap
         }
         public List<Actor> Actors { get; private set; }
 
@@ -67,6 +68,11 @@ namespace DivineRightConcept
 
             foreach (Actor actor in Actors)
                 actor.LoadContent(Game.Content);
+        }
+
+        public void UnloadContent()
+        {
+            this.WorldMap.GroundPallette.UnloadContent();
         }
 
         public void DrawMipMap(SpriteBatch SpriteBatch, Rectangle DestRectangle)

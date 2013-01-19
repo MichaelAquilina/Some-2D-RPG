@@ -110,6 +110,7 @@
     <Compile Include="GameObjects\Actor.cs" />
     <Compile Include="GameObjects\SimpleAIActor.cs" />
     <Compile Include="GroundPallettes\IGroundPallette.cs" />
+    <Compile Include="ILoadable.cs" />
     <Compile Include="WorldGenerators\IWorldGenerator.cs" />
     <Compile Include="GroundPallettes\Ground.cs" />
     <Compile Include="Map.cs" />

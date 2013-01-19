@@ -38,7 +38,12 @@ namespace DivineRightConcept.GroundPallettes
         //Load the Required Textures for the Ground Rendering Engine
         public void LoadContent(ContentManager Content)
         {
-            GroundTexture = Content.Load<Texture2D>("GroundTextures");
+            this.GroundTexture = Content.Load<Texture2D>("GroundTextures");
+        }
+
+        public void UnloadContent()
+        {
+            this.GroundTexture.Dispose();
         }
 
         //CONSIDER REMOVING STATIC EXTENSION AND USING THIS AS A CLASS

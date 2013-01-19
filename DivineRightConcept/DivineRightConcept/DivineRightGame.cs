@@ -21,8 +21,8 @@ namespace DivineRightConcept
         const bool DEBUG = true;
         const int INPUT_DELAY = 20;
 
-        const int WORLD_HEIGHT = 50;
-        const int WORLD_WIDTH = 50;
+        const int WORLD_HEIGHT = 100;
+        const int WORLD_WIDTH = 100;
         
         const int TILE_WIDTH = 13;
         const int TILE_HEIGHT = 13;
