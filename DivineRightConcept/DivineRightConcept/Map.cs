@@ -9,7 +9,8 @@ using DivineRightConcept.GroundPallettes;
 
 namespace DivineRightConcept
 {
-    //represents a game map that be used
+    //represents a game map that be used. Contains tile information as well as 
+    //the type of ground pallette used for this particular map
     public class Map
     {
         public int Width { get { return _mapTiles.Length; } }
