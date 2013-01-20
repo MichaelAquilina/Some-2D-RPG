@@ -109,7 +109,7 @@
   <ItemGroup>
     <Compile Include="Drawing\Animation.cs" />
     <Compile Include="Drawing\Shapes.cs" />
-    <Compile Include="FRectangle.cs" />
+    <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="GameObjects\Actor.cs" />
     <Compile Include="GameObjects\SimpleAIActor.cs" />
     <Compile Include="GroundPallettes\IGroundPallette.cs" />
