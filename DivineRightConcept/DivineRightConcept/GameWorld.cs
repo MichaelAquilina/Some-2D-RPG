@@ -108,8 +108,17 @@ namespace DivineRightConcept
         /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
         public void DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle)
         {
-            //DEBUGGING: draw backgrond underneath viewport so we know when it is out of position
-            SpriteBatch.DrawRectangle(DestRectangle, Color.Red);
+            //DEBUGGING: draw background underneath viewport so we know when it is out of position
+            //Add a 1 Pixel border too, so we also know when it is drawing out of its bounds
+            SpriteBatch.DrawRectangle(
+                new Rectangle(
+                    DestRectangle.X - 1,
+                    DestRectangle.Y - 1,
+                    DestRectangle.Width + 2, 
+                    DestRectangle.Height + 2
+                    ), 
+                 Color.Red
+            );
 
             //DRAW THE WORLD MAP
             int TileCountX = (int) Math.Ceiling( (double) DestRectangle.Width / pxTileWidth ) + 1;
@@ -148,8 +157,6 @@ namespace DivineRightConcept
                     tileDestRect.Y -= (int)(dispY * pxTileHeight);
 
                     //HANDLE BORDER EDGE CULLING
-                    //TODO MAKE THIS NEATER, THIS IS VERY HACKISH
-                    //CONDITIONAL BRANCHES SHOULD BE AVOIDED, KEEP EVERYTHING MATHEMATICAL WHERE POSSIBLE!
                     if (i == 0)
                     {
                         int prevWidth = tileDestRect.Width;
@@ -170,13 +177,13 @@ namespace DivineRightConcept
 
                     if (i == TileCountX - 1)
                     {
-                        tileDestRect.Width = (int)Math.Ceiling(tileDestRect.Width * dispX);
+                        tileDestRect.Width = (int)Math.Ceiling(tileDestRect.Width * dispX) - 1;
                         tileSrcRect.Width = (float)(dispX);
                     }
 
                     if (j == TileCountY - 1)
                     {
-                        tileDestRect.Height = (int)Math.Ceiling(tileDestRect.Height * dispY);
+                        tileDestRect.Height = (int)Math.Ceiling(tileDestRect.Height * dispY) - 1;
                         tileSrcRect.Height = (float)(dispY);
                     }
 
@@ -189,8 +196,8 @@ namespace DivineRightConcept
                 //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
                 //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                 //for panning at the edges.
-                int actorX = (int) ((actor.X - topLeftX) * pxTileWidth);
-                int actorY = (int) ((actor.Y - topLeftY) * pxTileHeight);
+                int actorX = (int) Math.Ceiling((actor.X - topLeftX) * pxTileWidth);
+                int actorY = (int) Math.Ceiling((actor.Y - topLeftY) * pxTileHeight);
 
                 Rectangle actorDestRect = new Rectangle(
                         actorX + DestRectangle.X,
