@@ -58,8 +58,8 @@ namespace DivineRightConcept.GroundPallettes
                 new Rectangle(
                     i * GROUND_TEXTURE_WIDTH + (int) (SourceRectangle.X * GROUND_TEXTURE_WIDTH),
                     j * GROUND_TEXTURE_HEIGHT + (int) (SourceRectangle.Y * GROUND_TEXTURE_HEIGHT),
-                    (int) SourceRectangle.Width * GROUND_TEXTURE_WIDTH,
-                    (int) SourceRectangle.Height * GROUND_TEXTURE_HEIGHT
+                    (int) (SourceRectangle.Width * GROUND_TEXTURE_WIDTH),
+                    (int) (SourceRectangle.Height * GROUND_TEXTURE_HEIGHT)
                 ),
                 Color.White
             );
