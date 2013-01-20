@@ -5,7 +5,11 @@ using System.Text;
 
 namespace DivineRightConcept
 {
-    //A Rectangle structure capable of holding float values
+    /// <summary>
+    /// Rectangle Structure that uses Float values as storage rather than integers such as the ones
+    /// used in the standard XNA rectangle struct. The FRectangle structure can be used to specify
+    /// texture ranges in for example the ground pallette.
+    /// </summary>
     public class FRectangle
     {
         public float X { get; set; }

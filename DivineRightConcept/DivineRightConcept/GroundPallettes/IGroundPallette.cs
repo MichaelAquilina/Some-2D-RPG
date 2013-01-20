@@ -8,8 +8,10 @@ using Microsoft.Xna.Framework;
 
 namespace DivineRightConcept.GroundPallettes
 {
-    //Ground Pallette interface that specifies the required properties and methods that would allow
-    //for the Game to proporly be able to render the pallette.
+    /// <summary>
+    /// Ground Pallette interface that specifies the required properties and methods that would allow
+    /// for the Game to proporly be able to render the pallette.
+    /// </summary>
     public interface IGroundPallette : ILoadable
     {
         void DrawGroundTexture(SpriteBatch SpriteBatch, int TileType, Rectangle DesRectangle, FRectangle SrcRectangle);
