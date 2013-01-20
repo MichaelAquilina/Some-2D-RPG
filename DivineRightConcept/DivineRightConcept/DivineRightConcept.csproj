@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Drawing\Shapes.cs" />
     <Compile Include="FRectangle.cs" />
     <Compile Include="GameObjects\Actor.cs" />
     <Compile Include="GameObjects\SimpleAIActor.cs" />
