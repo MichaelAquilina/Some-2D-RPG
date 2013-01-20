@@ -116,7 +116,7 @@
     <Compile Include="ILoadable.cs" />
     <Compile Include="WorldGenerators\IWorldGenerator.cs" />
     <Compile Include="GroundPallettes\Ground.cs" />
-    <Compile Include="Map.cs" />
+    <Compile Include="GameObjects\Map.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DivineRightGame.cs" />
