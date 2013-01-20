@@ -20,7 +20,7 @@ namespace DivineRightConcept
     {
         //Constant (Editable) Valuables
         const bool DEBUG = true;
-        const int INPUT_DELAY = 20;
+        const int INPUT_DELAY = 30;
 
         const int WORLD_HEIGHT = 100;
         const int WORLD_WIDTH = 100;
@@ -31,7 +31,7 @@ namespace DivineRightConcept
         const int VIEW_WIDTH = 450;
         const int VIEW_HEIGHT = 450;
 
-        const float MOVEMENT_SPEED = 0.4f;
+        const float MOVEMENT_SPEED = 0.3f;
 
         Actor CurrentPlayer;
 
@@ -47,6 +47,8 @@ namespace DivineRightConcept
 
         //TO BE MOVED TO AN ACTOR CLASS
         Texture2D _spriteSheet;
+        Animation runAnimation;
+        Animation idleAnimation;
 
         public DivineRightGame()
         {
@@ -80,21 +82,36 @@ namespace DivineRightConcept
             _spriteSheet = Content.Load<Texture2D>("KnucklesSheet");
             
             //Animations should ideally be specified in some file sheet
-            Animation runAnimation = new Animation(
+            runAnimation = new Animation(
                 _spriteSheet,
                 "Running",
                 new Rectangle[] {
-                    new Rectangle(16,110,33,33),
-                    new Rectangle(58,110,33,33),
-                    new Rectangle(98,110,33,33),
-                    new Rectangle(133,110,33,33),
-                    new Rectangle(170,110,33,33),
-                    new Rectangle(208,110,33,33),
-                    new Rectangle(244,110,33,33),
-                    new Rectangle(280,110,33,33)
+                    new Rectangle(16 ,109,34,34),
+                    new Rectangle(58 ,109,34,34),
+                    new Rectangle(98 ,109,34,34),
+                    new Rectangle(133,109,34,34),
+                    new Rectangle(170,109,34,34),
+                    new Rectangle(208,109,34,34),
+                    new Rectangle(244,109,34,34),
+                    new Rectangle(280,109,34,34)
                 }
             );
-            CurrentPlayer.CurrentAnimation = runAnimation;
+            idleAnimation = new Animation(
+                _spriteSheet,
+                "Idle",
+                new Rectangle[] {
+                    new Rectangle(11 ,29,35,36),
+                    new Rectangle(45 ,29,35,36),
+                    new Rectangle(79 ,29,35,36),
+                    new Rectangle(116,29,35,36),
+                    new Rectangle(153,29,35,36),
+                    new Rectangle(190,29,35,36),
+                    new Rectangle(228,29,35,36),
+                    new Rectangle(261,29,35,36)
+                }
+            );
+
+            CurrentPlayer.CurrentAnimation = idleAnimation;
 
             _defaultSpriteFont = Content.Load<SpriteFont>("DefaultSpriteFont");
         }
@@ -112,23 +129,29 @@ namespace DivineRightConcept
 
             if (gameTime.TotalGameTime.TotalMilliseconds - prevGameTime > INPUT_DELAY)
             {
+                CurrentPlayer.CurrentAnimation = idleAnimation;
+
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
+                    CurrentPlayer.CurrentAnimation = runAnimation;
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.Y -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
+                    CurrentPlayer.CurrentAnimation = runAnimation;
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.Y += MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
+                    CurrentPlayer.CurrentAnimation = runAnimation;
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
+                    CurrentPlayer.CurrentAnimation = runAnimation;
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X += MOVEMENT_SPEED;
                 }
