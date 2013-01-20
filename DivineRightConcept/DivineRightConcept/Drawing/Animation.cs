@@ -14,16 +14,18 @@ namespace DivineRightConcept.Drawing
     {
         public Texture2D SpriteSheet { get; set; }
         public Rectangle[] Frames { get; set; }
+        public int FrameChange { get; set; }
 
-        public Animation(Texture2D SpriteSheet, Rectangle[] Frames)
+        public Animation(Texture2D SpriteSheet, Rectangle[] Frames, int FrameChange=100)
         {
             this.SpriteSheet = SpriteSheet;
             this.Frames = Frames;
+            this.FrameChange = FrameChange;
         }
 
         public Rectangle GetCurrentFrame(GameTime GameTime)
         {
-            int index = (int)(GameTime.TotalGameTime.TotalMilliseconds / 100);
+            int index = (int)(GameTime.TotalGameTime.TotalMilliseconds / FrameChange);
             return Frames[index % Frames.Length];
         }
     }

@@ -19,6 +19,7 @@ namespace DivineRightConcept.GameObjects
 
         //the current representation of the Actor which should be appriopiatly updated depending on its state
         public Animation CurrentAnimation { get; private set; }
+        public string CurrentAnimationName { get; private set; }
 
         public Actor(float X, float Y)
         {
@@ -37,6 +38,7 @@ namespace DivineRightConcept.GameObjects
         public void SetCurrentAnimation(string Name)
         {
             CurrentAnimation = ActorAnimations[Name];
+            CurrentAnimationName = Name;
         }
     }
 }

@@ -37,6 +37,13 @@ namespace DivineRightConcept
         {
         }
 
+        /// <summary>
+        /// Generates a minitiure version of the specified Map into a texture and returns it. Each pixel
+        /// within the returned texture would correspond to one tile on the Map (based on the information
+        /// returned by the GroundPallette being used by the Map).
+        /// </summary>
+        /// <param name="Map">Map with which to generate the MipMap.</param>
+        /// <returns>Generated MiniMap Texture.</returns>
         private Texture2D GenerateMipMapTexture(Map Map)
         {
             //GENERATE THE MINIMAP TEXTURE
@@ -66,9 +73,6 @@ namespace DivineRightConcept
         public void LoadContent()
         {
             this.WorldMap.GroundPallette.LoadContent(Game.Content);
-
-            //foreach (Actor actor in Actors)
-            //    actor.LoadContent(Game.Content);
         }
 
         public void UnloadContent()
@@ -99,7 +103,8 @@ namespace DivineRightConcept
         /// <summary>
         /// Draws a viewport of the current game world at the specified CenterX, CenterY location. The Viewport size and location on the screen must be 
         /// specified in the DestRectangle parameter. The number of Tiles both Width-wise and Height-wise should be specified in the TileWidth and TileHeight
-        /// parameters. 
+        /// parameters. All Miscallaneous items and actors will be drawn on the screen, in an animated state (which depends on the values in the parameter
+        /// passed in GameTime). This can allow for rewinding of time in terms of animation if needs be.
         /// </summary>
         /// <param name="GameTime">GameTime object that would have been passed to the standard XNA Draw method.</param>
         /// <param name="SpriteBatch">SpriteBatch object with which to render the Viewport. Should have already been opened for rendering.</param>

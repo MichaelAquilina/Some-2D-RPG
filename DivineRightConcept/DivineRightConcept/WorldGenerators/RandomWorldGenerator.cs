@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework.Graphics;
 using DivineRightConcept.GroundPallettes;
+using DivineRightConcept.GameObjects;
 
 namespace DivineRightConcept.WorldGenerators
 {
