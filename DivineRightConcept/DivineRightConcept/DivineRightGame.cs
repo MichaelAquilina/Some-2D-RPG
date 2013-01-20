@@ -47,8 +47,6 @@ namespace DivineRightConcept
 
         //TO BE MOVED TO AN ACTOR CLASS
         Texture2D _spriteSheet;
-        Animation runAnimation;
-        Animation idleAnimation;
 
         public DivineRightGame()
         {
@@ -82,9 +80,9 @@ namespace DivineRightConcept
             _spriteSheet = Content.Load<Texture2D>("KnucklesSheet");
             
             //Animations should ideally be specified in some file sheet
-            runAnimation = new Animation(
+            //TODO: Move this outside of the DivineRightGame.cs file
+            Animation runAnimation = new Animation(
                 _spriteSheet,
-                "Running",
                 new Rectangle[] {
                     new Rectangle(16 ,109,34,34),
                     new Rectangle(58 ,109,34,34),
@@ -96,9 +94,8 @@ namespace DivineRightConcept
                     new Rectangle(280,109,34,34)
                 }
             );
-            idleAnimation = new Animation(
+            Animation idleAnimation = new Animation(
                 _spriteSheet,
-                "Idle",
                 new Rectangle[] {
                     new Rectangle(11 ,29,35,36),
                     new Rectangle(45 ,29,35,36),
@@ -111,8 +108,11 @@ namespace DivineRightConcept
                 }
             );
 
-            CurrentPlayer.CurrentAnimation = idleAnimation;
+            CurrentPlayer.ActorAnimations["Running"] = runAnimation;
+            CurrentPlayer.ActorAnimations["Idle"] = idleAnimation;
+            CurrentPlayer.SetCurrentAnimation("Idle");
 
+            //LOAD THE DEFAULT FONT
             _defaultSpriteFont = Content.Load<SpriteFont>("DefaultSpriteFont");
         }
 
@@ -129,29 +129,29 @@ namespace DivineRightConcept
 
             if (gameTime.TotalGameTime.TotalMilliseconds - prevGameTime > INPUT_DELAY)
             {
-                CurrentPlayer.CurrentAnimation = idleAnimation;
+                CurrentPlayer.SetCurrentAnimation("Idle");
 
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
-                    CurrentPlayer.CurrentAnimation = runAnimation;
+                    CurrentPlayer.SetCurrentAnimation("Running");
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.Y -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
-                    CurrentPlayer.CurrentAnimation = runAnimation;
+                    CurrentPlayer.SetCurrentAnimation("Running");
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.Y += MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    CurrentPlayer.CurrentAnimation = runAnimation;
+                    CurrentPlayer.SetCurrentAnimation("Running");
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
-                    CurrentPlayer.CurrentAnimation = runAnimation;
+                    CurrentPlayer.SetCurrentAnimation("Running");
                     prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X += MOVEMENT_SPEED;
                 }
@@ -162,9 +162,6 @@ namespace DivineRightConcept
                 if (CurrentPlayer.X >= WORLD_WIDTH) CurrentPlayer.X = WORLD_WIDTH - 1;
                 if (CurrentPlayer.Y >= WORLD_HEIGHT) CurrentPlayer.Y = WORLD_HEIGHT - 1;
             }
-
-            foreach( Actor actor in _world.Actors )
-                actor.Update(gameTime);
 
             base.Update(gameTime);
         }

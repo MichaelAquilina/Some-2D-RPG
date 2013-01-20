@@ -13,13 +13,11 @@ namespace DivineRightConcept.Drawing
     public class Animation
     {
         public Texture2D SpriteSheet { get; set; }
-        public string Name { get; set; }
         public Rectangle[] Frames { get; set; }
 
-        public Animation(Texture2D SpriteSheet, string Name, Rectangle[] Frames)
+        public Animation(Texture2D SpriteSheet, Rectangle[] Frames)
         {
             this.SpriteSheet = SpriteSheet;
-            this.Name = Name;
             this.Frames = Frames;
         }
 

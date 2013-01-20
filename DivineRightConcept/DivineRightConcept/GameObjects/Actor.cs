@@ -15,30 +15,28 @@ namespace DivineRightConcept.GameObjects
         public float X { get; set; }
         public float Y { get; set; }
 
+        public Dictionary<string, Animation> ActorAnimations { get; set; }
+
         //the current representation of the Actor which should be appriopiatly updated depending on its state
-        public Animation CurrentAnimation { get; set; }
+        public Animation CurrentAnimation { get; private set; }
 
         public Actor(float X, float Y)
         {
             this.X = X;
             this.Y = Y;
+            this.ActorAnimations = new Dictionary<string, Animation>();
         }
 
-        public virtual void Update(GameTime gameTime)
+        /// <summary>
+        /// Sets the current animation to the specified animation name. The animation
+        /// key name must exist in the ActorAnimations dictionary property for this actor
+        /// or a KeyNotFoundException will be thrown. On succesful update, the CurrentAnimation
+        /// property will be set to the specified animation.
+        /// </summary>
+        /// <param name="Name">String Name of the Animation to set the CurrentAnimation to.</param>
+        public void SetCurrentAnimation(string Name)
         {
-            //by default do nothing
-            //classes that inhert should do something over here!
-
-            //SOME NOTES
-            //If each actor is going to handle its own updating, this might restrict how much its going to be capable of performing
-            //certain actions, since it doesnt have much data avaialable to it. It might be smarter applying update logic from an
-            //external class.
-            
-            //This also allows us to perform some neat stuff such as allowing the user to move his character, and then "Possesing"
-            //another actor and moving that one instead! This is simply because we can change the CurrentPlayer reference and then
-            //everything else is transparent
-
-            //TODO: Perform some code refactoring to allow such changes
+            CurrentAnimation = ActorAnimations[Name];
         }
     }
 }
