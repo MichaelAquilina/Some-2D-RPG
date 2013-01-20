@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using DivineRightConcept.Drawing;
 
 namespace DivineRightConcept.GameObjects
 {
@@ -15,7 +16,7 @@ namespace DivineRightConcept.GameObjects
         public float Y { get; set; }
 
         //the current representation of the Actor which should be appriopiatly updated depending on its state
-        public Texture2D Representation { get; set; }
+        public Animation CurrentAnimation { get; set; }
 
         public Actor(float X, float Y)
         {
@@ -38,12 +39,6 @@ namespace DivineRightConcept.GameObjects
             //everything else is transparent
 
             //TODO: Perform some code refactoring to allow such changes
-        }
-
-        public virtual void LoadContent(ContentManager Content)
-        {
-            //Default Actor Representation shall be the infamous StickMan!
-            this.Representation = Content.Load<Texture2D>("StickManTexture");
         }
     }
 }

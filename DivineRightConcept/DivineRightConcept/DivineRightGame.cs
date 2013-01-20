@@ -12,6 +12,7 @@ using System.Text;
 using System.IO;
 using DivineRightConcept.GameObjects;
 using DivineRightConcept.WorldGenerators;
+using DivineRightConcept.Drawing;
 
 namespace DivineRightConcept
 {
@@ -24,8 +25,8 @@ namespace DivineRightConcept
         const int WORLD_HEIGHT = 100;
         const int WORLD_WIDTH = 100;
         
-        const int TILE_WIDTH = 30;
-        const int TILE_HEIGHT = 30;
+        const int TILE_WIDTH = 50;
+        const int TILE_HEIGHT = 50;
 
         const int VIEW_WIDTH = 450;
         const int VIEW_HEIGHT = 450;
@@ -43,6 +44,9 @@ namespace DivineRightConcept
         double prevGameTime = 0;
         GameWorld _world;
         IWorldGenerator _generator;
+
+        //TO BE MOVED TO AN ACTOR CLASS
+        Texture2D _spriteSheet;
 
         public DivineRightGame()
         {
@@ -62,7 +66,7 @@ namespace DivineRightConcept
 
             CurrentPlayer = new Actor(8, 8);
             _world.Actors.Add(CurrentPlayer);
-            _world.Actors.Add(new SimpleAIActor(24, 23));
+            //_world.Actors.Add(new SimpleAIActor(24, 23));
 
             base.Initialize();
         }
@@ -73,6 +77,24 @@ namespace DivineRightConcept
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _world.LoadContent();
+            _spriteSheet = Content.Load<Texture2D>("KnucklesSheet");
+            
+            //Animations should ideally be specified in some file sheet
+            Animation runAnimation = new Animation(
+                _spriteSheet,
+                "Running",
+                new Rectangle[] {
+                    new Rectangle(16,110,33,33),
+                    new Rectangle(58,110,33,33),
+                    new Rectangle(98,110,33,33),
+                    new Rectangle(133,110,33,33),
+                    new Rectangle(170,110,33,33),
+                    new Rectangle(208,110,33,33),
+                    new Rectangle(244,110,33,33),
+                    new Rectangle(280,110,33,33)
+                }
+            );
+            CurrentPlayer.CurrentAnimation = runAnimation;
 
             _defaultSpriteFont = Content.Load<SpriteFont>("DefaultSpriteFont");
         }
@@ -132,7 +154,7 @@ namespace DivineRightConcept
 
             spriteBatch.Begin();
 
-                _world.DrawWorldViewPort(spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(110, 10, VIEW_WIDTH, VIEW_HEIGHT));
+                _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(110, 10, VIEW_WIDTH, VIEW_HEIGHT));
                 _world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
 
                 //DRAW DEBUGGING INFORMATION

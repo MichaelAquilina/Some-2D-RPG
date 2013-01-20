@@ -67,8 +67,8 @@ namespace DivineRightConcept
         {
             this.WorldMap.GroundPallette.LoadContent(Game.Content);
 
-            foreach (Actor actor in Actors)
-                actor.LoadContent(Game.Content);
+            //foreach (Actor actor in Actors)
+            //    actor.LoadContent(Game.Content);
         }
 
         public void UnloadContent()
@@ -101,12 +101,13 @@ namespace DivineRightConcept
         /// specified in the DestRectangle parameter. The number of Tiles both Width-wise and Height-wise should be specified in the TileWidth and TileHeight
         /// parameters. 
         /// </summary>
+        /// <param name="GameTime">GameTime object that would have been passed to the standard XNA Draw method.</param>
         /// <param name="SpriteBatch">SpriteBatch object with which to render the Viewport. Should have already been opened for rendering.</param>
         /// <param name="Center">X and Y Coordinates on the world map specifying where the viewport should be Centered.</param>
         /// <param name="TileWidth">Integer value specifying the Width in pixels of each Tile on the Map.</param>
         /// <param name="TileHeight">Integer value specifying the Height in pixels of each Tile on the Map.</param>
         /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
-        public void DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle)
+        public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle)
         {
             //DEBUGGING: draw background underneath viewport so we know when it is out of position
             //Add a 1 Pixel border too, so we also know when it is drawing out of its bounds
@@ -206,7 +207,7 @@ namespace DivineRightConcept
 
                 //only render the actor if he is within the specified viewport
                 if (DestRectangle.Contains(actorDestRect))
-                    SpriteBatch.Draw(actor.Representation, actorDestRect, Color.White);
+                    SpriteBatch.Draw(actor.CurrentAnimation.SpriteSheet, actorDestRect, actor.CurrentAnimation.GetCurrentFrame(GameTime), Color.White);
             }
         }
     }
