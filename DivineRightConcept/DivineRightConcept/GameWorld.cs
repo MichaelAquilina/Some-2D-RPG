@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using DivineRightConcept.WorldGenerators;
 using DivineRightConcept.GameObjects;
+using DivineRightConcept.Drawing;
 
 namespace DivineRightConcept
 {
@@ -107,9 +108,12 @@ namespace DivineRightConcept
         /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
         public void DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle)
         {
+            //DEBUGGING: draw backgrond underneath viewport so we know when it is out of position
+            SpriteBatch.DrawRectangle(DestRectangle, Color.Red);
+
             //DRAW THE WORLD MAP
-            int TileCountX = (int) Math.Ceiling( (double) DestRectangle.Width / pxTileWidth );
-            int TileCountY = (int) Math.Ceiling( (double) DestRectangle.Height / pxTileHeight );
+            int TileCountX = (int) Math.Ceiling( (double) DestRectangle.Width / pxTileWidth ) + 1;
+            int TileCountY = (int) Math.Ceiling( (double) DestRectangle.Height / pxTileHeight ) + 1;
 
             //determine the topleft world coordinate in the view
             float topLeftX = (float) (Center.X - Math.Ceiling((double)TileCountX/2));
@@ -143,22 +147,37 @@ namespace DivineRightConcept
                     tileDestRect.X -= (int)(dispX * pxTileWidth);
                     tileDestRect.Y -= (int)(dispY * pxTileHeight);
 
+                    //HANDLE BORDER EDGE CULLING
                     //TODO MAKE THIS NEATER, THIS IS VERY HACKISH
                     //CONDITIONAL BRANCHES SHOULD BE AVOIDED, KEEP EVERYTHING MATHEMATICAL WHERE POSSIBLE!
                     if (i == 0)
                     {
-                        //TODO NEED TO ALSO UPDATE THE SOURCE RECT
                         int prevWidth = tileDestRect.Width;
                         tileDestRect.Width = (int) Math.Ceiling(tileDestRect.Width * (1.0f - dispX));
                         tileDestRect.X += (prevWidth - tileDestRect.Width);
+                        tileSrcRect.Width = (float) (1.0f - dispX);
+                        tileSrcRect.X += (1.0f - tileSrcRect.Width);
                     }
 
                     if (j == 0)
                     {
-                        //TODO NEED TO ALSO UPDATE THE SOURCE RECT
                         int prevHeight = tileDestRect.Height;
                         tileDestRect.Height = (int) Math.Ceiling(tileDestRect.Height * (1.0f - dispY));
                         tileDestRect.Y += (prevHeight - tileDestRect.Height);
+                        tileSrcRect.Height = (float)(1.0f - dispY);
+                        tileSrcRect.Y += (1.0f - tileSrcRect.Height);
+                    }
+
+                    if (i == TileCountX - 1)
+                    {
+                        tileDestRect.Width = (int)Math.Ceiling(tileDestRect.Width * dispX);
+                        tileSrcRect.Width = (float)(dispX);
+                    }
+
+                    if (j == TileCountY - 1)
+                    {
+                        tileDestRect.Height = (int)Math.Ceiling(tileDestRect.Height * dispY);
+                        tileSrcRect.Height = (float)(dispY);
                     }
 
                     this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap[tileX, tileY], tileDestRect, tileSrcRect);
@@ -182,9 +201,6 @@ namespace DivineRightConcept
                 if (DestRectangle.Contains(actorDestRect))
                     SpriteBatch.Draw(actor.Representation, actorDestRect, Color.White);
             }
-
-            //DEBUGGING - DRAW THE BORDERS
-
         }
     }
 }
