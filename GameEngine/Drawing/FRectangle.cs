@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace DivineRightConcept.Drawing
+namespace GameEngine.Drawing
 {
     /// <summary>
     /// Rectangle Structure that uses Float values as storage rather than integers such as the ones

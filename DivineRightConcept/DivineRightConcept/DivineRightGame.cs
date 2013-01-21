@@ -1,6 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
+using GameEngine;
+using GameEngine.Drawing;
+using GameEngine.GameObjects;
+using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -8,11 +14,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.Text;
-using System.IO;
-using DivineRightConcept.GameObjects;
 using DivineRightConcept.WorldGenerators;
-using DivineRightConcept.Drawing;
 
 namespace DivineRightConcept
 {

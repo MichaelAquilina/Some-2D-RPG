@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace DivineRightConcept.Drawing
+namespace GameEngine.Drawing
 {
     /// <summary>
     /// Animation class that allows the user to specify an animation from a texture

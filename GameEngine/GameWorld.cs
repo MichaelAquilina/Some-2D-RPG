@@ -5,11 +5,11 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
-using DivineRightConcept.WorldGenerators;
-using DivineRightConcept.GameObjects;
-using DivineRightConcept.Drawing;
+using GameEngine.Interfaces;
+using GameEngine.GameObjects;
+using GameEngine.Drawing;
 
-namespace DivineRightConcept
+namespace GameEngine
 {
     /// <summary>
     /// Class that represents the current state of the game world, including the Actors residing in it. Provides functions

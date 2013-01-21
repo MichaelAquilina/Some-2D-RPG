@@ -5,10 +5,10 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
-using DivineRightConcept.Drawing;
+using GameEngine.Drawing;
 using System.IO;
 
-namespace DivineRightConcept.GameObjects
+namespace GameEngine.GameObjects
 {
     //An Actor class that should ideally be inherited for more precise functionality
     public class Actor

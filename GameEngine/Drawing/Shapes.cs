@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace DivineRightConcept.Drawing
+namespace GameEngine.Drawing
 {
     /// <summary>
     /// Class that provides static extension methods for drawing Geometrical shapes on the Display

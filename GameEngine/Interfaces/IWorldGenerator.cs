@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DivineRightConcept.GameObjects;
+using GameEngine.GameObjects;
 
-namespace DivineRightConcept.WorldGenerators
+namespace GameEngine.Interfaces
 {
     public interface IWorldGenerator
     {

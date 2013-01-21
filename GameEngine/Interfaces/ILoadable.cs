@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Content;
 
-namespace DivineRightConcept
+namespace GameEngine.Interfaces
 {
     public interface ILoadable
     {

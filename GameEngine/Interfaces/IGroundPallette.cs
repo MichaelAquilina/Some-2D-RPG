@@ -5,9 +5,9 @@ using System.Text;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using DivineRightConcept.Drawing;
+using GameEngine.Drawing;
 
-namespace DivineRightConcept.GroundPallettes
+namespace GameEngine.Interfaces
 {
     /// <summary>
     /// Ground Pallette interface that specifies the required properties and methods that would allow
