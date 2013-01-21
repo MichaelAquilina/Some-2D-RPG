@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using DivineRightConcept.Drawing;
+using System.IO;
 
 namespace DivineRightConcept.GameObjects
 {
@@ -39,6 +40,69 @@ namespace DivineRightConcept.GameObjects
         {
             CurrentAnimation = ActorAnimations[Name];
             CurrentAnimationName = Name;
+        }
+
+        /// <summary>
+        /// Attempts to load an animation file (*.anim) with a list of animations.
+        /// TODO Allow specifaction of Sprite Sheet within the animation file
+        /// </summary>
+        /// <param name="Path">String Path to the animation file to load.</param>
+        /// <param name="SpriteSheet">Texture2D representing the SpriteSheet to use for the animation</param>
+        /// <param name="Clear">Boolean parameter specifying whether to clear the current actor animation list. True by default.</param>
+        public void LoadAnimationFile(string Path, Texture2D SpriteSheet, bool Clear=true)
+        {
+            if (Clear) ActorAnimations.Clear();
+
+            TextReader reader = new StreamReader(Path);
+            string data =reader.ReadToEnd();
+            string currentAnimation = null;
+            List<Rectangle> frames = new List<Rectangle>();
+
+            foreach( string raw_line in data.Split('\n'))
+            {
+                string line;
+                line = raw_line.TrimStart();
+                line = line.TrimEnd();
+
+                //ignore comments
+                if (line.StartsWith("#"))
+                    continue;
+                else
+                //recognize animation names
+                    if (line.StartsWith("[") && line.EndsWith("]"))
+                    {
+                        if (currentAnimation != null)
+                        {
+                            Animation animation = new Animation(SpriteSheet, frames.ToArray());
+                            this.ActorAnimations[currentAnimation] = animation;
+                            frames.Clear();
+                        }
+
+                        currentAnimation = line.Substring(1, line.Length - 2);
+                    }
+                    else
+                        if (currentAnimation != null && line != "")
+                        {
+                            string[] values = line.Split(',');
+                            if (values.Length != 4)
+                                throw new FormatException("Expected 4 Values - X,Y,Width,Height");
+                            else
+                            {
+                                int X = Convert.ToInt32(values[0]);
+                                int Y = Convert.ToInt32(values[1]);
+                                int Width = Convert.ToInt32(values[2]);
+                                int Height = Convert.ToInt32(values[3]);
+
+                                frames.Add(new Rectangle(X, Y, Width, Height));
+                            }
+                        }
+            }
+
+            if (currentAnimation != null)
+            {
+                Animation animation = new Animation(SpriteSheet, frames.ToArray());
+                this.ActorAnimations[currentAnimation] = animation;
+            }
         }
     }
 }

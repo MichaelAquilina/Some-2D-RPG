@@ -78,38 +78,8 @@ namespace DivineRightConcept
 
             _world.LoadContent();
             _spriteSheet = Content.Load<Texture2D>("KnucklesSheet");
-            
-            //Animations should ideally be specified in some file sheet
-            //TODO: Move this outside of the DivineRightGame.cs file
-            Animation runAnimation = new Animation(
-                _spriteSheet,
-                new Rectangle[] {
-                    new Rectangle(16 ,109,34,34),
-                    new Rectangle(58 ,109,34,34),
-                    new Rectangle(98 ,109,34,34),
-                    new Rectangle(133,109,34,34),
-                    new Rectangle(170,109,34,34),
-                    new Rectangle(208,109,34,34),
-                    new Rectangle(244,109,34,34),
-                    new Rectangle(280,109,34,34)
-                }
-            );
-            Animation idleAnimation = new Animation(
-                _spriteSheet,
-                new Rectangle[] {
-                    new Rectangle(11 ,29,35,36),
-                    new Rectangle(45 ,29,35,36),
-                    new Rectangle(79 ,29,35,36),
-                    new Rectangle(116,29,35,36),
-                    new Rectangle(153,29,35,36),
-                    new Rectangle(190,29,35,36),
-                    new Rectangle(228,29,35,36),
-                    new Rectangle(261,29,35,36)
-                }
-            );
 
-            CurrentPlayer.ActorAnimations["Running"] = runAnimation;
-            CurrentPlayer.ActorAnimations["Idle"] = idleAnimation;
+            CurrentPlayer.LoadAnimationFile("Hero.anim", _spriteSheet);
             CurrentPlayer.SetCurrentAnimation("Idle");
 
             //LOAD THE DEFAULT FONT
