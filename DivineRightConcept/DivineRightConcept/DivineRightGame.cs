@@ -68,7 +68,6 @@ namespace DivineRightConcept
 
             CurrentPlayer = new Actor(8, 8, 1.5f, 1.5f);
             _world.Actors.Add(CurrentPlayer);
-            //_world.Actors.Add(new SimpleAIActor(24, 23));
 
             base.Initialize();
         }
@@ -133,6 +132,12 @@ namespace DivineRightConcept
                 if (CurrentPlayer.Y < 0) CurrentPlayer.Y = 0;
                 if (CurrentPlayer.X >= WORLD_WIDTH) CurrentPlayer.X = WORLD_WIDTH - 1;
                 if (CurrentPlayer.Y >= WORLD_HEIGHT) CurrentPlayer.Y = WORLD_HEIGHT - 1;
+            }
+
+            if (keyboardState.IsKeyDown(Keys.A))
+            {
+                //ATTACK!
+                CurrentPlayer.SetCurrentAnimation("Attack1");
             }
 
             base.Update(gameTime);

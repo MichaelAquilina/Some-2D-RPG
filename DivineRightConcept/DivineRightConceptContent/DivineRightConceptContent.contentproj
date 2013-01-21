@@ -78,7 +78,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="battle_knucklessheet.png">
+    <Compile Include="battle_knucklessheet.bmp">
       <Name>KnucklesSheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
