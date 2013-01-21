@@ -208,7 +208,9 @@ namespace GameEngine
                 Rectangle actorDestRect = new Rectangle(
                         actorX + DestRectangle.X,
                         actorY + DestRectangle.Y,
-                        pxTileWidth, pxTileHeight);
+                        (int) (pxTileWidth * actor.Width),
+                        (int) (pxTileHeight * actor.Height)
+                );
 
                 //only render the actor if he is within the specified viewport
                 if (DestRectangle.Contains(actorDestRect))

@@ -16,16 +16,22 @@ namespace GameEngine.GameObjects
         public float X { get; set; }
         public float Y { get; set; }
 
+        public float Width { get; set; }
+        public float Height { get; set; }
+
         public Dictionary<string, Animation> ActorAnimations { get; set; }
 
         //the current representation of the Actor which should be appriopiatly updated depending on its state
         public Animation CurrentAnimation { get; private set; }
         public string CurrentAnimationName { get; private set; }
 
-        public Actor(float X, float Y)
+        public Actor(float X, float Y, float Width=1, float Height=1)
         {
             this.X = X;
             this.Y = Y;
+            this.Width = Width;
+            this.Height = Height;
+
             this.ActorAnimations = new Dictionary<string, Animation>();
         }
 

@@ -27,8 +27,8 @@ namespace DivineRightConcept
         const int WORLD_HEIGHT = 100;
         const int WORLD_WIDTH = 100;
         
-        const int TILE_WIDTH = 50;
-        const int TILE_HEIGHT = 50;
+        const int TILE_WIDTH = 30;
+        const int TILE_HEIGHT = 30;
 
         const int VIEW_WIDTH = 450;
         const int VIEW_HEIGHT = 450;
@@ -66,7 +66,7 @@ namespace DivineRightConcept
 
             _world.Initialize();
 
-            CurrentPlayer = new Actor(8, 8);
+            CurrentPlayer = new Actor(8, 8, 1.5f, 1.5f);
             _world.Actors.Add(CurrentPlayer);
             //_world.Actors.Add(new SimpleAIActor(24, 23));
 

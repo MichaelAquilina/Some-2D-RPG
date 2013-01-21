@@ -39,6 +39,18 @@ namespace GameEngine.Drawing
         }
 
         /// <summary>
+        /// Returns the current Frame Index as an integer value based on the GameTime
+        /// parameters passed into this method.
+        /// </summary>
+        /// <param name="GameTime"></param>
+        /// <returns>integer index of the current frame</returns>
+        public int GetCurrentFrameIndex(GameTime GameTime)
+        {
+            int index = (int)((GameTime.TotalGameTime.TotalMilliseconds - _startTime) / FrameChange);
+            return index % Frames.Length;
+        }
+
+        /// <summary>
         /// Returns the Current Frame to show in the sprite sheet based on the current
         /// games running time.
         /// </summary>
@@ -46,8 +58,7 @@ namespace GameEngine.Drawing
         /// <returns>Rectangle object representing the Frame in the spritesheet to show.</returns>
         public Rectangle GetCurrentFrame(GameTime GameTime)
         {
-            int index = (int)((GameTime.TotalGameTime.TotalMilliseconds - _startTime) / FrameChange);
-            return Frames[index % Frames.Length];
+            return Frames[GetCurrentFrameIndex(GameTime)];
         }
     }
 }
