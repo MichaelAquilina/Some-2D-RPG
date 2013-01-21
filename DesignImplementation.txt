@@ -2,3 +2,4 @@
 -Allow setting of actor animation states from a text/xml file so that we reach code independence
         - see plists as a standard example http://www.36peas.com/blog/2010/9/13/free-japanese-ninja-shinobi-sprite-sheet.html
 -Move core framework code to a seperate project library and implementation specific details for the game within the Game folder
+-Example 16bit Indie RPG http://rampantgames.com/blog/2009/03/3-stars-of-destiny-now-available-from.html
