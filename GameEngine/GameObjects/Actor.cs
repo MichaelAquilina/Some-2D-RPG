@@ -74,7 +74,7 @@ namespace GameEngine.GameObjects
                 if (line.StartsWith("#"))
                     continue;
                 else
-                //recognize animation names
+                    //recognize animation names
                     if (line.StartsWith("[") && line.EndsWith("]"))
                     {
                         if (currentAnimation != null)
@@ -104,6 +104,7 @@ namespace GameEngine.GameObjects
                         }
             }
 
+            //if there was an animation being built, add it to the list before finishing
             if (currentAnimation != null)
             {
                 Animation animation = new Animation(SpriteSheet, frames.ToArray());
