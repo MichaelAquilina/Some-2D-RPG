@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using GameEngine.Drawing;
+using GameEngine.GameObjects;
 
 namespace GameEngine.Interfaces
 {
@@ -15,9 +16,9 @@ namespace GameEngine.Interfaces
     /// </summary>
     public interface IGroundPallette : ILoadable
     {
-        void DrawGroundTexture(SpriteBatch SpriteBatch, int TileType, Rectangle DesRectangle, FRectangle SrcRectangle);
+        void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DesRectangle, FRectangle SrcRectangle);
 
-        Color GetTileColor(int TileType);
+        Color GetTileColor(byte TileType);
 
         int TileCount { get; }
     }

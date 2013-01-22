@@ -17,21 +17,21 @@ namespace GameEngine.GameObjects
         public IGroundPallette GroundPallette { get; private set; }
 
         //provides access to Tile information through indexed properties
-        public int this[int X, int Y]
+        public byte this[int X, int Y]
         {
             get { return _mapTiles[X][Y]; }
             set { _mapTiles[X][Y] = value; }
         }
 
-        private int[][] _mapTiles = null;
+        private byte[][] _mapTiles = null;
 
         public Map(int Width, int Height, IGroundPallette GroundPallette)
         {
-            this._mapTiles = new int[Width][];
+            this._mapTiles = new byte[Width][];
             this.GroundPallette = GroundPallette;
 
             for( int i=0; i<Width; i++)
-                this._mapTiles[i] = new int[Height];
+                this._mapTiles[i] = new byte[Height];
         }
     }
 }

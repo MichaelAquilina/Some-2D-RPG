@@ -193,7 +193,7 @@ namespace GameEngine
                         tileSrcRect.Height = (float)(dispY);
                     }
 
-                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap[tileX, tileY], tileDestRect, tileSrcRect);
+                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap, tileX, tileY, tileDestRect, tileSrcRect);
                 }
 
             //DRAW THE ACTORS
