@@ -15,14 +15,14 @@ namespace DivineRightConcept.WorldGenerators
     {
         public Map Generate(int Width, int Height)
         {
-            Ground ground = new Ground();
+            GroundV2 ground = new GroundV2();
             Map result = new Map(Width, Height, ground);
             Random randomGen = new Random();
 
             //Generate Base
             for (int i = 0; i < Width; i++)
                 for (int j = 0; j < Height; j++)
-                    result[i, j] = Ground.GROUND_TEXTURE_GRASS;
+                    result[i, j] = GroundV2.GROUND_TEXTURE_GRASS;
 
             //Add Random Patches of Ground
             int thundraCount = randomGen.Next( Width * Height / 2, Width * Height);
@@ -31,7 +31,7 @@ namespace DivineRightConcept.WorldGenerators
                 int x = randomGen.Next(0, Width);
                 int y = randomGen.Next(0, Height);
 
-                result[x, y] = randomGen.Next(0, ground.TileCount - 1);
+                result[x, y] = Convert.ToByte(randomGen.Next(0, ground.TileCount - 1));
             }
 
             //DUMP MAP COORDINATES FOR DEBUGGING

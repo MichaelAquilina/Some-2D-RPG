@@ -24,8 +24,8 @@ namespace DivineRightConcept
         const bool DEBUG = true;
         const int INPUT_DELAY = 30;
 
-        const int WORLD_HEIGHT = 100;
-        const int WORLD_WIDTH = 100;
+        const int WORLD_HEIGHT = 500;
+        const int WORLD_WIDTH = 500;
         
         const int TILE_WIDTH = 30;
         const int TILE_HEIGHT = 30;
@@ -66,7 +66,7 @@ namespace DivineRightConcept
 
             _world.Initialize();
 
-            CurrentPlayer = new Actor(8, 8, 1.5f, 1.5f);
+            CurrentPlayer = new Actor(8, 8, 1.9f, 1.9f);
             _world.Actors.Add(CurrentPlayer);
 
             base.Initialize();
@@ -152,7 +152,7 @@ namespace DivineRightConcept
             spriteBatch.Begin();
 
                 _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(110, 10, VIEW_WIDTH, VIEW_HEIGHT));
-                _world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
+                //_world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
 
                 //DRAW DEBUGGING INFORMATION
                 spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), new Vector2(0, 0), Color.White);

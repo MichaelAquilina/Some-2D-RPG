@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using GameEngine.Drawing;
 using GameEngine.Interfaces;
+using GameEngine.GameObjects;
 
 namespace DivineRightConcept.GroundPallettes
 {
@@ -32,7 +33,7 @@ namespace DivineRightConcept.GroundPallettes
         public Texture2D GroundTexture { get; private set; }
         public int TileCount { get { return TextureColors.Length; } }
 
-        public Color GetTileColor(int TileType)
+        public Color GetTileColor(byte TileType)
         {
             return Ground.TextureColors[TileType];
         }
@@ -49,22 +50,22 @@ namespace DivineRightConcept.GroundPallettes
         }
 
         //CONSIDER REMOVING STATIC EXTENSION AND USING THIS AS A CLASS
-        public void DrawGroundTexture(SpriteBatch SpriteBatch, int GroundType, Rectangle DestinationRectangle, FRectangle SourceRectangle)
+        public void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DestinationRectangle, FRectangle SourceRectangle)
         {
-            int i = (GroundType % 3);
-            int j = (GroundType / 3);
+            //int i = (GroundType % 3);
+            //int j = (GroundType / 3);
 
-            SpriteBatch.Draw(
-                GroundTexture,
-                DestinationRectangle,
-                new Rectangle(
-                    i * GROUND_TEXTURE_WIDTH + (int) (SourceRectangle.X * GROUND_TEXTURE_WIDTH),
-                    j * GROUND_TEXTURE_HEIGHT + (int) (SourceRectangle.Y * GROUND_TEXTURE_HEIGHT),
-                    (int) (SourceRectangle.Width * GROUND_TEXTURE_WIDTH),
-                    (int) (SourceRectangle.Height * GROUND_TEXTURE_HEIGHT)
-                ),
-                Color.White
-            );
+            //SpriteBatch.Draw(
+            //    GroundTexture,
+            //    DestinationRectangle,
+            //    new Rectangle(
+            //        i * GROUND_TEXTURE_WIDTH + (int) (SourceRectangle.X * GROUND_TEXTURE_WIDTH),
+            //        j * GROUND_TEXTURE_HEIGHT + (int) (SourceRectangle.Y * GROUND_TEXTURE_HEIGHT),
+            //        (int) (SourceRectangle.Width * GROUND_TEXTURE_WIDTH),
+            //        (int) (SourceRectangle.Height * GROUND_TEXTURE_HEIGHT)
+            //    ),
+            //    Color.White
+            //);
         }
     }
 }
