@@ -25,10 +25,11 @@ namespace GameEngine
             get { return _worldMap; }
             set { _mipMapTex = null; _worldMap = value; }       //clear the cached mipmap
         }
+        public List<MapObject> MapObjects { get; private set; }
         public List<Actor> Actors { get; private set; }
 
-        private Map _worldMap;              //World Map Instance
-        private Texture2D _mipMapTex;       //Cached copy of the MipMapTexture
+        private Map _worldMap;                  //World Map Instance
+        private Texture2D _mipMapTex;           //Cached copy of the MipMapTexture
 
         #endregion
 
@@ -62,6 +63,7 @@ namespace GameEngine
         public override void Initialize()
         {
             Actors = new List<Actor>();
+            MapObjects = new List<MapObject>();
 
             base.Initialize();
         }
@@ -114,111 +116,98 @@ namespace GameEngine
         /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
         public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle)
         {
-            //DEBUGGING: draw background underneath viewport so we know when it is out of position
-            //Add a 1 Pixel border too, so we also know when it is drawing out of its bounds
-            SpriteBatch.DrawRectangle(
-                new Rectangle(
-                    DestRectangle.X - 1,
-                    DestRectangle.Y - 1,
-                    DestRectangle.Width + 2, 
-                    DestRectangle.Height + 2
-                    ), 
-                 Color.Red
-            );
+            Rectangle PrevScissorRectangle = SpriteBatch.GraphicsDevice.ScissorRectangle;
+            SpriteBatch.GraphicsDevice.ScissorRectangle = DestRectangle;
 
-            //DRAW THE WORLD MAP
-            int TileCountX = (int) Math.Ceiling( (double) DestRectangle.Width / pxTileWidth ) + 1;
-            int TileCountY = (int) Math.Ceiling( (double) DestRectangle.Height / pxTileHeight ) + 1;
+            SpriteBatch.Begin(
+                SpriteSortMode.Immediate,
+                BlendState.AlphaBlend,
+                null, null,
+                new RasterizerState() { ScissorTestEnable = true });
+            {
+                //DRAW THE WORLD MAP
+                int TileCountX = (int) Math.Ceiling( (double) DestRectangle.Width / pxTileWidth ) + 1;
+                int TileCountY = (int) Math.Ceiling( (double) DestRectangle.Height / pxTileHeight ) + 1;
 
-            //determine the topleft world coordinate in the view
-            float topLeftX = (float) (Center.X - Math.Ceiling((double)TileCountX/2));
-            float topLeftY = (float) (Center.Y - Math.Ceiling((double)TileCountY/2));
+                //determine the topleft world coordinate in the view
+                float topLeftX = (float) (Center.X - Math.Ceiling((double)TileCountX/2));
+                float topLeftY = (float) (Center.Y - Math.Ceiling((double)TileCountY/2));
 
-            //Prevent the View from going outisde of the WORLD coordinates
-            if (topLeftX < 0) topLeftX = 0;
-            if (topLeftY < 0) topLeftY = 0;
-            if (topLeftX + TileCountX >= WorldMap.Width) topLeftX = WorldMap.Width - TileCountX;
-            if (topLeftY + TileCountY >= WorldMap.Height) topLeftY = WorldMap.Height - TileCountY;
+                //Prevent the View from going outisde of the WORLD coordinates
+                if (topLeftX < 0) topLeftX = 0;
+                if (topLeftY < 0) topLeftY = 0;
+                if (topLeftX + TileCountX >= WorldMap.Width) topLeftX = WorldMap.Width - TileCountX;
+                if (topLeftY + TileCountY >= WorldMap.Height) topLeftY = WorldMap.Height - TileCountY;
 
-            //calculate any decimal displacement required (For Positions with decimal points)
-            double dispX = topLeftX - Math.Floor(topLeftX);
-            double dispY = topLeftY - Math.Floor(topLeftY);
+                //calculate any decimal displacement required (For Positions with decimal points)
+                double dispX = topLeftX - Math.Floor(topLeftX);
+                double dispY = topLeftY - Math.Floor(topLeftY);
 
-            //draw each tile
-            for (int i = 0; i < TileCountX; i++)
-                for (int j = 0; j < TileCountY; j++)
+                //draw each tile
+                for (int i = 0; i < TileCountX; i++)
+                    for (int j = 0; j < TileCountY; j++)
+                    {
+                        int tileX = (int) (i + topLeftX);
+                        int tileY = (int) (j + topLeftY);
+
+                        Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
+
+                        //translate according to the destination rectangle
+                        tileDestRect.X += DestRectangle.X;
+                        tileDestRect.Y += DestRectangle.Y;
+
+                        //traslate if there is any decimal displacement due to a Center with a floating point
+                        tileDestRect.X -= (int)(dispX * pxTileWidth);
+                        tileDestRect.Y -= (int)(dispY * pxTileHeight);
+
+                        this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap, tileX, tileY, tileDestRect);
+                    }
+
+                //TODO COMBINE MAP OBJECTS AND ACTORS INTO A SINGLE DRAW LOOP USING SOME FORM OF DRAWABLE INTERFACE
+
+                //DRAW THE MAP OBJECTS
+                foreach (MapObject mapObject in MapObjects)
                 {
-                    int tileX = (int) (i + topLeftX);
-                    int tileY = (int) (j + topLeftY);
+                    int objectX = (int)Math.Ceiling((mapObject.X - topLeftX) * pxTileWidth);
+                    int objectY = (int)Math.Ceiling((mapObject.Y - topLeftY) * pxTileWidth);
 
-                    Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
-                    FRectangle tileSrcRect = new FRectangle(0.0f, 0.0f, 1.0f, 1.0f);
+                    Rectangle objectDestRect = new Rectangle(
+                        objectX + DestRectangle.X,
+                        objectY + DestRectangle.Y,
+                        (int)(mapObject.SourceRectangle.Width * mapObject.Width),
+                        (int)(mapObject.SourceRectangle.Height * mapObject.Height)
+                    );
 
-                    //translate according to the destination rectangle
-                    tileDestRect.X += DestRectangle.X;
-                    tileDestRect.Y += DestRectangle.Y;
-
-                    //traslate if there is any decimal displacement due to a Center with a floating point
-                    tileDestRect.X -= (int)(dispX * pxTileWidth);
-                    tileDestRect.Y -= (int)(dispY * pxTileHeight);
-
-                    //HANDLE BORDER EDGE CULLING
-                    if (i == 0)
-                    {
-                        int prevWidth = tileDestRect.Width;
-                        tileDestRect.Width = (int) Math.Ceiling(tileDestRect.Width * (1.0f - dispX));
-                        tileDestRect.X += (prevWidth - tileDestRect.Width);
-                        tileSrcRect.Width = (float) (1.0f - dispX);
-                        tileSrcRect.X += (1.0f - tileSrcRect.Width);
-                    }
-
-                    if (j == 0)
-                    {
-                        int prevHeight = tileDestRect.Height;
-                        tileDestRect.Height = (int) Math.Ceiling(tileDestRect.Height * (1.0f - dispY));
-                        tileDestRect.Y += (prevHeight - tileDestRect.Height);
-                        tileSrcRect.Height = (float)(1.0f - dispY);
-                        tileSrcRect.Y += (1.0f - tileSrcRect.Height);
-                    }
-
-                    if (i == TileCountX - 1)
-                    {
-                        tileDestRect.Width = (int)Math.Ceiling(tileDestRect.Width * dispX) - 1;
-                        tileSrcRect.Width = (float)(dispX);
-                    }
-
-                    if (j == TileCountY - 1)
-                    {
-                        tileDestRect.Height = (int)Math.Ceiling(tileDestRect.Height * dispY) - 1;
-                        tileSrcRect.Height = (float)(dispY);
-                    }
-
-                    this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap, tileX, tileY, tileDestRect, tileSrcRect);
+                    if (DestRectangle.Intersects(objectDestRect))
+                        SpriteBatch.Draw(mapObject.SourceTexture, objectDestRect, mapObject.SourceRectangle, Color.White);
                 }
 
-            //DRAW THE ACTORS
-            foreach (Actor actor in Actors)
-            {
-                //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
-                //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
-                //for panning at the edges.
-                int actorX = (int) Math.Ceiling((actor.X - topLeftX) * pxTileWidth);
-                int actorY = (int) Math.Ceiling((actor.Y - topLeftY) * pxTileHeight);
+                //DRAW THE ACTORS
+                foreach (Actor actor in Actors)
+                {
+                    //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
+                    //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
+                    //for panning at the edges.
+                    int actorX = (int)Math.Ceiling((actor.X - topLeftX) * pxTileWidth);
+                    int actorY = (int)Math.Ceiling((actor.Y - topLeftY) * pxTileHeight);
 
-                Rectangle actorSrcRect = actor.CurrentAnimation.GetCurrentFrame(GameTime);
+                    Rectangle actorSrcRect = actor.CurrentAnimation.GetCurrentFrame(GameTime);
 
-                //Draw the Actor based on the current Frame dimensions and the specified Actor Width Height values
-                Rectangle actorDestRect = new Rectangle(
-                        actorX + DestRectangle.X,
-                        actorY + DestRectangle.Y,
-                        (int) (actorSrcRect.Width * actor.Width),
-                        (int) (actorSrcRect.Height * actor.Height)
-                );
+                    //Draw the Actor based on the current Frame dimensions and the specified Actor Width Height values
+                    Rectangle actorDestRect = new Rectangle(
+                            actorX + DestRectangle.X,
+                            actorY + DestRectangle.Y,
+                            (int)(actorSrcRect.Width * actor.Width),
+                            (int)(actorSrcRect.Height * actor.Height)
+                    );
 
-                //only render the actor if he is within the specified viewport
-                //TODO: Fix Bug where actor can go off scene!
-                if (DestRectangle.Intersects(actorDestRect))
-                    SpriteBatch.Draw(actor.CurrentAnimation.SpriteSheet, actorDestRect, actorSrcRect, Color.White);
+                    //only render the actor if he is within the specified viewport
+                    if (DestRectangle.Intersects(actorDestRect))
+                        SpriteBatch.Draw(actor.CurrentAnimation.SpriteSheet, actorDestRect, actorSrcRect, Color.White);
+                }
+
+                SpriteBatch.End();                                                      //End Sprite Batch using custom settings
+                SpriteBatch.GraphicsDevice.ScissorRectangle = PrevScissorRectangle;     //Restore Previously applied Scissor Rectangle
             }
         }
     }

@@ -14,7 +14,7 @@ namespace GameEngine.GameObjects
     {
         public int Width { get { return _mapTiles.Length; } }
         public int Height { get { return _mapTiles[0].Length; } }
-        public IGroundPallette GroundPallette { get; private set; }
+        public IGroundPallette GroundPallette { get; private set; } 
 
         //provides access to Tile information through indexed properties
         public byte this[int X, int Y]

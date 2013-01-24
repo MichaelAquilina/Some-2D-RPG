@@ -16,7 +16,7 @@ namespace GameEngine.Interfaces
     /// </summary>
     public interface IGroundPallette : ILoadable
     {
-        void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DesRectangle, FRectangle SrcRectangle);
+        void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DesRectangle);
 
         Color GetTileColor(byte TileType);
 
