@@ -205,16 +205,20 @@ namespace GameEngine
                 int actorX = (int) Math.Ceiling((actor.X - topLeftX) * pxTileWidth);
                 int actorY = (int) Math.Ceiling((actor.Y - topLeftY) * pxTileHeight);
 
+                Rectangle actorSrcRect = actor.CurrentAnimation.GetCurrentFrame(GameTime);
+
+                //Draw the Actor based on the current Frame dimensions and the specified Actor Width Height values
                 Rectangle actorDestRect = new Rectangle(
                         actorX + DestRectangle.X,
                         actorY + DestRectangle.Y,
-                        (int) (pxTileWidth * actor.Width),
-                        (int) (pxTileHeight * actor.Height)
+                        (int) (actorSrcRect.Width * actor.Width),
+                        (int) (actorSrcRect.Height * actor.Height)
                 );
 
                 //only render the actor if he is within the specified viewport
+                //TODO: Fix Bug when at the furthest X and Y edges which prevents the actor from being shown
                 if (DestRectangle.Contains(actorDestRect))
-                    SpriteBatch.Draw(actor.CurrentAnimation.SpriteSheet, actorDestRect, actor.CurrentAnimation.GetCurrentFrame(GameTime), Color.White);
+                    SpriteBatch.Draw(actor.CurrentAnimation.SpriteSheet, actorDestRect, actorSrcRect, Color.White);
             }
         }
     }
