@@ -60,21 +60,30 @@ namespace DivineRightConcept.GroundPallettes
         public void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DesRectangle, FRectangle SrcRectangle)
         {
             int TileType = GameMap[X, Y];
-            int FinalType = 0;
+            //int FinalType = 0;
 
-            if (TileType == GROUND_TEXTURE_ROCK)
-            {
-                if (CheckCondition(GameMap, X - 1, Y - 1, TileType)) FinalType |= 1;
-                if (CheckCondition(GameMap, X    , Y - 1, TileType)) FinalType |= 2;
-                if (CheckCondition(GameMap, X + 1, Y - 1, TileType)) FinalType |= 4;
-                if (CheckCondition(GameMap, X - 1, Y    , TileType)) FinalType |= 8;
-                if (CheckCondition(GameMap, X + 1, Y    , TileType)) FinalType |= 16;
-                if (CheckCondition(GameMap, X - 1, Y + 1, TileType)) FinalType |= 32;
-                if (CheckCondition(GameMap, X    , Y + 1, TileType)) FinalType |= 64;
-                if (CheckCondition(GameMap, X + 1, Y + 1, TileType)) FinalType |= 128;
-            }
+            //if (TileType == GROUND_TEXTURE_ROCK)
+            //{
+            //    if (CheckCondition(GameMap, X - 1, Y - 1, TileType)) FinalType |= 1;
+            //    if (CheckCondition(GameMap, X    , Y - 1, TileType)) FinalType |= 2;
+            //    if (CheckCondition(GameMap, X + 1, Y - 1, TileType)) FinalType |= 4;
+            //    if (CheckCondition(GameMap, X - 1, Y    , TileType)) FinalType |= 8;
+            //    if (CheckCondition(GameMap, X + 1, Y    , TileType)) FinalType |= 16;
+            //    if (CheckCondition(GameMap, X - 1, Y + 1, TileType)) FinalType |= 32;
+            //    if (CheckCondition(GameMap, X    , Y + 1, TileType)) FinalType |= 64;
+            //    if (CheckCondition(GameMap, X + 1, Y + 1, TileType)) FinalType |= 128;
+            //}
 
-            SpriteBatch.Draw(_groundTexture, DesRectangle, _sourceRectangles[TileType], Color.White);
+            SpriteBatch.Draw(
+                _groundTexture, 
+                DesRectangle, 
+                new Rectangle(
+                    _sourceRectangles[TileType].X + (int)(_sourceRectangles[TileType].Width * SrcRectangle.X),
+                    _sourceRectangles[TileType].Y + (int)(_sourceRectangles[TileType].Height * SrcRectangle.Y),
+                    (int) (SrcRectangle.Width * _sourceRectangles[TileType].Width),
+                    (int) (SrcRectangle.Height * _sourceRectangles[TileType].Height)
+                ),
+                Color.White);
         }
 
         public Color GetTileColor(byte TileType)
