@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using GameEngine.Drawing;
 using System.IO;
+using System.Xml.Linq;
+using System.Xml;
 
 namespace GameEngine.GameObjects
 {
@@ -49,66 +51,49 @@ namespace GameEngine.GameObjects
         }
 
         /// <summary>
-        /// Attempts to load an animation file (*.anim) with a list of animations.
-        /// TODO Allow specifaction of Sprite Sheet within the animation file
+        /// Loads a Dictionary of Animations for the current actor as specified in an XML formatted .anim file.
+        /// The method requires the string path to the xml file containing the animation data, a reference to the
+        /// ContentManager, and optionally, a boolean value specifing whether the current animations should be
+        /// cleared for the actor before loading the new ones.
         /// </summary>
-        /// <param name="Path">String Path to the animation file to load.</param>
-        /// <param name="SpriteSheet">Texture2D representing the SpriteSheet to use for the animation</param>
-        /// <param name="Clear">Boolean parameter specifying whether to clear the current actor animation list. True by default.</param>
-        public void LoadAnimationFile(string Path, Texture2D SpriteSheet, bool Clear=true)
+        /// <param name="Path">String path to the XML formatted .anim file</param>
+        /// <param name="Content">Reference to the ContentManager instance being used in the application</param>
+        /// <param name="Clear">optional bool value specifying whether to clear the actors current animation dictionary. True by Default</param>
+        public void LoadAnimationXML(string Path, ContentManager Content, bool Clear = true)
         {
-            if (Clear) ActorAnimations.Clear();
+            if (Clear) this.ActorAnimations.Clear();
 
-            TextReader reader = new StreamReader(Path);
-            string data =reader.ReadToEnd();
-            string currentAnimation = null;
-            List<Rectangle> frames = new List<Rectangle>();
+            XmlDocument document = new XmlDocument();
+            document.Load(Path);
 
-            foreach( string raw_line in data.Split('\n'))
+            foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
             {
-                string line;
-                line = raw_line.TrimStart();
-                line = line.TrimEnd();
+                XmlAttribute frameDelayAttr = animNode.Attributes["FrameDelay"];
+                XmlAttribute loopAttr = animNode.Attributes["Loop"];
 
-                //ignore comments
-                if (line.StartsWith("#"))
-                    continue;
-                else
-                    //recognize animation names
-                    if (line.StartsWith("[") && line.EndsWith("]"))
-                    {
-                        if (currentAnimation != null)
-                        {
-                            Animation animation = new Animation(SpriteSheet, frames.ToArray());
-                            this.ActorAnimations[currentAnimation] = animation;
-                            frames.Clear();
-                        }
+                int FrameDelay = (frameDelayAttr == null)? 100: Convert.ToInt32(frameDelayAttr.Value);
+                bool Loop = (loopAttr == null)? false : Convert.ToBoolean(loopAttr.Value);
+                string Name = Convert.ToString(animNode.Attributes["Name"].Value);
+                string SpriteSheet = Convert.ToString(animNode.Attributes["SpriteSheet"].Value);
 
-                        currentAnimation = line.Substring(1, line.Length - 2);
-                    }
-                    else
-                        if (currentAnimation != null && line != "")
-                        {
-                            string[] values = line.Split(',');
-                            if (values.Length != 4)
-                                throw new FormatException("Expected 4 Values - X,Y,Width,Height");
-                            else
-                            {
-                                int X = Convert.ToInt32(values[0]);
-                                int Y = Convert.ToInt32(values[1]);
-                                int Width = Convert.ToInt32(values[2]);
-                                int Height = Convert.ToInt32(values[3]);
+                XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
+                Rectangle[] frames = new Rectangle[frameNodes.Count];
 
-                                frames.Add(new Rectangle(X, Y, Width, Height));
-                            }
-                        }
-            }
+                for( int i=0; i<frameNodes.Count; i++)
+                {
+                    string[] tokens = frameNodes[i].InnerText.Split(',');
+                    if (tokens.Length != 4)
+                        throw new FormatException("Expected 4 Values for Frame Definition: X, Y, Width, Height");
 
-            //if there was an animation being built, add it to the list before finishing
-            if (currentAnimation != null)
-            {
-                Animation animation = new Animation(SpriteSheet, frames.ToArray());
-                this.ActorAnimations[currentAnimation] = animation;
+                    int X = Convert.ToInt32(tokens[0]);
+                    int Y = Convert.ToInt32(tokens[1]);
+                    int Width = Convert.ToInt32(tokens[2]);
+                    int Height = Convert.ToInt32(tokens[3]);
+
+                    frames[i] = new Rectangle(X, Y, Width, Height);
+                }
+
+                this.ActorAnimations[Name] = new Animation(Content.Load<Texture2D>(SpriteSheet), frames, FrameDelay, Loop);
             }
         }
     }

@@ -14,15 +14,27 @@ namespace GameEngine.Drawing
     {
         public Texture2D SpriteSheet { get; set; }
         public Rectangle[] Frames { get; set; }
-        public int FrameChange { get; set; }
+        public int FrameDelay { get; set; }
+        public bool Loop { get; set; }
 
         private double _startTime = 0;
+        private const int FRAME_DELAY_DEFAULT = 100;
 
-        public Animation(Texture2D SpriteSheet, Rectangle[] Frames, int FrameChange=100)
+        /// <summary>
+        /// Initialises an Animation object specifies a SpriteSheet to us and the individual frame locations
+        /// within the sheet the use. Optionally, the Delay between Frame changes and whether the animation
+        /// should loop when complete can be passed as constructor parameters.
+        /// </summary>
+        /// <param name="SpriteSheet">Texture2D object that represents the SpriteSheet to use for this animation.</param>
+        /// <param name="Frames">Array of Rectangle objects that specify the locations in the spritesheet to use as frames.</param>
+        /// <param name="FrameChange">integer value specifying the amount of time in ms to delay between each frame change. Set to 100 by Default.</param>
+        /// <param name="Loop">bool value specifying wheter the animation should re-start at the end of the animation frames.</param>
+        public Animation(Texture2D SpriteSheet, Rectangle[] Frames, int FrameDelay = FRAME_DELAY_DEFAULT, bool Loop = false)
         {
             this.SpriteSheet = SpriteSheet;
             this.Frames = Frames;
-            this.FrameChange = FrameChange;
+            this.FrameDelay = FrameDelay;
+            this.Loop = Loop;
         }
 
         /// <summary>
@@ -46,8 +58,12 @@ namespace GameEngine.Drawing
         /// <returns>integer index of the current frame</returns>
         public int GetCurrentFrameIndex(GameTime GameTime)
         {
-            int index = (int)((GameTime.TotalGameTime.TotalMilliseconds - _startTime) / FrameChange);
-            return index % Frames.Length;
+            int index = (int)((GameTime.TotalGameTime.TotalMilliseconds - _startTime) / FrameDelay);
+
+            if (Loop)
+                return index % Frames.Length;
+            else         
+                return Math.Min(index, Frames.Length - 1);
         }
 
         /// <summary>
