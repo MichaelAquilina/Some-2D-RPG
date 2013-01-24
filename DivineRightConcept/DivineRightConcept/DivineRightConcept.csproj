@@ -156,9 +156,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Hero.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Include="Knuckles.anim">
       <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
