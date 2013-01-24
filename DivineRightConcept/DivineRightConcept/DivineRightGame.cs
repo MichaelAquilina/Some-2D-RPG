@@ -38,6 +38,8 @@ namespace DivineRightConcept
         bool _aIsDown = false;
 
         Actor CurrentPlayer;
+        int combo = 0;
+        int comoMax = 3;
 
         //Graphic Related Variables
         GraphicsDeviceManager graphics;
@@ -96,8 +98,12 @@ namespace DivineRightConcept
 
             if (gameTime.TotalGameTime.TotalMilliseconds - prevGameTime > INPUT_DELAY)
             {
+                //If the current animation has finished, then revert to default
                 if (CurrentPlayer.CurrentAnimation.IsFinished(gameTime))
+                {
+                    combo = 0;
                     CurrentPlayer.SetCurrentAnimation("Idle");
+                }
 
                 //MOVEMENT BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.Up))
@@ -128,11 +134,13 @@ namespace DivineRightConcept
                 //ACTION BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    if (!_aIsDown)
+                    if (!_aIsDown && combo < comoMax)
                     {
                         //ATTACK!
                         _aIsDown = true;
-                        CurrentPlayer.SetCurrentAnimation("Attack1");
+                        combo++;
+
+                        CurrentPlayer.SetCurrentAnimation("Attack"+combo);
                         CurrentPlayer.CurrentAnimation.ResetAnimation(gameTime);
                     }
                 }

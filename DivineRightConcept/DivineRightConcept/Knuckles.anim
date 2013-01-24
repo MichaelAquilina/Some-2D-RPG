@@ -35,4 +35,25 @@
       <Frame>225,151, 35, 36</Frame>
     </Frames>
   </Animation>
+  <Animation Name="Attack2" Loop="False" SpriteSheet="KnucklesSheet" FrameDelay="50">
+    <Frames>
+      <Frame>20, 191, 36, 40</Frame>
+      <Frame>65, 191, 31, 38</Frame>
+      <Frame>111,191, 41, 40</Frame>
+      <Frame>163,191, 41, 38</Frame>
+      <Frame>213,191, 31, 40</Frame>
+      <Frame>251,191, 34, 41</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Attack3" Loop="False" SpriteSheet="KnucklesSheet" FrameDelay="50">
+    <Frames>
+      <Frame>339,189,33,41</Frame>
+      <Frame>379,189,45,42</Frame>
+      <Frame>379,189,45,42</Frame>
+      <Frame>431,189,43,44</Frame>
+      <Frame>431,189,43,44</Frame>
+      <Frame>16, 241,39,43</Frame>
+      <Frame>56, 242,31,42</Frame>
+    </Frames>
+  </Animation>
 </Animations>
