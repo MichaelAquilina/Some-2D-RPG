@@ -35,6 +35,8 @@ namespace DivineRightConcept
 
         const float MOVEMENT_SPEED = 0.3f;
 
+        bool _aIsDown = false;
+
         Actor CurrentPlayer;
 
         //Graphic Related Variables
@@ -46,9 +48,6 @@ namespace DivineRightConcept
         double prevGameTime = 0;
         GameWorld _world;
         IWorldGenerator _generator;
-
-        //TO BE MOVED TO AN ACTOR CLASS
-        Texture2D _spriteSheet;
 
         public DivineRightGame()
         {
@@ -78,9 +77,8 @@ namespace DivineRightConcept
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             _world.LoadContent();
-            _spriteSheet = Content.Load<Texture2D>("KnucklesSheet");
 
-            CurrentPlayer.LoadAnimationFile("Hero.anim", _spriteSheet);
+            CurrentPlayer.LoadAnimationXML("Knuckles.anim", Content);
             CurrentPlayer.SetCurrentAnimation("Idle");
 
             //LOAD THE DEFAULT FONT
@@ -100,7 +98,7 @@ namespace DivineRightConcept
 
             if (gameTime.TotalGameTime.TotalMilliseconds - prevGameTime > INPUT_DELAY)
             {
-                CurrentPlayer.SetCurrentAnimation("Idle");
+                //CurrentPlayer.SetCurrentAnimation("Idle");
 
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
@@ -136,8 +134,17 @@ namespace DivineRightConcept
 
             if (keyboardState.IsKeyDown(Keys.A))
             {
-                //ATTACK!
-                CurrentPlayer.SetCurrentAnimation("Attack1");
+                if (!_aIsDown)
+                {
+                    //ATTACK!
+                    _aIsDown = true;
+                    CurrentPlayer.SetCurrentAnimation("Attack1");
+                    CurrentPlayer.CurrentAnimation.ResetAnimation(gameTime);
+                }
+            }
+            else
+            {
+                _aIsDown = false;
             }
 
             base.Update(gameTime);
