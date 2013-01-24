@@ -96,6 +96,9 @@ namespace DivineRightConcept
 
             if (gameTime.TotalGameTime.TotalMilliseconds - prevGameTime > INPUT_DELAY)
             {
+                if (CurrentPlayer.CurrentAnimation.IsFinished(gameTime))
+                    CurrentPlayer.SetCurrentAnimation("Idle");
+
                 //MOVEMENT BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {

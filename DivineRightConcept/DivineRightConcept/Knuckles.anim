@@ -13,7 +13,7 @@
       <Frame>261, 30, 35, 38</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Running" Loop="True" SpriteSheet="KnucklesSheet" FrameDelay="100">
+  <Animation Name="Running" Loop="True" SpriteSheet="KnucklesSheet">
     <Frames>
       <Frame>16, 109, 34, 34</Frame>
       <Frame>58 ,109, 34, 34</Frame>

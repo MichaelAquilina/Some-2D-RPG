@@ -76,7 +76,7 @@ namespace GameEngine.GameObjects
                 XmlAttribute frameDelayAttr = animNode.Attributes["FrameDelay"];
                 XmlAttribute loopAttr = animNode.Attributes["Loop"];
 
-                int FrameDelay = (frameDelayAttr == null)? 100: Convert.ToInt32(frameDelayAttr.Value);
+                int FrameDelay = (frameDelayAttr == null)? Animation.FRAME_DELAY_DEFAULT: Convert.ToInt32(frameDelayAttr.Value);
                 bool Loop = (loopAttr == null)? false : Convert.ToBoolean(loopAttr.Value);
 
                 string Name = Convert.ToString(animNode.Attributes["Name"].Value);

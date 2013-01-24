@@ -8,17 +8,20 @@ using Microsoft.Xna.Framework;
 namespace GameEngine.Drawing
 {
     /// <summary>
-    /// Animation class that allows the user to specify an animation from a texture
+    /// Animation class that allows the user to specify metrics about animation frames from a spritesheet. Also allows
+    /// specification of other meta properties such as the Delay between frames, whether the animation should loop
+    /// and what methods to provide information about current frame information based on the Game Time.
     /// </summary>
     public class Animation
     {
+        internal const int FRAME_DELAY_DEFAULT = 100;
+
         public Texture2D SpriteSheet { get; set; }
         public Rectangle[] Frames { get; set; }
         public int FrameDelay { get; set; }
         public bool Loop { get; set; }
 
         private double _startTime = 0;
-        private const int FRAME_DELAY_DEFAULT = 100;
 
         /// <summary>
         /// Initialises an Animation object specifies a SpriteSheet to us and the individual frame locations
@@ -54,16 +57,26 @@ namespace GameEngine.Drawing
         /// Returns the current Frame Index as an integer value based on the GameTime
         /// parameters passed into this method.
         /// </summary>
-        /// <param name="GameTime"></param>
-        /// <returns>integer index of the current frame</returns>
+        /// <param name="GameTime">GameTime object representing the current GameTime in the application.</param>
+        /// <returns>Int index of the current frame in the Frames property.</returns>
         public int GetCurrentFrameIndex(GameTime GameTime)
         {
             int index = (int)((GameTime.TotalGameTime.TotalMilliseconds - _startTime) / FrameDelay);
 
-            if (Loop)
-                return index % Frames.Length;
-            else         
-                return Math.Min(index, Frames.Length - 1);
+            return (Loop)? index % Frames.Length : index;               //If looping, start from the beginning
+        }
+
+        /// <summary>
+        /// Specifies whether the Animation has completed. If the Animation is of Looping type, then this
+        /// method will always return a true. For non-looping animations, this method should return a true
+        /// once it has passed its last frame. The GameTime parameter is required to determine its current
+        /// position based on the current GameTime.
+        /// </summary>
+        /// <param name="GameTime">GameTime object specifying the current Game Time.</param>
+        /// <returns>bool value specifying whether the animation has finished.</returns>
+        public bool IsFinished(GameTime GameTime)
+        {
+            return Loop || GetCurrentFrameIndex(GameTime) >= Frames.Length;
         }
 
         /// <summary>
@@ -74,7 +87,7 @@ namespace GameEngine.Drawing
         /// <returns>Rectangle object representing the Frame in the spritesheet to show.</returns>
         public Rectangle GetCurrentFrame(GameTime GameTime)
         {
-            return Frames[GetCurrentFrameIndex(GameTime)];
+            return Frames[Math.Min(GetCurrentFrameIndex(GameTime), Frames.Length-1)];
         }
     }
 }

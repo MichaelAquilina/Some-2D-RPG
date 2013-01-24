@@ -15,9 +15,9 @@
               </xs:element>
             </xs:sequence>
             <xs:attribute name="Name" type="xs:string" use="required" />
-            <xs:attribute name="Loop" type="xs:string" use="optional" />
+            <xs:attribute name="Loop" type="xs:string" use="optional" default="false"/>
             <xs:attribute name="SpriteSheet" type="xs:string" use="required" />
-            <xs:attribute name="FrameDelay" type="xs:unsignedByte" use="optional" />
+            <xs:attribute name="FrameDelay" type="xs:unsignedByte" use="optional" default="100"/>
           </xs:complexType>
         </xs:element>
       </xs:sequence>
