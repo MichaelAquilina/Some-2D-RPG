@@ -50,7 +50,7 @@ namespace DivineRightConcept.GroundPallettes
         }
 
         //CONSIDER REMOVING STATIC EXTENSION AND USING THIS AS A CLASS
-        public void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DestinationRectangle, FRectangle SourceRectangle)
+        public void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DestinationRectangle)
         {
             //int i = (GroundType % 3);
             //int j = (GroundType / 3);

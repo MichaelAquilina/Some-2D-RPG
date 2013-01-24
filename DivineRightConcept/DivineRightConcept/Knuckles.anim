@@ -56,4 +56,17 @@
       <Frame>56, 242,31,42</Frame>
     </Frames>
   </Animation>
+  <Animation Name="Attack4" Loop="False" SpriteSheet="KnucklesSheet" FrameDelay="50">
+    <Frames>
+      <Frame>139,245,41,38</Frame>
+      <Frame>178,245,27,38</Frame>
+      <Frame>213,245,41,38</Frame>
+      <Frame>254,245,42,38</Frame>
+      <Frame>306,245,46,36</Frame>
+      <Frame>360,245,56,38</Frame>
+      <Frame>422,245,60,38</Frame>
+      <Frame>10, 293,60,36</Frame>
+      <Frame>79, 291,60,39</Frame>
+    </Frames>
+  </Animation>
 </Animations>

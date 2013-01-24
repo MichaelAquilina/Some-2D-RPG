@@ -39,7 +39,7 @@ namespace DivineRightConcept
 
         Actor CurrentPlayer;
         int combo = 0;
-        int comoMax = 3;
+        int comoMax = 4;
 
         //Graphic Related Variables
         GraphicsDeviceManager graphics;
@@ -80,6 +80,20 @@ namespace DivineRightConcept
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             CurrentPlayer.LoadAnimationXML("Knuckles.anim", Content);
+
+            //GENERATION AND STORAGE OF MAP OBJECTS SHOULD BE WITHIIN THE MAP FILE ITSELF (TODO)
+            Random random = new Random();
+            for (int i = 0; i < 50; i++)
+            {
+                float treeX = (float) (random.NextDouble() * WORLD_WIDTH);
+                float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
+
+                MapObject tree = new MapObject(treeX, treeY, 1.0f, 1.0f);
+                tree.SourceRectangle = new Rectangle(3, 13, 113, 103);
+                tree.SourceTexture = Content.Load<Texture2D>("TREE");
+
+                _world.MapObjects.Add(tree);
+            }
 
             //LOAD THE DEFAULT FONT
             _defaultSpriteFont = Content.Load<SpriteFont>("DefaultSpriteFont");
@@ -165,11 +179,10 @@ namespace DivineRightConcept
 
             double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
+            _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(110, 10, VIEW_WIDTH, VIEW_HEIGHT));
+            //_world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
+
             spriteBatch.Begin();
-
-                _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(110, 10, VIEW_WIDTH, VIEW_HEIGHT));
-                //_world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
-
                 //DRAW DEBUGGING INFORMATION
                 spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), new Vector2(0, 0), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);

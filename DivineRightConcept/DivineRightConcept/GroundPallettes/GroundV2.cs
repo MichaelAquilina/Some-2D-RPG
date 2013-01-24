@@ -57,7 +57,7 @@ namespace DivineRightConcept.GroundPallettes
             return !(GameMap.Width==X || GameMap.Height==Y || X<0 || Y<0) && GameMap[X,Y] != TileType;
         }
 
-        public void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DesRectangle, FRectangle SrcRectangle)
+        public void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DesRectangle)
         {
             int TileType = GameMap[X, Y];
             //int FinalType = 0;
@@ -78,10 +78,10 @@ namespace DivineRightConcept.GroundPallettes
                 _groundTexture, 
                 DesRectangle, 
                 new Rectangle(
-                    _sourceRectangles[TileType].X + (int)(_sourceRectangles[TileType].Width * SrcRectangle.X),
-                    _sourceRectangles[TileType].Y + (int)(_sourceRectangles[TileType].Height * SrcRectangle.Y),
-                    (int) (SrcRectangle.Width * _sourceRectangles[TileType].Width),
-                    (int) (SrcRectangle.Height * _sourceRectangles[TileType].Height)
+                    _sourceRectangles[TileType].X,
+                    _sourceRectangles[TileType].Y,
+                    _sourceRectangles[TileType].Width,
+                    _sourceRectangles[TileType].Height
                 ),
                 Color.White);
         }
