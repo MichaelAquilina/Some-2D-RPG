@@ -61,18 +61,24 @@ namespace GameEngine.GameObjects
         /// <param name="Clear">optional bool value specifying whether to clear the actors current animation dictionary. True by Default</param>
         public void LoadAnimationXML(string Path, ContentManager Content, bool Clear = true)
         {
-            if (Clear) this.ActorAnimations.Clear();
+            if (Clear)
+            {
+                this.ActorAnimations.Clear();
+                CurrentAnimation = null;
+            }
 
             XmlDocument document = new XmlDocument();
             document.Load(Path);
 
             foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
             {
+                //optional attributes
                 XmlAttribute frameDelayAttr = animNode.Attributes["FrameDelay"];
                 XmlAttribute loopAttr = animNode.Attributes["Loop"];
 
                 int FrameDelay = (frameDelayAttr == null)? 100: Convert.ToInt32(frameDelayAttr.Value);
                 bool Loop = (loopAttr == null)? false : Convert.ToBoolean(loopAttr.Value);
+
                 string Name = Convert.ToString(animNode.Attributes["Name"].Value);
                 string SpriteSheet = Convert.ToString(animNode.Attributes["SpriteSheet"].Value);
 
@@ -94,6 +100,9 @@ namespace GameEngine.GameObjects
                 }
 
                 this.ActorAnimations[Name] = new Animation(Content.Load<Texture2D>(SpriteSheet), frames, FrameDelay, Loop);
+
+                //if no current animation has been assigned, use the first animation found in the anim file (Considered Default)
+                if (CurrentAnimation == null) CurrentAnimation = this.ActorAnimations[Name];
             }
         }
     }

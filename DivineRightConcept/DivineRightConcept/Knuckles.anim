@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Animations>
-  <Animation Name="Running" Loop="True" SpriteSheet="KnucklesSheet" FrameDelay="100">
-    <Frames>
-      <Frame>16, 109, 34, 34</Frame>
-      <Frame>58 ,109, 34, 34</Frame>
-      <Frame>98 ,109, 34, 34</Frame>
-      <Frame>133,109, 34, 34</Frame>
-      <Frame>170,109, 34, 34</Frame>
-      <Frame>208,109, 34, 34</Frame>
-      <Frame>244,109, 34, 34</Frame>
-      <Frame>280,109, 34, 34</Frame>
-    </Frames>
-  </Animation>
   <Animation Name="Idle" Loop="True" SpriteSheet="KnucklesSheet" FrameDelay="100">
     <Frames>
       <Frame>11 , 30, 35, 38</Frame>
@@ -23,6 +11,18 @@
       <Frame>190, 30, 35, 38</Frame>
       <Frame>228, 30, 35, 38</Frame>
       <Frame>261, 30, 35, 38</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Running" Loop="True" SpriteSheet="KnucklesSheet" FrameDelay="100">
+    <Frames>
+      <Frame>16, 109, 34, 34</Frame>
+      <Frame>58 ,109, 34, 34</Frame>
+      <Frame>98 ,109, 34, 34</Frame>
+      <Frame>133,109, 34, 34</Frame>
+      <Frame>170,109, 34, 34</Frame>
+      <Frame>208,109, 34, 34</Frame>
+      <Frame>244,109, 34, 34</Frame>
+      <Frame>280,109, 34, 34</Frame>
     </Frames>
   </Animation>
   <Animation Name="Attack1" Loop="False" SpriteSheet="KnucklesSheet" FrameDelay="50">

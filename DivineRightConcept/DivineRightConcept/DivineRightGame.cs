@@ -24,8 +24,8 @@ namespace DivineRightConcept
         const bool DEBUG = true;
         const int INPUT_DELAY = 30;
 
-        const int WORLD_HEIGHT = 500;
-        const int WORLD_WIDTH = 500;
+        const int WORLD_HEIGHT = 50;
+        const int WORLD_WIDTH = 50;
         
         const int TILE_WIDTH = 30;
         const int TILE_HEIGHT = 30;
@@ -58,11 +58,11 @@ namespace DivineRightConcept
 
         protected override void Initialize()
         {
+            //Current IWorldGenerator being used
             _generator = new RandomWorldGenerator();
 
             _world = new GameWorld(this);
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
-
             _world.Initialize();
 
             CurrentPlayer = new Actor(8, 8, 1.9f, 1.9f);
@@ -73,13 +73,11 @@ namespace DivineRightConcept
 
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
             _world.LoadContent();
 
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             CurrentPlayer.LoadAnimationXML("Knuckles.anim", Content);
-            CurrentPlayer.SetCurrentAnimation("Idle");
 
             //LOAD THE DEFAULT FONT
             _defaultSpriteFont = Content.Load<SpriteFont>("DefaultSpriteFont");
@@ -98,8 +96,7 @@ namespace DivineRightConcept
 
             if (gameTime.TotalGameTime.TotalMilliseconds - prevGameTime > INPUT_DELAY)
             {
-                //CurrentPlayer.SetCurrentAnimation("Idle");
-
+                //MOVEMENT BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     CurrentPlayer.SetCurrentAnimation("Running");
@@ -125,26 +122,27 @@ namespace DivineRightConcept
                     CurrentPlayer.X += MOVEMENT_SPEED;
                 }
 
+                //ACTION BASED KEYBOARD EVENTS
+                if (keyboardState.IsKeyDown(Keys.A))
+                {
+                    if (!_aIsDown)
+                    {
+                        //ATTACK!
+                        _aIsDown = true;
+                        CurrentPlayer.SetCurrentAnimation("Attack1");
+                        CurrentPlayer.CurrentAnimation.ResetAnimation(gameTime);
+                    }
+                }
+                else
+                {
+                    _aIsDown = false;
+                }
+
                 //prevent from going out of range
                 if (CurrentPlayer.X < 0) CurrentPlayer.X = 0;
                 if (CurrentPlayer.Y < 0) CurrentPlayer.Y = 0;
                 if (CurrentPlayer.X >= WORLD_WIDTH) CurrentPlayer.X = WORLD_WIDTH - 1;
                 if (CurrentPlayer.Y >= WORLD_HEIGHT) CurrentPlayer.Y = WORLD_HEIGHT - 1;
-            }
-
-            if (keyboardState.IsKeyDown(Keys.A))
-            {
-                if (!_aIsDown)
-                {
-                    //ATTACK!
-                    _aIsDown = true;
-                    CurrentPlayer.SetCurrentAnimation("Attack1");
-                    CurrentPlayer.CurrentAnimation.ResetAnimation(gameTime);
-                }
-            }
-            else
-            {
-                _aIsDown = false;
             }
 
             base.Update(gameTime);

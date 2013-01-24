@@ -216,8 +216,8 @@ namespace GameEngine
                 );
 
                 //only render the actor if he is within the specified viewport
-                //TODO: Fix Bug when at the furthest X and Y edges which prevents the actor from being shown
-                if (DestRectangle.Contains(actorDestRect))
+                //TODO: Fix Bug where actor can go off scene!
+                if (DestRectangle.Intersects(actorDestRect))
                     SpriteBatch.Draw(actor.CurrentAnimation.SpriteSheet, actorDestRect, actorSrcRect, Color.White);
             }
         }
