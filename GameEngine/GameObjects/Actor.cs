@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework;
-using GameEngine.Drawing;
-using System.IO;
-using System.Xml.Linq;
 using System.Xml;
+using System.Xml.Linq;
+using GameEngine.Drawing;
+using GameEngine.Interfaces;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.GameObjects
 {
     //An Actor class that should ideally be inherited for more precise functionality
-    public class Actor
+    public class Actor : IGameDrawable
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -21,20 +22,33 @@ namespace GameEngine.GameObjects
         public float Width { get; set; }
         public float Height { get; set; }
 
+        public bool Visible { get; set; }
+
         public Dictionary<string, Animation> ActorAnimations { get; set; }
 
         //the current representation of the Actor which should be appriopiatly updated depending on its state
         public Animation CurrentAnimation { get; private set; }
         public string CurrentAnimationName { get; private set; }
 
-        public Actor(float X, float Y, float Width=1, float Height=1)
+        public Actor(float X, float Y, float Width=1, float Height=1, bool Visible=true)
         {
             this.X = X;
             this.Y = Y;
             this.Width = Width;
             this.Height = Height;
+            this.Visible = Visible;
 
             this.ActorAnimations = new Dictionary<string, Animation>();
+        }
+
+        public Texture2D GetTexture(GameTime GameTime)
+        {
+            return CurrentAnimation.SpriteSheet;
+        }
+
+        public Rectangle GetSourceRectangle(GameTime GameTime)
+        {
+            return CurrentAnimation.GetCurrentFrame(GameTime);
         }
 
         /// <summary>

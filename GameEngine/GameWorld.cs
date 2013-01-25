@@ -25,8 +25,7 @@ namespace GameEngine
             get { return _worldMap; }
             set { _mipMapTex = null; _worldMap = value; }       //clear the cached mipmap
         }
-        public List<MapObject> MapObjects { get; private set; }
-        public List<Actor> Actors { get; private set; }
+        public List<IGameDrawable> DrawableObjects { get; private set; }
 
         private Map _worldMap;                  //World Map Instance
         private Texture2D _mipMapTex;           //Cached copy of the MipMapTexture
@@ -62,8 +61,7 @@ namespace GameEngine
 
         public override void Initialize()
         {
-            Actors = new List<Actor>();
-            MapObjects = new List<MapObject>();
+            DrawableObjects = new List<IGameDrawable>();
 
             base.Initialize();
         }
@@ -163,47 +161,28 @@ namespace GameEngine
                         this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap, tileX, tileY, tileDestRect);
                     }
 
-                //TODO COMBINE MAP OBJECTS AND ACTORS INTO A SINGLE DRAW LOOP USING SOME FORM OF DRAWABLE INTERFACE
-
-                //DRAW THE MAP OBJECTS
-                foreach (MapObject mapObject in MapObjects)
+                //DRAW THE DRAWABLE COMPONENTS
+                foreach (IGameDrawable drawObject in DrawableObjects)
                 {
-                    int objectX = (int)Math.Ceiling((mapObject.X - topLeftX) * pxTileWidth);
-                    int objectY = (int)Math.Ceiling((mapObject.Y - topLeftY) * pxTileWidth);
-
-                    Rectangle objectDestRect = new Rectangle(
-                        objectX + DestRectangle.X,
-                        objectY + DestRectangle.Y,
-                        (int)(mapObject.SourceRectangle.Width * mapObject.Width),
-                        (int)(mapObject.SourceRectangle.Height * mapObject.Height)
-                    );
-
-                    if (DestRectangle.Intersects(objectDestRect))
-                        SpriteBatch.Draw(mapObject.SourceTexture, objectDestRect, mapObject.SourceRectangle, Color.White);
-                }
-
-                //DRAW THE ACTORS
-                foreach (Actor actor in Actors)
-                {
-                    //The relative position of the character should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
+                    //The relative position of the object should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
                     //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                     //for panning at the edges.
-                    int actorX = (int)Math.Ceiling((actor.X - topLeftX) * pxTileWidth);
-                    int actorY = (int)Math.Ceiling((actor.Y - topLeftY) * pxTileHeight);
+                    int objectX = (int)Math.Ceiling((drawObject.X - topLeftX) * pxTileWidth);
+                    int objectY = (int)Math.Ceiling((drawObject.Y - topLeftY) * pxTileHeight);
 
-                    Rectangle actorSrcRect = actor.CurrentAnimation.GetCurrentFrame(GameTime);
+                    Rectangle SrcRect = drawObject.GetSourceRectangle(GameTime);
 
-                    //Draw the Actor based on the current Frame dimensions and the specified Actor Width Height values
+                    //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
                     Rectangle actorDestRect = new Rectangle(
-                            actorX + DestRectangle.X,
-                            actorY + DestRectangle.Y,
-                            (int)(actorSrcRect.Width * actor.Width),
-                            (int)(actorSrcRect.Height * actor.Height)
+                            objectX + DestRectangle.X,
+                            objectY + DestRectangle.Y,
+                            (int)(SrcRect.Width * drawObject.Width),
+                            (int)(SrcRect.Height * drawObject.Height)
                     );
 
-                    //only render the actor if he is within the specified viewport
+                    //only render the object if it is within the specified viewport
                     if (DestRectangle.Intersects(actorDestRect))
-                        SpriteBatch.Draw(actor.CurrentAnimation.SpriteSheet, actorDestRect, actorSrcRect, Color.White);
+                        SpriteBatch.Draw(drawObject.GetTexture(GameTime), actorDestRect, SrcRect, Color.White);
                 }
 
                 SpriteBatch.End();                                                      //End Sprite Batch using custom settings

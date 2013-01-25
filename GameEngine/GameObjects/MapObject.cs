@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using GameEngine.Interfaces;
 
 namespace GameEngine.GameObjects
 {
-    public class MapObject
+    public class MapObject : IGameDrawable
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -15,15 +16,28 @@ namespace GameEngine.GameObjects
         public float Width { get; set; }
         public float Height { get; set; }
 
+        public bool Visible { get; set; }
+
         public Texture2D SourceTexture { get; set; }
         public Rectangle SourceRectangle { get; set; }
 
-        public MapObject(float X, float Y, float Width, float Height)
+        public MapObject(float X, float Y, float Width, float Height, bool Visible=true)
         {
             this.X = X;
             this.Y = Y;
             this.Width = Width;
             this.Height = Height;
+            this.Visible = Visible;
+        }
+
+        public Texture2D GetTexture(GameTime GameTime)
+        {
+            return SourceTexture;
+        }
+
+        public Rectangle GetSourceRectangle(GameTime GameTime)
+        {
+            return SourceRectangle;
         }
     }
 }

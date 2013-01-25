@@ -36,7 +36,6 @@ namespace DivineRightConcept
         const float MOVEMENT_SPEED = 0.3f;
 
         bool _aIsDown = false;
-
         Actor CurrentPlayer;
         int combo = 0;
         int comoMax = 4;
@@ -68,7 +67,7 @@ namespace DivineRightConcept
             _world.Initialize();
 
             CurrentPlayer = new Actor(8, 8, 1.9f, 1.9f);
-            _world.Actors.Add(CurrentPlayer);
+            _world.DrawableObjects.Add(CurrentPlayer);
 
             base.Initialize();
         }
@@ -92,7 +91,7 @@ namespace DivineRightConcept
                 tree.SourceRectangle = new Rectangle(3, 13, 113, 103);
                 tree.SourceTexture = Content.Load<Texture2D>("TREE");
 
-                _world.MapObjects.Add(tree);
+                _world.DrawableObjects.Add(tree);
             }
 
             //LOAD THE DEFAULT FONT

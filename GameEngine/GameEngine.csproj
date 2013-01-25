@@ -99,6 +99,7 @@
     <Compile Include="GameObjects\Map.cs" />
     <Compile Include="GameObjects\MapObject.cs" />
     <Compile Include="GameWorld.cs" />
+    <Compile Include="Interfaces\IGameDrawable.cs" />
     <Compile Include="Interfaces\IGroundPallette.cs" />
     <Compile Include="Interfaces\ILoadable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
