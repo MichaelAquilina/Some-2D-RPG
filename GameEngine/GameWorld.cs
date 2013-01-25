@@ -184,7 +184,9 @@ namespace GameEngine
                     );
 
                     //only render the object if it is within the specified viewport
-                    if (DestRectangle.Intersects(DestRect))
+                    //if (DestRectangle.Intersects(DestRect))
+                    //TEMP: Removed, its possible that performance is not hit too badly with the use of ScissorRect anyway!    
+
                         SpriteBatch.Draw(
                             drawObject.GetTexture(GameTime), 
                             DestRect, 

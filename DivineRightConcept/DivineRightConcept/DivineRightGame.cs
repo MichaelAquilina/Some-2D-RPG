@@ -67,8 +67,7 @@ namespace DivineRightConcept
             _world.Initialize();
 
             CurrentPlayer = new Actor(8, 8, 1.4f, 1.4f);
-            //CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
-            //TODO: Origin Evaluation Needs more work in the current framework
+            CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
 
             _world.DrawableObjects.Add(CurrentPlayer);
 
@@ -85,7 +84,7 @@ namespace DivineRightConcept
 
             //GENERATION AND STORAGE OF MAP OBJECTS SHOULD BE WITHIIN THE MAP FILE ITSELF (TODO)
             Random random = new Random();
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 400; i++)
             {
                 float treeX = (float) (random.NextDouble() * WORLD_WIDTH);
                 float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
@@ -93,6 +92,7 @@ namespace DivineRightConcept
                 MapObject tree = new MapObject(treeX, treeY, 1.0f, 1.0f);
                 tree.SourceRectangle = new Rectangle(3, 13, 113, 103);
                 tree.SourceTexture = Content.Load<Texture2D>("TREE");
+                tree.Origin = new Vector2(0.5f, 1.0f);
 
                 _world.DrawableObjects.Add(tree);
             }
