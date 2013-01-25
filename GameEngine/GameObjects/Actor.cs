@@ -24,6 +24,10 @@ namespace GameEngine.GameObjects
 
         public bool Visible { get; set; }
 
+        public Vector2 Origin { get; set; }
+
+        public Color DrawColor { get; set; }
+
         public Dictionary<string, Animation> ActorAnimations { get; set; }
 
         //the current representation of the Actor which should be appriopiatly updated depending on its state
@@ -37,6 +41,8 @@ namespace GameEngine.GameObjects
             this.Width = Width;
             this.Height = Height;
             this.Visible = Visible;
+            this.DrawColor = Color.White;
+            this.Origin = new Vector2(0, 0);
 
             this.ActorAnimations = new Dictionary<string, Animation>();
         }

@@ -83,7 +83,11 @@ namespace DivineRightConcept.GroundPallettes
                     _sourceRectangles[TileType].Width,
                     _sourceRectangles[TileType].Height
                 ),
-                Color.White);
+                Color.White,
+                0,
+                new Vector2(0,0),
+                SpriteEffects.None,
+                1);
         }
 
         public Color GetTileColor(byte TileType)

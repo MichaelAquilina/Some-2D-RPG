@@ -11,6 +11,7 @@ using GameEngine.GameObjects;
 
 namespace DivineRightConcept.GroundPallettes
 {
+    //OLD CLASS, THIS CAN PROBABLY BE REMOVED DUE TO OLD IMPLEMENTATION DETAILS
     //Standard Ground class containing all information on the Ground Texture and extension methods for Drawing
     //Ground Textures on Sprite Batches
     //Can be thought of as the Ground Rendering Engine

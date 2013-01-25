@@ -118,12 +118,12 @@ namespace GameEngine
             SpriteBatch.GraphicsDevice.ScissorRectangle = DestRectangle;
 
             SpriteBatch.Begin(
-                SpriteSortMode.Immediate,
+                SpriteSortMode.BackToFront,
                 BlendState.AlphaBlend,
                 null, null,
                 new RasterizerState() { ScissorTestEnable = true });
             {
-                //DRAW THE WORLD MAP
+                //determine the amount of tiles to be draw on the viewport
                 int TileCountX = (int) Math.Ceiling( (double) DestRectangle.Width / pxTileWidth ) + 1;
                 int TileCountY = (int) Math.Ceiling( (double) DestRectangle.Height / pxTileHeight ) + 1;
 
@@ -141,7 +141,7 @@ namespace GameEngine
                 double dispX = topLeftX - Math.Floor(topLeftX);
                 double dispY = topLeftY - Math.Floor(topLeftY);
 
-                //draw each tile
+                //DRAW THE WORLD MAP TILES
                 for (int i = 0; i < TileCountX; i++)
                     for (int j = 0; j < TileCountY; j++)
                     {
@@ -161,28 +161,39 @@ namespace GameEngine
                         this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap, tileX, tileY, tileDestRect);
                     }
 
-                //DRAW THE DRAWABLE COMPONENTS
+                //DRAW THE IGAMEDRAWABLE COMPONENTS (Actors, MapObjects, etc...)
                 foreach (IGameDrawable drawObject in DrawableObjects)
                 {
                     //The relative position of the object should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
                     //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                     //for panning at the edges.
+                    Rectangle SrcRect = drawObject.GetSourceRectangle(GameTime);                    
+                    
                     int objectX = (int)Math.Ceiling((drawObject.X - topLeftX) * pxTileWidth);
                     int objectY = (int)Math.Ceiling((drawObject.Y - topLeftY) * pxTileHeight);
 
-                    Rectangle SrcRect = drawObject.GetSourceRectangle(GameTime);
+                    int objectWidth = (int)(SrcRect.Width * drawObject.Width);
+                    int objectHeight = (int)(SrcRect.Height * drawObject.Height);
 
                     //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
-                    Rectangle actorDestRect = new Rectangle(
+                    Rectangle DestRect = new Rectangle(
                             objectX + DestRectangle.X,
                             objectY + DestRectangle.Y,
-                            (int)(SrcRect.Width * drawObject.Width),
-                            (int)(SrcRect.Height * drawObject.Height)
+                            objectWidth,
+                            objectHeight
                     );
 
                     //only render the object if it is within the specified viewport
-                    if (DestRectangle.Intersects(actorDestRect))
-                        SpriteBatch.Draw(drawObject.GetTexture(GameTime), actorDestRect, SrcRect, Color.White);
+                    if (DestRectangle.Intersects(DestRect))
+                        SpriteBatch.Draw(
+                            drawObject.GetTexture(GameTime), 
+                            DestRect, 
+                            SrcRect, 
+                            drawObject.DrawColor,
+                            0,
+                            drawObject.Origin * new Vector2(objectWidth, objectHeight),  
+                            SpriteEffects.None,
+                            1/drawObject.Y);        //layer depth should depend how far down the object is on the map (Relative to Y)
                 }
 
                 SpriteBatch.End();                                                      //End Sprite Batch using custom settings

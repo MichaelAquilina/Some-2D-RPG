@@ -66,7 +66,10 @@ namespace DivineRightConcept
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
 
-            CurrentPlayer = new Actor(8, 8, 1.9f, 1.9f);
+            CurrentPlayer = new Actor(8, 8, 1.4f, 1.4f);
+            //CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
+            //TODO: Origin Evaluation Needs more work in the current framework
+
             _world.DrawableObjects.Add(CurrentPlayer);
 
             base.Initialize();
@@ -182,6 +185,7 @@ namespace DivineRightConcept
             //_world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
 
             spriteBatch.Begin();
+
                 //DRAW DEBUGGING INFORMATION
                 spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), new Vector2(0, 0), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);

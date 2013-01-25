@@ -16,6 +16,10 @@ namespace GameEngine.Interfaces
 
         bool Visible { get; }
 
+        Color DrawColor { get; }
+
+        Vector2 Origin { get; }
+
         Texture2D GetTexture(GameTime GameTime);
         Rectangle GetSourceRectangle(GameTime GameTime);
     }

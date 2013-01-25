@@ -18,6 +18,10 @@ namespace GameEngine.GameObjects
 
         public bool Visible { get; set; }
 
+        public Color DrawColor { get; set; }
+
+        public Vector2 Origin { get; set; }
+
         public Texture2D SourceTexture { get; set; }
         public Rectangle SourceRectangle { get; set; }
 
@@ -28,6 +32,8 @@ namespace GameEngine.GameObjects
             this.Width = Width;
             this.Height = Height;
             this.Visible = Visible;
+            this.DrawColor = Color.White;
+            this.Origin = new Vector2(0, 0);
         }
 
         public Texture2D GetTexture(GameTime GameTime)
