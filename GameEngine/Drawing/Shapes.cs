@@ -14,6 +14,23 @@ namespace GameEngine.Drawing
     {
         private static Texture2D rectText;
 
+        public static void DrawCross(this SpriteBatch SpriteBatch, Vector2 Center, int Size, Color Background, float layerDepth)
+        {
+            if (rectText == null)
+            {
+                rectText = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1);
+                rectText.SetData<Color>(new Color[] { Color.White });
+            }
+
+            SpriteBatch.Draw(rectText,
+                new Rectangle((int) (Center.X - Size / 2), (int) Center.Y, Size, 1),
+                null, Background, 0, new Vector2(0, 0), SpriteEffects.None, layerDepth);
+
+            SpriteBatch.Draw(rectText,
+                new Rectangle((int)Center.X, (int) (Center.Y - Size / 2), 1, Size),
+                null, Background, 0, new Vector2(0, 0), SpriteEffects.None, layerDepth);
+        }
+
         public static void DrawRectangle(this SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background, float layerDepth)
         {
             if (rectText == null)

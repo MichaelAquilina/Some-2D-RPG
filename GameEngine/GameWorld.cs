@@ -25,7 +25,10 @@ namespace GameEngine
             get { return _worldMap; }
             set { _mipMapTex = null; _worldMap = value; }       //clear the cached mipmap
         }
+
         public List<IGameDrawable> DrawableObjects { get; private set; }
+
+        public bool ShowBoundingBoxes { get; set; }
 
         private Map _worldMap;                  //World Map Instance
         private Texture2D _mipMapTex;           //Cached copy of the MipMapTexture
@@ -35,6 +38,7 @@ namespace GameEngine
         public GameWorld(Game Game)
             :base(Game)
         {
+            ShowBoundingBoxes = false;
         }
 
         /// <summary>
@@ -165,6 +169,7 @@ namespace GameEngine
                 ObjectsOnScreen = 0;
 
                 //DRAW THE IGAMEDRAWABLE COMPONENTS (Actors, MapObjects, etc...)
+                //TODO: Probably Possible to reduce the complexity of this method (Due to the way BoundingBox is calculated)
                 foreach (IGameDrawable drawObject in DrawableObjects)
                 {
                     //The relative position of the object should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
@@ -186,29 +191,33 @@ namespace GameEngine
                             objectHeight
                     );
 
-                    //calculate the origin of the object to draw using the relative coordinates and its width and height
+                    //Calculate the Origin of the Object, as well as its Bounding Box
                     Vector2 objectOrigin = drawObject.Origin * new Vector2(ObjectSrcRect.Width, ObjectSrcRect.Height);
-                    Rectangle ObjectTargetRect = new Rectangle(
-                        (int)(ObjectDestRect.X - objectOrigin.X * drawObject.Width),
-                        (int)(ObjectDestRect.Y - objectOrigin.Y * drawObject.Height),
+                    Rectangle ObjectBoundingBox = new Rectangle(
+                        (int)Math.Ceiling(ObjectDestRect.X - objectOrigin.X * drawObject.Width),
+                        (int)Math.Ceiling(ObjectDestRect.Y - objectOrigin.Y * drawObject.Height),
                         ObjectDestRect.Width,
                         ObjectDestRect.Height
                     );
 
                     //only render the object if it is within the specified viewport (After transforming with the Origin -the targetRect)
-                    if (drawObject.Visible && DestRectangle.Intersects(ObjectTargetRect))
+                    if (drawObject.Visible && DestRectangle.Intersects(ObjectBoundingBox))
                     {
                         ObjectsOnScreen++;
 
-                        if(drawObject.BoundingBoxVisible)
-                            SpriteBatch.DrawRectangle(ObjectTargetRect, Color.Red, 0);
+                        //Draw the Bounding Box and a Cross indicating the Origin
+                        if (drawObject.BoundingBoxVisible || this.ShowBoundingBoxes)
+                        {
+                            SpriteBatch.DrawCross(new Vector2(ObjectDestRect.X, ObjectDestRect.Y), 7, Color.Black, 0);
+                            SpriteBatch.DrawRectangle(ObjectBoundingBox, Color.Red, 0.001f);
+                        }
 
                         SpriteBatch.Draw(
                             drawObject.GetTexture(GameTime),
                             ObjectDestRect,
                             ObjectSrcRect,
                             drawObject.DrawColor,
-                            0,
+                            drawObject.Rotation,
                             objectOrigin,
                             SpriteEffects.None,
                             1 / drawObject.Y);        //layer depth should depend how far down the object is on the map (Relative to Y)

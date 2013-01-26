@@ -16,6 +16,8 @@ namespace GameEngine.GameObjects
         public float Width { get; set; }
         public float Height { get; set; }
 
+        public float Rotation { get; set; }
+
         public bool Visible { get; set; }
 
         public bool BoundingBoxVisible { get; set; }
@@ -37,6 +39,7 @@ namespace GameEngine.GameObjects
             this.DrawColor = Color.White;
             this.Origin = new Vector2(0, 0);
             this.BoundingBoxVisible = false;
+            this.Rotation = 0;
         }
 
         public Texture2D GetTexture(GameTime GameTime)

@@ -24,8 +24,8 @@ namespace DivineRightConcept
         const bool DEBUG = true;
         const int INPUT_DELAY = 30;
 
-        const int WORLD_HEIGHT = 50;
-        const int WORLD_WIDTH = 50;
+        const int WORLD_HEIGHT = 500;
+        const int WORLD_WIDTH = 500;
         
         const int TILE_WIDTH = 30;
         const int TILE_HEIGHT = 30;
@@ -35,6 +35,7 @@ namespace DivineRightConcept
 
         const float MOVEMENT_SPEED = 0.3f;
 
+        bool _f1IsDown = false;
         bool _aIsDown = false;
         Actor CurrentPlayer;
         int combo = 0;
@@ -66,9 +67,8 @@ namespace DivineRightConcept
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
 
-            CurrentPlayer = new Actor(8, 8, 1.5f, 1.5f);
+            CurrentPlayer = new Actor(8, 8, 1.7f, 1.7f);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
-            CurrentPlayer.BoundingBoxVisible = true;
 
             _world.DrawableObjects.Add(CurrentPlayer);
 
@@ -83,25 +83,29 @@ namespace DivineRightConcept
             spriteBatch = new SpriteBatch(GraphicsDevice);
             CurrentPlayer.LoadAnimationXML("Knuckles.anim", Content);
 
+            Rectangle[] mapObjectSrcRectangles = new Rectangle[] { 
+                new Rectangle(3, 13, 113, 103)
+                ,new Rectangle(124, 4, 72, 109)
+                ,new Rectangle(280,40, 30, 57)
+                ,new Rectangle(320,80, 40, 32)
+                //,new Rectangle(203,40, 73, 80)
+            };
+
             //GENERATION AND STORAGE OF MAP OBJECTS SHOULD BE WITHIIN THE MAP FILE ITSELF (TODO)
             Random random = new Random();
-            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 14; i++)
+            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 10; i++)
             {
                 float treeX = (float) (random.NextDouble() * WORLD_WIDTH);
                 float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
 
-                MapObject tree = new MapObject(treeX, treeY, 1.0f, 1.0f);
-                tree.BoundingBoxVisible = false;
+                MapObject mapObject = new MapObject(treeX, treeY, 1.0f, 1.0f);
 
-                if (random.Next(0, 2) == 0)
-                    tree.SourceRectangle = new Rectangle(3, 13, 113, 103);
-                else
-                    tree.SourceRectangle = new Rectangle(124, 4, 72, 109);
+                mapObject.SourceRectangle = mapObjectSrcRectangles[random.Next(0, mapObjectSrcRectangles.Length)];
 
-                tree.SourceTexture = Content.Load<Texture2D>(@"MapObjects\TREE");
-                tree.Origin = new Vector2(0.5f, 1.0f);
+                mapObject.SourceTexture = Content.Load<Texture2D>(@"MapObjects\TREE");
+                mapObject.Origin = new Vector2(0.5f, 1.0f);
 
-                _world.DrawableObjects.Add(tree);
+                _world.DrawableObjects.Add(mapObject);
             }
 
             //LOAD THE DEFAULT FONT
@@ -170,6 +174,21 @@ namespace DivineRightConcept
                 else
                 {
                     _aIsDown = false;
+                }
+
+                if (keyboardState.IsKeyDown(Keys.F1))
+                {
+                    if (!_f1IsDown && combo < comoMax)
+                    {
+                        //ATTACK!
+                        _f1IsDown = true;
+
+                        _world.ShowBoundingBoxes = !_world.ShowBoundingBoxes;
+                    }
+                }
+                else
+                {
+                    _f1IsDown = false;
                 }
 
                 //prevent from going out of range

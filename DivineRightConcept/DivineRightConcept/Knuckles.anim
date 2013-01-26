@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Animations>
-  <Animation Name="Idle" Loop="True" SpriteSheet="Actors\KnucklesSheet" FrameDelay="100">
+  <Animation Name="Idle" Loop="True" SpriteSheet="Actors\KnucklesSheet" FrameDelay="90">
     <Frames>
       <Frame>11 , 30, 35, 38</Frame>
       <Frame>45 , 30, 35, 38</Frame>
