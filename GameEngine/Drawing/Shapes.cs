@@ -12,6 +12,9 @@ namespace GameEngine.Drawing
     /// </summary>
     public static class Shapes
     {
+        //NOTE: It is important to avoid initialising a new Texture each time
+        //This is extremely memory intensive and will end up causing a large memory leak
+        //use a cached copy of a texture each time one of the methods below are called
         private static Texture2D rectText;
 
         public static void DrawCross(this SpriteBatch SpriteBatch, Vector2 Center, int Size, Color Background, float layerDepth)
