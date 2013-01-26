@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.Drawing
 {
@@ -28,6 +29,26 @@ namespace GameEngine.Drawing
             _y = Y;
             _width = Width;
             _height = Height;
+        }
+
+        public static FRectangle operator +(FRectangle FRectangle, Vector2 Vector)
+        {
+            return new FRectangle(
+                FRectangle.X + Vector.X,
+                FRectangle.Y + Vector.Y,
+                FRectangle.Width,
+                FRectangle.Height
+            );
+        }
+
+        public static FRectangle operator -(FRectangle FRectangle, Vector2 Vector)
+        {
+            return new FRectangle(
+                FRectangle.X - Vector.X,
+                FRectangle.Y - Vector.Y,
+                FRectangle.Width,
+                FRectangle.Height
+            );
         }
     }
 }
