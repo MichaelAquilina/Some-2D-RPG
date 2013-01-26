@@ -42,21 +42,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GroundTextures.jpg">
+    <Compile Include="Tiles\GroundTextures.jpg">
       <Name>GroundTextures</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="stickman.png">
+    <Compile Include="Actors\stickman.png">
       <Name>StickManTexture</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Default.spritefont">
+    <Compile Include="Fonts\Default.spritefont">
       <Name>DefaultSpriteFont</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
@@ -64,21 +64,21 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="8bitmonkey.png">
+    <Compile Include="Actors\8bitmonkey.png">
       <Name>8bitmonkey</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ScrollBackground.png">
+    <Compile Include="UI\ScrollBackground.png">
       <Name>ScrollBackground</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="battle_knucklessheet.bmp">
+    <Compile Include="Actors\battle_knucklessheet.bmp">
       <Name>KnucklesSheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -86,14 +86,14 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GRS2ROC.bmp">
+    <Compile Include="Tiles\GRS2ROC.bmp">
       <Name>GRS2ROC</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TREE.bmp">
+    <Compile Include="MapObjects\TREE.bmp">
       <Name>TREE</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
