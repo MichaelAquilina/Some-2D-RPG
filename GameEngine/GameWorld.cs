@@ -170,16 +170,16 @@ namespace GameEngine
                     //The relative position of the object should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
                     //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                     //for panning at the edges.
-                    Rectangle SrcRect = drawObject.GetSourceRectangle(GameTime);                    
+                    Rectangle ObjectSrcRect = drawObject.GetSourceRectangle(GameTime);                    
                     
                     int objectX = (int)Math.Ceiling((drawObject.X - topLeftX) * pxTileWidth);
                     int objectY = (int)Math.Ceiling((drawObject.Y - topLeftY) * pxTileHeight);
 
-                    int objectWidth = (int)(SrcRect.Width * drawObject.Width);
-                    int objectHeight = (int)(SrcRect.Height * drawObject.Height);
+                    int objectWidth = (int)(ObjectSrcRect.Width * drawObject.Width);
+                    int objectHeight = (int)(ObjectSrcRect.Height * drawObject.Height);
 
                     //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
-                    Rectangle DestRect = new Rectangle(
+                    Rectangle ObjectDestRect = new Rectangle(
                             objectX + DestRectangle.X,
                             objectY + DestRectangle.Y,
                             objectWidth,
@@ -188,27 +188,30 @@ namespace GameEngine
 
                     //calculate the origin of the object to draw using the relative coordinates and its width and height
                     Vector2 objectOrigin = drawObject.Origin * new Vector2(objectWidth, objectHeight);
-                    Rectangle targetRect = new Rectangle(
-                        (int) (DestRect.X - objectOrigin.X),
-                        (int) (DestRect.Y - objectOrigin.Y),
-                        DestRect.Width,
-                        DestRect.Height
+                    Rectangle ObjectTargetRect = new Rectangle(
+                        (int)(ObjectDestRect.X - objectOrigin.X),
+                        (int)(ObjectDestRect.Y - objectOrigin.Y),
+                        ObjectDestRect.Width,
+                        ObjectDestRect.Height
                     );
 
                     //only render the object if it is within the specified viewport (After transforming with the Origin -the targetRect)
-                    if (drawObject.Visible && DestRectangle.Intersects(targetRect))
+                    if (drawObject.Visible && DestRectangle.Intersects(ObjectTargetRect))
                     {
                         ObjectsOnScreen++;
+
+                        if(drawObject.BoundingBoxVisible)
+                            SpriteBatch.DrawRectangle(ObjectTargetRect, Color.Red, 0);
+
                         SpriteBatch.Draw(
                             drawObject.GetTexture(GameTime),
-                            DestRect,
-                            SrcRect,
+                            ObjectDestRect,
+                            ObjectSrcRect,
                             drawObject.DrawColor,
                             0,
                             objectOrigin,
                             SpriteEffects.None,
                             1 / drawObject.Y);        //layer depth should depend how far down the object is on the map (Relative to Y)
-                        SpriteBatch.DrawRectangle(new Rectangle(DestRect.X, DestRect.Y, 4, 4), Color.Red);
                     }
                 }
 

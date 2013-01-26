@@ -24,6 +24,8 @@ namespace GameEngine.GameObjects
 
         public bool Visible { get; set; }
 
+        public bool BoundingBoxVisible { get; set; }
+
         public Vector2 Origin { get; set; }
 
         public Color DrawColor { get; set; }
@@ -43,6 +45,7 @@ namespace GameEngine.GameObjects
             this.Visible = Visible;
             this.DrawColor = Color.White;
             this.Origin = new Vector2(0, 0);
+            this.BoundingBoxVisible = false;
 
             this.ActorAnimations = new Dictionary<string, Animation>();
         }

@@ -66,8 +66,9 @@ namespace DivineRightConcept
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
 
-            CurrentPlayer = new Actor(8, 8, 1.4f, 1.4f);
+            CurrentPlayer = new Actor(8, 8, 2.0f, 2.0f);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
+            CurrentPlayer.BoundingBoxVisible = true;
 
             _world.DrawableObjects.Add(CurrentPlayer);
 
@@ -90,6 +91,7 @@ namespace DivineRightConcept
                 float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
 
                 MapObject tree = new MapObject(treeX, treeY, 1.0f, 1.0f);
+                tree.BoundingBoxVisible = false;
 
                 if (random.Next(0, 2) == 0)
                     tree.SourceRectangle = new Rectangle(3, 13, 113, 103);

@@ -14,6 +14,8 @@ namespace GameEngine.Interfaces
         float Width { get; }
         float Height { get; }
 
+        bool BoundingBoxVisible { get; }  //Specify whether the Bounding Box should be drawn
+
         bool Visible { get; }           //Value Specifying if the Drawable Object should currently be visible
 
         Color DrawColor { get; }        //Color mask with which to draw the SpriteBatch. Should be White by Default

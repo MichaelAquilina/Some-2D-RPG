@@ -14,14 +14,29 @@ namespace GameEngine.Drawing
     {
         private static Texture2D rectText;
 
-        public static void DrawRectangle(this SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background)
+        public static void DrawRectangle(this SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background, float layerDepth)
         {
-            if( rectText == null )
+            if (rectText == null)
+            {
                 rectText = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1);
+                rectText.SetData<Color>(new Color[] { Color.White });
+            }
 
-            rectText.SetData<Color>(new Color[] { Background });
+            SpriteBatch.Draw(rectText, 
+                new Rectangle(DestRectangle.X, DestRectangle.Y, DestRectangle.Width, 1),
+                null, Background, 0, new Vector2(0, 0), SpriteEffects.None, layerDepth);
 
-            SpriteBatch.Draw(rectText, DestRectangle, Color.White);
+            SpriteBatch.Draw(rectText,
+                new Rectangle(DestRectangle.X, DestRectangle.Y, 1, DestRectangle.Height),
+                null, Background, 0, new Vector2(0, 0), SpriteEffects.None, layerDepth);
+
+            SpriteBatch.Draw(rectText,
+                new Rectangle(DestRectangle.X + DestRectangle.Width - 1, DestRectangle.Y, 1, DestRectangle.Height),
+                null, Background, 0, new Vector2(0, 0), SpriteEffects.None, layerDepth);
+
+            SpriteBatch.Draw(rectText,
+                new Rectangle(DestRectangle.X, DestRectangle.Y + DestRectangle.Height - 1, DestRectangle.Width, 1),
+                null, Background, 0, new Vector2(0, 0), SpriteEffects.None, layerDepth);
         }
     }
 }
