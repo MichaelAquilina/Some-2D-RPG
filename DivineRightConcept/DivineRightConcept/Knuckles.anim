@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Animations>
-  <Animation Name="Idle" Loop="True" SpriteSheet="KnucklesSheet" FrameDelay="100">
+  <Animation Name="Idle" Loop="True" SpriteSheet="Actors\KnucklesSheet" FrameDelay="100">
     <Frames>
       <Frame>11 , 30, 35, 38</Frame>
       <Frame>45 , 30, 35, 38</Frame>
@@ -13,7 +13,7 @@
       <Frame>261, 30, 35, 38</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Running" Loop="True" SpriteSheet="KnucklesSheet">
+  <Animation Name="Running" Loop="True" SpriteSheet="Actors\KnucklesSheet">
     <Frames>
       <Frame>16, 109, 34, 34</Frame>
       <Frame>58 ,109, 34, 34</Frame>
@@ -25,7 +25,7 @@
       <Frame>280,109, 34, 34</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Attack1" Loop="False" SpriteSheet="KnucklesSheet" FrameDelay="50">
+  <Animation Name="Attack1" Loop="False" SpriteSheet="Actors\KnucklesSheet" FrameDelay="50">
     <Frames>
       <Frame>18, 151, 35, 36</Frame>
       <Frame>52, 151, 35, 36</Frame>
@@ -35,7 +35,7 @@
       <Frame>225,151, 35, 36</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Attack2" Loop="False" SpriteSheet="KnucklesSheet" FrameDelay="50">
+  <Animation Name="Attack2" Loop="False" SpriteSheet="Actors\KnucklesSheet" FrameDelay="50">
     <Frames>
       <Frame>20, 191, 36, 40</Frame>
       <Frame>65, 191, 31, 38</Frame>
@@ -45,7 +45,7 @@
       <Frame>251,191, 34, 41</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Attack3" Loop="False" SpriteSheet="KnucklesSheet" FrameDelay="50">
+  <Animation Name="Attack3" Loop="False" SpriteSheet="Actors\KnucklesSheet" FrameDelay="50">
     <Frames>
       <Frame>339,189,33,41</Frame>
       <Frame>379,189,45,42</Frame>
@@ -56,7 +56,7 @@
       <Frame>56, 242,31,42</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Attack4" Loop="False" SpriteSheet="KnucklesSheet" FrameDelay="50">
+  <Animation Name="Attack4" Loop="False" SpriteSheet="Actors\KnucklesSheet" FrameDelay="50">
     <Frames>
       <Frame>139,245,41,38</Frame>
       <Frame>178,245,27,38</Frame>
