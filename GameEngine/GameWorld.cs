@@ -187,10 +187,10 @@ namespace GameEngine
                     );
 
                     //calculate the origin of the object to draw using the relative coordinates and its width and height
-                    Vector2 objectOrigin = drawObject.Origin * new Vector2(objectWidth, objectHeight);
+                    Vector2 objectOrigin = drawObject.Origin * new Vector2(ObjectSrcRect.Width, ObjectSrcRect.Height);
                     Rectangle ObjectTargetRect = new Rectangle(
-                        (int)(ObjectDestRect.X - objectOrigin.X),
-                        (int)(ObjectDestRect.Y - objectOrigin.Y),
+                        (int)(ObjectDestRect.X - objectOrigin.X * drawObject.Width),
+                        (int)(ObjectDestRect.Y - objectOrigin.Y * drawObject.Height),
                         ObjectDestRect.Width,
                         ObjectDestRect.Height
                     );

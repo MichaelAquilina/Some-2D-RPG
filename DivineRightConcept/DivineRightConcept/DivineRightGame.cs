@@ -24,8 +24,8 @@ namespace DivineRightConcept
         const bool DEBUG = true;
         const int INPUT_DELAY = 30;
 
-        const int WORLD_HEIGHT = 500;
-        const int WORLD_WIDTH = 500;
+        const int WORLD_HEIGHT = 50;
+        const int WORLD_WIDTH = 50;
         
         const int TILE_WIDTH = 30;
         const int TILE_HEIGHT = 30;
@@ -66,7 +66,7 @@ namespace DivineRightConcept
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
 
-            CurrentPlayer = new Actor(8, 8, 2.0f, 2.0f);
+            CurrentPlayer = new Actor(8, 8, 1.5f, 1.5f);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
             CurrentPlayer.BoundingBoxVisible = true;
 
@@ -175,8 +175,8 @@ namespace DivineRightConcept
                 //prevent from going out of range
                 if (CurrentPlayer.X < 0) CurrentPlayer.X = 0;
                 if (CurrentPlayer.Y < 0) CurrentPlayer.Y = 0;
-                if (CurrentPlayer.X >= WORLD_WIDTH) CurrentPlayer.X = WORLD_WIDTH - 1;
-                if (CurrentPlayer.Y >= WORLD_HEIGHT) CurrentPlayer.Y = WORLD_HEIGHT - 1;
+                if (CurrentPlayer.X >= WORLD_WIDTH -1) CurrentPlayer.X = WORLD_WIDTH - 1;
+                if (CurrentPlayer.Y >= WORLD_HEIGHT -1) CurrentPlayer.Y = WORLD_HEIGHT - 1;
             }
 
             base.Update(gameTime);
