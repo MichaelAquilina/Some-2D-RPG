@@ -84,7 +84,7 @@ namespace DivineRightConcept
 
             //GENERATION AND STORAGE OF MAP OBJECTS SHOULD BE WITHIIN THE MAP FILE ITSELF (TODO)
             Random random = new Random();
-            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 8; i++)
+            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 6; i++)
             {
                 float treeX = (float) (random.NextDouble() * WORLD_WIDTH);
                 float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
@@ -185,8 +185,9 @@ namespace DivineRightConcept
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
+            int objectsOnScreen = 0;
 
-            _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(110, 10, VIEW_WIDTH, VIEW_HEIGHT));
+            _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT), out objectsOnScreen);
             //_world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
 
             spriteBatch.Begin();
@@ -195,6 +196,8 @@ namespace DivineRightConcept
                 spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), new Vector2(0, 0), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, "Total Map Objects = " + _world.DrawableObjects.Count, new Vector2(0, 60), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, "Objects On Screen = " + objectsOnScreen, new Vector2(0, 80), Color.White);
 
             spriteBatch.End();
 

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using System.IO;
-using GameEngine.Interfaces;
-using GameEngine.GameObjects;
 using GameEngine.Drawing;
+using GameEngine.GameObjects;
+using GameEngine.Interfaces;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine
 {
@@ -112,7 +112,8 @@ namespace GameEngine
         /// <param name="TileWidth">Integer value specifying the Width in pixels of each Tile on the Map.</param>
         /// <param name="TileHeight">Integer value specifying the Height in pixels of each Tile on the Map.</param>
         /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
-        public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle)
+        /// <param name="ObjectsOnScreen">output variable that returns the number of objects that are currently being drawn on screen. Mainly used for debugging purposes</param>
+        public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, out int ObjectsOnScreen)
         {
             Rectangle PrevScissorRectangle = SpriteBatch.GraphicsDevice.ScissorRectangle;
             SpriteBatch.GraphicsDevice.ScissorRectangle = DestRectangle;
@@ -161,6 +162,8 @@ namespace GameEngine
                         this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap, tileX, tileY, tileDestRect);
                     }
 
+                ObjectsOnScreen = 0;
+
                 //DRAW THE IGAMEDRAWABLE COMPONENTS (Actors, MapObjects, etc...)
                 foreach (IGameDrawable drawObject in DrawableObjects)
                 {
@@ -183,20 +186,29 @@ namespace GameEngine
                             objectHeight
                     );
 
-                    //only render the object if it is within the specified viewport
-                    if (DestRectangle.Intersects(DestRect))
-                    //TEMP: Removed, its possible that performance is not hit too badly with the use of ScissorRect anyway!
-                    //TODO:This Method has proven more effecient through stress testing, now we just need to fix the Origin bug!!!!
+                    //calculate the origin of the object to draw using the relative coordinates and its width and height
+                    Vector2 objectOrigin = drawObject.Origin * new Vector2(objectWidth, objectHeight);
+                    Rectangle targetRect = new Rectangle(
+                        (int) (DestRect.X - objectOrigin.X),
+                        (int) (DestRect.Y - objectOrigin.Y),
+                        DestRect.Width,
+                        DestRect.Height
+                    );
 
+                    //only render the object if it is within the specified viewport (After transforming with the Origin -the targetRect)
+                    if (drawObject.Visible && DestRectangle.Intersects(targetRect))
+                    {
+                        ObjectsOnScreen++;
                         SpriteBatch.Draw(
-                            drawObject.GetTexture(GameTime), 
-                            DestRect, 
-                            SrcRect, 
+                            drawObject.GetTexture(GameTime),
+                            DestRect,
+                            SrcRect,
                             drawObject.DrawColor,
                             0,
-                            drawObject.Origin * new Vector2(objectWidth, objectHeight),  
+                            objectOrigin,
                             SpriteEffects.None,
-                            1/drawObject.Y);        //layer depth should depend how far down the object is on the map (Relative to Y)
+                            1 / drawObject.Y);        //layer depth should depend how far down the object is on the map (Relative to Y)
+                    }
                 }
 
                 SpriteBatch.End();                                                      //End Sprite Batch using custom settings
