@@ -92,7 +92,7 @@ namespace DivineRightConcept.GroundPallettes
 
         public Color GetTileColor(byte TileType)
         {
-            throw new NotImplementedException();
+            return _tileColors[TileType];
         }
 
         public void LoadContent(ContentManager Content)

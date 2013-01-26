@@ -81,7 +81,7 @@ namespace DivineRightConcept
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            CurrentPlayer.LoadAnimationXML("Knuckles.anim", Content);
+            CurrentPlayer.LoadAnimationXML("Animations/Knuckles.anim", Content);
 
             Rectangle[] mapObjectSrcRectangles = new Rectangle[] { 
                 new Rectangle(3, 13, 113, 103)
@@ -93,7 +93,7 @@ namespace DivineRightConcept
 
             //GENERATION AND STORAGE OF MAP OBJECTS SHOULD BE WITHIIN THE MAP FILE ITSELF (TODO)
             Random random = new Random();
-            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 10; i++)
+            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 7; i++)
             {
                 float treeX = (float) (random.NextDouble() * WORLD_WIDTH);
                 float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
@@ -209,7 +209,7 @@ namespace DivineRightConcept
             int objectsOnScreen = 0;
 
             _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT), out objectsOnScreen);
-            //_world.DrawMipMap(spriteBatch, new Rectangle(650, 0, 100, 100));
+            _world.DrawMipMap(spriteBatch, new Rectangle(670, 10, 100, 100));
 
             spriteBatch.Begin();
 

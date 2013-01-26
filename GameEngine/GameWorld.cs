@@ -101,7 +101,9 @@ namespace GameEngine
             if (_mipMapTex == null)
                 _mipMapTex = GenerateMipMapTexture(this.WorldMap);
 
+            SpriteBatch.Begin();
             SpriteBatch.Draw(_mipMapTex, DestRectangle, Color.White);
+            SpriteBatch.End();
         }
 
         /// <summary>
@@ -200,7 +202,7 @@ namespace GameEngine
                         ObjectDestRect.Height
                     );
 
-                    //only render the object if it is within the specified viewport (After transforming with the Origin -the targetRect)
+                    //only render the object if the objects BoundingBox it is within the specified viewport
                     if (drawObject.Visible && DestRectangle.Intersects(ObjectBoundingBox))
                     {
                         ObjectsOnScreen++;
