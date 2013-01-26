@@ -207,7 +207,8 @@ namespace GameEngine
                             0,
                             objectOrigin,
                             SpriteEffects.None,
-                            1 / drawObject.Y);        //layer depth should depend how far down the object is on the map (Relative to Y)
+                            1 / (DestRect.Y));        //layer depth should depend how far down the object is on the map (Relative to Y)
+                        SpriteBatch.DrawRectangle(new Rectangle(DestRect.X, DestRect.Y, 4, 4), Color.Red);
                     }
                 }
 

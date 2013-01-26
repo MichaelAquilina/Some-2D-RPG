@@ -97,7 +97,7 @@ namespace DivineRightConcept.GroundPallettes
 
         public void LoadContent(ContentManager Content)
         {
-            _groundTexture = Content.Load<Texture2D>("GRS2ROC");   
+            _groundTexture = Content.Load<Texture2D>(@"Tiles\GRS2ROC");   
         }
 
         public void UnloadContent()

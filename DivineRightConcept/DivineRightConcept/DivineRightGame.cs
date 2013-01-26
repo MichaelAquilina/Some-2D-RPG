@@ -84,7 +84,7 @@ namespace DivineRightConcept
 
             //GENERATION AND STORAGE OF MAP OBJECTS SHOULD BE WITHIIN THE MAP FILE ITSELF (TODO)
             Random random = new Random();
-            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 6; i++)
+            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 14; i++)
             {
                 float treeX = (float) (random.NextDouble() * WORLD_WIDTH);
                 float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
@@ -96,14 +96,14 @@ namespace DivineRightConcept
                 else
                     tree.SourceRectangle = new Rectangle(124, 4, 72, 109);
 
-                tree.SourceTexture = Content.Load<Texture2D>("TREE");
+                tree.SourceTexture = Content.Load<Texture2D>(@"MapObjects\TREE");
                 tree.Origin = new Vector2(0.5f, 1.0f);
 
                 _world.DrawableObjects.Add(tree);
             }
 
             //LOAD THE DEFAULT FONT
-            _defaultSpriteFont = Content.Load<SpriteFont>("DefaultSpriteFont");
+            _defaultSpriteFont = Content.Load<SpriteFont>(@"Fonts\DefaultSpriteFont");
         }
 
         protected override void UnloadContent()
