@@ -12,9 +12,13 @@ namespace GameEngine.Drawing
     /// </summary>
     public static class Shapes
     {
+        private static Texture2D rectText;
+
         public static void DrawRectangle(this SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background)
         {
-            Texture2D rectText = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1);
+            if( rectText == null )
+                rectText = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1);
+
             rectText.SetData<Color>(new Color[] { Background });
 
             SpriteBatch.Draw(rectText, DestRectangle, Color.White);
