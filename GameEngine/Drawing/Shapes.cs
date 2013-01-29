@@ -34,6 +34,17 @@ namespace GameEngine.Drawing
                 null, Background, 0, new Vector2(0, 0), SpriteEffects.None, layerDepth);
         }
 
+        public static void FillRectangle(this SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background, float layerDepth)
+        {
+            if(rectText == null)
+            {
+                rectText = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1);
+                rectText.SetData<Color>(new Color[] {Color.White});
+            }
+
+            SpriteBatch.Draw(rectText, DestRectangle, Background);
+        }
+
         public static void DrawRectangle(this SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background, float layerDepth)
         {
             if (rectText == null)

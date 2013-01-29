@@ -222,7 +222,7 @@ namespace GameEngine
                             drawObject.Rotation,
                             objectOrigin,
                             SpriteEffects.None,
-                            1 / drawObject.Y);        //layer depth should depend how far down the object is on the map (Relative to Y)
+                            Math.Min(0.99f, 1 / drawObject.Y));        //layer depth should depend how far down the object is on the map (Relative to Y)
                     }
                 }
 

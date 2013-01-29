@@ -27,8 +27,8 @@ namespace DivineRightConcept
         const int WORLD_HEIGHT = 500;
         const int WORLD_WIDTH = 500;
         
-        const int TILE_WIDTH = 30;
-        const int TILE_HEIGHT = 30;
+        const int TILE_WIDTH = 50;
+        const int TILE_HEIGHT = 50;
 
         const int VIEW_WIDTH = 450;
         const int VIEW_HEIGHT = 450;
@@ -67,7 +67,7 @@ namespace DivineRightConcept
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
 
-            CurrentPlayer = new Actor(8, 8, 1.7f, 1.7f);
+            CurrentPlayer = new Actor(8, 8, 1.5f, 1.5f);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
 
             _world.DrawableObjects.Add(CurrentPlayer);
@@ -211,7 +211,10 @@ namespace DivineRightConcept
             _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT), out objectsOnScreen);
             _world.DrawMipMap(spriteBatch, new Rectangle(670, 10, 100, 100));
 
-            spriteBatch.Begin();
+            spriteBatch.Begin();  
+
+                //TEST Draw Darkness with an Alpha colour
+                //spriteBatch.FillRectangle(new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT), new Color(0,0,0,200), 0);
 
                 //DRAW DEBUGGING INFORMATION
                 spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), new Vector2(0, 0), Color.White);
