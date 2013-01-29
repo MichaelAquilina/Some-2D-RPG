@@ -121,6 +121,8 @@ namespace GameEngine
         /// <param name="ObjectsOnScreen">output variable that returns the number of objects that are currently being drawn on screen. Mainly used for debugging purposes</param>
         public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, out int ObjectsOnScreen)
         {
+            
+
             Rectangle PrevScissorRectangle = SpriteBatch.GraphicsDevice.ScissorRectangle;
             SpriteBatch.GraphicsDevice.ScissorRectangle = DestRectangle;
 
@@ -165,7 +167,15 @@ namespace GameEngine
                         tileDestRect.X -= (int)(dispX * pxTileWidth);
                         tileDestRect.Y -= (int)(dispY * pxTileHeight);
 
-                        this.WorldMap.GroundPallette.DrawGroundTexture(SpriteBatch, WorldMap, tileX, tileY, tileDestRect);
+                        SpriteBatch.Draw(
+                            this.WorldMap.GroundPallette.SourceTexture,
+                            tileDestRect,
+                            this.WorldMap.GroundPallette.GetTileSourceRectangle(this.WorldMap[tileX, tileY]), 
+                            Color.White,
+                            0, Vector2.Zero,
+                            SpriteEffects.None,
+                            1
+                        );
                     }
 
                 ObjectsOnScreen = 0;
