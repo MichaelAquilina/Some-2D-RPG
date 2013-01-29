@@ -46,7 +46,7 @@ namespace GameEngine.GameObjects
             this.Height = Height;
             this.Visible = Visible;
             this.DrawColor = Color.White;
-            this.Origin = new Vector2(0, 0);
+            this.Origin = Vector2.Zero;
             this.BoundingBoxVisible = false;
             this.Rotation = 0;
 

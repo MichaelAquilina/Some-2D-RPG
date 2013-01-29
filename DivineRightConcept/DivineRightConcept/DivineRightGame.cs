@@ -217,7 +217,7 @@ namespace DivineRightConcept
                 //spriteBatch.FillRectangle(new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT), new Color(0,0,0,200), 0);
 
                 //DRAW DEBUGGING INFORMATION
-                spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), new Vector2(0, 0), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), Vector2.Zero, Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "Total Map Objects = " + _world.DrawableObjects.Count, new Vector2(0, 60), Color.White);
