@@ -19,11 +19,6 @@ namespace DivineRightConcept.GroundPallettes
             get { return 2; }
         }
 
-        public Texture2D SourceTexture
-        {
-            get { return _groundTexture; }
-        }
-
         private Texture2D _groundTexture;
 
         public const int GROUND_TEXTURE_GRASS = 1;
@@ -56,6 +51,10 @@ namespace DivineRightConcept.GroundPallettes
             _sourceRectangles[9] = new Rectangle(200, 241, 40, 40);
         }
 
+        public Texture2D GetTileSourceTexture(byte TileType)
+        {
+            return _groundTexture;
+        }
 
         public Rectangle GetTileSourceRectangle(byte TileType)
         {

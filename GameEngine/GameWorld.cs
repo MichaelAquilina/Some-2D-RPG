@@ -168,7 +168,7 @@ namespace GameEngine
                         tileDestRect.Y -= (int)(dispY * pxTileHeight);
 
                         SpriteBatch.Draw(
-                            this.WorldMap.GroundPallette.SourceTexture,
+                            this.WorldMap.GroundPallette.GetTileSourceTexture(this.WorldMap[tileX, tileY]),
                             tileDestRect,
                             this.WorldMap.GroundPallette.GetTileSourceRectangle(this.WorldMap[tileX, tileY]), 
                             Color.White,
