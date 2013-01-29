@@ -16,6 +16,10 @@ namespace GameEngine.Interfaces
     /// </summary>
     public interface IGroundPallette : ILoadable
     {
+        //TODO: GROUND PALLETTE HAS BECOME REDUNDANT DUE TO LAYER DEPTH DEPENDENCIES
+        //IT SHOULD NOT EXPOSE METHODS FOR DRAWING GROUND TEXTURES BUT RATHER RETURNING RECTANGLE FRAMES DEPNDING ON
+        //THE TILE TYPE. LAYER DEPTH, COLOR, ETC SHOULD BE HANDLED BY THE DRAWVIEWPORT METHOD IN GAMEWORLD.CS
+
         void DrawGroundTexture(SpriteBatch SpriteBatch, Map GameMap, int X, int Y, Rectangle DesRectangle);
 
         Color GetTileColor(byte TileType);
