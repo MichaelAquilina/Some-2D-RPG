@@ -8,6 +8,7 @@ using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace GameEngine
 {
@@ -19,48 +20,64 @@ namespace GameEngine
     /// TODO: Possibly convert this class from a GameComponent into an ILoadable
     public class GameWorld : GameComponent
     {
-        #region Variables
+        #region Properties
 
         public Map WorldMap {
             get { return _worldMap; }
-            set { _mipMapTex = null; _worldMap = value; }       //clear the cached mipmap
+            set
+            {
+                //clear cached copy
+                if (_miniMapTex != null)
+                    _miniMapTex.Dispose();
+                _miniMapTex = null;
+                _worldMap = value;
+            }
         }
+
+        public Texture2D LightMap
+        {
+            get { return (Texture2D)_lightRenderTarget; }
+        }
+
+        public Texture2D ViewPort
+        {
+            get { return (Texture2D)_viewPortTarget; }
+        }
+
+        public float LightValue { get; set; }
+
+        public int Width { get; private set; }
+
+        public int Height { get; private set; }
+
+        public int ObjectsOnScreen { get; private set; }
 
         public List<IGameDrawable> DrawableObjects { get; private set; }
 
         public bool ShowBoundingBoxes { get; set; }
 
+        #endregion
+
+        #region Variables
+
         private Map _worldMap;                  //World Map Instance
-        private Texture2D _mipMapTex;           //Cached copy of the MipMapTexture
+        private Texture2D _miniMapTex;           //Cached copy of the MipMapTexture
+
+        //TEMP (TO REMOVE)
+        Effect _alphaShader;
+        Texture2D _lightSource;
+
+        RenderTarget2D _lightRenderTarget;
+        RenderTarget2D _viewPortTarget;
 
         #endregion
 
-        public GameWorld(Game Game)
+        public GameWorld(Game Game, int Width, int Height)
             :base(Game)
         {
+            LightValue = 0.8f;
             ShowBoundingBoxes = false;
-        }
-
-        /// <summary>
-        /// Generates a minitiure version of the specified Map into a texture and returns it. Each pixel
-        /// within the returned texture would correspond to one tile on the Map (based on the information
-        /// returned by the GroundPallette being used by the Map).
-        /// </summary>
-        /// <param name="Map">Map with which to generate the MipMap.</param>
-        /// <returns>Generated MiniMap Texture.</returns>
-        private Texture2D GenerateMipMapTexture(Map Map)
-        {
-            //GENERATE THE MINIMAP TEXTURE
-            Color[] mapColors = new Color[Map.Width * Map.Height];
-            Texture2D resultTexture = new Texture2D(this.Game.GraphicsDevice, Map.Width, Map.Height, false, SurfaceFormat.Color);
-
-            for (int i = 0; i < Map.Width; i++)
-                for (int j = 0; j < Map.Height; j++)
-                    mapColors[j * Map.Width + i] = Map.GroundPallette.GetTileColor(Map[i, j]);
-
-            resultTexture.SetData<Color>(mapColors);
-
-            return resultTexture;
+            SetResolution(Width, Height);
         }
 
         public override void Initialize()
@@ -76,14 +93,67 @@ namespace GameEngine
         /// </summary>
         public void LoadContent()
         {
+            ContentManager Content = this.Game.Content;
+            GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
+
+            _alphaShader = Content.Load<Effect>("Alpha");
+            _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource2");
+
             this.WorldMap.GroundPallette.LoadContent(Game.Content);
         }
 
         public void UnloadContent()
         {
             this.WorldMap.GroundPallette.UnloadContent();
-            this._mipMapTex.Dispose();
-            this._mipMapTex = null;
+            if (_miniMapTex != null)
+                _miniMapTex.Dispose();
+
+            if (_lightRenderTarget != null)
+                _lightRenderTarget.Dispose();
+
+            if (_viewPortTarget != null)
+                _viewPortTarget.Dispose();
+
+            _miniMapTex = null;
+            _lightRenderTarget = null;
+            _viewPortTarget = null;
+        }
+
+        /// <summary>
+        /// Sets the Resolution for Rendering the Game World. This is inately tied to the resolution the game
+        /// will be rendered at. Internally, new render targets are created for both the viewport and the
+        /// light map that will be used by DrawViewPort.
+        /// </summary>
+        /// <param name="Width">int Width in pixels.</param>
+        /// <param name="Height">int Height in pixels.</param>
+        public void SetResolution(int Width, int Height)
+        {
+            this.Width = Width;
+            this.Height = Height;
+
+            if (_lightRenderTarget != null)
+                _lightRenderTarget.Dispose();
+
+            if (_viewPortTarget != null)
+                _viewPortTarget.Dispose();
+
+            _lightRenderTarget = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height);
+            _viewPortTarget = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height);
+        }
+
+        private Texture2D GenerateMipMapTexture(Map Map)
+        {
+            //GENERATE THE MINIMAP TEXTURE
+            Color[] mapColors = new Color[Map.Width * Map.Height];
+            Texture2D resultTexture = new Texture2D(this.Game.GraphicsDevice, Map.Width, Map.Height, false, SurfaceFormat.Color);
+
+            for (int i = 0; i < Map.Width; i++)
+                for (int j = 0; j < Map.Height; j++)
+                    mapColors[j * Map.Width + i] = Map.GroundPallette.GetTileColor(Map[i, j]);
+
+            resultTexture.SetData<Color>(mapColors);
+
+            return resultTexture;
         }
 
         /// <summary>
@@ -98,11 +168,11 @@ namespace GameEngine
         public void DrawMipMap(SpriteBatch SpriteBatch, Rectangle DestRectangle)
         {
             //CHECK CACHED COPY
-            if (_mipMapTex == null)
-                _mipMapTex = GenerateMipMapTexture(this.WorldMap);
+            if (_miniMapTex == null)
+                _miniMapTex = GenerateMipMapTexture(this.WorldMap);
 
             SpriteBatch.Begin();
-            SpriteBatch.Draw(_mipMapTex, DestRectangle, Color.White);
+            SpriteBatch.Draw(_miniMapTex, DestRectangle, Color.White);
             SpriteBatch.End();
         }
 
@@ -118,27 +188,36 @@ namespace GameEngine
         /// <param name="TileWidth">Integer value specifying the Width in pixels of each Tile on the Map.</param>
         /// <param name="TileHeight">Integer value specifying the Height in pixels of each Tile on the Map.</param>
         /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
-        /// <param name="ObjectsOnScreen">output variable that returns the number of objects that are currently being drawn on screen. Mainly used for debugging purposes</param>
-        public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, out int ObjectsOnScreen)
+        /// <param name="Color">Color object with which to blend the game world.</param>
+        public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, Color Color)
         {
-            
+            GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
-            Rectangle PrevScissorRectangle = SpriteBatch.GraphicsDevice.ScissorRectangle;
-            SpriteBatch.GraphicsDevice.ScissorRectangle = DestRectangle;
+            //RENDER THE LIGHT MAP TO A DESTINATION TEXTURE
+            GraphicsDevice.SetRenderTarget(_lightRenderTarget);
+            GraphicsDevice.Clear(Color.Black);
 
-            SpriteBatch.Begin(
-                SpriteSortMode.BackToFront,
-                BlendState.AlphaBlend,
-                null, null,
-                new RasterizerState() { ScissorTestEnable = true });
+            SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            {
+                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 100, 100), Color.White);
+                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 200, 200), Color.White);
+                SpriteBatch.Draw(_lightSource, new Rectangle(100, 160, 400, 400), Color.White);
+            }
+            SpriteBatch.End();
+
+            //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
+            GraphicsDevice.SetRenderTarget(_viewPortTarget);
+            GraphicsDevice.Clear(Color.Black);
+
+            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             {
                 //determine the amount of tiles to be draw on the viewport
-                int TileCountX = (int) Math.Ceiling( (double) DestRectangle.Width / pxTileWidth ) + 1;
-                int TileCountY = (int) Math.Ceiling( (double) DestRectangle.Height / pxTileHeight ) + 1;
+                int TileCountX = (int)Math.Ceiling((double)DestRectangle.Width / pxTileWidth) + 1;
+                int TileCountY = (int)Math.Ceiling((double)DestRectangle.Height / pxTileHeight) + 1;
 
                 //determine the topleft world coordinate in the view
-                float topLeftX = (float) (Center.X - Math.Ceiling((double)TileCountX/2));
-                float topLeftY = (float) (Center.Y - Math.Ceiling((double)TileCountY/2));
+                float topLeftX = (float)(Center.X - Math.Ceiling((double)TileCountX / 2));
+                float topLeftY = (float)(Center.Y - Math.Ceiling((double)TileCountY / 2));
 
                 //Prevent the View from going outisde of the WORLD coordinates
                 if (topLeftX < 0) topLeftX = 0;
@@ -154,14 +233,10 @@ namespace GameEngine
                 for (int i = 0; i < TileCountX; i++)
                     for (int j = 0; j < TileCountY; j++)
                     {
-                        int tileX = (int) (i + topLeftX);
-                        int tileY = (int) (j + topLeftY);
+                        int tileX = (int)(i + topLeftX);
+                        int tileY = (int)(j + topLeftY);
 
                         Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
-
-                        //translate according to the destination rectangle
-                        tileDestRect.X += DestRectangle.X;
-                        tileDestRect.Y += DestRectangle.Y;
 
                         //traslate if there is any decimal displacement due to a Center with a floating point
                         tileDestRect.X -= (int)(dispX * pxTileWidth);
@@ -170,7 +245,7 @@ namespace GameEngine
                         SpriteBatch.Draw(
                             this.WorldMap.GroundPallette.GetTileSourceTexture(this.WorldMap[tileX, tileY]),
                             tileDestRect,
-                            this.WorldMap.GroundPallette.GetTileSourceRectangle(this.WorldMap[tileX, tileY]), 
+                            this.WorldMap.GroundPallette.GetTileSourceRectangle(this.WorldMap[tileX, tileY]),
                             Color.White,
                             0, Vector2.Zero,
                             SpriteEffects.None,
@@ -187,8 +262,8 @@ namespace GameEngine
                     //The relative position of the object should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
                     //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                     //for panning at the edges.
-                    Rectangle ObjectSrcRect = drawObject.GetSourceRectangle(GameTime);                    
-                    
+                    Rectangle ObjectSrcRect = drawObject.GetSourceRectangle(GameTime);
+
                     int objectX = (int)Math.Ceiling((drawObject.X - topLeftX) * pxTileWidth);
                     int objectY = (int)Math.Ceiling((drawObject.Y - topLeftY) * pxTileHeight);
 
@@ -197,8 +272,8 @@ namespace GameEngine
 
                     //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
                     Rectangle ObjectDestRect = new Rectangle(
-                            objectX + DestRectangle.X,
-                            objectY + DestRectangle.Y,
+                            objectX,
+                            objectY,
                             objectWidth,
                             objectHeight
                     );
@@ -213,7 +288,7 @@ namespace GameEngine
                     );
 
                     //only render the object if the objects BoundingBox it is within the specified viewport
-                    if (drawObject.Visible && DestRectangle.Intersects(ObjectBoundingBox))
+                    if (drawObject.Visible && ObjectBoundingBox.Intersects(new Rectangle(0,0,Width,Height)) )
                     {
                         ObjectsOnScreen++;
 
@@ -236,8 +311,24 @@ namespace GameEngine
                     }
                 }
 
-                SpriteBatch.End();                                                      //End Sprite Batch using custom settings
-                SpriteBatch.GraphicsDevice.ScissorRectangle = PrevScissorRectangle;     //Restore Previously applied Scissor Rectangle
+                SpriteBatch.End();
+
+                //DRAW THE VIEWPORT TO THE STANDARD SCREEN
+                GraphicsDevice.SetRenderTarget(null);
+                SpriteBatch.Begin();
+                {
+                    SpriteBatch.Draw((Texture2D)_viewPortTarget, DestRectangle, Color);
+                }
+                SpriteBatch.End();
+
+                //DRAW THE LIGHT MAP TO THE STANDARD SCREEN
+                _alphaShader.Parameters["LightValue"].SetValue(LightValue);
+                SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _alphaShader);
+                {
+                    SpriteBatch.Draw((Texture2D)_lightRenderTarget, DestRectangle, Color.White);
+                }
+                SpriteBatch.End();
+
             }
         }
     }

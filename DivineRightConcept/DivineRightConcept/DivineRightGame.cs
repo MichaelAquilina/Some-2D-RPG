@@ -63,7 +63,8 @@ namespace DivineRightConcept
             //Current IWorldGenerator being used
             _generator = new RandomWorldGenerator();
 
-            _world = new GameWorld(this);
+            _world = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
+            _world.LightValue = 0;
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
 
@@ -93,7 +94,7 @@ namespace DivineRightConcept
 
             //GENERATION AND STORAGE OF MAP OBJECTS SHOULD BE WITHIIN THE MAP FILE ITSELF (TODO)
             Random random = new Random();
-            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 7; i++)
+            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 3; i++)
             {
                 float treeX = (float) (random.NextDouble() * WORLD_WIDTH);
                 float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
@@ -203,26 +204,25 @@ namespace DivineRightConcept
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            Rectangle DestRectangle = new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT);
 
-            double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
-            int objectsOnScreen = 0;
-
-            _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT), out objectsOnScreen);
+            _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
             _world.DrawMipMap(spriteBatch, new Rectangle(670, 10, 100, 100));
+            
+            //DRAW DEBUGGING INFORMATION
+            spriteBatch.Begin();
+            {
+                spriteBatch.Draw(_world.LightMap, new Rectangle(670, 120, 100, 100), Color.White);
+                spriteBatch.Draw(_world.ViewPort, new Rectangle(670, 230, 100, 100), Color.White);
 
-            spriteBatch.Begin();  
+                double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
-                //TEST Draw Darkness with an Alpha colour
-                //spriteBatch.FillRectangle(new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT), new Color(0,0,0,200), 0);
-
-                //DRAW DEBUGGING INFORMATION
                 spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), Vector2.Zero, Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "Total Map Objects = " + _world.DrawableObjects.Count, new Vector2(0, 60), Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, "Objects On Screen = " + objectsOnScreen, new Vector2(0, 80), Color.White);
-
+                spriteBatch.DrawString(_defaultSpriteFont, "Objects On Screen = " + _world.ObjectsOnScreen, new Vector2(0, 80), Color.White);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
