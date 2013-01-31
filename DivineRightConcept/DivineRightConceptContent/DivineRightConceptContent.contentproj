@@ -93,8 +93,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MapObjects\TREE.bmp">
-      <Name>TREE</Name>
+    <Compile Include="MapObjects\OBJECTS.bmp">
+      <Name>OBJECTS</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <ProcessorParameters_ColorKeyColor>75, 99, 127, 255</ProcessorParameters_ColorKeyColor>

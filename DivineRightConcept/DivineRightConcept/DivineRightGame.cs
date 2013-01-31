@@ -64,7 +64,7 @@ namespace DivineRightConcept
             _generator = new RandomWorldGenerator();
 
             _world = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
-            _world.LightValue = 0;
+            _world.DarkValue = 0.8f;
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
 
@@ -103,7 +103,7 @@ namespace DivineRightConcept
 
                 mapObject.SourceRectangle = mapObjectSrcRectangles[random.Next(0, mapObjectSrcRectangles.Length)];
 
-                mapObject.SourceTexture = Content.Load<Texture2D>(@"MapObjects\TREE");
+                mapObject.SourceTexture = Content.Load<Texture2D>(@"MapObjects\OBJECTS");
                 mapObject.Origin = new Vector2(0.5f, 1.0f);
 
                 _world.DrawableObjects.Add(mapObject);
@@ -181,9 +181,7 @@ namespace DivineRightConcept
                 {
                     if (!_f1IsDown && combo < comoMax)
                     {
-                        //ATTACK!
                         _f1IsDown = true;
-
                         _world.ShowBoundingBoxes = !_world.ShowBoundingBoxes;
                     }
                 }

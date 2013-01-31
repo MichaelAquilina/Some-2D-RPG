@@ -6,7 +6,7 @@ sampler screen = sampler_state
     Texture = <ScreenTexture>;
 };
 
-uniform extern float LightValue;
+uniform extern float DarkValue;
 
 // here we do the real work. 
 float4 PixelShaderFunction(float2 inCoord: TEXCOORD0) : COLOR
@@ -21,7 +21,7 @@ float4 PixelShaderFunction(float2 inCoord: TEXCOORD0) : COLOR
 	// have a value of 255. Hence the black areas will subtract
 	// nothing from our original color, and the white areas of
 	// our mask will subtract all color from the color.
-	c.a = clamp(1 - tex2D(screen, inCoord).r, 0, LightValue);
+	c.a = clamp(1 - tex2D(screen, inCoord).r, 0, DarkValue);
 	c.r = 0;
 	c.g = 0;
 	c.b = 0;

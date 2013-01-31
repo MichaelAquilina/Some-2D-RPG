@@ -44,7 +44,7 @@ namespace GameEngine
             get { return (Texture2D)_viewPortTarget; }
         }
 
-        public float LightValue { get; set; }
+        public float DarkValue { get; set; }
 
         public int Width { get; private set; }
 
@@ -75,7 +75,7 @@ namespace GameEngine
         public GameWorld(Game Game, int Width, int Height)
             :base(Game)
         {
-            LightValue = 0.8f;
+            DarkValue = 0;
             ShowBoundingBoxes = false;
             SetResolution(Width, Height);
         }
@@ -97,7 +97,7 @@ namespace GameEngine
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
             _alphaShader = Content.Load<Effect>("Alpha");
-            _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource2");
+            _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
 
             this.WorldMap.GroundPallette.LoadContent(Game.Content);
         }
@@ -322,7 +322,7 @@ namespace GameEngine
                 SpriteBatch.End();
 
                 //DRAW THE LIGHT MAP TO THE STANDARD SCREEN
-                _alphaShader.Parameters["LightValue"].SetValue(LightValue);
+                _alphaShader.Parameters["DarkValue"].SetValue(DarkValue);
                 SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _alphaShader);
                 {
                     SpriteBatch.Draw((Texture2D)_lightRenderTarget, DestRectangle, Color.White);
