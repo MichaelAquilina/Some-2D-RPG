@@ -52,6 +52,8 @@ namespace GameEngine
 
         public int ObjectsOnScreen { get; private set; }
 
+        public List<ILightSource> LightSources { get; private set; }
+
         public List<IGameDrawable> DrawableObjects { get; private set; }
 
         public bool ShowBoundingBoxes { get; set; }
@@ -82,6 +84,7 @@ namespace GameEngine
 
         public override void Initialize()
         {
+            LightSources = new List<ILightSource>();
             DrawableObjects = new List<IGameDrawable>();
 
             base.Initialize();
@@ -199,6 +202,8 @@ namespace GameEngine
 
             SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             {
+                //TODO DRAW TO LIGHT RENDER TARGET BASED ON REGISTERED LIGHTSOURCES LIST
+
                 SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 100, 100), Color.White);
                 SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 200, 200), Color.White);
                 SpriteBatch.Draw(_lightSource, new Rectangle(100, 160, 400, 400), Color.White);
