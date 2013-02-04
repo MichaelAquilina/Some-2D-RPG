@@ -44,7 +44,15 @@ namespace GameEngine
             get { return (Texture2D)_viewPortTarget; }
         }
 
-        public float DarkValue { get; set; }
+        public float DarkValue {
+            get { return _darkValue; }
+            set
+            {
+                _darkValue = value;
+                if (_darkValue > 1.0f) _darkValue = 1.0f;
+                if (_darkValue < 0.0f) _darkValue = 0.0f;
+            }
+        }
 
         public int Width { get; private set; }
 
@@ -61,6 +69,8 @@ namespace GameEngine
         #endregion
 
         #region Variables
+
+        private float _darkValue = 0.0f;
 
         private Map _worldMap;                  //World Map Instance
         private Texture2D _miniMapTex;           //Cached copy of the MipMapTexture
