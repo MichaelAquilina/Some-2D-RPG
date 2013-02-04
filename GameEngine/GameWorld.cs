@@ -72,7 +72,7 @@ namespace GameEngine
 
         private float _darkValue = 0.0f;
 
-        private Map _worldMap;                  //World Map Instance
+        private Map _worldMap;                   //World Map Instance
         private Texture2D _miniMapTex;           //Cached copy of the MipMapTexture
 
         //TEMP (TO REMOVE)
@@ -204,6 +204,12 @@ namespace GameEngine
         /// <param name="Color">Color object with which to blend the game world.</param>
         public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, Color Color)
         {
+            //TODO IMPROVE PERFORMANCE - RENDERING TO A TEXTURE IS SLOWER THAN TO THE SCREEN
+            //Possibly only render light map to a texture
+            //Render main viewport to the graphics device output
+            //combine them at the end
+            //perform some stress tests using a large scale of map objects to simulate complexity
+
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
             //RENDER THE LIGHT MAP TO A DESTINATION TEXTURE
