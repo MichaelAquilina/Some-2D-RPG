@@ -220,12 +220,15 @@ namespace GameEngine
             {
                 //TODO DRAW TO LIGHT RENDER TARGET BASED ON REGISTERED LIGHTSOURCES LIST
 
+                //Test Examples
                 SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 100, 100), Color.Red);
                 SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 200, 200), Color.Green);
                 SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Blue);
                 SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Red);
                 SpriteBatch.Draw(_lightSource, new Rectangle(100, 160, 400, 400), Color.Aqua);
                 SpriteBatch.Draw(_lightSource, new Rectangle(100, 0, 400, 400), new Color(100, 230, 160));
+
+                SpriteBatch.Draw(_lightSource, new Rectangle(0, 0, 450, 450), Color.BurlyWood);
             }
             SpriteBatch.End();
 
