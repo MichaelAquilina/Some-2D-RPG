@@ -204,9 +204,6 @@ namespace GameEngine
             //combine them at the end
             //perform some stress tests using a large scale of map objects to simulate complexity  
 
-            //TODO SEPERATE SHADER FUNCTIONS FROM MAIN DRAWWORLDVIEWPORT
-            //Make shaders that work on the viewport output plugin based to decouple the logic
-
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
             //determine the amount of tiles to be draw on the viewport
@@ -237,7 +234,7 @@ namespace GameEngine
                 {
                     FRectangle RelativeDestRectangle = lightSource.GetRelativeDestRectangle(GameTime);
                     Rectangle LightDestRectangle = new Rectangle(
-                        (int)Math.Ceiling((RelativeDestRectangle.X - topLeftX )* pxTileWidth),
+                        (int) Math.Ceiling((RelativeDestRectangle.X - topLeftX ) * pxTileWidth),
                         (int) Math.Ceiling((RelativeDestRectangle.Y - topLeftY ) * pxTileHeight),
                         (int) Math.Ceiling(RelativeDestRectangle.Width * pxTileWidth),
                         (int) Math.Ceiling(RelativeDestRectangle.Height * pxTileHeight)
@@ -249,17 +246,6 @@ namespace GameEngine
                         lightSource.GetLightSourceRectangle(GameTime),
                         lightSource.GetLightColor(GameTime));
                 }
-
-                //Test Examples
-                //SpriteBatch.Draw(_lightSource, new Rectangle(50, 50, 300, 300), Color.DarkSalmon);
-                //SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 100, 100), Color.Red);
-                //SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 200, 200), Color.Green);
-                //SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Blue);
-                //SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Red);
-                //SpriteBatch.Draw(_lightSource, new Rectangle(100, 160, 400, 400), Color.Aqua);
-                //SpriteBatch.Draw(_lightSource, new Rectangle(100, 0, 400, 400), new Color(100, 230, 160));
-
-                //SpriteBatch.Draw(_lightSource, new Rectangle(0, 0, 450, 450), Color.BurlyWood);
             }
             SpriteBatch.End();
 
@@ -349,20 +335,18 @@ namespace GameEngine
                             Math.Min(0.99f, 1 / drawObject.Y));        //layer depth should depend how far down the object is on the map (Relative to Y)
                     }
                 }
-
-                SpriteBatch.End();
-
-                //DRAW THE VIEWPORT TO THE STANDARD SCREEN
-                GraphicsDevice.SetRenderTarget(null);
-                _lightShader.Parameters["LightMap"].SetValue(_lightRenderTarget);
-
-                SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _lightShader);
-                {
-                    SpriteBatch.Draw((Texture2D)_viewPortTarget, DestRectangle, Color);
-                }
-                SpriteBatch.End();
-
             }
+            SpriteBatch.End();
+
+            //DRAW THE VIEWPORT TO THE STANDARD SCREEN
+            GraphicsDevice.SetRenderTarget(null);
+            _lightShader.Parameters["LightMap"].SetValue(_lightRenderTarget);
+
+            SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _lightShader);
+            {
+                SpriteBatch.Draw((Texture2D)_viewPortTarget, DestRectangle, Color);
+            }
+            SpriteBatch.End();
         }
     }
 }
