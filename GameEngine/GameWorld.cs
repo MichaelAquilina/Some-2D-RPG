@@ -44,16 +44,6 @@ namespace GameEngine
             get { return (Texture2D)_viewPortTarget; }
         }
 
-        public float LightValue {
-            get { return _lightValue; }
-            set
-            {
-                _lightValue = value;
-                if (_lightValue > 1.0f) _lightValue = 1.0f;
-                if (_lightValue < 0.0f) _lightValue = 0.0f;
-            }
-        }
-
         public int Width { get; private set; }
 
         public int Height { get; private set; }
@@ -70,15 +60,13 @@ namespace GameEngine
 
         #region Variables
 
-        private float _lightValue = 0.0f;
-
         private Map _worldMap;                   //World Map Instance
         private Texture2D _miniMapTex;           //Cached copy of the MipMapTexture
 
         //TEMP (TO REMOVE)
-        Effect _lightShader;
         Texture2D _lightSource;
 
+        Effect _lightShader;
         RenderTarget2D _lightRenderTarget;
         RenderTarget2D _viewPortTarget;
 
@@ -87,7 +75,6 @@ namespace GameEngine
         public GameWorld(Game Game, int Width, int Height)
             :base(Game)
         {
-            LightValue = 0;
             ShowBoundingBoxes = false;
             SetResolution(Width, Height);
         }
@@ -109,7 +96,7 @@ namespace GameEngine
             ContentManager Content = this.Game.Content;
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
-            _lightShader = Content.Load<Effect>("Alpha");
+            _lightShader = Content.Load<Effect>("Alpha");   //How are we going to apply this alpha map?????
             _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
 
             this.WorldMap.GroundPallette.LoadContent(Game.Content);
@@ -343,7 +330,6 @@ namespace GameEngine
                 //DRAW THE VIEWPORT TO THE STANDARD SCREEN
                 GraphicsDevice.SetRenderTarget(null);
                 _lightShader.Parameters["LightMap"].SetValue(_lightRenderTarget);
-                _lightShader.Parameters["LightValue"].SetValue(LightValue);
 
                 SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _lightShader);
                 {

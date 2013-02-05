@@ -24,8 +24,8 @@ namespace DivineRightConcept
         const bool DEBUG = true;
         const int INPUT_DELAY = 30;
 
-        const int WORLD_HEIGHT = 500;
-        const int WORLD_WIDTH = 500;
+        const int WORLD_HEIGHT = 100;
+        const int WORLD_WIDTH = 100;
         
         const int TILE_WIDTH = 50;
         const int TILE_HEIGHT = 50;
@@ -64,7 +64,6 @@ namespace DivineRightConcept
             _generator = new RandomWorldGenerator();
 
             _world = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
-            _world.LightValue = 0.5f;
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
 
@@ -190,11 +189,6 @@ namespace DivineRightConcept
                     _f1IsDown = false;
                 }
 
-                if(keyboardState.IsKeyDown(Keys.PageUp))
-                    _world.LightValue += 0.01f;
-                if (keyboardState.IsKeyDown(Keys.PageDown))
-                    _world.LightValue -= 0.01f;
-
                 //prevent from going out of range
                 if (CurrentPlayer.X < 0) CurrentPlayer.X = 0;
                 if (CurrentPlayer.Y < 0) CurrentPlayer.Y = 0;
@@ -225,7 +219,6 @@ namespace DivineRightConcept
                 spriteBatch.DrawString(_defaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "Total Map Objects = " + _world.DrawableObjects.Count, new Vector2(0, 60), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "Objects On Screen = " + _world.ObjectsOnScreen, new Vector2(0, 80), Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, "Dark Value = " + _world.LightValue, new Vector2(0, 100), Color.White);
             }
             spriteBatch.End();
 

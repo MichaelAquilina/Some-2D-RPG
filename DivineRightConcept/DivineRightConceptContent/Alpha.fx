@@ -12,22 +12,16 @@ sampler lightMap = sampler_state
 	Texture = <LightMap>;
 };
 
-uniform extern float LightValue;
-
 // here we do the real work. 
 float4 PixelShaderFunction(float2 inCoord: TEXCOORD0) : COLOR
 {
-	// we retrieve the color in the original texture at 
-	// the current coordinate remember that this function 
-	// is run on every pixel in our texture.
-    float4 c = tex2D(screen, inCoord);
+	float4 lightPixel = tex2D(lightMap, inCoord);
+	float4 screenPixel = tex2D(screen, inCoord);
 
-	c.r = clamp( c.r * tex2D(lightMap, inCoord).r, 0, 1);
-	c.g = clamp( c.g * tex2D(lightMap, inCoord).g, 0, 1);
-	c.b = clamp( c.b * tex2D(lightMap, inCoord).b, 0, 1);
+	float4 output = clamp(screenPixel * lightPixel, 0, 1);
 
 	// return the new color of the pixel.
-    return c;
+    return output;
 }
  
 technique
