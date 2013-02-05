@@ -15,6 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using DivineRightConcept.WorldGenerators;
+using DivineRightConcept.GameObjects;
 
 namespace DivineRightConcept
 {
@@ -37,7 +38,7 @@ namespace DivineRightConcept
 
         bool _f1IsDown = false;
         bool _aIsDown = false;
-        Actor CurrentPlayer;
+        Hero CurrentPlayer;
         int combo = 0;
         int comoMax = 4;
 
@@ -67,8 +68,9 @@ namespace DivineRightConcept
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
             _world.Initialize();
 
-            CurrentPlayer = new Actor(8, 8, 1.5f, 1.5f);
+            CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
+            _world.LoadableContent.Add(CurrentPlayer);
 
             _world.DrawableObjects.Add(CurrentPlayer);
 
@@ -81,7 +83,6 @@ namespace DivineRightConcept
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            CurrentPlayer.LoadAnimationXML("Animations/Knuckles.anim", Content);
 
             Rectangle[] mapObjectSrcRectangles = new Rectangle[] { 
                 new Rectangle(3, 13, 113, 103)
