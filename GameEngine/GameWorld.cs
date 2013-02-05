@@ -50,6 +50,8 @@ namespace GameEngine
 
         public int ObjectsOnScreen { get; private set; }
 
+        public List<ILoadable> LoadableContent { get; private set; }
+
         public List<ILightSource> LightSources { get; private set; }
 
         public List<IGameDrawable> DrawableObjects { get; private set; }
@@ -82,6 +84,7 @@ namespace GameEngine
         public override void Initialize()
         {
             LightSources = new List<ILightSource>();
+            LoadableContent = new List<ILoadable>();
             DrawableObjects = new List<IGameDrawable>();
 
             base.Initialize();
@@ -95,6 +98,9 @@ namespace GameEngine
         {
             ContentManager Content = this.Game.Content;
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
+
+            foreach (ILoadable loadableObject in LoadableContent)
+                loadableObject.LoadContent(Content);
 
             _lightShader = Content.Load<Effect>("Alpha");   //How are we going to apply this alpha map?????
             _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
@@ -117,6 +123,9 @@ namespace GameEngine
             _miniMapTex = null;
             _lightRenderTarget = null;
             _viewPortTarget = null;
+
+            foreach (ILoadable loadableObject in LoadableContent)
+                loadableObject.UnloadContent();
         }
 
         /// <summary>
@@ -195,7 +204,10 @@ namespace GameEngine
             //Possibly only render light map to a texture
             //Render main viewport to the graphics device output
             //combine them at the end
-            //perform some stress tests using a large scale of map objects to simulate complexity   
+            //perform some stress tests using a large scale of map objects to simulate complexity  
+
+            //TODO SEPERATE SHADER FUNCTIONS FROM MAIN DRAWWORLDVIEWPORT
+            //Make shaders that work on the viewport output plugin based to decouple the logic
 
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
@@ -208,6 +220,7 @@ namespace GameEngine
                 //TODO DRAW TO LIGHT RENDER TARGET BASED ON REGISTERED LIGHTSOURCES LIST
 
                 //Test Examples
+                SpriteBatch.Draw(_lightSource, new Rectangle(50, 50, 300, 300), Color.DarkSalmon);
                 SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 100, 100), Color.Red);
                 SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 200, 200), Color.Green);
                 SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Blue);
@@ -270,7 +283,6 @@ namespace GameEngine
                 ObjectsOnScreen = 0;
 
                 //DRAW THE IGAMEDRAWABLE COMPONENTS (Actors, MapObjects, etc...)
-                //TODO: Probably Possible to reduce the complexity of this method (Due to the way BoundingBox is calculated)
                 foreach (IGameDrawable drawObject in DrawableObjects)
                 {
                     //The relative position of the object should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
