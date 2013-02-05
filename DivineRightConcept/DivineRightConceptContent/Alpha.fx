@@ -12,8 +12,8 @@ sampler lightMap = sampler_state
 	Texture = <LightMap>;
 };
 
-// here we do the real work. 
-float4 PixelShaderFunction(float2 inCoord: TEXCOORD0) : COLOR
+// colorize the luminosity of incoming pixels based on the light map passed to this shader
+float4 PixelLightShading(float2 inCoord: TEXCOORD0) : COLOR
 {
 	float4 lightPixel = tex2D(lightMap, inCoord);
 	float4 screenPixel = tex2D(screen, inCoord);
@@ -28,8 +28,6 @@ technique
 {
     pass P0
     {
-		// The xbox can only run pixel shader 2.0 and for this 
-		// purpose that is plenty for us too.
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        PixelShader = compile ps_2_0 PixelLightShading();
     }
 }
