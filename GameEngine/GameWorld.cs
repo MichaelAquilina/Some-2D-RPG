@@ -43,6 +43,8 @@ namespace GameEngine
             get { return (Texture2D)_viewPortTarget; }
         }
 
+        public Color AmbientLight { get; set; }
+
         public int Width { get; private set; }
 
         public int Height { get; private set; }
@@ -78,6 +80,8 @@ namespace GameEngine
         {
             ShowBoundingBoxes = false;
             SetResolution(Width, Height);
+
+            AmbientLight = Color.White;
 
             LightSources = new List<ILightSource>();
             LoadableContent = new List<ILoadable>();
@@ -225,7 +229,7 @@ namespace GameEngine
 
             //RENDER THE LIGHT MAP TO A DESTINATION TEXTURE
             GraphicsDevice.SetRenderTarget(_lightRenderTarget);
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(AmbientLight);
 
             SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             {
