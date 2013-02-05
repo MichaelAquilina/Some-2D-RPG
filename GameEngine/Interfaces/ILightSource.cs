@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework.Graphics;
+using GameEngine.Drawing;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Interfaces
 {
@@ -11,8 +12,10 @@ namespace GameEngine.Interfaces
     {
         Texture2D GetLightSourceTexture(GameTime gameTime);
 
-        Rectangle GetLightSourceRectangle(GameTime gameTime);
+        Rectangle? GetLightSourceRectangle(GameTime gameTime);
 
-        Rectangle GetReleativeDestRectangle(GameTime gameTime);
+        FRectangle GetRelativeDestRectangle(GameTime gameTime);
+
+        Color GetLightColor(GameTime gameTime);
     }
 }

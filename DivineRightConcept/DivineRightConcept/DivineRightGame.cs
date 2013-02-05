@@ -70,6 +70,7 @@ namespace DivineRightConcept
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
             _world.LoadableContent.Add(CurrentPlayer);
+            _world.LightSources.Add(CurrentPlayer);
 
             _world.DrawableObjects.Add(CurrentPlayer);
 

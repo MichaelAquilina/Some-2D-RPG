@@ -17,7 +17,6 @@ namespace GameEngine
     /// to draw/render the current state of the world, as well as other draw functions such as drawing a MiniMap version
     /// of the current WorldMap.
     /// </summary>
-    /// TODO: Possibly convert this class from a GameComponent into an ILoadable
     public class GameWorld : GameComponent
     {
         #region Properties
@@ -206,24 +205,57 @@ namespace GameEngine
 
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
+            //determine the amount of tiles to be draw on the viewport
+            int TileCountX = (int)Math.Ceiling((double)DestRectangle.Width / pxTileWidth) + 1;
+            int TileCountY = (int)Math.Ceiling((double)DestRectangle.Height / pxTileHeight) + 1;
+
+            //determine the topleft world coordinate in the view
+            float topLeftX = (float)(Center.X - Math.Ceiling((double)TileCountX / 2));
+            float topLeftY = (float)(Center.Y - Math.Ceiling((double)TileCountY / 2));
+
+            //Prevent the View from going outisde of the WORLD coordinates
+            if (topLeftX < 0) topLeftX = 0;
+            if (topLeftY < 0) topLeftY = 0;
+            if (topLeftX + TileCountX >= WorldMap.Width) topLeftX = WorldMap.Width - TileCountX;
+            if (topLeftY + TileCountY >= WorldMap.Height) topLeftY = WorldMap.Height - TileCountY;
+
+            //calculate any decimal displacement required (For Positions with decimal points)
+            double dispX = topLeftX - Math.Floor(topLeftX);
+            double dispY = topLeftY - Math.Floor(topLeftY);
+
             //RENDER THE LIGHT MAP TO A DESTINATION TEXTURE
             GraphicsDevice.SetRenderTarget(_lightRenderTarget);
             GraphicsDevice.Clear(Color.Black);
 
             SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             {
-                //TODO DRAW TO LIGHT RENDER TARGET BASED ON REGISTERED LIGHTSOURCES LIST
+                foreach (ILightSource lightSource in LightSources)
+                {
+                    FRectangle RelativeDestRectangle = lightSource.GetRelativeDestRectangle(GameTime);
+                    Rectangle LightDestRectangle = new Rectangle(
+                        (int)Math.Ceiling((RelativeDestRectangle.X - topLeftX )* pxTileWidth),
+                        (int) Math.Ceiling((RelativeDestRectangle.Y - topLeftY ) * pxTileHeight),
+                        (int) Math.Ceiling(RelativeDestRectangle.Width * pxTileWidth),
+                        (int) Math.Ceiling(RelativeDestRectangle.Height * pxTileHeight)
+                    );
+                                                                    
+                    SpriteBatch.Draw(
+                        lightSource.GetLightSourceTexture(GameTime),
+                        LightDestRectangle,
+                        lightSource.GetLightSourceRectangle(GameTime),
+                        lightSource.GetLightColor(GameTime));
+                }
 
                 //Test Examples
-                SpriteBatch.Draw(_lightSource, new Rectangle(50, 50, 300, 300), Color.DarkSalmon);
-                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 100, 100), Color.Red);
-                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 200, 200), Color.Green);
-                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Blue);
-                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Red);
-                SpriteBatch.Draw(_lightSource, new Rectangle(100, 160, 400, 400), Color.Aqua);
-                SpriteBatch.Draw(_lightSource, new Rectangle(100, 0, 400, 400), new Color(100, 230, 160));
+                //SpriteBatch.Draw(_lightSource, new Rectangle(50, 50, 300, 300), Color.DarkSalmon);
+                //SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 100, 100), Color.Red);
+                //SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 200, 200), Color.Green);
+                //SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Blue);
+                //SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Red);
+                //SpriteBatch.Draw(_lightSource, new Rectangle(100, 160, 400, 400), Color.Aqua);
+                //SpriteBatch.Draw(_lightSource, new Rectangle(100, 0, 400, 400), new Color(100, 230, 160));
 
-                SpriteBatch.Draw(_lightSource, new Rectangle(0, 0, 450, 450), Color.BurlyWood);
+                //SpriteBatch.Draw(_lightSource, new Rectangle(0, 0, 450, 450), Color.BurlyWood);
             }
             SpriteBatch.End();
 
@@ -233,24 +265,6 @@ namespace GameEngine
 
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             {
-                //determine the amount of tiles to be draw on the viewport
-                int TileCountX = (int)Math.Ceiling((double)DestRectangle.Width / pxTileWidth) + 1;
-                int TileCountY = (int)Math.Ceiling((double)DestRectangle.Height / pxTileHeight) + 1;
-
-                //determine the topleft world coordinate in the view
-                float topLeftX = (float)(Center.X - Math.Ceiling((double)TileCountX / 2));
-                float topLeftY = (float)(Center.Y - Math.Ceiling((double)TileCountY / 2));
-
-                //Prevent the View from going outisde of the WORLD coordinates
-                if (topLeftX < 0) topLeftX = 0;
-                if (topLeftY < 0) topLeftY = 0;
-                if (topLeftX + TileCountX >= WorldMap.Width) topLeftX = WorldMap.Width - TileCountX;
-                if (topLeftY + TileCountY >= WorldMap.Height) topLeftY = WorldMap.Height - TileCountY;
-
-                //calculate any decimal displacement required (For Positions with decimal points)
-                double dispX = topLeftX - Math.Floor(topLeftX);
-                double dispY = topLeftY - Math.Floor(topLeftY);
-
                 //DRAW THE WORLD MAP TILES
                 for (int i = 0; i < TileCountX; i++)
                     for (int j = 0; j < TileCountY; j++)
