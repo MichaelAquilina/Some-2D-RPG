@@ -51,6 +51,8 @@ namespace GameEngine
 
         public int ObjectsOnScreen { get; private set; }
 
+        public int LightSourcesOnScreen { get; private set; }
+
         public List<ILoadable> LoadableContent { get; private set; }
 
         public List<ILightSource> LightSources { get; private set; }
@@ -82,6 +84,9 @@ namespace GameEngine
             SetResolution(Width, Height);
 
             AmbientLight = Color.White;
+
+            ObjectsOnScreen = 0;
+            LightSourcesOnScreen = 0;
 
             LightSources = new List<ILightSource>();
             LoadableContent = new List<ILoadable>();
@@ -230,6 +235,8 @@ namespace GameEngine
 
             SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
             {
+                LightSourcesOnScreen = 0;
+
                 foreach (ILightSource lightSource in LightSources)
                 {
                     FRectangle RelativeDestRectangle = lightSource.GetRelativeDestRectangle(GameTime);
@@ -239,12 +246,17 @@ namespace GameEngine
                         (int) Math.Ceiling(RelativeDestRectangle.Width * pxTileWidth),
                         (int) Math.Ceiling(RelativeDestRectangle.Height * pxTileHeight)
                     );
-                                                                    
-                    SpriteBatch.Draw(
-                        lightSource.GetLightSourceTexture(GameTime),
-                        LightDestRectangle,
-                        lightSource.GetLightSourceRectangle(GameTime),
-                        lightSource.GetLightColor(GameTime));
+
+                    if (LightDestRectangle.Intersects(DestRectangle))
+                    {
+                        LightSourcesOnScreen++;
+
+                        SpriteBatch.Draw(
+                            lightSource.GetLightSourceTexture(GameTime),
+                            LightDestRectangle,
+                            lightSource.GetLightSourceRectangle(GameTime),
+                            lightSource.GetLightColor(GameTime));
+                    }
                 }
             }
             SpriteBatch.End();
