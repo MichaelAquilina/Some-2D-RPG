@@ -24,7 +24,7 @@ namespace DivineRightConcept.GameObjects
 
         public void UnloadContent()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

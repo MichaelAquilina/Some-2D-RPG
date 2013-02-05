@@ -79,15 +79,10 @@ namespace GameEngine
         {
             ShowBoundingBoxes = false;
             SetResolution(Width, Height);
-        }
 
-        public override void Initialize()
-        {
             LightSources = new List<ILightSource>();
             LoadableContent = new List<ILoadable>();
             DrawableObjects = new List<IGameDrawable>();
-
-            base.Initialize();
         }
 
         /// <summary>

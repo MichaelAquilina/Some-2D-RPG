@@ -66,7 +66,6 @@ namespace DivineRightConcept
 
             _world = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
-            _world.Initialize();
 
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
