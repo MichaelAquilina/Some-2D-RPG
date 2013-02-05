@@ -44,13 +44,13 @@ namespace GameEngine
             get { return (Texture2D)_viewPortTarget; }
         }
 
-        public float DarkValue {
-            get { return _darkValue; }
+        public float LightValue {
+            get { return _lightValue; }
             set
             {
-                _darkValue = value;
-                if (_darkValue > 1.0f) _darkValue = 1.0f;
-                if (_darkValue < 0.0f) _darkValue = 0.0f;
+                _lightValue = value;
+                if (_lightValue > 1.0f) _lightValue = 1.0f;
+                if (_lightValue < 0.0f) _lightValue = 0.0f;
             }
         }
 
@@ -70,13 +70,13 @@ namespace GameEngine
 
         #region Variables
 
-        private float _darkValue = 0.0f;
+        private float _lightValue = 0.0f;
 
         private Map _worldMap;                   //World Map Instance
         private Texture2D _miniMapTex;           //Cached copy of the MipMapTexture
 
         //TEMP (TO REMOVE)
-        Effect _alphaShader;
+        Effect _lightShader;
         Texture2D _lightSource;
 
         RenderTarget2D _lightRenderTarget;
@@ -87,7 +87,7 @@ namespace GameEngine
         public GameWorld(Game Game, int Width, int Height)
             :base(Game)
         {
-            DarkValue = 0;
+            LightValue = 0;
             ShowBoundingBoxes = false;
             SetResolution(Width, Height);
         }
@@ -109,7 +109,7 @@ namespace GameEngine
             ContentManager Content = this.Game.Content;
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
-            _alphaShader = Content.Load<Effect>("Alpha");
+            _lightShader = Content.Load<Effect>("Alpha");
             _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
 
             this.WorldMap.GroundPallette.LoadContent(Game.Content);
@@ -208,7 +208,7 @@ namespace GameEngine
             //Possibly only render light map to a texture
             //Render main viewport to the graphics device output
             //combine them at the end
-            //perform some stress tests using a large scale of map objects to simulate complexity
+            //perform some stress tests using a large scale of map objects to simulate complexity   
 
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
@@ -220,9 +220,12 @@ namespace GameEngine
             {
                 //TODO DRAW TO LIGHT RENDER TARGET BASED ON REGISTERED LIGHTSOURCES LIST
 
-                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 100, 100), Color.White);
-                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 200, 200), Color.White);
-                SpriteBatch.Draw(_lightSource, new Rectangle(100, 160, 400, 400), Color.White);
+                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 100, 100), Color.Red);
+                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 200, 200), Color.Green);
+                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Blue);
+                SpriteBatch.Draw(_lightSource, new Rectangle(10, 50, 300, 300), Color.Red);
+                SpriteBatch.Draw(_lightSource, new Rectangle(100, 160, 400, 400), Color.Aqua);
+                SpriteBatch.Draw(_lightSource, new Rectangle(100, 0, 400, 400), new Color(100, 230, 160));
             }
             SpriteBatch.End();
 
@@ -336,17 +339,12 @@ namespace GameEngine
 
                 //DRAW THE VIEWPORT TO THE STANDARD SCREEN
                 GraphicsDevice.SetRenderTarget(null);
-                SpriteBatch.Begin();
+                _lightShader.Parameters["LightMap"].SetValue(_lightRenderTarget);
+                _lightShader.Parameters["LightValue"].SetValue(LightValue);
+
+                SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _lightShader);
                 {
                     SpriteBatch.Draw((Texture2D)_viewPortTarget, DestRectangle, Color);
-                }
-                SpriteBatch.End();
-
-                //DRAW THE LIGHT MAP TO THE STANDARD SCREEN
-                _alphaShader.Parameters["DarkValue"].SetValue(DarkValue);
-                SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _alphaShader);
-                {
-                    SpriteBatch.Draw((Texture2D)_lightRenderTarget, DestRectangle, Color.White);
                 }
                 SpriteBatch.End();
 
