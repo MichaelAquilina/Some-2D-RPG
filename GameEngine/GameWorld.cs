@@ -247,7 +247,7 @@ namespace GameEngine
                         (int) Math.Ceiling(RelativeDestRectangle.Height * pxTileHeight)
                     );
 
-                    if (LightDestRectangle.Intersects(DestRectangle))
+                    if (LightDestRectangle.Intersects(_lightRenderTarget.Bounds))
                     {
                         LightSourcesOnScreen++;
 
@@ -325,7 +325,7 @@ namespace GameEngine
                     );
 
                     //only render the object if the objects BoundingBox it is within the specified viewport
-                    if (drawObject.Visible && ObjectBoundingBox.Intersects(new Rectangle(0,0,Width,Height)) )
+                    if (drawObject.Visible && ObjectBoundingBox.Intersects(_viewPortTarget.Bounds) )
                     {
                         ObjectsOnScreen++;
 
