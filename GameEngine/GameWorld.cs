@@ -21,18 +21,6 @@ namespace GameEngine
     {
         #region Properties
 
-        public Map WorldMap {
-            get { return _worldMap; }
-            set
-            {
-                //clear cached copy
-                if (_miniMapTex != null)
-                    _miniMapTex.Dispose();
-                _miniMapTex = null;
-                _worldMap = value;
-            }
-        }
-
         public Texture2D LightMap
         {
             get { return (Texture2D)_lightRenderTarget; }
@@ -42,6 +30,8 @@ namespace GameEngine
         {
             get { return (Texture2D)_viewPortTarget; }
         }
+
+        public Map CurrentMap { get; set; }
 
         public Color AmbientLight { get; set; }
 
@@ -64,12 +54,6 @@ namespace GameEngine
         #endregion
 
         #region Variables
-
-        private Map _worldMap;                   //World Map Instance
-        private Texture2D _miniMapTex;           //Cached copy of the MipMapTexture
-
-        //TEMP (TO REMOVE)
-        Texture2D _lightSource;
 
         Effect _lightShader;
         RenderTarget2D _lightRenderTarget;
@@ -105,17 +89,14 @@ namespace GameEngine
             foreach (ILoadable loadableObject in LoadableContent)
                 loadableObject.LoadContent(Content);
 
-            _lightShader = Content.Load<Effect>("Alpha");   //How are we going to apply this alpha map?????
-            _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
+            _lightShader = Content.Load<Effect>("Alpha");   //How are we going to load this alpha shader without coupling it to content??
 
-            this.WorldMap.GroundPallette.LoadContent(Game.Content);
+            this.CurrentMap.GroundPallette.LoadContent(Game.Content);
         }
 
         public void UnloadContent()
         {
-            this.WorldMap.GroundPallette.UnloadContent();
-            if (_miniMapTex != null)
-                _miniMapTex.Dispose();
+            this.CurrentMap.GroundPallette.UnloadContent();
 
             if (_lightRenderTarget != null)
                 _lightRenderTarget.Dispose();
@@ -123,7 +104,6 @@ namespace GameEngine
             if (_viewPortTarget != null)
                 _viewPortTarget.Dispose();
 
-            _miniMapTex = null;
             _lightRenderTarget = null;
             _viewPortTarget = null;
 
@@ -153,41 +133,6 @@ namespace GameEngine
             _viewPortTarget = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height);
         }
 
-        private Texture2D GenerateMipMapTexture(Map Map)
-        {
-            //GENERATE THE MINIMAP TEXTURE
-            Color[] mapColors = new Color[Map.Width * Map.Height];
-            Texture2D resultTexture = new Texture2D(this.Game.GraphicsDevice, Map.Width, Map.Height, false, SurfaceFormat.Color);
-
-            for (int i = 0; i < Map.Width; i++)
-                for (int j = 0; j < Map.Height; j++)
-                    mapColors[j * Map.Width + i] = Map.GroundPallette.GetTileColor(Map[i, j]);
-
-            resultTexture.SetData<Color>(mapColors);
-
-            return resultTexture;
-        }
-
-        /// <summary>
-        /// Draws a Minitaure version of the current WorldMap as a Texture on the screen, specified by the DestRectangle parameter. The minimap
-        /// will have 1 pixel for each tile on the Worldmap. The color should be roughly represantative of what texture the tile woudld show
-        /// on the location of the map - although this is entirely dependant on the GroundPallette being used (influenced by the GetTileColor
-        /// interface method). On first map load, the MipMap will have to be generated, but subsequent calls to this method will use a cached
-        /// version of the mimimap to prevent excess overhead during draw time.
-        /// </summary>
-        /// <param name="SpriteBatch">An open SpriteBatch object with which to Draw the MiniMap.</param>
-        /// <param name="DestRectangle">A Rectangle specifying the Destination on the screen where the MiniMap should be drawn.</param>
-        public void DrawMipMap(SpriteBatch SpriteBatch, Rectangle DestRectangle)
-        {
-            //CHECK CACHED COPY
-            if (_miniMapTex == null)
-                _miniMapTex = GenerateMipMapTexture(this.WorldMap);
-
-            SpriteBatch.Begin();
-            SpriteBatch.Draw(_miniMapTex, DestRectangle, Color.White);
-            SpriteBatch.End();
-        }
-
         /// <summary>
         /// Draws a viewport of the current game world at the specified CenterX, CenterY location. The Viewport size and location on the screen must be 
         /// specified in the DestRectangle parameter. The number of Tiles both Width-wise and Height-wise should be specified in the TileWidth and TileHeight
@@ -203,12 +148,6 @@ namespace GameEngine
         /// <param name="Color">Color object with which to blend the game world.</param>
         public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, Color Color)
         {
-            //TODO IMPROVE PERFORMANCE - RENDERING TO A TEXTURE IS SLOWER THAN TO THE SCREEN
-            //Possibly only render light map to a texture
-            //Render main viewport to the graphics device output
-            //combine them at the end
-            //perform some stress tests using a large scale of map objects to simulate complexity  
-
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
             //determine the amount of tiles to be draw on the viewport
@@ -222,8 +161,8 @@ namespace GameEngine
             //Prevent the View from going outisde of the WORLD coordinates
             if (topLeftX < 0) topLeftX = 0;
             if (topLeftY < 0) topLeftY = 0;
-            if (topLeftX + TileCountX >= WorldMap.Width) topLeftX = WorldMap.Width - TileCountX;
-            if (topLeftY + TileCountY >= WorldMap.Height) topLeftY = WorldMap.Height - TileCountY;
+            if (topLeftX + TileCountX >= CurrentMap.Width) topLeftX = CurrentMap.Width - TileCountX;
+            if (topLeftY + TileCountY >= CurrentMap.Height) topLeftY = CurrentMap.Height - TileCountY;
 
             //calculate any decimal displacement required (For Positions with decimal points)
             double dispX = topLeftX - Math.Floor(topLeftX);
@@ -281,9 +220,9 @@ namespace GameEngine
                         tileDestRect.Y -= (int)(dispY * pxTileHeight);
 
                         SpriteBatch.Draw(
-                            this.WorldMap.GroundPallette.GetTileSourceTexture(this.WorldMap[tileX, tileY]),
+                            CurrentMap.GroundPallette.GetTileSourceTexture(CurrentMap[tileX, tileY]),
                             tileDestRect,
-                            this.WorldMap.GroundPallette.GetTileSourceRectangle(this.WorldMap[tileX, tileY]),
+                            CurrentMap.GroundPallette.GetTileSourceRectangle(CurrentMap[tileX, tileY]),
                             Color.White,
                             0, Vector2.Zero,
                             SpriteEffects.None,

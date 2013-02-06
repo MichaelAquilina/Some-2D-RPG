@@ -31,8 +31,8 @@ namespace DivineRightConcept
         const int TILE_WIDTH = 50;
         const int TILE_HEIGHT = 50;
 
-        const int VIEW_WIDTH = 450;
-        const int VIEW_HEIGHT = 450;
+        const int VIEW_WIDTH = 900;
+        const int VIEW_HEIGHT = 500;
 
         const float MOVEMENT_SPEED = 0.3f;
 
@@ -55,6 +55,8 @@ namespace DivineRightConcept
         public DivineRightGame()
         {
             graphics = new GraphicsDeviceManager(this);
+            graphics.PreferredBackBufferWidth = 900;
+            graphics.PreferredBackBufferHeight = 500;
 
             Content.RootDirectory = "Content";
         }
@@ -65,8 +67,8 @@ namespace DivineRightConcept
             _generator = new RandomWorldGenerator();
 
             _world = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
-            _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
-            _world.AmbientLight = new Color(80, 20, 20);
+            _world.CurrentMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
+            _world.AmbientLight = Color.DarkOliveGreen;
 
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
@@ -203,16 +205,26 @@ namespace DivineRightConcept
 
         protected override void Draw(GameTime gameTime)
         {
-            Rectangle DestRectangle = new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT);
+            Rectangle DestRectangle = new Rectangle(0, 0, VIEW_WIDTH, VIEW_HEIGHT);
 
             _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
-            _world.DrawMipMap(spriteBatch, new Rectangle(670, 10, 100, 100));
+            //_world.DrawMipMap(spriteBatch, new Rectangle(670, 10, 100, 100));
             
             //DRAW DEBUGGING INFORMATION
             spriteBatch.Begin();
             {
-                spriteBatch.Draw(_world.LightMap, new Rectangle(670, 120, 100, 100), Color.White);
-                spriteBatch.Draw(_world.ViewPort, new Rectangle(670, 230, 100, 100), Color.White);
+                float aspectRatio = (float) _world.LightMap.Width / _world.LightMap.Height;
+                int width = (int) Math.Ceiling(100 * aspectRatio);
+
+                spriteBatch.Draw(
+                    _world.LightMap, 
+                    new Rectangle(
+                        graphics.PreferredBackBufferWidth - width, 
+                        0, 
+                        width, 
+                        100), 
+                    Color.White);
+                //spriteBatch.Draw(_world.ViewPort, new Rectangle(670, 230, 100, 100), Color.White);
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
