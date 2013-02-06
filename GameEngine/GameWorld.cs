@@ -1,17 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using GameEngine.Shaders;
 
 namespace GameEngine
 {
+    public struct ViewPortInfo
+    {
+        public float PXTileWidth { get; set; }
+        public float PXTileHeight { get; set; }
+        public float TopLeftX { get; set; }
+        public float TopLeftY { get; set; }
+        public int TileCountX { get; set; }
+        public int TileCountY { get; set; }
+    }
+
     /// <summary>
     /// Class that represents the current state of the game world, including the Actors residing in it. Provides functions
     /// to draw/render the current state of the world, as well as other draw functions such as drawing a MiniMap version
@@ -23,27 +31,8 @@ namespace GameEngine
 
         public Map WorldMap {
             get { return _worldMap; }
-            set
-            {
-                //clear cached copy
-                if (_miniMapTex != null)
-                    _miniMapTex.Dispose();
-                _miniMapTex = null;
-                _worldMap = value;
-            }
+            set { _worldMap = value; }
         }
-
-        public Texture2D LightMap
-        {
-            get { return (Texture2D)_lightRenderTarget; }
-        }
-
-        public Texture2D ViewPort
-        {
-            get { return (Texture2D)_viewPortTarget; }
-        }
-
-        public Color AmbientLight { get; set; }
 
         public int Width { get; private set; }
 
@@ -51,13 +40,11 @@ namespace GameEngine
 
         public int ObjectsOnScreen { get; private set; }
 
-        public int LightSourcesOnScreen { get; private set; }
-
         public List<ILoadable> LoadableContent { get; private set; }
 
-        public List<ILightSource> LightSources { get; private set; }
-
         public List<IGameDrawable> DrawableObjects { get; private set; }
+
+        public List<GameShader> GameShaders { get; private set; }
 
         public bool ShowBoundingBoxes { get; set; }
 
@@ -68,12 +55,8 @@ namespace GameEngine
         private Map _worldMap;                   //World Map Instance
         private Texture2D _miniMapTex;           //Cached copy of the MipMapTexture
 
-        //TEMP (TO REMOVE)
-        Texture2D _lightSource;
-
-        Effect _lightShader;
-        RenderTarget2D _lightRenderTarget;
-        RenderTarget2D _viewPortTarget;
+        RenderTarget2D _inputBuffer;
+        RenderTarget2D _outputBuffer;
 
         #endregion
 
@@ -81,16 +64,14 @@ namespace GameEngine
             :base(Game)
         {
             ShowBoundingBoxes = false;
-            SetResolution(Width, Height);
-
-            AmbientLight = Color.White;
 
             ObjectsOnScreen = 0;
-            LightSourcesOnScreen = 0;
 
-            LightSources = new List<ILightSource>();
             LoadableContent = new List<ILoadable>();
             DrawableObjects = new List<IGameDrawable>();
+            GameShaders = new List<GameShader>();
+
+            SetResolution(Width, Height);
         }
 
         /// <summary>
@@ -105,8 +86,8 @@ namespace GameEngine
             foreach (ILoadable loadableObject in LoadableContent)
                 loadableObject.LoadContent(Content);
 
-            _lightShader = Content.Load<Effect>("Alpha");   //How are we going to apply this alpha map?????
-            _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
+            foreach (ILoadable loadableShader in GameShaders)
+                loadableShader.LoadContent(Content);
 
             this.WorldMap.GroundPallette.LoadContent(Game.Content);
         }
@@ -117,18 +98,29 @@ namespace GameEngine
             if (_miniMapTex != null)
                 _miniMapTex.Dispose();
 
-            if (_lightRenderTarget != null)
-                _lightRenderTarget.Dispose();
+            if (_inputBuffer != null)
+                _inputBuffer.Dispose();
 
-            if (_viewPortTarget != null)
-                _viewPortTarget.Dispose();
+            if (_outputBuffer != null)
+                _outputBuffer.Dispose();
 
             _miniMapTex = null;
-            _lightRenderTarget = null;
-            _viewPortTarget = null;
+            _inputBuffer = null;
+            _outputBuffer = null;
 
             foreach (ILoadable loadableObject in LoadableContent)
                 loadableObject.UnloadContent();
+
+            foreach (ILoadable loadableShader in GameShaders)
+                loadableShader.UnloadContent();
+
+            this.WorldMap.GroundPallette.UnloadContent();
+        }
+
+        public void RegisterGameShader(GameShader Shader)
+        {
+            GameShaders.Add(Shader);
+            Shader.SetResolution(Width, Height);
         }
 
         /// <summary>
@@ -143,49 +135,17 @@ namespace GameEngine
             this.Width = Width;
             this.Height = Height;
 
-            if (_lightRenderTarget != null)
-                _lightRenderTarget.Dispose();
+            if (_outputBuffer != null)
+                _outputBuffer.Dispose();
 
-            if (_viewPortTarget != null)
-                _viewPortTarget.Dispose();
+            if (_inputBuffer != null)
+                _inputBuffer.Dispose();
 
-            _lightRenderTarget = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height);
-            _viewPortTarget = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height);
-        }
+            _inputBuffer = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height);
+            _outputBuffer = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height);
 
-        private Texture2D GenerateMipMapTexture(Map Map)
-        {
-            //GENERATE THE MINIMAP TEXTURE
-            Color[] mapColors = new Color[Map.Width * Map.Height];
-            Texture2D resultTexture = new Texture2D(this.Game.GraphicsDevice, Map.Width, Map.Height, false, SurfaceFormat.Color);
-
-            for (int i = 0; i < Map.Width; i++)
-                for (int j = 0; j < Map.Height; j++)
-                    mapColors[j * Map.Width + i] = Map.GroundPallette.GetTileColor(Map[i, j]);
-
-            resultTexture.SetData<Color>(mapColors);
-
-            return resultTexture;
-        }
-
-        /// <summary>
-        /// Draws a Minitaure version of the current WorldMap as a Texture on the screen, specified by the DestRectangle parameter. The minimap
-        /// will have 1 pixel for each tile on the Worldmap. The color should be roughly represantative of what texture the tile woudld show
-        /// on the location of the map - although this is entirely dependant on the GroundPallette being used (influenced by the GetTileColor
-        /// interface method). On first map load, the MipMap will have to be generated, but subsequent calls to this method will use a cached
-        /// version of the mimimap to prevent excess overhead during draw time.
-        /// </summary>
-        /// <param name="SpriteBatch">An open SpriteBatch object with which to Draw the MiniMap.</param>
-        /// <param name="DestRectangle">A Rectangle specifying the Destination on the screen where the MiniMap should be drawn.</param>
-        public void DrawMipMap(SpriteBatch SpriteBatch, Rectangle DestRectangle)
-        {
-            //CHECK CACHED COPY
-            if (_miniMapTex == null)
-                _miniMapTex = GenerateMipMapTexture(this.WorldMap);
-
-            SpriteBatch.Begin();
-            SpriteBatch.Draw(_miniMapTex, DestRectangle, Color.White);
-            SpriteBatch.End();
+            //allow all game shaders to become aware of the change in resolution
+            foreach (GameShader shader in GameShaders) shader.SetResolution(Width, Height);
         }
 
         /// <summary>
@@ -203,76 +163,41 @@ namespace GameEngine
         /// <param name="Color">Color object with which to blend the game world.</param>
         public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, Color Color)
         {
-            //TODO IMPROVE PERFORMANCE - RENDERING TO A TEXTURE IS SLOWER THAN TO THE SCREEN
-            //Possibly only render light map to a texture
-            //Render main viewport to the graphics device output
-            //combine them at the end
-            //perform some stress tests using a large scale of map objects to simulate complexity  
-
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
-            //determine the amount of tiles to be draw on the viewport
-            int TileCountX = (int)Math.Ceiling((double)DestRectangle.Width / pxTileWidth) + 1;
-            int TileCountY = (int)Math.Ceiling((double)DestRectangle.Height / pxTileHeight) + 1;
+            ViewPortInfo viewPortInfo = new ViewPortInfo();
 
-            //determine the topleft world coordinate in the view
-            float topLeftX = (float)(Center.X - Math.Ceiling((double)TileCountX / 2));
-            float topLeftY = (float)(Center.Y - Math.Ceiling((double)TileCountY / 2));
+            viewPortInfo.TileCountX = (int)Math.Ceiling((double)DestRectangle.Width / pxTileWidth) + 1;
+            viewPortInfo.TileCountY = (int)Math.Ceiling((double)DestRectangle.Height / pxTileHeight) + 1;
+
+            viewPortInfo.TopLeftX = (float)(Center.X - Math.Ceiling((double)viewPortInfo.TileCountX / 2));
+            viewPortInfo.TopLeftY = (float)(Center.Y - Math.Ceiling((double) viewPortInfo.TileCountY / 2));
+            
+            viewPortInfo.PXTileWidth = pxTileWidth;
+            viewPortInfo.PXTileHeight = pxTileHeight;
 
             //Prevent the View from going outisde of the WORLD coordinates
-            if (topLeftX < 0) topLeftX = 0;
-            if (topLeftY < 0) topLeftY = 0;
-            if (topLeftX + TileCountX >= WorldMap.Width) topLeftX = WorldMap.Width - TileCountX;
-            if (topLeftY + TileCountY >= WorldMap.Height) topLeftY = WorldMap.Height - TileCountY;
+            if (viewPortInfo.TopLeftX < 0) viewPortInfo.TopLeftX = 0;
+            if (viewPortInfo.TopLeftY < 0) viewPortInfo.TopLeftY = 0;
+            if (viewPortInfo.TopLeftX + viewPortInfo.TileCountX >= WorldMap.Width) viewPortInfo.TopLeftX = WorldMap.Width - viewPortInfo.TileCountX;
+            if (viewPortInfo.TopLeftY + viewPortInfo.TileCountY >= WorldMap.Height) viewPortInfo.TopLeftY = WorldMap.Height - viewPortInfo.TileCountY;
 
             //calculate any decimal displacement required (For Positions with decimal points)
-            double dispX = topLeftX - Math.Floor(topLeftX);
-            double dispY = topLeftY - Math.Floor(topLeftY);
-
-            //RENDER THE LIGHT MAP TO A DESTINATION TEXTURE
-            GraphicsDevice.SetRenderTarget(_lightRenderTarget);
-            GraphicsDevice.Clear(AmbientLight);
-
-            SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
-            {
-                LightSourcesOnScreen = 0;
-
-                foreach (ILightSource lightSource in LightSources)
-                {
-                    FRectangle RelativeDestRectangle = lightSource.GetRelativeDestRectangle(GameTime);
-                    Rectangle LightDestRectangle = new Rectangle(
-                        (int) Math.Ceiling((RelativeDestRectangle.X - topLeftX ) * pxTileWidth),
-                        (int) Math.Ceiling((RelativeDestRectangle.Y - topLeftY ) * pxTileHeight),
-                        (int) Math.Ceiling(RelativeDestRectangle.Width * pxTileWidth),
-                        (int) Math.Ceiling(RelativeDestRectangle.Height * pxTileHeight)
-                    );
-
-                    if (LightDestRectangle.Intersects(DestRectangle))
-                    {
-                        LightSourcesOnScreen++;
-
-                        SpriteBatch.Draw(
-                            lightSource.GetLightSourceTexture(GameTime),
-                            LightDestRectangle,
-                            lightSource.GetLightSourceRectangle(GameTime),
-                            lightSource.GetLightColor(GameTime));
-                    }
-                }
-            }
-            SpriteBatch.End();
+            double dispX = viewPortInfo.TopLeftX - Math.Floor(viewPortInfo.TopLeftX);
+            double dispY = viewPortInfo.TopLeftY - Math.Floor(viewPortInfo.TopLeftY);
 
             //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
-            GraphicsDevice.SetRenderTarget(_viewPortTarget);
+            GraphicsDevice.SetRenderTarget(_inputBuffer);
             GraphicsDevice.Clear(Color.Black);
 
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
             {
                 //DRAW THE WORLD MAP TILES
-                for (int i = 0; i < TileCountX; i++)
-                    for (int j = 0; j < TileCountY; j++)
+                for (int i = 0; i < viewPortInfo.TileCountX; i++)
+                    for (int j = 0; j < viewPortInfo.TileCountY; j++)
                     {
-                        int tileX = (int)(i + topLeftX);
-                        int tileY = (int)(j + topLeftY);
+                        int tileX = (int)(i + viewPortInfo.TopLeftX);
+                        int tileY = (int)(j + viewPortInfo.TopLeftY);
 
                         Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
 
@@ -296,13 +221,13 @@ namespace GameEngine
                 //DRAW THE IGAMEDRAWABLE COMPONENTS (Actors, MapObjects, etc...)
                 foreach (IGameDrawable drawObject in DrawableObjects)
                 {
-                    //The relative position of the object should always be (X,Y) - (topLeftX,TopLeftY) where topLeftX and
-                    //topLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
+                    //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
+                    //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                     //for panning at the edges.
                     Rectangle ObjectSrcRect = drawObject.GetSourceRectangle(GameTime);
 
-                    int objectX = (int)Math.Ceiling((drawObject.X - topLeftX) * pxTileWidth);
-                    int objectY = (int)Math.Ceiling((drawObject.Y - topLeftY) * pxTileHeight);
+                    int objectX = (int)Math.Ceiling((drawObject.X - viewPortInfo.TopLeftX) * pxTileWidth);
+                    int objectY = (int)Math.Ceiling((drawObject.Y - viewPortInfo.TopLeftY) * pxTileHeight);
 
                     int objectWidth = (int)(ObjectSrcRect.Width * drawObject.Width);
                     int objectHeight = (int)(ObjectSrcRect.Height * drawObject.Height);
@@ -350,14 +275,17 @@ namespace GameEngine
             }
             SpriteBatch.End();
 
+            for (int i = 0; i < GameShaders.Count; i++)
+            {
+                GameShaders[i].ApplyShader(SpriteBatch, _inputBuffer, _outputBuffer, GameTime, viewPortInfo);
+            }
+
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);
-            _lightShader.Parameters["LightMap"].SetValue(_lightRenderTarget);
+            SpriteBatch.Begin();
 
-            SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _lightShader);
-            {
-                SpriteBatch.Draw((Texture2D)_viewPortTarget, DestRectangle, Color);
-            }
+            SpriteBatch.Draw(_outputBuffer, DestRectangle, Color);
+
             SpriteBatch.End();
         }
     }

@@ -16,6 +16,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using DivineRightConcept.WorldGenerators;
 using DivineRightConcept.GameObjects;
+using GameEngine.Shaders;
 
 namespace DivineRightConcept
 {
@@ -25,14 +26,14 @@ namespace DivineRightConcept
         const bool DEBUG = true;
         const int INPUT_DELAY = 30;
 
-        const int WORLD_HEIGHT = 100;
-        const int WORLD_WIDTH = 100;
+        const int WORLD_HEIGHT = 200;
+        const int WORLD_WIDTH = 200;
         
         const int TILE_WIDTH = 50;
         const int TILE_HEIGHT = 50;
 
-        const int VIEW_WIDTH = 450;
-        const int VIEW_HEIGHT = 450;
+        const int VIEW_WIDTH = 600;
+        const int VIEW_HEIGHT = 480;
 
         const float MOVEMENT_SPEED = 0.3f;
 
@@ -41,6 +42,8 @@ namespace DivineRightConcept
         Hero CurrentPlayer;
         int combo = 0;
         int comoMax = 4;
+
+        LightShader _lightShader;
 
         //Graphic Related Variables
         GraphicsDeviceManager graphics;
@@ -57,6 +60,8 @@ namespace DivineRightConcept
             graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 900;
         }
 
         protected override void Initialize()
@@ -66,14 +71,18 @@ namespace DivineRightConcept
 
             _world = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
             _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
-            _world.AmbientLight = new Color(80, 20, 20);
 
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
-            _world.LoadableContent.Add(CurrentPlayer);
-            _world.LightSources.Add(CurrentPlayer);
 
+            //possibly create batch operation that automatically detects what to register an object as
+            _world.LoadableContent.Add(CurrentPlayer);
             _world.DrawableObjects.Add(CurrentPlayer);
+
+            _lightShader = new LightShader(this.GraphicsDevice);
+            _lightShader.AmbientLight = Color.DarkOliveGreen;
+            _lightShader.LightSources.Add(CurrentPlayer);
+            _world.RegisterGameShader(_lightShader);
 
             base.Initialize();
         }
@@ -203,16 +212,14 @@ namespace DivineRightConcept
 
         protected override void Draw(GameTime gameTime)
         {
-            Rectangle DestRectangle = new Rectangle(200, 10, VIEW_WIDTH, VIEW_HEIGHT);
+            Rectangle DestRectangle = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
 
             _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
-            _world.DrawMipMap(spriteBatch, new Rectangle(670, 10, 100, 100));
             
             //DRAW DEBUGGING INFORMATION
             spriteBatch.Begin();
             {
-                spriteBatch.Draw(_world.LightMap, new Rectangle(670, 120, 100, 100), Color.White);
-                spriteBatch.Draw(_world.ViewPort, new Rectangle(670, 230, 100, 100), Color.White);
+                spriteBatch.Draw(_lightShader.LightMap, new Rectangle(670, 120, 100, 100), Color.White);
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
@@ -221,6 +228,7 @@ namespace DivineRightConcept
                 spriteBatch.DrawString(_defaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "Total Map Objects = " + _world.DrawableObjects.Count, new Vector2(0, 60), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "Objects On Screen = " + _world.ObjectsOnScreen, new Vector2(0, 80), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, "Light Sources On Screen = " + _lightShader.LightSourcesOnScreen, new Vector2(0, 100), Color.White);
             }
             spriteBatch.End();
 

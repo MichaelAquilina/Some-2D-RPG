@@ -100,11 +100,13 @@
     <Compile Include="GameObjects\MapObject.cs" />
     <Compile Include="GameWorld.cs" />
     <Compile Include="Interfaces\IGameDrawable.cs" />
+    <Compile Include="Shaders\GameShader.cs" />
     <Compile Include="Interfaces\IGroundPallette.cs" />
     <Compile Include="Interfaces\ILightSource.cs" />
     <Compile Include="Interfaces\ILoadable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interfaces\IWorldGenerator.cs" />
+    <Compile Include="Shaders\LightShader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Animation.xsd">
