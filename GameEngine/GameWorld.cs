@@ -141,8 +141,8 @@ namespace GameEngine
             if (_inputBuffer != null)
                 _inputBuffer.Dispose();
 
-            _inputBuffer = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height);
-            _outputBuffer = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height);
+            _inputBuffer = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
+            _outputBuffer = new RenderTarget2D(this.Game.GraphicsDevice, Width, Height, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
 
             //allow all game shaders to become aware of the change in resolution
             foreach (GameShader shader in GameShaders) shader.SetResolution(Width, Height);
@@ -276,9 +276,7 @@ namespace GameEngine
             SpriteBatch.End();
 
             for (int i = 0; i < GameShaders.Count; i++)
-            {
                 GameShaders[i].ApplyShader(SpriteBatch, _inputBuffer, _outputBuffer, GameTime, viewPortInfo);
-            }
 
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);

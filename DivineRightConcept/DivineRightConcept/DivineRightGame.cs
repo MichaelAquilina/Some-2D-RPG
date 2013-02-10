@@ -32,7 +32,7 @@ namespace DivineRightConcept
         const int TILE_WIDTH = 50;
         const int TILE_HEIGHT = 50;
 
-        const int VIEW_WIDTH = 600;
+        const int VIEW_WIDTH = 500;
         const int VIEW_HEIGHT = 480;
 
         const float MOVEMENT_SPEED = 0.3f;
@@ -60,7 +60,7 @@ namespace DivineRightConcept
             graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferHeight = 500;
             graphics.PreferredBackBufferWidth = 900;
         }
 
@@ -80,7 +80,7 @@ namespace DivineRightConcept
             _world.DrawableObjects.Add(CurrentPlayer);
 
             _lightShader = new LightShader(this.GraphicsDevice);
-            _lightShader.AmbientLight = Color.DarkOliveGreen;
+            _lightShader.AmbientLight = new Color(50,40,30);
             _lightShader.LightSources.Add(CurrentPlayer);
             _world.RegisterGameShader(_lightShader);
 
@@ -212,14 +212,14 @@ namespace DivineRightConcept
 
         protected override void Draw(GameTime gameTime)
         {
-            Rectangle DestRectangle = new Rectangle(0, 0, graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight);
+            Rectangle DestRectangle = new Rectangle(180, 10, VIEW_WIDTH, VIEW_HEIGHT);
 
             _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
             
             //DRAW DEBUGGING INFORMATION
             spriteBatch.Begin();
             {
-                spriteBatch.Draw(_lightShader.LightMap, new Rectangle(670, 120, 100, 100), Color.White);
+                spriteBatch.Draw(_lightShader.LightMap, new Rectangle(690, 120, 100, 100), Color.White);
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
