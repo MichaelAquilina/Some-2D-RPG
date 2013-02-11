@@ -166,21 +166,22 @@ namespace GameEngine
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
             ViewPortInfo viewPortInfo = new ViewPortInfo();
+            {
+                viewPortInfo.TileCountX = (int)Math.Ceiling((double)DestRectangle.Width / pxTileWidth) + 1;
+                viewPortInfo.TileCountY = (int)Math.Ceiling((double)DestRectangle.Height / pxTileHeight) + 1;
 
-            viewPortInfo.TileCountX = (int)Math.Ceiling((double)DestRectangle.Width / pxTileWidth) + 1;
-            viewPortInfo.TileCountY = (int)Math.Ceiling((double)DestRectangle.Height / pxTileHeight) + 1;
+                viewPortInfo.TopLeftX = (float)(Center.X - Math.Ceiling((double)viewPortInfo.TileCountX / 2));
+                viewPortInfo.TopLeftY = (float)(Center.Y - Math.Ceiling((double)viewPortInfo.TileCountY / 2));
 
-            viewPortInfo.TopLeftX = (float)(Center.X - Math.Ceiling((double)viewPortInfo.TileCountX / 2));
-            viewPortInfo.TopLeftY = (float)(Center.Y - Math.Ceiling((double) viewPortInfo.TileCountY / 2));
-            
-            viewPortInfo.PXTileWidth = pxTileWidth;
-            viewPortInfo.PXTileHeight = pxTileHeight;
+                viewPortInfo.PXTileWidth = pxTileWidth;
+                viewPortInfo.PXTileHeight = pxTileHeight;
 
-            //Prevent the View from going outisde of the WORLD coordinates
-            if (viewPortInfo.TopLeftX < 0) viewPortInfo.TopLeftX = 0;
-            if (viewPortInfo.TopLeftY < 0) viewPortInfo.TopLeftY = 0;
-            if (viewPortInfo.TopLeftX + viewPortInfo.TileCountX >= WorldMap.Width) viewPortInfo.TopLeftX = WorldMap.Width - viewPortInfo.TileCountX;
-            if (viewPortInfo.TopLeftY + viewPortInfo.TileCountY >= WorldMap.Height) viewPortInfo.TopLeftY = WorldMap.Height - viewPortInfo.TileCountY;
+                //Prevent the View from going outisde of the WORLD coordinates
+                if (viewPortInfo.TopLeftX < 0) viewPortInfo.TopLeftX = 0;
+                if (viewPortInfo.TopLeftY < 0) viewPortInfo.TopLeftY = 0;
+                if (viewPortInfo.TopLeftX + viewPortInfo.TileCountX >= WorldMap.Width) viewPortInfo.TopLeftX = WorldMap.Width - viewPortInfo.TileCountX;
+                if (viewPortInfo.TopLeftY + viewPortInfo.TileCountY >= WorldMap.Height) viewPortInfo.TopLeftY = WorldMap.Height - viewPortInfo.TileCountY;
+            }
 
             //calculate any decimal displacement required (For Positions with decimal points)
             double dispX = viewPortInfo.TopLeftX - Math.Floor(viewPortInfo.TopLeftX);
@@ -250,7 +251,7 @@ namespace GameEngine
                     );
 
                     //only render the object if the objects BoundingBox it is within the specified viewport
-                    if (drawObject.Visible && ObjectBoundingBox.Intersects(new Rectangle(0,0,Width,Height)) )
+                    if (drawObject.Visible && ObjectBoundingBox.Intersects(_inputBuffer.Bounds))
                     {
                         ObjectsOnScreen++;
 
@@ -275,15 +276,16 @@ namespace GameEngine
             }
             SpriteBatch.End();
 
+            //TODO: Can possibly improve performance by setting render target to the back buffer for the last shader pass
             for (int i = 0; i < GameShaders.Count; i++)
                 GameShaders[i].ApplyShader(SpriteBatch, _inputBuffer, _outputBuffer, GameTime, viewPortInfo);
 
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);
             SpriteBatch.Begin();
-
-            SpriteBatch.Draw(_outputBuffer, DestRectangle, Color);
-
+            {
+                SpriteBatch.Draw(_outputBuffer, DestRectangle, Color);
+            }
             SpriteBatch.End();
         }
     }

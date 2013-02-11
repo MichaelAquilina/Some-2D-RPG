@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using GameEngine.Drawing;
 
+//SHOULD BE MOVED OUTSIDE OF THE GAMEENGINE PROJECT DUE TO 
+//DEPENDENCY ON CONTENT PROJECT (COUPLES THE THREE PROJECTS LIKE THIS)
 namespace GameEngine.Shaders
 {
     public class LightShader : GameShader
@@ -45,6 +47,8 @@ namespace GameEngine.Shaders
 
         public override void SetResolution(int Width, int Height)
         {
+            if (_lightTarget != null) _lightTarget.Dispose();
+
             _lightTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
         }
 
@@ -83,9 +87,12 @@ namespace GameEngine.Shaders
             SpriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(OutputBuffer);
-            _lightShader.Parameters["LightMap"].SetValue((Texture2D) _lightTarget);
+            _lightShader.Parameters["LightMap"].SetValue((Texture2D)_lightTarget);
+
             SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _lightShader);
-            SpriteBatch.Draw((Texture2D)InputBuffer, InputBuffer.Bounds, Color.White);
+            {
+                SpriteBatch.Draw( InputBuffer, InputBuffer.Bounds, Color.White);
+            }
             SpriteBatch.End();
         }
     }

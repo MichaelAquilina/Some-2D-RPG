@@ -26,8 +26,8 @@ namespace DivineRightConcept
         const bool DEBUG = true;
         const int INPUT_DELAY = 30;
 
-        const int WORLD_HEIGHT = 200;
-        const int WORLD_WIDTH = 200;
+        const int WORLD_HEIGHT = 500;
+        const int WORLD_WIDTH = 500;
         
         const int TILE_WIDTH = 50;
         const int TILE_HEIGHT = 50;
@@ -104,7 +104,7 @@ namespace DivineRightConcept
 
             //GENERATION AND STORAGE OF MAP OBJECTS SHOULD BE WITHIIN THE MAP FILE ITSELF (TODO)
             Random random = new Random();
-            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 3; i++)
+            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 7; i++)
             {
                 float treeX = (float) (random.NextDouble() * WORLD_WIDTH);
                 float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
