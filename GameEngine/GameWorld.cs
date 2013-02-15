@@ -60,6 +60,8 @@ namespace GameEngine
 
         #endregion
 
+        #region Initialisation
+
         public GameWorld(Game Game, int Width, int Height)
             :base(Game)
         {
@@ -74,10 +76,6 @@ namespace GameEngine
             SetResolution(Width, Height);
         }
 
-        /// <summary>
-        /// Provide an interace which allows the GameWorld to load the necessary content. Should ask all its Actors, Items or anything else
-        /// to also Load their Content so that they may also be rendered correctly when it comes to being drawn.
-        /// </summary>
         public void LoadContent()
         {
             ContentManager Content = this.Game.Content;
@@ -117,11 +115,58 @@ namespace GameEngine
             this.WorldMap.GroundPallette.UnloadContent();
         }
 
+        #endregion
+
+        #region Register/Unregister methods
+
+        public void RegisterObject(Object SomeObject)
+        {
+            if (SomeObject is ILoadable) RegisterLoadableContent((ILoadable)SomeObject);
+            if (SomeObject is IGameDrawable) RegisterDrawableObject((IGameDrawable)SomeObject);
+            if (SomeObject is GameShader) RegisterGameShader((GameShader)SomeObject);
+        }
+
+        public void RegisterLoadableContent(ILoadable Loadable)
+        {
+            LoadableContent.Add(Loadable);
+        }
+
+        public void RegisterDrawableObject(IGameDrawable GameDrawable)
+        {
+            DrawableObjects.Add(GameDrawable);
+        }
+
         public void RegisterGameShader(GameShader Shader)
         {
             GameShaders.Add(Shader);
             Shader.SetResolution(Width, Height);
         }
+
+        public void UnregisterObject(Object SomeObject)
+        {
+            if (SomeObject is ILoadable) UnregisterLoadableContent((ILoadable)SomeObject);
+            if (SomeObject is IGameDrawable) UnregisterDrawableObject((IGameDrawable)SomeObject);
+            if (SomeObject is GameShader) UnregisterGameShader((GameShader)SomeObject);
+        }
+
+        public bool UnregisterLoadableContent(ILoadable Loadable)
+        {
+            Loadable.UnloadContent();
+            return LoadableContent.Remove(Loadable);
+        }
+
+        public bool UnregisterDrawableObject(IGameDrawable GameDrawable)
+        {
+            return DrawableObjects.Remove(GameDrawable);
+        }
+
+        public bool UnregisterGameShader(GameShader Shader)
+        {
+            Shader.UnloadContent();
+            return GameShaders.Remove(Shader);
+        }
+
+        #endregion
 
         /// <summary>
         /// Sets the Resolution for Rendering the Game World. This is inately tied to the resolution the game

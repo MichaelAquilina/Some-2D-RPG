@@ -17,6 +17,7 @@ using Microsoft.Xna.Framework.Media;
 using DivineRightConcept.WorldGenerators;
 using DivineRightConcept.GameObjects;
 using GameEngine.Shaders;
+using DivineRightConcept.Shaders;
 
 namespace DivineRightConcept
 {
@@ -43,7 +44,7 @@ namespace DivineRightConcept
         int combo = 0;
         int comoMax = 4;
 
-        LightShader _lightShader;
+        LightShader LightShader;
 
         //Graphic Related Variables
         GraphicsDeviceManager graphics;
@@ -52,8 +53,8 @@ namespace DivineRightConcept
 
         //Game Specific Variablies
         double prevGameTime = 0;
-        GameWorld _world;
-        IWorldGenerator _generator;
+        GameWorld World;
+        IWorldGenerator WorldGenerator;
 
         public DivineRightGame()
         {
@@ -66,30 +67,27 @@ namespace DivineRightConcept
 
         protected override void Initialize()
         {
-            //Current IWorldGenerator being used
-            _generator = new RandomWorldGenerator();
+            WorldGenerator = new RandomWorldGenerator();
 
-            _world = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
-            _world.WorldMap = _generator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
+            World = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
+            World.WorldMap = WorldGenerator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
 
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
 
-            //possibly create batch operation that automatically detects what to register an object as
-            _world.LoadableContent.Add(CurrentPlayer);
-            _world.DrawableObjects.Add(CurrentPlayer);
+            LightShader = new LightShader(this.GraphicsDevice);
+            LightShader.AmbientLight = new Color(50,40,30);
+            LightShader.LightSources.Add(CurrentPlayer);
 
-            _lightShader = new LightShader(this.GraphicsDevice);
-            _lightShader.AmbientLight = new Color(50,40,30);
-            _lightShader.LightSources.Add(CurrentPlayer);
-            _world.RegisterGameShader(_lightShader);
+            World.RegisterObject(CurrentPlayer);
+            World.RegisterObject(LightShader);
 
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _world.LoadContent();
+            World.LoadContent();
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
@@ -116,7 +114,7 @@ namespace DivineRightConcept
                 mapObject.SourceTexture = Content.Load<Texture2D>(@"MapObjects\OBJECTS");
                 mapObject.Origin = new Vector2(0.5f, 1.0f);
 
-                _world.DrawableObjects.Add(mapObject);
+                World.DrawableObjects.Add(mapObject);
             }
 
             //LOAD THE DEFAULT FONT
@@ -192,7 +190,7 @@ namespace DivineRightConcept
                     if (!_f1IsDown && combo < comoMax)
                     {
                         _f1IsDown = true;
-                        _world.ShowBoundingBoxes = !_world.ShowBoundingBoxes;
+                        World.ShowBoundingBoxes = !World.ShowBoundingBoxes;
                     }
                 }
                 else
@@ -214,21 +212,21 @@ namespace DivineRightConcept
         {
             Rectangle DestRectangle = new Rectangle(180, 10, VIEW_WIDTH, VIEW_HEIGHT);
 
-            _world.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
+            World.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
             
             //DRAW DEBUGGING INFORMATION
             spriteBatch.Begin();
             {
-                spriteBatch.Draw(_lightShader.LightMap, new Rectangle(690, 120, 100, 100), Color.White);
+                spriteBatch.Draw(LightShader.LightMap, new Rectangle(690, 120, 100, 100), Color.White);
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
                 spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), Vector2.Zero, Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
                 spriteBatch.DrawString(_defaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, "Total Map Objects = " + _world.DrawableObjects.Count, new Vector2(0, 60), Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, "Objects On Screen = " + _world.ObjectsOnScreen, new Vector2(0, 80), Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, "Light Sources On Screen = " + _lightShader.LightSourcesOnScreen, new Vector2(0, 100), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, "Total Map Objects = " + World.DrawableObjects.Count, new Vector2(0, 60), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, "Objects On Screen = " + World.ObjectsOnScreen, new Vector2(0, 80), Color.White);
+                spriteBatch.DrawString(_defaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 100), Color.White);
             }
             spriteBatch.End();
 

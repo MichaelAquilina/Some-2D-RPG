@@ -5,10 +5,12 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using GameEngine.Drawing;
+using GameEngine.Shaders;
+using GameEngine;
 
 //SHOULD BE MOVED OUTSIDE OF THE GAMEENGINE PROJECT DUE TO 
 //DEPENDENCY ON CONTENT PROJECT (COUPLES THE THREE PROJECTS LIKE THIS)
-namespace GameEngine.Shaders
+namespace DivineRightConcept.Shaders
 {
     public class LightShader : GameShader
     {
@@ -33,7 +35,7 @@ namespace GameEngine.Shaders
 
         public override void LoadContent(ContentManager Content)
         {
-            _lightShader = Content.Load<Effect>("Alpha");
+            _lightShader = Content.Load<Effect>(@"Shaders\LightShader");
         }
 
         public override void UnloadContent()

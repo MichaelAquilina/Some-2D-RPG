@@ -42,12 +42,12 @@ namespace GameEngine.GameObjects
             this.Rotation = 0;
         }
 
-        public Texture2D GetTexture(GameTime GameTime)
+        public virtual Texture2D GetTexture(GameTime GameTime)
         {
             return SourceTexture;
         }
 
-        public Rectangle GetSourceRectangle(GameTime GameTime)
+        public virtual Rectangle GetSourceRectangle(GameTime GameTime)
         {
             return SourceRectangle;
         }
