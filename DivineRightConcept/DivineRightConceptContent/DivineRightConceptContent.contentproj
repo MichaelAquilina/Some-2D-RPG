@@ -101,13 +101,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="whitedots.png">
-      <Name>whitedots</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="MapObjects\Target.bmp">
       <Name>Target</Name>
       <Importer>TextureImporter</Importer>

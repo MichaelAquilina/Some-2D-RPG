@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameEngine.Drawing;
+using DivineRightConcept.Shaders;
 
 namespace DivineRightConcept.GameObjects
 {

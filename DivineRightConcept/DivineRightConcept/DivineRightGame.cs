@@ -27,6 +27,9 @@ namespace DivineRightConcept
         const bool DEBUG = true;
         const int INPUT_DELAY = 30;
 
+        const int WINDOW_HEIGHT = 500;
+        const int WINDOW_WIDTH = 900;
+
         const int WORLD_HEIGHT = 500;
         const int WORLD_WIDTH = 500;
         
@@ -61,8 +64,8 @@ namespace DivineRightConcept
             graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = 500;
-            graphics.PreferredBackBufferWidth = 900;
+            graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+            graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
         }
 
         protected override void Initialize()
