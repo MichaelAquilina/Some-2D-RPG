@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DivineRightConcept.Shaders
 {
+    //WILL PROBABLY NEED TO CHANGE TO SOMETHING LESS UNMANAGEABLE
+    //ideally a radius, strength, color etc should be defined NOT A TEXTURE
     public interface ILightSource
     {
         Texture2D GetLightSourceTexture(GameTime gameTime);
