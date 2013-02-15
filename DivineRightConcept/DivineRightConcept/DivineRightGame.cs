@@ -41,31 +41,31 @@ namespace DivineRightConcept
 
         const float MOVEMENT_SPEED = 0.3f;
 
-        bool _f1IsDown = false;
-        bool _aIsDown = false;
-        Hero CurrentPlayer;
-        int combo = 0;
-        int comoMax = 4;
+        double PrevGameTime = 0;
+        bool F1IsDown = false;
+        bool AIsDown = false;
+        int Combo = 0;
+        int ComboMax = 4;
 
         LightShader LightShader;
 
         //Graphic Related Variables
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        SpriteFont _defaultSpriteFont;
+        GraphicsDeviceManager Graphics;
+        SpriteBatch SpriteBatch;
+        SpriteFont DefaultSpriteFont;
 
         //Game Specific Variablies
-        double prevGameTime = 0;
+        Hero CurrentPlayer;
         GameWorld World;
         IWorldGenerator WorldGenerator;
 
         public DivineRightGame()
         {
-            graphics = new GraphicsDeviceManager(this);
+            Graphics = new GraphicsDeviceManager(this);
 
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
-            graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
+            Graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
+            Graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
         }
 
         protected override void Initialize()
@@ -93,7 +93,7 @@ namespace DivineRightConcept
             World.LoadContent();
 
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GraphicsDevice);
 
             Rectangle[] mapObjectSrcRectangles = new Rectangle[] { 
                 new Rectangle(3, 13, 113, 103)
@@ -121,7 +121,7 @@ namespace DivineRightConcept
             }
 
             //LOAD THE DEFAULT FONT
-            _defaultSpriteFont = Content.Load<SpriteFont>(@"Fonts\DefaultSpriteFont");
+            DefaultSpriteFont = Content.Load<SpriteFont>(@"Fonts\DefaultSpriteFont");
         }
 
         protected override void UnloadContent()
@@ -135,12 +135,12 @@ namespace DivineRightConcept
 
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (gameTime.TotalGameTime.TotalMilliseconds - prevGameTime > INPUT_DELAY)
+            if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
                 //If the current animation has finished, then revert to default
                 if (CurrentPlayer.CurrentAnimation.IsFinished(gameTime))
                 {
-                    combo = 0;
+                    Combo = 0;
                     CurrentPlayer.SetCurrentAnimation("Idle");
                 }
 
@@ -148,57 +148,57 @@ namespace DivineRightConcept
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     CurrentPlayer.SetCurrentAnimation("Running");
-                    prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
+                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.Y -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
                     CurrentPlayer.SetCurrentAnimation("Running");
-                    prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
+                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.Y += MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
                     CurrentPlayer.SetCurrentAnimation("Running");
-                    prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
+                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
                     CurrentPlayer.SetCurrentAnimation("Running");
-                    prevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
+                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X += MOVEMENT_SPEED;
                 }
 
                 //ACTION BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    if (!_aIsDown && combo < comoMax)
+                    if (!AIsDown && Combo < ComboMax)
                     {
                         //ATTACK!
-                        _aIsDown = true;
-                        combo++;
+                        AIsDown = true;
+                        Combo++;
 
-                        CurrentPlayer.SetCurrentAnimation("Attack"+combo);
+                        CurrentPlayer.SetCurrentAnimation("Attack"+Combo);
                         CurrentPlayer.CurrentAnimation.ResetAnimation(gameTime);
                     }
                 }
                 else
                 {
-                    _aIsDown = false;
+                    AIsDown = false;
                 }
 
                 if (keyboardState.IsKeyDown(Keys.F1))
                 {
-                    if (!_f1IsDown && combo < comoMax)
+                    if (!F1IsDown && Combo < ComboMax)
                     {
-                        _f1IsDown = true;
+                        F1IsDown = true;
                         World.ShowBoundingBoxes = !World.ShowBoundingBoxes;
                     }
                 }
                 else
                 {
-                    _f1IsDown = false;
+                    F1IsDown = false;
                 }
 
                 //prevent from going out of range
@@ -215,23 +215,23 @@ namespace DivineRightConcept
         {
             Rectangle DestRectangle = new Rectangle(180, 10, VIEW_WIDTH, VIEW_HEIGHT);
 
-            World.DrawWorldViewPort(gameTime, spriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
+            World.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
             
             //DRAW DEBUGGING INFORMATION
-            spriteBatch.Begin();
+            SpriteBatch.Begin();
             {
-                spriteBatch.Draw(LightShader.LightMap, new Rectangle(690, 120, 100, 100), Color.White);
+                SpriteBatch.Draw(LightShader.LightMap, new Rectangle(690, 120, 100, 100), Color.White);
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
-                spriteBatch.DrawString(_defaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), Vector2.Zero, Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, "Total Map Objects = " + World.DrawableObjects.Count, new Vector2(0, 60), Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, "Objects On Screen = " + World.ObjectsOnScreen, new Vector2(0, 80), Color.White);
-                spriteBatch.DrawString(_defaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 100), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), Vector2.Zero, Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Objects = " + World.DrawableObjects.Count, new Vector2(0, 60), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Objects On Screen = " + World.ObjectsOnScreen, new Vector2(0, 80), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 100), Color.White);
             }
-            spriteBatch.End();
+            SpriteBatch.End();
 
             base.Draw(gameTime);
         }
