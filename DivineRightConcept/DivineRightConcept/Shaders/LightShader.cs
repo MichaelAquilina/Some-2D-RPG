@@ -54,7 +54,7 @@ namespace DivineRightConcept.Shaders
             _lightTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
         }
 
-        public override void ApplyShader(SpriteBatch SpriteBatch, RenderTarget2D InputBuffer, RenderTarget2D OutputBuffer, GameTime GameTime, ViewPortInfo ViewPortInfo)
+        public override void ApplyShader(SpriteBatch SpriteBatch, ViewPortInfo ViewPortInfo,  GameTime GameTime, RenderTarget2D InputBuffer, RenderTarget2D OutputBuffer )
         {
             //RENDER THE LIGHT MAP TO A DESTINATION TEXTURE
             GraphicsDevice.SetRenderTarget(_lightTarget);

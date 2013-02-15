@@ -30,7 +30,7 @@ namespace GameEngine.Shaders
             throw new NotImplementedException();
         }
 
-        public virtual void ApplyShader(SpriteBatch SpriteBatch, RenderTarget2D InputBuffer, RenderTarget2D OutputBuffer, GameTime GameTime, ViewPortInfo ViewPortInfo)
+        public virtual void ApplyShader(SpriteBatch SpriteBatch, ViewPortInfo ViewPortInfo,  GameTime GameTime, RenderTarget2D InputBuffer, RenderTarget2D OutputBuffer )
         {
             throw new NotImplementedException();            
         }
