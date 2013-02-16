@@ -14,14 +14,14 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using DivineRightConcept.WorldGenerators;
-using DivineRightConcept.GameObjects;
+using ShadowKill.WorldGenerators;
+using ShadowKill.GameObjects;
 using GameEngine.Shaders;
-using DivineRightConcept.Shaders;
+using ShadowKill.Shaders;
 
-namespace DivineRightConcept
+namespace ShadowKill
 {
-    public class DivineRightGame : Microsoft.Xna.Framework.Game
+    public class ShadowKillGame : Microsoft.Xna.Framework.Game
     {
         //Constant (Editable) Valuables
         const bool DEBUG = true;
@@ -59,7 +59,7 @@ namespace DivineRightConcept
         GameWorld World;
         IWorldGenerator WorldGenerator;
 
-        public DivineRightGame()
+        public ShadowKillGame()
         {
             Graphics = new GraphicsDeviceManager(this);
 

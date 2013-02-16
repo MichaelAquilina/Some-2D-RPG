@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace DivineRightConcept.Shaders
+namespace ShadowKill.Shaders
 {
     //WILL PROBABLY NEED TO CHANGE TO SOMETHING LESS UNMANAGEABLE
     //ideally a radius, strength, color etc should be defined NOT A TEXTURE

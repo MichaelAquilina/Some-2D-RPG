@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using GameEngine.Drawing;
-using DivineRightConcept.Shaders;
+using ShadowKill.Shaders;
 
-namespace DivineRightConcept.GameObjects
+namespace ShadowKill.GameObjects
 {
     public class Hero : Actor, ILoadable, ILightSource
     {

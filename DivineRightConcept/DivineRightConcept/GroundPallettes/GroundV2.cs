@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
 
-namespace DivineRightConcept.GroundPallettes
+namespace ShadowKill.GroundPallettes
 {
     //Should be renamed to something more appropriate
     public class GroundV2 : IGroundPallette

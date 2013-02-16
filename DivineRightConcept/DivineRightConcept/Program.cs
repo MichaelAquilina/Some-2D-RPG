@@ -1,13 +1,13 @@
 using System;
 
-namespace DivineRightConcept
+namespace ShadowKill
 {
 #if WINDOWS || XBOX
     static class Program
     {
         static void Main(string[] args)
         {
-            using (DivineRightGame game = new DivineRightGame())
+            using (ShadowKillGame game = new ShadowKillGame())
             {
                 game.Run();
             }

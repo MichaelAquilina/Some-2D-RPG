@@ -168,6 +168,8 @@ namespace GameEngine
 
         #endregion
 
+        #region Public API Methods
+
         /// <summary>
         /// Sets the Resolution for Rendering the Game World. This is inately tied to the resolution the game
         /// will be rendered at. Internally, new render targets are created for both the viewport and the
@@ -333,5 +335,7 @@ namespace GameEngine
             }
             SpriteBatch.End();
         }
+
+        #endregion
     }
 }

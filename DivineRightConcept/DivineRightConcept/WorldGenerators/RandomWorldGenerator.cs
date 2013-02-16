@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using Microsoft.Xna.Framework.Graphics;
-using DivineRightConcept.GroundPallettes;
+using ShadowKill.GroundPallettes;
 using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 
-namespace DivineRightConcept.WorldGenerators
+namespace ShadowKill.WorldGenerators
 {
     //Purely Experimental Generator class used for debugging purposes
     public class RandomWorldGenerator : IWorldGenerator

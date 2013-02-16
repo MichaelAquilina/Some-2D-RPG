@@ -10,7 +10,7 @@ using GameEngine;
 
 //SHOULD BE MOVED OUTSIDE OF THE GAMEENGINE PROJECT DUE TO 
 //DEPENDENCY ON CONTENT PROJECT (COUPLES THE THREE PROJECTS LIKE THIS)
-namespace DivineRightConcept.Shaders
+namespace ShadowKill.Shaders
 {
     public class LightShader : GameShader
     {
