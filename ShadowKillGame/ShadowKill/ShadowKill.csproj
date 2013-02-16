@@ -125,7 +125,7 @@
       <Project>{A3846010-DA2C-44F2-9B55-856CC643C898}</Project>
       <Name>GameEngine</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DivineRightConceptContent\ShadowKillContent.contentproj">
+    <ProjectReference Include="..\ShadowKillContent\ShadowKillContent.contentproj">
       <Name>ShadowKillContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
       <Project>{CBBD5B93-1E1B-4AF3-B99B-C4689A0AA64E}</Project>
