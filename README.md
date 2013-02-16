@@ -1,4 +1,4 @@
-DivineRightConcept
+ShadowKillGame
 ==================
 
 A SandBox for developing a game Idea in XNA (C#). The code is meant to provide a very strong and steady code base which will yield
