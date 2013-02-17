@@ -73,7 +73,7 @@ namespace ShadowKill
             WorldGenerator = new RandomWorldGenerator();
 
             World = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
-            World.WorldMap = WorldGenerator.Generate(WORLD_WIDTH, WORLD_HEIGHT);
+            World.LoadMap(WorldGenerator.Generate(Content, WORLD_WIDTH, WORLD_HEIGHT));
 
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
@@ -94,31 +94,6 @@ namespace ShadowKill
 
             // Create a new SpriteBatch, which can be used to draw textures.
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-
-            Rectangle[] mapObjectSrcRectangles = new Rectangle[] { 
-                new Rectangle(3, 13, 113, 103)
-                ,new Rectangle(124, 4, 72, 109)
-                ,new Rectangle(280,40, 30, 57)
-                ,new Rectangle(320,80, 40, 32)
-                //,new Rectangle(203,40, 73, 80)
-            };
-
-            //GENERATION AND STORAGE OF MAP OBJECTS SHOULD BE WITHIIN THE MAP FILE ITSELF (TODO)
-            Random random = new Random();
-            for (int i = 0; i < WORLD_WIDTH * WORLD_WIDTH / 7; i++)
-            {
-                float treeX = (float) (random.NextDouble() * WORLD_WIDTH);
-                float treeY = (float) (random.NextDouble() * WORLD_HEIGHT);
-
-                MapObject mapObject = new MapObject(treeX, treeY, 1.0f, 1.0f);
-
-                mapObject.SourceRectangle = mapObjectSrcRectangles[random.Next(0, mapObjectSrcRectangles.Length)];
-
-                mapObject.SourceTexture = Content.Load<Texture2D>(@"MapObjects\OBJECTS");
-                mapObject.Origin = new Vector2(0.5f, 1.0f);
-
-                World.DrawableObjects.Add(mapObject);
-            }
 
             //LOAD THE DEFAULT FONT
             DefaultSpriteFont = Content.Load<SpriteFont>(@"Fonts\DefaultSpriteFont");

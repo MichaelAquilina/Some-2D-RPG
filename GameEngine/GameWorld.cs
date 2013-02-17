@@ -29,11 +29,6 @@ namespace GameEngine
     {
         #region Properties
 
-        public Map WorldMap {
-            get { return _worldMap; }
-            set { _worldMap = value; }
-        }
-
         public int Width { get; private set; }
 
         public int Height { get; private set; }
@@ -87,12 +82,15 @@ namespace GameEngine
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.LoadContent(Content);
 
-            this.WorldMap.GroundPallette.LoadContent(Game.Content);
+            if(_worldMap!=null)
+                _worldMap.GroundPallette.LoadContent(Game.Content);
         }
 
         public void UnloadContent()
         {
-            this.WorldMap.GroundPallette.UnloadContent();
+            if( _worldMap != null )
+               _worldMap.GroundPallette.UnloadContent();
+    
             if (_miniMapTex != null)
                 _miniMapTex.Dispose();
 
@@ -111,8 +109,6 @@ namespace GameEngine
 
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.UnloadContent();
-
-            this.WorldMap.GroundPallette.UnloadContent();
         }
 
         #endregion
@@ -170,6 +166,22 @@ namespace GameEngine
 
         #region Public API Methods
 
+        public void LoadMap(Map Map, bool Clear=true)
+        {
+            if (_worldMap != null)
+                _worldMap.GroundPallette.UnloadContent();
+
+            _worldMap = Map;
+
+            if( Clear ) DrawableObjects.Clear();
+
+            foreach (MapObject mapObject in _worldMap.MapObjects)
+                RegisterObject(mapObject);
+
+            foreach (Actor actor in _worldMap.MapActors)
+                RegisterObject(actor);
+        }
+
         /// <summary>
         /// Sets the Resolution for Rendering the Game World. This is inately tied to the resolution the game
         /// will be rendered at. Internally, new render targets are created for both the viewport and the
@@ -226,8 +238,8 @@ namespace GameEngine
                 //Prevent the View from going outisde of the WORLD coordinates
                 if (viewPortInfo.TopLeftX < 0) viewPortInfo.TopLeftX = 0;
                 if (viewPortInfo.TopLeftY < 0) viewPortInfo.TopLeftY = 0;
-                if (viewPortInfo.TopLeftX + viewPortInfo.TileCountX >= WorldMap.Width) viewPortInfo.TopLeftX = WorldMap.Width - viewPortInfo.TileCountX;
-                if (viewPortInfo.TopLeftY + viewPortInfo.TileCountY >= WorldMap.Height) viewPortInfo.TopLeftY = WorldMap.Height - viewPortInfo.TileCountY;
+                if (viewPortInfo.TopLeftX + viewPortInfo.TileCountX >= _worldMap.Width) viewPortInfo.TopLeftX = _worldMap.Width - viewPortInfo.TileCountX;
+                if (viewPortInfo.TopLeftY + viewPortInfo.TileCountY >= _worldMap.Height) viewPortInfo.TopLeftY = _worldMap.Height - viewPortInfo.TileCountY;
             }
 
             //calculate any decimal displacement required (For Positions with decimal points)
@@ -254,9 +266,9 @@ namespace GameEngine
                         tileDestRect.Y -= (int)(dispY * pxTileHeight);
 
                         SpriteBatch.Draw(
-                            this.WorldMap.GroundPallette.GetTileSourceTexture(this.WorldMap[tileX, tileY]),
+                            _worldMap.GroundPallette.GetTileSourceTexture(this._worldMap[tileX, tileY]),
                             tileDestRect,
-                            this.WorldMap.GroundPallette.GetTileSourceRectangle(this.WorldMap[tileX, tileY]),
+                            _worldMap.GroundPallette.GetTileSourceRectangle(this._worldMap[tileX, tileY]),
                             Color.White,
                             0, Vector2.Zero,
                             SpriteEffects.None,

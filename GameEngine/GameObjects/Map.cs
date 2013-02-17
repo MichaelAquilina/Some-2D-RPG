@@ -10,6 +10,7 @@ namespace GameEngine.GameObjects
 {
     //represents a game map that be used. Contains tile information as well as 
     //the type of ground pallette used for this particular map
+    //TODO: Should be made ILoadable? It has GroundPallette and MapObjects, which are both ILoadable
     public class Map
     {
         public int Width { get { return _mapTiles.Length; } }
@@ -23,7 +24,12 @@ namespace GameEngine.GameObjects
             set { _mapTiles[X][Y] = value; }
         }
 
+        public List<MapObject> MapObjects { get { return _mapObjects; } }
+        public List<Actor> MapActors { get { return _mapActors; } }
+
         private byte[][] _mapTiles = null;
+        private List<MapObject> _mapObjects = new List<MapObject>();
+        private List<Actor> _mapActors = new List<Actor>();
 
         public Map(int Width, int Height, IGroundPallette GroundPallette)
         {
