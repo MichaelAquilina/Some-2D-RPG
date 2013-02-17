@@ -5,13 +5,13 @@ using System.Text;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 namespace GameEngine.GameObjects
 {
     //represents a game map that be used. Contains tile information as well as 
     //the type of ground pallette used for this particular map
-    //TODO: Should be made ILoadable? It has GroundPallette and MapObjects, which are both ILoadable
-    public class Map
+    public class Map : ILoadable
     {
         public int Width { get { return _mapTiles.Length; } }
         public int Height { get { return _mapTiles[0].Length; } }
@@ -38,6 +38,16 @@ namespace GameEngine.GameObjects
 
             for( int i=0; i<Width; i++)
                 this._mapTiles[i] = new byte[Height];
+        }
+
+        public void LoadContent(ContentManager Content)
+        {
+            GroundPallette.LoadContent(Content);
+        }
+
+        public void UnloadContent()
+        {
+            GroundPallette.UnloadContent();
         }
     }
 }

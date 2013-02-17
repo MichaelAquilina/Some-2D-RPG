@@ -83,13 +83,13 @@ namespace GameEngine
                 loadableShader.LoadContent(Content);
 
             if(_worldMap!=null)
-                _worldMap.GroundPallette.LoadContent(Game.Content);
+                _worldMap.LoadContent(Game.Content);
         }
 
         public void UnloadContent()
         {
             if( _worldMap != null )
-               _worldMap.GroundPallette.UnloadContent();
+               _worldMap.UnloadContent();
     
             if (_miniMapTex != null)
                 _miniMapTex.Dispose();
@@ -169,7 +169,7 @@ namespace GameEngine
         public void LoadMap(Map Map, bool Clear=true)
         {
             if (_worldMap != null)
-                _worldMap.GroundPallette.UnloadContent();
+                _worldMap.UnloadContent();
 
             _worldMap = Map;
 
