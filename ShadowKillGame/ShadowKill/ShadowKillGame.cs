@@ -18,6 +18,7 @@ using ShadowKill.WorldGenerators;
 using ShadowKill.GameObjects;
 using GameEngine.Shaders;
 using ShadowKill.Shaders;
+using GameEngine.Helpers;
 
 namespace ShadowKill
 {
@@ -42,9 +43,6 @@ namespace ShadowKill
         const float MOVEMENT_SPEED = 0.3f;
 
         double PrevGameTime = 0;
-        bool F10IsDown = false;
-        bool F1IsDown = false;
-        bool AIsDown = false;
         int Combo = 0;
         int ComboMax = 4;
 
@@ -60,8 +58,6 @@ namespace ShadowKill
         GameWorld World;
         IWorldGenerator WorldGenerator;
 
-        HashSet<Keys> _lockedKeys = new HashSet<Keys>();
-
         public ShadowKillGame()
         {
             Graphics = new GraphicsDeviceManager(this);
@@ -69,24 +65,6 @@ namespace ShadowKill
             Content.RootDirectory = "Content";
             Graphics.PreferredBackBufferHeight = WINDOW_HEIGHT;
             Graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
-        }
-
-        private bool GetKeyDownState(KeyboardState KeyboardState, Keys Key, bool Lock)
-        {
-            bool result = false;
-
-            if (KeyboardState.IsKeyDown(Key) && (!Lock || !_lockedKeys.Contains(Key)))
-            {
-                result = true;
-                if (Lock) _lockedKeys.Add(Key);
-            }
-            else
-                result = false;
-
-            if (!KeyboardState.IsKeyDown(Key) && Lock)
-                _lockedKeys.Remove(Key);
-
-            return result;
         }
 
         protected override void Initialize()
@@ -99,18 +77,18 @@ namespace ShadowKill
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
 
-            LightShader = new LightShader(this.GraphicsDevice);
-            LightShader.AmbientLight = new Color(50,40,30);
-            LightShader.LightSources.Add(CurrentPlayer);
-
-            World.RegisterObject(CurrentPlayer);
-            World.RegisterObject(LightShader);
-
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
+            LightShader = new LightShader(this.GraphicsDevice);
+            LightShader.AmbientLight = new Color(50, 40, 30);
+            LightShader.LightSources.Add(CurrentPlayer);
+
+            World.RegisterObject(CurrentPlayer);
+            World.RegisterObject(LightShader);
+
             World.LoadContent();
 
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -126,9 +104,6 @@ namespace ShadowKill
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
@@ -168,17 +143,17 @@ namespace ShadowKill
                 }
 
                 //ACTION BASED KEYBOARD EVENTS
-                if (GetKeyDownState(keyboardState, Keys.A, true) && Combo < ComboMax)
+                if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.A, true) && Combo < ComboMax)
                 {
                     Combo++;
                     CurrentPlayer.SetCurrentAnimation("Attack"+Combo);
                     CurrentPlayer.CurrentAnimation.ResetAnimation(gameTime);
                 }
 
-                if (GetKeyDownState(keyboardState, Keys.F1, true))
+                if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
                     World.ShowBoundingBoxes = !World.ShowBoundingBoxes;
 
-                if (GetKeyDownState(keyboardState, Keys.F10, true))
+                if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
                     Graphics.ToggleFullScreen();
 
                 //prevent from going out of range
