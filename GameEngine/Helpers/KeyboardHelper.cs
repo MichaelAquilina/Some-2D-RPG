@@ -10,6 +10,13 @@ namespace GameEngine.Helpers
     {
         private static HashSet<Keys> _lockedKeys = new HashSet<Keys>();
 
+        /// <summary>
+        /// TODO: Document this method since it has very specific functionality
+        /// </summary>
+        /// <param name="KeyboardState"></param>
+        /// <param name="Key"></param>
+        /// <param name="Lock"></param>
+        /// <returns></returns>
         public static bool GetKeyDownState(KeyboardState KeyboardState, Keys Key, bool Lock)
         {
             bool result = false;

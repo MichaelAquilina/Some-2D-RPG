@@ -30,6 +30,8 @@ namespace GameEngine.GameObjects
         public Texture2D SourceTexture { get; set; }
         public Rectangle SourceRectangle { get; set; }
 
+        public SpriteEffects CurrentSpriteEffect { get; set; }
+
         public MapObject(float X, float Y, float Width, float Height, bool Visible=true)
         {
             this.X = X;
@@ -41,6 +43,7 @@ namespace GameEngine.GameObjects
             this.Origin = Vector2.Zero;
             this.BoundingBoxVisible = false;
             this.Rotation = 0;
+            this.CurrentSpriteEffect = SpriteEffects.None;
         }
 
         public virtual Texture2D GetTexture(GameTime GameTime)

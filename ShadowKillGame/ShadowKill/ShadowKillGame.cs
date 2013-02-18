@@ -1,24 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using GameEngine;
-using GameEngine.Drawing;
-using GameEngine.GameObjects;
+using GameEngine.Helpers;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Xna.Framework.Media;
-using ShadowKill.WorldGenerators;
 using ShadowKill.GameObjects;
-using GameEngine.Shaders;
 using ShadowKill.Shaders;
-using GameEngine.Helpers;
+using ShadowKill.WorldGenerators;
 
 namespace ShadowKill
 {
@@ -91,10 +79,8 @@ namespace ShadowKill
 
             World.LoadContent();
 
-            // Create a new SpriteBatch, which can be used to draw textures.
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
-            //LOAD THE DEFAULT FONT
             DefaultSpriteFont = Content.Load<SpriteFont>(@"Fonts\DefaultSpriteFont");
         }
 
@@ -132,12 +118,16 @@ namespace ShadowKill
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
                     CurrentPlayer.SetCurrentAnimation("Running");
+                    CurrentPlayer.CurrentSpriteEffect = SpriteEffects.FlipHorizontally;
+
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
                     CurrentPlayer.SetCurrentAnimation("Running");
+                    CurrentPlayer.CurrentSpriteEffect = SpriteEffects.None;
+
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X += MOVEMENT_SPEED;
                 }
@@ -170,6 +160,7 @@ namespace ShadowKill
         {
             Rectangle DestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
+            //Draw the World View Port, Centered on the CurrentPlayer Actor
             World.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
             
             //DRAW DEBUGGING INFORMATION

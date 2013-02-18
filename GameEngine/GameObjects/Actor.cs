@@ -32,6 +32,8 @@ namespace GameEngine.GameObjects
 
         public Color DrawColor { get; set; }
 
+        public SpriteEffects CurrentSpriteEffect { get; set; }
+
         public Dictionary<string, Animation> ActorAnimations { get; set; }
 
         //the current representation of the Actor which should be appriopiatly updated depending on its state
@@ -49,6 +51,7 @@ namespace GameEngine.GameObjects
             this.Origin = Vector2.Zero;
             this.BoundingBoxVisible = false;
             this.Rotation = 0;
+            this.CurrentSpriteEffect = SpriteEffects.None;
 
             this.ActorAnimations = new Dictionary<string, Animation>();
         }

@@ -26,5 +26,7 @@ namespace GameEngine.Interfaces
 
         Texture2D GetTexture(GameTime GameTime);
         Rectangle GetSourceRectangle(GameTime GameTime);
+
+        SpriteEffects CurrentSpriteEffect { get; }  //Current SpriteEffec to apply (If Any)
     }
 }
