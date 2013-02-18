@@ -42,6 +42,7 @@ namespace ShadowKill
         const float MOVEMENT_SPEED = 0.3f;
 
         double PrevGameTime = 0;
+        bool F10IsDown = false;
         bool F1IsDown = false;
         bool AIsDown = false;
         int Combo = 0;
@@ -59,6 +60,8 @@ namespace ShadowKill
         GameWorld World;
         IWorldGenerator WorldGenerator;
 
+        HashSet<Keys> _lockedKeys = new HashSet<Keys>();
+
         public ShadowKillGame()
         {
             Graphics = new GraphicsDeviceManager(this);
@@ -68,11 +71,29 @@ namespace ShadowKill
             Graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
         }
 
+        private bool GetKeyDownState(KeyboardState KeyboardState, Keys Key, bool Lock)
+        {
+            bool result = false;
+
+            if (KeyboardState.IsKeyDown(Key) && (!Lock || !_lockedKeys.Contains(Key)))
+            {
+                result = true;
+                if (Lock) _lockedKeys.Add(Key);
+            }
+            else
+                result = false;
+
+            if (!KeyboardState.IsKeyDown(Key) && Lock)
+                _lockedKeys.Remove(Key);
+
+            return result;
+        }
+
         protected override void Initialize()
         {
             WorldGenerator = new RandomWorldGenerator();
 
-            World = new GameWorld(this, VIEW_WIDTH, VIEW_HEIGHT);
+            World = new GameWorld(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             World.LoadMap(WorldGenerator.Generate(Content, WORLD_WIDTH, WORLD_HEIGHT));
 
             CurrentPlayer = new Hero(8, 8);
@@ -113,6 +134,7 @@ namespace ShadowKill
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
                 //If the current animation has finished, then revert to default
+                //TODO: Move this within the actor class?
                 if (CurrentPlayer.CurrentAnimation.IsFinished(gameTime))
                 {
                     Combo = 0;
@@ -146,35 +168,18 @@ namespace ShadowKill
                 }
 
                 //ACTION BASED KEYBOARD EVENTS
-                if (keyboardState.IsKeyDown(Keys.A))
+                if (GetKeyDownState(keyboardState, Keys.A, true) && Combo < ComboMax)
                 {
-                    if (!AIsDown && Combo < ComboMax)
-                    {
-                        //ATTACK!
-                        AIsDown = true;
-                        Combo++;
-
-                        CurrentPlayer.SetCurrentAnimation("Attack"+Combo);
-                        CurrentPlayer.CurrentAnimation.ResetAnimation(gameTime);
-                    }
-                }
-                else
-                {
-                    AIsDown = false;
+                    Combo++;
+                    CurrentPlayer.SetCurrentAnimation("Attack"+Combo);
+                    CurrentPlayer.CurrentAnimation.ResetAnimation(gameTime);
                 }
 
-                if (keyboardState.IsKeyDown(Keys.F1))
-                {
-                    if (!F1IsDown && Combo < ComboMax)
-                    {
-                        F1IsDown = true;
-                        World.ShowBoundingBoxes = !World.ShowBoundingBoxes;
-                    }
-                }
-                else
-                {
-                    F1IsDown = false;
-                }
+                if (GetKeyDownState(keyboardState, Keys.F1, true))
+                    World.ShowBoundingBoxes = !World.ShowBoundingBoxes;
+
+                if (GetKeyDownState(keyboardState, Keys.F10, true))
+                    Graphics.ToggleFullScreen();
 
                 //prevent from going out of range
                 if (CurrentPlayer.X < 0) CurrentPlayer.X = 0;
@@ -188,7 +193,7 @@ namespace ShadowKill
 
         protected override void Draw(GameTime gameTime)
         {
-            Rectangle DestRectangle = new Rectangle(180, 10, VIEW_WIDTH, VIEW_HEIGHT);
+            Rectangle DestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             World.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
             
@@ -201,10 +206,11 @@ namespace ShadowKill
 
                 SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), Vector2.Zero, Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 40), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Objects = " + World.DrawableObjects.Count, new Vector2(0, 60), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Objects On Screen = " + World.ObjectsOnScreen, new Vector2(0, 80), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 100), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + World.Width + "x" + World.Height, new Vector2(0, 40), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 60), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Objects = " + World.DrawableObjects.Count, new Vector2(0, 80), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Objects On Screen = " + World.ObjectsOnScreen, new Vector2(0, 100), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 120), Color.White);
             }
             SpriteBatch.End();
 

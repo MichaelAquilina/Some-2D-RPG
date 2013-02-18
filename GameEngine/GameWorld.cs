@@ -74,7 +74,6 @@ namespace GameEngine
         public void LoadContent()
         {
             ContentManager Content = this.Game.Content;
-            GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
             foreach (ILoadable loadableObject in LoadableContent)
                 loadableObject.LoadContent(Content);
@@ -115,6 +114,13 @@ namespace GameEngine
 
         #region Register/Unregister methods
 
+        /// <summary>
+        /// Registers an arbitrary object to the GameWorld based on the interfaces and abstract classes
+        /// it inherits. Once the object has been registered in the game world, it will act according
+        /// to how its behaviour was specified in its interfaces. If the object does not inherit anything
+        /// then this method does absolutely nothing. 
+        /// </summary>
+        /// <param name="SomeObject">Object that inherts from GameEngine interfaces or classes</param>
         public void RegisterObject(Object SomeObject)
         {
             if (SomeObject is ILoadable) RegisterLoadableContent((ILoadable)SomeObject);
@@ -138,11 +144,15 @@ namespace GameEngine
             Shader.SetResolution(Width, Height);
         }
 
-        public void UnregisterObject(Object SomeObject)
+        public bool UnregisterObject(Object SomeObject)
         {
-            if (SomeObject is ILoadable) UnregisterLoadableContent((ILoadable)SomeObject);
-            if (SomeObject is IGameDrawable) UnregisterDrawableObject((IGameDrawable)SomeObject);
-            if (SomeObject is GameShader) UnregisterGameShader((GameShader)SomeObject);
+            bool result = true;
+
+            if (SomeObject is ILoadable) result &= UnregisterLoadableContent((ILoadable)SomeObject);
+            if (SomeObject is IGameDrawable) result &= UnregisterDrawableObject((IGameDrawable)SomeObject);
+            if (SomeObject is GameShader) result &= UnregisterGameShader((GameShader)SomeObject);
+
+            return result;
         }
 
         public bool UnregisterLoadableContent(ILoadable Loadable)
