@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using ShadowKill.GameObjects;
 using ShadowKill.Shaders;
 using ShadowKill.WorldGenerators;
+using System;
 
 namespace ShadowKill
 {
@@ -158,15 +159,26 @@ namespace ShadowKill
 
         protected override void Draw(GameTime gameTime)
         {
-            Rectangle DestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+            Rectangle destRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
-            World.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, DestRectangle, Color.White);     
+            World.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White);     
             
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
             {
-                SpriteBatch.Draw(LightShader.LightMap, new Rectangle(690, 120, 100, 100), Color.White);
+                //DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING
+                int lightMapHeight = 100;
+                int lightMapWidth = (int) Math.Ceiling(100 * ((float) LightShader.LightMap.Width/LightShader.LightMap.Height));
+
+                SpriteBatch.Draw(
+                    LightShader.LightMap, 
+                    new Rectangle(
+                        WINDOW_WIDTH - lightMapWidth, 0, 
+                        lightMapWidth, lightMapHeight
+                    ), 
+                    Color.White
+                );
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
