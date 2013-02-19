@@ -8,6 +8,7 @@ using ShadowKill.GameObjects;
 using ShadowKill.Shaders;
 using ShadowKill.WorldGenerators;
 using System;
+using GameEngine.GameObjects;
 
 namespace ShadowKill
 {
@@ -59,9 +60,10 @@ namespace ShadowKill
         protected override void Initialize()
         {
             WorldGenerator = new RandomWorldGenerator();
+            Map loadedMap = WorldGenerator.Generate(Content, WORLD_WIDTH, WORLD_HEIGHT);
 
             World = new GameWorld(this, WINDOW_WIDTH, WINDOW_HEIGHT);
-            World.LoadMap(WorldGenerator.Generate(Content, WORLD_WIDTH, WORLD_HEIGHT));
+            World.LoadMap(loadedMap);
 
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
@@ -72,7 +74,7 @@ namespace ShadowKill
         protected override void LoadContent()
         {
             LightShader = new LightShader(this.GraphicsDevice);
-            LightShader.AmbientLight = new Color(50, 40, 30);
+            LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.LightSources.Add(CurrentPlayer);
 
             World.RegisterObject(CurrentPlayer);
