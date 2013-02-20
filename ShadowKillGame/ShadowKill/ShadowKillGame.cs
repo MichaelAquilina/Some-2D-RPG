@@ -33,9 +33,6 @@ namespace ShadowKill
         const float MOVEMENT_SPEED = 0.2f;
 
         double PrevGameTime = 0;
-        int Combo = 0;
-        int ComboMax = 4;
-
         LightShader LightShader;
 
         //Graphic Related Variables
@@ -139,14 +136,6 @@ namespace ShadowKill
 
                 if (moved == false)
                     CurrentPlayer.SetCurrentAnimation("Idle_" + CurrentPlayer.Direction);
-
-                //ACTION BASED KEYBOARD EVENTS
-                if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.A, true) && Combo < ComboMax)
-                {
-                    Combo++;
-                    CurrentPlayer.SetCurrentAnimation("Attack"+Combo);
-                    CurrentPlayer.CurrentAnimation.ResetAnimation(gameTime);
-                }
 
                 if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
                     World.ShowBoundingBoxes = !World.ShowBoundingBoxes;

@@ -111,7 +111,6 @@
     <Compile Include="GroundPallettes\GroundV2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Shaders\ILightSource2.cs" />
     <Compile Include="ShadowKillGame.cs" />
     <Compile Include="Shaders\ILightSource.cs" />
     <Compile Include="Shaders\LightShader.cs" />
@@ -160,8 +159,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Animations\Knuckles.anim">
-      <SubType>Designer</SubType>
+    <None Include="Animations\female_lpc.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Animations\male_lpc.anim">

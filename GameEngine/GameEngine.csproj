@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Drawing\Animation.cs" />
+    <Compile Include="Drawing\AnimationSet.cs" />
     <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="Drawing\Shapes.cs" />
     <Compile Include="GameObjects\Actor.cs" />
