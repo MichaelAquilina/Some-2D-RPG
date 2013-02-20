@@ -12,19 +12,24 @@ using ShadowKill.Shaders;
 
 namespace ShadowKill.GameObjects
 {
+    public enum Direction { Left, Right, Up, Down };
+
     public class Hero : Actor, ILoadable, ILightSource
     {
         private Texture2D _lightSource;
 
+        public Direction Direction { get; set; }
+
         public Hero(float X, float Y) :
             base(X, Y, 1.5f, 1.5f)
         {
+            Direction = Direction.Right;
         }
 
         public void LoadContent(ContentManager Content)
         {
-            this.LoadAnimationXML(@"Animations/Knuckles.anim", Content);
-            SetCurrentAnimation("Idle");
+            this.LoadAnimationXML(@"Animations/male_lpc.anim", Content);
+            SetCurrentAnimation("Walk_Right");
 
             _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
         }

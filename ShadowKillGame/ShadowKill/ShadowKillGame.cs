@@ -30,7 +30,7 @@ namespace ShadowKill
         const int VIEW_WIDTH = 500;
         const int VIEW_HEIGHT = 480;
 
-        const float MOVEMENT_SPEED = 0.3f;
+        const float MOVEMENT_SPEED = 0.2f;
 
         double PrevGameTime = 0;
         int Combo = 0;
@@ -97,43 +97,48 @@ namespace ShadowKill
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
-                //If the current animation has finished, then revert to default
-                //TODO: Move this within the actor class?
-                if (CurrentPlayer.CurrentAnimation.IsFinished(gameTime))
-                {
-                    Combo = 0;
-                    CurrentPlayer.SetCurrentAnimation("Idle");
-                }
+                bool moved = false;
 
                 //MOVEMENT BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
-                    CurrentPlayer.SetCurrentAnimation("Running");
+                    CurrentPlayer.SetCurrentAnimation("Walk_Up");
+                    CurrentPlayer.Direction = Direction.Up;
+                    moved = true;
+
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.Y -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
-                    CurrentPlayer.SetCurrentAnimation("Running");
+                    CurrentPlayer.SetCurrentAnimation("Walk_Down");
+                    CurrentPlayer.Direction = Direction.Down;
+                    moved = true;
+                    
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.Y += MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    CurrentPlayer.SetCurrentAnimation("Running");
-                    CurrentPlayer.CurrentSpriteEffect = SpriteEffects.FlipHorizontally;
+                    CurrentPlayer.SetCurrentAnimation("Walk_Left");
+                    CurrentPlayer.Direction = Direction.Left;
+                    moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X -= MOVEMENT_SPEED;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
-                    CurrentPlayer.SetCurrentAnimation("Running");
-                    CurrentPlayer.CurrentSpriteEffect = SpriteEffects.None;
+                    CurrentPlayer.SetCurrentAnimation("Walk_Right");
+                    CurrentPlayer.Direction = Direction.Right;
+                    moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X += MOVEMENT_SPEED;
                 }
+
+                if (moved == false)
+                    CurrentPlayer.SetCurrentAnimation("Idle_" + CurrentPlayer.Direction);
 
                 //ACTION BASED KEYBOARD EVENTS
                 if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.A, true) && Combo < ComboMax)
