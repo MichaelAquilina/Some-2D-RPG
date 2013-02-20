@@ -24,7 +24,8 @@ namespace ShadowKill.GameObjects
 
         public void LoadContent(ContentManager Content)
         {
-            LoadAnimationXML(@"Animations/female_lpc.anim", Content);
+            LoadAnimationXML(@"Animations/male_walkcycle.anim", Content);
+            LoadAnimationXML(@"Animations/male_slash.anim", Content);
             SetCurrentAnimation("Walk_Right");
 
             _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");

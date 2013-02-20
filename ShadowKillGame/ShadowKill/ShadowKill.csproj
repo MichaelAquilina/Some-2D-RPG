@@ -159,10 +159,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Animations\female_lpc.anim">
+    <None Include="Animations\male_slash.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\male_lpc.anim">
+    <None Include="Animations\female_walkcycle.anim">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Animations\male_walkcycle.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

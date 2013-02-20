@@ -133,6 +133,11 @@ namespace ShadowKill
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     CurrentPlayer.X += MOVEMENT_SPEED;
                 }
+                if (keyboardState.IsKeyDown(Keys.A))
+                {
+                    CurrentPlayer.SetCurrentAnimation("Slash_" + CurrentPlayer.Direction);
+                    moved = true;
+                }
 
                 if (moved == false)
                     CurrentPlayer.SetCurrentAnimation("Idle_" + CurrentPlayer.Direction);
