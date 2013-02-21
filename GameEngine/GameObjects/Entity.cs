@@ -16,7 +16,10 @@ namespace GameEngine.GameObjects
     public enum Direction { Left, Right, Up, Down };
 
     //An Actor class that should ideally be inherited for more precise functionality
-    public class Actor : IGameDrawable
+    //TODO: Merge MapObject and Entity into one
+    //technically they should be representing the same thing. If more functionality is needed, then extend it accordingly
+    //TODO: Add the ability to provide custom Update functionality PER entity using overrides
+    public class Entity : IGameDrawable
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -40,7 +43,7 @@ namespace GameEngine.GameObjects
 
         public AnimationSet ActorAnimations { get; set; }
 
-        public Actor(float X, float Y, float Width=1, float Height=1, bool Visible=true)
+        public Entity(float X, float Y, float Width=1, float Height=1, bool Visible=true)
         {
             this.X = X;
             this.Y = Y;

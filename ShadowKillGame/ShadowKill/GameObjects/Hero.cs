@@ -12,7 +12,7 @@ using ShadowKill.Shaders;
 
 namespace ShadowKill.GameObjects
 {
-    public class Hero : Actor, ILoadable, ILightSource
+    public class Hero : Entity, ILoadable, ILightSource
     {
         private Texture2D _lightSource;
 

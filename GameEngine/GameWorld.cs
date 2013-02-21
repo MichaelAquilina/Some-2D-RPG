@@ -188,8 +188,8 @@ namespace GameEngine
             foreach (MapObject mapObject in _worldMap.MapObjects)
                 RegisterObject(mapObject);
 
-            foreach (Actor actor in _worldMap.MapActors)
-                RegisterObject(actor);
+            foreach (Entity entity in _worldMap.MapEntities)
+                RegisterObject(entity);
         }
 
         /// <summary>
