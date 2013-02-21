@@ -13,8 +13,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.GameObjects
 {
-    public enum Direction { Left, Right, Up, Down };
-
     //An Actor class that should ideally be inherited for more precise functionality
     //TODO: Merge MapObject and Entity into one
     //technically they should be representing the same thing. If more functionality is needed, then extend it accordingly
@@ -35,13 +33,11 @@ namespace GameEngine.GameObjects
 
         public Vector2 Origin { get; set; }
 
-        public Direction Direction { get; set; }
-
         public Color DrawColor { get; set; }
 
         public SpriteEffects CurrentSpriteEffect { get; set; }
 
-        public AnimationSet ActorAnimations { get; set; }
+        public AnimationSet Animations { get; set; }
 
         public Entity(float X, float Y, float Width=1, float Height=1, bool Visible=true)
         {
@@ -55,29 +51,28 @@ namespace GameEngine.GameObjects
             this.BoundingBoxVisible = false;
             this.Rotation = 0;
             this.CurrentSpriteEffect = SpriteEffects.None;
-            this.Direction = Direction.Right;
 
-            this.ActorAnimations = new AnimationSet();
+            this.Animations = new AnimationSet();
         }
 
         public virtual Texture2D GetTexture(GameTime GameTime)
         {
-            return ActorAnimations.CurrentAnimation.SpriteSheet;
+            return Animations.CurrentAnimation.SpriteSheet;
         }
 
         public virtual Rectangle GetSourceRectangle(GameTime GameTime)
         {
-            return ActorAnimations.CurrentAnimation.GetCurrentFrame(GameTime);
+            return Animations.CurrentAnimation.GetCurrentFrame(GameTime);
         }
 
         public void LoadAnimationXML(string FileName, ContentManager Content, bool Clear = false)
         {
             if (Clear)
             {
-                ActorAnimations.Clear();
+                Animations.Clear();
             }
 
-            AnimationSet.LoadAnimationXML(ActorAnimations, FileName, Content);
+            AnimationSet.LoadAnimationXML(Animations, FileName, Content);
         }
     }
 }

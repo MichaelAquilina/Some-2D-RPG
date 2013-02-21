@@ -96,7 +96,7 @@
     <Compile Include="Drawing\AnimationSet.cs" />
     <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="Drawing\Shapes.cs" />
-    <Compile Include="GameObjects\Actor.cs" />
+    <Compile Include="GameObjects\Entity.cs" />
     <Compile Include="GameObjects\Map.cs" />
     <Compile Include="GameObjects\MapObject.cs" />
     <Compile Include="GameWorld.cs" />
