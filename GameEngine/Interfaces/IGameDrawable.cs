@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine.Interfaces
 {
+    //TODO: Possibly remove!!!
     public interface IGameDrawable
     {
         float X { get; }
