@@ -11,6 +11,23 @@ namespace GameEngine.Drawing
 {
     public class AnimationSet : Dictionary<string, Animation>
     {
+        //the current representation of the Actor which should be appriopiatly updated depending on its state
+        public Animation CurrentAnimation { get; private set; }
+        public string CurrentAnimationName { get; private set; }
+
+        /// <summary>
+        /// Sets the current animation to the specified animation name. The animation
+        /// key name must exist in the ActorAnimations dictionary property for this actor
+        /// or a KeyNotFoundException will be thrown. On succesful update, the CurrentAnimation
+        /// property will be set to the specified animation.
+        /// </summary>
+        /// <param name="Name">String Name of the Animation to set the CurrentAnimation to.</param>
+        public void SetCurrentAnimation(string Name)
+        {
+            CurrentAnimation = this[Name];
+            CurrentAnimationName = Name;
+        }
+
         /// <summary>
         /// Loads an AnimationSet object from a specified in an XML formatted .anim file.
         /// The method requires the string path to the xml file containing the animation data, a reference to the

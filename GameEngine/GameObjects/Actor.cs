@@ -40,10 +40,6 @@ namespace GameEngine.GameObjects
 
         public AnimationSet ActorAnimations { get; set; }
 
-        //the current representation of the Actor which should be appriopiatly updated depending on its state
-        public Animation CurrentAnimation { get; private set; }
-        public string CurrentAnimationName { get; private set; }
-
         public Actor(float X, float Y, float Width=1, float Height=1, bool Visible=true)
         {
             this.X = X;
@@ -63,25 +59,12 @@ namespace GameEngine.GameObjects
 
         public virtual Texture2D GetTexture(GameTime GameTime)
         {
-            return CurrentAnimation.SpriteSheet;
+            return ActorAnimations.CurrentAnimation.SpriteSheet;
         }
 
         public virtual Rectangle GetSourceRectangle(GameTime GameTime)
         {
-            return CurrentAnimation.GetCurrentFrame(GameTime);
-        }
-
-        /// <summary>
-        /// Sets the current animation to the specified animation name. The animation
-        /// key name must exist in the ActorAnimations dictionary property for this actor
-        /// or a KeyNotFoundException will be thrown. On succesful update, the CurrentAnimation
-        /// property will be set to the specified animation.
-        /// </summary>
-        /// <param name="Name">String Name of the Animation to set the CurrentAnimation to.</param>
-        public void SetCurrentAnimation(string Name)
-        {
-            CurrentAnimation = ActorAnimations[Name];
-            CurrentAnimationName = Name;
+            return ActorAnimations.CurrentAnimation.GetCurrentFrame(GameTime);
         }
 
         public void LoadAnimationXML(string FileName, ContentManager Content, bool Clear = false)
@@ -89,7 +72,6 @@ namespace GameEngine.GameObjects
             if (Clear)
             {
                 ActorAnimations.Clear();
-                CurrentAnimation = null;
             }
 
             AnimationSet.LoadAnimationXML(ActorAnimations, FileName, Content);

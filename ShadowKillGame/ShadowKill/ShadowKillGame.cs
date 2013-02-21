@@ -99,7 +99,7 @@ namespace ShadowKill
                 //MOVEMENT BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
-                    CurrentPlayer.SetCurrentAnimation("Walk_Up");
+                    CurrentPlayer.ActorAnimations.SetCurrentAnimation("Walk_Up");
                     CurrentPlayer.Direction = Direction.Up;
                     moved = true;
 
@@ -108,7 +108,7 @@ namespace ShadowKill
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
-                    CurrentPlayer.SetCurrentAnimation("Walk_Down");
+                    CurrentPlayer.ActorAnimations.SetCurrentAnimation("Walk_Down");
                     CurrentPlayer.Direction = Direction.Down;
                     moved = true;
                     
@@ -117,7 +117,7 @@ namespace ShadowKill
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    CurrentPlayer.SetCurrentAnimation("Walk_Left");
+                    CurrentPlayer.ActorAnimations.SetCurrentAnimation("Walk_Left");
                     CurrentPlayer.Direction = Direction.Left;
                     moved = true;
 
@@ -126,7 +126,7 @@ namespace ShadowKill
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
-                    CurrentPlayer.SetCurrentAnimation("Walk_Right");
+                    CurrentPlayer.ActorAnimations.SetCurrentAnimation("Walk_Right");
                     CurrentPlayer.Direction = Direction.Right;
                     moved = true;
 
@@ -135,12 +135,12 @@ namespace ShadowKill
                 }
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    CurrentPlayer.SetCurrentAnimation("Slash_" + CurrentPlayer.Direction);
+                    CurrentPlayer.ActorAnimations.SetCurrentAnimation("Slash_" + CurrentPlayer.Direction);
                     moved = true;
                 }
 
                 if (moved == false)
-                    CurrentPlayer.SetCurrentAnimation("Idle_" + CurrentPlayer.Direction);
+                    CurrentPlayer.ActorAnimations.SetCurrentAnimation("Idle_" + CurrentPlayer.Direction);
 
                 if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
                     World.ShowBoundingBoxes = !World.ShowBoundingBoxes;
