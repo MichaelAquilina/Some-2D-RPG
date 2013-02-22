@@ -243,6 +243,8 @@ namespace GameEngine
 
                     foreach (Animation animation in entity.Animations[entity.CurrentAnimation])
                     {
+                        if (!animation.Visible) continue;
+
                         //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
                         //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                         //for panning at the edges.
@@ -283,6 +285,10 @@ namespace GameEngine
                                 SpriteBatch.DrawRectangle(ObjectBoundingBox, Color.Red, 0.001f);
                             }
 
+                            //layer depth should depend how far down the object is on the map (Relative to Y)
+                            //Important to also take into account the animation layers for the entity
+                            float layerDepth = Math.Min(0.99f, 1 / (entity.Y + ((float) animation.Layer/pxTileHeight)));
+
                             SpriteBatch.Draw(
                                 animation.SpriteSheet,
                                 ObjectDestRect,
@@ -291,7 +297,7 @@ namespace GameEngine
                                 animation.Rotation,
                                 objectOrigin,
                                 animation.CurrentSpriteEffect,
-                                Math.Min(0.99f, 1 / (entity.Y + ((float) animation.Layer/pxTileHeight))));        //layer depth should depend how far down the object is on the map (Relative to Y)
+                                layerDepth );        
                         }
                     }
                 }
