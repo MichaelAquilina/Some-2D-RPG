@@ -26,7 +26,6 @@ namespace GameEngine.GameObjects
         public float Width { get; set; }
         public float Height { get; set; }
 
-
         public bool Visible { get; set; }
 
         public bool BoundingBoxVisible { get; set; }
@@ -34,7 +33,7 @@ namespace GameEngine.GameObjects
         public Vector2 Origin { get; set; }
 
         public AnimationSet Animations { get; set; }
-        public string CurrentAnimationSetName { get; set; }
+        public string CurrentAnimation { get; set; }
 
         public Entity(float X, float Y, float Width=1, float Height=1, bool Visible=true)
         {

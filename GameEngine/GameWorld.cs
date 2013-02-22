@@ -33,7 +33,7 @@ namespace GameEngine
 
         public int Height { get; private set; }
 
-        public int ObjectsOnScreen { get; private set; }
+        public int AnimationsOnScreen { get; private set; }
 
         public List<Entity> Entities { get; set; }
 
@@ -60,7 +60,7 @@ namespace GameEngine
         {
             ShowBoundingBoxes = false;
 
-            ObjectsOnScreen = 0;
+            AnimationsOnScreen = 0;
 
             GameShaders = new List<GameShader>();
             Entities = new List<Entity>();
@@ -234,11 +234,13 @@ namespace GameEngine
                         );
                     }
 
-                ObjectsOnScreen = 0;
+                AnimationsOnScreen = 0;
 
                 foreach (Entity entity in Entities)
                 {
-                    foreach (Animation animation in entity.Animations[entity.CurrentAnimationSetName])
+                    if (!entity.Visible) continue;
+
+                    foreach (Animation animation in entity.Animations[entity.CurrentAnimation])
                     {
                         //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
                         //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
@@ -271,7 +273,7 @@ namespace GameEngine
                         //only render the object if the objects BoundingBox it is within the specified viewport
                         if (ObjectBoundingBox.Intersects(_inputBuffer.Bounds))
                         {
-                            ObjectsOnScreen++;
+                            AnimationsOnScreen++;
 
                             //Draw the Bounding Box and a Cross indicating the Origin
                             if (entity.BoundingBoxVisible || this.ShowBoundingBoxes)

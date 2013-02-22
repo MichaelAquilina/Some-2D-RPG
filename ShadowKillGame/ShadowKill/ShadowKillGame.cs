@@ -99,7 +99,7 @@ namespace ShadowKill
                 //MOVEMENT BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
-                    CurrentPlayer.CurrentAnimationSetName = "Walk_Up";
+                    CurrentPlayer.CurrentAnimation = "Walk_Up";
                     CurrentPlayer.Direction = Direction.Up;
                     moved = true;
 
@@ -108,7 +108,7 @@ namespace ShadowKill
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
-                    CurrentPlayer.CurrentAnimationSetName = "Walk_Down";
+                    CurrentPlayer.CurrentAnimation = "Walk_Down";
                     CurrentPlayer.Direction = Direction.Down;
                     moved = true;
                     
@@ -117,7 +117,7 @@ namespace ShadowKill
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    CurrentPlayer.CurrentAnimationSetName = "Walk_Left";
+                    CurrentPlayer.CurrentAnimation = "Walk_Left";
                     CurrentPlayer.Direction = Direction.Left;
                     moved = true;
 
@@ -126,7 +126,7 @@ namespace ShadowKill
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
-                    CurrentPlayer.CurrentAnimationSetName = "Walk_Right";
+                    CurrentPlayer.CurrentAnimation = "Walk_Right";
                     CurrentPlayer.Direction = Direction.Right;
                     moved = true;
 
@@ -135,12 +135,12 @@ namespace ShadowKill
                 }
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    CurrentPlayer.CurrentAnimationSetName = "Slash_" + CurrentPlayer.Direction;
+                    CurrentPlayer.CurrentAnimation = "Slash_" + CurrentPlayer.Direction;
                     moved = true;
                 }
 
                 if (moved == false)
-                    CurrentPlayer.CurrentAnimationSetName = "Idle_" + CurrentPlayer.Direction;
+                    CurrentPlayer.CurrentAnimation = "Idle_" + CurrentPlayer.Direction;
 
                 if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
                     World.ShowBoundingBoxes = !World.ShowBoundingBoxes;
@@ -188,7 +188,7 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + World.Width + "x" + World.Height, new Vector2(0, 40), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 60), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Objects = " + World.Entities.Count, new Vector2(0, 80), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Objects On Screen = " + World.ObjectsOnScreen, new Vector2(0, 100), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + World.AnimationsOnScreen, new Vector2(0, 100), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 120), Color.White);
             }
             SpriteBatch.End();
