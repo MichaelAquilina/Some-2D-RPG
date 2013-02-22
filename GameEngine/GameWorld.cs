@@ -35,9 +35,7 @@ namespace GameEngine
 
         public int ObjectsOnScreen { get; private set; }
 
-        public List<ILoadable> LoadableContent { get; private set; }
-
-        public List<IGameDrawable> DrawableObjects { get; private set; }
+        public List<Entity> Entities { get; set; }
 
         public List<GameShader> GameShaders { get; private set; }
 
@@ -64,9 +62,8 @@ namespace GameEngine
 
             ObjectsOnScreen = 0;
 
-            LoadableContent = new List<ILoadable>();
-            DrawableObjects = new List<IGameDrawable>();
             GameShaders = new List<GameShader>();
+            Entities = new List<Entity>();
 
             SetResolution(Width, Height);
         }
@@ -75,8 +72,8 @@ namespace GameEngine
         {
             ContentManager Content = this.Game.Content;
 
-            foreach (ILoadable loadableObject in LoadableContent)
-                loadableObject.LoadContent(Content);
+            foreach (ILoadable entity in Entities)
+                entity.LoadContent(Content);
 
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.LoadContent(Content);
@@ -103,8 +100,8 @@ namespace GameEngine
             _inputBuffer = null;
             _outputBuffer = null;
 
-            foreach (ILoadable loadableObject in LoadableContent)
-                loadableObject.UnloadContent();
+            foreach (ILoadable entity in Entities)
+                entity.UnloadContent();
 
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.UnloadContent();
@@ -114,56 +111,10 @@ namespace GameEngine
 
         #region Register/Unregister methods
 
-        /// <summary>
-        /// Registers an arbitrary object to the GameWorld based on the interfaces and abstract classes
-        /// it inherits. Once the object has been registered in the game world, it will act according
-        /// to how its behaviour was specified in its interfaces. If the object does not inherit anything
-        /// then this method does absolutely nothing. 
-        /// </summary>
-        /// <param name="SomeObject">Object that inherts from GameEngine interfaces or classes</param>
-        public void RegisterObject(Object SomeObject)
-        {
-            if (SomeObject is ILoadable) RegisterLoadableContent((ILoadable)SomeObject);
-            if (SomeObject is IGameDrawable) RegisterDrawableObject((IGameDrawable)SomeObject);
-            if (SomeObject is GameShader) RegisterGameShader((GameShader)SomeObject);
-        }
-
-        public void RegisterLoadableContent(ILoadable Loadable)
-        {
-            LoadableContent.Add(Loadable);
-        }
-
-        public void RegisterDrawableObject(IGameDrawable GameDrawable)
-        {
-            DrawableObjects.Add(GameDrawable);
-        }
-
         public void RegisterGameShader(GameShader Shader)
         {
             GameShaders.Add(Shader);
             Shader.SetResolution(Width, Height);
-        }
-
-        public bool UnregisterObject(Object SomeObject)
-        {
-            bool result = true;
-
-            if (SomeObject is ILoadable) result &= UnregisterLoadableContent((ILoadable)SomeObject);
-            if (SomeObject is IGameDrawable) result &= UnregisterDrawableObject((IGameDrawable)SomeObject);
-            if (SomeObject is GameShader) result &= UnregisterGameShader((GameShader)SomeObject);
-
-            return result;
-        }
-
-        public bool UnregisterLoadableContent(ILoadable Loadable)
-        {
-            Loadable.UnloadContent();
-            return LoadableContent.Remove(Loadable);
-        }
-
-        public bool UnregisterDrawableObject(IGameDrawable GameDrawable)
-        {
-            return DrawableObjects.Remove(GameDrawable);
         }
 
         public bool UnregisterGameShader(GameShader Shader)
@@ -183,13 +134,10 @@ namespace GameEngine
 
             _worldMap = Map;
 
-            if( Clear ) DrawableObjects.Clear();
-
-            foreach (MapObject mapObject in _worldMap.MapObjects)
-                RegisterObject(mapObject);
+            if( Clear ) Entities.Clear();
 
             foreach (Entity entity in _worldMap.MapEntities)
-                RegisterObject(entity);
+                Entities.Add(entity);
         }
 
         /// <summary>
@@ -288,58 +236,60 @@ namespace GameEngine
 
                 ObjectsOnScreen = 0;
 
-                //DRAW THE IGAMEDRAWABLE COMPONENTS (Actors, MapObjects, etc...)
-                foreach (IGameDrawable drawObject in DrawableObjects)
+                foreach (Entity entity in Entities)
                 {
-                    //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
-                    //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
-                    //for panning at the edges.
-                    Rectangle ObjectSrcRect = drawObject.GetSourceRectangle(GameTime);
-
-                    int objectX = (int)Math.Ceiling((drawObject.X - viewPortInfo.TopLeftX) * pxTileWidth);
-                    int objectY = (int)Math.Ceiling((drawObject.Y - viewPortInfo.TopLeftY) * pxTileHeight);
-
-                    int objectWidth = (int)(ObjectSrcRect.Width * drawObject.Width);
-                    int objectHeight = (int)(ObjectSrcRect.Height * drawObject.Height);
-
-                    //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
-                    Rectangle ObjectDestRect = new Rectangle(
-                            objectX,
-                            objectY,
-                            objectWidth,
-                            objectHeight
-                    );
-
-                    //Calculate the Origin of the Object, as well as its Bounding Box
-                    Vector2 objectOrigin = drawObject.Origin * new Vector2(ObjectSrcRect.Width, ObjectSrcRect.Height);
-                    Rectangle ObjectBoundingBox = new Rectangle(
-                        (int)Math.Ceiling(ObjectDestRect.X - objectOrigin.X * drawObject.Width),
-                        (int)Math.Ceiling(ObjectDestRect.Y - objectOrigin.Y * drawObject.Height),
-                        ObjectDestRect.Width,
-                        ObjectDestRect.Height
-                    );
-
-                    //only render the object if the objects BoundingBox it is within the specified viewport
-                    if (drawObject.Visible && ObjectBoundingBox.Intersects(_inputBuffer.Bounds))
+                    foreach (Animation animation in entity.Animations[entity.CurrentAnimationSetName])
                     {
-                        ObjectsOnScreen++;
+                        //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
+                        //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
+                        //for panning at the edges.
+                        Rectangle currentFrame = animation.GetCurrentFrame(GameTime);
 
-                        //Draw the Bounding Box and a Cross indicating the Origin
-                        if (drawObject.BoundingBoxVisible || this.ShowBoundingBoxes)
+                        int objectX = (int)Math.Ceiling((entity.X - viewPortInfo.TopLeftX) * pxTileWidth);
+                        int objectY = (int)Math.Ceiling((entity.Y - viewPortInfo.TopLeftY) * pxTileHeight);
+
+                        int objectWidth = (int)(currentFrame.Width * entity.Width);
+                        int objectHeight = (int)(currentFrame.Height * entity.Height);
+
+                        //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
+                        Rectangle ObjectDestRect = new Rectangle(
+                                objectX,
+                                objectY,
+                                objectWidth,
+                                objectHeight
+                        );
+
+                        //Calculate the Origin of the Object, as well as its Bounding Box
+                        Vector2 objectOrigin = entity.Origin * new Vector2(currentFrame.Width, currentFrame.Height);
+                        Rectangle ObjectBoundingBox = new Rectangle(
+                            (int)Math.Ceiling(ObjectDestRect.X - objectOrigin.X * entity.Width),
+                            (int)Math.Ceiling(ObjectDestRect.Y - objectOrigin.Y * entity.Height),
+                            ObjectDestRect.Width,
+                            ObjectDestRect.Height
+                        );
+
+                        //only render the object if the objects BoundingBox it is within the specified viewport
+                        if (ObjectBoundingBox.Intersects(_inputBuffer.Bounds))
                         {
-                            SpriteBatch.DrawCross(new Vector2(ObjectDestRect.X, ObjectDestRect.Y), 7, Color.Black, 0);
-                            SpriteBatch.DrawRectangle(ObjectBoundingBox, Color.Red, 0.001f);
-                        }
+                            ObjectsOnScreen++;
 
-                        SpriteBatch.Draw(
-                            drawObject.GetTexture(GameTime),
-                            ObjectDestRect,
-                            ObjectSrcRect,
-                            drawObject.DrawColor,
-                            drawObject.Rotation,
-                            objectOrigin,
-                            drawObject.CurrentSpriteEffect,
-                            Math.Min(0.99f, 1 / drawObject.Y));        //layer depth should depend how far down the object is on the map (Relative to Y)
+                            //Draw the Bounding Box and a Cross indicating the Origin
+                            if (entity.BoundingBoxVisible || this.ShowBoundingBoxes)
+                            {
+                                SpriteBatch.DrawCross(new Vector2(ObjectDestRect.X, ObjectDestRect.Y), 7, Color.Black, 0);
+                                SpriteBatch.DrawRectangle(ObjectBoundingBox, Color.Red, 0.001f);
+                            }
+
+                            SpriteBatch.Draw(
+                                animation.SpriteSheet,
+                                ObjectDestRect,
+                                currentFrame,
+                                animation.DrawColor,
+                                animation.Rotation,
+                                objectOrigin,
+                                animation.CurrentSpriteEffect,
+                                Math.Min(0.99f, 1 / entity.Y));        //layer depth should depend how far down the object is on the map (Relative to Y)
+                        }
                     }
                 }
             }
@@ -347,7 +297,7 @@ namespace GameEngine
 
             //TODO: Can possibly improve performance by setting render target to the back buffer for the last shader pass
             for (int i = 0; i < GameShaders.Count; i++)
-                GameShaders[i].ApplyShader(SpriteBatch, viewPortInfo, GameTime, _inputBuffer, _outputBuffer );
+                GameShaders[i].ApplyShader(SpriteBatch, viewPortInfo, GameTime, _inputBuffer, _outputBuffer);
 
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);

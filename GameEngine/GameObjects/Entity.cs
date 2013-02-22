@@ -18,7 +18,7 @@ namespace GameEngine.GameObjects
     //technically they should be representing the same thing. If more functionality is needed, then extend it accordingly
     //TODO: Add the ability to provide custom Update functionality PER entity using overrides
     //TODO: Probably Remove the IGameDrawable Interface. Entity should be the interface for drawing!!!!
-    public class Entity : IGameDrawable
+    public class Entity
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -26,7 +26,6 @@ namespace GameEngine.GameObjects
         public float Width { get; set; }
         public float Height { get; set; }
 
-        public float Rotation { get; set; }
 
         public bool Visible { get; set; }
 
@@ -34,11 +33,8 @@ namespace GameEngine.GameObjects
 
         public Vector2 Origin { get; set; }
 
-        public Color DrawColor { get; set; }
-
-        public SpriteEffects CurrentSpriteEffect { get; set; }
-
         public AnimationSet Animations { get; set; }
+        public string CurrentAnimationSetName { get; set; }
 
         public Entity(float X, float Y, float Width=1, float Height=1, bool Visible=true)
         {
@@ -47,23 +43,10 @@ namespace GameEngine.GameObjects
             this.Width = Width;
             this.Height = Height;
             this.Visible = Visible;
-            this.DrawColor = Color.White;
             this.Origin = Vector2.Zero;
             this.BoundingBoxVisible = false;
-            this.Rotation = 0;
-            this.CurrentSpriteEffect = SpriteEffects.None;
 
             this.Animations = new AnimationSet();
-        }
-
-        public virtual Texture2D GetTexture(GameTime GameTime)
-        {
-            return Animations.CurrentAnimation.SpriteSheet;
-        }
-
-        public virtual Rectangle GetSourceRectangle(GameTime GameTime)
-        {
-            return Animations.CurrentAnimation.GetCurrentFrame(GameTime);
         }
 
         public void LoadAnimationXML(string FileName, ContentManager Content, bool Clear = false)

@@ -159,6 +159,12 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Animations\plate_armor_legs_walkcycle.anim">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Animations\plate_armor_torso_walkcycle.anim">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Animations\male_slash.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
