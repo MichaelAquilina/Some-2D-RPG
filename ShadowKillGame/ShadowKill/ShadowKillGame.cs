@@ -190,6 +190,7 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Objects = " + World.Entities.Count, new Vector2(0, 80), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + World.AnimationsOnScreen, new Vector2(0, 100), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 120), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0, 140), Color.White);
             }
             SpriteBatch.End();
 
