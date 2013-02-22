@@ -29,10 +29,13 @@ namespace ShadowKill.GameObjects
         public void LoadContent(ContentManager Content)
         {
             //TODO: Currently depth depends on the order of these files, should be changed!!!
-            LoadAnimationXML(@"Animations/plate_armor_torso_walkcycle.anim", Content);
-            LoadAnimationXML(@"Animations/plate_armor_legs_walkcycle.anim", Content);
-            LoadAnimationXML(@"Animations/male_walkcycle.anim", Content);
-            LoadAnimationXML(@"Animations/male_slash.anim", Content);
+            LoadAnimationXML(@"Animations/Plate Armor/plate_armor_shoulders_walkcycle.anim", Content, 6);
+            LoadAnimationXML(@"Animations/Plate Armor/plate_armor_head_walkcycle.anim", Content, 5);
+            LoadAnimationXML(@"Animations/Plate Armor/plate_armor_hands_walkcycle.anim", Content, 4);
+            LoadAnimationXML(@"Animations/Plate Armor/plate_armor_feet_walkcycle.anim", Content, 3);
+            LoadAnimationXML(@"Animations/Plate Armor/plate_armor_torso_walkcycle.anim", Content, 2);
+            LoadAnimationXML(@"Animations/Plate Armor/plate_armor_legs_walkcycle.anim", Content, 1);
+            LoadAnimationXML(@"Animations/male_npc.anim", Content, 0);
             CurrentAnimation = "Walk_Right";
 
             //TODO: Import Soft Shadow prototype when done

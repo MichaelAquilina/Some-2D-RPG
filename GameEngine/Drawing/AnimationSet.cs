@@ -19,7 +19,7 @@ namespace GameEngine.Drawing
         /// </summary>
         /// <param name="Path">String path to the XML formatted .anim file</param>
         /// <param name="Content">Reference to the ContentManager instance being used in the application</param>
-        public static AnimationSet LoadAnimationXML(AnimationSet AnimationSet, string Path, ContentManager Content)
+        public static AnimationSet LoadAnimationXML(AnimationSet AnimationSet, string Path, ContentManager Content, int Layer=0)
         {
             XmlDocument document = new XmlDocument();
             document.Load(Path);
@@ -56,7 +56,7 @@ namespace GameEngine.Drawing
                 if (!AnimationSet.ContainsKey(Name))
                     AnimationSet.Add(Name, new List<Animation>());
 
-                AnimationSet[Name].Add(new Animation(Content.Load<Texture2D>(SpriteSheet), frames, FrameDelay, Loop));
+                AnimationSet[Name].Add(new Animation(Content.Load<Texture2D>(SpriteSheet), frames, FrameDelay, Loop, true, Layer));
             }
 
             return AnimationSet;

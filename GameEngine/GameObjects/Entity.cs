@@ -48,14 +48,9 @@ namespace GameEngine.GameObjects
             this.Animations = new AnimationSet();
         }
 
-        public void LoadAnimationXML(string FileName, ContentManager Content, bool Clear = false)
+        public void LoadAnimationXML(string FileName, ContentManager Content, int Layer=0)
         {
-            if (Clear)
-            {
-                Animations.Clear();
-            }
-
-            AnimationSet.LoadAnimationXML(Animations, FileName, Content);
+            AnimationSet.LoadAnimationXML(Animations, FileName, Content, Layer);
         }
     }
 }

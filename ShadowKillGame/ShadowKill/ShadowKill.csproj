@@ -159,22 +159,28 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Animations\plate_armor_feet_walkcycle.anim">
+    <None Include="Animations\Plate Armor\plate_armor_shoulders_walkcycle.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\plate_armor_legs_walkcycle.anim">
+    <None Include="Animations\Plate Armor\plate_armor_head_walkcycle.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\plate_armor_torso_walkcycle.anim">
+    <None Include="Animations\Plate Armor\plate_armor_hands_walkcycle.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\male_slash.anim">
+    <None Include="Animations\Plate Armor\plate_armor_feet_walkcycle.anim">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Animations\Plate Armor\plate_armor_legs_walkcycle.anim">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Animations\Plate Armor\plate_armor_torso_walkcycle.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Animations\female_walkcycle.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\male_walkcycle.anim">
+    <None Include="Animations\male_npc.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -25,7 +25,7 @@ namespace GameEngine
     /// to draw/render the current state of the world, as well as other draw functions such as drawing a MiniMap version
     /// of the current WorldMap.
     /// </summary>
-    public class GameEngine : GameComponent
+    public class TileEngine : GameComponent
     {
         #region Properties
 
@@ -55,7 +55,7 @@ namespace GameEngine
 
         #region Initialisation
 
-        public GameEngine(Game Game, int Width, int Height)
+        public TileEngine(Game Game, int Width, int Height)
             :base(Game)
         {
             ShowBoundingBoxes = false;
@@ -236,6 +236,7 @@ namespace GameEngine
 
                 AnimationsOnScreen = 0;
 
+                //DRAW VISIBLE REGISTERED ENTITIES
                 foreach (Entity entity in Entities)
                 {
                     if (!entity.Visible) continue;
@@ -290,7 +291,7 @@ namespace GameEngine
                                 animation.Rotation,
                                 objectOrigin,
                                 animation.CurrentSpriteEffect,
-                                Math.Min(0.99f, 1 / entity.Y));        //layer depth should depend how far down the object is on the map (Relative to Y)
+                                Math.Min(0.99f, 1 / (entity.Y + ((float) animation.Layer/pxTileHeight))));        //layer depth should depend how far down the object is on the map (Relative to Y)
                         }
                     }
                 }

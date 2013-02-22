@@ -42,7 +42,7 @@ namespace ShadowKill
 
         //Game Specific Variablies
         Hero CurrentPlayer;
-        GameEngine World;
+        TileEngine World;
         IWorldGenerator WorldGenerator;
 
         public ShadowKillGame()
@@ -59,7 +59,7 @@ namespace ShadowKill
             WorldGenerator = new RandomWorldGenerator();
             Map loadedMap = WorldGenerator.Generate(Content, WORLD_WIDTH, WORLD_HEIGHT);
 
-            World = new GameEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
+            World = new TileEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             World.LoadMap(loadedMap);
 
             CurrentPlayer = new Hero(8, 8);

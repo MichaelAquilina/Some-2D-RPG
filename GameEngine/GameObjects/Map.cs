@@ -24,11 +24,9 @@ namespace GameEngine.GameObjects
             set { _mapTiles[X][Y] = value; }
         }
 
-        public List<MapObject> MapObjects { get { return _mapObjects; } }   //TODO: Should be removed
         public List<Entity> MapEntities { get { return _mapActors; } }
 
         private byte[][] _mapTiles = null;
-        private List<MapObject> _mapObjects = new List<MapObject>();
         private List<Entity> _mapActors = new List<Entity>();
 
         public Map(int Width, int Height, IGroundPallette GroundPallette)
