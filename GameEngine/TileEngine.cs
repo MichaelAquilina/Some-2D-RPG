@@ -49,6 +49,7 @@ namespace GameEngine
 
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
+        RenderTarget2D _dummyBuffer;
 
         #endregion
 
@@ -305,13 +306,20 @@ namespace GameEngine
 
             //TODO: Can possibly improve performance by setting render target to the back buffer for the last shader pass
             for (int i = 0; i < GameShaders.Count; i++)
+            {
                 GameShaders[i].ApplyShader(SpriteBatch, viewPortInfo, GameTime, _inputBuffer, _outputBuffer);
+                
+                //swap buffers after each render
+                _dummyBuffer = _inputBuffer;
+                _inputBuffer = _outputBuffer;
+                _outputBuffer = _dummyBuffer;
+            }
 
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);
             SpriteBatch.Begin();
             {
-                SpriteBatch.Draw(_outputBuffer, DestRectangle, Color);
+                SpriteBatch.Draw(_inputBuffer, DestRectangle, Color);
             }
             SpriteBatch.End();
         }

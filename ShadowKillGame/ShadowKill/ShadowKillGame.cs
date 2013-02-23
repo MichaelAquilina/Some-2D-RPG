@@ -116,17 +116,17 @@ namespace ShadowKill
             SpriteBatch.Begin();
             {
                 //DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING
-                int lightMapHeight = 100;
-                int lightMapWidth = (int) Math.Ceiling(100 * ((float) LightShader.LightMap.Width/LightShader.LightMap.Height));
+                //int lightMapHeight = 100;
+                //int lightMapWidth = (int) Math.Ceiling(100 * ((float) LightShader.LightMap.Width/LightShader.LightMap.Height));
 
-                SpriteBatch.Draw(
-                    LightShader.LightMap, 
-                    new Rectangle(
-                        WINDOW_WIDTH - lightMapWidth, 0, 
-                        lightMapWidth, lightMapHeight
-                    ), 
-                    Color.White
-                );
+                //SpriteBatch.Draw(
+                //    LightShader.LightMap, 
+                //    new Rectangle(
+                //        WINDOW_WIDTH - lightMapWidth, 0, 
+                //        lightMapWidth, lightMapHeight
+                //    ), 
+                //    Color.White
+                //);
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
