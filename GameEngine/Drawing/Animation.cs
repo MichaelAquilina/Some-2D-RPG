@@ -20,6 +20,12 @@ namespace GameEngine.Drawing
         public Rectangle[] Frames { get; set; }
         public int FrameDelay { get; set; }
         public bool Loop { get; set; }
+        public Color DrawColor { get; set; }
+        public SpriteEffects CurrentSpriteEffect { get; set; }
+        public float Rotation { get; set; }
+        public int Layer { get; set; }
+        public bool Visible { get; set; }
+        public string Group { get; set; }
 
         private double _startTime = 0;
 
@@ -31,13 +37,20 @@ namespace GameEngine.Drawing
         /// <param name="SpriteSheet">Texture2D object that represents the SpriteSheet to use for this animation.</param>
         /// <param name="Frames">Array of Rectangle objects that specify the locations in the spritesheet to use as frames.</param>
         /// <param name="FrameChange">integer value specifying the amount of time in ms to delay between each frame change. Set to 100 by Default.</param>
-        /// <param name="Loop">bool value specifying wheter the animation should re-start at the end of the animation frames.</param>
-        public Animation(Texture2D SpriteSheet, Rectangle[] Frames, int FrameDelay = FRAME_DELAY_DEFAULT, bool Loop = false)
+        /// <param name="Loop">bool value specifying wheter the animation should re-start at the end of the animation frames. Defaults to false.</param>
+        /// <param name="Visible">bool value specifying whether the animation is visible on the screen. Defaults to false.</param>
+        /// <param name="Layer">integer value specifying at which layer should the animation reside on the entity (0 being the lowest layer)/</param>
+        public Animation(Texture2D SpriteSheet, Rectangle[] Frames, int FrameDelay = FRAME_DELAY_DEFAULT, bool Loop=false, bool Visible=false, int Layer=0)
         {
             this.SpriteSheet = SpriteSheet;
             this.Frames = Frames;
             this.FrameDelay = FrameDelay;
             this.Loop = Loop;
+            this.DrawColor = Color.White;
+            this.CurrentSpriteEffect = SpriteEffects.None;
+            this.Rotation = 0;
+            this.Visible = Visible;
+            this.Layer = Layer;
         }
 
         /// <summary>

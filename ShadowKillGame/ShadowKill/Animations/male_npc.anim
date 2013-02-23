@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Animations>
+  <Animation Name="Idle_Up" Loop="True" SpriteSheet="LPC\male_walkcycle" FrameDelay="90">
+    <Frames>
+      <Frame>15, 13, 35, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation Name="Idle_Left" Loop="True" SpriteSheet="LPC\male_walkcycle" FrameDelay="90">
+    <Frames>
+      <Frame>15, 78, 35, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation Name="Idle_Down" Loop="True" SpriteSheet="LPC\male_walkcycle" FrameDelay="90">
+    <Frames>
+      <Frame>15, 142, 35, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation Name="Idle_Right" Loop="True" SpriteSheet="LPC\male_walkcycle" FrameDelay="90">
+    <Frames>
+      <Frame>15, 206, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  
+  <Animation Name="Walk_Up" Loop="True" SpriteSheet="LPC\male_walkcycle" FrameDelay="90">
+    <Frames>
+      <Frame>79 , 13, 35, 49</Frame>
+      <Frame>143, 13, 35, 49</Frame>
+      <Frame>207, 13, 35, 49</Frame>
+      <Frame>271, 13, 35, 49</Frame>
+      <Frame>335, 13, 35, 49</Frame>
+      <Frame>399, 13, 35, 49</Frame>
+      <Frame>463, 13, 35, 49</Frame>
+      <Frame>527, 13, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Walk_Left" Loop="True" SpriteSheet="LPC\male_walkcycle" FrameDelay="90">
+    <Frames>
+      <Frame>79 , 78, 35, 49</Frame>
+      <Frame>143, 78, 35, 49</Frame>
+      <Frame>207, 78, 35, 49</Frame>
+      <Frame>271, 78, 35, 49</Frame>
+      <Frame>335, 78, 35, 49</Frame>
+      <Frame>399, 78, 35, 49</Frame>
+      <Frame>463, 78, 35, 49</Frame>
+      <Frame>527, 78, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Walk_Down" Loop="True" SpriteSheet="LPC\male_walkcycle" FrameDelay="90">
+    <Frames>
+      <Frame>79 , 142, 35, 49</Frame>
+      <Frame>143, 142, 35, 49</Frame>
+      <Frame>207, 142, 35, 49</Frame>
+      <Frame>271, 142, 35, 49</Frame>
+      <Frame>335, 142, 35, 49</Frame>
+      <Frame>399, 142, 35, 49</Frame>
+      <Frame>463, 142, 35, 49</Frame>
+      <Frame>527, 142, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Walk_Right" Loop="True" SpriteSheet="LPC\male_walkcycle" FrameDelay="90">
+    <Frames>
+      <Frame>79 , 206, 35, 49</Frame>
+      <Frame>143, 206, 35, 49</Frame>
+      <Frame>207, 206, 35, 49</Frame>
+      <Frame>271, 206, 35, 49</Frame>
+      <Frame>335, 206, 35, 49</Frame>
+      <Frame>399, 206, 35, 49</Frame>
+      <Frame>463, 206, 35, 49</Frame>
+      <Frame>527, 206, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Slash_Up" Loop="True" SpriteSheet="LPC\male_slash" FrameDelay="90">
+    <Frames>
+      <Frame>79 , 13, 35, 49</Frame>
+      <Frame>143, 13, 35, 49</Frame>
+      <Frame>207, 13, 35, 49</Frame>
+      <Frame>271, 13, 35, 49</Frame>
+      <Frame>335, 13, 35, 49</Frame>
+      <Frame>399, 13, 35, 49</Frame>
+      <Frame>463, 13, 35, 49</Frame>
+      <Frame>527, 13, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Slash_Left" Loop="True" SpriteSheet="LPC\male_slash" FrameDelay="90">
+    <Frames>
+      <Frame>79 , 78, 35, 49</Frame>
+      <Frame>143, 78, 35, 49</Frame>
+      <Frame>207, 78, 35, 49</Frame>
+      <Frame>271, 78, 35, 49</Frame>
+      <Frame>335, 78, 35, 49</Frame>
+      <Frame>399, 78, 35, 49</Frame>
+      <Frame>463, 78, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Slash_Down" Loop="True" SpriteSheet="LPC\male_slash" FrameDelay="90">
+    <Frames>
+      <Frame>79 , 142, 35, 49</Frame>
+      <Frame>143, 142, 35, 49</Frame>
+      <Frame>207, 142, 35, 49</Frame>
+      <Frame>271, 142, 35, 49</Frame>
+      <Frame>335, 142, 35, 49</Frame>
+      <Frame>399, 142, 35, 49</Frame>
+      <Frame>463, 142, 35, 49</Frame>
+      <Frame>527, 142, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Slash_Right" Loop="True" SpriteSheet="LPC\male_slash" FrameDelay="90">
+    <Frames>
+      <Frame>79 , 206, 35, 49</Frame>
+      <Frame>143, 206, 35, 49</Frame>
+      <Frame>207, 206, 35, 49</Frame>
+      <Frame>271, 206, 35, 49</Frame>
+      <Frame>335, 206, 35, 49</Frame>
+      <Frame>399, 206, 35, 49</Frame>
+      <Frame>463, 206, 35, 49</Frame>
+      <Frame>527, 206, 35, 49</Frame>
+    </Frames>
+  </Animation>
+</Animations>

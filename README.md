@@ -1,4 +1,4 @@
-DivineRightConcept
+ShadowKillGame
 ==================
 
 Originally started off as development for an open source game by the name of DivineRight. The engine was built initially for this
