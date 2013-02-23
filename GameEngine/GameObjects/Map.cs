@@ -24,15 +24,15 @@ namespace GameEngine.GameObjects
             set { _mapTiles[X][Y] = value; }
         }
 
-        public List<Entity> MapEntities { get { return _mapActors; } }
+        public List<Entity> Entities { get; private set; }
 
         private byte[][] _mapTiles = null;
-        private List<Entity> _mapActors = new List<Entity>();
 
         public Map(int Width, int Height, IGroundPallette GroundPallette)
         {
             this._mapTiles = new byte[Width][];
             this.GroundPallette = GroundPallette;
+            this.Entities = new List<Entity>();
 
             for( int i=0; i<Width; i++)
                 this._mapTiles[i] = new byte[Height];
@@ -40,11 +40,17 @@ namespace GameEngine.GameObjects
 
         public void LoadContent(ContentManager Content)
         {
+            foreach (ILoadable entity in Entities)
+                entity.LoadContent(Content);
+
             GroundPallette.LoadContent(Content);
         }
 
         public void UnloadContent()
         {
+            foreach (ILoadable entity in Entities)
+                entity.UnloadContent();
+
             GroundPallette.UnloadContent();
         }
     }

@@ -14,7 +14,7 @@ namespace ShadowKill.GameObjects
 {
     public enum Direction { Left, Right, Up, Down };
 
-    public class Hero : Entity, ILoadable, ILightSource
+    public class Hero : Entity, ILightSource
     {
         private Texture2D _lightSource;
 
@@ -26,7 +26,7 @@ namespace ShadowKill.GameObjects
             Direction = Direction.Right;
         }
 
-        public void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager Content)
         {
             //TODO: Currently depth depends on the order of these files, should be changed!!!
             LoadAnimationXML(@"Animations/Plate Armor/plate_armor_shoulders_walkcycle.anim", Content, 6);
@@ -42,7 +42,7 @@ namespace ShadowKill.GameObjects
             _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
         }
 
-        public void UnloadContent()
+        public override void UnloadContent()
         {
             
         }

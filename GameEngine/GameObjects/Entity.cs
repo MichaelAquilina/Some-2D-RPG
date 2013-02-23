@@ -18,7 +18,7 @@ namespace GameEngine.GameObjects
     //technically they should be representing the same thing. If more functionality is needed, then extend it accordingly
     //TODO: Add the ability to provide custom Update functionality PER entity using overrides
     //TODO: Probably Remove the IGameDrawable Interface. Entity should be the interface for drawing!!!!
-    public class Entity
+    public class Entity : ILoadable
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -51,6 +51,14 @@ namespace GameEngine.GameObjects
         public void LoadAnimationXML(string FileName, ContentManager Content, int Layer=0)
         {
             AnimationSet.LoadAnimationXML(Animations, FileName, Content, Layer);
+        }
+
+        public virtual void LoadContent(ContentManager Content)
+        {
+        }
+
+        public virtual void UnloadContent()
+        {
         }
     }
 }

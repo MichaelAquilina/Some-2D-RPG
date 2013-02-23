@@ -35,7 +35,7 @@ namespace GameEngine
 
         public int AnimationsOnScreen { get; private set; }
 
-        public List<Entity> Entities { get; set; }
+        public Map Map { get; private set; }
 
         public List<GameShader> GameShaders { get; private set; }
 
@@ -45,7 +45,6 @@ namespace GameEngine
 
         #region Variables
 
-        private Map _worldMap;                   //World Map Instance
         private Texture2D _miniMapTex;           //Cached copy of the MipMapTexture
 
         RenderTarget2D _inputBuffer;
@@ -63,7 +62,6 @@ namespace GameEngine
             AnimationsOnScreen = 0;
 
             GameShaders = new List<GameShader>();
-            Entities = new List<Entity>();
 
             SetResolution(Width, Height);
         }
@@ -72,20 +70,17 @@ namespace GameEngine
         {
             ContentManager Content = this.Game.Content;
 
-            foreach (ILoadable entity in Entities)
-                entity.LoadContent(Content);
-
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.LoadContent(Content);
 
-            if(_worldMap!=null)
-                _worldMap.LoadContent(Game.Content);
+            if(Map != null)
+                Map.LoadContent(Game.Content);
         }
 
         public void UnloadContent()
         {
-            if( _worldMap != null )
-               _worldMap.UnloadContent();
+            if( Map != null )
+               Map.UnloadContent();
     
             if (_miniMapTex != null)
                 _miniMapTex.Dispose();
@@ -99,9 +94,6 @@ namespace GameEngine
             _miniMapTex = null;
             _inputBuffer = null;
             _outputBuffer = null;
-
-            foreach (ILoadable entity in Entities)
-                entity.UnloadContent();
 
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.UnloadContent();
@@ -127,17 +119,12 @@ namespace GameEngine
 
         #region Public API Methods
 
-        public void LoadMap(Map Map, bool Clear=true)
+        public void LoadMap(Map Map)
         {
-            if (_worldMap != null)
-                _worldMap.UnloadContent();
+            if (this.Map != null)
+                this.Map.UnloadContent();
 
-            _worldMap = Map;
-
-            if( Clear ) Entities.Clear();
-
-            foreach (Entity entity in _worldMap.MapEntities)
-                Entities.Add(entity);
+            this.Map = Map;
         }
 
         /// <summary>
@@ -196,8 +183,8 @@ namespace GameEngine
                 //Prevent the View from going outisde of the WORLD coordinates
                 if (viewPortInfo.TopLeftX < 0) viewPortInfo.TopLeftX = 0;
                 if (viewPortInfo.TopLeftY < 0) viewPortInfo.TopLeftY = 0;
-                if (viewPortInfo.TopLeftX + viewPortInfo.TileCountX >= _worldMap.Width) viewPortInfo.TopLeftX = _worldMap.Width - viewPortInfo.TileCountX;
-                if (viewPortInfo.TopLeftY + viewPortInfo.TileCountY >= _worldMap.Height) viewPortInfo.TopLeftY = _worldMap.Height - viewPortInfo.TileCountY;
+                if (viewPortInfo.TopLeftX + viewPortInfo.TileCountX >= Map.Width) viewPortInfo.TopLeftX = Map.Width - viewPortInfo.TileCountX;
+                if (viewPortInfo.TopLeftY + viewPortInfo.TileCountY >= Map.Height) viewPortInfo.TopLeftY = Map.Height - viewPortInfo.TileCountY;
             }
 
             //calculate any decimal displacement required (For Positions with decimal points)
@@ -224,9 +211,9 @@ namespace GameEngine
                         tileDestRect.Y -= (int)(dispY * pxTileHeight);
 
                         SpriteBatch.Draw(
-                            _worldMap.GroundPallette.GetTileSourceTexture(this._worldMap[tileX, tileY]),
+                            Map.GroundPallette.GetTileSourceTexture(Map[tileX, tileY]),
                             tileDestRect,
-                            _worldMap.GroundPallette.GetTileSourceRectangle(this._worldMap[tileX, tileY]),
+                            Map.GroundPallette.GetTileSourceRectangle(Map[tileX, tileY]),
                             Color.White,
                             0, Vector2.Zero,
                             SpriteEffects.None,
@@ -237,7 +224,7 @@ namespace GameEngine
                 AnimationsOnScreen = 0;
 
                 //DRAW VISIBLE REGISTERED ENTITIES
-                foreach (Entity entity in Entities)
+                foreach (Entity entity in Map.Entities)
                 {
                     if (!entity.Visible) continue;
 

@@ -42,7 +42,7 @@ namespace ShadowKill
 
         //Game Specific Variablies
         Hero CurrentPlayer;
-        TileEngine World;
+        TileEngine Engine;
         IWorldGenerator WorldGenerator;
 
         public ShadowKillGame()
@@ -59,8 +59,8 @@ namespace ShadowKill
             WorldGenerator = new RandomWorldGenerator();
             Map loadedMap = WorldGenerator.Generate(Content, WORLD_WIDTH, WORLD_HEIGHT);
 
-            World = new TileEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
-            World.LoadMap(loadedMap);
+            Engine = new TileEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
+            Engine.LoadMap(loadedMap);
 
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
@@ -74,10 +74,10 @@ namespace ShadowKill
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.LightSources.Add(CurrentPlayer);
 
-            World.RegisterGameShader(LightShader);
-            World.Entities.Add(CurrentPlayer);
+            Engine.RegisterGameShader(LightShader);
+            Engine.Map.Entities.Add(CurrentPlayer);
 
-            World.LoadContent();
+            Engine.LoadContent();
 
             SpriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -143,7 +143,7 @@ namespace ShadowKill
                     CurrentPlayer.CurrentAnimation = "Idle_" + CurrentPlayer.Direction;
 
                 if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
-                    World.ShowBoundingBoxes = !World.ShowBoundingBoxes;
+                    Engine.ShowBoundingBoxes = !Engine.ShowBoundingBoxes;
 
                 if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
                     Graphics.ToggleFullScreen();
@@ -163,7 +163,7 @@ namespace ShadowKill
             Rectangle destRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
-            World.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White);     
+            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White);     
             
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
@@ -185,12 +185,12 @@ namespace ShadowKill
 
                 SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), Vector2.Zero, Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + World.Width + "x" + World.Height, new Vector2(0, 40), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.Width + "x" + Engine.Height, new Vector2(0, 40), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 60), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Objects = " + World.Entities.Count, new Vector2(0, 80), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + World.AnimationsOnScreen, new Vector2(0, 100), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Objects = " + Engine.Map.Entities.Count, new Vector2(0, 80), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 120), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0, 140), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
             }
             SpriteBatch.End();
 
