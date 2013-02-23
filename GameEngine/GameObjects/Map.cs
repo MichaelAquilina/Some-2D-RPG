@@ -9,8 +9,8 @@ using Microsoft.Xna.Framework.Content;
 
 namespace GameEngine.GameObjects
 {
-    //represents a game map that be used. Contains tile information as well as 
-    //the type of ground pallette used for this particular map
+    //represents a game map that be used. Contains tile information, entity information,
+    //and a GroundPallette to use for drawing
     public class Map : ILoadable
     {
         public int Width { get { return _mapTiles.Length; } }

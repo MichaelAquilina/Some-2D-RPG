@@ -21,7 +21,7 @@ namespace GameEngine
     }
 
     /// <summary>
-    /// Class that represents the current state of the game world, including the Actors residing in it. Provides functions
+    /// Class that represents the current state of the game world, including the Entities residing in it. Provides functions
     /// to draw/render the current state of the world, as well as other draw functions such as drawing a MiniMap version
     /// of the current WorldMap.
     /// </summary>
@@ -29,9 +29,9 @@ namespace GameEngine
     {
         #region Properties
 
-        public int Width { get; private set; }
+        public int PixelWidth { get; private set; }
 
-        public int Height { get; private set; }
+        public int PixelHeight { get; private set; }
 
         public int AnimationsOnScreen { get; private set; }
 
@@ -54,7 +54,7 @@ namespace GameEngine
 
         #region Initialisation
 
-        public TileEngine(Game Game, int Width, int Height)
+        public TileEngine(Game Game, int PixelWidth, int PixelHeight)
             :base(Game)
         {
             ShowBoundingBoxes = false;
@@ -63,7 +63,9 @@ namespace GameEngine
 
             GameShaders = new List<GameShader>();
 
-            SetResolution(Width, Height);
+            SetResolution(PixelWidth, PixelHeight);
+
+            Game.Components.Add(this);
         }
 
         public void LoadContent()
@@ -106,13 +108,23 @@ namespace GameEngine
         public void RegisterGameShader(GameShader Shader)
         {
             GameShaders.Add(Shader);
-            Shader.SetResolution(Width, Height);
+            Shader.SetResolution(PixelWidth, PixelHeight);
         }
 
         public bool UnregisterGameShader(GameShader Shader)
         {
             Shader.UnloadContent();
             return GameShaders.Remove(Shader);
+        }
+
+        #endregion
+
+        #region Update Methods
+
+        public override void Update(GameTime GameTime)
+        {
+            foreach (Entity entity in Map.Entities)
+                entity.Update(GameTime, Map);
         }
 
         #endregion
@@ -136,8 +148,8 @@ namespace GameEngine
         /// <param name="Height">int Height in pixels.</param>
         public void SetResolution(int Width, int Height)
         {
-            this.Width = Width;
-            this.Height = Height;
+            this.PixelWidth = Width;
+            this.PixelHeight = Height;
 
             if (_outputBuffer != null)
                 _outputBuffer.Dispose();

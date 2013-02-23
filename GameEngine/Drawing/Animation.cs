@@ -25,6 +25,7 @@ namespace GameEngine.Drawing
         public float Rotation { get; set; }
         public int Layer { get; set; }
         public bool Visible { get; set; }
+        public string Group { get; set; }
 
         private double _startTime = 0;
 

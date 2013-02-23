@@ -14,11 +14,8 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GameEngine.GameObjects
 {
     //An Actor class that should ideally be inherited for more precise functionality
-    //TODO: Merge MapObject and Entity into one
     //technically they should be representing the same thing. If more functionality is needed, then extend it accordingly
-    //TODO: Add the ability to provide custom Update functionality PER entity using overrides
-    //TODO: Probably Remove the IGameDrawable Interface. Entity should be the interface for drawing!!!!
-    public class Entity : ILoadable
+    public abstract class Entity : ILoadable
     {
         public float X { get; set; }
         public float Y { get; set; }
@@ -51,6 +48,10 @@ namespace GameEngine.GameObjects
         public void LoadAnimationXML(string FileName, ContentManager Content, int Layer=0)
         {
             AnimationSet.LoadAnimationXML(Animations, FileName, Content, Layer);
+        }
+
+        public virtual void Update(GameTime GameTime, Map Map)
+        {
         }
 
         public virtual void LoadContent(ContentManager Content)

@@ -16,7 +16,6 @@ namespace ShadowKill
     {
         //Constant (Editable) Valuables
         const bool DEBUG = true;
-        const int INPUT_DELAY = 30;
 
         const int WINDOW_HEIGHT = 500;
         const int WINDOW_WIDTH = 900;
@@ -30,9 +29,8 @@ namespace ShadowKill
         const int VIEW_WIDTH = 500;
         const int VIEW_HEIGHT = 480;
 
-        const float MOVEMENT_SPEED = 0.2f;
+        bool helmetVisible = true;
 
-        double PrevGameTime = 0;
         LightShader LightShader;
 
         //Graphic Related Variables
@@ -92,67 +90,16 @@ namespace ShadowKill
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
+                Engine.ShowBoundingBoxes = !Engine.ShowBoundingBoxes;
+
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
+                Graphics.ToggleFullScreen();
+
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F11, true))
             {
-                bool moved = false;
-
-                //MOVEMENT BASED KEYBOARD EVENTS
-                if (keyboardState.IsKeyDown(Keys.Up))
-                {
-                    CurrentPlayer.CurrentAnimation = "Walk_Up";
-                    CurrentPlayer.Direction = Direction.Up;
-                    moved = true;
-
-                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    CurrentPlayer.Y -= MOVEMENT_SPEED;
-                }
-                if (keyboardState.IsKeyDown(Keys.Down))
-                {
-                    CurrentPlayer.CurrentAnimation = "Walk_Down";
-                    CurrentPlayer.Direction = Direction.Down;
-                    moved = true;
-                    
-                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    CurrentPlayer.Y += MOVEMENT_SPEED;
-                }
-                if (keyboardState.IsKeyDown(Keys.Left))
-                {
-                    CurrentPlayer.CurrentAnimation = "Walk_Left";
-                    CurrentPlayer.Direction = Direction.Left;
-                    moved = true;
-
-                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    CurrentPlayer.X -= MOVEMENT_SPEED;
-                }
-                if (keyboardState.IsKeyDown(Keys.Right))
-                {
-                    CurrentPlayer.CurrentAnimation = "Walk_Right";
-                    CurrentPlayer.Direction = Direction.Right;
-                    moved = true;
-
-                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    CurrentPlayer.X += MOVEMENT_SPEED;
-                }
-                if (keyboardState.IsKeyDown(Keys.A))
-                {
-                    CurrentPlayer.CurrentAnimation = "Slash_" + CurrentPlayer.Direction;
-                    moved = true;
-                }
-
-                if (moved == false)
-                    CurrentPlayer.CurrentAnimation = "Idle_" + CurrentPlayer.Direction;
-
-                if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
-                    Engine.ShowBoundingBoxes = !Engine.ShowBoundingBoxes;
-
-                if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
-                    Graphics.ToggleFullScreen();
-
-                //prevent from going out of range
-                if (CurrentPlayer.X < 0) CurrentPlayer.X = 0;
-                if (CurrentPlayer.Y < 0) CurrentPlayer.Y = 0;
-                if (CurrentPlayer.X >= WORLD_WIDTH -1) CurrentPlayer.X = WORLD_WIDTH - 1;
-                if (CurrentPlayer.Y >= WORLD_HEIGHT -1) CurrentPlayer.Y = WORLD_HEIGHT - 1;
+                helmetVisible = !helmetVisible;
+                CurrentPlayer.Animations.SetGroupVisibility("Head", helmetVisible);
             }
 
             base.Update(gameTime);
@@ -185,7 +132,7 @@ namespace ShadowKill
 
                 SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), Vector2.Zero, Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.Width + "x" + Engine.Height, new Vector2(0, 40), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.PixelWidth + "x" + Engine.PixelHeight, new Vector2(0, 40), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + WORLD_WIDTH + "x" + WORLD_HEIGHT, new Vector2(0, 60), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Objects = " + Engine.Map.Entities.Count, new Vector2(0, 80), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);

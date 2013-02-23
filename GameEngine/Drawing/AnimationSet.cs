@@ -12,6 +12,20 @@ namespace GameEngine.Drawing
     public class AnimationSet : Dictionary<string, List<Animation>>
     {
         /// <summary>
+        /// Sets all animations within the specified group to a specified Visibility state
+        /// (true being Visible and false being not Visible). This will override any per
+        /// animation settings in the group.
+        /// </summary>
+        /// <param name="Group">Name of the group to apply the setting to.</param>
+        /// <param name="Visible">bool value specifying what to set the Visibility of the Animations to.</param>
+        public void SetGroupVisibility(string Group, bool Visible)
+        {
+            foreach (List<Animation> animations in this.Values)
+                foreach (Animation anim in animations)
+                    if (anim.Group == Group) anim.Visible = Visible;
+        }
+
+        /// <summary>
         /// Loads an AnimationSet object from a specified in an XML formatted .anim file.
         /// The method requires the string path to the xml file containing the animation data, a reference to the
         /// ContentManager, and optionally, a boolean value specifing whether the current animations should be
@@ -29,9 +43,11 @@ namespace GameEngine.Drawing
                 //optional attributes
                 XmlAttribute frameDelayAttr = animNode.Attributes["FrameDelay"];
                 XmlAttribute loopAttr = animNode.Attributes["Loop"];
+                XmlAttribute groupAttr = animNode.Attributes["Group"];
 
                 int FrameDelay = (frameDelayAttr == null) ? Animation.FRAME_DELAY_DEFAULT : Convert.ToInt32(frameDelayAttr.Value);
                 bool Loop = (loopAttr == null) ? false : Convert.ToBoolean(loopAttr.Value);
+                string Group = (groupAttr == null) ? null : Convert.ToString(groupAttr.Value);
 
                 string Name = Convert.ToString(animNode.Attributes["Name"].Value);
                 string SpriteSheet = Convert.ToString(animNode.Attributes["SpriteSheet"].Value);
@@ -56,7 +72,9 @@ namespace GameEngine.Drawing
                 if (!AnimationSet.ContainsKey(Name))
                     AnimationSet.Add(Name, new List<Animation>());
 
-                AnimationSet[Name].Add(new Animation(Content.Load<Texture2D>(SpriteSheet), frames, FrameDelay, Loop, true, Layer));
+                Animation animation = new Animation(Content.Load<Texture2D>(SpriteSheet), frames, FrameDelay, Loop, true, Layer);
+                animation.Group = Group;
+                AnimationSet[Name].Add(animation);
             }
 
             return AnimationSet;
