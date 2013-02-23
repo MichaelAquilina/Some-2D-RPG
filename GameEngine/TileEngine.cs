@@ -106,9 +106,15 @@ namespace GameEngine
 
         #region Register/Unregister methods
 
+        public bool IsRegistered(GameShader Shader)
+        {
+            return GameShaders.Contains(Shader);
+        }
+
         public void RegisterGameShader(GameShader Shader)
         {
             GameShaders.Add(Shader);
+            Shader.LoadContent(this.Game.Content);
             Shader.SetResolution(PixelWidth, PixelHeight);
         }
 

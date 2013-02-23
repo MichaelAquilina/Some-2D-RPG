@@ -62,6 +62,8 @@ namespace ShadowKill
 
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
+            CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
+            CurrentPlayer.Race = NPC.MALE_HUMAN;
 
             base.Initialize();
         }
@@ -72,7 +74,7 @@ namespace ShadowKill
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.LightSources.Add(CurrentPlayer);
 
-            Engine.RegisterGameShader(LightShader);
+            //Engine.RegisterGameShader(LightShader);
             Engine.Map.Entities.Add(CurrentPlayer);
 
             Engine.LoadContent();
@@ -101,6 +103,15 @@ namespace ShadowKill
                 helmetVisible = !helmetVisible;
                 CurrentPlayer.Animations.SetGroupVisibility("Head", helmetVisible);
             }
+
+            //TODO: Bug related to registering and unregistering game shaders (AccessViolationException)
+            //if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F12, true))
+            //{
+            //    if (Engine.IsRegistered(LightShader))
+            //        Engine.UnregisterGameShader(LightShader);
+            //    else
+            //        Engine.RegisterGameShader(LightShader);
+            //}
 
             base.Update(gameTime);
         }

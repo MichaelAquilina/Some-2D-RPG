@@ -87,7 +87,7 @@ namespace ShadowKill.Shaders
             SpriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(OutputBuffer);
-            _lightShader.Parameters["LightMap"].SetValue((Texture2D)_lightTarget);
+            _lightShader.Parameters["LightMap"].SetValue(_lightTarget);
 
             SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _lightShader);
             {
