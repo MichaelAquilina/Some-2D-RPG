@@ -115,6 +115,8 @@ namespace ShadowKill.GameObjects
             
         }
 
+        //LIGHT SOURCE INTERFACE METHODS (TO BE REMOVED IN THE FUTURE)
+
         public Texture2D GetLightSourceTexture(GameTime gameTime)
         {
             return _lightSource;

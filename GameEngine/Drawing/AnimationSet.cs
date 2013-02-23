@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Content;
 using System.Xml;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Drawing
@@ -14,7 +12,8 @@ namespace GameEngine.Drawing
         /// <summary>
         /// Sets all animations within the specified group to a specified Visibility state
         /// (true being Visible and false being not Visible). This will override any per
-        /// animation settings in the group.
+        /// animation settings in the group. All animations with their group set to null will
+        /// always be ignored by this method.
         /// </summary>
         /// <param name="Group">Name of the group to apply the setting to.</param>
         /// <param name="Visible">bool value specifying what to set the Visibility of the Animations to.</param>

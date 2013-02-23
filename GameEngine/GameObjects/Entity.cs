@@ -13,8 +13,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.GameObjects
 {
-    //An Actor class that should ideally be inherited for more precise functionality
-    //technically they should be representing the same thing. If more functionality is needed, then extend it accordingly
+    //An abstract Entity class that should be inherited by objects which are to be visible within the game world.
+    //Any map objects, NPCs or playable characters should inherit from this class in order to be used by the
+    //game engine.
     public abstract class Entity : ILoadable
     {
         public float X { get; set; }
