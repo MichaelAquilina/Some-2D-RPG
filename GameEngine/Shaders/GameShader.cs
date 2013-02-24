@@ -8,11 +8,13 @@ namespace GameEngine.Shaders
 {
     public abstract class GameShader : ILoadable
     {
+        public bool Enabled { get; set; }
         public GraphicsDevice GraphicsDevice { get; set; }
 
         public GameShader(GraphicsDevice GraphicsDevice)
         {
             this.GraphicsDevice = GraphicsDevice;
+            this.Enabled = true;
         }
 
         public virtual void LoadContent(ContentManager Content)

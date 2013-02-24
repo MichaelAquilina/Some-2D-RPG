@@ -313,12 +313,15 @@ namespace GameEngine
             //TODO: Can possibly improve performance by setting render target to the back buffer for the last shader pass
             for (int i = 0; i < GameShaders.Count; i++)
             {
-                GameShaders[i].ApplyShader(SpriteBatch, viewPortInfo, GameTime, _inputBuffer, _outputBuffer);
-                
-                //swap buffers after each render
-                _dummyBuffer = _inputBuffer;
-                _inputBuffer = _outputBuffer;
-                _outputBuffer = _dummyBuffer;
+                if (GameShaders[i].Enabled)
+                {
+                    GameShaders[i].ApplyShader(SpriteBatch, viewPortInfo, GameTime, _inputBuffer, _outputBuffer);
+
+                    //swap buffers after each render
+                    _dummyBuffer = _inputBuffer;
+                    _inputBuffer = _outputBuffer;
+                    _outputBuffer = _dummyBuffer;
+                }
             }
 
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN

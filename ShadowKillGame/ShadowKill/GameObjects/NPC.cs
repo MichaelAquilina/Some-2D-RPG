@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameEngine.GameObjects;
-using GameEngine.Interfaces;
+﻿using GameEngine.GameObjects;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using GameEngine.Drawing;
-using ShadowKill.Shaders;
-using Microsoft.Xna.Framework.Input;
-using GameEngine.Helpers;
 
 namespace ShadowKill.GameObjects
 {
@@ -21,27 +11,32 @@ namespace ShadowKill.GameObjects
         public const string MALE_HUMAN = @"Animations/male_npc.anim";
         public const string FEMALE_HUMAN = @"Animations/female_npc.anim";
 
-        public const string PLATE_ARMOR_LEGS = @"Animations/Plate Armor/plate_armor_legs_walkcycle.anim";
-        public const string PLATE_ARMOR_TORSO = @"Animations/Plate Armor/plate_armor_torso_walkcycle.anim";
-        public const string PLATE_ARMOR_FEET = @"Animations/Plate Armor/plate_armor_feet_walkcycle.anim";
-        public const string PLATE_ARMOR_HANDS = @"Animations/Plate Armor/plate_armor_hands_walkcycle.anim";
-        public const string PLATE_ARMOR_HEAD = @"Animations/Plate Armor/plate_armor_head_walkcycle.anim";
-        public const string PLATE_ARMOR_SHOULDERS = @"Animations/Plate Armor/plate_armor_shoulders_walkcycle.anim";
+        public const string PLATE_ARMOR_LEGS = @"Animations/Plate Armor/plate_armor_legs.anim";
+        public const string PLATE_ARMOR_TORSO = @"Animations/Plate Armor/plate_armor_torso.anim";
+        public const string PLATE_ARMOR_FEET = @"Animations/Plate Armor/plate_armor_feet.anim";
+        public const string PLATE_ARMOR_HANDS = @"Animations/Plate Armor/plate_armor_hands.anim";
+        public const string PLATE_ARMOR_HEAD = @"Animations/Plate Armor/plate_armor_head.anim";
+        public const string PLATE_ARMOR_SHOULDERS = @"Animations/Plate Armor/plate_armor_shoulders.anim";
+
+        public const string WEAPON_SABRE = @"Animations/Weapons/sabre.anim";
 
         public Direction Direction { get; set; }
 
+        public string Weapon { get; set; }
         public string Head { get; set; }
         public string Torso { get; set; }
         public string Feet { get; set; }
         public string Shoulders { get; set; }
         public string Legs { get; set; }
         public string Hands { get; set; }
-        public string Race { get; set; }
+        public string BaseRace { get; set; }
 
-        public NPC(float X, float Y, float Width, float Height) :
-            base(X, Y, Width, Height)
+        public NPC(float X, float Y, string BaseRace) :
+            base(X, Y, 1.5f, 1.5f)
         {
-            Direction = Direction.Right;
+            this.Direction = Direction.Right;
+            this.BaseRace = BaseRace;
+            this.Origin = new Vector2(0.5f, 1.0f);
         }
 
         public override void LoadContent(ContentManager Content)
@@ -52,7 +47,8 @@ namespace ShadowKill.GameObjects
             if(Feet != null ) LoadAnimationXML(Feet, Content, 3);
             if(Torso != null ) LoadAnimationXML(Torso, Content, 2);
             if(Legs != null )LoadAnimationXML(Legs, Content, 1);
-            LoadAnimationXML(Race, Content, 0);
+            if (Weapon != null) LoadAnimationXML(Weapon, Content, 7);
+            LoadAnimationXML(BaseRace, Content, 0);
             CurrentAnimation = "Walk_Right";
         }
 

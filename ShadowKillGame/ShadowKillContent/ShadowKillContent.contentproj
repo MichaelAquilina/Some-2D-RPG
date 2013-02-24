@@ -71,13 +71,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UI\ScrollBackground.png">
-      <Name>ScrollBackground</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Actors\battle_knucklessheet.bmp">
       <Name>KnucklesSheet</Name>
       <Importer>TextureImporter</Importer>
@@ -98,13 +91,6 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <ProcessorParameters_ColorKeyColor>75, 99, 127, 255</ProcessorParameters_ColorKeyColor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="MapObjects\Target.bmp">
-      <Name>Target</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -129,42 +115,42 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LPC\female_hurt.png">
+    <Compile Include="LPC\Characters\female_hurt.png">
       <Name>female_hurt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\female_slash.png">
+    <Compile Include="LPC\Characters\female_slash.png">
       <Name>female_slash</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\female_spellcast.png">
+    <Compile Include="LPC\Characters\female_spellcast.png">
       <Name>female_spellcast</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\female_walkcycle.png">
+    <Compile Include="LPC\Characters\female_walkcycle.png">
       <Name>female_walkcycle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\male_hurt.png">
+    <Compile Include="LPC\Characters\male_hurt.png">
       <Name>male_hurt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\male_slash.png">
+    <Compile Include="LPC\Characters\male_slash.png">
       <Name>male_slash</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\male_spellcast.png">
+    <Compile Include="LPC\Characters\male_spellcast.png">
       <Name>male_spellcast</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\male_walkcycle.png">
+    <Compile Include="LPC\Characters\male_walkcycle.png">
       <Name>male_walkcycle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -208,6 +194,16 @@
   <ItemGroup>
     <Compile Include="LPC\Plate Armor\TORSO_plate_armor_arms_shoulders.png">
       <Name>TORSO_plate_armor_arms_shoulders</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LPC\Terrain\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LPC\Weapons\sabre_sheet.png">
+      <Name>sabre_sheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

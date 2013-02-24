@@ -160,31 +160,36 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Animations\Plate Armor\plate_armor_shoulders_walkcycle.anim">
+    <None Include="Animations\Plate Armor\plate_armor_shoulders.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Plate Armor\plate_armor_head_walkcycle.anim">
+    <None Include="Animations\Plate Armor\plate_armor_head.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Plate Armor\plate_armor_hands_walkcycle.anim">
+    <None Include="Animations\Plate Armor\plate_armor_hands.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Plate Armor\plate_armor_feet_walkcycle.anim">
+    <None Include="Animations\Plate Armor\plate_armor_feet.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Plate Armor\plate_armor_legs_walkcycle.anim">
+    <None Include="Animations\Plate Armor\plate_armor_legs.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Plate Armor\plate_armor_torso_walkcycle.anim">
+    <None Include="Animations\Plate Armor\plate_armor_torso.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\female_walkcycle.anim">
+    <None Include="Animations\female_npc.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Animations\male_npc.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Animations\Weapons\sabre.anim">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

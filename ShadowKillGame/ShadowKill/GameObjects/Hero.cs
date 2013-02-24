@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GameEngine.Drawing;
 using GameEngine.GameObjects;
-using GameEngine.Interfaces;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameEngine.Drawing;
-using ShadowKill.Shaders;
 using Microsoft.Xna.Framework.Input;
-using GameEngine.Helpers;
+using ShadowKill.Shaders;
 
 namespace ShadowKill.GameObjects
 {
@@ -23,14 +17,14 @@ namespace ShadowKill.GameObjects
         private Texture2D _lightSource;
 
         public Hero(float X, float Y) :
-            base(X, Y, 1.5f, 1.5f)
+            base(X, Y, NPC.MALE_HUMAN)
         {
             Direction = Direction.Right;
         }
 
         public override void LoadContent(ContentManager Content)
         {
-            _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource2");
+            _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
             base.LoadContent(Content);
         }
 
@@ -41,6 +35,13 @@ namespace ShadowKill.GameObjects
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
                 bool moved = false;
+
+                if (keyboardState.IsKeyDown(Keys.A))
+                {
+                    CurrentAnimation = "Slash_" + Direction;
+                    moved = true;
+                    return;
+                }
 
                 //MOVEMENT BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.Up))
@@ -78,11 +79,6 @@ namespace ShadowKill.GameObjects
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     X += MOVEMENT_SPEED;
-                }
-                if (keyboardState.IsKeyDown(Keys.A))
-                {
-                    CurrentAnimation = "Slash_" + Direction;
-                    moved = true;
                 }
 
                 if (moved == false)

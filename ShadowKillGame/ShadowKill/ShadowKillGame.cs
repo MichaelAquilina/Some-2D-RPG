@@ -30,6 +30,7 @@ namespace ShadowKill
         const int VIEW_HEIGHT = 480;
 
         bool helmetVisible = true;
+        bool showDebugInfo = true;
 
         LightShader LightShader;
 
@@ -40,6 +41,8 @@ namespace ShadowKill
 
         //Game Specific Variablies
         Hero CurrentPlayer;
+        NPC FemaleNPC;
+
         TileEngine Engine;
         IWorldGenerator WorldGenerator;
 
@@ -61,9 +64,16 @@ namespace ShadowKill
             Engine.LoadMap(loadedMap);
 
             CurrentPlayer = new Hero(8, 8);
-            CurrentPlayer.Origin = new Vector2(0.5f, 1.0f);
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
-            CurrentPlayer.Race = NPC.MALE_HUMAN;
+            CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
+            CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
+            CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
+            CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
+            CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
+            //CurrentPlayer.Weapon = NPC.WEAPON_SABRE;
+
+            FemaleNPC = new NPC(15, 9, NPC.FEMALE_HUMAN);
+            //FemaleNPC.Legs = NPC.PLATE_ARMOR_LEGS;
 
             base.Initialize();
         }
@@ -73,9 +83,11 @@ namespace ShadowKill
             LightShader = new LightShader(this.GraphicsDevice);
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.LightSources.Add(CurrentPlayer);
+            LightShader.Enabled = false;
 
-            //Engine.RegisterGameShader(LightShader);
+            Engine.RegisterGameShader(LightShader);
             Engine.Map.Entities.Add(CurrentPlayer);
+            Engine.Map.Entities.Add(FemaleNPC);
 
             Engine.LoadContent();
 
@@ -95,6 +107,12 @@ namespace ShadowKill
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
                 Engine.ShowBoundingBoxes = !Engine.ShowBoundingBoxes;
 
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F2, true))
+                showDebugInfo = !showDebugInfo;
+
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F3, true))
+                LightShader.Enabled = !LightShader.Enabled;
+
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
                 Graphics.ToggleFullScreen();
 
@@ -103,15 +121,6 @@ namespace ShadowKill
                 helmetVisible = !helmetVisible;
                 CurrentPlayer.Animations.SetGroupVisibility("Head", helmetVisible);
             }
-
-            //TODO: Bug related to registering and unregistering game shaders (AccessViolationException)
-            //if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F12, true))
-            //{
-            //    if (Engine.IsRegistered(LightShader))
-            //        Engine.UnregisterGameShader(LightShader);
-            //    else
-            //        Engine.RegisterGameShader(LightShader);
-            //}
 
             base.Update(gameTime);
         }
@@ -125,19 +134,21 @@ namespace ShadowKill
             
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
+
+            if (showDebugInfo) 
             {
                 //DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING
-                //int lightMapHeight = 100;
-                //int lightMapWidth = (int) Math.Ceiling(100 * ((float) LightShader.LightMap.Width/LightShader.LightMap.Height));
+                int lightMapHeight = 100;
+                int lightMapWidth = (int) Math.Ceiling(100 * ((float) LightShader.LightMap.Width/LightShader.LightMap.Height));
 
-                //SpriteBatch.Draw(
-                //    LightShader.LightMap, 
-                //    new Rectangle(
-                //        WINDOW_WIDTH - lightMapWidth, 0, 
-                //        lightMapWidth, lightMapHeight
-                //    ), 
-                //    Color.White
-                //);
+                SpriteBatch.Draw(
+                    LightShader.LightMap, 
+                    new Rectangle(
+                        WINDOW_WIDTH - lightMapWidth, 0, 
+                        lightMapWidth, lightMapHeight
+                    ), 
+                    Color.White
+                );
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
