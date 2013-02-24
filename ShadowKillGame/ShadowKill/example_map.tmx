@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="32" tileheight="32">
  <tileset firstgid="1" name="grass" tilewidth="32" tileheight="32">
-  <image source="../Pictures/LPC Base Assets/tiles/grass.png" width="96" height="192"/>
+  <image source="LPC/terrain/grass" width="96" height="192"/>
  </tileset>
  <tileset firstgid="19" name="watergrass" tilewidth="32" tileheight="32">
-  <image source="../Pictures/LPC Base Assets/tiles/watergrass.png" width="96" height="192"/>
+  <image source="LPC/terrain/watergrass" width="96" height="192"/>
  </tileset>
  <tileset firstgid="37" name="dirt2" tilewidth="32" tileheight="32">
-  <image source="../Pictures/LPC Base Assets/tiles/dirt2.png" width="96" height="192"/>
+  <image source="LPC/terrain/dirt2" width="96" height="192"/>
  </tileset>
  <tileset firstgid="55" name="buckets" tilewidth="32" tileheight="32">
-  <image source="../Pictures/LPC Base Assets/tiles/buckets.png" width="96" height="64"/>
+  <image source="LPC/terrain/buckets" width="96" height="64"/>
  </tileset>
  <tileset firstgid="61" name="treetop" tilewidth="32" tileheight="32">
-  <image source="../Pictures/LPC Base Assets/tiles/treetop.png" width="192" height="224"/>
+  <image source="LPC/terrain/treetop" width="192" height="224"/>
  </tileset>
  <tileset firstgid="103" name="trunk" tilewidth="32" tileheight="32">
-  <image source="../Pictures/LPC Base Assets/tiles/trunk.png" width="192" height="96"/>
+  <image source="LPC/terrain/trunk" width="192" height="96"/>
  </tileset>
  <layer name="Tile Layer 1" width="50" height="50">
   <data encoding="csv">

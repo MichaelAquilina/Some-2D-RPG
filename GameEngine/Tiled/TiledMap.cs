@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Tiled
 {
@@ -30,6 +31,8 @@ namespace GameEngine.Tiled
 
     public class TileSet
     {
+        public Texture2D SourceTexture { get; set; }
+
         public string Name { get; set; }
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }

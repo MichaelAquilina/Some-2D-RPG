@@ -9,6 +9,7 @@ using ShadowKill.Shaders;
 using ShadowKill.WorldGenerators;
 using System;
 using GameEngine.GameObjects;
+using GameEngine.Tiled;
 
 namespace ShadowKill
 {
@@ -80,6 +81,8 @@ namespace ShadowKill
 
         protected override void LoadContent()
         {
+            TiledMap tiledmap = Tiled.LoadTiledXML("example_map.tmx", Content);
+
             LightShader = new LightShader(this.GraphicsDevice);
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.LightSources.Add(CurrentPlayer);

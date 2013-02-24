@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Tiled
 {
     public class Tiled
     {
-        public static TiledMap LoadTiledXML(string file)
+        public static TiledMap LoadTiledXML(string file, ContentManager Content)
         {
             XmlDocument document = new XmlDocument();
             document.Load(file);
@@ -33,6 +35,8 @@ namespace GameEngine.Tiled
                 tileset.Source = imageNode.Attributes["source"].Value;
                 tileset.ImageHeight = Convert.ToInt32(imageNode.Attributes["height"].Value);
                 tileset.ImageWidth = Convert.ToInt32(imageNode.Attributes["width"].Value);
+
+                tileset.SourceTexture = Content.Load<Texture2D>(tileset.Source);
 
                 map.TileSets.Add(tileset);
             }
