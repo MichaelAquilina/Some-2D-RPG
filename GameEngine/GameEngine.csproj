@@ -98,6 +98,8 @@
     <Compile Include="Drawing\Shapes.cs" />
     <Compile Include="GameObjects\Entity.cs" />
     <Compile Include="GameObjects\Map.cs" />
+    <Compile Include="Tiled\Tiled.cs" />
+    <Compile Include="Tiled\TiledMap.cs" />
     <Compile Include="TileEngine.cs" />
     <Compile Include="Helpers\KeyboardHelper.cs" />
     <Compile Include="Shaders\GameShader.cs" />

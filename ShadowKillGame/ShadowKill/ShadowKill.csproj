@@ -188,6 +188,9 @@
     <None Include="Animations\Weapons\sabre.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="example_map.tmx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
