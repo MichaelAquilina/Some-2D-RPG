@@ -39,6 +39,7 @@ namespace ShadowKill
         GraphicsDeviceManager Graphics;
         SpriteBatch SpriteBatch;
         SpriteFont DefaultSpriteFont;
+        SamplerState Sampler;
 
         //Game Specific Variablies
         Hero CurrentPlayer;
@@ -60,9 +61,10 @@ namespace ShadowKill
         {
             WorldGenerator = new RandomWorldGenerator();
             Map loadedMap = WorldGenerator.Generate(Content, WORLD_WIDTH, WORLD_HEIGHT);
+            TiledMap tiledmap = Tiled.LoadTiledXML("example_map.tmx", Content);
 
             Engine = new TileEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
-            Engine.LoadMap(loadedMap);
+            Engine.LoadMap(tiledmap);
 
             CurrentPlayer = new Hero(8, 8);
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
@@ -81,7 +83,7 @@ namespace ShadowKill
 
         protected override void LoadContent()
         {
-            TiledMap tiledmap = Tiled.LoadTiledXML("example_map.tmx", Content);
+            Sampler = SamplerState.PointWrap;
 
             LightShader = new LightShader(this.GraphicsDevice);
             LightShader.AmbientLight = new Color(30, 15, 15);
@@ -133,7 +135,7 @@ namespace ShadowKill
             Rectangle destRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
-            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White);     
+            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White, Sampler);     
             
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
@@ -163,6 +165,7 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 120), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, Sampler.ToString(), new Vector2(0, 160), Color.White);
             }
             SpriteBatch.End();
 

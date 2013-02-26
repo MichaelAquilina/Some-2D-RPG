@@ -8,8 +8,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Tiled
 {
+    //Why does this seperate class exist? Possibly merge with TiledMap file
     public class Tiled
     {
+        //TODO: Cleanup of code
+        //TODO: Make more robust, this can easily break
+        //TODO: Support for zlib compression of tile data
+        //TODO: Drawing of Tiled Maps in TiledEngine main class (Rather than old maps)
         public static TiledMap LoadTiledXML(string file, ContentManager Content)
         {
             XmlDocument document = new XmlDocument();
@@ -41,6 +46,7 @@ namespace GameEngine.Tiled
                 map.TileSets.Add(tileset);
             }
 
+            //TODO: Needs better code structure and cleanup
             foreach (XmlNode layerNode in mapNode.SelectNodes("layer"))
             {
                 int width = Convert.ToInt32(layerNode.Attributes["width"].Value);

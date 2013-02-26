@@ -10,6 +10,7 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngine.Tiled;
 
 namespace GameEngine.GameObjects
 {
@@ -51,7 +52,7 @@ namespace GameEngine.GameObjects
             AnimationSet.LoadAnimationXML(Animations, FileName, Content, Layer);
         }
 
-        public virtual void Update(GameTime GameTime, Map Map)
+        public virtual void Update(GameTime GameTime, TiledMap Map)
         {
         }
 

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShadowKill.Shaders;
+using GameEngine.Tiled;
 
 namespace ShadowKill.GameObjects
 {
@@ -28,7 +29,7 @@ namespace ShadowKill.GameObjects
             base.LoadContent(Content);
         }
 
-        public override void Update(GameTime gameTime, Map Map)
+        public override void Update(GameTime gameTime, TiledMap Map)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 

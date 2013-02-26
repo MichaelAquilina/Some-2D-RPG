@@ -20,8 +20,8 @@ namespace GameEngine.Drawing
         public Rectangle[] Frames { get; set; }
         public int FrameDelay { get; set; }
         public bool Loop { get; set; }
-        public Color DrawColor { get; set; }
-        public SpriteEffects CurrentSpriteEffect { get; set; }
+        public Color Color { get; set; }
+        public SpriteEffects SpriteEffect { get; set; }
         public float Rotation { get; set; }
         public int Layer { get; set; }
         public bool Visible { get; set; }
@@ -46,8 +46,8 @@ namespace GameEngine.Drawing
             this.Frames = Frames;
             this.FrameDelay = FrameDelay;
             this.Loop = Loop;
-            this.DrawColor = Color.White;
-            this.CurrentSpriteEffect = SpriteEffects.None;
+            this.Color = Color.White;
+            this.SpriteEffect = SpriteEffects.None;
             this.Rotation = 0;
             this.Visible = Visible;
             this.Layer = Layer;

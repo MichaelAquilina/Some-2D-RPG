@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using GameEngine.Shaders;
+using GameEngine.Tiled;
 
 namespace GameEngine
 {
@@ -35,7 +36,7 @@ namespace GameEngine
 
         public int AnimationsOnScreen { get; private set; }
 
-        public Map Map { get; private set; }
+        public TiledMap Map { get; private set; }
 
         public List<GameShader> GameShaders { get; private set; }
 
@@ -138,7 +139,7 @@ namespace GameEngine
 
         #region Public API Methods
 
-        public void LoadMap(Map Map)
+        public void LoadMap(TiledMap Map)
         {
             if (this.Map != null)
                 this.Map.UnloadContent();
@@ -180,11 +181,12 @@ namespace GameEngine
         /// <param name="GameTime">GameTime object that would have been passed to the standard XNA Draw method.</param>
         /// <param name="SpriteBatch">SpriteBatch object with which to render the Viewport. Should have already been opened for rendering.</param>
         /// <param name="Center">X and Y Coordinates on the world map specifying where the viewport should be Centered.</param>
-        /// <param name="TileWidth">Integer value specifying the Width in pixels of each Tile on the Map.</param>
-        /// <param name="TileHeight">Integer value specifying the Height in pixels of each Tile on the Map.</param>
+        /// <param name="pxTileWidth">Integer value specifying the Width in pixels of each Tile on the Map.</param>
+        /// <param name="pxTileHeight">Integer value specifying the Height in pixels of each Tile on the Map.</param>
         /// <param name="DestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
         /// <param name="Color">Color object with which to blend the game world.</param>
-        public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, Color Color)
+        /// <param name="SamplerState">Specifies the type of sampler to use when drawing images with the SpriteBatch object.</param>
+        public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, Color Color, SamplerState SamplerState)
         {
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
@@ -214,31 +216,53 @@ namespace GameEngine
             GraphicsDevice.SetRenderTarget(_inputBuffer);
             GraphicsDevice.Clear(Color.Black);
 
-            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend);
+            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
-                //DRAW THE WORLD MAP TILES
-                for (int i = 0; i < viewPortInfo.TileCountX; i++)
-                    for (int j = 0; j < viewPortInfo.TileCountY; j++)
-                    {
-                        int tileX = (int)(i + viewPortInfo.TopLeftX);
-                        int tileY = (int)(j + viewPortInfo.TopLeftY);
+                for (int layerIndex = 0; layerIndex < Map.TileLayers.Count; layerIndex++)
+                {
+                    TileLayer tileLayer = Map.TileLayers[layerIndex];
 
-                        Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
+                    //DRAW THE WORLD MAP TILES
+                    for (int i = 0; i < viewPortInfo.TileCountX; i++)
+                        for (int j = 0; j < viewPortInfo.TileCountY; j++)
+                        {
+                            int tileX = (int)(i + viewPortInfo.TopLeftX);
+                            int tileY = (int)(j + viewPortInfo.TopLeftY);
 
-                        //traslate if there is any decimal displacement due to a Center with a floating point
-                        tileDestRect.X -= (int)(dispX * pxTileWidth);
-                        tileDestRect.Y -= (int)(dispY * pxTileHeight);
+                            int tileGid = tileLayer[tileY, tileX];
 
-                        SpriteBatch.Draw(
-                            Map.GroundPallette.GetTileSourceTexture(Map[tileX, tileY]),
-                            tileDestRect,
-                            Map.GroundPallette.GetTileSourceRectangle(Map[tileX, tileY]),
-                            Color.White,
-                            0, Vector2.Zero,
-                            SpriteEffects.None,
-                            1
-                        );
-                    }
+                            if (tileGid != 0)   //NULL Tile Gid is ignored
+                            {
+                                //NEEDS A LOT OF BUG FIXING AND PERFORMANCE TUNING
+                                TileSet tileSet = Map.GetTileSetByGid(tileGid);  //IMPROVE PERFORMANCE
+                                int relGid = tileLayer[tileY, tileX] - tileSet.FirstGID;
+
+                                int tx = (relGid * tileSet.TileWidth) % tileSet.ImageWidth;   //REDUCE COMPLEXITY OF EQUATIONS
+                                int ty = tileSet.TileHeight * ((relGid * tileSet.TileWidth) / tileSet.ImageWidth);
+
+                                Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
+
+                                //traslate if there is any decimal displacement due to a Center with a floating point
+                                tileDestRect.X -= (int)(dispX * pxTileWidth);
+                                tileDestRect.Y -= (int)(dispY * pxTileHeight);
+
+                                Rectangle tileSourceRect = new Rectangle(
+                                    tx, ty,
+                                    tileSet.TileWidth, tileSet.TileHeight
+                                );
+
+                                SpriteBatch.Draw(
+                                    tileSet.SourceTexture,
+                                    tileDestRect,
+                                    tileSourceRect,
+                                    Color.White,
+                                    0, Vector2.Zero,
+                                    SpriteEffects.None,
+                                    1 - (layerIndex/10000.0f)
+                                );
+                            }
+                        }
+                }
 
                 AnimationsOnScreen = 0;
 
@@ -299,10 +323,10 @@ namespace GameEngine
                                 animation.SpriteSheet,
                                 ObjectDestRect,
                                 currentFrame,
-                                animation.DrawColor,
+                                animation.Color,
                                 animation.Rotation,
                                 objectOrigin,
-                                animation.CurrentSpriteEffect,
+                                animation.SpriteEffect,
                                 layerDepth );        
                         }
                     }
