@@ -96,9 +96,10 @@
     <Compile Include="Drawing\AnimationSet.cs" />
     <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="Drawing\Shapes.cs" />
+    <Compile Include="Drawing\ViewPortInfo.cs" />
     <Compile Include="GameObjects\Entity.cs" />
-    <Compile Include="Tiled\Tiled.cs" />
     <Compile Include="Tiled\TiledMap.cs" />
+    <Compile Include="Tiled\TileLayer.cs" />
     <Compile Include="Tiled\TileSet.cs" />
     <Compile Include="TileEngine.cs" />
     <Compile Include="Helpers\KeyboardHelper.cs" />

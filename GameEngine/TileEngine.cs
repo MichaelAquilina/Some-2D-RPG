@@ -11,16 +11,6 @@ using GameEngine.Tiled;
 
 namespace GameEngine
 {
-    public struct ViewPortInfo
-    {
-        public float PXTileWidth { get; set; }
-        public float PXTileHeight { get; set; }
-        public float TopLeftX { get; set; }
-        public float TopLeftY { get; set; }
-        public int TileCountX { get; set; }
-        public int TileCountY { get; set; }
-    }
-
     /// <summary>
     /// Class that represents the current state of the game world, including the Entities residing in it. Provides functions
     /// to draw/render the current state of the world, as well as other draw functions such as drawing a MiniMap version
@@ -190,7 +180,7 @@ namespace GameEngine
         {
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
-            ViewPortInfo viewPortInfo = new ViewPortInfo();
+            ViewPortInfo viewPortInfo = new ViewPortInfo();             //Should be fast due to being a struct
             {
                 viewPortInfo.TileCountX = (int)Math.Ceiling((double)DestRectangle.Width / pxTileWidth) + 1;
                 viewPortInfo.TileCountY = (int)Math.Ceiling((double)DestRectangle.Height / pxTileHeight) + 1;
@@ -206,11 +196,11 @@ namespace GameEngine
                 if (viewPortInfo.TopLeftY < 0) viewPortInfo.TopLeftY = 0;
                 if (viewPortInfo.TopLeftX + viewPortInfo.TileCountX >= Map.Width) viewPortInfo.TopLeftX = Map.Width - viewPortInfo.TileCountX;
                 if (viewPortInfo.TopLeftY + viewPortInfo.TileCountY >= Map.Height) viewPortInfo.TopLeftY = Map.Height - viewPortInfo.TileCountY;
-            }
 
-            //calculate any decimal displacement required (For Positions with decimal points)
-            double dispX = viewPortInfo.TopLeftX - Math.Floor(viewPortInfo.TopLeftX);
-            double dispY = viewPortInfo.TopLeftY - Math.Floor(viewPortInfo.TopLeftY);
+                //calculate any decimal displacement required (For Positions with decimal points)
+                viewPortInfo.dispX = viewPortInfo.TopLeftX - Math.Floor(viewPortInfo.TopLeftX);
+                viewPortInfo.dispY = viewPortInfo.TopLeftY - Math.Floor(viewPortInfo.TopLeftY);
+            }
 
             //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
             GraphicsDevice.SetRenderTarget(_inputBuffer);
@@ -218,12 +208,14 @@ namespace GameEngine
 
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
+                //DRAW THE WORLD MAP
                 for (int layerIndex = 0; layerIndex < Map.TileLayers.Count; layerIndex++)
                 {
+                    //DRAW EACH LAYER
                     TileLayer tileLayer = Map.TileLayers[layerIndex];
 
-                    //DRAW THE WORLD MAP TILES
                     for (int i = 0; i < viewPortInfo.TileCountX; i++)
+                    {
                         for (int j = 0; j < viewPortInfo.TileCountY; j++)
                         {
                             int tileX = (int)(i + viewPortInfo.TopLeftX);
@@ -233,18 +225,17 @@ namespace GameEngine
 
                             if (tileGid != 0)   //NULL Tile Gid is ignored
                             {
-                                //NEEDS A LOT OF BUG FIXING AND PERFORMANCE TUNING
-                                TileSet tileSet = Map.GetTileSetByGid(tileGid);  //IMPROVE PERFORMANCE
+                                TileSet tileSet = Map.GetTileSetByGid(tileGid);
                                 int relGid = tileLayer[tileY, tileX] - tileSet.FirstGID;
 
-                                int tx = (relGid * tileSet.TileWidth) % tileSet.ImageWidth;   //REDUCE COMPLEXITY OF EQUATIONS
+                                int tx = (relGid * tileSet.TileWidth) % tileSet.ImageWidth;
                                 int ty = tileSet.TileHeight * ((relGid * tileSet.TileWidth) / tileSet.ImageWidth);
 
                                 Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
 
                                 //traslate if there is any decimal displacement due to a Center with a floating point
-                                tileDestRect.X -= (int)(dispX * pxTileWidth);
-                                tileDestRect.Y -= (int)(dispY * pxTileHeight);
+                                tileDestRect.X -= (int)(viewPortInfo.dispX * pxTileWidth);
+                                tileDestRect.Y -= (int)(viewPortInfo.dispY * pxTileHeight);
 
                                 Rectangle tileSourceRect = new Rectangle(
                                     tx, ty,
@@ -258,10 +249,11 @@ namespace GameEngine
                                     Color.White,
                                     0, Vector2.Zero,
                                     SpriteEffects.None,
-                                    1 - (layerIndex/10000.0f)
+                                    1 - (layerIndex / 10000.0f)    //automatic layering based on layerIndex
                                 );
                             }
                         }
+                    }
                 }
 
                 AnimationsOnScreen = 0;

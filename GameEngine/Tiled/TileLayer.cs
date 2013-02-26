@@ -18,19 +18,19 @@ namespace GameEngine.Tiled
             get { return _tiles[0].Length; }
         }
 
-        internal int[][] _tiles;
-
         public int this[int x, int y]
         {
             get { return _tiles[x][y]; }
             set { _tiles[x][y] = value; }
         }
 
+        internal int[][] _tiles;
+
         public TileLayer(int Width, int Height)
         {
-            _tiles = new int[Height][];
-            for (int i = 0; i < Height; i++)
-                _tiles[i] = new int[Width];
+            _tiles = new int[Width][];
+            for (int i = 0; i < Width; i++)
+                _tiles[i] = new int[Height];
         }
     }
 }

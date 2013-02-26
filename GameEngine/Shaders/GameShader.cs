@@ -1,11 +1,17 @@
 ﻿using System;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
+using GameEngine.Drawing;
 using GameEngine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Shaders
 {
+    /// <summary>
+    /// Abstract Plugin Shader class that can be applied to a TileEngine. The shader provides an easy way to output a RenderTarget based
+    /// on some input RenderTarget that would have been rendered by the Engine previously. This allows sequantial application
+    /// of Game Shaders
+    /// </summary>
     public abstract class GameShader : ILoadable
     {
         public bool Enabled { get; set; }
