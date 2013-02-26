@@ -109,13 +109,11 @@
   <ItemGroup>
     <Compile Include="GameObjects\Hero.cs" />
     <Compile Include="GameObjects\NPC.cs" />
-    <Compile Include="GroundPallettes\GroundV2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ShadowKillGame.cs" />
     <Compile Include="Shaders\ILightSource.cs" />
     <Compile Include="Shaders\LightShader.cs" />
-    <Compile Include="WorldGenerators\RandomWorldGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -198,7 +198,13 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="LPC\Terrain\rock.png">
+      <Name>rock</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="LPC\Weapons\sabre_sheet.png">
       <Name>sabre_sheet</Name>
@@ -234,6 +240,13 @@
     </Compile>
     <Compile Include="LPC\Terrain\watergrass.png">
       <Name>watergrass</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LPC\Terrain\bridges.png">
+      <Name>bridges</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

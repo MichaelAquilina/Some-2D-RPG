@@ -1,15 +1,14 @@
+using System;
 using GameEngine;
+using GameEngine.GameObjects;
 using GameEngine.Helpers;
 using GameEngine.Interfaces;
+using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShadowKill.GameObjects;
 using ShadowKill.Shaders;
-using ShadowKill.WorldGenerators;
-using System;
-using GameEngine.GameObjects;
-using GameEngine.Tiled;
 
 namespace ShadowKill
 {
@@ -46,7 +45,6 @@ namespace ShadowKill
         NPC FemaleNPC;
 
         TileEngine Engine;
-        IWorldGenerator WorldGenerator;
 
         public ShadowKillGame()
         {
@@ -59,9 +57,7 @@ namespace ShadowKill
 
         protected override void Initialize()
         {
-            WorldGenerator = new RandomWorldGenerator();
-            Map loadedMap = WorldGenerator.Generate(Content, WORLD_WIDTH, WORLD_HEIGHT);
-            TiledMap tiledmap = Tiled.LoadTiledXML("example_map.tmx", Content);
+            TiledMap tiledmap = TiledMap.LoadTiledXML("example_map.tmx", Content);
 
             Engine = new TileEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             Engine.LoadMap(tiledmap);

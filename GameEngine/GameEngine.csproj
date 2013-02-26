@@ -97,16 +97,14 @@
     <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="Drawing\Shapes.cs" />
     <Compile Include="GameObjects\Entity.cs" />
-    <Compile Include="GameObjects\Map.cs" />
     <Compile Include="Tiled\Tiled.cs" />
     <Compile Include="Tiled\TiledMap.cs" />
+    <Compile Include="Tiled\TileSet.cs" />
     <Compile Include="TileEngine.cs" />
     <Compile Include="Helpers\KeyboardHelper.cs" />
     <Compile Include="Shaders\GameShader.cs" />
-    <Compile Include="Interfaces\IGroundPallette.cs" />
     <Compile Include="Interfaces\ILoadable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Interfaces\IWorldGenerator.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Animation.xsd">
