@@ -23,7 +23,7 @@ namespace GameEngine.Tiled
         public List<TileSet> TileSets { get; set; }
         public List<TileLayer> TileLayers { get; set; }
 
-        //needs to be thrown away TODO
+        //needs to be converted to TiledObjects
         public List<Entity> Entities { get; set; }
 
         public TiledMap()
@@ -33,7 +33,6 @@ namespace GameEngine.Tiled
             Entities = new List<Entity>();
         }
 
-        //TODO reduce complexity!!!
         public TileSet GetTileSetByGid(int Gid)
         {
             TileSet result = null;
@@ -54,18 +53,12 @@ namespace GameEngine.Tiled
         {
             foreach (ILoadable entity in Entities)
                 entity.LoadContent(Content);
-
-            //TODO: Implementation or remove
-            //throw new NotImplementedException();
         }
 
         public void UnloadContent()
         {
             foreach (ILoadable entity in Entities)
                 entity.UnloadContent();
-
-            //TODO: Implementation or remove
-            //throw new NotImplementedException();
         }
 
         //TODO: Cleanup of code
