@@ -95,42 +95,26 @@ namespace GameEngine.Tiled
                 map.TileSets.Add(tileset);
             }
 
-            //TODO: Needs better code structure and cleanup
             foreach (XmlNode layerNode in mapNode.SelectNodes("layer"))
             {
                 int width = Convert.ToInt32(layerNode.Attributes["width"].Value);
                 int height = Convert.ToInt32(layerNode.Attributes["height"].Value);
 
-                TileLayer layer = new TileLayer(width, height);
+                TileLayer tileLayer = new TileLayer(width, height);
 
                 XmlNode dataNode = layerNode.SelectSingleNode("data");
-                string[] line = dataNode.InnerText.Split('\n');
+                string[] tokens = dataNode.InnerText.Split(new char[]{'\n', ','}, StringSplitOptions.RemoveEmptyEntries);
 
-                int x = 0;
-                int y = 0;
-
-                for (int j = 0; j < line.Length; j++)
+                for (int i = 0; i < tokens.Length; i++)
                 {
-                    x = 0;
+                    //BUG, why are these swapped??
+                    int x = i % width;
+                    int y = i / width;
 
-                    //dummy lines should be skipped
-                    if (line[j].Length == 0)
-                        continue;
-
-                    string[] items = line[j].Split(',');
-                    for (int i = 0; i < items.Length; i++)
-                    {
-                        if (items[i].Length == 0)
-                            continue;
-
-                        layer._tiles[y][x] = Convert.ToInt32(items[i]);
-                        x = x + 1;
-                    }
-
-                    y = y + 1;
+                    tileLayer[y, x] = Convert.ToInt32(tokens[i]);
                 }
 
-                map.TileLayers.Add(layer);
+                map.TileLayers.Add(tileLayer);
             }
 
             return map;
