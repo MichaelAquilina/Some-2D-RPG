@@ -61,9 +61,9 @@ namespace GameEngine.Tiled
                 entity.UnloadContent();
         }
 
-        //TODO: Cleanup of code
         //TODO: Make more robust, this can easily break
         //TODO: Support for zlib compression of tile data
+        //TODO: Support for Objects
         public static TiledMap LoadTiledXML(string file, ContentManager Content)
         {
             XmlDocument document = new XmlDocument();
@@ -90,6 +90,7 @@ namespace GameEngine.Tiled
                 tileset.ImageHeight = Convert.ToInt32(imageNode.Attributes["height"].Value);
                 tileset.ImageWidth = Convert.ToInt32(imageNode.Attributes["width"].Value);
 
+                //TOOD: Make this a abit smart since tile wont set the content names automatically for us
                 tileset.SourceTexture = Content.Load<Texture2D>(tileset.Source);
 
                 map.TileSets.Add(tileset);
@@ -107,11 +108,10 @@ namespace GameEngine.Tiled
 
                 for (int i = 0; i < tokens.Length; i++)
                 {
-                    //BUG, why are these swapped??
                     int x = i % width;
                     int y = i / width;
 
-                    tileLayer[y, x] = Convert.ToInt32(tokens[i]);
+                    tileLayer[x, y] = Convert.ToInt32(tokens[i]);
                 }
 
                 map.TileLayers.Add(tileLayer);

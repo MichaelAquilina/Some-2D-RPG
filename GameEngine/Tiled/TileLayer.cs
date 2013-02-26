@@ -28,9 +28,9 @@ namespace GameEngine.Tiled
 
         public TileLayer(int Width, int Height)
         {
-            _tiles = new int[Width][];
-            for (int i = 0; i < Width; i++)
-                _tiles[i] = new int[Height];
+            _tiles = new int[Height][];
+            for (int i = 0; i < Height; i++)
+                _tiles[i] = new int[Width];
         }
     }
 }

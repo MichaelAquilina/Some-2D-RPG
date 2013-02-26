@@ -221,12 +221,12 @@ namespace GameEngine
                             int tileX = (int)(i + viewPortInfo.TopLeftX);
                             int tileY = (int)(j + viewPortInfo.TopLeftY);
 
-                            int tileGid = tileLayer[tileY, tileX];
+                            int tileGid = tileLayer[tileX, tileY];
 
                             if (tileGid != 0)   //NULL Tile Gid is ignored
                             {
                                 TileSet tileSet = Map.GetTileSetByGid(tileGid);
-                                int relGid = tileLayer[tileY, tileX] - tileSet.FirstGID;
+                                int relGid = tileGid - tileSet.FirstGID;
 
                                 int tx = (relGid * tileSet.TileWidth) % tileSet.ImageWidth;
                                 int ty = tileSet.TileHeight * ((relGid * tileSet.TileWidth) / tileSet.ImageWidth);
