@@ -17,6 +17,8 @@ namespace ShadowKill
         //Constant (Editable) Valuables
         const bool DEBUG = true;
 
+        const int CIRCLE_POINT_ACCURACY = 36;
+
         const int WINDOW_HEIGHT = 500;
         const int WINDOW_WIDTH = 900;
 
@@ -81,7 +83,7 @@ namespace ShadowKill
         {
             Sampler = SamplerState.PointWrap;
 
-            LightShader = new LightShader(this.GraphicsDevice);
+            LightShader = new LightShader(this.GraphicsDevice, CIRCLE_POINT_ACCURACY);
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.LightSources.Add(CurrentPlayer);
             LightShader.Enabled = false;
@@ -161,7 +163,7 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 120), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePoints, new Vector2(0, 160), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePointAccurracy, new Vector2(0, 160), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, Sampler.ToString(), new Vector2(0, 180), Color.White);
             }
             SpriteBatch.End();

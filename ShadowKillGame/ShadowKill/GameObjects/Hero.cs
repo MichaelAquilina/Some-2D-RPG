@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShadowKill.Shaders;
 using GameEngine.Tiled;
+using System;
 
 namespace ShadowKill.GameObjects
 {
@@ -15,14 +16,16 @@ namespace ShadowKill.GameObjects
         const float MOVEMENT_SPEED = 0.2f;
         double PrevGameTime = 0;
 
-        public Color LightColor { get { return Color.White; } }
-        public float RadiusX { get { return 8.0f; } }
-        public float RadiusY { get { return 8.0f; } }
+        public Color LightColor { get { return Color.White ; } }
+        public float RadiusX { get; set; }
+        public float RadiusY { get; set; }
 
         public Hero(float X, float Y) :
             base(X, Y, NPC.MALE_HUMAN)
         {
             Direction = Direction.Right;
+            RadiusX = 8.0f;
+            RadiusY = 8.0f;
         }
 
         public override void LoadContent(ContentManager Content)
@@ -33,6 +36,9 @@ namespace ShadowKill.GameObjects
         public override void Update(GameTime gameTime, TiledMap Map)
         {
             KeyboardState keyboardState = Keyboard.GetState();
+
+            RadiusX = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
+            RadiusY = (float)(8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {

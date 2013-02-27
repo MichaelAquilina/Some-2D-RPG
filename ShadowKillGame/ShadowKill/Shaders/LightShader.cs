@@ -22,17 +22,17 @@ namespace ShadowKill.Shaders
 
         public int LightSourcesOnScreen { get; private set; }
 
-        public int CirclePoints { get; set; }
+        public int CirclePointAccurracy { get; set; }
 
         public Color AmbientLight { get; set; }
 
-        public LightShader(GraphicsDevice GraphicsDevice)
+        public LightShader(GraphicsDevice GraphicsDevice, int CirclePointAccuracy)
             :base(GraphicsDevice)
         {
-            LightSources = new List<ILightSource>();
-            AmbientLight = Color.White;
-            LightSourcesOnScreen = 0;
-            CirclePoints = 36;
+            this.LightSources = new List<ILightSource>();
+            this.AmbientLight = Color.White;
+            this.LightSourcesOnScreen = 0;
+            this.CirclePointAccurracy = CirclePointAccuracy;
         }
 
         private VertexPositionColor[] SetUpCircle(float radiusX, float radiusY, Vector3 center, Color color, int points, Vector2? Range)
@@ -110,7 +110,7 @@ namespace ShadowKill.Shaders
                     radiusX, radiusY,
                     new Vector3( - 1.0f + x*2, 1.0f - y*2, 0),
                     lightSource.LightColor,
-                    CirclePoints, null
+                    CirclePointAccurracy, null
                 );
 
                 _colorShader.CurrentTechnique = _colorShader.Techniques["Pretransformed"];
@@ -121,7 +121,7 @@ namespace ShadowKill.Shaders
                     GraphicsDevice.DrawUserPrimitives(
                         PrimitiveType.TriangleList, 
                         vertexCircle, 
-                        0, CirclePoints, 
+                        0, CirclePointAccurracy, 
                         VertexPositionColor.VertexDeclaration
                     );
                 }
