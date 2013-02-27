@@ -122,7 +122,10 @@ namespace GameEngine.Tiled
                 TileLayer tileLayer = new TileLayer(width, height);
 
                 XmlNode dataNode = layerNode.SelectSingleNode("data");
-                string[] tokens = dataNode.InnerText.Split(new char[]{'\n', ','}, StringSplitOptions.RemoveEmptyEntries);
+                string[] tokens = dataNode.InnerText.Split(
+                    new char[]{'\n',',','\r'}, 
+                    StringSplitOptions.RemoveEmptyEntries
+                );
 
                 for (int i = 0; i < tokens.Length; i++)
                 {

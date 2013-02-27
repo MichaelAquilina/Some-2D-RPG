@@ -4,16 +4,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace ShadowKill.Shaders
 {
-    //WILL PROBABLY NEED TO CHANGE TO SOMETHING LESS UNMANAGEABLE
-    //ideally a radius, strength, color etc should be defined NOT A TEXTURE
     public interface ILightSource
     {
-        Texture2D GetLightSourceTexture(GameTime gameTime);
+        float X { get; }
 
-        Rectangle? GetLightSourceRectangle(GameTime gameTime);
+        float Y { get; }
 
-        FRectangle GetRelativeDestRectangle(GameTime gameTime);
+        Color LightColor { get; }
 
-        Color GetLightColor(GameTime gameTime);
+        float RadiusX { get; }
+
+        float RadiusY { get; }
     }
 }

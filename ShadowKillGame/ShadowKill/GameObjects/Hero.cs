@@ -15,7 +15,9 @@ namespace ShadowKill.GameObjects
         const float MOVEMENT_SPEED = 0.2f;
         double PrevGameTime = 0;
 
-        private Texture2D _lightSource;
+        public Color LightColor { get { return Color.White; } }
+        public float RadiusX { get { return 8.0f; } }
+        public float RadiusY { get { return 8.0f; } }
 
         public Hero(float X, float Y) :
             base(X, Y, NPC.MALE_HUMAN)
@@ -25,7 +27,6 @@ namespace ShadowKill.GameObjects
 
         public override void LoadContent(ContentManager Content)
         {
-            _lightSource = Content.Load<Texture2D>(@"MapObjects/LightSource");
             base.LoadContent(Content);
         }
 
@@ -91,26 +92,6 @@ namespace ShadowKill.GameObjects
                 if (X >= Map.Width - 1) X = Map.Width - 1;
                 if (Y >= Map.Height - 1) Y = Map.Height - 1;
             }  
-        }
-
-        public Texture2D GetLightSourceTexture(GameTime gameTime)
-        {
-            return _lightSource;
-        }
-
-        public Rectangle? GetLightSourceRectangle(GameTime gameTime)
-        {
-            return null;
-        }
-
-        public FRectangle GetRelativeDestRectangle(GameTime gameTime)
-        {
-            return new FRectangle(X - 3, Y - 3, 6, 6);
-        }
-
-        public Color GetLightColor(GameTime gameTime)
-        {
-            return Color.White;
         }
     }
 }

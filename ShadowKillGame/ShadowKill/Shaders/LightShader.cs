@@ -12,6 +12,7 @@ namespace ShadowKill.Shaders
 {
     public class LightShader : GameShader
     {
+        private Effect _colorShader;
         private Effect _lightShader;
         private RenderTarget2D _lightTarget;
 
@@ -21,6 +22,8 @@ namespace ShadowKill.Shaders
 
         public int LightSourcesOnScreen { get; private set; }
 
+        public int CirclePoints { get; set; }
+
         public Color AmbientLight { get; set; }
 
         public LightShader(GraphicsDevice GraphicsDevice)
@@ -29,11 +32,42 @@ namespace ShadowKill.Shaders
             LightSources = new List<ILightSource>();
             AmbientLight = Color.White;
             LightSourcesOnScreen = 0;
+            CirclePoints = 36;
+        }
+
+        private VertexPositionColor[] SetUpCircle(float radiusX, float radiusY, Vector3 center, Color color, int points, Vector2? Range)
+        {
+            VertexPositionColor[] vertices = new VertexPositionColor[points * 3];
+
+            float angle = MathHelper.TwoPi / points;
+
+            for (int i = 0; i < points; i++)
+            {
+                vertices[i * 3].Position = center;
+                vertices[i * 3].Color = color;
+
+                vertices[i * 3 + 1].Position = new Vector3(
+                    (float)Math.Sin(angle * i) * radiusX + center.X,
+                    (float)Math.Cos(angle * i) * radiusY + center.Y,
+                    0.0f
+                );
+                vertices[i * 3 + 1].Color = Color.Black;
+
+                vertices[i * 3 + 2].Position = new Vector3(
+                    (float)Math.Sin(angle * (i + 1)) * radiusX + center.X,
+                    (float)Math.Cos(angle * (i + 1)) * radiusY + center.Y,
+                    0.0f
+                );
+                vertices[i * 3 + 2].Color = Color.Black;
+            }
+
+            return vertices;
         }
 
         public override void LoadContent(ContentManager Content)
         {
             _lightShader = Content.Load<Effect>(@"Shaders\LightShader");
+            _colorShader = Content.Load<Effect>(@"Shaders\ColorShader");
         }
 
         public override void UnloadContent()
@@ -52,39 +86,46 @@ namespace ShadowKill.Shaders
             _lightTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
         }
 
+        //TODO: HIGHLY UNOPTIMIZED, DO NOT INITIALISE VERTICES EACH ROUND, USE VERTEX BUFFERS AND INDICES
         public override void ApplyShader(SpriteBatch SpriteBatch, ViewPortInfo ViewPortInfo,  GameTime GameTime, RenderTarget2D InputBuffer, RenderTarget2D OutputBuffer )
         {
-            //RENDER THE LIGHT MAP TO A DESTINATION TEXTURE
             GraphicsDevice.SetRenderTarget(_lightTarget);
             GraphicsDevice.Clear(AmbientLight);
+            GraphicsDevice.BlendState = BlendState.Additive;
 
             LightSourcesOnScreen = 0;
-
-            SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Additive);
+            foreach (ILightSource lightSource in LightSources)
             {
-                foreach (ILightSource lightSource in LightSources)
+                float x = (lightSource.X - ViewPortInfo.TopLeftX) * ViewPortInfo.PXTileWidth;
+                float y = (lightSource.Y - ViewPortInfo.TopLeftY) * ViewPortInfo.PXTileHeight;
+                float radiusX = lightSource.RadiusX * ViewPortInfo.PXTileWidth;
+                float radiusY = lightSource.RadiusY * ViewPortInfo.PXTileHeight;
+
+                x /= _lightTarget.Width;
+                y /= _lightTarget.Height;
+                radiusX /= _lightTarget.Width;
+                radiusY /= _lightTarget.Height;
+
+                VertexPositionColor[] vertexCircle = SetUpCircle(
+                    radiusX, radiusY,
+                    new Vector3( - 1.0f + x*2, 1.0f - y*2, 0),
+                    lightSource.LightColor,
+                    CirclePoints, null
+                );
+
+                _colorShader.CurrentTechnique = _colorShader.Techniques["Pretransformed"];
+
+                foreach (EffectPass pass in _colorShader.CurrentTechnique.Passes)
                 {
-                    FRectangle RelativeDestRectangle = lightSource.GetRelativeDestRectangle(GameTime);
-                    Rectangle LightDestRectangle = new Rectangle(
-                        (int)Math.Ceiling((RelativeDestRectangle.X - ViewPortInfo.TopLeftX) * ViewPortInfo.PXTileWidth),
-                        (int)Math.Ceiling((RelativeDestRectangle.Y - ViewPortInfo.TopLeftY) * ViewPortInfo.PXTileHeight),
-                        (int)Math.Ceiling(RelativeDestRectangle.Width * ViewPortInfo.PXTileWidth),
-                        (int)Math.Ceiling(RelativeDestRectangle.Height * ViewPortInfo.PXTileHeight)
+                    pass.Apply();
+                    GraphicsDevice.DrawUserPrimitives(
+                        PrimitiveType.TriangleList, 
+                        vertexCircle, 
+                        0, CirclePoints, 
+                        VertexPositionColor.VertexDeclaration
                     );
-
-                    if (LightDestRectangle.Intersects(InputBuffer.Bounds))
-                    {
-                        LightSourcesOnScreen++;
-
-                        SpriteBatch.Draw(
-                            lightSource.GetLightSourceTexture(GameTime),
-                            LightDestRectangle,
-                            lightSource.GetLightSourceRectangle(GameTime),
-                            lightSource.GetLightColor(GameTime));
-                    }
                 }
             }
-            SpriteBatch.End();
 
             GraphicsDevice.SetRenderTarget(OutputBuffer);
             _lightShader.Parameters["LightMap"].SetValue(_lightTarget);

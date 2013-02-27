@@ -161,7 +161,8 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 120), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, Sampler.ToString(), new Vector2(0, 160), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePoints, new Vector2(0, 160), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, Sampler.ToString(), new Vector2(0, 180), Color.White);
             }
             SpriteBatch.End();
 
