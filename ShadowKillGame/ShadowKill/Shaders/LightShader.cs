@@ -23,8 +23,6 @@ namespace ShadowKill.Shaders
 
         public Texture2D LightMap { get { return (Texture2D)_lightTarget; } }
 
-        public int LightSourcesOnScreen { get; private set; }
-
         public int CirclePointAccurracy { get; set; }
 
         public Color AmbientLight { get; set; }
@@ -34,7 +32,6 @@ namespace ShadowKill.Shaders
         {
             this.LightSources = new List<ILightSource>();
             this.AmbientLight = Color.White;
-            this.LightSourcesOnScreen = 0;
             this.CirclePointAccurracy = CirclePointAccuracy;
         }
 
@@ -96,7 +93,6 @@ namespace ShadowKill.Shaders
             GraphicsDevice.Clear(AmbientLight);
             GraphicsDevice.BlendState = BlendState.Additive;
 
-            LightSourcesOnScreen = 0;
             foreach (ILightSource lightSource in LightSources)
             {
                 float x = lightSource.LightX;

@@ -159,6 +159,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Animations\Objects\fireplace.anim">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Animations\Plate Armor\plate_armor_shoulders.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

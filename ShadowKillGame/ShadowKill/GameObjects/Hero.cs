@@ -95,13 +95,6 @@ namespace ShadowKill.GameObjects
                 if (moved == false)
                     CurrentAnimation = "Idle_" + Direction;
 
-                //prevent from walking on impassable terrain
-                Tile tile = Map.GetTile((int)X, (int)Y, 0);
-                if (tile.Properties.ContainsKey("Impassable"))
-                    LightColor = Color.Red;
-                else
-                    LightColor = Color.White;
-
                 //prevent from going out of range
                 if (X < 0) X = 0;
                 if (Y < 0) Y = 0;

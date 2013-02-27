@@ -65,7 +65,7 @@ namespace ShadowKill
             Engine = new TileEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             Engine.LoadMap(tiledmap);
 
-            CurrentPlayer = new Hero(8, 8);
+            CurrentPlayer = new Hero(2, 6.2f);
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
             CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
@@ -89,7 +89,15 @@ namespace ShadowKill
             LightShader.Enabled = true;
 
             LightShader.LightSources.Add(CurrentPlayer);
-            LightShader.LightSources.Add(new BasicLightSource(1.0f, 1.0f, 29.0f, 29.0f, Color.CornflowerBlue, LightPositionType.Relative));            
+            LightShader.LightSources.Add(new BasicLightSource(1.0f, 1.0f, 29.0f, 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
+
+            Entity fireplace = new Entity(14.0f, 4.0f, 1.5f, 1.5f);
+            fireplace.LoadAnimationXML(@"Animations/Objects/fireplace.anim", Content);
+            fireplace.CurrentAnimation = "Burning";
+            fireplace.Origin = new Vector2(0.5f, 1.0f);
+
+            Engine.Map.Entities.Add(fireplace);
+            LightShader.LightSources.Add(new BasicLightSource(14.0f, 4.0f, 7, 7, Color.OrangeRed));
 
             Engine.RegisterGameShader(LightShader);
             Engine.Map.Entities.Add(CurrentPlayer);
@@ -164,7 +172,7 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.Width + "x" + Engine.Map.Height, new Vector2(0, 60), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Entities = " + Engine.Map.Entities.Count, new Vector2(0, 80), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources On Screen = " + LightShader.LightSourcesOnScreen, new Vector2(0, 120), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources = " + LightShader.LightSources.Count, new Vector2(0, 120), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePointAccurracy, new Vector2(0, 160), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, Sampler.ToString(), new Vector2(0, 180), Color.White);

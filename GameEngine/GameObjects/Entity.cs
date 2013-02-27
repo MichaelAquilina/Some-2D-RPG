@@ -17,7 +17,7 @@ namespace GameEngine.GameObjects
     //An abstract Entity class that should be inherited by objects which are to be visible within the game world.
     //Any map objects, NPCs or playable characters should inherit from this class in order to be used by the
     //game engine.
-    public abstract class Entity : ILoadable
+    public class Entity : ILoadable
     {
         //X and Y Tile position on the Map
         public float X { get; set; }

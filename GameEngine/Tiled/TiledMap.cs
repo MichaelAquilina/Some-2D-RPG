@@ -93,6 +93,7 @@ namespace GameEngine.Tiled
                 string tilesetName = tilesetNode.Attributes["name"].Value;
                 int tileHeight = Convert.ToInt32(tilesetNode.Attributes["tileheight"].Value);
                 int tileWidth = Convert.ToInt32(tilesetNode.Attributes["tilewidth"].Value);
+                Dictionary<string, string> tilesetProperties = new Dictionary<string, string>();
 
                 XmlNode imageNode = tilesetNode.SelectSingleNode("image");
                 string source = imageNode.Attributes["source"].Value;
@@ -122,7 +123,7 @@ namespace GameEngine.Tiled
                     i++;
                 }
 
-                //add any properites to the tiles we have created
+                //add any individual properites to the tiles we have created
                 foreach (XmlNode tileNode in tilesetNode.SelectNodes("tile"))
                 {
                     int tileGid = firstGID + Convert.ToInt32(tileNode.Attributes["id"].Value);
