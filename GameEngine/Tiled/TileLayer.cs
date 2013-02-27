@@ -24,10 +24,18 @@ namespace GameEngine.Tiled
             set { _tiles[x][y] = value; }
         }
 
+        public Dictionary<string, string> Properties
+        {
+            get;
+            private set;
+        }
+
         internal int[][] _tiles;
 
         public TileLayer(int Width, int Height)
         {
+            Properties = new Dictionary<string, string>();
+
             _tiles = new int[Height][];
             for (int i = 0; i < Height; i++)
                 _tiles[i] = new int[Width];

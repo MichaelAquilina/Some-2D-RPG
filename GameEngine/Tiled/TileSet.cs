@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace GameEngine.Tiled
 {
@@ -15,5 +16,16 @@ namespace GameEngine.Tiled
         public int ImageHeight { get; set; }
 
         public string Source { get; set; }
+
+        public Dictionary<string, string> Properties
+        {
+            get;
+            private set;
+        }
+
+        public TileSet()
+        {
+            Properties = new Dictionary<string, string>();
+        }
     }
 }
