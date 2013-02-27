@@ -19,9 +19,11 @@ namespace GameEngine.GameObjects
     //game engine.
     public abstract class Entity : ILoadable
     {
+        //X and Y Tile position on the Map
         public float X { get; set; }
         public float Y { get; set; }
 
+        //Relative Width and Height for animations this Entity will render. 1.0f by Default.
         public float Width { get; set; }
         public float Height { get; set; }
 
@@ -29,6 +31,7 @@ namespace GameEngine.GameObjects
 
         public bool BoundingBoxVisible { get; set; }
 
+        //Relative Origin to the Width and height of each animation
         public Vector2 Origin { get; set; }
 
         public AnimationSet Animations { get; set; }

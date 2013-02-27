@@ -225,27 +225,17 @@ namespace GameEngine
 
                             if (tileGid != 0)   //NULL Tile Gid is ignored
                             {
-                                TileSet tileSet = Map.GetTileSetByGid(tileGid);
-                                int relGid = tileGid - tileSet.FirstGID;
-
-                                int tx = (relGid * tileSet.TileWidth) % tileSet.ImageWidth;
-                                int ty = tileSet.TileHeight * ((relGid * tileSet.TileWidth) / tileSet.ImageWidth);
-
+                                Tile tile = Map.Tiles[tileGid];
                                 Rectangle tileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
 
                                 //traslate if there is any decimal displacement due to a Center with a floating point
                                 tileDestRect.X -= (int)(viewPortInfo.dispX * pxTileWidth);
                                 tileDestRect.Y -= (int)(viewPortInfo.dispY * pxTileHeight);
 
-                                Rectangle tileSourceRect = new Rectangle(
-                                    tx, ty,
-                                    tileSet.TileWidth, tileSet.TileHeight
-                                );
-
                                 SpriteBatch.Draw(
-                                    tileSet.SourceTexture,
+                                    tile.SourceTexture,
                                     tileDestRect,
-                                    tileSourceRect,
+                                    tile.SourceRectangle,
                                     Color.White,
                                     0, Vector2.Zero,
                                     SpriteEffects.None,

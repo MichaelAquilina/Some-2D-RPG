@@ -99,42 +99,42 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LPC\Plate Armor\TORSO_plate_armor_torso.png">
+    <Compile Include="LPC\Plate Armor\Walkcycle\TORSO_plate_armor_torso.png">
       <Name>TORSO_plate_armor_torso</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LPC\Plate Armor\LEGS_plate_armor_pants.png">
+    <Compile Include="LPC\Plate Armor\Walkcycle\LEGS_plate_armor_pants.png">
       <Name>LEGS_plate_armor_pants</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LPC\Plate Armor\FEET_plate_armor_shoes.png">
+    <Compile Include="LPC\Plate Armor\Walkcycle\FEET_plate_armor_shoes.png">
       <Name>FEET_plate_armor_shoes</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LPC\Plate Armor\HANDS_plate_armor_gloves.png">
+    <Compile Include="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves.png">
       <Name>HANDS_plate_armor_gloves</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LPC\Plate Armor\HEAD_plate_armor_helmet.png">
+    <Compile Include="LPC\Plate Armor\Walkcycle\HEAD_plate_armor_helmet.png">
       <Name>HEAD_plate_armor_helmet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LPC\Plate Armor\TORSO_plate_armor_arms_shoulders.png">
+    <Compile Include="LPC\Plate Armor\Walkcycle\TORSO_plate_armor_arms_shoulders.png">
       <Name>TORSO_plate_armor_arms_shoulders</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -198,6 +198,38 @@
       <Name>ColorShader</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="LPC\Plate Armor\Slash\FEET_plate_armor_shoes.png">
+      <Name>FEET_plate_armor_shoes</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Plate Armor\Slash\HANDS_plate_armor_gloves.png">
+      <Name>HANDS_plate_armor_gloves</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Plate Armor\Slash\HEAD_plate_armor_helmet.png">
+      <Name>HEAD_plate_armor_helmet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Plate Armor\Slash\LEGS_plate_armor_pants.png">
+      <Name>LEGS_plate_armor_pants</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Plate Armor\Slash\TORSO_plate_armor_arms_shoulders.png">
+      <Name>TORSO_plate_armor_arms_shoulders</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Plate Armor\Slash\TORSO_plate_armor_torso.png">
+      <Name>TORSO_plate_armor_torso</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

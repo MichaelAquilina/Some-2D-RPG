@@ -5,6 +5,7 @@ using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.Tiled
 {
@@ -18,7 +19,7 @@ namespace GameEngine.Tiled
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
 
-        public List<TileSet> TileSets { get; set; }
+        public SortedList<int, Tile> Tiles { get; set; }
         public List<TileLayer> TileLayers { get; set; }
 
         public Dictionary<string, string> Properties
@@ -33,25 +34,9 @@ namespace GameEngine.Tiled
         public TiledMap()
         {
             Properties = new Dictionary<string, string>();
-            TileSets = new List<TileSet>();
+            Tiles = new SortedList<int, Tile>();
             TileLayers = new List<TileLayer>();
             Entities = new List<Entity>();
-        }
-
-        public TileSet GetTileSetByGid(int Gid)
-        {
-            TileSet result = null;
-            int minGid = Int32.MaxValue;
-
-            //find the tileset with the closest positive distance
-            foreach(TileSet tileSet in TileSets)
-            {
-                int diff = Gid - tileSet.FirstGID;
-                if (diff >= 0 && diff < minGid)
-                    result = tileSet;
-            }
-
-            return result;
         }
 
         public void LoadContent(ContentManager Content)
@@ -97,21 +82,57 @@ namespace GameEngine.Tiled
 
             foreach (XmlNode tilesetNode in mapNode.SelectNodes("tileset"))
             {
-                TileSet tileset = new TileSet();
-                tileset.FirstGID = Convert.ToInt32(tilesetNode.Attributes["firstgid"].Value);
-                tileset.Name = tilesetNode.Attributes["name"].Value;
-                tileset.TileHeight = Convert.ToInt32(tilesetNode.Attributes["tileheight"].Value);
-                tileset.TileWidth = Convert.ToInt32(tilesetNode.Attributes["tilewidth"].Value);
+                int firstGID = Convert.ToInt32(tilesetNode.Attributes["firstgid"].Value);
+                string tilesetName = tilesetNode.Attributes["name"].Value;
+                int tileHeight = Convert.ToInt32(tilesetNode.Attributes["tileheight"].Value);
+                int tileWidth = Convert.ToInt32(tilesetNode.Attributes["tilewidth"].Value);
 
                 XmlNode imageNode = tilesetNode.SelectSingleNode("image");
-                tileset.Source = imageNode.Attributes["source"].Value;
-                tileset.ImageHeight = Convert.ToInt32(imageNode.Attributes["height"].Value);
-                tileset.ImageWidth = Convert.ToInt32(imageNode.Attributes["width"].Value);
+                string source = imageNode.Attributes["source"].Value;
+                int imageHeight = Convert.ToInt32(imageNode.Attributes["height"].Value);
+                int imageWidth = Convert.ToInt32(imageNode.Attributes["width"].Value);
 
                 //TODO: Make this a abit smart since tile wont set the content names automatically for us
-                tileset.SourceTexture = Content.Load<Texture2D>(tileset.Source);
+                Texture2D sourceTexture = Content.Load<Texture2D>(source);
 
-                map.TileSets.Add(tileset);
+                //Build the tiles from the tileset information
+                int i = 0;
+                while (true)
+                {
+                    int tx = (i * tileWidth) % imageWidth;
+                    int ty = tileHeight * ((i * tileWidth) / imageWidth);
+
+                    //if we have exceeded the image height, we are done
+                    if (ty >= imageHeight)
+                        break;
+
+                    Tile tile = new Tile();
+                    tile.SourceTexture = sourceTexture;
+                    tile.SourceRectangle = new Rectangle(tx, ty, tileWidth, tileHeight);
+                    tile.TileGid = i + firstGID;
+
+                    map.Tiles.Add(tile.TileGid, tile);
+                    i++;
+                }
+
+                //add any properites to the tiles we have created
+                foreach (XmlNode tileNode in tilesetNode.SelectNodes("tile"))
+                {
+                    int tileGid = Convert.ToInt32(tileNode.Attributes["id"].Value);
+
+                    XmlNode tilePropertyNode = tilesetNode.SelectSingleNode("properties");
+
+                    if(tilePropertyNode!=null)
+                    {
+                        foreach (XmlNode propertyNode in tilePropertyNode.SelectNodes("property"))
+                        {
+                            string name = propertyNode.Attributes["name"].Value;
+                            string value = propertyNode.Attributes["value"].Value;
+
+                            map.Tiles[tileGid].Properties.Add(name, value);
+                        }
+                    }
+                }
             }
 
             foreach (XmlNode layerNode in mapNode.SelectNodes("layer"))
