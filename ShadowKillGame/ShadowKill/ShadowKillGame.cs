@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShadowKill.GameObjects;
 using ShadowKill.Shaders;
+using ShadowKillGame.GameObjects;
 
 namespace ShadowKill
 {
@@ -85,8 +86,10 @@ namespace ShadowKill
 
             LightShader = new LightShader(this.GraphicsDevice, CIRCLE_POINT_ACCURACY);
             LightShader.AmbientLight = new Color(30, 15, 15);
+            LightShader.Enabled = true;
+
             LightShader.LightSources.Add(CurrentPlayer);
-            LightShader.Enabled = false;
+            LightShader.LightSources.Add(new BasicLightSource(1.0f, 1.0f, 29.0f, 29.0f, Color.CornflowerBlue, LightPositionType.Relative));            
 
             Engine.RegisterGameShader(LightShader);
             Engine.Map.Entities.Add(CurrentPlayer);

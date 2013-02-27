@@ -10,6 +10,9 @@ using GameEngine;
 
 namespace ShadowKill.Shaders
 {
+    public enum LightPositionType { Fixed, Relative };
+
+    //Can Probably be extended to allow Custom Shaped Polygons rather than only circles
     public class LightShader : GameShader
     {
         private Effect _colorShader;
@@ -96,19 +99,30 @@ namespace ShadowKill.Shaders
             LightSourcesOnScreen = 0;
             foreach (ILightSource lightSource in LightSources)
             {
-                float x = (lightSource.X - ViewPortInfo.TopLeftX) * ViewPortInfo.PXTileWidth;
-                float y = (lightSource.Y - ViewPortInfo.TopLeftY) * ViewPortInfo.PXTileHeight;
+                float x = lightSource.X;
+                float y = lightSource.Y;
+
+                if (lightSource.PositionType == LightPositionType.Relative)
+                {
+                    x -= ViewPortInfo.TopLeftX;
+                    y -= ViewPortInfo.TopLeftY;
+                    x *= ViewPortInfo.PXTileWidth;
+                    y *= ViewPortInfo.PXTileHeight;
+                    x /= _lightTarget.Width;
+                    y /= _lightTarget.Height;
+                    x = -1.0f + x * 2;
+                    y = 1.0f - y * 2;
+                }
+
                 float radiusX = lightSource.RadiusX * ViewPortInfo.PXTileWidth;
                 float radiusY = lightSource.RadiusY * ViewPortInfo.PXTileHeight;
 
-                x /= _lightTarget.Width;
-                y /= _lightTarget.Height;
                 radiusX /= _lightTarget.Width;
                 radiusY /= _lightTarget.Height;
 
                 VertexPositionColor[] vertexCircle = SetUpCircle(
                     radiusX, radiusY,
-                    new Vector3( - 1.0f + x*2, 1.0f - y*2, 0),
+                    new Vector3(x, y, 0),
                     lightSource.LightColor,
                     CirclePointAccurracy, null
                 );

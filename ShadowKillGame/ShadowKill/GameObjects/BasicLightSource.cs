@@ -15,11 +15,11 @@ namespace ShadowKillGame.GameObjects
         public float RadiusX { get; set; }
         public float RadiusY { get; set; }
 
-        public PositionType PositionType { get; set; }
+        public LightPositionType PositionType { get; set; }
 
         public Color LightColor { get; set; }
 
-        public BasicLightSource(float X, float Y, float RadiusX, float RadiusY, Color LightColor, PositionType PositionType=PositionType.Relative)
+        public BasicLightSource(float X, float Y, float RadiusX, float RadiusY, Color LightColor, LightPositionType PositionType=LightPositionType.Relative)
         {
             this.X = X;
             this.Y = Y;

@@ -15,5 +15,7 @@ namespace ShadowKill.Shaders
         float RadiusX { get; }
 
         float RadiusY { get; }
+
+        LightPositionType PositionType { get; }
     }
 }

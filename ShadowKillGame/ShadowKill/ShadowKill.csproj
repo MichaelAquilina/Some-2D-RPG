@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameObjects\BasicLightSource.cs" />
     <Compile Include="GameObjects\Hero.cs" />
     <Compile Include="GameObjects\NPC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

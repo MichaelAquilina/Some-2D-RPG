@@ -1,12 +1,9 @@
-﻿using GameEngine.Drawing;
-using GameEngine.GameObjects;
+﻿using System;
+using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShadowKill.Shaders;
-using GameEngine.Tiled;
-using System;
 
 namespace ShadowKill.GameObjects
 {
@@ -16,6 +13,7 @@ namespace ShadowKill.GameObjects
         const float MOVEMENT_SPEED = 0.2f;
         double PrevGameTime = 0;
 
+        public LightPositionType PositionType { get { return Shaders.LightPositionType.Relative; } }
         public Color LightColor { get { return Color.White ; } }
         public float RadiusX { get; set; }
         public float RadiusY { get; set; }
@@ -37,8 +35,9 @@ namespace ShadowKill.GameObjects
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
+            //Change the radius overtime using a SINE wave pattern
             RadiusX = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
-            RadiusY = (float)(8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
+            RadiusY = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
