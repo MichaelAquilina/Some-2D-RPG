@@ -6,15 +6,15 @@ namespace ShadowKill.Shaders
 {
     public interface ILightSource
     {
-        float X { get; }
+        float LightX { get; }
 
-        float Y { get; }
+        float LightY { get; }
 
         Color LightColor { get; }
 
-        float RadiusX { get; }
+        float LightRadiusX { get; }
 
-        float RadiusY { get; }
+        float LightRadiusY { get; }
 
         LightPositionType PositionType { get; }
     }

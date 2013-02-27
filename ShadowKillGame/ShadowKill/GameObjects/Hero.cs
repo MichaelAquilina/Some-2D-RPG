@@ -13,17 +13,20 @@ namespace ShadowKill.GameObjects
         const float MOVEMENT_SPEED = 0.2f;
         double PrevGameTime = 0;
 
+        public float LightX { get { return X; } }
+        public float LightY { get { return Y; } }
+
         public LightPositionType PositionType { get { return Shaders.LightPositionType.Relative; } }
         public Color LightColor { get { return Color.White ; } }
-        public float RadiusX { get; set; }
-        public float RadiusY { get; set; }
+        public float LightRadiusX { get; set; }
+        public float LightRadiusY { get; set; }
 
         public Hero(float X, float Y) :
             base(X, Y, NPC.MALE_HUMAN)
         {
             Direction = Direction.Right;
-            RadiusX = 8.0f;
-            RadiusY = 8.0f;
+            LightRadiusX = 8.0f;
+            LightRadiusY = 8.0f;
         }
 
         public override void LoadContent(ContentManager Content)
@@ -36,8 +39,8 @@ namespace ShadowKill.GameObjects
             KeyboardState keyboardState = Keyboard.GetState();
 
             //Change the radius overtime using a SINE wave pattern
-            RadiusX = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
-            RadiusY = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
+            LightRadiusX = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
+            LightRadiusY = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
