@@ -11,7 +11,12 @@ namespace GameEngine.Tiled
     {
         public Texture2D SourceTexture { get; set; }
         public Rectangle SourceRectangle { get; set; }
-        public int TileGid { get; set; }
+        public int TileGid { get; set; }                    //Tile Global Identifier
         public Dictionary<string, string> Properties { get; private set; }
+
+        public Tile()
+        {
+            Properties = new Dictionary<string, string>();
+        }
     }
 }

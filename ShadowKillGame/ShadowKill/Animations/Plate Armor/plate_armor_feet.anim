@@ -73,41 +73,4 @@
       <Frame>527, 206, 35, 49</Frame>
     </Frames>
   </Animation>
-
-  <Animation Name="Slash_Up" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\FEET_plate_armor_shoes" FrameDelay="100">
-    <Frames>
-      <Frame>83 , 16, 40, 49</Frame>
-      <Frame>147, 16, 40, 49</Frame>
-      <Frame>211, 16, 40, 49</Frame>
-      <Frame>273, 16, 40, 49</Frame>
-      <Frame>337, 16, 40, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation Name="Slash_Left" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\FEET_plate_armor_shoes" FrameDelay="100">
-    <Frames>
-      <Frame>75 , 78, 40, 49</Frame>
-      <Frame>139, 78, 40, 49</Frame>
-      <Frame>203, 78, 40, 49</Frame>
-      <Frame>265, 78, 40, 49</Frame>
-      <Frame>329, 78, 40, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation Name="Slash_Down" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\FEET_plate_armor_shoes" FrameDelay="100">
-    <Frames>
-      <Frame>83 , 142, 40, 49</Frame>
-      <Frame>147, 142, 40, 49</Frame>
-      <Frame>211, 142, 40, 49</Frame>
-      <Frame>273, 142, 40, 49</Frame>
-      <Frame>337, 142, 40, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation Name="Slash_Right" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\FEET_plate_armor_shoes" FrameDelay="100">
-    <Frames>
-      <Frame>75 , 206, 44, 49</Frame>
-      <Frame>139, 206, 44, 49</Frame>
-      <Frame>203, 206, 44, 49</Frame>
-      <Frame>265, 206, 44, 49</Frame>
-      <Frame>329, 206, 44, 49</Frame>
-    </Frames>
-  </Animation>
 </Animations>

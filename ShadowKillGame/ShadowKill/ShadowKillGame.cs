@@ -60,7 +60,7 @@ namespace ShadowKill
 
         protected override void Initialize()
         {
-            TiledMap tiledmap = TiledMap.LoadTiledXML("example_map.tmx", Content);
+            TiledMap tiledmap = TiledMap.LoadTiledXML("Content/example_map.tmx", Content);
 
             Engine = new TileEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             Engine.LoadMap(tiledmap);

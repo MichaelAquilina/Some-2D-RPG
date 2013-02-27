@@ -39,6 +39,13 @@ namespace GameEngine.Tiled
             Entities = new List<Entity>();
         }
 
+        public Tile GetTile(int X, int Y, int layerIndex)
+        {
+            TileLayer layer = TileLayers[layerIndex];
+
+            return (layer[X, Y] == 0) ? null : Tiles[layer[X, Y]];
+        }
+
         public void LoadContent(ContentManager Content)
         {
             foreach (ILoadable entity in Entities)
@@ -93,7 +100,7 @@ namespace GameEngine.Tiled
                 int imageWidth = Convert.ToInt32(imageNode.Attributes["width"].Value);
 
                 //TODO: Make this a abit smart since tile wont set the content names automatically for us
-                Texture2D sourceTexture = Content.Load<Texture2D>(source);
+                Texture2D sourceTexture = Content.Load<Texture2D>(source.Substring(0,source.LastIndexOf('.')));     //TEMP WORKAROUND FOR TILED SAVING FORMAT
 
                 //Build the tiles from the tileset information
                 int i = 0;
@@ -118,9 +125,9 @@ namespace GameEngine.Tiled
                 //add any properites to the tiles we have created
                 foreach (XmlNode tileNode in tilesetNode.SelectNodes("tile"))
                 {
-                    int tileGid = Convert.ToInt32(tileNode.Attributes["id"].Value);
+                    int tileGid = firstGID + Convert.ToInt32(tileNode.Attributes["id"].Value);
 
-                    XmlNode tilePropertyNode = tilesetNode.SelectSingleNode("properties");
+                    XmlNode tilePropertyNode = tileNode.SelectSingleNode("properties");
 
                     if(tilePropertyNode!=null)
                     {

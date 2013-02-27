@@ -17,7 +17,7 @@ namespace ShadowKill.GameObjects
         public float LightY { get { return Y; } }
 
         public LightPositionType PositionType { get { return Shaders.LightPositionType.Relative; } }
-        public Color LightColor { get { return Color.White ; } }
+        public Color LightColor { get; set; }
         public float LightRadiusX { get; set; }
         public float LightRadiusY { get; set; }
 
@@ -27,6 +27,7 @@ namespace ShadowKill.GameObjects
             Direction = Direction.Right;
             LightRadiusX = 8.0f;
             LightRadiusY = 8.0f;
+            LightColor = Color.White;
         }
 
         public override void LoadContent(ContentManager Content)
@@ -93,6 +94,13 @@ namespace ShadowKill.GameObjects
 
                 if (moved == false)
                     CurrentAnimation = "Idle_" + Direction;
+
+                //prevent from walking on impassable terrain
+                Tile tile = Map.GetTile((int)X, (int)Y, 0);
+                if (tile.Properties.ContainsKey("Impassable"))
+                    LightColor = Color.Red;
+                else
+                    LightColor = Color.White;
 
                 //prevent from going out of range
                 if (X < 0) X = 0;
