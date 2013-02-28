@@ -236,6 +236,7 @@
     <Content Include="example_map.tmx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <Name>example_map</Name>
+      <SubType>Designer</SubType>
     </Content>
     <Compile Include="LPC\Terrain\NewerCampFire.png">
       <Name>NewerCampFire</Name>

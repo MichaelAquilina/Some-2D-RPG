@@ -75,20 +75,20 @@
   </Animation>
   <Animation Name="Slash_Up" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="100">
     <Frames>
-      <Frame>83 , 16, 40, 49</Frame>
-      <Frame>147, 16, 40, 49</Frame>
-      <Frame>211, 16, 40, 49</Frame>
-      <Frame>273, 16, 40, 49</Frame>
-      <Frame>337, 16, 40, 49</Frame>
+      <Frame>78 , 15, 40, 49</Frame>
+      <Frame>142 , 15, 40, 49</Frame>
+      <Frame>206 , 15, 40, 49</Frame>
+      <Frame>270 , 15, 40, 49</Frame>
+      <Frame>332 , 15, 44, 49</Frame>
     </Frames>
   </Animation>
   <Animation Name="Slash_Left" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="100">
     <Frames>
-      <Frame>75 , 78, 40, 49</Frame>
-      <Frame>139, 78, 40, 49</Frame>
-      <Frame>203, 78, 40, 49</Frame>
-      <Frame>265, 78, 40, 49</Frame>
-      <Frame>329, 78, 40, 49</Frame>
+      <Frame>78  , 79, 38, 48</Frame>
+      <Frame>142 , 79, 38, 48</Frame>
+      <Frame>206 , 79, 38, 48</Frame>
+      <!--<Frame>263 , 79, 45, 48</Frame>-->
+      <Frame>334 , 79, 38, 48</Frame>
     </Frames>
   </Animation>
   <Animation Name="Slash_Down" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="100">

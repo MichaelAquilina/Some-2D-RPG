@@ -66,12 +66,12 @@ namespace ShadowKill
             Engine.LoadMap(tiledmap);
 
             CurrentPlayer = new Hero(2, 6.2f);
-            CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
-            CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
-            CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
-            CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
-            CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
-            CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
+            //CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
+            //CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
+            //CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
+            //CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
+            //CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
+            //CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
             //CurrentPlayer.Weapon = NPC.WEAPON_SABRE;
 
             FemaleNPC = new NPC(15, 9, NPC.FEMALE_HUMAN);
