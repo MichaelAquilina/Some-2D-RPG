@@ -11,7 +11,7 @@ namespace GameEngine.Tiled
 {
     public enum Orientation { orthoganal, isometric }
 
-    public class TiledMap : ILoadable
+    public class TiledMap : ILoadable, IPropertyBag
     {
         public int Width { get; set; }
         public int Height { get; set; }
@@ -21,6 +21,7 @@ namespace GameEngine.Tiled
 
         public SortedList<int, Tile> Tiles { get; set; }
         public List<TileLayer> TileLayers { get; set; }
+        public Dictionary<string, TiledMapObjectLayer> ObjectLayers { get; set; }
 
         public Dictionary<string, string> Properties
         {
@@ -34,6 +35,7 @@ namespace GameEngine.Tiled
         public TiledMap()
         {
             Properties = new Dictionary<string, string>();
+            ObjectLayers = new Dictionary<string, TiledMapObjectLayer>();
             Tiles = new SortedList<int, Tile>();
             TileLayers = new List<TileLayer>();
             Entities = new List<Entity>();
@@ -58,7 +60,6 @@ namespace GameEngine.Tiled
                 entity.UnloadContent();
         }
 
-        //TODO: Make more robust, this can easily break
         //TODO: Support for zlib compression of tile data  (Zlib.NET)
         //http://stackoverflow.com/questions/6620655/compression-and-decompression-problem-with-zlib-net
         //TODO: Support for Objects
@@ -87,6 +88,28 @@ namespace GameEngine.Tiled
                 }
             }
 
+            //OBJECT LAYERS
+            foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
+            {
+                TiledMapObjectLayer mapObjectLayer = new TiledMapObjectLayer();
+                mapObjectLayer.Width = Convert.ToInt32(objectLayerNode.Attributes["width"].Value);
+                mapObjectLayer.Height = Convert.ToInt32(objectLayerNode.Attributes["height"].Value);
+                mapObjectLayer.Name = objectLayerNode.Attributes["name"].Value;
+
+                foreach (XmlNode objectNode in objectLayerNode.SelectNodes("object"))
+                {
+                    TiledMapObject mapObject = new TiledMapObject();
+                    mapObject.Name = objectNode.Attributes["name"].Value;
+                    mapObject.X = Convert.ToInt32(objectNode.Attributes["x"].Value);
+                    mapObject.Y = Convert.ToInt32(objectNode.Attributes["y"].Value);
+
+                    mapObjectLayer.Objects.Add(mapObject);
+                }
+
+                map.ObjectLayers.Add(mapObjectLayer.Name, mapObjectLayer);
+            }
+
+            //TILESETS
             foreach (XmlNode tilesetNode in mapNode.SelectNodes("tileset"))
             {
                 int firstGID = Convert.ToInt32(tilesetNode.Attributes["firstgid"].Value);
@@ -143,6 +166,7 @@ namespace GameEngine.Tiled
                 }
             }
 
+            //TILE LAYERS
             foreach (XmlNode layerNode in mapNode.SelectNodes("layer"))
             {
                 int width = Convert.ToInt32(layerNode.Attributes["width"].Value);

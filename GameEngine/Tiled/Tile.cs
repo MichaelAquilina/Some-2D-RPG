@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine.Tiled
 {
-    public class Tile
+    public class Tile : IPropertyBag
     {
         public Texture2D SourceTexture { get; set; }
         public Rectangle SourceRectangle { get; set; }

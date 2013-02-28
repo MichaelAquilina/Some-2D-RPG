@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GameEngine.Tiled
 {
-    public class TileLayer
+    public class TileLayer : IPropertyBag
     {
         public string Name { get; set; }
 
