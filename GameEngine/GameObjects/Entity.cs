@@ -29,6 +29,11 @@ namespace GameEngine.GameObjects
         public AnimationSet Animations { get; set; }
         public string CurrentAnimation { get; set; }
 
+        public Entity()
+        {
+            Init();
+        }
+
         public Entity(float X, float Y, float Width=1, float Height=1, bool Visible=true)
         {
             this.X = X;
@@ -36,9 +41,14 @@ namespace GameEngine.GameObjects
             this.Width = Width;
             this.Height = Height;
             this.Visible = Visible;
+
+            Init();
+        }
+
+        private void Init()
+        {
             this.Origin = Vector2.Zero;
             this.BoundingBoxVisible = false;
-
             this.Animations = new AnimationSet();
         }
 

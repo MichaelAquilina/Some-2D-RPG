@@ -19,6 +19,10 @@ namespace ShadowKillGame.GameObjects
 
         public Color LightColor { get; set; }
 
+        public BasicLightSource()
+        {
+        }
+
         public BasicLightSource(float LightX, float LightY, float RadiusX, float RadiusY, Color LightColor, LightPositionType PositionType=LightPositionType.Relative)
         {
             this.LightX = LightX;

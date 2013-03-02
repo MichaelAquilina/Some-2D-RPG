@@ -116,6 +116,9 @@ namespace ShadowKill.Shaders
                 radiusX /= _lightTarget.Width;
                 radiusY /= _lightTarget.Height;
 
+                //TODO: This can be vastly improved by only initializing the vertices once
+                //TODO: Use a VertexBuffer to keep in VRAM
+                //TODO: Use TriangleIndex rather than TriangleList for optimal vertex count
                 VertexPositionColor[] vertexCircle = SetUpCircle(
                     radiusX, radiusY,
                     new Vector3(x, y, 0),

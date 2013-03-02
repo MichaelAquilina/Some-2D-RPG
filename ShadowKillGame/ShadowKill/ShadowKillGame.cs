@@ -80,28 +80,33 @@ namespace ShadowKill
             base.Initialize();
         }
 
+        private void LoadMapObjects(TiledMap Map)
+        {
+
+        }
+
         protected override void LoadContent()
         {
             Sampler = SamplerState.PointWrap;
 
             LightShader = new LightShader(this.GraphicsDevice, CIRCLE_POINT_ACCURACY);
             LightShader.AmbientLight = new Color(30, 15, 15);
-            LightShader.Enabled = true;
+            LightShader.Enabled = false;
 
             LightShader.LightSources.Add(CurrentPlayer);
             LightShader.LightSources.Add(new BasicLightSource(1.0f, 1.0f, 29.0f, 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
 
-            Entity fireplace = new Entity(14.0f, 4.0f, 1.5f, 1.5f);
+            Entity fireplace = new Entity(10.0f, 4.0f, 1.5f, 1.5f);
             fireplace.LoadAnimationXML(@"Animations/Objects/fireplace.anim", Content);
             fireplace.CurrentAnimation = "Burning";
             fireplace.Origin = new Vector2(0.5f, 1.0f);
 
-            Engine.Map.Entities.Add(fireplace);
-            LightShader.LightSources.Add(new BasicLightSource(14.0f, 4.0f, 7, 7, Color.OrangeRed));
+            Engine.Entities.Add(fireplace);
+            LightShader.LightSources.Add(new BasicLightSource(fireplace.X, fireplace.Y, 7, 7, Color.OrangeRed));
 
             Engine.RegisterGameShader(LightShader);
-            Engine.Map.Entities.Add(CurrentPlayer);
-            Engine.Map.Entities.Add(FemaleNPC);
+            Engine.Entities.Add(CurrentPlayer);
+            Engine.Entities.Add(FemaleNPC);
 
             Engine.LoadContent();
 
@@ -141,6 +146,17 @@ namespace ShadowKill
 
         protected override void Draw(GameTime gameTime)
         {
+            GraphicsDevice.Viewport = new Viewport
+            {
+                X = 0,
+                Y = 0,
+                Width = WINDOW_WIDTH,
+                Height = WINDOW_HEIGHT,
+                MinDepth = 0,
+                MaxDepth = 1
+            };
+            GraphicsDevice.Clear(Color.Black);
+
             Rectangle destRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
@@ -170,7 +186,7 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.PixelWidth + "x" + Engine.PixelHeight, new Vector2(0, 40), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.Width + "x" + Engine.Map.Height, new Vector2(0, 60), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Entities = " + Engine.Map.Entities.Count, new Vector2(0, 80), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Entities = " + Engine.Entities.Count, new Vector2(0, 80), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources = " + LightShader.LightSources.Count, new Vector2(0, 120), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);

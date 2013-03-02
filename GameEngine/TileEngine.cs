@@ -30,6 +30,9 @@ namespace GameEngine
 
         public List<GameShader> GameShaders { get; private set; }
 
+        //needs to be converted to TiledObjects
+        public List<Entity> Entities { get; set; }
+
         public bool ShowBoundingBoxes { get; set; }
 
         #endregion
@@ -50,13 +53,12 @@ namespace GameEngine
             :base(Game)
         {
             ShowBoundingBoxes = false;
-
             AnimationsOnScreen = 0;
 
             GameShaders = new List<GameShader>();
+            Entities = new List<Entity>();
 
             SetResolution(PixelWidth, PixelHeight);
-
             Game.Components.Add(this);
         }
 
@@ -67,15 +69,15 @@ namespace GameEngine
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.LoadContent(Content);
 
-            if(Map != null)
-                Map.LoadContent(Game.Content);
+            foreach (Entity entity in Entities)
+                entity.LoadContent(Content);
         }
 
         public void UnloadContent()
         {
-            if( Map != null )
-               Map.UnloadContent();
-    
+            foreach (Entity entity in Entities)
+                entity.UnloadContent();
+
             if (_miniMapTex != null)
                 _miniMapTex.Dispose();
 
@@ -121,7 +123,7 @@ namespace GameEngine
 
         public override void Update(GameTime GameTime)
         {
-            foreach (Entity entity in Map.Entities)
+            foreach (Entity entity in Entities)
                 entity.Update(GameTime, Map);
         }
 
@@ -131,9 +133,6 @@ namespace GameEngine
 
         public void LoadMap(TiledMap Map)
         {
-            if (this.Map != null)
-                this.Map.UnloadContent();
-
             this.Map = Map;
         }
 
@@ -249,7 +248,7 @@ namespace GameEngine
                 AnimationsOnScreen = 0;
 
                 //DRAW VISIBLE REGISTERED ENTITIES
-                foreach (Entity entity in Map.Entities)
+                foreach (Entity entity in Entities)
                 {
                     if (!entity.Visible) continue;
 
@@ -297,6 +296,7 @@ namespace GameEngine
                                 SpriteBatch.DrawRectangle(ObjectBoundingBox, Color.Red, 0.001f);
                             }
 
+                            //FIXME: Bug related to when layerDepth becomes small and reaches 0.99 for all levels, causing depth information to be lost
                             //layer depth should depend how far down the object is on the map (Relative to Y)
                             //Important to also take into account the animation layers for the entity
                             float layerDepth = Math.Min(0.99f, 1 / (entity.Y + ((float) animation.Layer/pxTileHeight)));
