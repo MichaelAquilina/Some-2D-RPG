@@ -11,17 +11,17 @@ namespace GameEngine.Tiled
 
         public int Width
         {
-            get { return _tiles.Length; }
+            get { return _width; }
         }
         public int Height
         {
-            get { return _tiles[0].Length; }
+            get { return _height; }
         }
 
         public int this[int x, int y]
         {
-            get { return _tiles[x][y]; }
-            set { _tiles[x][y] = value; }
+            get { return _tiles[x + y * _width ]; }
+            set { _tiles[x + y * _width] = value; }
         }
 
         public Dictionary<string, string> Properties
@@ -30,15 +30,17 @@ namespace GameEngine.Tiled
             private set;
         }
 
-        internal int[][] _tiles;
+        private int _width;
+        private int _height;
+        internal int[] _tiles;
 
         public TileLayer(int Width, int Height)
         {
             Properties = new Dictionary<string, string>();
 
-            _tiles = new int[Height][];
-            for (int i = 0; i < Height; i++)
-                _tiles[i] = new int[Width];
+            _width = Width;
+            _height = Height;
+            _tiles = new int[Width * Height];
         }
     }
 }
