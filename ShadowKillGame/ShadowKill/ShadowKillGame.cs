@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using ShadowKill.GameObjects;
 using ShadowKill.Shaders;
 using ShadowKillGame.GameObjects;
+using Microsoft.Xna.Framework.Content;
 
 namespace ShadowKill
 {
@@ -80,9 +81,28 @@ namespace ShadowKill
             base.Initialize();
         }
 
-        private void LoadMapObjects(TiledMap Map)
+        private void LoadMapObjects(TiledMap Map, ContentManager Content)
         {
+            foreach (TiledMapObjectLayer Layer in Map.ObjectLayers.Values)
+            {
+                foreach (TiledMapObject MapObject in Layer.Objects)
+                {
+                    if (MapObject.Type.ToUpper() == "ENTITY")
+                    {
+                        Entity entity = new Entity();
+                        entity.X = (float)MapObject.X / Map.TileWidth;
+                        entity.Y = (float)MapObject.Y / Map.TileHeight;
+                        entity.Width = 1.0f;
+                        entity.Height = 1.0f;
+                        entity.Visible = true;
+                        entity.LoadAnimationXML(MapObject.Properties["AnimationSet"], Content);
+                        entity.CurrentAnimation = MapObject.Properties["CurrentAnimation"];
+                        entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map rather than hard code
 
+                        Engine.Entities.Add(entity);
+                    }
+                }
+            }
         }
 
         protected override void LoadContent()
@@ -96,13 +116,15 @@ namespace ShadowKill
             LightShader.LightSources.Add(CurrentPlayer);
             LightShader.LightSources.Add(new BasicLightSource(1.0f, 1.0f, 29.0f, 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
 
-            Entity fireplace = new Entity(10.0f, 4.0f, 1.5f, 1.5f);
-            fireplace.LoadAnimationXML(@"Animations/Objects/fireplace.anim", Content);
-            fireplace.CurrentAnimation = "Burning";
-            fireplace.Origin = new Vector2(0.5f, 1.0f);
+            LoadMapObjects(Engine.Map, Content);
 
-            Engine.Entities.Add(fireplace);
-            LightShader.LightSources.Add(new BasicLightSource(fireplace.X, fireplace.Y, 7, 7, Color.OrangeRed));
+            //Entity fireplace = new Entity(10.0f, 4.0f, 1.5f, 1.5f);
+            //fireplace.LoadAnimationXML(@"Animations/Objects/fireplace.anim", Content);
+            //fireplace.CurrentAnimation = "Burning";
+            //fireplace.Origin = new Vector2(0.5f, 1.0f);
+
+            //Engine.Entities.Add(fireplace);
+            //LightShader.LightSources.Add(new BasicLightSource(fireplace.X, fireplace.Y, 7, 7, Color.OrangeRed));
 
             Engine.RegisterGameShader(LightShader);
             Engine.Entities.Add(CurrentPlayer);
@@ -168,17 +190,20 @@ namespace ShadowKill
             if (showDebugInfo) 
             {
                 //DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING
-                int lightMapHeight = 100;
-                int lightMapWidth = (int) Math.Ceiling(100 * ((float) LightShader.LightMap.Width/LightShader.LightMap.Height));
+                if (LightShader.Enabled)
+                {
+                    int lightMapHeight = 100;
+                    int lightMapWidth = (int)Math.Ceiling(100 * ((float)LightShader.LightMap.Width / LightShader.LightMap.Height));
 
-                SpriteBatch.Draw(
-                    LightShader.LightMap, 
-                    new Rectangle(
-                        WINDOW_WIDTH - lightMapWidth, 0, 
-                        lightMapWidth, lightMapHeight
-                    ), 
-                    Color.White
-                );
+                    SpriteBatch.Draw(
+                        LightShader.LightMap,
+                        new Rectangle(
+                            WINDOW_WIDTH - lightMapWidth, 0,
+                            lightMapWidth, lightMapHeight
+                        ),
+                        Color.White
+                    );
+                }
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 

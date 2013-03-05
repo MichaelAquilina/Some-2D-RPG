@@ -39,8 +39,6 @@ namespace GameEngine
 
         #region Variables
 
-        private Texture2D _miniMapTex;           //Cached copy of the MipMapTexture
-
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
@@ -78,16 +76,12 @@ namespace GameEngine
             foreach (Entity entity in Entities)
                 entity.UnloadContent();
 
-            if (_miniMapTex != null)
-                _miniMapTex.Dispose();
-
             if (_inputBuffer != null)
                 _inputBuffer.Dispose();
 
             if (_outputBuffer != null)
                 _outputBuffer.Dispose();
 
-            _miniMapTex = null;
             _inputBuffer = null;
             _outputBuffer = null;
 

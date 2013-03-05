@@ -43,6 +43,9 @@ namespace ShadowKill.GameObjects
             LightRadiusX = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
             LightRadiusY = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
 
+            float prevX = X;
+            float prevY = Y;
+
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
                 bool moved = false;
@@ -92,8 +95,42 @@ namespace ShadowKill.GameObjects
                     X += MOVEMENT_SPEED;
                 }
 
+                //Set animation to idle of no movements where made
                 if (moved == false)
                     CurrentAnimation = "Idle_" + Direction;
+                
+                //TODO Cater for Y Axis
+                //TODO Cater for opposite direction! (How do we detect this)
+                //MOST IMPORTANTLY, KEEP THE ALGORITHM SIMPLE!
+                bool impassable = false;
+                int tileX = (int)X;
+                int tileY = (int)Y;
+
+                //iterate through each layer and determine if the tile is passable
+                foreach (TileLayer Layer in Map.TileLayers)
+                {
+                    int tileId = Layer[tileX, tileY];
+                    if (tileId == 0) continue;
+
+                    impassable = Map.Tiles[tileId].Properties.ContainsKey("Impassable");
+                }
+
+                //if impassable, adjust X and Y accordingly
+                float padding = 0.00001f;
+                if (impassable)
+                {
+                    if (prevY <= tileY && Y > tileY)
+                        Y = tileY - padding;
+                    else
+                    if (prevY >= tileY + 1 && Y < tileY + 1)
+                        Y = tileY + 1 + padding;
+
+                    if (prevX <= tileX && X > tileX)
+                        X = tileX - padding;
+                    else
+                    if (prevX >= tileX + 1 && X < tileX + 1)
+                        X = tileX + 1 + padding;
+                }
 
                 //prevent from going out of range
                 if (X < 0) X = 0;
