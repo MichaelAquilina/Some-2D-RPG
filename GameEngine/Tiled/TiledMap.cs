@@ -170,6 +170,7 @@ namespace GameEngine.Tiled
                 int height = Convert.ToInt32(layerNode.Attributes["height"].Value);
 
                 TileLayer tileLayer = new TileLayer(width, height);
+                tileLayer.Name = layerNode.Attributes["name"].Value;
 
                 XmlNode dataNode = layerNode.SelectSingleNode("data");
                 string[] tokens = dataNode.InnerText.Split(
@@ -182,6 +183,18 @@ namespace GameEngine.Tiled
                     int x = i % width;
                     int y = i / width;
                     tileLayer[x, y] = Convert.ToInt32(tokens[i]);
+                }
+
+                XmlNode layerPropertiesNode = layerNode.SelectSingleNode("properties");
+                if (layerPropertiesNode != null)
+                {
+                    foreach (XmlNode mapObjectPropertyNode in layerPropertiesNode.SelectNodes("property"))
+                    {
+                        string name = mapObjectPropertyNode.Attributes["name"].Value;
+                        string value = mapObjectPropertyNode.Attributes["value"].Value;
+
+                        tileLayer.Properties.Add(name, value);
+                    }
                 }
 
                 map.TileLayers.Add(tileLayer);
