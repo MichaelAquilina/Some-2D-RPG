@@ -154,7 +154,7 @@ namespace GameEngine
             //allow all game shaders to become aware of the change in resolution
             foreach (GameShader shader in GameShaders) shader.SetResolution(Width, Height);
         }
-
+        
         /// <summary>
         /// Draws a viewport of the current game world at the specified CenterX, CenterY location. The Viewport size and location on the screen must be 
         /// specified in the DestRectangle parameter. The number of Tiles both Width-wise and Height-wise should be specified in the TileWidth and TileHeight
@@ -225,6 +225,12 @@ namespace GameEngine
                                 tileDestRect.X -= (int)(viewPortInfo.dispX * pxTileWidth);
                                 tileDestRect.Y -= (int)(viewPortInfo.dispY * pxTileHeight);
 
+                                float depth = 0;
+                                if( tileLayer.Properties.ContainsKey("Foreground"))
+                                    depth = 0; 
+                                else
+                                    depth = 1 - (layerIndex / 10000.0f);
+
                                 SpriteBatch.Draw(
                                     tile.SourceTexture,
                                     tileDestRect,
@@ -232,7 +238,7 @@ namespace GameEngine
                                     Color.White,
                                     0, Vector2.Zero,
                                     SpriteEffects.None,
-                                    1 - (layerIndex / 10000.0f)    //automatic layering based on layerIndex
+                                    depth    //automatic layering based on layerIndex
                                 );
                             }
                         }
