@@ -109,6 +109,8 @@ namespace ShadowKill.GameObjects
                 //iterate through each layer and determine if the tile is passable
                 foreach (TileLayer Layer in Map.TileLayers)
                 {
+                    if (Layer.Properties.ContainsKey("Foreground")) continue;           //do not consider foreground objects for collision
+
                     int tileId = Layer[tileX, tileY];
                     if (tileId == 0) continue;
 
