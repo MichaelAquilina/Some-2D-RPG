@@ -44,6 +44,21 @@ namespace GameEngine.Tiled
             return (layer[X, Y] == 0) ? null : Tiles[layer[X, Y]];
         }
 
+        private static void LoadProperties(XmlNode SelectedNode, IPropertyBag Destination)
+        {
+            XmlNode propertiesNode = SelectedNode.SelectSingleNode("properties");
+
+            if (propertiesNode == null) return;
+
+            foreach (XmlNode propertyNode in propertiesNode.SelectNodes("property"))
+            {
+                string name = propertyNode.Attributes["name"].Value;
+                string value = propertyNode.Attributes["value"].Value;
+
+                Destination.Properties.Add(name, value);
+            }
+        }
+
         //TODO: Support for zlib compression of tile data  (Zlib.NET)
         //http://stackoverflow.com/questions/6620655/compression-and-decompression-problem-with-zlib-net
         //TODO: Support for Objects
@@ -59,18 +74,7 @@ namespace GameEngine.Tiled
             map.Height = Convert.ToInt32(mapNode.Attributes["height"].Value);
             map.TileWidth = Convert.ToInt32(mapNode.Attributes["tilewidth"].Value);
             map.TileHeight = Convert.ToInt32(mapNode.Attributes["tileheight"].Value);
-
-            XmlNode mapPropertyNode = mapNode.SelectSingleNode("properties");
-            if(mapPropertyNode!=null)
-            {
-                foreach (XmlNode propertyNode in mapPropertyNode.SelectNodes("property"))
-                {
-                    string name = propertyNode.Attributes["name"].Value;
-                    string value = propertyNode.Attributes["value"].Value;
-
-                    map.Properties.Add(name, value);
-                }
-            }
+            LoadProperties(mapNode, map);
 
             //OBJECT LAYERS
             foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
@@ -88,17 +92,7 @@ namespace GameEngine.Tiled
                     mapObject.X = Convert.ToInt32(objectNode.Attributes["x"].Value);
                     mapObject.Y = Convert.ToInt32(objectNode.Attributes["y"].Value);
 
-                    XmlNode mapObjectPropertiesNode = objectNode.SelectSingleNode("properties");
-                    if (mapObjectPropertiesNode != null)
-                    {
-                        foreach (XmlNode mapObjectPropertyNode in mapObjectPropertiesNode.SelectNodes("property"))
-                        {
-                            string name = mapObjectPropertyNode.Attributes["name"].Value;
-                            string value = mapObjectPropertyNode.Attributes["value"].Value;
-
-                            mapObject.Properties.Add(name, value);
-                        }
-                    }
+                    LoadProperties(objectNode, mapObject);
 
                     mapObjectLayer.Objects.Add(mapObject);
                 }
@@ -147,19 +141,9 @@ namespace GameEngine.Tiled
                 foreach (XmlNode tileNode in tilesetNode.SelectNodes("tile"))
                 {
                     int tileGid = firstGID + Convert.ToInt32(tileNode.Attributes["id"].Value);
+                    Tile tile = map.Tiles[tileGid];
 
-                    XmlNode tilePropertyNode = tileNode.SelectSingleNode("properties");
-
-                    if(tilePropertyNode!=null)
-                    {
-                        foreach (XmlNode propertyNode in tilePropertyNode.SelectNodes("property"))
-                        {
-                            string name = propertyNode.Attributes["name"].Value;
-                            string value = propertyNode.Attributes["value"].Value;
-
-                            map.Tiles[tileGid].Properties.Add(name, value);
-                        }
-                    }
+                    LoadProperties(tileNode, tile);
                 }
             }
 
@@ -185,17 +169,7 @@ namespace GameEngine.Tiled
                     tileLayer[x, y] = Convert.ToInt32(tokens[i]);
                 }
 
-                XmlNode layerPropertiesNode = layerNode.SelectSingleNode("properties");
-                if (layerPropertiesNode != null)
-                {
-                    foreach (XmlNode mapObjectPropertyNode in layerPropertiesNode.SelectNodes("property"))
-                    {
-                        string name = mapObjectPropertyNode.Attributes["name"].Value;
-                        string value = mapObjectPropertyNode.Attributes["value"].Value;
-
-                        tileLayer.Properties.Add(name, value);
-                    }
-                }
+                LoadProperties(layerNode, tileLayer);
 
                 map.TileLayers.Add(tileLayer);
             }
