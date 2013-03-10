@@ -139,8 +139,8 @@ namespace GameEngine
         /// <param name="Height">int Height in pixels.</param>
         public void SetResolution(int Width, int Height)
         {
-            this.PixelWidth = Width;
-            this.PixelHeight = Height;
+            PixelWidth = Width;
+            PixelHeight = Height;
 
             if (_outputBuffer != null)
                 _outputBuffer.Dispose();
@@ -172,6 +172,9 @@ namespace GameEngine
         public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 Center, int pxTileWidth, int pxTileHeight, Rectangle DestRectangle, Color Color, SamplerState SamplerState)
         {
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
+
+            //reset counters
+            AnimationsOnScreen = 0;
 
             ViewPortInfo viewPortInfo = new ViewPortInfo();             //Should be fast due to being a struct
             {
@@ -225,11 +228,7 @@ namespace GameEngine
                                 tileDestRect.X -= (int)(viewPortInfo.dispX * pxTileWidth);
                                 tileDestRect.Y -= (int)(viewPortInfo.dispY * pxTileHeight);
 
-                                float depth = 0;
-                                if( tileLayer.HasProperty("Foreground"))
-                                    depth = 0; 
-                                else
-                                    depth = 1 - (layerIndex / 10000.0f);
+                                float depth = tileLayer.HasProperty("Foreground")? 0 : 1 - (layerIndex / 10000.0f);
 
                                 SpriteBatch.Draw(
                                     tile.SourceTexture,
@@ -244,8 +243,6 @@ namespace GameEngine
                         }
                     }
                 }
-
-                AnimationsOnScreen = 0;
 
                 //DRAW VISIBLE REGISTERED ENTITIES
                 foreach (Entity entity in Entities)
@@ -268,7 +265,7 @@ namespace GameEngine
                         int objectHeight = (int)(currentFrame.Height * entity.Height);
 
                         //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
-                        Rectangle ObjectDestRect = new Rectangle(
+                        Rectangle objectDestRect = new Rectangle(
                                 objectX,
                                 objectY,
                                 objectWidth,
@@ -277,23 +274,23 @@ namespace GameEngine
 
                         //Calculate the Origin of the Object, as well as its Bounding Box
                         Vector2 objectOrigin = entity.Origin * new Vector2(currentFrame.Width, currentFrame.Height);
-                        Rectangle ObjectBoundingBox = new Rectangle(
-                            (int)Math.Ceiling(ObjectDestRect.X - objectOrigin.X * entity.Width),
-                            (int)Math.Ceiling(ObjectDestRect.Y - objectOrigin.Y * entity.Height),
-                            ObjectDestRect.Width,
-                            ObjectDestRect.Height
+                        Rectangle objectBoundingBox = new Rectangle(
+                            (int)Math.Ceiling(objectDestRect.X - objectOrigin.X * entity.Width),
+                            (int)Math.Ceiling(objectDestRect.Y - objectOrigin.Y * entity.Height),
+                            objectDestRect.Width,
+                            objectDestRect.Height
                         );
 
                         //only render the object if the objects BoundingBox it is within the specified viewport
-                        if (ObjectBoundingBox.Intersects(_inputBuffer.Bounds))
+                        if (objectBoundingBox.Intersects(_inputBuffer.Bounds))
                         {
                             AnimationsOnScreen++;
 
                             //Draw the Bounding Box and a Cross indicating the Origin
                             if (entity.BoundingBoxVisible || this.ShowBoundingBoxes)
                             {
-                                SpriteBatch.DrawCross(new Vector2(ObjectDestRect.X, ObjectDestRect.Y), 7, Color.Black, 0);
-                                SpriteBatch.DrawRectangle(ObjectBoundingBox, Color.Red, 0.001f);
+                                SpriteBatch.DrawCross(new Vector2(objectDestRect.X, objectDestRect.Y), 7, Color.Black, 0);
+                                SpriteBatch.DrawRectangle(objectBoundingBox, Color.Red, 0.001f);
                             }
 
                             //FIXME: Bug related to when layerDepth becomes small and reaches 0.99 for all levels, causing depth information to be lost
@@ -303,7 +300,7 @@ namespace GameEngine
 
                             SpriteBatch.Draw(
                                 animation.SpriteSheet,
-                                ObjectDestRect,
+                                objectDestRect,
                                 currentFrame,
                                 animation.Color,
                                 animation.Rotation,
@@ -316,7 +313,7 @@ namespace GameEngine
             }
             SpriteBatch.End();
 
-            //TODO: Can possibly improve performance by setting render target to the back buffer for the last shader pass
+            //APPLY GAME SHADERS TO THE RESULTANT IMAGE
             for (int i = 0; i < GameShaders.Count; i++)
             {
                 if (GameShaders[i].Enabled)

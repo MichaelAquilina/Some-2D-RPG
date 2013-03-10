@@ -44,12 +44,12 @@ namespace GameEngine.Drawing
                 XmlAttribute loopAttr = animNode.Attributes["Loop"];
                 XmlAttribute groupAttr = animNode.Attributes["Group"];
 
-                int FrameDelay = (frameDelayAttr == null) ? Animation.FRAME_DELAY_DEFAULT : Convert.ToInt32(frameDelayAttr.Value);
-                bool Loop = (loopAttr == null) ? false : Convert.ToBoolean(loopAttr.Value);
-                string Group = (groupAttr == null) ? null : Convert.ToString(groupAttr.Value);
+                int frameDelay = (frameDelayAttr == null) ? Animation.FRAME_DELAY_DEFAULT : Convert.ToInt32(frameDelayAttr.Value);
+                bool loop = (loopAttr == null) ? false : Convert.ToBoolean(loopAttr.Value);
+                string group = (groupAttr == null) ? null : Convert.ToString(groupAttr.Value);
 
-                string Name = Convert.ToString(animNode.Attributes["Name"].Value);
-                string SpriteSheet = Convert.ToString(animNode.Attributes["SpriteSheet"].Value);
+                string name = Convert.ToString(animNode.Attributes["Name"].Value);
+                string spriteSheet = Convert.ToString(animNode.Attributes["SpriteSheet"].Value);
 
                 XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
                 Rectangle[] frames = new Rectangle[frameNodes.Count];
@@ -62,18 +62,18 @@ namespace GameEngine.Drawing
 
                     int X = Convert.ToInt32(tokens[0]);
                     int Y = Convert.ToInt32(tokens[1]);
-                    int Width = Convert.ToInt32(tokens[2]);
-                    int Height = Convert.ToInt32(tokens[3]);
+                    int width = Convert.ToInt32(tokens[2]);
+                    int height = Convert.ToInt32(tokens[3]);
 
-                    frames[i] = new Rectangle(X, Y, Width, Height);
+                    frames[i] = new Rectangle(X, Y, width, height);
                 }
 
-                if (!AnimationSet.ContainsKey(Name))
-                    AnimationSet.Add(Name, new List<Animation>());
+                if (!AnimationSet.ContainsKey(name))
+                    AnimationSet.Add(name, new List<Animation>());
 
-                Animation animation = new Animation(Content.Load<Texture2D>(SpriteSheet), frames, FrameDelay, Loop, true, Layer);
-                animation.Group = Group;
-                AnimationSet[Name].Add(animation);
+                Animation animation = new Animation(Content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop, true, Layer);
+                animation.Group = group;
+                AnimationSet[name].Add(animation);
             }
 
             return AnimationSet;

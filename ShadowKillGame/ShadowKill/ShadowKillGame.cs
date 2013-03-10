@@ -83,20 +83,20 @@ namespace ShadowKill
 
         private void LoadMapObjects(TiledMap Map, ContentManager Content)
         {
-            foreach (ObjectLayer Layer in Map.ObjectLayers)
+            foreach (ObjectLayer layer in Map.ObjectLayers)
             {
-                foreach (MapObject MapObject in Layer.Objects)
+                foreach (MapObject mapObject in layer.Objects)
                 {
-                    if (MapObject.Type.ToUpper() == "ENTITY")
+                    if (mapObject.Type.ToUpper() == "ENTITY")
                     {
                         Entity entity = new Entity();
-                        entity.X = (float)MapObject.X / Map.TileWidth;
-                        entity.Y = (float)MapObject.Y / Map.TileHeight;
+                        entity.X = (float)mapObject.X / Map.TileWidth;
+                        entity.Y = (float)mapObject.Y / Map.TileHeight;
                         entity.Width = 1.0f;
                         entity.Height = 1.0f;
                         entity.Visible = true;
-                        entity.LoadAnimationXML(MapObject.GetProperty("AnimationSet"), Content);
-                        entity.CurrentAnimation = MapObject.GetProperty("CurrentAnimation");
+                        entity.LoadAnimationXML(mapObject.GetProperty("AnimationSet"), Content);
+                        entity.CurrentAnimation = mapObject.GetProperty("CurrentAnimation");
                         entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map rather than hard code
 
                         Engine.Entities.Add(entity);

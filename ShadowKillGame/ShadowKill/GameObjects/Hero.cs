@@ -106,11 +106,11 @@ namespace ShadowKill.GameObjects
                 int tileX = (int)X;
                 int tileY = (int)Y;
 
-                foreach (TileLayer Layer in Map.TileLayers)
+                foreach (TileLayer layer in Map.TileLayers)
                 {
-                    if (Layer.HasProperty("Foreground")) continue;           //do not consider foreground objects for collision
+                    if (layer.HasProperty("Foreground")) continue;           //do not consider foreground objects for collision
 
-                    int tileId = Layer[tileX, tileY];
+                    int tileId = layer[tileX, tileY];
                     if (tileId == 0) continue;
 
                     impassable = Map.Tiles[tileId].HasProperty("Impassable");
