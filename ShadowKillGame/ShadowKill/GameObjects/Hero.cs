@@ -98,15 +98,14 @@ namespace ShadowKill.GameObjects
                 //Set animation to idle of no movements where made
                 if (moved == false)
                     CurrentAnimation = "Idle_" + Direction;
-                
-                //TODO Cater for Y Axis
-                //TODO Cater for opposite direction! (How do we detect this)
-                //MOST IMPORTANTLY, KEEP THE ALGORITHM SIMPLE!
+
+
+                //iterate through each layer and determine if the tile is passable
+                //TILE MOVEMENT HANDLING
                 bool impassable = false;
                 int tileX = (int)X;
                 int tileY = (int)Y;
 
-                //iterate through each layer and determine if the tile is passable
                 foreach (TileLayer Layer in Map.TileLayers)
                 {
                     if (Layer.Properties.ContainsKey("Foreground")) continue;           //do not consider foreground objects for collision

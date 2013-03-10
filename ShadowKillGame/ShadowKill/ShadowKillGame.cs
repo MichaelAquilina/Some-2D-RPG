@@ -83,9 +83,9 @@ namespace ShadowKill
 
         private void LoadMapObjects(TiledMap Map, ContentManager Content)
         {
-            foreach (TiledMapObjectLayer Layer in Map.ObjectLayers.Values)
+            foreach (ObjectLayer Layer in Map.ObjectLayers.Values)
             {
-                foreach (TiledMapObject MapObject in Layer.Objects)
+                foreach (MapObject MapObject in Layer.Objects)
                 {
                     if (MapObject.Type.ToUpper() == "ENTITY")
                     {

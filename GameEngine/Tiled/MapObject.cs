@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GameEngine.Interfaces;
 
 namespace GameEngine.Tiled
 {
-    public class TiledMapObject : IPropertyBag
+    public class MapObject : IPropertyBag
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -15,7 +16,7 @@ namespace GameEngine.Tiled
 
         public Dictionary<string, string> Properties { get; set; }
 
-        public TiledMapObject()
+        public MapObject()
         {
             this.Properties = new Dictionary<string, string>();
         }

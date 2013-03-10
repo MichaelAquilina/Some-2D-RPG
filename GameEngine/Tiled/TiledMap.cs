@@ -21,7 +21,7 @@ namespace GameEngine.Tiled
 
         public SortedList<int, Tile> Tiles { get; set; }
         public List<TileLayer> TileLayers { get; set; }
-        public Dictionary<string, TiledMapObjectLayer> ObjectLayers { get; set; }
+        public Dictionary<string, ObjectLayer> ObjectLayers { get; set; }
 
         public Dictionary<string, string> Properties
         {
@@ -32,7 +32,7 @@ namespace GameEngine.Tiled
         public TiledMap()
         {
             Properties = new Dictionary<string, string>();
-            ObjectLayers = new Dictionary<string, TiledMapObjectLayer>();
+            ObjectLayers = new Dictionary<string, ObjectLayer>();
             Tiles = new SortedList<int, Tile>();
             TileLayers = new List<TileLayer>();
         }
@@ -79,14 +79,14 @@ namespace GameEngine.Tiled
             //OBJECT LAYERS
             foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
             {
-                TiledMapObjectLayer mapObjectLayer = new TiledMapObjectLayer();
+                ObjectLayer mapObjectLayer = new ObjectLayer();
                 mapObjectLayer.Width = Convert.ToInt32(objectLayerNode.Attributes["width"].Value);
                 mapObjectLayer.Height = Convert.ToInt32(objectLayerNode.Attributes["height"].Value);
                 mapObjectLayer.Name = objectLayerNode.Attributes["name"].Value;
 
                 foreach (XmlNode objectNode in objectLayerNode.SelectNodes("object"))
                 {
-                    TiledMapObject mapObject = new TiledMapObject();
+                    MapObject mapObject = new MapObject();
                     mapObject.Name = objectNode.Attributes["name"].Value;
                     mapObject.Type = objectNode.Attributes["type"].Value;
                     mapObject.X = Convert.ToInt32(objectNode.Attributes["x"].Value);

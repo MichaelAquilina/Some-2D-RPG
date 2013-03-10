@@ -98,11 +98,11 @@
     <Compile Include="Drawing\Shapes.cs" />
     <Compile Include="Drawing\ViewPortInfo.cs" />
     <Compile Include="GameObjects\Entity.cs" />
-    <Compile Include="Tiled\IPropertyBag.cs" />
+    <Compile Include="Interfaces\IPropertyBag.cs" />
     <Compile Include="Tiled\Tile.cs" />
     <Compile Include="Tiled\TiledMap.cs" />
-    <Compile Include="Tiled\TiledMapObject.cs" />
-    <Compile Include="Tiled\TiledMapObjectLayer.cs" />
+    <Compile Include="Tiled\MapObject.cs" />
+    <Compile Include="Tiled\ObjectLayer.cs" />
     <Compile Include="Tiled\TileLayer.cs" />
     <Compile Include="TileEngine.cs" />
     <Compile Include="Helpers\KeyboardHelper.cs" />
