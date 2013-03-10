@@ -1,6 +1,8 @@
 ShadowKillGame
 ==================
 
+![Concept Screenshot](ConceptScreenshot.png)
+
 Originally started off as development for an open source game by the name of DivineRight. The engine was built initially for this
 purpose, but i quickly lost track with excitement and added completely awesome (but un-needed) features. For this reason,
 i branched off from that development team and began development on my own cocnept game engine. This could possibly change
