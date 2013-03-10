@@ -1,20 +1,26 @@
-ShadowKillGame
+Game Engine Development
 ==================
 
+# Current State
 ![Concept Screenshot](ConceptScreenshot.png)
 
-Originally started off as development for an open source game by the name of DivineRight. The engine was built initially for this
-purpose, but i quickly lost track with excitement and added completely awesome (but un-needed) features. For this reason,
-i branched off from that development team and began development on my own cocnept game engine. This could possibly change
-into a full blown game in the future.
+This GIT hub project is my way of getting familiar with game development techniques used in many modern day games. I chose 
+to first focus on 2D development since this would provide me with a nice starting point to focus on all the while being
+able to apply advanced techniques like making use of shaders.
 
-A SandBox for developing a game Idea in XNA (C#). The code is meant to provide a very strong and steady code base which will yield
-high performance and frame rates even with a large number of objects on the map.
+I decided to make use of XNA becauase i feel i am very compitent as a C# developer but still have a lot to learn with C++.
+XNA also allows me to concentrate on the actual game development rather than lower level programing details. In the future
+i could possibly take this code and try make it run on the cross-platform implementation of XNA - MonoGame.
 
-Currently, the Engine is built to run 2D environments using a float-coordinate tile system which provides a lot of
-flexibility in terms of designing world maps. Alot of testing and concept ideas are being developed at the moment,
-such as the use of Animation frameworks, AI frameworks etc...
+Because my main focus of this project was to gain some insight into the technical details about how games tick, i chose
+to develop the Game Engine from scratch rather than make use of XNA Game Engines like [Flat Red Ball](http://flatredball.com/)
+I found this to be the right choice for me as a developer and i have learnt a lot from this.
 
-For future plans, the GameEngine could be extended to run in 2.5D i.e. a 3D engine but with 2D characteristics (Much
-like the recent Pokemon games). Once the game engine framework is seen to be powerful/extensive enough, i shall 
-probably begin desigining the game scope and actual gameplay itself.
+Assets
+------
+
+All my artistic Assets come from the fantastic website [OpenGameArt.org](http://opengameart.org/). In particular, i am making use of
+Assets that were made for the [Liberated Pixel](http://lpc.opengameart.org/) Cup challenge that was being organised by the same site.
+
+I may attempt to design/draw some pixel art myself in the future, but currently i have decided to focus on development 
+rather than creative design.
