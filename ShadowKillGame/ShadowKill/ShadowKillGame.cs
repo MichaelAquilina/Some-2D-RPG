@@ -83,7 +83,7 @@ namespace ShadowKill
 
         private void LoadMapObjects(TiledMap Map, ContentManager Content)
         {
-            foreach (ObjectLayer Layer in Map.ObjectLayers.Values)
+            foreach (ObjectLayer Layer in Map.ObjectLayers)
             {
                 foreach (MapObject MapObject in Layer.Objects)
                 {

@@ -19,11 +19,11 @@ namespace GameEngine.Tiled
 
         public SortedList<int, Tile> Tiles { get; set; }
         public List<TileLayer> TileLayers { get; set; }
-        public Dictionary<string, ObjectLayer> ObjectLayers { get; set; }
+        public List<ObjectLayer> ObjectLayers { get; set; }
 
         public TiledMap()
         {
-            ObjectLayers = new Dictionary<string, ObjectLayer>();
+            ObjectLayers = new List<ObjectLayer>();
             Tiles = new SortedList<int, Tile>();
             TileLayers = new List<TileLayer>();
         }
@@ -71,7 +71,7 @@ namespace GameEngine.Tiled
                     mapObjectLayer.Objects.Add(mapObject);
                 }
 
-                map.ObjectLayers.Add(mapObjectLayer.Name, mapObjectLayer);
+                map.ObjectLayers.Add(mapObjectLayer);
             }
 
             //TILESETS
