@@ -1,46 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using GameEngine.Interfaces;
 
 namespace GameEngine.Tiled
 {
-    public class TileLayer : IPropertyBag
+    public class TileLayer : PropertyBag
     {
         public string Name { get; set; }
 
         public int Width
         {
-            get { return _width; }
+            get;
+            private set;
         }
         public int Height
-        {
-            get { return _height; }
-        }
-
-        public int this[int x, int y]
-        {
-            get { return _tiles[x + y * _width ]; }
-            set { _tiles[x + y * _width] = value; }
-        }
-
-        public Dictionary<string, string> Properties
         {
             get;
             private set;
         }
 
-        private int _width;
-        private int _height;
+        public int this[int index]
+        {
+            get { return _tiles[index]; }
+            set { _tiles[index] = value; }
+        }
+
+        public int this[int x, int y]
+        {
+            get { return _tiles[x + y * Width ]; }
+            set { _tiles[x + y * Width] = value; }
+        }
+
         internal int[] _tiles;
 
         public TileLayer(int Width, int Height)
         {
-            Properties = new Dictionary<string, string>();
-
-            _width = Width;
-            _height = Height;
+            this.Width = Width;
+            this.Height = Height;
             _tiles = new int[Width * Height];
         }
     }

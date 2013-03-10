@@ -226,7 +226,7 @@ namespace GameEngine
                                 tileDestRect.Y -= (int)(viewPortInfo.dispY * pxTileHeight);
 
                                 float depth = 0;
-                                if( tileLayer.Properties.ContainsKey("Foreground"))
+                                if( tileLayer.HasProperty("Foreground"))
                                     depth = 0; 
                                 else
                                     depth = 1 - (layerIndex / 10000.0f);

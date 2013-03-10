@@ -9,9 +9,7 @@ using Microsoft.Xna.Framework;
 
 namespace GameEngine.Tiled
 {
-    public enum Orientation { orthoganal, isometric }
-
-    public class TiledMap : IPropertyBag
+    public class TiledMap : PropertyBag
     {
         public int Width { get; set; }
         public int Height { get; set; }
@@ -23,15 +21,8 @@ namespace GameEngine.Tiled
         public List<TileLayer> TileLayers { get; set; }
         public Dictionary<string, ObjectLayer> ObjectLayers { get; set; }
 
-        public Dictionary<string, string> Properties
-        {
-            get;
-            private set;
-        }
-
         public TiledMap()
         {
-            Properties = new Dictionary<string, string>();
             ObjectLayers = new Dictionary<string, ObjectLayer>();
             Tiles = new SortedList<int, Tile>();
             TileLayers = new List<TileLayer>();
@@ -44,24 +35,8 @@ namespace GameEngine.Tiled
             return (layer[X, Y] == 0) ? null : Tiles[layer[X, Y]];
         }
 
-        private static void LoadProperties(XmlNode SelectedNode, IPropertyBag Destination)
-        {
-            XmlNode propertiesNode = SelectedNode.SelectSingleNode("properties");
-
-            if (propertiesNode == null) return;
-
-            foreach (XmlNode propertyNode in propertiesNode.SelectNodes("property"))
-            {
-                string name = propertyNode.Attributes["name"].Value;
-                string value = propertyNode.Attributes["value"].Value;
-
-                Destination.Properties.Add(name, value);
-            }
-        }
-
         //TODO: Support for zlib compression of tile data  (Zlib.NET)
         //http://stackoverflow.com/questions/6620655/compression-and-decompression-problem-with-zlib-net
-        //TODO: Support for Objects
         public static TiledMap LoadTiledXML(string file, ContentManager Content)
         {
             XmlDocument document = new XmlDocument();
@@ -74,7 +49,7 @@ namespace GameEngine.Tiled
             map.Height = Convert.ToInt32(mapNode.Attributes["height"].Value);
             map.TileWidth = Convert.ToInt32(mapNode.Attributes["tilewidth"].Value);
             map.TileHeight = Convert.ToInt32(mapNode.Attributes["tileheight"].Value);
-            LoadProperties(mapNode, map);
+            map.LoadProperties(mapNode);
 
             //OBJECT LAYERS
             foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
@@ -91,8 +66,7 @@ namespace GameEngine.Tiled
                     mapObject.Type = objectNode.Attributes["type"].Value;
                     mapObject.X = Convert.ToInt32(objectNode.Attributes["x"].Value);
                     mapObject.Y = Convert.ToInt32(objectNode.Attributes["y"].Value);
-
-                    LoadProperties(objectNode, mapObject);
+                    mapObject.LoadProperties(objectNode);
 
                     mapObjectLayer.Objects.Add(mapObject);
                 }
@@ -107,7 +81,6 @@ namespace GameEngine.Tiled
                 string tilesetName = tilesetNode.Attributes["name"].Value;
                 int tileHeight = Convert.ToInt32(tilesetNode.Attributes["tileheight"].Value);
                 int tileWidth = Convert.ToInt32(tilesetNode.Attributes["tilewidth"].Value);
-                Dictionary<string, string> tilesetProperties = new Dictionary<string, string>();
 
                 XmlNode imageNode = tilesetNode.SelectSingleNode("image");
                 string source = imageNode.Attributes["source"].Value;
@@ -117,7 +90,7 @@ namespace GameEngine.Tiled
                 //TODO: Make this a abit smart since tile wont set the content names automatically for us
                 Texture2D sourceTexture = Content.Load<Texture2D>(source.Substring(0,source.LastIndexOf('.')));     //TEMP WORKAROUND FOR TILED SAVING FORMAT
 
-                //Build the tiles from the tileset information
+                //PreBuild the tiles from the tileset information
                 int i = 0;
                 while (true)
                 {
@@ -137,13 +110,12 @@ namespace GameEngine.Tiled
                     i++;
                 }
 
-                //add any individual properites to the tiles we have created
+                //add any individual properties to the tiles we have created
                 foreach (XmlNode tileNode in tilesetNode.SelectNodes("tile"))
                 {
                     int tileGid = firstGID + Convert.ToInt32(tileNode.Attributes["id"].Value);
                     Tile tile = map.Tiles[tileGid];
-
-                    LoadProperties(tileNode, tile);
+                    tile.LoadProperties(tileNode);
                 }
             }
 
@@ -155,6 +127,7 @@ namespace GameEngine.Tiled
 
                 TileLayer tileLayer = new TileLayer(width, height);
                 tileLayer.Name = layerNode.Attributes["name"].Value;
+                tileLayer.LoadProperties(layerNode);
 
                 XmlNode dataNode = layerNode.SelectSingleNode("data");
                 string[] tokens = dataNode.InnerText.Split(
@@ -162,14 +135,8 @@ namespace GameEngine.Tiled
                     StringSplitOptions.RemoveEmptyEntries
                 );
 
-                for (int i = 0; i < tokens.Length; i++)
-                {
-                    int x = i % width;
-                    int y = i / width;
-                    tileLayer[x, y] = Convert.ToInt32(tokens[i]);
-                }
-
-                LoadProperties(layerNode, tileLayer);
+                for (int index = 0; index < tokens.Length; index++)
+                    tileLayer[index] = Convert.ToInt32(tokens[index]);
 
                 map.TileLayers.Add(tileLayer);
             }

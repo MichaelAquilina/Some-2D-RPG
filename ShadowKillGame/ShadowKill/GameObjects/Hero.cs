@@ -108,12 +108,12 @@ namespace ShadowKill.GameObjects
 
                 foreach (TileLayer Layer in Map.TileLayers)
                 {
-                    if (Layer.Properties.ContainsKey("Foreground")) continue;           //do not consider foreground objects for collision
+                    if (Layer.HasProperty("Foreground")) continue;           //do not consider foreground objects for collision
 
                     int tileId = Layer[tileX, tileY];
                     if (tileId == 0) continue;
 
-                    impassable = Map.Tiles[tileId].Properties.ContainsKey("Impassable");
+                    impassable = Map.Tiles[tileId].HasProperty("Impassable");
                 }
 
                 //if impassable, adjust X and Y accordingly

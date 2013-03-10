@@ -95,8 +95,8 @@ namespace ShadowKill
                         entity.Width = 1.0f;
                         entity.Height = 1.0f;
                         entity.Visible = true;
-                        entity.LoadAnimationXML(MapObject.Properties["AnimationSet"], Content);
-                        entity.CurrentAnimation = MapObject.Properties["CurrentAnimation"];
+                        entity.LoadAnimationXML(MapObject.GetProperty("AnimationSet"), Content);
+                        entity.CurrentAnimation = MapObject.GetProperty("CurrentAnimation");
                         entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map rather than hard code
 
                         Engine.Entities.Add(entity);
@@ -211,12 +211,12 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.PixelWidth + "x" + Engine.PixelHeight, new Vector2(0, 40), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.Width + "x" + Engine.Map.Height, new Vector2(0, 60), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Entities = " + Engine.Entities.Count, new Vector2(0, 80), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources = " + LightShader.LightSources.Count, new Vector2(0, 120), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePointAccurracy, new Vector2(0, 160), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, Sampler.ToString(), new Vector2(0, 180), Color.White);
+                //SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Entities = " + Engine.Entities.Count, new Vector2(0, 80), Color.White);
+                //SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
+                //SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources = " + LightShader.LightSources.Count, new Vector2(0, 120), Color.White);
+                //SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
+                //SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePointAccurracy, new Vector2(0, 160), Color.White);
+                //SpriteBatch.DrawString(DefaultSpriteFont, Sampler.ToString(), new Vector2(0, 180), Color.White);
             }
             SpriteBatch.End();
 

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using GameEngine.Interfaces;
 
 namespace GameEngine.Tiled
 {
-    public class ObjectLayer : IPropertyBag
+    public class ObjectLayer : PropertyBag
     {
         public List<MapObject> Objects { get; set; }
 
@@ -16,11 +13,8 @@ namespace GameEngine.Tiled
 
         public int Height { get; set; }
 
-        public Dictionary<string, string> Properties { get; set; }
-
         public ObjectLayer()
         {
-            this.Properties = new Dictionary<string, string>();
             this.Objects = new List<MapObject>();
         }
     }
