@@ -102,6 +102,11 @@ namespace ShadowKill.GameObjects
 
                 //iterate through each layer and determine if the tile is passable
                 //TILE MOVEMENT HANDLING
+                //TODO: Add support for impassable REGIONS (ie some parts of the tile are impassable)
+                //This can be done using a specification of the area thats impassable (TopRight, TopLeft, BottomRight, BottomLeft)
+                //"Impassable" : "TR, BR"        (TR=TopRight, BR=BottomRight, TL=TopLeft, BL=BottomLeft)
+                //That would mean the left half of the tile is impassable
+                //By Default, an empty "Impassable" means the entire area is impassable
                 bool impassable = false;
                 int tileX = (int)X;
                 int tileY = (int)Y;
