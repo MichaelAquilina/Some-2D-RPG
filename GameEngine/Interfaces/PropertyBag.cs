@@ -9,9 +9,9 @@ namespace GameEngine.Interfaces
     {
         private Dictionary<string, string> _properties = new Dictionary<string, string>();
 
-        public string GetProperty(string Name)
+        public string GetProperty(string Name, string Default=null)
         {
-            return _properties[Name];
+            return HasProperty(Name)? _properties[Name] : Default;
         }
 
         public void SetProperty(string Name, string Value)
