@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameObjects\BasicLightSource.cs" />
+    <Compile Include="GameObjects\Bat.cs" />
     <Compile Include="GameObjects\Hero.cs" />
     <Compile Include="GameObjects\NPC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,6 +160,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Animations\Monsters\bat.anim">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Animations\Objects\fireplace.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -180,14 +184,14 @@
     <None Include="Animations\Plate Armor\plate_armor_torso.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\female_npc.anim">
+    <None Include="Animations\Characters\female_npc.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\male_npc.anim">
+    <None Include="Animations\Characters\male_npc.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
-    <None Include="Animations\Weapons\sabre.anim">
+    <None Include="Animations\Weapons\dagger.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

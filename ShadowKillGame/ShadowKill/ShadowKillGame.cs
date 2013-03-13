@@ -47,6 +47,7 @@ namespace ShadowKill
         //Game Specific Variablies
         Hero CurrentPlayer;
         NPC FemaleNPC;
+        Bat MonBat;
 
         TileEngine Engine;
 
@@ -73,10 +74,15 @@ namespace ShadowKill
             CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
             CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
             CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
-            ////CurrentPlayer.Weapon = NPC.WEAPON_SABRE;
+            CurrentPlayer.Weapon = NPC.WEAPON_DAGGER;
 
             FemaleNPC = new NPC(15, 9, NPC.FEMALE_HUMAN);
             //FemaleNPC.Legs = NPC.PLATE_ARMOR_LEGS;
+
+            MonBat = new Bat();
+            MonBat.X = 8;
+            MonBat.Y = 12;
+
 
             base.Initialize();
         }
@@ -129,6 +135,7 @@ namespace ShadowKill
             Engine.RegisterGameShader(LightShader);
             Engine.Entities.Add(CurrentPlayer);
             Engine.Entities.Add(FemaleNPC);
+            Engine.Entities.Add(MonBat);
 
             Engine.LoadContent();
 

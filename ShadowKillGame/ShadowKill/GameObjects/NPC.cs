@@ -8,8 +8,8 @@ namespace ShadowKill.GameObjects
 
     public class NPC : Entity
     {
-        public const string MALE_HUMAN = @"Animations/male_npc.anim";
-        public const string FEMALE_HUMAN = @"Animations/female_npc.anim";
+        public const string MALE_HUMAN = @"Animations/Characters/male_npc.anim";
+        public const string FEMALE_HUMAN = @"Animations/Characters/female_npc.anim";
 
         public const string PLATE_ARMOR_LEGS = @"Animations/Plate Armor/plate_armor_legs.anim";
         public const string PLATE_ARMOR_TORSO = @"Animations/Plate Armor/plate_armor_torso.anim";
@@ -18,7 +18,7 @@ namespace ShadowKill.GameObjects
         public const string PLATE_ARMOR_HEAD = @"Animations/Plate Armor/plate_armor_head.anim";
         public const string PLATE_ARMOR_SHOULDERS = @"Animations/Plate Armor/plate_armor_shoulders.anim";
 
-        public const string WEAPON_SABRE = @"Animations/Weapons/sabre.anim";
+        public const string WEAPON_DAGGER = @"Animations/Weapons/dagger.anim";
 
         public Direction Direction { get; set; }
 

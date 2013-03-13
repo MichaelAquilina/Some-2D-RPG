@@ -126,16 +126,6 @@
  </tileset>
  <tileset firstgid="85" name="trunk" tilewidth="32" tileheight="32">
   <image source="LPC/Terrain/trunk.png" width="192" height="96"/>
-  <tile id="1">
-   <properties>
-    <property name="Impassable" value="true"/>
-   </properties>
-  </tile>
-  <tile id="4">
-   <properties>
-    <property name="Impassable" value="true"/>
-   </properties>
-  </tile>
   <tile id="7">
    <properties>
     <property name="Impassable" value="true"/>
