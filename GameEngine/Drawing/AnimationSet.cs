@@ -24,6 +24,11 @@ namespace GameEngine.Drawing
                     if (anim.Group == Group) anim.Visible = Visible;
         }
 
+        private static string GetAttributeValue(XmlNode Node, string Name, string Default = null)
+        {
+            return Node.Attributes[Name] == null ? Default : Node.Attributes[Name].Value;
+        }
+
         /// <summary>
         /// Loads an AnimationSet object from a specified in an XML formatted .anim file.
         /// The method requires the string path to the xml file containing the animation data, a reference to the
@@ -39,17 +44,13 @@ namespace GameEngine.Drawing
 
             foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
             {
-                //optional attributes
-                XmlAttribute frameDelayAttr = animNode.Attributes["FrameDelay"];
-                XmlAttribute loopAttr = animNode.Attributes["Loop"];
-                XmlAttribute groupAttr = animNode.Attributes["Group"];
+                int frameDelay = Convert.ToInt32(GetAttributeValue(animNode, "FrameDelay", "90"));
+                bool loop = Convert.ToBoolean(GetAttributeValue(animNode, "Loop", "true"));
+                string group = GetAttributeValue(animNode, "Group");
 
-                int frameDelay = (frameDelayAttr == null) ? Animation.FRAME_DELAY_DEFAULT : Convert.ToInt32(frameDelayAttr.Value);
-                bool loop = (loopAttr == null) ? false : Convert.ToBoolean(loopAttr.Value);
-                string group = (groupAttr == null) ? null : Convert.ToString(groupAttr.Value);
-
-                string name = Convert.ToString(animNode.Attributes["Name"].Value);
-                string spriteSheet = Convert.ToString(animNode.Attributes["SpriteSheet"].Value);
+                string name = GetAttributeValue(animNode, "Name");
+                string spriteSheet = GetAttributeValue(animNode, "SpriteSheet");
+                string[] origin = GetAttributeValue(animNode, "Origin", "0.5, 1.0").Split(',');
 
                 XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
                 Rectangle[] frames = new Rectangle[frameNodes.Count];
@@ -73,6 +74,7 @@ namespace GameEngine.Drawing
 
                 Animation animation = new Animation(Content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop, true, Layer);
                 animation.Group = group;
+                animation.Origin = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
                 AnimationSet[name].Add(animation);
             }
 

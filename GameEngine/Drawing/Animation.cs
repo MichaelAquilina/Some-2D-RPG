@@ -26,6 +26,7 @@ namespace GameEngine.Drawing
         public int Layer { get; set; }
         public bool Visible { get; set; }
         public string Group { get; set; }
+        public Vector2 Origin { get; set; }
 
         private double _startTime = 0;
 
@@ -51,6 +52,7 @@ namespace GameEngine.Drawing
             this.Rotation = 0;
             this.Visible = Visible;
             this.Layer = Layer;
+            this.Origin = Vector2.Zero;
         }
 
         /// <summary>

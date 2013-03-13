@@ -249,6 +249,8 @@ namespace GameEngine
                 {
                     if (!entity.Visible) continue;
 
+                    //Vector2 objectOrigin = entity.Origin * new Vector2(currentFrame.Width, currentFrame.Height);
+
                     foreach (Animation animation in entity.Animations[entity.CurrentAnimation])
                     {
                         if (!animation.Visible) continue;
@@ -272,11 +274,12 @@ namespace GameEngine
                                 objectHeight
                         );
 
+                        Vector2 animationOrigin = animation.Origin * new Vector2(currentFrame.Width, currentFrame.Height);
+
                         //Calculate the Origin of the Object, as well as its Bounding Box
-                        Vector2 objectOrigin = entity.Origin * new Vector2(currentFrame.Width, currentFrame.Height);
                         Rectangle objectBoundingBox = new Rectangle(
-                            (int)Math.Ceiling(objectDestRect.X - objectOrigin.X * entity.Width),
-                            (int)Math.Ceiling(objectDestRect.Y - objectOrigin.Y * entity.Height),
+                            (int)Math.Ceiling(objectDestRect.X - animationOrigin.X * entity.Width),
+                            (int)Math.Ceiling(objectDestRect.Y - animationOrigin.Y * entity.Height),
                             objectDestRect.Width,
                             objectDestRect.Height
                         );
@@ -304,7 +307,7 @@ namespace GameEngine
                                 currentFrame,
                                 animation.Color,
                                 animation.Rotation,
-                                objectOrigin,
+                                animationOrigin,
                                 animation.SpriteEffect,
                                 layerDepth );        
                         }

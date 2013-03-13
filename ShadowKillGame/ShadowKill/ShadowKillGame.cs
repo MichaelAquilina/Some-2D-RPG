@@ -21,8 +21,8 @@ namespace ShadowKill
 
         const int CIRCLE_POINT_ACCURACY = 36;
 
-        const int WINDOW_HEIGHT = 500;
-        const int WINDOW_WIDTH = 900;
+        const int WINDOW_HEIGHT = 700;
+        const int WINDOW_WIDTH = 1200;
 
         const int WORLD_HEIGHT = 500;
         const int WORLD_WIDTH = 500;
@@ -67,13 +67,13 @@ namespace ShadowKill
             Engine.LoadMap(tiledmap);
 
             CurrentPlayer = new Hero(2, 6.2f);
-            CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
-            CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
-            CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
-            CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
-            CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
-            CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
-            //CurrentPlayer.Weapon = NPC.WEAPON_SABRE;
+            //CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
+            //CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
+            //CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
+            //CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
+            //CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
+            //CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
+            ////CurrentPlayer.Weapon = NPC.WEAPON_SABRE;
 
             FemaleNPC = new NPC(15, 9, NPC.FEMALE_HUMAN);
             //FemaleNPC.Legs = NPC.PLATE_ARMOR_LEGS;
