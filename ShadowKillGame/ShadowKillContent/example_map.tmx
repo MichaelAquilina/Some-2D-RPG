@@ -171,6 +171,16 @@
     <property name="Entry" value="Left Right"/>
    </properties>
   </tile>
+  <tile id="6">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
  </tileset>
  <tileset firstgid="147" name="dirt" tilewidth="32" tileheight="32">
   <image source="LPC/Terrain/dirt.png" width="96" height="192"/>

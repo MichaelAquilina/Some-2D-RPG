@@ -98,8 +98,8 @@ namespace ShadowKill
                         Entity entity = new Entity();
                         entity.X = (float)mapObject.X / Map.TileWidth;
                         entity.Y = (float)mapObject.Y / Map.TileHeight;
-                        entity.Width = (float) mapObject.GetDoubleProperty("Width", 1.0);
-                        entity.Height = (float) mapObject.GetDoubleProperty("Height", 1.0);
+                        entity.Width = mapObject.GetProperty<float>("Width", 1.0f);
+                        entity.Height = mapObject.GetProperty<float>("Height", 1.0f);
                         entity.Visible = true;
                         entity.LoadAnimationXML(mapObject.GetProperty("AnimationSet"), Content);
                         entity.CurrentAnimation = mapObject.GetProperty("CurrentAnimation");

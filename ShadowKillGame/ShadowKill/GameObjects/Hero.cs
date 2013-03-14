@@ -55,7 +55,7 @@ namespace ShadowKill.GameObjects
             float prevX = X;
             float prevY = Y;
             Tile prevTile = Map.GetTopMostTile((int) X, (int)Y);
-            float moveSpeedModifier = (float)prevTile.GetDoubleProperty("MoveSpeed", 1.0);
+            float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
