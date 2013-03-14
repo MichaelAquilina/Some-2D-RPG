@@ -2,7 +2,7 @@ Game Development
 ================
 
 *Screenshot of Current State*
-![Game Progress 14/03/2013][GameProgress2.png)
+![Game Progress 14/03/2013](GameProgress2.png)
 ![Game Progress 08/03/2013](ConceptScreenshot.png)
 
 This GIT hub project is my way of getting familiar with game development techniques used in many modern day games. I chose 
