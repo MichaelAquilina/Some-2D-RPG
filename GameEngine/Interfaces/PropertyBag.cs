@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
+using System;
 
 namespace GameEngine.Interfaces
 {
@@ -8,6 +9,31 @@ namespace GameEngine.Interfaces
     public abstract class PropertyBag
     {
         private Dictionary<string, string> _properties = new Dictionary<string, string>();
+
+        public bool GetBooleanProperty(string Name, bool Default = true)
+        {
+            return HasProperty(Name) ? Convert.ToBoolean(Name) : Default;
+        }
+
+        public double GetDoubleProperty(string Name, double Defualt = 0)
+        {
+            return HasProperty(Name) ? Convert.ToDouble(_properties[Name]) : Defualt;
+        }
+
+        public decimal GetDecimalProperty(string Name, decimal Default = 0)
+        {
+            return HasProperty(Name) ? Convert.ToDecimal(_properties[Name]) : Default;
+        }
+
+        public int GetInt32Property(string Name, int Default=0)
+        {
+            return HasProperty(Name) ? Convert.ToInt32(_properties[Name]) : Default;
+        }
+
+        public long GetInt64Property(string Name, int Default = 0)
+        {
+            return HasProperty(Name) ? Convert.ToInt64(_properties[Name]) : Default;
+        }
 
         public string GetProperty(string Name, string Default=null)
         {

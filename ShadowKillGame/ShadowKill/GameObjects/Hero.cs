@@ -46,7 +46,7 @@ namespace ShadowKill.GameObjects
             float prevX = X;
             float prevY = Y;
             Tile tile = Map.GetTopMostTile((int) X, (int)Y);
-            float moveSpeedModifier = (float) Convert.ToDouble(tile.GetProperty("MoveSpeed", "1.0"));
+            float moveSpeedModifier = (float) tile.GetDoubleProperty("MoveSpeed", 1.0);
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
@@ -109,6 +109,7 @@ namespace ShadowKill.GameObjects
 
                 tile = Map.GetTopMostTile(tileX, tileY);
                 impassable = tile.HasProperty("Impassable");
+                string[] entryPoints = tile.GetProperty("Entry", "Top, Down, Left, Right").Split(',');
 
                 //if impassable, adjust X and Y accordingly
                 float padding = 0.00001f;
