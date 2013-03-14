@@ -2,8 +2,8 @@ Game Development
 ================
 
 *Screenshot of Current State*
-![Game Progress 14/03/2013](GameProgress2.png)
-![Game Progress 08/03/2013](ConceptScreenshot.png)
+<img src="GameProgress2.png"></img>
+<img src="ConceptScreenshot.png"></img>
 
 This GIT hub project is my way of getting familiar with game development techniques used in many modern day games. I chose 
 to first focus on 2D development since this would provide me with a nice starting point, all the while being
