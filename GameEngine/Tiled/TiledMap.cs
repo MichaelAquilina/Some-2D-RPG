@@ -28,6 +28,20 @@ namespace GameEngine.Tiled
             TileLayers = new List<TileLayer>();
         }
 
+        public Tile GetTopMostTile(int X, int Y)
+        {
+            for (int layerIndex = TileLayers.Count - 1; layerIndex >= 0; layerIndex--)
+            {
+                TileLayer layer = TileLayers[layerIndex];
+                if (layer.HasProperty("Foreground")) continue;      //ignore foreground layers
+
+                if( layer[X, Y] != 0 )
+                    return Tiles[layer[X, Y]];
+            }
+
+            return null;
+        }
+
         public Tile GetTile(int X, int Y, int layerIndex)
         {
             TileLayer layer = TileLayers[layerIndex];

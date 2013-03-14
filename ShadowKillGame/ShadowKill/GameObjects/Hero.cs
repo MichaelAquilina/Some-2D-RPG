@@ -45,6 +45,8 @@ namespace ShadowKill.GameObjects
 
             float prevX = X;
             float prevY = Y;
+            Tile tile = Map.GetTopMostTile((int) X, (int)Y);
+            float moveSpeedModifier = (float) Convert.ToDouble(tile.GetProperty("MoveSpeed", "1.0"));
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
@@ -65,7 +67,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Y -= MOVEMENT_SPEED;
+                    Y -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
@@ -74,7 +76,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Y += MOVEMENT_SPEED;
+                    Y += MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
@@ -83,7 +85,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    X -= MOVEMENT_SPEED;
+                    X -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
@@ -92,7 +94,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    X += MOVEMENT_SPEED;
+                    X += MOVEMENT_SPEED * moveSpeedModifier;
                 }
 
                 //Set animation to idle of no movements where made
@@ -101,25 +103,12 @@ namespace ShadowKill.GameObjects
 
 
                 //iterate through each layer and determine if the tile is passable
-                //TILE MOVEMENT HANDLING
-                //TODO: Add support for impassable REGIONS (ie some parts of the tile are impassable)
-                //This can be done using a specification of the area thats impassable (TopRight, TopLeft, BottomRight, BottomLeft)
-                //"Impassable" : "TR, BR"        (TR=TopRight, BR=BottomRight, TL=TopLeft, BL=BottomLeft)
-                //That would mean the right half of the tile is impassable
-                //By Default, an empty "Impassable" means the entire area is impassable
                 bool impassable = false;
                 int tileX = (int)X;
                 int tileY = (int)Y;
 
-                foreach (TileLayer layer in Map.TileLayers)
-                {
-                    if (layer.HasProperty("Foreground")) continue;           //do not consider foreground objects for collision
-
-                    int tileId = layer[tileX, tileY];
-                    if (tileId == 0) continue;
-
-                    impassable = Map.Tiles[tileId].HasProperty("Impassable");
-                }
+                tile = Map.GetTopMostTile(tileX, tileY);
+                impassable = tile.HasProperty("Impassable");
 
                 //if impassable, adjust X and Y accordingly
                 float padding = 0.00001f;

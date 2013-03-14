@@ -186,6 +186,7 @@
     </None>
     <None Include="Animations\Characters\female_npc.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Animations\Characters\male_npc.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -193,6 +194,7 @@
     </None>
     <None Include="Animations\Weapons\dagger.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup />

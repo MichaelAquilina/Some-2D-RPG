@@ -67,7 +67,7 @@ namespace ShadowKill
             Engine = new TileEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             Engine.LoadMap(tiledmap);
 
-            CurrentPlayer = new Hero(2, 6.2f);
+            CurrentPlayer = new Hero(25, 15);
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
             CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
