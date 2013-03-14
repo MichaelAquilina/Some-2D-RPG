@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
+using GameEngine.Helpers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -24,11 +25,6 @@ namespace GameEngine.Drawing
                     if (anim.Group == Group) anim.Visible = Visible;
         }
 
-        private static string GetAttributeValue(XmlNode Node, string Name, string Default = null)
-        {
-            return Node.Attributes[Name] == null ? Default : Node.Attributes[Name].Value;
-        }
-
         /// <summary>
         /// Loads an AnimationSet object from a specified in an XML formatted .anim file.
         /// The method requires the string path to the xml file containing the animation data, a reference to the
@@ -44,13 +40,13 @@ namespace GameEngine.Drawing
 
             foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
             {
-                int frameDelay = Convert.ToInt32(GetAttributeValue(animNode, "FrameDelay", "90"));
-                bool loop = Convert.ToBoolean(GetAttributeValue(animNode, "Loop", "true"));
-                string group = GetAttributeValue(animNode, "Group");
+                int frameDelay = Convert.ToInt32(animNode.GetAttributeValue("FrameDelay", "90"));
+                bool loop = Convert.ToBoolean(animNode.GetAttributeValue("Loop", "true"));
+                string group = animNode.GetAttributeValue("Group");
 
-                string name = GetAttributeValue(animNode, "Name");
-                string spriteSheet = GetAttributeValue(animNode, "SpriteSheet");
-                string[] origin = GetAttributeValue(animNode, "Origin", "0.5, 1.0").Split(',');
+                string name = animNode.GetAttributeValue("Name");
+                string spriteSheet = animNode.GetAttributeValue("SpriteSheet");
+                string[] origin = animNode.GetAttributeValue("Origin", "0.5, 1.0").Split(',');
 
                 XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
                 Rectangle[] frames = new Rectangle[frameNodes.Count];

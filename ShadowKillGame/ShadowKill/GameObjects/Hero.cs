@@ -112,18 +112,17 @@ namespace ShadowKill.GameObjects
 
 
                 //iterate through each layer and determine if the tile is passable
-                bool impassable = false;
                 int tileX = (int)X;
                 int tileY = (int)Y;
 
-                Tile curTile = Map.GetTopMostTile(tileX, tileY);
-                impassable = curTile.HasProperty("Impassable");
+                Tile currentTile = Map.GetTopMostTile(tileX, tileY);
+                bool impassable = currentTile.HasProperty("Impassable");
 
                 //CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
                 //TODO
                 //to improve structure
                 //Current very very ineffecient way of checking Entry
-                string[] entryPoints = curTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
+                string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
                 string[] exitPoints = prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
 
                 bool top = prevY < tileY;
@@ -131,16 +130,19 @@ namespace ShadowKill.GameObjects
                 bool left = prevX < tileX;
                 bool right = prevX > tileX + 1;
 
+                //ensure entry points
                 impassable |= top && !Contains(entryPoints, "Top");
                 impassable |= bottom && !Contains(entryPoints, "Bottom");
                 impassable |= left && !Contains(entryPoints, "Left");
                 impassable |= right && !Contains(entryPoints, "Right");
 
+                //ensure exit points
                 impassable |= top && !Contains(exitPoints, "Bottom");
                 impassable |= bottom && !Contains(exitPoints, "Top");
                 impassable |= left && !Contains(exitPoints, "Right");
                 impassable |= right && !Contains(exitPoints, "Left");
 
+                //IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT
                 //if impassable, adjust X and Y accordingly
                 float padding = 0.00001f;
                 if (impassable)

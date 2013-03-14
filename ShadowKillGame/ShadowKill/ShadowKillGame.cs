@@ -93,7 +93,7 @@ namespace ShadowKill
             {
                 foreach (MapObject mapObject in layer.Objects)
                 {
-                    if (mapObject.Type.ToUpper() == "ENTITY")
+                    if (mapObject.Type != null && mapObject.Type.ToUpper() == "ENTITY")
                     {
                         Entity entity = new Entity();
                         entity.X = (float)mapObject.X / Map.TileWidth;
@@ -103,7 +103,7 @@ namespace ShadowKill
                         entity.Visible = true;
                         entity.LoadAnimationXML(mapObject.GetProperty("AnimationSet"), Content);
                         entity.CurrentAnimation = mapObject.GetProperty("CurrentAnimation");
-                        entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map rather than hard code
+                        entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map Object Properties rather than hard code
 
                         Engine.Entities.Add(entity);
                     }

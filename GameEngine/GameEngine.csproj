@@ -98,6 +98,7 @@
     <Compile Include="Drawing\Shapes.cs" />
     <Compile Include="Drawing\ViewPortInfo.cs" />
     <Compile Include="GameObjects\Entity.cs" />
+    <Compile Include="Helpers\XmlExtensions.cs" />
     <Compile Include="Interfaces\PropertyBag.cs" />
     <Compile Include="Tiled\Tile.cs" />
     <Compile Include="Tiled\TiledMap.cs" />
