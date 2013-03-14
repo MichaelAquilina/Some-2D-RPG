@@ -80,8 +80,8 @@ namespace ShadowKill
             //FemaleNPC.Legs = NPC.PLATE_ARMOR_LEGS;
 
             MonBat = new Bat();
-            MonBat.X = 8;
-            MonBat.Y = 12;
+            MonBat.X = 19;
+            MonBat.Y = 3;
 
 
             base.Initialize();
