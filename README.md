@@ -1,7 +1,6 @@
 Game Development
 ================
 
-*Screenshot of Current State*
 <img src="GameProgress2.png" width="630" height="350"></img>
 <img src="ConceptScreenshot.png" width="630" height="350"></img>
 
