@@ -35,6 +35,15 @@ namespace ShadowKill.GameObjects
             base.LoadContent(Content);
         }
 
+        //TODO REMOVE
+        private bool Contains(string[] array, string item)
+        {
+            for (int i = 0; i < array.Length; i++)
+                if (array[i] == item) return true;
+
+            return false;
+        }
+
         public override void Update(GameTime gameTime, TiledMap Map)
         {
             KeyboardState keyboardState = Keyboard.GetState();
@@ -45,8 +54,8 @@ namespace ShadowKill.GameObjects
 
             float prevX = X;
             float prevY = Y;
-            Tile tile = Map.GetTopMostTile((int) X, (int)Y);
-            float moveSpeedModifier = (float) tile.GetDoubleProperty("MoveSpeed", 1.0);
+            Tile prevTile = Map.GetTopMostTile((int) X, (int)Y);
+            float moveSpeedModifier = (float)prevTile.GetDoubleProperty("MoveSpeed", 1.0);
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
@@ -107,9 +116,30 @@ namespace ShadowKill.GameObjects
                 int tileX = (int)X;
                 int tileY = (int)Y;
 
-                tile = Map.GetTopMostTile(tileX, tileY);
-                impassable = tile.HasProperty("Impassable");
-                string[] entryPoints = tile.GetProperty("Entry", "Top, Down, Left, Right").Split(',');
+                Tile curTile = Map.GetTopMostTile(tileX, tileY);
+                impassable = curTile.HasProperty("Impassable");
+
+                //CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
+                //TODO
+                //to improve structure
+                //Current very very ineffecient way of checking Entry
+                string[] entryPoints = curTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
+                string[] exitPoints = prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
+
+                bool top = prevY < tileY;
+                bool bottom = prevY > tileY + 1;
+                bool left = prevX < tileX;
+                bool right = prevX > tileX + 1;
+
+                impassable |= top && !Contains(entryPoints, "Top");
+                impassable |= bottom && !Contains(entryPoints, "Bottom");
+                impassable |= left && !Contains(entryPoints, "Left");
+                impassable |= right && !Contains(entryPoints, "Right");
+
+                impassable |= top && !Contains(exitPoints, "Bottom");
+                impassable |= bottom && !Contains(exitPoints, "Top");
+                impassable |= left && !Contains(exitPoints, "Right");
+                impassable |= right && !Contains(exitPoints, "Left");
 
                 //if impassable, adjust X and Y accordingly
                 float padding = 0.00001f;
