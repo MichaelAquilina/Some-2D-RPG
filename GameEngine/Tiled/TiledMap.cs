@@ -28,6 +28,15 @@ namespace GameEngine.Tiled
             TileLayers = new List<TileLayer>();
         }
 
+        /// <summary>
+        /// Retrieves the Topmost tile at the specified (X,Y) location on the map. By top most, the function
+        /// refers to the draw order, i.e. the tile which would be shown on top. The first non-zero tile found
+        /// from the top will be returned by this function. Tiles found in Tile layers marked as "Foreground" 
+        /// are not included. If no non-zero tile is found in any layer, then a null value is returned.
+        /// </summary>
+        /// <param name="X">integer X value.</param>
+        /// <param name="Y">integer Y value.</param>
+        /// <returns>Topmost Tile object found at the specified location. Null if none exists.</returns>
         public Tile GetTopMostTile(int X, int Y)
         {
             for (int layerIndex = TileLayers.Count - 1; layerIndex >= 0; layerIndex--)
@@ -42,11 +51,21 @@ namespace GameEngine.Tiled
             return null;
         }
 
+        /// <summary>
+        /// Retrieves the Tile object found in the specified location of the map, in a specified
+        /// Layer (by Index). Will return null if no tile was found at the layer and specified
+        /// location.
+        /// </summary>
+        /// <param name="X">integer X value.</param>
+        /// <param name="Y">integer Y value.</param>
+        /// <param name="layerIndex">Index of the layer to search In.</param>
+        /// <returns>Tile object found at the specified location. Null if none exists.</returns>
         public Tile GetTile(int X, int Y, int layerIndex)
         {
             TileLayer layer = TileLayers[layerIndex];
+            int tileID = layer[X, Y];
 
-            return (layer[X, Y] == 0) ? null : Tiles[layer[X, Y]];
+            return (tileID == 0) ? null : Tiles[tileID];
         }
 
         //TODO: Support for zlib compression of tile data  (Zlib.NET)
