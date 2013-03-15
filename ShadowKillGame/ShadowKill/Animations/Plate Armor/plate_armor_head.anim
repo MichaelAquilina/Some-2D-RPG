@@ -74,7 +74,7 @@
     </Frames>
   </Animation>
 
-  <Animation Name="Slash_Up" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HEAD_plate_armor_helmet" FrameDelay="100" Origin="0.4, 1.0">
+  <Animation Name="Slash_Up" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HEAD_plate_armor_helmet" FrameDelay="75" Origin="0.4, 1.0" Group="Head">
     <Frames>
       <Frame>79  , 13, 43, 50</Frame>
       <Frame>143 , 13, 43, 50</Frame>
@@ -83,7 +83,7 @@
       <Frame>335 , 13, 43, 50</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Left" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HEAD_plate_armor_helmet" FrameDelay="100" Origin="0.7, 1.0">
+  <Animation Name="Slash_Left" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HEAD_plate_armor_helmet" FrameDelay="75" Origin="0.7, 1.0" Group="Head">
     <Frames>
       <Frame>69  , 78, 40, 49</Frame>
       <Frame>133 , 78, 40, 49</Frame>
@@ -92,7 +92,7 @@
       <Frame>325 , 78, 40, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Down" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HEAD_plate_armor_helmet" FrameDelay="100" Origin="0.4, 1.0">
+  <Animation Name="Slash_Down" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HEAD_plate_armor_helmet" FrameDelay="75" Origin="0.4, 1.0" Group="Head">
     <Frames>
       <Frame>80 , 142, 42, 49</Frame>
       <Frame>144, 142, 42, 49</Frame>
@@ -101,7 +101,7 @@
       <Frame>336, 142, 42, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Right" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HEAD_plate_armor_helmet" FrameDelay="100" Origin="0.4, 1.0">
+  <Animation Name="Slash_Right" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HEAD_plate_armor_helmet" FrameDelay="75" Origin="0.4, 1.0" Group="Head">
     <Frames>
       <Frame>82 , 207, 40, 48</Frame>
       <Frame>146, 207, 40, 48</Frame>

@@ -25,6 +25,12 @@ namespace GameEngine.Drawing
                     if (anim.Group == Group) anim.Visible = Visible;
         }
 
+        public void ResetAnimations(string Name, GameTime GameTime)
+        {
+            foreach (Animation anim in this[Name])
+                anim.ResetAnimation(GameTime);
+        }
+
         /// <summary>
         /// Loads an AnimationSet object from a specified in an XML formatted .anim file.
         /// The method requires the string path to the xml file containing the animation data, a reference to the

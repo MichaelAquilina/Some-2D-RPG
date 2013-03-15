@@ -107,6 +107,20 @@ namespace ShadowKill
 
                         Engine.Entities.Add(entity);
                     }
+                    if (mapObject.Type != null && mapObject.Type.ToUpper() == "MAPOBJECT")
+                    {
+                        Entity entity = new Entity();
+                        entity.X = (float)mapObject.X / Map.TileWidth;
+                        entity.Y = (float)mapObject.Y / Map.TileHeight;
+                        entity.Width = 1.0f;
+                        entity.Height = 1.0f;
+                        
+                        //TODO: Abstract AnimationSet into an IDrawableInterface
+                        //AnimationSet -> IDrawable
+                        //StaticImage -> IDrawable
+                        //etc...
+                        //This will prevent overkill when objects simply require simple storage
+                    }
                 }
             }
         }

@@ -139,6 +139,7 @@ namespace GameEngine.Tiled
                     tile.SourceTexture = sourceTexture;
                     tile.SourceRectangle = new Rectangle(tx, ty, tileWidth, tileHeight);
                     tile.TileGid = i + firstGID;
+                    tile.TileSetName = tilesetName;
 
                     map.Tiles.Add(tile.TileGid, tile);
                     i++;

@@ -63,9 +63,12 @@ namespace ShadowKill.GameObjects
 
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
+                    bool reset = !CurrentAnimation.StartsWith("Slash");
+                        
                     CurrentAnimation = "Slash_" + Direction;
                     moved = true;
-                    return;
+
+                    if (reset) Animations.ResetAnimations(CurrentAnimation, gameTime);
                 }
 
                 //MOVEMENT BASED KEYBOARD EVENTS

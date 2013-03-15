@@ -515,6 +515,6 @@
     <property name="Width" value="1.5"/>
    </properties>
   </object>
-  <object gid="105" x="513" y="280"/>
+  <object type="MapObject" gid="105" x="506" y="263"/>
  </objectgroup>
 </map>
