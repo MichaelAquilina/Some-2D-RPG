@@ -8,7 +8,7 @@ namespace GameEngine.Helpers
 {
     public static class XmlExtensions
     {
-        public static T GetAttributeValue<T>(this XmlNode Node, string Name, T Default, bool ThrowOnNotFound=false)
+        public static T GetAttributeValue<T>(this XmlNode Node, string Name, T Default, bool ThrowOnNotFound=false) where T : IConvertible
         {
             if (Node.Attributes[Name] == null)
                 if (ThrowOnNotFound)

@@ -25,6 +25,16 @@ namespace GameEngine.Drawing
                     if (anim.Group == Group) anim.Visible = Visible;
         }
 
+        /// <summary>
+        /// Resets all animations with the specified Name so that they will show their animation
+        /// from the beginning.
+        /// </summary>
+        /// <param name="Name">String Name of the animations to Reset.</param>
+        /// <param name="GameTime">
+        /// Current GameTime. This will be used to specify the new start time of
+        /// the animation. If a GameTime other than the current one is given, then the reset start time will
+        /// be at the specified value.
+        /// </param>
         public void ResetAnimations(string Name, GameTime GameTime)
         {
             foreach (Animation anim in this[Name])
@@ -46,8 +56,8 @@ namespace GameEngine.Drawing
 
             foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
             {
-                int frameDelay = Convert.ToInt32(animNode.GetAttributeValue("FrameDelay", "90"));
-                bool loop = Convert.ToBoolean(animNode.GetAttributeValue("Loop", "true"));
+                int frameDelay = animNode.GetAttributeValue<int>("FrameDelay", 90);
+                bool loop = animNode.GetAttributeValue<bool>("Loop", true);
                 string group = animNode.GetAttributeValue("Group");
 
                 string name = animNode.GetAttributeValue("Name");

@@ -163,9 +163,6 @@
     <None Include="Animations\Monsters\bat.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Objects\Copy of fireplace.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Animations\Objects\fireplace.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
