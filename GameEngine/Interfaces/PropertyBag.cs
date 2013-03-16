@@ -30,6 +30,12 @@ namespace GameEngine.Interfaces
             return _properties.ContainsKey(Name);
         }
 
+        /// <summary>
+        /// Load properties from the specified XmlNode. An Xml Element under the name "properties"
+        /// will have its content loaded automatically using this method. If no properties node is
+        /// found in the specified node, then the function will do nothing.
+        /// </summary>
+        /// <param name="SelectedNode">XmlNode to extract the properties from</param>
         public void LoadProperties(XmlNode SelectedNode)
         {
             XmlNode propertiesNode = SelectedNode.SelectSingleNode("properties");
