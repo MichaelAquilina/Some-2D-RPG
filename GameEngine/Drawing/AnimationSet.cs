@@ -8,6 +8,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Drawing
 {
+    //TODO: Cleanup AnimationSet structure
+    /// <summary>
+    /// An animation set represents a number of animations grouped together by an animation name. For example, a character
+    /// may have a Move_Left and Move_Right animation. He may also have multiple layers of animations that correspond to the
+    /// animation such as a helmet, his body, his torso, his legs etc.... These are collectively an animation NAME. Animations
+    /// can also be part of a GROUP. A group name represents a relation between animations. For example, there may be 2 seperate
+    /// animations for Move_Left and Move_Right, but there are a group of animations that relate to the 'Head' of the character.
+    /// </summary>
     public class AnimationSet : Dictionary<string, List<Animation>>
     {
         /// <summary>

@@ -38,5 +38,10 @@ namespace GameEngine.Tiled
             this.Height = Height;
             _tiles = new int[Width * Height];
         }
+
+        public override string ToString()
+        {
+            return string.Format("TileLayer: Name={0}, Dimensions={1}x{2}", Name, Width, Height);
+        }
     }
 }

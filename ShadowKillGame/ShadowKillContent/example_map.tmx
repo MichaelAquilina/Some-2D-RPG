@@ -516,5 +516,7 @@
    </properties>
   </object>
   <object type="MapObject" gid="105" x="506" y="263"/>
+  <object type="MapObject" gid="105" x="531" y="134"/>
+  <object type="MapObject" gid="105" x="268" y="347"/>
  </objectgroup>
 </map>

@@ -52,6 +52,16 @@ namespace GameEngine.Tiled
             return null;
         }
 
+        public override string ToString()
+        {
+            return string.Format("TiledMap: Dimensions={0}x{1}, TileDimensions={2}x{3}, TileLayers={4}, ObjectLayers={5}",
+                Width, Height,
+                TileWidth, TileHeight,
+                TileLayers.Count,
+                ObjectLayers.Count
+                );
+        }
+
         /// <summary>
         /// Retrieves the Tile object found in the specified location of the map, in a specified
         /// Layer (by Index). Will return null if no tile was found at the layer and specified

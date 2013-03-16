@@ -17,5 +17,10 @@ namespace GameEngine.Tiled
         {
             this.Objects = new List<MapObject>();
         }
+
+        public override string ToString()
+        {
+            return string.Format("ObjectLayer: Name={0}, Dimensions={1}x{2}", Name, Width, Height);
+        }
     }
 }

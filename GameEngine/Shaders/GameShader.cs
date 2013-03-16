@@ -42,5 +42,10 @@ namespace GameEngine.Shaders
         {
             throw new NotImplementedException();            
         }
+
+        public override string ToString()
+        {
+            return string.Format("GameShader: {0}, Enabled={1}", this.GetType().Name, Enabled);
+        }
     }
 }

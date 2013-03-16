@@ -2,15 +2,14 @@ using System;
 using GameEngine;
 using GameEngine.GameObjects;
 using GameEngine.Helpers;
-using GameEngine.Interfaces;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ShadowKill.GameObjects;
 using ShadowKill.Shaders;
 using ShadowKillGame.GameObjects;
-using Microsoft.Xna.Framework.Content;
 
 namespace ShadowKill
 {

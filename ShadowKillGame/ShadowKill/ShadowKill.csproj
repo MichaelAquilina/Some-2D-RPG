@@ -180,6 +180,7 @@
     </None>
     <None Include="Animations\Plate Armor\plate_armor_legs.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="Animations\Plate Armor\plate_armor_torso.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

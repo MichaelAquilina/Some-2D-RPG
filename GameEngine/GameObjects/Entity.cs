@@ -68,5 +68,11 @@ namespace GameEngine.GameObjects
         public virtual void UnloadContent()
         {
         }
+
+        public override string ToString()
+        {
+            return string.Format("Entity: Pos=({0},{1}), Width={2}, Height={3}, Visible={4}", 
+                X, Y, Width, Height, Visible);
+        }
     }
 }
