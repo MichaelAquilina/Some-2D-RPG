@@ -29,7 +29,7 @@ namespace ShadowKill.GameObjects
         public override void LoadContent(ContentManager Content)
         {
             LoadAnimationXML("Animations/Monsters/bat.anim", Content, 0);
-            CurrentAnimation = "Down";
+            CurrentDrawable = "Down";
         }
     }
 }

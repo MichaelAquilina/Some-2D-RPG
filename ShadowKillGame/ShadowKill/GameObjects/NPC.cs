@@ -49,7 +49,7 @@ namespace ShadowKill.GameObjects
             if(Legs != null )LoadAnimationXML(Legs, Content, 1);
             if (Weapon != null) LoadAnimationXML(Weapon, Content, 7);
             LoadAnimationXML(BaseRace, Content, 0);
-            CurrentAnimation = "Walk_Right";
+            CurrentDrawable = "Walk_Right";
         }
 
         public override void UnloadContent()

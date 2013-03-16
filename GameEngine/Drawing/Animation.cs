@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework.Graphics;
+using System.Xml;
+using GameEngine.Helpers;
+using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Drawing
 {
@@ -12,7 +13,7 @@ namespace GameEngine.Drawing
     /// specification of other meta properties such as the Delay between frames, whether the animation should loop
     /// and what methods to provide information about current frame information based on the Game Time.
     /// </summary>
-    public class Animation
+    public class Animation : IGameDrawable
     {
         internal const int FRAME_DELAY_DEFAULT = 100;
 
@@ -21,12 +22,12 @@ namespace GameEngine.Drawing
         public int FrameDelay { get; set; }
         public bool Loop { get; set; }
         public Color Color { get; set; }
-        public SpriteEffects SpriteEffect { get; set; }
         public float Rotation { get; set; }
         public int Layer { get; set; }
+        public SpriteEffects SpriteEffect { get; set; }
         public bool Visible { get; set; }
-        public string Group { get; set; }
         public Vector2 Origin { get; set; }
+        public string Group { get; set; }
 
         private double _startTime = 0;
 
@@ -47,12 +48,23 @@ namespace GameEngine.Drawing
             this.Frames = Frames;
             this.FrameDelay = FrameDelay;
             this.Loop = Loop;
-            this.Color = Color.White;
-            this.SpriteEffect = SpriteEffects.None;
-            this.Rotation = 0;
             this.Visible = Visible;
             this.Layer = Layer;
             this.Origin = Vector2.Zero;
+            this.Color = Color.White;
+            this.Rotation = 0;
+            this.SpriteEffect = SpriteEffects.None;
+            this.Group = null;
+        }
+
+        public Texture2D GetSourceTexture(GameTime GameTime)
+        {
+            return SpriteSheet;
+        }
+
+        public Rectangle GetSourceRectangle(GameTime GameTime)
+        {
+            return GetCurrentFrame(GameTime);
         }
 
         /// <summary>
@@ -103,6 +115,55 @@ namespace GameEngine.Drawing
         public Rectangle GetCurrentFrame(GameTime GameTime)
         {
             return Frames[Math.Min(GetCurrentFrameIndex(GameTime), Frames.Length-1)];
+        }
+
+        /// <summary>
+        /// Loads Animations into a specified DrawableSet object from a specified in an XML formatted .anim file.
+        /// The method requires the string path to the xml file containing the animation data and a reference to the
+        /// ContentManager. An optional Layer value can be specified for the ordering of the animations in the 
+        /// DrawableSet.
+        /// </summary>
+        /// <param name="DrawableSet">DrawableSet object to load the animations into.</param>
+        /// <param name="Path">String path to the XML formatted .anim file</param>
+        /// <param name="Content">Reference to the ContentManager instance being used in the application</param>
+        /// <param name="Layer">(optional) integer layer value for y ordering on the same DrawableSet.</param>
+        public static void LoadAnimationXML(DrawableSet DrawableSet, string Path, ContentManager Content, int Layer = 0)
+        {
+            XmlDocument document = new XmlDocument();
+            document.Load(Path);
+
+            foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
+            {
+                int frameDelay = animNode.GetAttributeValue<int>("FrameDelay", 90);
+                bool loop = animNode.GetAttributeValue<bool>("Loop", true);
+                string group = animNode.GetAttributeValue("Group");
+
+                string name = animNode.GetAttributeValue("Name");
+                string spriteSheet = animNode.GetAttributeValue("SpriteSheet");
+                string[] origin = animNode.GetAttributeValue("Origin", "0.5, 1.0").Split(',');
+
+                XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
+                Rectangle[] frames = new Rectangle[frameNodes.Count];
+
+                for (int i = 0; i < frameNodes.Count; i++)
+                {
+                    string[] tokens = frameNodes[i].InnerText.Split(',');
+                    if (tokens.Length != 4)
+                        throw new FormatException("Expected 4 Values for Frame Definition: X, Y, Width, Height");
+
+                    int X = Convert.ToInt32(tokens[0]);
+                    int Y = Convert.ToInt32(tokens[1]);
+                    int width = Convert.ToInt32(tokens[2]);
+                    int height = Convert.ToInt32(tokens[3]);
+
+                    frames[i] = new Rectangle(X, Y, width, height);
+                }
+
+                Animation animation = new Animation(Content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop, true, Layer);
+                animation.Group = group;
+                animation.Origin = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
+                DrawableSet.Add(name, animation);
+            }
         }
     }
 }

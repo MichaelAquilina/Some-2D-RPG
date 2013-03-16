@@ -63,18 +63,18 @@ namespace ShadowKill.GameObjects
 
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    bool reset = !CurrentAnimation.StartsWith("Slash");
+                    bool reset = !CurrentDrawable.StartsWith("Slash");
                         
-                    CurrentAnimation = "Slash_" + Direction;
+                    CurrentDrawable = "Slash_" + Direction;
                     moved = true;
 
-                    if (reset) Animations.ResetAnimations(CurrentAnimation, gameTime);
+                    ///if (reset) Animations.ResetAnimations(CurrentAnimation, gameTime);
                 }
 
                 //MOVEMENT BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
-                    CurrentAnimation = "Walk_Up";
+                    CurrentDrawable = "Walk_Up";
                     Direction = Direction.Up;
                     moved = true;
 
@@ -83,7 +83,7 @@ namespace ShadowKill.GameObjects
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
-                    CurrentAnimation = "Walk_Down";
+                    CurrentDrawable = "Walk_Down";
                     Direction = Direction.Down;
                     moved = true;
 
@@ -92,7 +92,7 @@ namespace ShadowKill.GameObjects
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    CurrentAnimation = "Walk_Left";
+                    CurrentDrawable = "Walk_Left";
                     Direction = Direction.Left;
                     moved = true;
 
@@ -101,7 +101,7 @@ namespace ShadowKill.GameObjects
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
-                    CurrentAnimation = "Walk_Right";
+                    CurrentDrawable = "Walk_Right";
                     Direction = Direction.Right;
                     moved = true;
 
@@ -111,7 +111,7 @@ namespace ShadowKill.GameObjects
 
                 //Set animation to idle of no movements where made
                 if (moved == false)
-                    CurrentAnimation = "Idle_" + Direction;
+                    CurrentDrawable = "Idle_" + Direction;
 
 
                 //iterate through each layer and determine if the tile is passable

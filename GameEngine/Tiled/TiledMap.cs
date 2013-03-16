@@ -110,6 +110,7 @@ namespace GameEngine.Tiled
                     mapObject.Type = objectNode.GetAttributeValue("type");
                     mapObject.X = objectNode.GetAttributeValue<int>("x", 0);
                     mapObject.Y = objectNode.GetAttributeValue<int>("y", 0);
+                    mapObject.Gid = objectNode.GetAttributeValue<int>("gid", 0);
                     mapObject.LoadProperties(objectNode);
 
                     mapObjectLayer.Objects.Add(mapObject);

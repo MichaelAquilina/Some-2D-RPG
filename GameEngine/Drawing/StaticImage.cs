@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using GameEngine.Interfaces;
 
-namespace GameEngine.Tiled
+namespace GameEngine.Drawing
 {
-    public class Tile : PropertyBag, IGameDrawable
-    {
+   public class StaticImage : IGameDrawable
+   {
         public Texture2D SourceTexture { get; set; }
         public Rectangle SourceRectangle { get; set; }
-        public int TileGid { get; set; }                    //Tile Global Identifier
-        public string TileSetName { get; set; }
 
-        //IGameDrawable Properties
         public Color Color { get; set; }
         public float Rotation { get; set; }
         public int Layer { get; set; }
@@ -21,8 +21,10 @@ namespace GameEngine.Tiled
         public Vector2 Origin { get; set; }
         public string Group { get; set; }
 
-        public Tile()
+        public StaticImage(Texture2D SourceTexture, Rectangle SourceRectangle)
         {
+            this.SourceTexture = SourceTexture;
+            this.SourceRectangle = SourceRectangle;
             this.Color = Color.White;
             this.Rotation = 0;
             this.Layer = 0;
@@ -40,11 +42,6 @@ namespace GameEngine.Tiled
         public Rectangle GetSourceRectangle(GameTime GameTime)
         {
             return SourceRectangle;
-        }
-
-        public override string ToString()
-        {
-            return string.Format("TileGid: {0}, TileSet: {1}", TileGid, TileSetName);
         }
     }
 }

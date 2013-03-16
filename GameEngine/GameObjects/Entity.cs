@@ -26,8 +26,8 @@ namespace GameEngine.GameObjects
         //Relative Origin to the Width and height of each animation
         public Vector2 Origin { get; set; }
 
-        public AnimationSet Animations { get; set; }
-        public string CurrentAnimation { get; set; }
+        public DrawableSet Drawables { get; set; }
+        public string CurrentDrawable { get; set; }
 
         public Entity()
         {
@@ -49,12 +49,12 @@ namespace GameEngine.GameObjects
         {
             this.Origin = Vector2.Zero;
             this.BoundingBoxVisible = false;
-            this.Animations = new AnimationSet();
+            this.Drawables = new DrawableSet();
         }
 
         public void LoadAnimationXML(string FileName, ContentManager Content, int Layer=0)
         {
-            AnimationSet.LoadAnimationXML(Animations, FileName, Content, Layer);
+            Animation.LoadAnimationXML(Drawables, FileName, Content, Layer);
         }
 
         public virtual void Update(GameTime GameTime, TiledMap Map)

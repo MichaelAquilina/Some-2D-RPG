@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using ShadowKill.GameObjects;
 using ShadowKill.Shaders;
 using ShadowKillGame.GameObjects;
+using GameEngine.Drawing;
 
 namespace ShadowKill
 {
@@ -101,7 +102,7 @@ namespace ShadowKill
                         entity.Height = mapObject.GetProperty<float>("Height", 1.0f);
                         entity.Visible = true;
                         entity.LoadAnimationXML(mapObject.GetProperty("AnimationSet"), Content);
-                        entity.CurrentAnimation = mapObject.GetProperty("CurrentAnimation");
+                        entity.CurrentDrawable = mapObject.GetProperty("CurrentAnimation");
                         entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map Object Properties rather than hard code
 
                         Engine.Entities.Add(entity);
@@ -111,14 +112,15 @@ namespace ShadowKill
                         Entity entity = new Entity();
                         entity.X = (float)mapObject.X / Map.TileWidth;
                         entity.Y = (float)mapObject.Y / Map.TileHeight;
-                        entity.Width = 1.0f;
-                        entity.Height = 1.0f;
-                        
-                        //TODO: Abstract AnimationSet into an IDrawableInterface
-                        //AnimationSet -> IDrawable
-                        //StaticImage -> IDrawable
-                        //etc...
-                        //This will prevent overkill when objects simply require simple storage
+                        entity.Width = 1.5f;
+                        entity.Height = 1.5f;
+                        entity.Visible = true;
+
+                        Tile SourceTile = Map.Tiles[mapObject.Gid];
+                        entity.Drawables.Add("standard", SourceTile);
+                        entity.CurrentDrawable = "standard";
+
+                        Engine.Entities.Add(entity);
                     }
                 }
             }
@@ -180,7 +182,7 @@ namespace ShadowKill
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F11, true))
             {
                 helmetVisible = !helmetVisible;
-                CurrentPlayer.Animations.SetGroupVisibility("Head", helmetVisible);
+                CurrentPlayer.Drawables.SetGroupVisibility("Head", helmetVisible);
             }
 
             base.Update(gameTime);

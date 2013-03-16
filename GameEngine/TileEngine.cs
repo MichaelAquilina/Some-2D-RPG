@@ -249,16 +249,14 @@ namespace GameEngine
                 {
                     if (!entity.Visible) continue;
 
-                    //Vector2 objectOrigin = entity.Origin * new Vector2(currentFrame.Width, currentFrame.Height);
-
-                    foreach (Animation animation in entity.Animations[entity.CurrentAnimation])
+                    foreach (IGameDrawable drawable in entity.Drawables[entity.CurrentDrawable])
                     {
-                        if (!animation.Visible) continue;
+                        if (!drawable.Visible) continue;
 
                         //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
                         //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                         //for panning at the edges.
-                        Rectangle currentFrame = animation.GetCurrentFrame(GameTime);
+                        Rectangle currentFrame = drawable.GetSourceRectangle(GameTime);
 
                         int objectX = (int)Math.Ceiling((entity.X - viewPortInfo.TopLeftX) * pxTileWidth);
                         int objectY = (int)Math.Ceiling((entity.Y - viewPortInfo.TopLeftY) * pxTileHeight);
@@ -274,12 +272,12 @@ namespace GameEngine
                                 objectHeight
                         );
 
-                        Vector2 animationOrigin = animation.Origin * new Vector2(currentFrame.Width, currentFrame.Height);
+                        Vector2 drawableOrigin = drawable.Origin * new Vector2(currentFrame.Width, currentFrame.Height);
 
                         //Calculate the Origin of the Object, as well as its Bounding Box
                         Rectangle objectBoundingBox = new Rectangle(
-                            (int)Math.Ceiling(objectDestRect.X - animationOrigin.X * entity.Width),
-                            (int)Math.Ceiling(objectDestRect.Y - animationOrigin.Y * entity.Height),
+                            (int)Math.Ceiling(objectDestRect.X - drawableOrigin.X * entity.Width),
+                            (int)Math.Ceiling(objectDestRect.Y - drawableOrigin.Y * entity.Height),
                             objectDestRect.Width,
                             objectDestRect.Height
                         );
@@ -299,16 +297,16 @@ namespace GameEngine
                             //FIXME: Bug related to when layerDepth becomes small and reaches 0.99 for all levels, causing depth information to be lost
                             //layer depth should depend how far down the object is on the map (Relative to Y)
                             //Important to also take into account the animation layers for the entity
-                            float layerDepth = Math.Min(0.99f, 1 / (entity.Y + ((float) animation.Layer/pxTileHeight)));
+                            float layerDepth = Math.Min(0.99f, 1 / (entity.Y + ((float) drawable.Layer/pxTileHeight)));
 
                             SpriteBatch.Draw(
-                                animation.SpriteSheet,
+                                drawable.GetSourceTexture(GameTime),
                                 objectDestRect,
                                 currentFrame,
-                                animation.Color,
-                                animation.Rotation,
-                                animationOrigin,
-                                animation.SpriteEffect,
+                                drawable.Color,
+                                drawable.Rotation,
+                                drawableOrigin,
+                                drawable.SpriteEffect,
                                 layerDepth );        
                         }
                     }
