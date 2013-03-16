@@ -185,8 +185,8 @@
   <tile id="13" terrain="0,0,,"/>
   <tile id="14" terrain="0,,,"/>
  </tileset>
- <tileset firstgid="105" name="treetop" tilewidth="95" tileheight="141">
-  <image source="LPC/Terrain/treetop.png" width="182" height="141"/>
+ <tileset firstgid="105" name="treetop" tilewidth="94" tileheight="141">
+  <image source="LPC/Terrain/treetop.png" width="192" height="149"/>
  </tileset>
  <layer name="Base Layer" width="41" height="41">
   <data encoding="csv">
@@ -520,5 +520,8 @@
   <object type="MapObject" gid="105" x="268" y="347"/>
   <object type="MapObject" gid="105" x="807" y="460"/>
   <object type="MapObject" gid="105" x="512" y="757"/>
+  <object type="MapObject" gid="106" x="568" y="375"/>
+  <object type="MapObject" gid="106" x="639" y="281"/>
+  <object type="MapObject" gid="106" x="370" y="102"/>
  </objectgroup>
 </map>
