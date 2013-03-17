@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
-namespace GameEngine.Drawing
+namespace GameEngine.Geometry
 {
     /// <summary>
     /// Rectangle Structure that uses Float values as storage rather than integers such as the ones

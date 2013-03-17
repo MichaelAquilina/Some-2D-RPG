@@ -94,9 +94,9 @@
   <ItemGroup>
     <Compile Include="Drawing\Animation.cs" />
     <Compile Include="Drawing\DrawableSet.cs" />
-    <Compile Include="Drawing\FRectangle.cs" />
+    <Compile Include="Geometry\FRectangle.cs" />
     <Compile Include="Drawing\GameDrawableInstance.cs" />
-    <Compile Include="Drawing\Shapes.cs" />
+    <Compile Include="Geometry\ShapeExtensions.cs" />
     <Compile Include="Drawing\StaticImage.cs" />
     <Compile Include="Drawing\ViewPortInfo.cs" />
     <Compile Include="GameObjects\Entity.cs" />

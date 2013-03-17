@@ -5,6 +5,7 @@ using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using GameEngine.Shaders;
 using GameEngine.Tiled;
+using GameEngine.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

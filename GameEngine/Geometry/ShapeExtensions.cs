@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
-namespace GameEngine.Drawing
+namespace GameEngine.Geometry
 {
     /// <summary>
     /// Class that provides static extension methods for drawing Geometrical shapes on the Display
     /// </summary>
-    public static class Shapes
+    public static class ShapeExtensions
     {
         //NOTE: It is important to avoid initialising a new Texture each time
         //This is extremely memory intensive and will end up causing a large memory leak
