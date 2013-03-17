@@ -111,7 +111,7 @@ namespace ShadowKill
                         entity.Width = mapObject.GetProperty<float>("Width", 1.0f);
                         entity.Height = mapObject.GetProperty<float>("Height", 1.0f);
                         entity.Visible = true;
-                        entity.LoadAnimationXML(mapObject.GetProperty("AnimationSet"), Content, "");
+                        Animation.LoadAnimationXML(entity.Drawables, mapObject.GetProperty("AnimationSet"), Content, "");
                         entity.CurrentDrawable = mapObject.GetProperty("CurrentAnimation");
                         entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map Object Properties rather than hard code
 

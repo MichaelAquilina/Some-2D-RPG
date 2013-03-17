@@ -6,6 +6,7 @@ using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using GameEngine.Tiled;
+using GameEngine.Drawing;
 
 namespace ShadowKill.GameObjects
 {
@@ -28,7 +29,7 @@ namespace ShadowKill.GameObjects
 
         public override void LoadContent(ContentManager Content)
         {
-            LoadAnimationXML("Animations/Monsters/bat.anim", Content, null, 0);
+            Animation.LoadAnimationXML(Drawables, "Animations/Monsters/bat.anim", Content, null, 0);
             CurrentDrawable = "Down";
         }
     }

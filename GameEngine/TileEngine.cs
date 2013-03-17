@@ -289,6 +289,7 @@ namespace GameEngine
                             DrawablesOnScreen++;
 
                             //Draw the Bounding Box and a Cross indicating the Origin
+                            //TODO, this should technically be in Game Space, not Engine Space
                             if (entity.BoundingBoxVisible || this.ShowBoundingBoxes)
                             {
                                 SpriteBatch.DrawCross(new Vector2(objectDestRect.X, objectDestRect.Y), 7, Color.Black, 0);

@@ -1,6 +1,7 @@
 ﻿using GameEngine.GameObjects;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
+using GameEngine.Drawing;
 
 namespace ShadowKill.GameObjects
 {
@@ -41,14 +42,14 @@ namespace ShadowKill.GameObjects
 
         public override void LoadContent(ContentManager Content)
         {
-            if(Shoulders != null ) LoadAnimationXML(Shoulders, Content, "Shoulders", 6);
-            if(Head != null) LoadAnimationXML(Head, Content, "Head", 5);
-            if(Hands != null) LoadAnimationXML(Hands, Content, "Hands", 4);
-            if(Feet != null ) LoadAnimationXML(Feet, Content, "Feet", 3);
-            if(Torso != null ) LoadAnimationXML(Torso, Content, "Torso", 2);
-            if(Legs != null )LoadAnimationXML(Legs, Content, "Legs", 1);
-            if (Weapon != null) LoadAnimationXML(Weapon, Content, "Weapon", 7);
-            LoadAnimationXML(BaseRace, Content, "Base", 0);
+            if (Shoulders != null ) Animation.LoadAnimationXML(Drawables, Shoulders, Content, "Shoulders", 6);
+            if (Head != null) Animation.LoadAnimationXML(Drawables, Head, Content, "Head", 5);
+            if (Hands != null) Animation.LoadAnimationXML(Drawables, Hands, Content, "Hands", 4);
+            if (Feet != null) Animation.LoadAnimationXML(Drawables, Feet, Content, "Feet", 3);
+            if (Torso != null) Animation.LoadAnimationXML(Drawables, Torso, Content, "Torso", 2);
+            if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, Content, "Legs", 1);
+            if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, Content, "Weapon", 7);
+            Animation.LoadAnimationXML(Drawables, BaseRace, Content, "Base", 0);
             CurrentDrawable = "Walk_Right";
         }
 
