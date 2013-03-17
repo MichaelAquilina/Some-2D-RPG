@@ -3,6 +3,8 @@ using GameEngine.Interfaces;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using System;
+using System.Collections.Generic;
 
 namespace GameEngine.GameObjects
 {
@@ -52,11 +54,31 @@ namespace GameEngine.GameObjects
             this.Drawables = new DrawableSet();
         }
 
-        public void LoadAnimationXML(string FileName, ContentManager Content, string Group, int Layer=0)
+        public Rectangle GetBoundingBox(GameTime GameTime)
         {
-            Animation.LoadAnimationXML(Drawables, FileName, Content, Group, Layer);
+            List<GameDrawableInstance> drawables = Drawables[CurrentDrawable];
+
+            if (drawables.Count == 0) return new Rectangle(0, 0, 0, 0);                             //a null rectangle for no drawables
+            if (drawables.Count == 1) return drawables[0].Drawable.GetSourceRectangle(GameTime);    //if there is only one, just return it
+
+            int minX = Int32.MaxValue;
+            int minY = Int32.MaxValue;
+            int maxX = Int32.MinValue;
+            int maxY = Int32.MaxValue;
+
+            foreach (GameDrawableInstance draw in drawables)
+            {
+                Rectangle drawRectangle = draw.Drawable.GetSourceRectangle(GameTime);
+                if (drawRectangle.X < minX) minX = drawRectangle.X;
+                if (drawRectangle.Y < minY) minY = drawRectangle.Y;
+                if (drawRectangle.X > maxX) maxX = drawRectangle.X;
+                if (drawRectangle.Y > maxY) maxY = drawRectangle.Y;
+            }
+
+            return new Rectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
+        //TODO: Probably needs to be updated to allow interaction with other entities in the TileEngine instance
         public virtual void Update(GameTime GameTime, TiledMap Map)
         {
         }
