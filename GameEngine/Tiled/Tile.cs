@@ -13,23 +13,11 @@ namespace GameEngine.Tiled
         public string TileSetName { get; set; }
 
         //IGameDrawable Properties
-        public Color Color { get; set; }
-        public float Rotation { get; set; }
-        public int Layer { get; set; }
-        public SpriteEffects SpriteEffect { get; set; }
-        public bool Visible { get; set; }
-        public Vector2 Origin { get; set; }
-        public string Group { get; set; }
+        public Vector2 DrawOrigin { get; set; }
 
         public Tile()
         {
-            this.Color = Color.White;
-            this.Rotation = 0;
-            this.Layer = 0;
-            this.SpriteEffect = SpriteEffects.None;
-            this.Visible = true;
-            this.Origin = new Vector2(0, 1);
-            this.Group = null;
+            this.DrawOrigin = new Vector2(0, 1);
         }
 
         public Texture2D GetSourceTexture(GameTime GameTime)

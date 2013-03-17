@@ -95,6 +95,7 @@
     <Compile Include="Drawing\Animation.cs" />
     <Compile Include="Drawing\DrawableSet.cs" />
     <Compile Include="Drawing\FRectangle.cs" />
+    <Compile Include="Drawing\GameDrawableInstance.cs" />
     <Compile Include="Drawing\Shapes.cs" />
     <Compile Include="Drawing\StaticImage.cs" />
     <Compile Include="Drawing\ViewPortInfo.cs" />
@@ -112,11 +113,6 @@
     <Compile Include="Shaders\GameShader.cs" />
     <Compile Include="Interfaces\ILoadable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Animation.xsd">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

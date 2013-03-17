@@ -21,13 +21,7 @@ namespace GameEngine.Drawing
         public Rectangle[] Frames { get; set; }
         public int FrameDelay { get; set; }
         public bool Loop { get; set; }
-        public Color Color { get; set; }
-        public float Rotation { get; set; }
-        public int Layer { get; set; }
-        public SpriteEffects SpriteEffect { get; set; }
-        public bool Visible { get; set; }
-        public Vector2 Origin { get; set; }
-        public string Group { get; set; }
+        public Vector2 DrawOrigin { get; set; }
 
         private double _startTime = 0;
 
@@ -41,20 +35,13 @@ namespace GameEngine.Drawing
         /// <param name="FrameChange">integer value specifying the amount of time in ms to delay between each frame change. Set to 100 by Default.</param>
         /// <param name="Loop">bool value specifying wheter the animation should re-start at the end of the animation frames. Defaults to false.</param>
         /// <param name="Visible">bool value specifying whether the animation is visible on the screen. Defaults to false.</param>
-        /// <param name="Layer">integer value specifying at which layer should the animation reside on the entity (0 being the lowest layer)/</param>
-        public Animation(Texture2D SpriteSheet, Rectangle[] Frames, int FrameDelay = FRAME_DELAY_DEFAULT, bool Loop=false, bool Visible=false, int Layer=0)
+        public Animation(Texture2D SpriteSheet, Rectangle[] Frames, int FrameDelay = FRAME_DELAY_DEFAULT, bool Loop=false)
         {
             this.SpriteSheet = SpriteSheet;
             this.Frames = Frames;
             this.FrameDelay = FrameDelay;
             this.Loop = Loop;
-            this.Visible = Visible;
-            this.Layer = Layer;
-            this.Origin = Vector2.Zero;
-            this.Color = Color.White;
-            this.Rotation = 0;
-            this.SpriteEffect = SpriteEffects.None;
-            this.Group = null;
+            this.DrawOrigin = Vector2.Zero;
         }
 
         public Texture2D GetSourceTexture(GameTime GameTime)
@@ -127,7 +114,7 @@ namespace GameEngine.Drawing
         /// <param name="Path">String path to the XML formatted .anim file</param>
         /// <param name="Content">Reference to the ContentManager instance being used in the application</param>
         /// <param name="Layer">(optional) integer layer value for y ordering on the same DrawableSet.</param>
-        public static void LoadAnimationXML(DrawableSet DrawableSet, string Path, ContentManager Content, int Layer = 0)
+        public static void LoadAnimationXML(DrawableSet DrawableSet, string Path, ContentManager Content, string Group="", int Layer = 0)
         {
             XmlDocument document = new XmlDocument();
             document.Load(Path);
@@ -136,7 +123,6 @@ namespace GameEngine.Drawing
             {
                 int frameDelay = animNode.GetAttributeValue<int>("FrameDelay", 90);
                 bool loop = animNode.GetAttributeValue<bool>("Loop", true);
-                string group = animNode.GetAttributeValue("Group");
 
                 string name = animNode.GetAttributeValue("Name");
                 string spriteSheet = animNode.GetAttributeValue("SpriteSheet");
@@ -159,11 +145,17 @@ namespace GameEngine.Drawing
                     frames[i] = new Rectangle(X, Y, width, height);
                 }
 
-                Animation animation = new Animation(Content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop, true, Layer);
-                animation.Group = group;
-                animation.Origin = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
-                DrawableSet.Add(name, animation);
+                Animation animation = new Animation(Content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
+                animation.DrawOrigin = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
+                DrawableSet.Add(name, animation, Group, Layer);
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Format("Animation: SpriteSheet={0}, Loop={1}, FrameDelay={2}",
+                SpriteSheet.Name,
+                Loop, FrameDelay);
         }
     }
 }

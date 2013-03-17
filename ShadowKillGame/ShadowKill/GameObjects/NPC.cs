@@ -41,14 +41,14 @@ namespace ShadowKill.GameObjects
 
         public override void LoadContent(ContentManager Content)
         {
-            if(Shoulders != null ) LoadAnimationXML(Shoulders, Content, 6);
-            if(Head != null) LoadAnimationXML(Head, Content, 5);
-            if(Hands != null) LoadAnimationXML(Hands, Content, 4);
-            if(Feet != null ) LoadAnimationXML(Feet, Content, 3);
-            if(Torso != null ) LoadAnimationXML(Torso, Content, 2);
-            if(Legs != null )LoadAnimationXML(Legs, Content, 1);
-            if (Weapon != null) LoadAnimationXML(Weapon, Content, 7);
-            LoadAnimationXML(BaseRace, Content, 0);
+            if(Shoulders != null ) LoadAnimationXML(Shoulders, Content, "Shoulders", 6);
+            if(Head != null) LoadAnimationXML(Head, Content, "Head", 5);
+            if(Hands != null) LoadAnimationXML(Hands, Content, "Hands", 4);
+            if(Feet != null ) LoadAnimationXML(Feet, Content, "Feet", 3);
+            if(Torso != null ) LoadAnimationXML(Torso, Content, "Torso", 2);
+            if(Legs != null )LoadAnimationXML(Legs, Content, "Legs", 1);
+            if (Weapon != null) LoadAnimationXML(Weapon, Content, "Weapon", 7);
+            LoadAnimationXML(BaseRace, Content, "Base", 0);
             CurrentDrawable = "Walk_Right";
         }
 

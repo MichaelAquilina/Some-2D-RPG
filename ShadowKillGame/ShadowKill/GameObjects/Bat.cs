@@ -28,7 +28,7 @@ namespace ShadowKill.GameObjects
 
         public override void LoadContent(ContentManager Content)
         {
-            LoadAnimationXML("Animations/Monsters/bat.anim", Content, 0);
+            LoadAnimationXML("Animations/Monsters/bat.anim", Content, null, 0);
             CurrentDrawable = "Down";
         }
     }

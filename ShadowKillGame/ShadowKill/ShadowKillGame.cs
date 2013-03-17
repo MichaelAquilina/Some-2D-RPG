@@ -35,6 +35,17 @@ namespace ShadowKill
 
         bool helmetVisible = true;
         bool showDebugInfo = true;
+        
+        int SamplerIndex = 0;
+        SamplerState CurrentSampler;
+        SamplerState[] SamplerStates = new SamplerState[] { 
+            SamplerState.PointWrap,
+            SamplerState.PointClamp,
+            SamplerState.LinearWrap,
+            SamplerState.LinearClamp,
+            SamplerState.AnisotropicWrap,
+            SamplerState.AnisotropicClamp 
+        };
 
         LightShader LightShader;
 
@@ -42,7 +53,6 @@ namespace ShadowKill
         GraphicsDeviceManager Graphics;
         SpriteBatch SpriteBatch;
         SpriteFont DefaultSpriteFont;
-        SamplerState Sampler;
 
         //Game Specific Variablies
         Hero CurrentPlayer;
@@ -101,13 +111,13 @@ namespace ShadowKill
                         entity.Width = mapObject.GetProperty<float>("Width", 1.0f);
                         entity.Height = mapObject.GetProperty<float>("Height", 1.0f);
                         entity.Visible = true;
-                        entity.LoadAnimationXML(mapObject.GetProperty("AnimationSet"), Content);
+                        entity.LoadAnimationXML(mapObject.GetProperty("AnimationSet"), Content, "");
                         entity.CurrentDrawable = mapObject.GetProperty("CurrentAnimation");
                         entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map Object Properties rather than hard code
 
                         Engine.Entities.Add(entity);
                     }
-                    if (mapObject.Type != null && mapObject.Type.ToUpper() == "MAPOBJECT")
+                    if (mapObject.Type != null && mapObject.Type.ToUpper() == "MAPOBJECT" || mapObject.Type == "")
                     {
                         Entity entity = new Entity();
                         entity.X = (float)mapObject.X / Map.TileWidth;
@@ -128,7 +138,7 @@ namespace ShadowKill
 
         protected override void LoadContent()
         {
-            Sampler = SamplerState.PointWrap;
+            CurrentSampler = SamplerStates[SamplerIndex];
 
             LightShader = new LightShader(this.GraphicsDevice, CIRCLE_POINT_ACCURACY);
             LightShader.AmbientLight = new Color(30, 15, 15);
@@ -165,6 +175,13 @@ namespace ShadowKill
 
         protected override void Update(GameTime gameTime)
         {
+            //F1 = Show/Hide Bounding Boxes
+            //F2 = Show/Hide Debug Info
+            //F3 = Enable/Disable LightShader
+            //F4 = Change Current SamplerState
+            //F10 = Toggle Fullscreen Mode
+            //F11 = Show/Hide Player Helmet
+
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
@@ -176,13 +193,16 @@ namespace ShadowKill
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F3, true))
                 LightShader.Enabled = !LightShader.Enabled;
 
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F4, true))
+                CurrentSampler = SamplerStates[++SamplerIndex % SamplerStates.Length];
+
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
                 Graphics.ToggleFullScreen();
 
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F11, true))
             {
                 helmetVisible = !helmetVisible;
-                CurrentPlayer.Drawables.SetGroupVisibility("Head", helmetVisible);
+                CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
             }
 
             base.Update(gameTime);
@@ -204,7 +224,7 @@ namespace ShadowKill
             Rectangle destRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
-            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White, Sampler);     
+            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White, CurrentSampler);     
             
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
@@ -233,12 +253,12 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.PixelWidth + "x" + Engine.PixelHeight, new Vector2(0, 40), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.Width + "x" + Engine.Map.Height, new Vector2(0, 60), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, 80), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Entities = " + Engine.Entities.Count, new Vector2(0, 80), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources = " + LightShader.LightSources.Count, new Vector2(0, 120), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePointAccurracy, new Vector2(0, 160), Color.White);
-                //SpriteBatch.DrawString(DefaultSpriteFont, Sampler.ToString(), new Vector2(0, 180), Color.White);
             }
             SpriteBatch.End();
 

@@ -24,7 +24,7 @@ namespace GameEngine
 
         public int PixelHeight { get; private set; }
 
-        public int AnimationsOnScreen { get; private set; }
+        public int DrawablesOnScreen { get; private set; }
 
         public TiledMap Map { get; private set; }
 
@@ -51,7 +51,7 @@ namespace GameEngine
             :base(Game)
         {
             ShowBoundingBoxes = false;
-            AnimationsOnScreen = 0;
+            DrawablesOnScreen = 0;
 
             GameShaders = new List<GameShader>();
             Entities = new List<Entity>();
@@ -174,7 +174,7 @@ namespace GameEngine
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
             //reset counters
-            AnimationsOnScreen = 0;
+            DrawablesOnScreen = 0;
 
             ViewPortInfo viewPortInfo = new ViewPortInfo();             //Should be fast due to being a struct
             {
@@ -249,14 +249,14 @@ namespace GameEngine
                 {
                     if (!entity.Visible) continue;
 
-                    foreach (IGameDrawable drawable in entity.Drawables[entity.CurrentDrawable])
+                    foreach (GameDrawableInstance drawable in entity.Drawables[entity.CurrentDrawable])
                     {
-                        if (!drawable.Visible) continue;
+                        if(!drawable.Visible) continue;
 
                         //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
                         //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                         //for panning at the edges.
-                        Rectangle currentFrame = drawable.GetSourceRectangle(GameTime);
+                        Rectangle currentFrame = drawable.Drawable.GetSourceRectangle(GameTime);
 
                         int objectX = (int)Math.Ceiling((entity.X - viewPortInfo.TopLeftX) * pxTileWidth);
                         int objectY = (int)Math.Ceiling((entity.Y - viewPortInfo.TopLeftY) * pxTileHeight);
@@ -272,7 +272,7 @@ namespace GameEngine
                                 objectHeight
                         );
 
-                        Vector2 drawableOrigin = drawable.Origin * new Vector2(currentFrame.Width, currentFrame.Height);
+                        Vector2 drawableOrigin = drawable.Drawable.DrawOrigin * new Vector2(currentFrame.Width, currentFrame.Height);
 
                         //Calculate the Origin of the Object, as well as its Bounding Box
                         Rectangle objectBoundingBox = new Rectangle(
@@ -285,7 +285,7 @@ namespace GameEngine
                         //only render the object if the objects BoundingBox it is within the specified viewport
                         if (objectBoundingBox.Intersects(_inputBuffer.Bounds))
                         {
-                            AnimationsOnScreen++;
+                            DrawablesOnScreen++;
 
                             //Draw the Bounding Box and a Cross indicating the Origin
                             if (entity.BoundingBoxVisible || this.ShowBoundingBoxes)
@@ -300,13 +300,13 @@ namespace GameEngine
                             float layerDepth = Math.Min(0.99f, 1 / (entity.Y + ((float) drawable.Layer/pxTileHeight)));
 
                             SpriteBatch.Draw(
-                                drawable.GetSourceTexture(GameTime),
+                                drawable.Drawable.GetSourceTexture(GameTime),
                                 objectDestRect,
                                 currentFrame,
                                 drawable.Color,
                                 drawable.Rotation,
                                 drawableOrigin,
-                                drawable.SpriteEffect,
+                                drawable.SpriteEffects,
                                 layerDepth );        
                         }
                     }

@@ -52,9 +52,9 @@ namespace GameEngine.GameObjects
             this.Drawables = new DrawableSet();
         }
 
-        public void LoadAnimationXML(string FileName, ContentManager Content, int Layer=0)
+        public void LoadAnimationXML(string FileName, ContentManager Content, string Group, int Layer=0)
         {
-            Animation.LoadAnimationXML(Drawables, FileName, Content, Layer);
+            Animation.LoadAnimationXML(Drawables, FileName, Content, Group, Layer);
         }
 
         public virtual void Update(GameTime GameTime, TiledMap Map)

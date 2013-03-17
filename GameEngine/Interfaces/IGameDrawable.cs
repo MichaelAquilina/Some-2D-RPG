@@ -7,16 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Interfaces
 {
+    /// <summary>
+    /// Defines an interface which is required by the TileEngine class to draw items on the screen.
+    /// </summary>
     public interface IGameDrawable
     {
-        Color Color { get; set; }
+        Vector2 DrawOrigin { get; set; }
+
         Rectangle GetSourceRectangle(GameTime GameTime);
         Texture2D GetSourceTexture(GameTime GameTime);
-        string Group { get; set; }
-        int Layer { get; set; }
-        Vector2 Origin { get; set; }
-        float Rotation { get; set; }
-        SpriteEffects SpriteEffect { get; set; }
-        bool Visible { get; set; }
     }
 }
