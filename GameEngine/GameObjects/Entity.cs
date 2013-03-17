@@ -22,6 +22,7 @@ namespace GameEngine.GameObjects
         public float Height { get; set; }
 
         public bool Visible { get; set; }
+        public bool OnScreen { get; internal set; }
 
         public bool BoundingBoxVisible { get; set; }
 
@@ -43,6 +44,7 @@ namespace GameEngine.GameObjects
             this.Width = Width;
             this.Height = Height;
             this.Visible = Visible;
+            this.OnScreen = false;
 
             Init();
         }
@@ -93,8 +95,8 @@ namespace GameEngine.GameObjects
 
         public override string ToString()
         {
-            return string.Format("Entity: Pos=({0},{1}), Width={2}, Height={3}, Visible={4}", 
-                X, Y, Width, Height, Visible);
+            return string.Format("Entity: Pos=({0},{1}), Width={2}, Height={3}, Visible={4}, OnScreen={5}", 
+                X, Y, Width, Height, Visible, OnScreen);
         }
     }
 }

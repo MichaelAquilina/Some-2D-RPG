@@ -248,6 +248,8 @@ namespace GameEngine
                 //DRAW VISIBLE REGISTERED ENTITIES
                 foreach (Entity entity in Entities)
                 {
+                    entity.OnScreen = false;
+
                     if (!entity.Visible) continue;
 
                     foreach (GameDrawableInstance drawable in entity.Drawables[entity.CurrentDrawable])
@@ -287,6 +289,7 @@ namespace GameEngine
                         if (objectBoundingBox.Intersects(_inputBuffer.Bounds))
                         {
                             DrawablesOnScreen++;
+                            entity.OnScreen = true;
 
                             //Draw the Bounding Box and a Cross indicating the Origin
                             //TODO, this should technically be in Game Space, not Engine Space
