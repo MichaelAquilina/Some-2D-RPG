@@ -32,9 +32,10 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GameEngine
 {
     /// <summary>
-    /// Class that represents the current state of the game world, including the Entities residing in it. Provides functions
-    /// to draw/render the current state of the world, as well as other draw functions such as drawing a MiniMap version
-    /// of the current WorldMap.
+    /// The TeeEngine - the result of my sweat, blood and tears into this project. The TeeEngine is simply a 2D Tile Engine that
+    /// provides a number of powerful tools and properties to quickly create and design 2D games that rely on tiles as coordinate
+    /// systems. The Name Tee Engine came from the idea of a TileEngine, ie a TEngine. I have a personal obsession with Tea, so changing
+    /// the name of the engine to TeeEngine places a bit of me into this project.
     /// </summary>
     public class TeeEngine : GameComponent
     {
