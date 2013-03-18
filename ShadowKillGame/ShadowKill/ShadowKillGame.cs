@@ -11,6 +11,8 @@ using ShadowKill.GameObjects;
 using ShadowKill.Shaders;
 using ShadowKillGame.GameObjects;
 using GameEngine.Drawing;
+using GameEngine.Geometry;
+using GameEngine.DataStructures;
 
 namespace ShadowKill
 {
@@ -77,7 +79,7 @@ namespace ShadowKill
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             Engine.LoadMap(tiledmap);
 
-            CurrentPlayer = new Hero(25, 15);
+            CurrentPlayer = new Hero(15.39997f, 9.199986f);
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
             CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
@@ -160,9 +162,9 @@ namespace ShadowKill
             //LightShader.LightSources.Add(new BasicLightSource(fireplace.X, fireplace.Y, 7, 7, Color.OrangeRed));
 
             Engine.RegisterGameShader(LightShader);
-            Engine.Entities.Add(CurrentPlayer);
-            Engine.Entities.Add(FemaleNPC);
             Engine.Entities.Add(MonBat);
+            Engine.Entities.Add(CurrentPlayer);
+            //Engine.Entities.Add(FemaleNPC);
 
             Engine.LoadContent();
 
@@ -181,6 +183,7 @@ namespace ShadowKill
             //F2 = Show/Hide Debug Info
             //F3 = Enable/Disable LightShader
             //F4 = Change Current SamplerState
+            //F5 = Show/Hide Tile Grid
             //F10 = Toggle Fullscreen Mode
             //F11 = Show/Hide Player Helmet
 
@@ -213,6 +216,30 @@ namespace ShadowKill
             base.Update(gameTime);
         }
 
+        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch SpriteBatch, QuadTreeNode Node)
+        {
+            if( Node == null ) return;
+
+            int PX = (int)Math.Ceiling((Node.TX - viewPort.txTopLeftX) * viewPort.pxTileWidth);
+            int PY = (int)Math.Ceiling((Node.TY - viewPort.txTopLeftY) * viewPort.pxTileHeight);
+            int pxWidth = (int)Math.Ceiling((Node.txWidth * viewPort.pxTileWidth));
+            int pxHeight = (int)Math.Ceiling((Node.txHeight * viewPort.pxTileHeight));
+            string nodeIdText = Node.NodeID.ToString();
+
+            SpriteBatch.DrawRectangle(new Rectangle(PX, PY, pxWidth, pxHeight), Color.Lime, 0);
+            SpriteBatch.DrawString(
+                DefaultSpriteFont, 
+                nodeIdText, 
+                new Vector2(PX + pxWidth / 2.0f, PY + pxHeight / 2.0f) - DefaultSpriteFont.MeasureString(nodeIdText)/2, 
+                Color.Lime
+            );
+
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node1);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node2);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node3);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node4);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Viewport = new Viewport
@@ -229,10 +256,19 @@ namespace ShadowKill
             Rectangle pxDestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
-            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.TX, CurrentPlayer.TY), TILE_WIDTH, TILE_HEIGHT, pxDestRectangle, Color.White, CurrentSampler);     
-            
+            ViewPortInfo viewPort = Engine.DrawWorldViewPort(
+                                            gameTime, 
+                                            SpriteBatch, 
+                                            new Vector2(CurrentPlayer.TX, CurrentPlayer.TY), 
+                                            TILE_WIDTH, TILE_HEIGHT, 
+                                            pxDestRectangle, 
+                                            Color.White, 
+                                            CurrentSampler);
+
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
+
+            DrawQuadTree(viewPort, SpriteBatch, Engine.QuadTree.Root);
 
             if (showDebugInfo) 
             {

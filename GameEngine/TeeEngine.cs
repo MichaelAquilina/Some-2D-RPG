@@ -9,6 +9,7 @@ using GameEngine.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngine.DataStructures;
 
 //In the Context of this Game Engine, the following Coordinate units are used:
 //        PX: Pixels
@@ -93,6 +94,11 @@ namespace GameEngine
         /// </summary>
         public bool ShowBoundingBoxes { get; set; }
 
+        /// <summary>
+        /// Current QuadTree built during the latest Update call.
+        /// </summary>
+        public QuadTree QuadTree { get; set; }
+
         #endregion
 
         #region Variables
@@ -105,7 +111,7 @@ namespace GameEngine
 
         #region Initialisation
 
-        public TeeEngine(Game Game, int PixelWidth, int PixelHeight)
+        public TeeEngine(Game Game, int pxWidth, int pxHeight)
             :base(Game)
         {
             ShowTileGrid = false;
@@ -115,7 +121,7 @@ namespace GameEngine
             GameShaders = new List<GameShader>();
             Entities = new List<Entity>();
 
-            SetResolution(PixelWidth, PixelHeight);
+            SetResolution(pxWidth, pxHeight);
             Game.Components.Add(this);
         }
 
@@ -178,6 +184,8 @@ namespace GameEngine
         {
             foreach (Entity entity in Entities)
                 entity.Update(GameTime, Map);
+
+            QuadTree.Build(Entities);
         }
 
         #endregion
@@ -187,6 +195,7 @@ namespace GameEngine
         public void LoadMap(TiledMap Map)
         {
             this.Map = Map;
+            QuadTree = new QuadTree(Map.txWidth, Map.txHeight);
         }
 
         /// <summary>
@@ -228,7 +237,7 @@ namespace GameEngine
         /// <param name="pxDestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
         /// <param name="Color">Color object with which to blend the game world.</param>
         /// <param name="SamplerState">Specifies the type of sampler to use when drawing images with the SpriteBatch object.</param>
-        public void DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 txCenter, int pxTileWidth, int pxTileHeight, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
+        public ViewPortInfo DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 txCenter, int pxTileWidth, int pxTileHeight, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
         {
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
@@ -402,6 +411,8 @@ namespace GameEngine
                 SpriteBatch.Draw(_inputBuffer, pxDestRectangle, Color);
             }
             SpriteBatch.End();
+
+            return viewPortInfo;
         }
 
         #endregion
