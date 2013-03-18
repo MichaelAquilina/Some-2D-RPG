@@ -7,12 +7,12 @@ namespace GameEngine.Tiled
     {
         public string Name { get; set; }
 
-        public int Width
+        public int txWidth
         {
             get;
             private set;
         }
-        public int Height
+        public int txHeight
         {
             get;
             private set;
@@ -26,22 +26,22 @@ namespace GameEngine.Tiled
 
         public int this[int x, int y]
         {
-            get { return _tiles[x + y * Width ]; }
-            set { _tiles[x + y * Width] = value; }
+            get { return _tiles[x + y * txWidth ]; }
+            set { _tiles[x + y * txWidth] = value; }
         }
 
         internal int[] _tiles;
 
         public TileLayer(int Width, int Height)
         {
-            this.Width = Width;
-            this.Height = Height;
+            this.txWidth = Width;
+            this.txHeight = Height;
             _tiles = new int[Width * Height];
         }
 
         public override string ToString()
         {
-            return string.Format("TileLayer: Name={0}, Dimensions={1}x{2}", Name, Width, Height);
+            return string.Format("TileLayer: Name={0}, Dimensions={1}x{2}", Name, txWidth, txHeight);
         }
     }
 }

@@ -13,8 +13,8 @@ namespace ShadowKill.GameObjects
         const float MOVEMENT_SPEED = 0.2f;
         double PrevGameTime = 0;
 
-        public float LightX { get { return X; } }
-        public float LightY { get { return Y; } }
+        public float LightX { get { return TX; } }
+        public float LightY { get { return TY; } }
 
         public LightPositionType PositionType { get { return Shaders.LightPositionType.Relative; } }
         public Color LightColor { get; set; }
@@ -52,9 +52,9 @@ namespace ShadowKill.GameObjects
             LightRadiusX = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
             LightRadiusY = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
 
-            float prevX = X;
-            float prevY = Y;
-            Tile prevTile = Map.GetTopMostTile((int) X, (int)Y);
+            float prevX = TX;
+            float prevY = TY;
+            Tile prevTile = Map.GetTopMostTile((int) TX, (int)TY);
             float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
@@ -79,7 +79,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Y -= MOVEMENT_SPEED * moveSpeedModifier;
+                    TY -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
@@ -88,7 +88,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Y += MOVEMENT_SPEED * moveSpeedModifier;
+                    TY += MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
@@ -97,7 +97,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    X -= MOVEMENT_SPEED * moveSpeedModifier;
+                    TX -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
@@ -106,7 +106,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    X += MOVEMENT_SPEED * moveSpeedModifier;
+                    TX += MOVEMENT_SPEED * moveSpeedModifier;
                 }
 
                 //Set animation to idle of no movements where made
@@ -115,8 +115,8 @@ namespace ShadowKill.GameObjects
 
 
                 //iterate through each layer and determine if the tile is passable
-                int tileX = (int)X;
-                int tileY = (int)Y;
+                int tileX = (int)TX;
+                int tileY = (int)TY;
 
                 Tile currentTile = Map.GetTopMostTile(tileX, tileY);
                 bool impassable = currentTile.HasProperty("Impassable");
@@ -150,24 +150,24 @@ namespace ShadowKill.GameObjects
                 float padding = 0.00001f;
                 if (impassable)
                 {
-                    if (prevY <= tileY && Y > tileY)
-                        Y = tileY - padding;
+                    if (prevY <= tileY && TY > tileY)
+                        TY = tileY - padding;
                     else
-                    if (prevY >= tileY + 1 && Y < tileY + 1)
-                        Y = tileY + 1 + padding;
+                    if (prevY >= tileY + 1 && TY < tileY + 1)
+                        TY = tileY + 1 + padding;
 
-                    if (prevX <= tileX && X > tileX)
-                        X = tileX - padding;
+                    if (prevX <= tileX && TX > tileX)
+                        TX = tileX - padding;
                     else
-                    if (prevX >= tileX + 1 && X < tileX + 1)
-                        X = tileX + 1 + padding;
+                    if (prevX >= tileX + 1 && TX < tileX + 1)
+                        TX = tileX + 1 + padding;
                 }
 
                 //prevent from going out of range
-                if (X < 0) X = 0;
-                if (Y < 0) Y = 0;
-                if (X >= Map.Width - 1) X = Map.Width - 1;
-                if (Y >= Map.Height - 1) Y = Map.Height - 1;
+                if (TX < 0) TX = 0;
+                if (TY < 0) TY = 0;
+                if (TX >= Map.txWidth - 1) TX = Map.txWidth - 1;
+                if (TY >= Map.txHeight - 1) TY = Map.txHeight - 1;
             }  
         }
     }

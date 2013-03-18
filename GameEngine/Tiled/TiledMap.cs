@@ -12,11 +12,11 @@ namespace GameEngine.Tiled
 {
     public class TiledMap : PropertyBag
     {
-        public int Width { get; set; }
-        public int Height { get; set; }
+        public int txWidth { get; set; }
+        public int txHeight { get; set; }
 
-        public int TileWidth { get; set; }
-        public int TileHeight { get; set; }
+        public int pxTileWidth { get; set; }
+        public int pxTileHeight { get; set; }
 
         public SortedList<int, Tile> Tiles { get; set; }
         public List<TileLayer> TileLayers { get; set; }
@@ -55,8 +55,8 @@ namespace GameEngine.Tiled
         public override string ToString()
         {
             return string.Format("TiledMap: Dimensions={0}x{1}, TileDimensions={2}x{3}, TileLayers={4}, ObjectLayers={5}",
-                Width, Height,
-                TileWidth, TileHeight,
+                txWidth, txHeight,
+                pxTileWidth, pxTileHeight,
                 TileLayers.Count,
                 ObjectLayers.Count
                 );
@@ -89,10 +89,10 @@ namespace GameEngine.Tiled
             XmlNode mapNode = document.SelectSingleNode("map");
 
             TiledMap map = new TiledMap();
-            map.Width = mapNode.GetAttributeValue<int>("width", -1, true);
-            map.Height = mapNode.GetAttributeValue<int>("height", -1, true);
-            map.TileWidth = mapNode.GetAttributeValue<int>("tilewidth", -1, true);
-            map.TileHeight = mapNode.GetAttributeValue<int>("tileheight", -1, true);
+            map.txWidth = mapNode.GetAttributeValue<int>("width", -1, true);
+            map.txHeight = mapNode.GetAttributeValue<int>("height", -1, true);
+            map.pxTileWidth = mapNode.GetAttributeValue<int>("tilewidth", -1, true);
+            map.pxTileHeight = mapNode.GetAttributeValue<int>("tileheight", -1, true);
             map.LoadProperties(mapNode);
 
             //OBJECT LAYERS

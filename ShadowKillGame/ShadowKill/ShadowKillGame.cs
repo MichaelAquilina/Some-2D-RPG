@@ -90,8 +90,8 @@ namespace ShadowKill
             //FemaleNPC.Legs = NPC.PLATE_ARMOR_LEGS;
 
             MonBat = new Bat();
-            MonBat.X = 19;
-            MonBat.Y = 3;
+            MonBat.TX = 19;
+            MonBat.TY = 3;
 
 
             base.Initialize();
@@ -106,10 +106,10 @@ namespace ShadowKill
                     if (mapObject.Type != null && mapObject.Type.ToUpper() == "ENTITY")
                     {
                         Entity entity = new Entity();
-                        entity.X = (float)mapObject.X / Map.TileWidth;
-                        entity.Y = (float)mapObject.Y / Map.TileHeight;
-                        entity.Width = mapObject.GetProperty<float>("Width", 1.0f);
-                        entity.Height = mapObject.GetProperty<float>("Height", 1.0f);
+                        entity.TX = (float)mapObject.X / Map.pxTileWidth;
+                        entity.TY = (float)mapObject.Y / Map.pxTileHeight;
+                        entity.rxWidth = mapObject.GetProperty<float>("Width", 1.0f);
+                        entity.rxHeight = mapObject.GetProperty<float>("Height", 1.0f);
                         entity.Visible = true;
                         Animation.LoadAnimationXML(entity.Drawables, mapObject.GetProperty("AnimationSet"), Content, "");
                         entity.CurrentDrawable = mapObject.GetProperty("CurrentAnimation");
@@ -120,10 +120,10 @@ namespace ShadowKill
                     if (mapObject.Type != null && mapObject.Type.ToUpper() == "MAPOBJECT" || mapObject.Type == "")
                     {
                         Entity entity = new Entity();
-                        entity.X = (float)mapObject.X / Map.TileWidth;
-                        entity.Y = (float)mapObject.Y / Map.TileHeight;
-                        entity.Width = 1.5f;
-                        entity.Height = 1.5f;
+                        entity.TX = (float)mapObject.X / Map.pxTileWidth;
+                        entity.TY = (float)mapObject.Y / Map.pxTileHeight;
+                        entity.rxWidth = 1.5f;
+                        entity.rxHeight = 1.5f;
                         entity.Visible = true;
 
                         Tile SourceTile = Map.Tiles[mapObject.Gid];
@@ -224,7 +224,7 @@ namespace ShadowKill
             Rectangle destRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
-            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.X, CurrentPlayer.Y), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White, CurrentSampler);     
+            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.TX, CurrentPlayer.TY), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White, CurrentSampler);     
             
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
@@ -249,13 +249,13 @@ namespace ShadowKill
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
-                SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), Vector2.Zero, Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), Vector2.Zero, Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.PixelWidth + "x" + Engine.PixelHeight, new Vector2(0, 40), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.Width + "x" + Engine.Map.Height, new Vector2(0, 60), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, 40), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, 60), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, 80), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen, new Vector2(0, 100), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Entities = " + Engine.Entities.Count, new Vector2(0, 80), Color.White);
-                //SpriteBatch.DrawString(DefaultSpriteFont, "Animations On Screen = " + Engine.AnimationsOnScreen, new Vector2(0, 100), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources = " + LightShader.LightSources.Count, new Vector2(0, 120), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePointAccurracy, new Vector2(0, 160), Color.White);

@@ -100,18 +100,18 @@ namespace ShadowKill.Shaders
 
                 if (lightSource.PositionType == LightPositionType.Relative)
                 {
-                    x -= ViewPortInfo.TopLeftX;
-                    y -= ViewPortInfo.TopLeftY;
-                    x *= ViewPortInfo.PXTileWidth;
-                    y *= ViewPortInfo.PXTileHeight;
+                    x -= ViewPortInfo.txTopLeftX;
+                    y -= ViewPortInfo.txTopLeftY;
+                    x *= ViewPortInfo.pxTileWidth;
+                    y *= ViewPortInfo.pxTileHeight;
                     x /= _lightTarget.Width;
                     y /= _lightTarget.Height;
                     x = -1.0f + x * 2;
                     y = 1.0f - y * 2;
                 }
 
-                float radiusX = lightSource.LightRadiusX * ViewPortInfo.PXTileWidth;
-                float radiusY = lightSource.LightRadiusY * ViewPortInfo.PXTileHeight;
+                float radiusX = lightSource.LightRadiusX * ViewPortInfo.pxTileWidth;
+                float radiusY = lightSource.LightRadiusY * ViewPortInfo.pxTileHeight;
 
                 radiusX /= _lightTarget.Width;
                 radiusY /= _lightTarget.Height;

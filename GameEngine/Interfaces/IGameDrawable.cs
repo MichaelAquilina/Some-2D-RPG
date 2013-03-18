@@ -12,7 +12,7 @@ namespace GameEngine.Interfaces
     /// </summary>
     public interface IGameDrawable
     {
-        Vector2 DrawOrigin { get; set; }
+        Vector2 rxDrawOrigin { get; set; }
 
         Rectangle GetSourceRectangle(GameTime GameTime);
         Texture2D GetSourceTexture(GameTime GameTime);

@@ -13,11 +13,11 @@ namespace GameEngine.Tiled
         public string TileSetName { get; set; }
 
         //IGameDrawable Properties
-        public Vector2 DrawOrigin { get; set; }
+        public Vector2 rxDrawOrigin { get; set; }
 
         public Tile()
         {
-            this.DrawOrigin = new Vector2(0, 1);
+            this.rxDrawOrigin = new Vector2(0, 1);
         }
 
         public Texture2D GetSourceTexture(GameTime GameTime)

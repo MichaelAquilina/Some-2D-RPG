@@ -16,13 +16,13 @@ namespace ShadowKill.GameObjects
         {
             this.Origin = new Vector2(1.0f, 0.5f);
             this.Visible = true;
-            this.Width = 1.5f;
-            this.Height = 1.5f;
+            this.rxWidth = 1.5f;
+            this.rxHeight = 1.5f;
         }
 
         public override void Update(GameTime GameTime, TiledMap Map)
         {
-            X += (float)Math.Cos(GameTime.TotalGameTime.TotalSeconds) / 20;
+            TX += (float)Math.Cos(GameTime.TotalGameTime.TotalSeconds) / 20;
 
             base.Update(GameTime, Map);
         }

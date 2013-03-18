@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.Drawing
 {
@@ -11,13 +12,13 @@ namespace GameEngine.Drawing
     /// </summary>
     public struct ViewPortInfo
     {
-        public float PXTileWidth { get; set; }
-        public float PXTileHeight { get; set; }
-        public float TopLeftX { get; set; }
-        public float TopLeftY { get; set; }
+        public float pxTileWidth { get; set; }
+        public float pxTileHeight { get; set; }
+        public float txTopLeftX { get; set; }
+        public float txTopLeftY { get; set; }
         public int TileCountX { get; set; }
         public int TileCountY { get; set; }
-        public double dispX { get; set; }
-        public double dispY { get; set; }
+        public double txDispX { get; set; }
+        public double txDispY { get; set; }
     }
 }
