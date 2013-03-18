@@ -44,7 +44,7 @@ namespace GameEngine
 
         public int pxHeight { get; private set; }
 
-        public int EntitiesOnScreen { get; private set; }
+        public List<Entity> EntitiesOnScreen { get; private set; }
 
         public TiledMap Map { get; private set; }
 
@@ -74,7 +74,7 @@ namespace GameEngine
         {
             ShowTileGrid = false;
             ShowBoundingBoxes = false;
-            EntitiesOnScreen = 0;
+            EntitiesOnScreen = new List<Entity>();
 
             GameShaders = new List<GameShader>();
             Entities = new List<Entity>();
@@ -197,9 +197,10 @@ namespace GameEngine
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
             //reset counters
-            EntitiesOnScreen = 0;
+            EntitiesOnScreen.Clear();
 
-            ViewPortInfo viewPortInfo = new ViewPortInfo();             //Should be fast due to being a struct
+            //Should be fast to create due to being a struct
+            ViewPortInfo viewPortInfo = new ViewPortInfo();             
             {
                 viewPortInfo.TileCountX = (int)Math.Ceiling((double)pxDestRectangle.Width / pxTileWidth) + 1;
                 viewPortInfo.TileCountY = (int)Math.Ceiling((double)pxDestRectangle.Height / pxTileHeight) + 1;
@@ -232,7 +233,6 @@ namespace GameEngine
                 {
                     //DRAW EACH LAYER
                     TileLayer tileLayer = Map.TileLayers[layerIndex];
-
                     for (int i = 0; i < viewPortInfo.TileCountX; i++)
                     {
                         for (int j = 0; j < viewPortInfo.TileCountY; j++)
@@ -300,7 +300,7 @@ namespace GameEngine
 
                     if (pxBoundingBox.Intersects(_inputBuffer.Bounds))
                     {
-                        EntitiesOnScreen++;
+                        EntitiesOnScreen.Add(entity);
                         entity.IsOnScreen = true;
 
                         foreach (GameDrawableInstance drawable in entity.Drawables[entity.CurrentDrawable])

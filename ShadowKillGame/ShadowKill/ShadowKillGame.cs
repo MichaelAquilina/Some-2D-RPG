@@ -128,6 +128,8 @@ namespace ShadowKill
 
                         Tile SourceTile = Map.Tiles[mapObject.Gid];
                         entity.Drawables.Add("standard", SourceTile);
+                        //entity.Drawables.SetNameProperty("standard", "Color", new Color(255, 255, 255, 200));
+
                         entity.CurrentDrawable = "standard";
 
                         Engine.Entities.Add(entity);
@@ -224,10 +226,10 @@ namespace ShadowKill
             };
             GraphicsDevice.Clear(Color.Black);
 
-            Rectangle destRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+            Rectangle pxDestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
-            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.TX, CurrentPlayer.TY), TILE_WIDTH, TILE_HEIGHT, destRectangle, Color.White, CurrentSampler);     
+            Engine.DrawWorldViewPort(gameTime, SpriteBatch, new Vector2(CurrentPlayer.TX, CurrentPlayer.TY), TILE_WIDTH, TILE_HEIGHT, pxDestRectangle, Color.White, CurrentSampler);     
             
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
@@ -257,7 +259,7 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, 40), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, 60), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, 80), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen, new Vector2(0, 100), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, 100), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Entities = " + Engine.Entities.Count, new Vector2(0, 80), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources = " + LightShader.LightSources.Count, new Vector2(0, 120), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
