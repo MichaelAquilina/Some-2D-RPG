@@ -36,7 +36,7 @@ namespace GameEngine
     /// to draw/render the current state of the world, as well as other draw functions such as drawing a MiniMap version
     /// of the current WorldMap.
     /// </summary>
-    public class TileEngine : GameComponent
+    public class TeeEngine : GameComponent
     {
         #region Properties
 
@@ -67,7 +67,7 @@ namespace GameEngine
 
         #region Initialisation
 
-        public TileEngine(Game Game, int PixelWidth, int PixelHeight)
+        public TeeEngine(Game Game, int PixelWidth, int PixelHeight)
             :base(Game)
         {
             ShowBoundingBoxes = false;

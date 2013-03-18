@@ -59,7 +59,7 @@ namespace ShadowKill
         NPC FemaleNPC;
         Bat MonBat;
 
-        TileEngine Engine;
+        TeeEngine Engine;
 
         public ShadowKillGame()
         {
@@ -74,7 +74,7 @@ namespace ShadowKill
         {
             TiledMap tiledmap = TiledMap.LoadTiledXML("Content/example_map.tmx", Content);
 
-            Engine = new TileEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
+            Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             Engine.LoadMap(tiledmap);
 
             CurrentPlayer = new Hero(25, 15);

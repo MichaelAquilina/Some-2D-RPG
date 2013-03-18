@@ -108,7 +108,7 @@
     <Compile Include="Tiled\MapObject.cs" />
     <Compile Include="Tiled\ObjectLayer.cs" />
     <Compile Include="Tiled\TileLayer.cs" />
-    <Compile Include="TileEngine.cs" />
+    <Compile Include="TeeEngine.cs" />
     <Compile Include="Helpers\KeyboardHelper.cs" />
     <Compile Include="Shaders\GameShader.cs" />
     <Compile Include="Interfaces\ILoadable.cs" />
