@@ -37,7 +37,8 @@ namespace ShadowKill
 
         bool helmetVisible = true;
         bool showDebugInfo = true;
-        
+        bool showQuadTree = true;
+
         int SamplerIndex = 0;
         SamplerState CurrentSampler;
         SamplerState[] SamplerStates = new SamplerState[] { 
@@ -184,6 +185,7 @@ namespace ShadowKill
             //F3 = Enable/Disable LightShader
             //F4 = Change Current SamplerState
             //F5 = Show/Hide Tile Grid
+            //F6 = Show/Hide Quad Tree
             //F10 = Toggle Fullscreen Mode
             //F11 = Show/Hide Player Helmet
 
@@ -203,6 +205,9 @@ namespace ShadowKill
 
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F5, true))
                 Engine.ShowTileGrid = !Engine.ShowTileGrid;
+
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F6, true))
+                showQuadTree = !showQuadTree;
 
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
                 Graphics.ToggleFullScreen();
@@ -268,7 +273,7 @@ namespace ShadowKill
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
 
-            DrawQuadTree(viewPort, SpriteBatch, Engine.QuadTree.Root);
+            if(showQuadTree) DrawQuadTree(viewPort, SpriteBatch, Engine.QuadTree.Root);
 
             if (showDebugInfo) 
             {
