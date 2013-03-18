@@ -53,6 +53,8 @@ namespace GameEngine
         //needs to be converted to TiledObjects
         public List<Entity> Entities { get; set; }
 
+        public bool ShowTileGrid { get; set; }
+
         public bool ShowBoundingBoxes { get; set; }
 
         #endregion
@@ -70,6 +72,7 @@ namespace GameEngine
         public TeeEngine(Game Game, int PixelWidth, int PixelHeight)
             :base(Game)
         {
+            ShowTileGrid = false;
             ShowBoundingBoxes = false;
             EntitiesOnScreen = 0;
 
@@ -249,6 +252,7 @@ namespace GameEngine
                                 pxTileDestRect.Y -= (int)(viewPortInfo.txDispY * pxTileHeight);
 
                                 //automatic layering based on layerIndex
+                                //TODO: Investigate this - this should belong in GameSpace
                                 float depth = tileLayer.HasProperty("Foreground")? 0 : 1 - (layerIndex / 10000.0f);
 
                                 SpriteBatch.Draw(
@@ -260,6 +264,10 @@ namespace GameEngine
                                     SpriteEffects.None,
                                     depth    
                                 );
+
+                                //DEBUGGING
+                                //TODO: THIS IS VERY INEFFECIENT (mulitple draws in each layer for no reason)
+                                if(ShowTileGrid) SpriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                             }
                         }
                     }
@@ -294,7 +302,6 @@ namespace GameEngine
                     {
                         EntitiesOnScreen++;
                         entity.IsOnScreen = true;
-
 
                         foreach (GameDrawableInstance drawable in entity.Drawables[entity.CurrentDrawable])
                         {

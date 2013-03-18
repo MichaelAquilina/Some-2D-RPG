@@ -196,6 +196,9 @@ namespace ShadowKill
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F4, true))
                 CurrentSampler = SamplerStates[++SamplerIndex % SamplerStates.Length];
 
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F5, true))
+                Engine.ShowTileGrid = !Engine.ShowTileGrid;
+
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
                 Graphics.ToggleFullScreen();
 
