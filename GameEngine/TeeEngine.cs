@@ -36,26 +36,61 @@ namespace GameEngine
     /// provides a number of powerful tools and properties to quickly create and design 2D games that rely on tiles as coordinate
     /// systems. The Name Tee Engine came from the idea of a TileEngine, ie a TEngine. I have a personal obsession with Tea, so changing
     /// the name of the engine to TeeEngine places a bit of me into this project.
+    /// 
+    /// Using the TeeEngine is very simple:
+    /// 
+    /// TeeEngine engine = new TeeEngine(Game, 1024, 768);      //1024x768 resolution
+    /// engine.LoadMap("some_tiled_map.tmx");
+    /// 
+    /// engine.Entities.Add(entity1);
+    /// ...
+    /// 
+    /// engine.RegisterGameShader(shader1);
+    /// ...
+    ///
     /// </summary>
     public class TeeEngine : GameComponent
     {
         #region Properties
 
+        /// <summary>
+        /// Width resolution of the TeeEngine buffer in pixels.
+        /// </summary>
         public int pxWidth { get; private set; }
 
+        /// <summary>
+        /// Height resolution of the TeeEngine buffer in pixels.
+        /// </summary>
         public int pxHeight { get; private set; }
 
+        /// <summary>
+        /// List of all Entities on screen since the last DrawWorldViewPort call.
+        /// </summary>
         public List<Entity> EntitiesOnScreen { get; private set; }
 
+        /// <summary>
+        /// Currently loaded TiledMap.
+        /// </summary>
         public TiledMap Map { get; private set; }
 
+        /// <summary>
+        /// List of currently registered GameShaders in use by the TeeEngine.
+        /// </summary>
         public List<GameShader> GameShaders { get; private set; }
 
-        //needs to be converted to TiledObjects
+        /// <summary>
+        /// List of all Entities currently active in the current Game World.
+        /// </summary>
         public List<Entity> Entities { get; set; }
 
+        /// <summary>
+        /// bool value specifying if the tile grid should be shown during render calls.
+        /// </summary>
         public bool ShowTileGrid { get; set; }
 
+        /// <summary>
+        /// bool value specifying if the bounding boxes for entities should be shown during render calls.
+        /// </summary>
         public bool ShowBoundingBoxes { get; set; }
 
         #endregion
