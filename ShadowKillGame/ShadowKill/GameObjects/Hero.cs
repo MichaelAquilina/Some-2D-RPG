@@ -22,6 +22,8 @@ namespace ShadowKill.GameObjects
 
         public BasicLightSource LightSource { get; set; }
 
+        private List<Entity> prevIntersectingEntities;
+
         public Hero(float X, float Y) :
             base(X, Y, NPC.MALE_HUMAN)
         {
@@ -175,8 +177,12 @@ namespace ShadowKill.GameObjects
 
                 //EXAMPLE OF HOW THE QUAD TREE INTERSECTING ENTITIES FUNCTION CAN WORK
                 //TODO: Add PER PIXEL collision detection to each one of these entities
-                List<Entity> intersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentPxBoundingBox);
-                foreach (Entity entity in intersectingEntities)
+                if (prevIntersectingEntities != null)
+                    foreach (Entity entity in prevIntersectingEntities)
+                        entity.Opacity = 1.0f;
+
+                prevIntersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentPxBoundingBox);
+                foreach (Entity entity in prevIntersectingEntities)
                 {
                     if (entity != this)
                         entity.Opacity = 0.8f;
