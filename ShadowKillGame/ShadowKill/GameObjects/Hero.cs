@@ -174,6 +174,7 @@ namespace ShadowKill.GameObjects
                 LightSource.RadiusY = (float)(8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
 
                 //EXAMPLE OF HOW THE QUAD TREE INTERSECTING ENTITIES FUNCTION CAN WORK
+                //TODO: Add PER PIXEL collision detection to each one of these entities
                 List<Entity> intersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentPxBoundingBox);
                 foreach (Entity entity in intersectingEntities)
                 {

@@ -313,13 +313,6 @@ namespace ShadowKill
                     SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, counter++ * 20), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, counter++ * 20), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, counter++ * 20), Color.White);
-
-                    Stopwatch watch = new Stopwatch();
-                    watch.Start();
-                    int intersections = Engine.QuadTree.GetIntersectingEntites(CurrentPlayer.CurrentPxBoundingBox).Count;
-                    watch.Stop();
-
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Intersecting = " + intersections + " (" + watch.Elapsed.TotalMilliseconds.ToString("0.0") + " ms)", new Vector2(0, counter++ * 20), Color.White);
                 }
 
                 if (showDiagnostics)
