@@ -149,7 +149,7 @@ namespace ShadowKill
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.Enabled = false;
 
-            LightShader.LightSources.Add(CurrentPlayer);
+            LightShader.LightSources.Add(CurrentPlayer.LightSource);
             LightShader.LightSources.Add(new BasicLightSource(1.0f, 1.0f, 29.0f, 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
 
             LoadMapObjects(Engine.Map, Content);

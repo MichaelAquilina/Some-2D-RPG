@@ -95,8 +95,8 @@ namespace ShadowKill.Shaders
 
             foreach (ILightSource lightSource in LightSources)
             {
-                float x = lightSource.LightX;
-                float y = lightSource.LightY;
+                float x = lightSource.TX;
+                float y = lightSource.TY;
 
                 if (lightSource.PositionType == LightPositionType.Relative)
                 {
@@ -110,8 +110,8 @@ namespace ShadowKill.Shaders
                     y = 1.0f - y * 2;
                 }
 
-                float radiusX = lightSource.LightRadiusX * ViewPortInfo.pxTileWidth;
-                float radiusY = lightSource.LightRadiusY * ViewPortInfo.pxTileHeight;
+                float radiusX = lightSource.RadiusX * ViewPortInfo.pxTileWidth;
+                float radiusY = lightSource.RadiusY * ViewPortInfo.pxTileHeight;
 
                 radiusX /= _lightTarget.Width;
                 radiusY /= _lightTarget.Height;
@@ -122,7 +122,7 @@ namespace ShadowKill.Shaders
                 VertexPositionColor[] vertexCircle = SetUpCircle(
                     radiusX, radiusY,
                     new Vector3(x, y, 0),
-                    lightSource.LightColor,
+                    lightSource.Color,
                     CirclePointAccurracy, null
                 );
 

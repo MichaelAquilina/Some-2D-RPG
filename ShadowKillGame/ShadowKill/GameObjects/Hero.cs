@@ -5,10 +5,11 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using ShadowKill.Shaders;
 using GameEngine;
+using ShadowKillGame.GameObjects;
 
 namespace ShadowKill.GameObjects
 {
-    public class Hero : NPC, ILightSource
+    public class Hero : NPC
     {
         const int INPUT_DELAY = 30;
         const float MOVEMENT_SPEED = 0.2f;
@@ -17,18 +18,16 @@ namespace ShadowKill.GameObjects
         public float LightX { get { return TX; } }
         public float LightY { get { return TY; } }
 
-        public LightPositionType PositionType { get { return Shaders.LightPositionType.Relative; } }
-        public Color LightColor { get; set; }
-        public float LightRadiusX { get; set; }
-        public float LightRadiusY { get; set; }
+        public BasicLightSource LightSource { get; set; }
 
         public Hero(float X, float Y) :
             base(X, Y, NPC.MALE_HUMAN)
         {
-            Direction = Direction.Right;
-            LightRadiusX = 8.0f;
-            LightRadiusY = 8.0f;
-            LightColor = Color.White;
+            LightSource = new BasicLightSource();
+            LightSource.RadiusX = 8.0f;
+            LightSource.RadiusX = 8.0f;
+            LightSource.Color = Color.White;
+            LightSource.PositionType = LightPositionType.Relative;
         }
 
         public override void LoadContent(ContentManager Content)
@@ -48,10 +47,6 @@ namespace ShadowKill.GameObjects
         public override void Update(GameTime gameTime, TeeEngine Engine)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-
-            //Change the radius overtime using a SINE wave pattern
-            LightRadiusX = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
-            LightRadiusY = (float) (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
 
             float prevX = TX;
             float prevY = TY;
@@ -119,7 +114,7 @@ namespace ShadowKill.GameObjects
                 int tileX = (int)TX;
                 int tileY = (int)TY;
 
-                Tile currentTile = Map.GetTopMostTile(tileX, tileY);
+                Tile currentTile = Engine.Map.GetTopMostTile(tileX, tileY);
                 bool impassable = currentTile.HasProperty("Impassable");
 
                 //CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
@@ -169,6 +164,12 @@ namespace ShadowKill.GameObjects
                 if (TY < 0) TY = 0;
                 if (TX >= Engine.Map.txWidth - 1) TX = Engine.Map.txWidth - 1;
                 if (TY >= Engine.Map.txHeight - 1) TY = Engine.Map.txHeight - 1;
+
+                //Change the radius of the LightSource overtime using a SINE wave pattern
+                LightSource.TX = this.TX;
+                LightSource.TY = this.TY;
+                LightSource.RadiusX = (float)(8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
+                LightSource.RadiusY = (float)(8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
             }  
         }
     }

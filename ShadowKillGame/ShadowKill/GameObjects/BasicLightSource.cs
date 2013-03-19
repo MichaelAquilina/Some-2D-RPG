@@ -9,15 +9,15 @@ namespace ShadowKillGame.GameObjects
 {
     public class BasicLightSource : ILightSource
     {
-        public float LightX { get; set; }
-        public float LightY { get; set; }
+        public float TX { get; set; }
+        public float TY { get; set; }
 
-        public float LightRadiusX { get; set; }
-        public float LightRadiusY { get; set; }
+        public float RadiusX { get; set; }
+        public float RadiusY { get; set; }
 
         public LightPositionType PositionType { get; set; }
 
-        public Color LightColor { get; set; }
+        public Color Color { get; set; }
 
         public BasicLightSource()
         {
@@ -25,11 +25,11 @@ namespace ShadowKillGame.GameObjects
 
         public BasicLightSource(float LightX, float LightY, float RadiusX, float RadiusY, Color LightColor, LightPositionType PositionType=LightPositionType.Relative)
         {
-            this.LightX = LightX;
-            this.LightY = LightY;
-            this.LightRadiusX = RadiusX;
-            this.LightRadiusY = RadiusY;
-            this.LightColor = LightColor;
+            this.TX = LightX;
+            this.TY = LightY;
+            this.RadiusX = RadiusX;
+            this.RadiusY = RadiusY;
+            this.Color = LightColor;
             this.PositionType = PositionType;
         }
     }
