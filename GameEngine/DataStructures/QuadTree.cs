@@ -9,8 +9,8 @@ namespace GameEngine.DataStructures
 {
     public class QuadTree
     {       
-        public QuadTreeNode Root { get; set; }
-        public List<QuadTreeNode> NodeList { get; set; }
+        public QuadTreeNode Root { get; private set; }
+        public List<QuadTreeNode> NodeList { get; private set; }
         public int EntityLimit { get; private set; }
         public int pxTileWidth { get; private set; }
         public int pxTileHeight { get; private set; }

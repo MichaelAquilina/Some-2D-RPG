@@ -299,7 +299,7 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, 60), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, 80), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, 100), Color.White);
-                //SpriteBatch.DrawString(DefaultSpriteFont, "Total Map Entities = " + Engine.Entities.Count, new Vector2(0, 80), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, 120), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources = " + LightShader.LightSources.Count, new Vector2(0, 120), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePointAccurracy, new Vector2(0, 160), Color.White);

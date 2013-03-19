@@ -67,7 +67,10 @@ namespace GameEngine.DataStructures
         /// <param name="EntityLimit">(optional) integer value specifying the max number of entities to store in each QuadTreeNode.</param>
         public void Add(Entity Entity, int EntityLimit)
         {
-            if ((Node1 == null && Entities.Count < EntityLimit) || pxWidth <= QuadTree.pxTileWidth || pxHeight <= QuadTree.pxTileHeight)
+            int pxHalfWidth = (int)Math.Ceiling(pxWidth / 2.0f);
+            int pxHalfHeight = (int)Math.Ceiling(pxHeight / 2.0f);
+
+            if ((Node1 == null && Entities.Count < EntityLimit) || pxHalfWidth <= QuadTree.pxTileWidth || pxHalfHeight <= QuadTree.pxTileHeight)
             {
                 Entities.Add(Entity);
                 return;
@@ -75,9 +78,6 @@ namespace GameEngine.DataStructures
 
             if (Node1 == null)
             {
-                int pxHalfWidth = (int) Math.Ceiling(pxWidth / 2.0f);
-                int pxHalfHeight = (int) Math.Ceiling(pxHeight / 2.0f);
-
                 Node1 = QuadTree.GetQuadTreeNode(
                     PX,
                     PY,
