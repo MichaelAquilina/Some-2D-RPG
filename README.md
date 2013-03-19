@@ -1,11 +1,8 @@
 Game Development
 ================
 
-Quad Tree Implementation at work
 <img src="GameProgress3.png" width="630" height="350"></img>
-2D Light Shaders Disabled
 <img src="GameProgress2.png" width="630" height="350"></img>
-2D Light Shaders Enabled
 <img src="GameProgress.png" width="630" height="350"></img>
 
 This GIT hub project is my way of getting familiar with game development techniques used in many modern day games. I chose 
