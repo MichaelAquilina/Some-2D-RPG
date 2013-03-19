@@ -68,10 +68,7 @@ namespace GameEngine.DataStructures
             QuadTreeNode nodeResult = _nodePool[_currentNodePoolIndex];
             nodeResult.Clear();
             nodeResult.NodeID = _currentNodePoolIndex;
-            nodeResult.PX = px;
-            nodeResult.PY = py;
-            nodeResult.pxWidth = pxWidth;
-            nodeResult.pxHeight = pxHeight;
+            nodeResult.pxBounds = new Rectangle(px, py, pxWidth, pxHeight);
             nodeResult.QuadTree = this;
 
             _currentNodePoolIndex++;
@@ -83,8 +80,8 @@ namespace GameEngine.DataStructures
         {
             return string.Format("QuadTree: NodeCount={0}, pxWidth={1}, pxHeight={2}",
                 NodeList.Count,
-                Root.pxWidth,
-                Root.pxHeight);
+                Root.pxBounds.Width,
+                Root.pxBounds.Height);
         }
     }
 }

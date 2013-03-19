@@ -230,10 +230,10 @@ namespace ShadowKill
         {
             if( Node == null ) return;
 
-            int PX = (int) Math.Ceiling(Node.PX - viewPort.txTopLeftX * viewPort.pxTileWidth);
-            int PY = (int)Math.Ceiling(Node.PY - viewPort.txTopLeftY * viewPort.pxTileHeight);
-            int pxWidth = Node.pxWidth;
-            int pxHeight = Node.pxHeight;
+            int PX = (int) Math.Ceiling(Node.pxBounds.X - viewPort.txTopLeftX * viewPort.pxTileWidth);
+            int PY = (int)Math.Ceiling(Node.pxBounds.Y - viewPort.txTopLeftY * viewPort.pxTileHeight);
+            int pxWidth = Node.pxBounds.Width;
+            int pxHeight = Node.pxBounds.Height;
             string nodeIdText = Node.NodeID.ToString();
 
             if (new Rectangle(PX, PY, pxWidth, pxHeight).Intersects(DestRectangle))

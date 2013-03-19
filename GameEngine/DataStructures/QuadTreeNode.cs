@@ -18,11 +18,7 @@ namespace GameEngine.DataStructures
         public QuadTree QuadTree { get; internal set; }
         public List<Entity> Entities { get; internal set; }
 
-        public int PX { get; internal set; }
-        public int PY { get; internal set; }
-        public int pxWidth { get; internal set; }
-        public int pxHeight { get; internal set; }
-
+        public Rectangle pxBounds { get; internal set; }
         public int NodeID { get; set; }
 
         public QuadTreeNode()
@@ -54,7 +50,7 @@ namespace GameEngine.DataStructures
         /// <returns>bool value specifying the result of the intersection test.</returns>
         public bool Intersects(Rectangle pxBoundingBox)
         {
-            return new Rectangle(PX,PY,pxWidth,pxHeight).Intersects(pxBoundingBox);
+            return pxBounds.Intersects(pxBoundingBox);
         }
 
         /// <summary>
@@ -67,8 +63,8 @@ namespace GameEngine.DataStructures
         /// <param name="EntityLimit">(optional) integer value specifying the max number of entities to store in each QuadTreeNode.</param>
         public void Add(Entity Entity, int EntityLimit)
         {
-            int pxHalfWidth = (int)Math.Ceiling(pxWidth / 2.0f);
-            int pxHalfHeight = (int)Math.Ceiling(pxHeight / 2.0f);
+            int pxHalfWidth = (int)Math.Ceiling(pxBounds.Width / 2.0f);
+            int pxHalfHeight = (int)Math.Ceiling(pxBounds.Height / 2.0f);
 
             if ((Node1 == null && Entities.Count < EntityLimit) || pxHalfWidth <= QuadTree.pxTileWidth || pxHalfHeight <= QuadTree.pxTileHeight)
             {
@@ -79,23 +75,23 @@ namespace GameEngine.DataStructures
             if (Node1 == null)
             {
                 Node1 = QuadTree.GetQuadTreeNode(
-                    PX,
-                    PY,
+                    pxBounds.X,
+                    pxBounds.Y,
                     pxHalfWidth,
                     pxHalfHeight);
                 Node2 = QuadTree.GetQuadTreeNode(
-                    PX + pxHalfWidth - 1,
-                    PY,
+                    pxBounds.X + pxHalfWidth - 1,
+                    pxBounds.Y,
                     pxHalfWidth,
                     pxHalfHeight);
                 Node3 = QuadTree.GetQuadTreeNode(
-                    PX,
-                    PY + pxHalfHeight - 1,
+                    pxBounds.X,
+                    pxBounds.Y + pxHalfHeight - 1,
                     pxHalfWidth,
                     pxHalfHeight);
                 Node4 = QuadTree.GetQuadTreeNode(
-                    PX + pxHalfWidth - 1,
-                    PY + pxHalfHeight - 1,
+                    pxBounds.X + pxHalfWidth - 1,
+                    pxBounds.Y + pxHalfHeight - 1,
                     pxHalfWidth,
                     pxHalfHeight);
 
@@ -127,7 +123,7 @@ namespace GameEngine.DataStructures
         {
             return string.Format("QuadTreeNode: NodeId={0}; (PX,PY)=({1},{2}), pxWidth={3}, pxHeight={4}, IsLeafNode={5}",
                 NodeID,
-                PX, PY, pxWidth, pxHeight,
+                pxBounds.X, pxBounds.Y, pxBounds.Width, pxBounds.Height,
                 Node1 == null);
         }
     }
