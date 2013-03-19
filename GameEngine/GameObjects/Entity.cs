@@ -100,7 +100,6 @@ namespace GameEngine.GameObjects
             return new Rectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
-        //TODO: Probably needs to be updated to allow interaction with other entities in the TileEngine instance
         public virtual void Update(GameTime GameTime, TeeEngine Engine)
         {
         }

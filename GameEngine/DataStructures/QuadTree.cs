@@ -30,7 +30,7 @@ namespace GameEngine.DataStructures
         /// parameter. The function tries to be as cheap as possible by re-using previously
         /// insantiated objects in previous calls.
         /// </summary>
-        /// <param name="Entities">List of Entities to build the QuadTree out of.</param>
+        /// <param name="Entities">Collection of Entities to build the QuadTree out of.</param>
         public void Build(ICollection<Entity> Entities)
         {
             _currentNodePoolIndex = 1;
