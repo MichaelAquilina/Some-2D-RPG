@@ -40,7 +40,7 @@ namespace ShadowKill
 
         bool helmetVisible = true;
         bool showDebugInfo = true;
-        bool showQuadTree = true;
+        bool showQuadTree = false;
         bool showDiagnostics = false;
 
         int SamplerIndex = 0;
@@ -238,7 +238,7 @@ namespace ShadowKill
             if( Node == null ) return;
 
             int PX = (int) Math.Ceiling(Node.pxBounds.X - viewPort.txTopLeftX * viewPort.pxTileWidth);
-            int PY = (int)Math.Ceiling(Node.pxBounds.Y - viewPort.txTopLeftY * viewPort.pxTileHeight);
+            int PY = (int) Math.Ceiling(Node.pxBounds.Y - viewPort.txTopLeftY * viewPort.pxTileHeight);
             int pxWidth = Node.pxBounds.Width;
             int pxHeight = Node.pxBounds.Height;
             string nodeIdText = Node.NodeID.ToString();
@@ -274,6 +274,7 @@ namespace ShadowKill
             GraphicsDevice.Clear(Color.Black);
 
             int counter = 0;
+            float textHeight = DefaultSpriteFont.MeasureString("d").Y;
 
             Rectangle pxDestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -311,14 +312,14 @@ namespace ShadowKill
                     double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
                     Color fpsColor = (Math.Ceiling(fps) < 60) ? Color.Red : Color.White;
 
-                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), new Vector2(0, counter++ * 20), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, counter++ * 20), fpsColor);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, counter++ * 20), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, counter++ * 20), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, counter++ * 20), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, counter++ * 20), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, counter++ * 20), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, counter++ * 20), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), new Vector2(0, counter++ * textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, counter++ * textHeight), fpsColor);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, counter++ * textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, counter++ * textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Sampler="+CurrentSampler.ToString(), new Vector2(0, counter++ * textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, counter++ * textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, counter++ * textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, counter++ * textHeight), Color.White);
                 }
 
                 if (showDiagnostics)

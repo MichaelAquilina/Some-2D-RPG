@@ -267,11 +267,8 @@ namespace GameEngine
         /// parameters. All Miscallaneous items and actors will be drawn on the screen, in an animated state (which depends on the values in the parameter
         /// passed in GameTime). This can allow for rewinding of time in terms of animation if needs be.
         /// </summary>
-        /// <param name="GameTime">GameTime object that would have been passed to the standard XNA Draw method.</param>
         /// <param name="SpriteBatch">SpriteBatch object with which to render the Viewport. Should have already been opened for rendering.</param>
         /// <param name="txCenter">X and Y Coordinates on the world map specifying where the viewport should be Centered.</param>
-        /// <param name="pxTileWidth">Integer value specifying the Width in pixels of each Tile on the Map.</param>
-        /// <param name="pxTileHeight">Integer value specifying the Height in pixels of each Tile on the Map.</param>
         /// <param name="pxDestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
         /// <param name="Color">Color object with which to blend the game world.</param>
         /// <param name="SamplerState">Specifies the type of sampler to use when drawing images with the SpriteBatch object.</param>
