@@ -77,9 +77,10 @@ namespace GameEngine
         public int pxTileHeight { get; private set; }
 
         /// <summary>
-        /// List of all Entities currently active in the current Game World.
+        /// Dictionary of all Entities currently active in the current Game World. Entities are 
+        /// stored by their unique name
         /// </summary>
-        public List<Entity> Entities { get; set; }
+        public Dictionary<string, Entity> Entities { get; set; }
 
         /// <summary>
         /// List of all Entities on screen since the last DrawWorldViewPort call.
@@ -140,7 +141,7 @@ namespace GameEngine
             EntitiesOnScreen = new List<Entity>();
 
             GameShaders = new List<GameShader>();
-            Entities = new List<Entity>();
+            Entities = new Dictionary<string, Entity>();
 
             SetResolution(pxWidth, pxHeight, pxTileWidth, pxTileHeight);
             Game.Components.Add(this);
@@ -153,13 +154,13 @@ namespace GameEngine
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.LoadContent(Content);
 
-            foreach (Entity entity in Entities)
+            foreach (Entity entity in Entities.Values)
                 entity.LoadContent(Content);
         }
 
         public void UnloadContent()
         {
-            foreach (Entity entity in Entities)
+            foreach (Entity entity in Entities.Values)
                 entity.UnloadContent();
 
             if (_inputBuffer != null)
@@ -237,7 +238,7 @@ namespace GameEngine
             LastUpdateTime = GameTime;
 
             _stopwatch.Restart();
-            foreach (Entity entity in Entities)
+            foreach (Entity entity in Entities.Values)
             {
                 entity.Update(GameTime, this);
                 entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
@@ -245,7 +246,7 @@ namespace GameEngine
             _debugInfo.EntityUpdateTime = _stopwatch.Elapsed;
 
             _stopwatch.Restart();
-            QuadTree.Build(Entities);
+            QuadTree.Build(Entities.Values);
             _debugInfo.QuadTreeBuildTime = _stopwatch.Elapsed;
         }
         
@@ -353,7 +354,7 @@ namespace GameEngine
             _stopwatch.Restart();
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
-                foreach (Entity entity in Entities)
+                foreach (Entity entity in Entities.Values)
                 {
                     entity.IsOnScreen = false;
 

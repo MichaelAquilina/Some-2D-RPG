@@ -31,7 +31,7 @@ namespace GameEngine.DataStructures
         /// insantiated objects in previous calls.
         /// </summary>
         /// <param name="Entities">List of Entities to build the QuadTree out of.</param>
-        public void Build(List<Entity> Entities)
+        public void Build(ICollection<Entity> Entities)
         {
             _currentNodePoolIndex = 1;
             Root.Clear();

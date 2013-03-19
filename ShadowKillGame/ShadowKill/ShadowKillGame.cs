@@ -105,6 +105,8 @@ namespace ShadowKill
 
         private void LoadMapObjects(TiledMap Map, ContentManager Content)
         {
+            int counter = 0;
+
             foreach (ObjectLayer layer in Map.ObjectLayers)
             {
                 foreach (MapObject mapObject in layer.Objects)
@@ -121,7 +123,9 @@ namespace ShadowKill
                         entity.CurrentDrawable = mapObject.GetProperty("CurrentAnimation");
                         entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map Object Properties rather than hard code
 
-                        Engine.Entities.Add(entity);
+                        string name = (mapObject.Name != null) ? mapObject.Name : "Entity" + (counter++);
+
+                        Engine.Entities.Add(name, entity);
                     }
                     if (mapObject.Type != null && mapObject.Type.ToUpper() == "MAPOBJECT" || mapObject.Type == "")
                     {
@@ -137,8 +141,9 @@ namespace ShadowKill
                         //entity.Drawables.SetNameProperty("standard", "Color", new Color(255, 255, 255, 200));
 
                         entity.CurrentDrawable = "standard";
+                        string name = (mapObject.Name != null) ? mapObject.Name : "Entity" + (counter++);
 
-                        Engine.Entities.Add(entity);
+                        Engine.Entities.Add(name, entity);
                     }
                 }
             }
@@ -166,8 +171,8 @@ namespace ShadowKill
             //LightShader.LightSources.Add(new BasicLightSource(fireplace.X, fireplace.Y, 7, 7, Color.OrangeRed));
 
             Engine.RegisterGameShader(LightShader);
-            Engine.Entities.Add(MonBat);
-            Engine.Entities.Add(CurrentPlayer);
+            Engine.Entities.Add("MonBat", MonBat);
+            Engine.Entities.Add("Player", CurrentPlayer);
             //Engine.Entities.Add(FemaleNPC);
 
             Engine.LoadContent();
