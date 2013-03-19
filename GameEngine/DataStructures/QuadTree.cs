@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 
@@ -79,6 +76,15 @@ namespace GameEngine.DataStructures
             return nodeResult;
         }
 
+        /// <summary>
+        /// Returns all intersecting Entities found in that region based on the
+        /// CurrentPxBoundingBox property exposed by the Entity (which would have
+        /// been last updated by the TeeEngine Update loop). It is important to note
+        /// that because this uses a form of result buffering to optimise performance,
+        /// this method is NOT CONSIDERED THREAD SAFE in any scenario.
+        /// </summary>
+        /// <param name="pxRegion">Rectangle region to check in Pixels.</param>
+        /// <returns>List of Entity objects intersecting the specified region.</returns>
         public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
         {
             _resultBuffer.Clear();

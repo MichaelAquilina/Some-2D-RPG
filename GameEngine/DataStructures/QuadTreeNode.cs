@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 
 namespace GameEngine.DataStructures
 {
+    /// <summary>
+    /// Some Performance Notes:
+    /// -Avoid Float point math operations where possible since these are more expensive than ints
+    /// -Avoid creating new object instances when possible because creating a new class is a very costly process
+    /// </summary>
     public class QuadTreeNode
     {
         //no need for arrays!
@@ -40,7 +43,15 @@ namespace GameEngine.DataStructures
             Node3 = null;
             Node4 = null;
         }
-
+        
+        /// <summary>
+        /// Returns a list of all Entities intersecting this Node or its children
+        /// in the specified region. This method makes use of a global buffer in the
+        /// associated QuadTree to improve performance by avoiding over initialisation
+        /// of new Lists at each recursive step.
+        /// </summary>
+        /// <param name="pxRegion">Intersecting Rectangular region to check in Pixels.</param>
+        /// <returns>List of Entities intersecting the region specified in that range.</returns>
         public List<Entity> GetIntersectingEntities(Rectangle pxRegion)
         {
             if (Entities.Count > 0)
