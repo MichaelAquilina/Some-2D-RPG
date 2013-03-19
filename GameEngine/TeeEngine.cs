@@ -56,6 +56,8 @@ namespace GameEngine
     {
         #region Properties and Variables
 
+        public GraphicsDevice GraphicsDevice { get; private set; }
+
         /// <summary>
         /// Width resolution of the TeeEngine buffer in pixels.
         /// </summary>
@@ -137,6 +139,8 @@ namespace GameEngine
             _debugInfo = new DebugInfo();
             _watch1 = new Stopwatch();
             _watch2 = new Stopwatch();
+
+            GraphicsDevice = Game.GraphicsDevice;
 
             ShowTileGrid = false;
             ShowBoundingBoxes = false;
@@ -228,8 +232,8 @@ namespace GameEngine
             if (_inputBuffer != null)
                 _inputBuffer.Dispose();
 
-            _inputBuffer = new RenderTarget2D(this.Game.GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
-            _outputBuffer = new RenderTarget2D(this.Game.GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
+            _inputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
+            _outputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
 
             //allow all game shaders to become aware of the change in resolution
             foreach (GameShader shader in GameShaders) shader.SetResolution(pxWidth, pxHeight);
@@ -273,8 +277,6 @@ namespace GameEngine
         /// <param name="SamplerState">Specifies the type of sampler to use when drawing images with the SpriteBatch object.</param>
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 txCenter, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
         {
-            GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
-
             //reset counters
             EntitiesOnScreen.Clear();
 
