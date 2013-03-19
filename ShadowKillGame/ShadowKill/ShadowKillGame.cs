@@ -14,6 +14,7 @@ using GameEngine.Drawing;
 using GameEngine.Geometry;
 using GameEngine.DataStructures;
 using GameEngine.Info;
+using System.Diagnostics;
 
 namespace ShadowKill
 {
@@ -39,7 +40,7 @@ namespace ShadowKill
         bool helmetVisible = true;
         bool showDebugInfo = true;
         bool showQuadTree = true;
-        bool showDiagnostics = true;
+        bool showDiagnostics = false;
 
         int SamplerIndex = 0;
         SamplerState CurrentSampler;
@@ -280,46 +281,51 @@ namespace ShadowKill
 
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
+                if (showQuadTree) DrawQuadTree(viewPort, SpriteBatch, Engine.QuadTree.Root, pxDestRectangle);
 
-            if (showQuadTree) DrawQuadTree(viewPort, SpriteBatch, Engine.QuadTree.Root, pxDestRectangle);
-
-            if (showDebugInfo) 
-            {
-                //DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING
-                if (LightShader.Enabled)
+                if (showDebugInfo) 
                 {
-                    int lightMapHeight = 100;
-                    int lightMapWidth = (int)Math.Ceiling(100 * ((float)LightShader.LightMap.Width / LightShader.LightMap.Height));
+                    //DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING
+                    if (LightShader.Enabled)
+                    {
+                        int lightMapHeight = 100;
+                        int lightMapWidth = (int)Math.Ceiling(100 * ((float)LightShader.LightMap.Width / LightShader.LightMap.Height));
 
-                    SpriteBatch.Draw(
-                        LightShader.LightMap,
-                        new Rectangle(
-                            WINDOW_WIDTH - lightMapWidth, 0,
-                            lightMapWidth, lightMapHeight
-                        ),
-                        Color.White
-                    );
+                        SpriteBatch.Draw(
+                            LightShader.LightMap,
+                            new Rectangle(
+                                WINDOW_WIDTH - lightMapWidth, 0,
+                                lightMapWidth, lightMapHeight
+                            ),
+                            Color.White
+                        );
+                    }
+
+                    double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
+                    Color fpsColor = (Math.Ceiling(fps) < 60 )? Color.Red : Color.White;
+
+                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), new Vector2(0, counter++ * 20), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, counter++ * 20), fpsColor);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, counter++ * 20), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, counter++ * 20), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, counter++ * 20), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, counter++ * 20), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, counter++ * 20), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, counter++ * 20), Color.White);
+                    
+                    Stopwatch watch = new Stopwatch();
+                    watch.Start();
+                    int intersections = Engine.QuadTree.GetIntersectingEntites(CurrentPlayer.CurrentPxBoundingBox).Count;
+                    watch.Stop();
+
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Intersecting = " + intersections + " ("+watch.Elapsed.TotalMilliseconds.ToString("0.0")+" ms)" , new Vector2(0, counter++ * 20), Color.White);
                 }
 
-                double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
-                Color fpsColor = (Math.Ceiling(fps) < 60 )? Color.Red : Color.White;
-
-                SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), new Vector2(0, counter++ * 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, counter++ * 20), fpsColor);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, counter++ * 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, counter++ * 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, counter++ * 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, counter++ * 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, counter++ * 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, counter++ * 20), Color.White);
-                
-            }
-
-            if (showDiagnostics)
-            {
-                string diagnostic = Engine.DebugInfo.ToString();
-                SpriteBatch.DrawString(DefaultSpriteFont, diagnostic, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(diagnostic).Y), Color.White);
-            }
+                if (showDiagnostics)
+                {
+                    string diagnostic = Engine.DebugInfo.ToString();
+                    SpriteBatch.DrawString(DefaultSpriteFont, diagnostic, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(diagnostic).Y), Color.White);
+                }
             SpriteBatch.End();
 
             base.Draw(gameTime);

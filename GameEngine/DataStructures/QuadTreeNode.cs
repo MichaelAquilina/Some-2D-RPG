@@ -41,6 +41,26 @@ namespace GameEngine.DataStructures
             Node4 = null;
         }
 
+        public List<Entity> GetIntersectingEntities(Rectangle pxRegion)
+        {
+            if (Entities.Count > 0)
+            {
+                foreach (Entity entity in Entities)
+                    if (entity.CurrentPxBoundingBox.Intersects(pxRegion) &&
+                        !QuadTree._resultBuffer.Contains(entity))
+                        QuadTree._resultBuffer.Add(entity);
+            }
+            else
+            {
+                if (Node1.Intersects(pxRegion)) Node1.GetIntersectingEntities(pxRegion);
+                if (Node2.Intersects(pxRegion)) Node2.GetIntersectingEntities(pxRegion);
+                if (Node3.Intersects(pxRegion)) Node3.GetIntersectingEntities(pxRegion);
+                if (Node4.Intersects(pxRegion)) Node4.GetIntersectingEntities(pxRegion);
+            }
+
+            return QuadTree._resultBuffer;
+        }
+
         /// <summary>
         /// Checks whether the specified Bounding Box region specified in Pixels intersects
         /// with the area specified in this QuadTreeNode. The function will return a true value

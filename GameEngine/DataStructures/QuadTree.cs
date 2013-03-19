@@ -16,8 +16,11 @@ namespace GameEngine.DataStructures
         public int pxTileHeight { get; private set; }
 
         //NODE POOL TO PREVENT INITIALISING NEW CLASSES EACH LOOP!
-        private int _currentNodePoolIndex = 0;
-        private List<QuadTreeNode> _nodePool = new List<QuadTreeNode>();
+        internal int _currentNodePoolIndex = 0;
+        internal List<QuadTreeNode> _nodePool = new List<QuadTreeNode>();
+
+        //RESULT BUFFER TO PREVENT OVER INITIALISATION OF LISTS
+        internal List<Entity> _resultBuffer = new List<Entity>();
 
         public QuadTree(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight, int EntityLimit=1)
         {
@@ -74,6 +77,13 @@ namespace GameEngine.DataStructures
             _currentNodePoolIndex++;
 
             return nodeResult;
+        }
+
+        public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
+        {
+            _resultBuffer.Clear();
+
+            return Root.GetIntersectingEntities(pxRegion);
         }
 
         public override string ToString()

@@ -13,45 +13,45 @@ using GameEngine.DataStructures;
 using GameEngine.Info;
 using System.Diagnostics;
 
-//In the Context of this Game Engine, the following Coordinate units are used:
-//        PX: Pixels
-//        TX: Tixels (Tile units)
-//        RX: Rexels (Relative Units)
-//The above can be renamed as necessary in the future if need be.
-//
-//any coordinate property should have one of the above units prepended to thei name
-//      -example: txWidth, pxHeight
-//any coordinate functions should follow the same convention:
-//      -example: GetPxBoundingBox()
-//
-//As a General Rule of thumb:
-//     tx + tx = tx
-//     px + px = px
-//     tx * px = px
-//     tx + px = INVALID
-//     rx * px = px
-//     rx + rx = rx
-//     rx * tx = INVALID                 
+/// <summary>
+/// The TeeEngine - the result of my sweat, blood and tears into this project. The TeeEngine is simply a 2D Tile Engine that
+/// provides a number of powerful tools and properties to quickly create and design 2D games that rely on tiles as coordinate
+/// systems. The Name Tee Engine came from the idea of a TileEngine, ie a TEngine. I have a personal obsession with Tea, so changing
+/// the name of the engine to TeeEngine places a bit of me into this project.
+/// 
+/// Using the TeeEngine is very simple:
+/// 
+/// TeeEngine engine = new TeeEngine(Game, 1024, 768);      //1024x768 resolution
+/// engine.LoadMap("some_tiled_map.tmx");
+/// 
+/// engine.Entities.Add(entity1);
+/// ...
+/// 
+/// engine.RegisterGameShader(shader1);
+/// ...
+///
+///In the Context of this Game Engine, the following Coordinate units are used:
+///        PX: Pixels
+///        TX: Tixels (Tile units)
+///        RX: Rexels (Relative Units)
+///The above can be renamed as necessary in the future if need be.
+///
+///any coordinate property should have one of the above units prepended to thei name
+///      -example: txWidth, pxHeight
+///any coordinate functions should follow the same convention:
+///      -example: GetPxBoundingBox()
+///
+///As a General Rule of thumb:
+///     tx + tx = tx
+///     px + px = px
+///     tx * px = px
+///     tx + px = INVALID
+///     rx * px = px
+///     rx + rx = rx
+///     rx * tx = INVALID
+/// </summary>
 namespace GameEngine
 {
-    /// <summary>
-    /// The TeeEngine - the result of my sweat, blood and tears into this project. The TeeEngine is simply a 2D Tile Engine that
-    /// provides a number of powerful tools and properties to quickly create and design 2D games that rely on tiles as coordinate
-    /// systems. The Name Tee Engine came from the idea of a TileEngine, ie a TEngine. I have a personal obsession with Tea, so changing
-    /// the name of the engine to TeeEngine places a bit of me into this project.
-    /// 
-    /// Using the TeeEngine is very simple:
-    /// 
-    /// TeeEngine engine = new TeeEngine(Game, 1024, 768);      //1024x768 resolution
-    /// engine.LoadMap("some_tiled_map.tmx");
-    /// 
-    /// engine.Entities.Add(entity1);
-    /// ...
-    /// 
-    /// engine.RegisterGameShader(shader1);
-    /// ...
-    ///
-    /// </summary>
     public class TeeEngine : GameComponent
     {
         #region Properties and Variables
