@@ -111,20 +111,20 @@ namespace GameEngine.DataStructures
                     pxHalfWidth,
                     pxHalfHeight);
                 Node2 = QuadTree.GetQuadTreeNode(
-                    pxBounds.X + pxHalfWidth - 1,
+                    pxBounds.X + pxHalfWidth,
                     pxBounds.Y,
-                    pxHalfWidth,
+                    pxBounds.Width - pxHalfWidth,
                     pxHalfHeight);
                 Node3 = QuadTree.GetQuadTreeNode(
                     pxBounds.X,
-                    pxBounds.Y + pxHalfHeight - 1,
+                    pxBounds.Y + pxHalfHeight,
                     pxHalfWidth,
-                    pxHalfHeight);
+                    pxBounds.Height - pxHalfHeight);
                 Node4 = QuadTree.GetQuadTreeNode(
-                    pxBounds.X + pxHalfWidth - 1,
-                    pxBounds.Y + pxHalfHeight - 1,
-                    pxHalfWidth,
-                    pxHalfHeight);
+                    pxBounds.X + pxHalfWidth,
+                    pxBounds.Y + pxHalfHeight,
+                    pxBounds.Width - pxHalfWidth,
+                    pxBounds.Height - pxHalfHeight);
 
                 QuadTree.NodeList.Add(Node1);
                 QuadTree.NodeList.Add(Node2);
