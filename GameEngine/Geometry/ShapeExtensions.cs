@@ -41,6 +41,10 @@ namespace GameEngine.Geometry
             SpriteBatch.Draw(_rectText, DestRectangle, Background);
         }
 
+        /// <summary>
+        /// This can probably be vastly improved using vertices and a shader. The current method is extremely ineffecient for 
+        /// what its intentional purpose is. (TODO)
+        /// </summary>
         public static void DrawRectangle(this SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background, float layerDepth)
         {
             if (_rectText == null)
