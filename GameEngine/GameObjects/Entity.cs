@@ -23,6 +23,7 @@ namespace GameEngine.GameObjects
 
         public bool Visible { get; set; }
         public bool IsOnScreen { get; internal set; }
+        public Rectangle CurrentBoundingBox { get; internal set; }      //the last bounding box generated during the TeeEngine update
 
         //Relative Origin to the Width and height of each animation
         public Vector2 Origin { get; set; }

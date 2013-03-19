@@ -65,6 +65,21 @@ namespace GameEngine
         public int pxHeight { get; private set; }
 
         /// <summary>
+        /// Width of the tiles to render in Pixels.
+        /// </summary>
+        public int pxTileWidth { get; private set; }
+
+        /// <summary>
+        /// Height of the tiles to render in Pixels.
+        /// </summary>
+        public int pxTileHeight { get; private set; }
+
+        /// <summary>
+        /// List of all Entities currently active in the current Game World.
+        /// </summary>
+        public List<Entity> Entities { get; set; }
+
+        /// <summary>
         /// List of all Entities on screen since the last DrawWorldViewPort call.
         /// </summary>
         public List<Entity> EntitiesOnScreen { get; private set; }
@@ -78,11 +93,6 @@ namespace GameEngine
         /// List of currently registered GameShaders in use by the TeeEngine.
         /// </summary>
         public List<GameShader> GameShaders { get; private set; }
-
-        /// <summary>
-        /// List of all Entities currently active in the current Game World.
-        /// </summary>
-        public List<Entity> Entities { get; set; }
 
         /// <summary>
         /// bool value specifying if the tile grid should be shown during render calls.
@@ -99,6 +109,11 @@ namespace GameEngine
         /// </summary>
         public QuadTree QuadTree { get; set; }
 
+        /// <summary>
+        /// Last GameTime instance when the TeeEngine was Updated.
+        /// </summary>
+        public GameTime LastUpdateTime { get; private set; }
+
         #endregion
 
         #region Variables
@@ -111,7 +126,7 @@ namespace GameEngine
 
         #region Initialisation
 
-        public TeeEngine(Game Game, int pxWidth, int pxHeight)
+        public TeeEngine(Game Game, int pxWidth, int pxHeight, int pxTileWidth, int pxTileHeight)
             :base(Game)
         {
             ShowTileGrid = false;
@@ -121,7 +136,7 @@ namespace GameEngine
             GameShaders = new List<GameShader>();
             Entities = new List<Entity>();
 
-            SetResolution(pxWidth, pxHeight);
+            SetResolution(pxWidth, pxHeight, pxTileWidth, pxTileHeight);
             Game.Components.Add(this);
         }
 
@@ -182,8 +197,13 @@ namespace GameEngine
 
         public override void Update(GameTime GameTime)
         {
+            LastUpdateTime = GameTime;
+
             foreach (Entity entity in Entities)
+            {
                 entity.Update(GameTime, Map);
+                entity.CurrentBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
+            }
 
             QuadTree.Build(Entities);
         }
@@ -195,7 +215,7 @@ namespace GameEngine
         public void LoadMap(TiledMap Map)
         {
             this.Map = Map;
-            QuadTree = new QuadTree(Map.txWidth, Map.txHeight);
+            this.QuadTree = new QuadTree(Map.txWidth, Map.txHeight, pxTileWidth, pxTileHeight);
         }
 
         /// <summary>
@@ -205,10 +225,17 @@ namespace GameEngine
         /// </summary>
         /// <param name="pxWidth">int Width in pixels.</param>
         /// <param name="pxHeight">int Height in pixels.</param>
-        public void SetResolution(int pxWidth, int pxHeight)
+        /// <param name="pxTileHeight">int Height of Tiles to render in Pixels.</param>
+        /// <param name="pxTileWidth">int Width of Tiles to render in Pixels.</param>
+        public void SetResolution(int pxWidth, int pxHeight, int pxTileWidth, int pxTileHeight)
         {
             this.pxWidth = pxWidth;
             this.pxHeight = pxHeight;
+            this.pxTileWidth = pxTileWidth;
+            this.pxTileHeight = pxTileHeight;
+
+            if (Map != null)
+                QuadTree = new QuadTree(Map.txWidth, Map.txHeight, pxTileWidth, pxTileHeight);
 
             if (_outputBuffer != null)
                 _outputBuffer.Dispose();
@@ -237,7 +264,7 @@ namespace GameEngine
         /// <param name="pxDestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
         /// <param name="Color">Color object with which to blend the game world.</param>
         /// <param name="SamplerState">Specifies the type of sampler to use when drawing images with the SpriteBatch object.</param>
-        public ViewPortInfo DrawWorldViewPort(GameTime GameTime, SpriteBatch SpriteBatch, Vector2 txCenter, int pxTileWidth, int pxTileHeight, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
+        public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 txCenter, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
         {
             GraphicsDevice GraphicsDevice = this.Game.GraphicsDevice;
 
@@ -330,7 +357,7 @@ namespace GameEngine
                         (int) Math.Ceiling((entity.TY - viewPortInfo.txTopLeftY) * pxTileHeight)
                     );
 
-                    Rectangle pxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);
+                    Rectangle pxBoundingBox = entity.CurrentBoundingBox;
                     pxBoundingBox = new Rectangle(
                         (int) Math.Ceiling(pxBoundingBox.X - viewPortInfo.txTopLeftX * pxTileWidth),
                         (int) Math.Ceiling(pxBoundingBox.Y - viewPortInfo.txTopLeftY * pxTileHeight), 
@@ -355,7 +382,7 @@ namespace GameEngine
                             //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
                             //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
                             //for panning at the edges.
-                            Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(GameTime);
+                            Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(LastUpdateTime);
 
                             int pxObjectWidth = (int)(pxCurrentFrame.Width * entity.rxWidth);
                             int pxObjectHeight = (int)(pxCurrentFrame.Height * entity.rxHeight);
@@ -376,7 +403,7 @@ namespace GameEngine
                             float layerDepth = Math.Min(0.99f, 1 / (entity.TY + ((float)drawable.Layer / pxTileHeight)));
 
                             SpriteBatch.Draw(
-                                drawable.Drawable.GetSourceTexture(GameTime),
+                                drawable.Drawable.GetSourceTexture(LastUpdateTime),
                                 objectDestRect,
                                 pxCurrentFrame,
                                 drawable.Color,
@@ -395,7 +422,7 @@ namespace GameEngine
             {
                 if (GameShaders[i].Enabled)
                 {
-                    GameShaders[i].ApplyShader(SpriteBatch, viewPortInfo, GameTime, _inputBuffer, _outputBuffer);
+                    GameShaders[i].ApplyShader(SpriteBatch, viewPortInfo, LastUpdateTime, _inputBuffer, _outputBuffer);
 
                     //swap buffers after each render
                     _dummyBuffer = _inputBuffer;

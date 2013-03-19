@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GameEngine.GameObjects;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.DataStructures
 {
@@ -11,16 +12,20 @@ namespace GameEngine.DataStructures
         public QuadTreeNode Root { get; set; }
         public List<QuadTreeNode> NodeList { get; set; }
         public int EntityLimit { get; private set; }
+        public int pxTileWidth { get; private set; }
+        public int pxTileHeight { get; private set; }
 
         //NODE POOL TO PREVENT INITIALISING NEW CLASSES EACH LOOP!
         private int _currentNodePoolIndex = 0;
         private List<QuadTreeNode> _nodePool = new List<QuadTreeNode>();
 
-        public QuadTree(int txWidth, int txHeight, int EntityLimit=1)
+        public QuadTree(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight, int EntityLimit=1)
         {
             NodeList = new List<QuadTreeNode>();
-            Root = GetQuadTreeNode(0, 0, txWidth, txHeight);
+            Root = GetQuadTreeNode(0, 0, pxTileWidth * txWidth, pxTileHeight * txHeight);
             this.EntityLimit = EntityLimit;
+            this.pxTileWidth = pxTileWidth;
+            this.pxTileHeight = pxTileHeight;
         }
 
         /// <summary>
@@ -37,7 +42,7 @@ namespace GameEngine.DataStructures
             NodeList.Add(Root);
 
             foreach (Entity entity in Entities)
-                Root.Add(entity, EntityLimit, this);
+                Root.Add(entity, EntityLimit);
         }
 
         /// <summary>
@@ -50,12 +55,12 @@ namespace GameEngine.DataStructures
         /// automatically set the NodeID of the QuadTreeNode for quick identification by the user
         /// during debugging.
         /// </summary>
-        /// <param name="tx">Top left location of the QuadTreeNode in tixels.</param>
-        /// <param name="ty">Top left location of the QuadTreeNode in tixels.</param>
-        /// <param name="txWidth">Width in tixels of the QuadTreeNode.</param>
-        /// <param name="txHeight">Height in tixels of the QuadTreeNode.</param>
+        /// <param name="px">Top left location of the QuadTreeNode in pixels.</param>
+        /// <param name="py">Top left location of the QuadTreeNode in pixels.</param>
+        /// <param name="pxWidth">Width in pixels of the QuadTreeNode.</param>
+        /// <param name="pxHeight">Height in pixels of the QuadTreeNode.</param>
         /// <returns>QuadTreeNode with the specified parameters.</returns>
-        public QuadTreeNode GetQuadTreeNode(float tx, float ty, float txWidth, float txHeight)
+        public QuadTreeNode GetQuadTreeNode(int px, int py, int pxWidth, int pxHeight)
         {
             if (_currentNodePoolIndex == _nodePool.Count)
                 _nodePool.Add(new QuadTreeNode());
@@ -63,10 +68,11 @@ namespace GameEngine.DataStructures
             QuadTreeNode nodeResult = _nodePool[_currentNodePoolIndex];
             nodeResult.Clear();
             nodeResult.NodeID = _currentNodePoolIndex;
-            nodeResult.TX = tx;
-            nodeResult.TY = ty;
-            nodeResult.txWidth = txWidth;
-            nodeResult.txHeight = txHeight;
+            nodeResult.PX = px;
+            nodeResult.PY = py;
+            nodeResult.pxWidth = pxWidth;
+            nodeResult.pxHeight = pxHeight;
+            nodeResult.QuadTree = this;
 
             _currentNodePoolIndex++;
 
@@ -75,10 +81,10 @@ namespace GameEngine.DataStructures
 
         public override string ToString()
         {
-            return string.Format("QuadTree: NodeCount={0}, txWidth={1}, txHeight={2}",
+            return string.Format("QuadTree: NodeCount={0}, pxWidth={1}, pxHeight={2}",
                 NodeList.Count,
-                Root.txWidth,
-                Root.txHeight);
+                Root.pxWidth,
+                Root.pxHeight);
         }
     }
 }

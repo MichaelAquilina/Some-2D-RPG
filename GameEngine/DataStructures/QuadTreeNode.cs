@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using GameEngine.GameObjects;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.DataStructures
 {
     public class QuadTreeNode
     {
-        //incremental counter to assign IDs during build
-
         //no need for arrays!
         public QuadTreeNode Node1 { get; private set; }
         public QuadTreeNode Node2 { get; private set; }
         public QuadTreeNode Node3 { get; private set; }
         public QuadTreeNode Node4 { get; private set; }
 
-        public List<Entity> Entities { get; set; }
+        public QuadTree QuadTree { get; internal set; }
+        public List<Entity> Entities { get; internal set; }
 
-        public float txWidth { get; set; }
-        public float txHeight { get; set; }
-        public float TX { get; set; }
-        public float TY { get; set; }
+        public int PX { get; internal set; }
+        public int PY { get; internal set; }
+        public int pxWidth { get; internal set; }
+        public int pxHeight { get; internal set; }
 
         public int NodeID { get; set; }
 
@@ -31,6 +31,11 @@ namespace GameEngine.DataStructures
             Clear();
         }
 
+        /// <summary>
+        /// Completely resets this QuadTreeNode for later re-use. Mainly used by the QuadTree class
+        /// structure when the Node is pulled from its Node Pool to be used again in a new build
+        /// iteration.
+        /// </summary>
         public void Clear()
         {
             Entities.Clear();
@@ -40,47 +45,59 @@ namespace GameEngine.DataStructures
             Node4 = null;
         }
 
-        public bool Contains(float tx, float ty)
+        /// <summary>
+        /// Checks whether the specified Bounding Box region specified in Pixels intersects
+        /// with the area specified in this QuadTreeNode. The function will return a true value
+        /// in the case where it intersects and a false in the case where it does not.
+        /// </summary>
+        /// <param name="pxBoundingBox">Bounding Box in pixels to check for intersection.</param>
+        /// <returns>bool value specifying the result of the intersection test.</returns>
+        public bool Intersects(Rectangle pxBoundingBox)
         {
-            return
-                tx >= this.TX && tx < this.TX + this.txWidth &&
-                ty >= this.TY && ty < this.TY + this.txHeight;
+            return new Rectangle(PX,PY,pxWidth,pxHeight).Intersects(pxBoundingBox);
         }
 
-        //recursive
-        public void Add(Entity entity, int entityLimit, QuadTree QuadTree)
+        /// <summary>
+        /// Recursively adds the specified Entity to this QuadTreeNode and possibly any child QuadTreeNodes
+        /// contained in the one specified in the parameters. This function will create any new Child tree
+        /// nodes as necessary from the associated QuadTrees NodePool in order to be as cheap as possible
+        /// on both memory and CPU.
+        /// </summary>
+        /// <param name="Entity">Entity to add to this QuadTreeNode.</param>
+        /// <param name="EntityLimit">(optional) integer value specifying the max number of entities to store in each QuadTreeNode.</param>
+        public void Add(Entity Entity, int EntityLimit)
         {
-            if ((Node1 == null && Entities.Count < entityLimit) || txWidth <= 1 || txHeight <= 1)
+            if ((Node1 == null && Entities.Count < EntityLimit) || pxWidth <= QuadTree.pxTileWidth || pxHeight <= QuadTree.pxTileHeight)
             {
-                Entities.Add(entity);
+                Entities.Add(Entity);
                 return;
             }
 
             if (Node1 == null)
             {
-                float txHalfWidth = this.txWidth / 2.0f;
-                float txHalfHeight = this.txHeight / 2.0f;
+                int pxHalfWidth = (int) Math.Ceiling(pxWidth / 2.0f);
+                int pxHalfHeight = (int) Math.Ceiling(pxHeight / 2.0f);
 
                 Node1 = QuadTree.GetQuadTreeNode(
-                    this.TX,
-                    this.TY,
-                    txHalfWidth,
-                    txHalfHeight);
+                    PX,
+                    PY,
+                    pxHalfWidth,
+                    pxHalfHeight);
                 Node2 = QuadTree.GetQuadTreeNode(
-                    this.TX + txHalfWidth,
-                    TY,
-                    txHalfWidth,
-                    txHalfHeight);
+                    PX + pxHalfWidth - 1,
+                    PY,
+                    pxHalfWidth,
+                    pxHalfHeight);
                 Node3 = QuadTree.GetQuadTreeNode(
-                    this.TX,
-                    this.TY + txHalfHeight,
-                    txHalfWidth,
-                    txHalfHeight);
+                    PX,
+                    PY + pxHalfHeight - 1,
+                    pxHalfWidth,
+                    pxHalfHeight);
                 Node4 = QuadTree.GetQuadTreeNode(
-                    this.TX + txHalfWidth,
-                    this.TY + txHalfHeight,
-                    txHalfWidth,
-                    txHalfHeight);
+                    PX + pxHalfWidth - 1,
+                    PY + pxHalfHeight - 1,
+                    pxHalfWidth,
+                    pxHalfHeight);
 
                 QuadTree.NodeList.Add(Node1);
                 QuadTree.NodeList.Add(Node2);
@@ -88,26 +105,26 @@ namespace GameEngine.DataStructures
                 QuadTree.NodeList.Add(Node4);
             }
 
+            //determine which entities need to be re-added
             List<Entity> toAdd = new List<Entity>();
-            toAdd.Add(entity);
+            toAdd.Add(Entity);
             toAdd.AddRange(this.Entities);
-
             this.Entities.Clear();
 
             foreach (Entity entityToAdd in toAdd)
             {
-                if (Node1.Contains(entityToAdd.TX, entityToAdd.TY)) Node1.Add(entityToAdd, entityLimit, QuadTree);
-                else if (Node2.Contains(entityToAdd.TX, entityToAdd.TY)) Node2.Add(entityToAdd, entityLimit, QuadTree);
-                else if (Node3.Contains(entityToAdd.TX, entityToAdd.TY)) Node3.Add(entityToAdd, entityLimit, QuadTree);
-                else if (Node4.Contains(entityToAdd.TX, entityToAdd.TY)) Node4.Add(entityToAdd, entityLimit, QuadTree);
+                if (Node1.Intersects(entityToAdd.CurrentBoundingBox)) Node1.Add(entityToAdd, EntityLimit);
+                if (Node2.Intersects(entityToAdd.CurrentBoundingBox)) Node2.Add(entityToAdd, EntityLimit);
+                if (Node3.Intersects(entityToAdd.CurrentBoundingBox)) Node3.Add(entityToAdd, EntityLimit);
+                if (Node4.Intersects(entityToAdd.CurrentBoundingBox)) Node4.Add(entityToAdd, EntityLimit);
             }
         }
 
         public override string ToString()
         {
-            return string.Format("QuadTreeNode: NodeId={0}; (TX,TY)=({1},{2}), txWidth={3}, txHeight={4}, Leaf={5}",
+            return string.Format("QuadTreeNode: NodeId={0}; (PX,PY)=({1},{2}), pxWidth={3}, pxHeight={4}, IsLeafNode={5}",
                 NodeID,
-                TX, TY, txWidth, txHeight,
+                PX, PY, pxWidth, pxHeight,
                 Node1 == null);
         }
     }

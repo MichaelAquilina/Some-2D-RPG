@@ -77,7 +77,7 @@ namespace ShadowKill
         {
             TiledMap tiledmap = TiledMap.LoadTiledXML("Content/example_map.tmx", Content);
 
-            Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
+            Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
             Engine.LoadMap(tiledmap);
 
             CurrentPlayer = new Hero(15.39997f, 9.199986f);
@@ -225,10 +225,10 @@ namespace ShadowKill
         {
             if( Node == null ) return;
 
-            int PX = (int)Math.Ceiling((Node.TX - viewPort.txTopLeftX) * viewPort.pxTileWidth);
-            int PY = (int)Math.Ceiling((Node.TY - viewPort.txTopLeftY) * viewPort.pxTileHeight);
-            int pxWidth = (int)Math.Ceiling((Node.txWidth * viewPort.pxTileWidth));
-            int pxHeight = (int)Math.Ceiling((Node.txHeight * viewPort.pxTileHeight));
+            int PX = (int) Math.Ceiling(Node.PX - viewPort.txTopLeftX * viewPort.pxTileWidth);
+            int PY = (int)Math.Ceiling(Node.PY - viewPort.txTopLeftY * viewPort.pxTileHeight);
+            int pxWidth = Node.pxWidth;
+            int pxHeight = Node.pxHeight;
             string nodeIdText = Node.NodeID.ToString();
 
             SpriteBatch.DrawRectangle(new Rectangle(PX, PY, pxWidth, pxHeight), Color.Lime, 0);
@@ -262,10 +262,8 @@ namespace ShadowKill
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
             ViewPortInfo viewPort = Engine.DrawWorldViewPort(
-                                            gameTime, 
                                             SpriteBatch, 
                                             new Vector2(CurrentPlayer.TX, CurrentPlayer.TY), 
-                                            TILE_WIDTH, TILE_HEIGHT, 
                                             pxDestRectangle, 
                                             Color.White, 
                                             CurrentSampler);
