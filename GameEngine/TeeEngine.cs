@@ -306,7 +306,7 @@ namespace GameEngine
 
             //DRAW THE WORLD MAP
             _watch1.Restart();
-            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
+            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState, null, null);
             {
                 for (int layerIndex = 0; layerIndex < Map.TileLayers.Count; layerIndex++)
                 {
