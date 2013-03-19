@@ -13,6 +13,7 @@ using ShadowKillGame.GameObjects;
 using GameEngine.Drawing;
 using GameEngine.Geometry;
 using GameEngine.DataStructures;
+using GameEngine.Info;
 
 namespace ShadowKill
 {
@@ -38,6 +39,7 @@ namespace ShadowKill
         bool helmetVisible = true;
         bool showDebugInfo = true;
         bool showQuadTree = true;
+        bool showDiagnostics = true;
 
         int SamplerIndex = 0;
         SamplerState CurrentSampler;
@@ -209,6 +211,9 @@ namespace ShadowKill
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F6, true))
                 showQuadTree = !showQuadTree;
 
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F7, true))
+                showDiagnostics = !showDiagnostics;
+
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
                 Graphics.ToggleFullScreen();
 
@@ -261,6 +266,8 @@ namespace ShadowKill
             };
             GraphicsDevice.Clear(Color.Black);
 
+            int counter = 0;
+
             Rectangle pxDestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
@@ -296,16 +303,21 @@ namespace ShadowKill
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
 
-                SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), Vector2.Zero, Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, 40), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, 60), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, 80), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, 100), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, 120), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, 140), Color.White);
-                //SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
-                //SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePointAccurracy, new Vector2(0, 160), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), new Vector2(0, counter++ * 20), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, counter++ * 20), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, counter++ * 20), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, counter++ * 20), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, counter++ * 20), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, counter++ * 20), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, counter++ * 20), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, counter++ * 20), Color.White);
+                
+            }
+
+            if (showDiagnostics)
+            {
+                string diagnostic = Engine.DebugInfo.ToString();
+                SpriteBatch.DrawString(DefaultSpriteFont, diagnostic, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(diagnostic).Y), Color.White);
             }
             SpriteBatch.End();
 

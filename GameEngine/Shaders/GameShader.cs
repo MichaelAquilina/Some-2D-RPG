@@ -4,6 +4,7 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngine.Info;
 
 namespace GameEngine.Shaders
 {

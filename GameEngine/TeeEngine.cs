@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using GameEngine.DataStructures;
+using GameEngine.Info;
+using System.Diagnostics;
 
 //In the Context of this Game Engine, the following Coordinate units are used:
 //        PX: Pixels
@@ -52,7 +54,7 @@ namespace GameEngine
     /// </summary>
     public class TeeEngine : GameComponent
     {
-        #region Properties
+        #region Properties and Variables
 
         /// <summary>
         /// Width resolution of the TeeEngine buffer in pixels.
@@ -114,21 +116,24 @@ namespace GameEngine
         /// </summary>
         public GameTime LastUpdateTime { get; private set; }
 
-        #endregion
-
-        #region Variables
+        /// <summary>
+        /// Debug Information that can be accessed by the player.
+        /// </summary>
+        public DebugInfo DebugInfo { get; private set; }
 
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
+        Stopwatch _debugStopWacth;
 
         #endregion
-
-        #region Initialisation
 
         public TeeEngine(Game Game, int pxWidth, int pxHeight, int pxTileWidth, int pxTileHeight)
             :base(Game)
         {
+            DebugInfo = new DebugInfo();
+            _debugStopWacth = new Stopwatch();
+
             ShowTileGrid = false;
             ShowBoundingBoxes = false;
             EntitiesOnScreen = new List<Entity>();
@@ -169,9 +174,6 @@ namespace GameEngine
                 loadableShader.UnloadContent();
         }
 
-        #endregion
-
-        #region Register/Unregister methods
 
         public bool IsRegistered(GameShader Shader)
         {
@@ -190,27 +192,6 @@ namespace GameEngine
             Shader.UnloadContent();
             return GameShaders.Remove(Shader);
         }
-
-        #endregion
-
-        #region Update Methods
-
-        public override void Update(GameTime GameTime)
-        {
-            LastUpdateTime = GameTime;
-
-            foreach (Entity entity in Entities)
-            {
-                entity.Update(GameTime, this);
-                entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
-            }
-
-            QuadTree.Build(Entities);
-        }
-
-        #endregion
-
-        #region Public API Methods
 
         public void LoadMap(TiledMap Map)
         {
@@ -248,6 +229,31 @@ namespace GameEngine
 
             //allow all game shaders to become aware of the change in resolution
             foreach (GameShader shader in GameShaders) shader.SetResolution(pxWidth, pxHeight);
+        }
+
+        public override void Update(GameTime GameTime)
+        {
+            LastUpdateTime = GameTime;
+
+            _debugStopWacth.Reset();
+            _debugStopWacth.Start();
+
+                foreach (Entity entity in Entities)
+                {
+                    entity.Update(GameTime, this);
+                    entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
+                }
+
+            _debugStopWacth.Stop();
+            DebugInfo.EntityUpdateTime = _debugStopWacth.Elapsed;
+
+            _debugStopWacth.Reset();
+            _debugStopWacth.Start();
+
+                QuadTree.Build(Entities);
+
+            _debugStopWacth.Stop();
+            DebugInfo.QuadTreeBuildTime = _debugStopWacth.Elapsed;
         }
         
         /// <summary>
@@ -293,6 +299,9 @@ namespace GameEngine
                 viewPortInfo.txDispX = viewPortInfo.txTopLeftX - Math.Floor(viewPortInfo.txTopLeftX);
                 viewPortInfo.txDispY = viewPortInfo.txTopLeftY - Math.Floor(viewPortInfo.txTopLeftY);
             }
+
+            _debugStopWacth.Reset();
+            _debugStopWacth.Start();
 
             //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
             GraphicsDevice.SetRenderTarget(_inputBuffer);
@@ -345,6 +354,11 @@ namespace GameEngine
                     }
                 }
 
+                _debugStopWacth.Stop();
+                DebugInfo.TileRenderingTime = _debugStopWacth.Elapsed;
+
+                _debugStopWacth.Reset();
+                _debugStopWacth.Start();
                 //DRAW VISIBLE REGISTERED ENTITIES
                 foreach (Entity entity in Entities)
                 {
@@ -415,7 +429,14 @@ namespace GameEngine
                     }
                 }
             }
+
+            _debugStopWacth.Stop();
+            DebugInfo.EntityRenderingTime = _debugStopWacth.Elapsed;
+
             SpriteBatch.End();
+
+            _debugStopWacth.Reset();
+            _debugStopWacth.Start();
 
             //APPLY GAME SHADERS TO THE RESULTANT IMAGE
             for (int i = 0; i < GameShaders.Count; i++)
@@ -431,6 +452,9 @@ namespace GameEngine
                 }
             }
 
+            _debugStopWacth.Stop();
+            DebugInfo.GameShadersRenderTime = _debugStopWacth.Elapsed;
+
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);
             SpriteBatch.Begin();
@@ -441,7 +465,5 @@ namespace GameEngine
 
             return viewPortInfo;
         }
-
-        #endregion
     }
 }

@@ -531,5 +531,17 @@
   <object type="MapObject" gid="106" x="-1" y="755"/>
   <object type="MapObject" gid="106" x="638" y="304"/>
   <object type="MapObject" gid="106" x="829" y="882"/>
+  <object type="MapObject" gid="106" x="120" y="804"/>
+  <object type="MapObject" gid="106" x="162" y="732"/>
+  <object type="MapObject" gid="106" x="59" y="907"/>
+  <object type="MapObject" gid="106" x="196" y="929"/>
+  <object type="MapObject" gid="106" x="44" y="1035"/>
+  <object type="MapObject" gid="106" x="190" y="1127"/>
+  <object type="MapObject" gid="106" x="287" y="1020"/>
+  <object type="MapObject" gid="106" x="10" y="1189"/>
+  <object type="MapObject" gid="106" x="98" y="1220"/>
+  <object type="MapObject" gid="106" x="87" y="1048"/>
+  <object type="MapObject" gid="106" x="240" y="1215"/>
+  <object type="MapObject" gid="106" x="331" y="1149"/>
  </objectgroup>
 </map>

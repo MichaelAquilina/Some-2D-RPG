@@ -98,7 +98,8 @@
     <Compile Include="Drawing\GameDrawableInstance.cs" />
     <Compile Include="Geometry\ShapeExtensions.cs" />
     <Compile Include="Drawing\StaticImage.cs" />
-    <Compile Include="Drawing\ViewPortInfo.cs" />
+    <Compile Include="Info\DebugInfo.cs" />
+    <Compile Include="Info\ViewPortInfo.cs" />
     <Compile Include="GameObjects\Entity.cs" />
     <Compile Include="Helpers\XmlExtensions.cs" />
     <Compile Include="Interfaces\IGameDrawable.cs" />

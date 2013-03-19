@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using GameEngine.Drawing;
 using GameEngine.Shaders;
 using GameEngine;
+using GameEngine.Info;
 
 namespace ShadowKill.Shaders
 {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 
-namespace GameEngine.Drawing
+namespace GameEngine.Info
 {
     /// <summary>
     /// Representation of the data currently found in the ViewPort being rendered by the TileEngine.
