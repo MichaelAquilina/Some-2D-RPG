@@ -15,6 +15,7 @@ using GameEngine.Geometry;
 using GameEngine.DataStructures;
 using GameEngine.Info;
 using System.Diagnostics;
+using System.Text;
 
 namespace ShadowKill
 {
@@ -322,8 +323,14 @@ namespace ShadowKill
 
                 if (showDiagnostics)
                 {
-                    string diagnostic = Engine.DebugInfo.ToString();
-                    SpriteBatch.DrawString(DefaultSpriteFont, diagnostic, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(diagnostic).Y), Color.White);
+                    StringBuilder builder = new StringBuilder();
+                    builder.AppendLine(Engine.DebugInfo.ToString());
+
+                    foreach (string entityId in Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityUpdateTime, 3).Keys)
+                        builder.AppendLine(string.Format("Entity '{0}' = {1}", entityId, Engine.DebugInfo.EntityUpdateTime[entityId]));
+
+                    string textOutput = builder.ToString();
+                    SpriteBatch.DrawString(DefaultSpriteFont, textOutput, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(textOutput).Y), Color.White);
                 }
             }
             SpriteBatch.End();

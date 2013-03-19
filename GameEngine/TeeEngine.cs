@@ -125,7 +125,8 @@ namespace GameEngine
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
-        Stopwatch _stopwatch;
+        Stopwatch _watch1;              //primary diagnostic watch
+        Stopwatch _watch2;              //secondary diagnostic watch
         DebugInfo _debugInfo;
 
         #endregion
@@ -134,7 +135,8 @@ namespace GameEngine
             :base(Game)
         {
             _debugInfo = new DebugInfo();
-            _stopwatch = new Stopwatch();
+            _watch1 = new Stopwatch();
+            _watch2 = new Stopwatch();
 
             ShowTileGrid = false;
             ShowBoundingBoxes = false;
@@ -237,17 +239,22 @@ namespace GameEngine
         {
             LastUpdateTime = GameTime;
 
-            _stopwatch.Restart();
-            foreach (Entity entity in Entities.Values)
+            _watch1.Restart();
+            foreach (string entityId in Entities.Keys)
             {
+                Entity entity = Entities[entityId];
+
+                _watch2.Restart();
                 entity.Update(GameTime, this);
+                DebugInfo.EntityUpdateTime[entityId] = _watch2.Elapsed;
+
                 entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
             }
-            _debugInfo.EntityUpdateTime = _stopwatch.Elapsed;
+            _debugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
 
-            _stopwatch.Restart();
+            _watch1.Restart();
             QuadTree.Build(Entities.Values);
-            _debugInfo.QuadTreeBuildTime = _stopwatch.Elapsed;
+            _debugInfo.QuadTreeBuildTime = _watch1.Elapsed;
         }
         
         /// <summary>
@@ -299,7 +306,7 @@ namespace GameEngine
             GraphicsDevice.Clear(Color.Black);
 
             //DRAW THE WORLD MAP
-            _stopwatch.Restart();
+            _watch1.Restart();
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
                 for (int layerIndex = 0; layerIndex < Map.TileLayers.Count; layerIndex++)
@@ -347,15 +354,18 @@ namespace GameEngine
                 }
             }
             SpriteBatch.End();
-            _debugInfo.TileRenderingTime = _stopwatch.Elapsed;
+            _debugInfo.TileRenderingTime = _watch1.Elapsed;
 
 
             //DRAW VISIBLE REGISTERED ENTITIES
-            _stopwatch.Restart();
+            _watch1.Restart();
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
-                foreach (Entity entity in Entities.Values)
+                foreach (string entityId in Entities.Keys)
                 {
+                    _watch2.Restart();
+
+                    Entity entity = Entities[entityId];
                     entity.IsOnScreen = false;
 
                     if (!entity.Visible) continue;
@@ -428,12 +438,14 @@ namespace GameEngine
                                 layerDepth);
                         }
                     }
+
+                    _debugInfo.EntityRenderingTime[entityId] = _watch2.Elapsed;
                 }
             }
             SpriteBatch.End();
-            _debugInfo.EntityRenderingTime = _stopwatch.Elapsed;
+            _debugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
 
-            _stopwatch.Restart();
+            _watch1.Restart();
             //APPLY GAME SHADERS TO THE RESULTANT IMAGE
             for (int i = 0; i < GameShaders.Count; i++)
             {
@@ -447,7 +459,7 @@ namespace GameEngine
                     _outputBuffer = _dummyBuffer;
                 }
             }
-            _debugInfo.GameShadersRenderTime = _stopwatch.Elapsed;
+            _debugInfo.TotalGameShaderRenderTime = _watch1.Elapsed;
 
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);
