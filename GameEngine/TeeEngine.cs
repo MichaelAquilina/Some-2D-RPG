@@ -201,8 +201,8 @@ namespace GameEngine
 
             foreach (Entity entity in Entities)
             {
-                entity.Update(GameTime, Map);
-                entity.CurrentBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
+                entity.Update(GameTime, this);
+                entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
             }
 
             QuadTree.Build(Entities);
@@ -357,7 +357,7 @@ namespace GameEngine
                         (int) Math.Ceiling((entity.TY - viewPortInfo.txTopLeftY) * pxTileHeight)
                     );
 
-                    Rectangle pxBoundingBox = entity.CurrentBoundingBox;
+                    Rectangle pxBoundingBox = entity.CurrentPxBoundingBox;
                     pxBoundingBox = new Rectangle(
                         (int) Math.Ceiling(pxBoundingBox.X - viewPortInfo.txTopLeftX * pxTileWidth),
                         (int) Math.Ceiling(pxBoundingBox.Y - viewPortInfo.txTopLeftY * pxTileHeight), 

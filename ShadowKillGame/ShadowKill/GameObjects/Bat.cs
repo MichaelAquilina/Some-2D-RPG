@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using GameEngine.Tiled;
 using GameEngine.Drawing;
+using GameEngine;
 
 namespace ShadowKill.GameObjects
 {
@@ -20,11 +21,9 @@ namespace ShadowKill.GameObjects
             this.rxHeight = 1.5f;
         }
 
-        public override void Update(GameTime GameTime, TiledMap Map)
+        public override void Update(GameTime GameTime, TeeEngine Engine)
         {
             TX += (float)Math.Cos(GameTime.TotalGameTime.TotalSeconds) / 20;
-
-            base.Update(GameTime, Map);
         }
 
         public override void LoadContent(ContentManager Content)

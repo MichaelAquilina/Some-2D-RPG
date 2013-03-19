@@ -23,7 +23,7 @@ namespace GameEngine.GameObjects
 
         public bool Visible { get; set; }
         public bool IsOnScreen { get; internal set; }
-        public Rectangle CurrentBoundingBox { get; internal set; }      //the last bounding box generated during the TeeEngine update
+        public Rectangle CurrentPxBoundingBox { get; internal set; }      //the last bounding box generated during the TeeEngine update
 
         //Relative Origin to the Width and height of each animation
         public Vector2 Origin { get; set; }
@@ -99,7 +99,7 @@ namespace GameEngine.GameObjects
         }
 
         //TODO: Probably needs to be updated to allow interaction with other entities in the TileEngine instance
-        public virtual void Update(GameTime GameTime, TiledMap Map)
+        public virtual void Update(GameTime GameTime, TeeEngine Engine)
         {
         }
 

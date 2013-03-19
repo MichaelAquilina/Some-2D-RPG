@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using ShadowKill.Shaders;
+using GameEngine;
 
 namespace ShadowKill.GameObjects
 {
@@ -44,7 +45,7 @@ namespace ShadowKill.GameObjects
             return false;
         }
 
-        public override void Update(GameTime gameTime, TiledMap Map)
+        public override void Update(GameTime gameTime, TeeEngine Engine)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -54,7 +55,7 @@ namespace ShadowKill.GameObjects
 
             float prevX = TX;
             float prevY = TY;
-            Tile prevTile = Map.GetTopMostTile((int) TX, (int)TY);
+            Tile prevTile = Engine.Map.GetTopMostTile((int) TX, (int)TY);
             float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
@@ -166,8 +167,8 @@ namespace ShadowKill.GameObjects
                 //prevent from going out of range
                 if (TX < 0) TX = 0;
                 if (TY < 0) TY = 0;
-                if (TX >= Map.txWidth - 1) TX = Map.txWidth - 1;
-                if (TY >= Map.txHeight - 1) TY = Map.txHeight - 1;
+                if (TX >= Engine.Map.txWidth - 1) TX = Engine.Map.txWidth - 1;
+                if (TY >= Engine.Map.txHeight - 1) TY = Engine.Map.txHeight - 1;
             }  
         }
     }

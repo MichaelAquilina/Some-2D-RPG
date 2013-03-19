@@ -221,7 +221,7 @@ namespace ShadowKill
             base.Update(gameTime);
         }
 
-        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch SpriteBatch, QuadTreeNode Node)
+        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch SpriteBatch, QuadTreeNode Node, Rectangle DestRectangle)
         {
             if( Node == null ) return;
 
@@ -231,18 +231,21 @@ namespace ShadowKill
             int pxHeight = Node.pxHeight;
             string nodeIdText = Node.NodeID.ToString();
 
-            SpriteBatch.DrawRectangle(new Rectangle(PX, PY, pxWidth, pxHeight), Color.Lime, 0);
-            SpriteBatch.DrawString(
-                DefaultSpriteFont, 
-                nodeIdText, 
-                new Vector2(PX + pxWidth / 2.0f, PY + pxHeight / 2.0f) - DefaultSpriteFont.MeasureString(nodeIdText)/2, 
-                Color.Lime
-            );
+            if (new Rectangle(PX, PY, pxWidth, pxHeight).Intersects(DestRectangle))
+            {
+                SpriteBatch.DrawRectangle(new Rectangle(PX, PY, pxWidth, pxHeight), Color.Lime, 0);
+                SpriteBatch.DrawString(
+                    DefaultSpriteFont,
+                    nodeIdText,
+                    new Vector2(PX + pxWidth / 2.0f, PY + pxHeight / 2.0f) - DefaultSpriteFont.MeasureString(nodeIdText) / 2,
+                    Color.Lime
+                );
 
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node1);
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node2);
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node3);
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node4);
+                DrawQuadTree(viewPort, SpriteBatch, Node.Node1, DestRectangle);
+                DrawQuadTree(viewPort, SpriteBatch, Node.Node2, DestRectangle);
+                DrawQuadTree(viewPort, SpriteBatch, Node.Node3, DestRectangle);
+                DrawQuadTree(viewPort, SpriteBatch, Node.Node4, DestRectangle);
+            }
         }
 
         protected override void Draw(GameTime gameTime)
@@ -271,7 +274,7 @@ namespace ShadowKill
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
 
-            if(showQuadTree) DrawQuadTree(viewPort, SpriteBatch, Engine.QuadTree.Root);
+            if (showQuadTree) DrawQuadTree(viewPort, SpriteBatch, Engine.QuadTree.Root, pxDestRectangle);
 
             if (showDebugInfo) 
             {
@@ -300,7 +303,7 @@ namespace ShadowKill
                 SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, 80), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, 100), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, 120), Color.White);
-                //SpriteBatch.DrawString(DefaultSpriteFont, "Light Sources = " + LightShader.LightSources.Count, new Vector2(0, 120), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, 140), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Current Player Animation = " + CurrentPlayer.CurrentAnimation, new Vector2(0,140), Color.White);
                 //SpriteBatch.DrawString(DefaultSpriteFont, "Circle Point Accuracy = " + LightShader.CirclePointAccurracy, new Vector2(0, 160), Color.White);
             }

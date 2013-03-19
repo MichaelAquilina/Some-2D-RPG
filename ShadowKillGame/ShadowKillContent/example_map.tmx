@@ -530,5 +530,6 @@
   <object type="MapObject" gid="106" x="410" y="490"/>
   <object type="MapObject" gid="106" x="-1" y="755"/>
   <object type="MapObject" gid="106" x="638" y="304"/>
+  <object type="MapObject" gid="106" x="829" y="882"/>
  </objectgroup>
 </map>

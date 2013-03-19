@@ -113,10 +113,10 @@ namespace GameEngine.DataStructures
 
             foreach (Entity entityToAdd in toAdd)
             {
-                if (Node1.Intersects(entityToAdd.CurrentBoundingBox)) Node1.Add(entityToAdd, EntityLimit);
-                if (Node2.Intersects(entityToAdd.CurrentBoundingBox)) Node2.Add(entityToAdd, EntityLimit);
-                if (Node3.Intersects(entityToAdd.CurrentBoundingBox)) Node3.Add(entityToAdd, EntityLimit);
-                if (Node4.Intersects(entityToAdd.CurrentBoundingBox)) Node4.Add(entityToAdd, EntityLimit);
+                if (Node1.Intersects(entityToAdd.CurrentPxBoundingBox)) Node1.Add(entityToAdd, EntityLimit);
+                if (Node2.Intersects(entityToAdd.CurrentPxBoundingBox)) Node2.Add(entityToAdd, EntityLimit);
+                if (Node3.Intersects(entityToAdd.CurrentPxBoundingBox)) Node3.Add(entityToAdd, EntityLimit);
+                if (Node4.Intersects(entityToAdd.CurrentPxBoundingBox)) Node4.Add(entityToAdd, EntityLimit);
             }
         }
 
