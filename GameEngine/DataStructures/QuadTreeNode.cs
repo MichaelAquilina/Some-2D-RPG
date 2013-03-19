@@ -27,7 +27,7 @@ namespace GameEngine.DataStructures
 
         public QuadTreeNode()
         {
-            this.Entities = new List<Entity>();
+            Entities = new List<Entity>();
             Clear();
         }
 
@@ -105,19 +105,22 @@ namespace GameEngine.DataStructures
                 QuadTree.NodeList.Add(Node4);
             }
 
-            //determine which entities need to be re-added
-            List<Entity> toAdd = new List<Entity>();
-            toAdd.Add(Entity);
-            toAdd.AddRange(this.Entities);
-            this.Entities.Clear();
+            //add the entity specified in the function paramaters
+            if (Node1.Intersects(Entity.CurrentPxBoundingBox)) Node1.Add(Entity, EntityLimit);
+            if (Node2.Intersects(Entity.CurrentPxBoundingBox)) Node2.Add(Entity, EntityLimit);
+            if (Node3.Intersects(Entity.CurrentPxBoundingBox)) Node3.Add(Entity, EntityLimit);
+            if (Node4.Intersects(Entity.CurrentPxBoundingBox)) Node4.Add(Entity, EntityLimit);
 
-            foreach (Entity entityToAdd in toAdd)
+            //distrobute any entities found in this current Node
+            foreach (Entity entityToAdd in this.Entities)
             {
                 if (Node1.Intersects(entityToAdd.CurrentPxBoundingBox)) Node1.Add(entityToAdd, EntityLimit);
                 if (Node2.Intersects(entityToAdd.CurrentPxBoundingBox)) Node2.Add(entityToAdd, EntityLimit);
                 if (Node3.Intersects(entityToAdd.CurrentPxBoundingBox)) Node3.Add(entityToAdd, EntityLimit);
                 if (Node4.Intersects(entityToAdd.CurrentPxBoundingBox)) Node4.Add(entityToAdd, EntityLimit);
             }
+
+            Entities.Clear();
         }
 
         public override string ToString()

@@ -119,20 +119,21 @@ namespace GameEngine
         /// <summary>
         /// Debug Information that can be accessed by the player.
         /// </summary>
-        public DebugInfo DebugInfo { get; private set; }
+        public DebugInfo DebugInfo { get { return _debugInfo; } }
 
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
-        Stopwatch _debugStopWacth;
+        Stopwatch _stopwatch;
+        DebugInfo _debugInfo;
 
         #endregion
 
         public TeeEngine(Game Game, int pxWidth, int pxHeight, int pxTileWidth, int pxTileHeight)
             :base(Game)
         {
-            DebugInfo = new DebugInfo();
-            _debugStopWacth = new Stopwatch();
+            _debugInfo = new DebugInfo();
+            _stopwatch = new Stopwatch();
 
             ShowTileGrid = false;
             ShowBoundingBoxes = false;
@@ -235,25 +236,17 @@ namespace GameEngine
         {
             LastUpdateTime = GameTime;
 
-            _debugStopWacth.Reset();
-            _debugStopWacth.Start();
+            _stopwatch.Restart();
+            foreach (Entity entity in Entities)
+            {
+                entity.Update(GameTime, this);
+                entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
+            }
+            _debugInfo.EntityUpdateTime = _stopwatch.Elapsed;
 
-                foreach (Entity entity in Entities)
-                {
-                    entity.Update(GameTime, this);
-                    entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
-                }
-
-            _debugStopWacth.Stop();
-            DebugInfo.EntityUpdateTime = _debugStopWacth.Elapsed;
-
-            _debugStopWacth.Reset();
-            _debugStopWacth.Start();
-
-                QuadTree.Build(Entities);
-
-            _debugStopWacth.Stop();
-            DebugInfo.QuadTreeBuildTime = _debugStopWacth.Elapsed;
+            _stopwatch.Restart();
+            QuadTree.Build(Entities);
+            _debugInfo.QuadTreeBuildTime = _stopwatch.Elapsed;
         }
         
         /// <summary>
@@ -300,16 +293,14 @@ namespace GameEngine
                 viewPortInfo.txDispY = viewPortInfo.txTopLeftY - Math.Floor(viewPortInfo.txTopLeftY);
             }
 
-            _debugStopWacth.Reset();
-            _debugStopWacth.Start();
-
             //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
             GraphicsDevice.SetRenderTarget(_inputBuffer);
             GraphicsDevice.Clear(Color.Black);
 
+            //DRAW THE WORLD MAP
+            _stopwatch.Restart();
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
-                //DRAW THE WORLD MAP
                 for (int layerIndex = 0; layerIndex < Map.TileLayers.Count; layerIndex++)
                 {
                     //DRAW EACH LAYER
@@ -353,13 +344,15 @@ namespace GameEngine
                         }
                     }
                 }
+            }
+            SpriteBatch.End();
+            _debugInfo.TileRenderingTime = _stopwatch.Elapsed;
 
-                _debugStopWacth.Stop();
-                DebugInfo.TileRenderingTime = _debugStopWacth.Elapsed;
 
-                _debugStopWacth.Reset();
-                _debugStopWacth.Start();
-                //DRAW VISIBLE REGISTERED ENTITIES
+            //DRAW VISIBLE REGISTERED ENTITIES
+            _stopwatch.Restart();
+            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
+            {
                 foreach (Entity entity in Entities)
                 {
                     entity.IsOnScreen = false;
@@ -429,15 +422,10 @@ namespace GameEngine
                     }
                 }
             }
-
-            _debugStopWacth.Stop();
-            DebugInfo.EntityRenderingTime = _debugStopWacth.Elapsed;
-
             SpriteBatch.End();
+            _debugInfo.EntityRenderingTime = _stopwatch.Elapsed;
 
-            _debugStopWacth.Reset();
-            _debugStopWacth.Start();
-
+            _stopwatch.Restart();
             //APPLY GAME SHADERS TO THE RESULTANT IMAGE
             for (int i = 0; i < GameShaders.Count; i++)
             {
@@ -451,9 +439,7 @@ namespace GameEngine
                     _outputBuffer = _dummyBuffer;
                 }
             }
-
-            _debugStopWacth.Stop();
-            DebugInfo.GameShadersRenderTime = _debugStopWacth.Elapsed;
+            _debugInfo.GameShadersRenderTime = _stopwatch.Elapsed;
 
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);

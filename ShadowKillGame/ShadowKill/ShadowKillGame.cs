@@ -302,9 +302,10 @@ namespace ShadowKill
                 }
 
                 double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
+                Color fpsColor = (Math.Ceiling(fps) < 60 )? Color.Red : Color.White;
 
                 SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), new Vector2(0, counter++ * 20), Color.White);
-                SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, counter++ * 20), Color.White);
+                SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, counter++ * 20), fpsColor);
                 SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, counter++ * 20), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, counter++ * 20), Color.White);
                 SpriteBatch.DrawString(DefaultSpriteFont, CurrentSampler.ToString(), new Vector2(0, counter++ * 20), Color.White);
