@@ -16,9 +16,6 @@ namespace GameEngine.DataStructures
         internal int _currentNodePoolIndex = 0;
         internal List<QuadTreeNode> _nodePool = new List<QuadTreeNode>();
 
-        //RESULT BUFFER TO PREVENT OVER INITIALISATION OF LISTS
-        internal List<Entity> _resultBuffer = new List<Entity>();
-
         public QuadTree(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight, int EntityLimit=1)
         {
             NodeList = new List<QuadTreeNode>();
@@ -87,9 +84,9 @@ namespace GameEngine.DataStructures
         /// <returns>List of Entity objects intersecting the specified region.</returns>
         public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
         {
-            _resultBuffer.Clear();
+            List<Entity> result = new List<Entity>();
 
-            return Root.GetIntersectingEntities(pxRegion);
+            return Root.GetIntersectingEntities(pxRegion, result);
         }
 
         public override string ToString()

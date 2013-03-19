@@ -52,24 +52,24 @@ namespace GameEngine.DataStructures
         /// </summary>
         /// <param name="pxRegion">Intersecting Rectangular region to check in Pixels.</param>
         /// <returns>List of Entities intersecting the region specified in that range.</returns>
-        public List<Entity> GetIntersectingEntities(Rectangle pxRegion)
+        internal List<Entity> GetIntersectingEntities(Rectangle pxRegion, List<Entity> Result)
         {
             if (Entities.Count > 0)
             {
                 foreach (Entity entity in Entities)
                     if (entity.CurrentPxBoundingBox.Intersects(pxRegion) &&
-                        !QuadTree._resultBuffer.Contains(entity))
-                        QuadTree._resultBuffer.Add(entity);
+                        !Result.Contains(entity))
+                        Result.Add(entity);
             }
             else
             {
-                if (Node1.Intersects(pxRegion)) Node1.GetIntersectingEntities(pxRegion);
-                if (Node2.Intersects(pxRegion)) Node2.GetIntersectingEntities(pxRegion);
-                if (Node3.Intersects(pxRegion)) Node3.GetIntersectingEntities(pxRegion);
-                if (Node4.Intersects(pxRegion)) Node4.GetIntersectingEntities(pxRegion);
+                if (Node1.Intersects(pxRegion)) Node1.GetIntersectingEntities(pxRegion, Result);
+                if (Node2.Intersects(pxRegion)) Node2.GetIntersectingEntities(pxRegion, Result);
+                if (Node3.Intersects(pxRegion)) Node3.GetIntersectingEntities(pxRegion, Result);
+                if (Node4.Intersects(pxRegion)) Node4.GetIntersectingEntities(pxRegion, Result);
             }
 
-            return QuadTree._resultBuffer;
+            return Result;
         }
 
         /// <summary>

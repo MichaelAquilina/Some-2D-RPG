@@ -21,6 +21,7 @@ namespace GameEngine.GameObjects
         public float rxWidth { get; set; }
         public float rxHeight { get; set; }
 
+        public float Opacity { get; set; }
         public bool Visible { get; set; }
         public bool IsOnScreen { get; internal set; }
         public Rectangle CurrentPxBoundingBox { get; internal set; }      //the last bounding box generated during the TeeEngine update
@@ -50,6 +51,7 @@ namespace GameEngine.GameObjects
 
         private void Init()
         {
+            this.Opacity = 1.0f;
             this.Origin = Vector2.Zero;
             this.Drawables = new DrawableSet();
         }

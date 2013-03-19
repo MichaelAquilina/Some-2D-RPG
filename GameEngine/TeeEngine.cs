@@ -396,13 +396,20 @@ namespace GameEngine
 
                             //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
                             Rectangle objectDestRect = new Rectangle(
-                                    (int) pxEntityPos.X,
-                                    (int) pxEntityPos.Y,
+                                    (int)pxEntityPos.X,
+                                    (int)pxEntityPos.Y,
                                     pxObjectWidth,
                                     pxObjectHeight
                             );
 
                             Vector2 drawableOrigin = drawable.Drawable.rxDrawOrigin * new Vector2(pxCurrentFrame.Width, pxCurrentFrame.Height);
+                            Color drawableColor = new Color()
+                            {
+                                R = drawable.Color.R,
+                                G = drawable.Color.G,
+                                B = drawable.Color.B,
+                                A = (byte)(drawable.Color.A * entity.Opacity)
+                            };
 
                             //FIXME: Bug related to when layerDepth becomes small and reaches 0.99 for all levels, causing depth information to be lost
                             //layer depth should depend how far down the object is on the map (Relative to Y)
@@ -413,7 +420,7 @@ namespace GameEngine
                                 drawable.Drawable.GetSourceTexture(LastUpdateTime),
                                 objectDestRect,
                                 pxCurrentFrame,
-                                drawable.Color,
+                                drawableColor,
                                 drawable.Rotation,
                                 drawableOrigin,
                                 drawable.SpriteEffects,

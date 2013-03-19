@@ -273,17 +273,18 @@ namespace ShadowKill
 
             //Draw the World View Port, Centered on the CurrentPlayer Actor
             ViewPortInfo viewPort = Engine.DrawWorldViewPort(
-                                            SpriteBatch, 
-                                            new Vector2(CurrentPlayer.TX, CurrentPlayer.TY), 
-                                            pxDestRectangle, 
-                                            Color.White, 
+                                            SpriteBatch,
+                                            new Vector2(CurrentPlayer.TX, CurrentPlayer.TY),
+                                            pxDestRectangle,
+                                            Color.White,
                                             CurrentSampler);
 
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
+            {
                 if (showQuadTree) DrawQuadTree(viewPort, SpriteBatch, Engine.QuadTree.Root, pxDestRectangle);
 
-                if (showDebugInfo) 
+                if (showDebugInfo)
                 {
                     //DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING
                     if (LightShader.Enabled)
@@ -302,7 +303,7 @@ namespace ShadowKill
                     }
 
                     double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
-                    Color fpsColor = (Math.Ceiling(fps) < 60 )? Color.Red : Color.White;
+                    Color fpsColor = (Math.Ceiling(fps) < 60) ? Color.Red : Color.White;
 
                     SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), new Vector2(0, counter++ * 20), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, counter++ * 20), fpsColor);
@@ -312,13 +313,13 @@ namespace ShadowKill
                     SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, counter++ * 20), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, counter++ * 20), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, counter++ * 20), Color.White);
-                    
+
                     Stopwatch watch = new Stopwatch();
                     watch.Start();
                     int intersections = Engine.QuadTree.GetIntersectingEntites(CurrentPlayer.CurrentPxBoundingBox).Count;
                     watch.Stop();
 
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Intersecting = " + intersections + " ("+watch.Elapsed.TotalMilliseconds.ToString("0.0")+" ms)" , new Vector2(0, counter++ * 20), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Intersecting = " + intersections + " (" + watch.Elapsed.TotalMilliseconds.ToString("0.0") + " ms)", new Vector2(0, counter++ * 20), Color.White);
                 }
 
                 if (showDiagnostics)
@@ -326,6 +327,7 @@ namespace ShadowKill
                     string diagnostic = Engine.DebugInfo.ToString();
                     SpriteBatch.DrawString(DefaultSpriteFont, diagnostic, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(diagnostic).Y), Color.White);
                 }
+            }
             SpriteBatch.End();
 
             base.Draw(gameTime);

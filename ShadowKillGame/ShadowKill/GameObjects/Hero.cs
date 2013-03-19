@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Input;
 using ShadowKill.Shaders;
 using GameEngine;
 using ShadowKillGame.GameObjects;
+using GameEngine.GameObjects;
+using System.Collections.Generic;
 
 namespace ShadowKill.GameObjects
 {
@@ -170,6 +172,14 @@ namespace ShadowKill.GameObjects
                 LightSource.TY = this.TY;
                 LightSource.RadiusX = (float)(8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
                 LightSource.RadiusY = (float)(8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
+
+                //EXAMPLE OF HOW THE QUAD TREE INTERSECTING ENTITIES FUNCTION CAN WORK
+                List<Entity> intersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentPxBoundingBox);
+                foreach (Entity entity in intersectingEntities)
+                {
+                    if (entity != this)
+                        entity.Opacity = 0.8f;
+                }
             }  
         }
     }
