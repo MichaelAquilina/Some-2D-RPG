@@ -27,24 +27,21 @@ namespace GameEngine.GameObjects
             get { return prevPxBoundingBox != CurrentPxBoundingBox; }
         }
 
-        //Relative Width and Height for animations this Entity will render. 1.0f by Default.
-        public float rxWidth { get; set; }
-        public float rxHeight { get; set; }
+        public float rxWidth { get; set; }                                //relative width where 1.0 = 100%
+        public float rxHeight { get; set; }                               //relative height where 1.0 = 100%
 
-        public float Opacity { get; set; }
-        public bool Visible { get; set; }
-        public bool IsOnScreen { get; internal set; }
+        public float Opacity { get; set; }                                //Opacity for the Entity. This effect stacks with whats specified in each drawables Color
+        public bool Visible { get; set; }                                 //Hide or Show the entity
+        public bool IsOnScreen { get; internal set; }                     //is the Entity currently on the screen or not
         public Rectangle CurrentPxBoundingBox { get; internal set; }      //the last bounding box generated during the TeeEngine update
+        public Vector2 Origin { get; set; }                               //Relative Origin to the Width and height of each animation
 
-        //Relative Origin to the Width and height of each animation
-        public Vector2 Origin { get; set; }
+        public DrawableSet Drawables { get; set; }                        //The set of drawable instances associated with this Entity
+        public string CurrentDrawable { get; set; }                       //The current Drawables enabled
 
-        public DrawableSet Drawables { get; set; }
-        public string CurrentDrawable { get; set; }
-
-        internal QuadTreeNode currentNode;
-        internal Rectangle prevPxBoundingBox;
-        internal bool requiresAddition = false;
+        internal QuadTreeNode currentNode;                                //Current Node in the QuadTree this Entity is assigned to
+        internal Rectangle prevPxBoundingBox;                             //the previous BoundingBox that was assigned to this Entity
+        internal bool requiresAddition = false;                           //boolean flag notifying if the Entity needs addition into the QuadTree
 
         public Entity()
         {
