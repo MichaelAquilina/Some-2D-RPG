@@ -40,7 +40,7 @@ namespace ShadowKill
 
         bool helmetVisible = true;
         bool showDebugInfo = true;
-        bool showQuadTree = false;
+        bool showQuadTree = true;
         bool showDiagnostics = false;
 
         int SamplerIndex = 0;
@@ -68,6 +68,8 @@ namespace ShadowKill
 
         TeeEngine Engine;
 
+        int _counter = 0;
+
         public ShadowKillGame()
         {
             Graphics = new GraphicsDeviceManager(this);
@@ -84,7 +86,7 @@ namespace ShadowKill
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
             Engine.LoadMap(tiledmap);
 
-            CurrentPlayer = new Hero(15.39997f, 9.199986f);
+            CurrentPlayer = new Hero(15.4f, 8.9f);
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
             CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
@@ -95,11 +97,6 @@ namespace ShadowKill
 
             FemaleNPC = new NPC(15, 9, NPC.FEMALE_HUMAN);
             //FemaleNPC.Legs = NPC.PLATE_ARMOR_LEGS;
-
-            MonBat = new Bat();
-            MonBat.TX = 19;
-            MonBat.TY = 3;
-
 
             base.Initialize();
         }
@@ -124,9 +121,7 @@ namespace ShadowKill
                         entity.CurrentDrawable = mapObject.GetProperty("CurrentAnimation");
                         entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map Object Properties rather than hard code
 
-                        string name = (mapObject.Name != null) ? mapObject.Name : "Entity" + (counter++);
-
-                        Engine.Entities.Add(name, entity);
+                        Engine.AddEntity(mapObject.Name, entity);
                     }
                     if (mapObject.Type != null && mapObject.Type.ToUpper() == "MAPOBJECT" || mapObject.Type == "")
                     {
@@ -142,9 +137,8 @@ namespace ShadowKill
                         //entity.Drawables.SetNameProperty("standard", "Color", new Color(255, 255, 255, 200));
 
                         entity.CurrentDrawable = "standard";
-                        string name = (mapObject.Name != null) ? mapObject.Name : "Entity" + (counter++);
 
-                        Engine.Entities.Add(name, entity);
+                        Engine.AddEntity(mapObject.Name, entity);
                     }
                 }
             }
@@ -171,9 +165,25 @@ namespace ShadowKill
             //Engine.Entities.Add(fireplace);
             //LightShader.LightSources.Add(new BasicLightSource(fireplace.X, fireplace.Y, 7, 7, Color.OrangeRed));
 
+            Random random = new Random();
+
             Engine.RegisterGameShader(LightShader);
-            Engine.Entities.Add("MonBat", MonBat);
-            Engine.Entities.Add("Player", CurrentPlayer);
+            Engine.AddEntity("MonBat", new Bat(5,8, random.NextDouble()));
+            Engine.AddEntity(new Bat(7, 4.5f, random.NextDouble()));
+            Engine.AddEntity(new Bat(8, 3.3f, random.NextDouble()));
+            Engine.AddEntity(new Bat(9, 4, random.NextDouble()));
+            Engine.AddEntity(new Bat(8, 10, random.NextDouble()));
+            Engine.AddEntity(new Bat(21, 15, random.NextDouble()));
+            Engine.AddEntity(new Bat(4, 8, random.NextDouble()));
+            Engine.AddEntity(new Bat(2, 4, random.NextDouble()));
+            Engine.AddEntity(new Bat(9, 3, random.NextDouble()));
+            Engine.AddEntity(new Bat(23, 13, random.NextDouble()));
+            Engine.AddEntity(new Bat(7, 14, random.NextDouble()));
+            Engine.AddEntity(new Bat(4, 23, random.NextDouble()));
+            Engine.AddEntity(new Bat(18, 5, random.NextDouble()));
+            Engine.AddEntity(new Bat(15, 5, random.NextDouble()));
+
+            Engine.AddEntity("Player", CurrentPlayer);
             //Engine.Entities.Add(FemaleNPC);
 
             Engine.LoadContent();
@@ -260,6 +270,16 @@ namespace ShadowKill
             }
         }
 
+        private void ResetGenerator()
+        {
+            _counter = 0;
+        }
+
+        private Vector2 GeneratePos(float textHeight)
+        {
+            return new Vector2(0, _counter++ * textHeight);
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Viewport = new Viewport
@@ -273,7 +293,7 @@ namespace ShadowKill
             };
             GraphicsDevice.Clear(Color.Black);
 
-            int counter = 0;
+            _counter = 0;
             float textHeight = DefaultSpriteFont.MeasureString("d").Y;
 
             Rectangle pxDestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -312,14 +332,15 @@ namespace ShadowKill
                     double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
                     Color fpsColor = (Math.Ceiling(fps) < 60) ? Color.Red : Color.White;
 
-                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), new Vector2(0, counter++ * textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), new Vector2(0, counter++ * textHeight), fpsColor);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, new Vector2(0, counter++ * textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, new Vector2(0, counter++ * textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Sampler="+CurrentSampler.ToString(), new Vector2(0, counter++ * textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, new Vector2(0, counter++ * textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, new Vector2(0, counter++ * textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, new Vector2(0, counter++ * textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), GeneratePos(textHeight), fpsColor);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Sampler=" + CurrentSampler.ToString(), GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Player is Moving = " + CurrentPlayer.RequiresUpdate, GeneratePos(textHeight), Color.White);
                 }
 
                 if (showDiagnostics)

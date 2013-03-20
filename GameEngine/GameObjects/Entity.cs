@@ -1,10 +1,10 @@
-﻿using GameEngine.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using GameEngine.Drawing;
 using GameEngine.Interfaces;
-using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using System;
-using System.Collections.Generic;
+using GameEngine.DataStructures;
 
 namespace GameEngine.GameObjects
 {
@@ -16,6 +16,16 @@ namespace GameEngine.GameObjects
         //X and Y Tile position on the Map
         public float TX { get; set; }
         public float TY { get; set; }
+
+        /// <summary>
+        /// Returns a bool value specifying if this Enitites position has changed from the previous
+        /// Update loop. This will only work if the Entity has been added to the TeeEngine's list of
+        /// Entities.
+        /// </summary>
+        public bool RequiresUpdate
+        {
+            get { return prevPxBoundingBox != CurrentPxBoundingBox; }
+        }
 
         //Relative Width and Height for animations this Entity will render. 1.0f by Default.
         public float rxWidth { get; set; }
@@ -31,6 +41,10 @@ namespace GameEngine.GameObjects
 
         public DrawableSet Drawables { get; set; }
         public string CurrentDrawable { get; set; }
+
+        internal QuadTreeNode currentNode;
+        internal Rectangle prevPxBoundingBox;
+        internal bool requiresAddition = false;
 
         public Entity()
         {

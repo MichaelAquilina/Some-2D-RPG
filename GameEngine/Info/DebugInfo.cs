@@ -12,7 +12,7 @@ namespace GameEngine.Info
     /// </summary>
     public class DebugInfo
     {
-        public TimeSpan QuadTreeBuildTime { get; internal set; }
+        public TimeSpan QuadTreeUpdateTime { get; internal set; }
         public TimeSpan TileRenderingTime { get; internal set; }
         public TimeSpan TotalEntityRenderingTime { get; internal set; }
         public TimeSpan TotalEntityUpdateTime { get; internal set; }
@@ -55,7 +55,7 @@ namespace GameEngine.Info
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder();
-            builder.AppendLine("QuadTree Build Time = " + QuadTreeBuildTime);
+            builder.AppendLine("QuadTree Update Time = " + QuadTreeUpdateTime);
             builder.AppendLine("Tile Rendering Time = " + TileRenderingTime);
             builder.AppendLine("Total Entity Rendering Time = " + TotalEntityRenderingTime);
             builder.AppendLine("Total Entity Update Time = " + TotalEntityUpdateTime);

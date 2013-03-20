@@ -79,12 +79,6 @@ namespace GameEngine
         public int pxTileHeight { get; private set; }
 
         /// <summary>
-        /// Dictionary of all Entities currently active in the current Game World. Entities are 
-        /// stored by their unique name
-        /// </summary>
-        public Dictionary<string, Entity> Entities { get; set; }
-
-        /// <summary>
         /// List of all Entities on screen since the last DrawWorldViewPort call.
         /// </summary>
         public List<Entity> EntitiesOnScreen { get; private set; }
@@ -93,6 +87,11 @@ namespace GameEngine
         /// Currently loaded TiledMap.
         /// </summary>
         public TiledMap Map { get; private set; }
+
+        /// <summary>
+        /// Returns a Collection of all the Entities that have been added to this Engine.
+        /// </summary>
+        public ICollection<Entity> Entities { get { return _entities.Values; } }
 
         /// <summary>
         /// List of currently registered GameShaders in use by the TeeEngine.
@@ -124,12 +123,14 @@ namespace GameEngine
         /// </summary>
         public DebugInfo DebugInfo { get { return _debugInfo; } }
 
+        Dictionary<string, Entity> _entities;
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
         Stopwatch _watch1;              //primary diagnostic watch
         Stopwatch _watch2;              //secondary diagnostic watch
         DebugInfo _debugInfo;
+        int _entityIdCounter = 0;       //used for automatic assigning of IDs
 
         #endregion
 
@@ -139,6 +140,7 @@ namespace GameEngine
             _debugInfo = new DebugInfo();
             _watch1 = new Stopwatch();
             _watch2 = new Stopwatch();
+            _entities = new Dictionary<string, Entity>();
 
             GraphicsDevice = Game.GraphicsDevice;
 
@@ -147,7 +149,6 @@ namespace GameEngine
             EntitiesOnScreen = new List<Entity>();
 
             GameShaders = new List<GameShader>();
-            Entities = new Dictionary<string, Entity>();
 
             SetResolution(pxWidth, pxHeight, pxTileWidth, pxTileHeight);
             Game.Components.Add(this);
@@ -160,13 +161,13 @@ namespace GameEngine
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.LoadContent(Content);
 
-            foreach (Entity entity in Entities.Values)
+            foreach (Entity entity in _entities.Values)
                 entity.LoadContent(Content);
         }
 
         public void UnloadContent()
         {
-            foreach (Entity entity in Entities.Values)
+            foreach (Entity entity in _entities.Values)
                 entity.UnloadContent();
 
             if (_inputBuffer != null)
@@ -182,6 +183,32 @@ namespace GameEngine
                 loadableShader.UnloadContent();
         }
 
+        public void AddEntity(Entity Entity)
+        {
+            AddEntity(null, Entity);
+        }
+
+        public void AddEntity(string Name, Entity Entity)
+        {
+            if (Name == null) Name = string.Format("Entity{0}", _entityIdCounter++);
+
+            _entities.Add(Name, Entity);
+            Entity.requiresAddition = true;
+        }
+
+        public Entity GetEntity(string Name)
+        {
+            return _entities[Name];
+        }
+
+        public void RemoveEntity(string Name)
+        {
+            if (_entities.ContainsKey(Name))
+            {
+                QuadTree.Remove(_entities[Name]);
+                _entities.Remove(Name);
+            }
+        }
 
         public bool IsRegistered(GameShader Shader)
         {
@@ -205,6 +232,7 @@ namespace GameEngine
         {
             this.Map = Map;
             this.QuadTree = new QuadTree(Map.txWidth, Map.txHeight, pxTileWidth, pxTileHeight);
+            this.QuadTree.Build(_entities.Values);
         }
 
         /// <summary>
@@ -224,7 +252,10 @@ namespace GameEngine
             this.pxTileHeight = pxTileHeight;
 
             if (Map != null)
+            {
                 QuadTree = new QuadTree(Map.txWidth, Map.txHeight, pxTileWidth, pxTileHeight);
+                QuadTree.Build(_entities.Values);
+            }
 
             if (_outputBuffer != null)
                 _outputBuffer.Dispose();
@@ -243,22 +274,37 @@ namespace GameEngine
         {
             LastUpdateTime = GameTime;
 
-            _watch1.Restart();
-            foreach (string entityId in Entities.Keys)
-            {
-                Entity entity = Entities[entityId];
+            List<Entity> requiresUpdateList = new List<Entity>();
 
+            _watch1.Restart();
+            foreach (string entityId in _entities.Keys)
+            {
                 _watch2.Restart();
+
+                Entity entity = _entities[entityId];
+                entity.prevPxBoundingBox = entity.CurrentPxBoundingBox;
+
                 entity.Update(GameTime, this);
+                entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);
+
+                if (entity.requiresAddition)
+                {
+                    QuadTree.Root.Add(entity);
+                    entity.requiresAddition = false;
+                }
+                else
+                if (entity.RequiresUpdate) 
+                    requiresUpdateList.Add(entity);
+
                 DebugInfo.EntityUpdateTime[entityId] = _watch2.Elapsed;
 
-                entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);  
             }
             _debugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
 
             _watch1.Restart();
-            QuadTree.Build(Entities.Values);
-            _debugInfo.QuadTreeBuildTime = _watch1.Elapsed;
+            foreach (Entity entity in requiresUpdateList)
+                QuadTree.Update(entity);
+            _debugInfo.QuadTreeUpdateTime = _watch1.Elapsed;
         }
         
         /// <summary>
@@ -306,12 +352,20 @@ namespace GameEngine
 
             //DRAW THE WORLD MAP
             _watch1.Restart();
+            
+            //Deferred Rendering should be fine for rendering tile as long as we draw tile layers one at a time
             SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState, null, null);
             {
                 for (int layerIndex = 0; layerIndex < Map.TileLayers.Count; layerIndex++)
                 {
                     //DRAW EACH LAYER
                     TileLayer tileLayer = Map.TileLayers[layerIndex];
+
+                    //automatic layering based on layerIndex
+                    //TODO: Investigate this - this should belong in GameSpace
+                    //THIS WONT WORK IF WE USE DEFERRED RENDERING FOR SPRITESORTMODE!
+                    float depth = tileLayer.HasProperty("Foreground") ? 0 : 1 - (layerIndex / 10000.0f);
+
                     for (int i = 0; i < viewPortInfo.TileCountX; i++)
                     {
                         for (int j = 0; j < viewPortInfo.TileCountY; j++)
@@ -329,10 +383,6 @@ namespace GameEngine
                                 //traslate if there is any decimal displacement due to a Center with a floating point
                                 pxTileDestRect.X -= (int)(viewPortInfo.txDispX * pxTileWidth);
                                 pxTileDestRect.Y -= (int)(viewPortInfo.txDispY * pxTileHeight);
-
-                                //automatic layering based on layerIndex
-                                //TODO: Investigate this - this should belong in GameSpace
-                                float depth = tileLayer.HasProperty("Foreground")? 0 : 1 - (layerIndex / 10000.0f);
 
                                 SpriteBatch.Draw(
                                     tile.SourceTexture,
@@ -360,11 +410,11 @@ namespace GameEngine
             _watch1.Restart();
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
-                foreach (string entityId in Entities.Keys)
+                foreach (string entityId in _entities.Keys)
                 {
                     _watch2.Restart();
 
-                    Entity entity = Entities[entityId];
+                    Entity entity = _entities[entityId];
                     entity.IsOnScreen = false;
 
                     if (!entity.Visible) continue;

@@ -12,17 +12,48 @@ namespace GameEngine.DataStructures
         public int pxTileWidth { get; private set; }
         public int pxTileHeight { get; private set; }
 
-        //NODE POOL TO PREVENT INITIALISING NEW CLASSES EACH LOOP!
+        ////NODE POOL TO PREVENT INITIALISING NEW CLASSES EACH LOOP!
+        //TODO: Remove this, this was needed when we were rebuilding at each update
         internal int _currentNodePoolIndex = 0;
-        internal List<QuadTreeNode> _nodePool = new List<QuadTreeNode>();
+        //internal List<QuadTreeNode> _nodePool = new List<QuadTreeNode>();
 
         public QuadTree(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight, int EntityLimit=1)
         {
             NodeList = new List<QuadTreeNode>();
-            Root = GetQuadTreeNode(0, 0, pxTileWidth * txWidth, pxTileHeight * txHeight);
+            Root = GetQuadTreeNode(0, 0, pxTileWidth * txWidth, pxTileHeight * txHeight, null);
             this.EntityLimit = EntityLimit;
             this.pxTileWidth = pxTileWidth;
             this.pxTileHeight = pxTileHeight;
+        }
+
+        public void Update(Entity Entity)
+        {
+            Rectangle dummyBox = Entity.CurrentPxBoundingBox;
+            Entity.CurrentPxBoundingBox = Entity.prevPxBoundingBox;
+
+            Remove(Entity);
+
+            Entity.CurrentPxBoundingBox = dummyBox;
+
+            Root.Add(Entity);
+        }
+
+        /// <summary>
+        /// Completely Removes the specified Entity from the association with this QuadTree. The
+        /// method will automatically clean up any un-needed nodes that may have been created from
+        /// the Removal process.
+        /// </summary>
+        /// <param name="Entity"></param>
+        public void Remove(Entity Entity)
+        {
+            List<QuadTreeNode> associations = new List<QuadTreeNode>();
+            Root.GetAssociatedNodes(Entity, ref associations);          //TODO: GetAssociatedNodes is  QuadTree function not a QuadTreeNode
+
+            foreach (QuadTreeNode node in associations)
+            {
+                node.Entities.Remove(Entity);
+                node.Validate();
+            }
         }
 
         /// <summary>
@@ -34,12 +65,13 @@ namespace GameEngine.DataStructures
         public void Build(ICollection<Entity> Entities)
         {
             _currentNodePoolIndex = 1;
+
             Root.Clear();
             NodeList.Clear();
             NodeList.Add(Root);
 
             foreach (Entity entity in Entities)
-                Root.Add(entity, EntityLimit);
+                Root.Add(entity);
         }
 
         /// <summary>
@@ -56,17 +88,16 @@ namespace GameEngine.DataStructures
         /// <param name="py">Top left location of the QuadTreeNode in pixels.</param>
         /// <param name="pxWidth">Width in pixels of the QuadTreeNode.</param>
         /// <param name="pxHeight">Height in pixels of the QuadTreeNode.</param>
+        /// <param name="Parent">QuadTreeNode that will be the parent of the new node.</param>
         /// <returns>QuadTreeNode with the specified parameters.</returns>
-        public QuadTreeNode GetQuadTreeNode(int px, int py, int pxWidth, int pxHeight)
+        public QuadTreeNode GetQuadTreeNode(int px, int py, int pxWidth, int pxHeight, QuadTreeNode Parent)
         {
-            if (_currentNodePoolIndex == _nodePool.Count)
-                _nodePool.Add(new QuadTreeNode());
-
-            QuadTreeNode nodeResult = _nodePool[_currentNodePoolIndex];
+            QuadTreeNode nodeResult = new QuadTreeNode();
             nodeResult.Clear();
             nodeResult.NodeID = _currentNodePoolIndex;
             nodeResult.pxBounds = new Rectangle(px, py, pxWidth, pxHeight);
             nodeResult.QuadTree = this;
+            nodeResult.Parent = Parent;
 
             _currentNodePoolIndex++;
 
@@ -85,14 +116,14 @@ namespace GameEngine.DataStructures
         public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
         {
             List<Entity> result = new List<Entity>();
+            Root.GetIntersectingEntities(pxRegion, ref result);
 
-            return Root.GetIntersectingEntities(pxRegion, result);
+            return result;
         }
 
         public override string ToString()
         {
-            return string.Format("QuadTree: NodeCount={0}, pxWidth={1}, pxHeight={2}",
-                NodeList.Count,
+            return string.Format("QuadTree:pxWidth={1}, pxHeight={2}",
                 Root.pxBounds.Width,
                 Root.pxBounds.Height);
         }

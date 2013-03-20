@@ -1,20 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using GameEngine;
+using GameEngine.Drawing;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using GameEngine.Tiled;
-using GameEngine.Drawing;
-using GameEngine;
 
 namespace ShadowKill.GameObjects
 {
     public class Bat : Entity
     {
-        public Bat()
+        private double _randomModifier; 
+
+        public Bat(float TX, float TY, double RandomModifier)
+            :base(TX, TY)
         {
+            this._randomModifier = RandomModifier;
             this.Origin = new Vector2(1.0f, 0.5f);
             this.Visible = true;
             this.rxWidth = 1.5f;
@@ -23,7 +23,7 @@ namespace ShadowKill.GameObjects
 
         public override void Update(GameTime GameTime, TeeEngine Engine)
         {
-            TX += (float)Math.Cos(GameTime.TotalGameTime.TotalSeconds) / 20;
+            TX += (float)Math.Cos(GameTime.TotalGameTime.TotalSeconds + 90*_randomModifier) / 20;
         }
 
         public override void LoadContent(ContentManager Content)
