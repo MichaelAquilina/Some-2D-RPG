@@ -1,41 +1,45 @@
 ﻿using System.Collections.Generic;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
+using System;
+using System.Diagnostics;
 
 namespace GameEngine.DataStructures
 {
     public class QuadTree
     {       
         public QuadTreeNode Root { get; private set; }
-        public List<QuadTreeNode> NodeList { get; private set; }
         public int EntityLimit { get; private set; }
         public int pxTileWidth { get; private set; }
         public int pxTileHeight { get; private set; }
 
-        ////NODE POOL TO PREVENT INITIALISING NEW CLASSES EACH LOOP!
-        //TODO: Remove this, this was needed when we were rebuilding at each update
-        internal int _currentNodePoolIndex = 0;
-        //internal List<QuadTreeNode> _nodePool = new List<QuadTreeNode>();
+        internal int currentNodeIndex = 1;
 
         public QuadTree(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight, int EntityLimit=1)
         {
-            NodeList = new List<QuadTreeNode>();
             Root = GetQuadTreeNode(0, 0, pxTileWidth * txWidth, pxTileHeight * txHeight, null);
             this.EntityLimit = EntityLimit;
             this.pxTileWidth = pxTileWidth;
             this.pxTileHeight = pxTileHeight;
         }
 
+        /// <summary>
+        /// Updates the appropriate Nodes in the QuadTree associated with the Entity due to some 
+        /// change that occured during an update loop. The detected change is entirely based on
+        /// the internal prevPxBoundingBox variable associated with the Entity.
+        /// </summary>
+        /// <param name="Entity">Entity to update in the QuadTree.</param>
         public void Update(Entity Entity)
         {
+            List<QuadTreeNode> Buffer = new List<QuadTreeNode>();
             Rectangle dummyBox = Entity.CurrentPxBoundingBox;
+            
             Entity.CurrentPxBoundingBox = Entity.prevPxBoundingBox;
 
             Remove(Entity);
-
             Entity.CurrentPxBoundingBox = dummyBox;
 
-            Root.Add(Entity);
+            Add(Entity);
         }
 
         /// <summary>
@@ -47,7 +51,7 @@ namespace GameEngine.DataStructures
         public void Remove(Entity Entity)
         {
             List<QuadTreeNode> associations = new List<QuadTreeNode>();
-            Root.GetAssociatedNodes(Entity, ref associations);          //TODO: GetAssociatedNodes is  QuadTree function not a QuadTreeNode
+            Root.GetAssociatedNodes(Entity, ref associations);
 
             foreach (QuadTreeNode node in associations)
             {
@@ -57,49 +61,50 @@ namespace GameEngine.DataStructures
         }
 
         /// <summary>
-        /// Builds the QuadTree based on the input entities passed in the functions
+        /// Adds the specified Entity to the QuadTree, recursivel building any required child QuadTreeNodes
+        /// along the way if needed.
+        /// </summary>
+        /// <param name="Entity">Entity object to add to the QuadTree</param>
+        public void Add(Entity Entity)
+        {
+            Root.Add(Entity);
+        }
+
+        /// <summary>
+        /// Rebuilds the QuadTree based on the input entities passed in the functions
         /// parameter. The function tries to be as cheap as possible by re-using previously
         /// insantiated objects in previous calls.
         /// </summary>
         /// <param name="Entities">Collection of Entities to build the QuadTree out of.</param>
-        public void Build(ICollection<Entity> Entities)
+        public void Rebuild(ICollection<Entity> Entities)
         {
-            _currentNodePoolIndex = 1;
-
             Root.Clear();
-            NodeList.Clear();
-            NodeList.Add(Root);
 
             foreach (Entity entity in Entities)
-                Root.Add(entity);
+                Add(entity);
         }
 
         /// <summary>
-        /// Retrieves a QuadTreeNode from the current Pool of Nodes. If a free node is found in the
-        /// pool, then it is cleared and then set with the specified parameters. If the pool does not
-        /// contain a free node, then a new one is created and added to the pool before being set and
-        /// returned to the user. Using this technique ensures that costly calls to initialise a new
-        /// QuadTreeNode class is not done multiple times per second (probably 100s of times infact) -
-        /// but when possible, a previously created object will be re-used. This function will also
-        /// automatically set the NodeID of the QuadTreeNode for quick identification by the user
-        /// during debugging.
+        /// Factory method for Generating QuadTreeNodes associated with this QuadTree. Automatically assigns
+        /// and increments the currentNodeIndex value to allow unique identification of Nodes in the tree 
+        /// when required.
         /// </summary>
-        /// <param name="px">Top left location of the QuadTreeNode in pixels.</param>
-        /// <param name="py">Top left location of the QuadTreeNode in pixels.</param>
-        /// <param name="pxWidth">Width in pixels of the QuadTreeNode.</param>
-        /// <param name="pxHeight">Height in pixels of the QuadTreeNode.</param>
-        /// <param name="Parent">QuadTreeNode that will be the parent of the new node.</param>
-        /// <returns>QuadTreeNode with the specified parameters.</returns>
+        /// <param name="px">x location of the Node in pixels.</param>
+        /// <param name="py">y location of the Node in pixels.</param>
+        /// <param name="pxWidth">Width of the Node in pixels.</param>
+        /// <param name="pxHeight">Height of the Node in pixels.</param>
+        /// <param name="Parent">Parent Node of this Node in the QuadTree.</param>
+        /// <returns>The QuadTreeNode generated by this factory method.</returns>
         public QuadTreeNode GetQuadTreeNode(int px, int py, int pxWidth, int pxHeight, QuadTreeNode Parent)
         {
             QuadTreeNode nodeResult = new QuadTreeNode();
             nodeResult.Clear();
-            nodeResult.NodeID = _currentNodePoolIndex;
+            nodeResult.NodeID = currentNodeIndex;
             nodeResult.pxBounds = new Rectangle(px, py, pxWidth, pxHeight);
             nodeResult.QuadTree = this;
             nodeResult.Parent = Parent;
 
-            _currentNodePoolIndex++;
+            currentNodeIndex++;
 
             return nodeResult;
         }
@@ -107,9 +112,7 @@ namespace GameEngine.DataStructures
         /// <summary>
         /// Returns all intersecting Entities found in that region based on the
         /// CurrentPxBoundingBox property exposed by the Entity (which would have
-        /// been last updated by the TeeEngine Update loop). It is important to note
-        /// that because this uses a form of result buffering to optimise performance,
-        /// this method is NOT CONSIDERED THREAD SAFE in any scenario.
+        /// been last updated by the TeeEngine Update loop).
         /// </summary>
         /// <param name="pxRegion">Rectangle region to check in Pixels.</param>
         /// <returns>List of Entity objects intersecting the specified region.</returns>

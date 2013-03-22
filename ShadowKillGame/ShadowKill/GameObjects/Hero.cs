@@ -20,6 +20,8 @@ namespace ShadowKill.GameObjects
         public float LightX { get { return TX; } }
         public float LightY { get { return TY; } }
 
+        public bool CollisionDetection { get; set; }
+
         public BasicLightSource LightSource { get; set; }
 
         private List<Entity> prevIntersectingEntities;
@@ -27,6 +29,7 @@ namespace ShadowKill.GameObjects
         public Hero(float X, float Y) :
             base(X, Y, NPC.MALE_HUMAN)
         {
+            CollisionDetection = true;
             LightSource = new BasicLightSource();
             LightSource.RadiusX = 8.0f;
             LightSource.RadiusX = 8.0f;
@@ -113,54 +116,56 @@ namespace ShadowKill.GameObjects
                 if (moved == false)
                     CurrentDrawable = "Idle_" + Direction;
 
-
-                //iterate through each layer and determine if the tile is passable
-                int tileX = (int)TX;
-                int tileY = (int)TY;
-
-                Tile currentTile = Engine.Map.GetTopMostTile(tileX, tileY);
-                bool impassable = currentTile.HasProperty("Impassable");
-
-                //CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
-                //TODO
-                //to improve structure
-                //Current very very ineffecient way of checking Entry
-                string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
-                string[] exitPoints = prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[]{' '}, StringSplitOptions.RemoveEmptyEntries);
-
-                bool top = prevY < tileY;
-                bool bottom = prevY > tileY + 1;
-                bool left = prevX < tileX;
-                bool right = prevX > tileX + 1;
-
-                //ensure entry points
-                impassable |= top && !Contains(entryPoints, "Top");
-                impassable |= bottom && !Contains(entryPoints, "Bottom");
-                impassable |= left && !Contains(entryPoints, "Left");
-                impassable |= right && !Contains(entryPoints, "Right");
-
-                //ensure exit points
-                impassable |= top && !Contains(exitPoints, "Bottom");
-                impassable |= bottom && !Contains(exitPoints, "Top");
-                impassable |= left && !Contains(exitPoints, "Right");
-                impassable |= right && !Contains(exitPoints, "Left");
-
-                //IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT
-                //if impassable, adjust X and Y accordingly
-                float padding = 0.00001f;
-                if (impassable)
+                if (CollisionDetection)
                 {
-                    if (prevY <= tileY && TY > tileY)
-                        TY = tileY - padding;
-                    else
-                    if (prevY >= tileY + 1 && TY < tileY + 1)
-                        TY = tileY + 1 + padding;
+                    //iterate through each layer and determine if the tile is passable
+                    int tileX = (int)TX;
+                    int tileY = (int)TY;
 
-                    if (prevX <= tileX && TX > tileX)
-                        TX = tileX - padding;
-                    else
-                    if (prevX >= tileX + 1 && TX < tileX + 1)
-                        TX = tileX + 1 + padding;
+                    Tile currentTile = Engine.Map.GetTopMostTile(tileX, tileY);
+                    bool impassable = currentTile.HasProperty("Impassable");
+
+                    //CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
+                    //TODO
+                    //to improve structure
+                    //Current very very ineffecient way of checking Entry
+                    string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    string[] exitPoints = prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
+                    bool top = prevY < tileY;
+                    bool bottom = prevY > tileY + 1;
+                    bool left = prevX < tileX;
+                    bool right = prevX > tileX + 1;
+
+                    //ensure entry points
+                    impassable |= top && !Contains(entryPoints, "Top");
+                    impassable |= bottom && !Contains(entryPoints, "Bottom");
+                    impassable |= left && !Contains(entryPoints, "Left");
+                    impassable |= right && !Contains(entryPoints, "Right");
+
+                    //ensure exit points
+                    impassable |= top && !Contains(exitPoints, "Bottom");
+                    impassable |= bottom && !Contains(exitPoints, "Top");
+                    impassable |= left && !Contains(exitPoints, "Right");
+                    impassable |= right && !Contains(exitPoints, "Left");
+
+                    //IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT
+                    //if impassable, adjust X and Y accordingly
+                    float padding = 0.00001f;
+                    if (impassable)
+                    {
+                        if (prevY <= tileY && TY > tileY)
+                            TY = tileY - padding;
+                        else
+                            if (prevY >= tileY + 1 && TY < tileY + 1)
+                                TY = tileY + 1 + padding;
+
+                        if (prevX <= tileX && TX > tileX)
+                            TX = tileX - padding;
+                        else
+                            if (prevX >= tileX + 1 && TX < tileX + 1)
+                                TX = tileX + 1 + padding;
+                    }
                 }
 
                 //prevent from going out of range

@@ -35,6 +35,28 @@ namespace GameEngine.DataStructures
         }
 
         /// <summary>
+        /// Checks if this Node or any of its child nodes contains this Entity regardless of its
+        /// BoundingBox state. This is useful for debugging purposes but is less effecient than
+        /// one would expect since all the child nodes are traversed.
+        /// </summary>
+        /// <param name="Entity">Entity to search for.</param>
+        /// <returns>bool value specifying if this Node or any of its children contains the Entity.</returns>
+        public bool HasEntity(Entity Entity)
+        {
+            if (Node1 == null)
+                return Entities.Contains(Entity);
+            else
+            {
+                if (Node1.HasEntity(Entity)) return true;
+                if (Node2.HasEntity(Entity)) return true;
+                if (Node3.HasEntity(Entity)) return true;
+                if (Node4.HasEntity(Entity)) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Completely resets this QuadTreeNode for later re-use. Mainly used by the QuadTree class
         /// structure when the Node is pulled from its Node Pool to be used again in a new build
         /// iteration.
@@ -63,9 +85,7 @@ namespace GameEngine.DataStructures
                 Entities = entities;
 
                 if (Parent != null)
-                {
                     Parent.Validate();
-                }
             }
         }
 
@@ -126,9 +146,11 @@ namespace GameEngine.DataStructures
             return pxBounds.Intersects(pxBoundingBox);
         }
 
+        //BUG: Not all the Associated nodes are retreived in some cases and this is due to a failed intersection test.
+        //I doubt the problem is with the intersect function itself, but rather the Current state of the CurrentPxBoundingBox
         public void GetAssociatedNodes(Entity Entity, ref List<QuadTreeNode> Result)
         {
-            if (IsLeafNode)
+            if (Node1==null)
             {
                 if(Entities.Contains(Entity)) Result.Add(this);
                 return;
@@ -154,10 +176,7 @@ namespace GameEngine.DataStructures
 
             if ((Node1 == null && Entities.Count < QuadTree.EntityLimit) || pxHalfWidth <= QuadTree.pxTileWidth || pxHalfHeight <= QuadTree.pxTileHeight)
             {
-                if (!Entities.Contains(Entity))
-                {
-                    Entities.Add(Entity);
-                }
+                Entities.Add(Entity);
                 return;
             }
 
@@ -187,13 +206,6 @@ namespace GameEngine.DataStructures
                     pxBounds.Width - pxHalfWidth,
                     pxBounds.Height - pxHalfHeight,
                     this);
-
-                //Will be ineffecient for updating purposes
-                //TODO: REMOVE THIS IF IT WONT BE USEd
-                //QuadTree.NodeList.Add(Node1);
-                //QuadTree.NodeList.Add(Node2);
-                //QuadTree.NodeList.Add(Node3);
-                //QuadTree.NodeList.Add(Node4);
             }
 
             //add the entity specified in the function paramaters
@@ -216,8 +228,8 @@ namespace GameEngine.DataStructures
 
         public override string ToString()
         {
-            return string.Format("QuadTreeNode: NodeId={0}; (PX,PY)=({1},{2}), pxWidth={3}, pxHeight={4}, IsLeafNode={5}, Entities={6}",
-                NodeID,
+            return string.Format("QuadTreeNode: NodeId={0}; ParentNodeId={1}, (PX,PY)=({2},{3}), pxWidth={4}, pxHeight={5}, IsLeafNode={6}, Entities={7}",
+                NodeID, Parent.NodeID,
                 pxBounds.X, pxBounds.Y, 
                 pxBounds.Width, pxBounds.Height,
                 IsLeafNode, Entities.Count);

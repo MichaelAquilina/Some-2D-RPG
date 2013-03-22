@@ -39,7 +39,6 @@ namespace GameEngine.GameObjects
         public DrawableSet Drawables { get; set; }                        //The set of drawable instances associated with this Entity
         public string CurrentDrawable { get; set; }                       //The current Drawables enabled
 
-        internal QuadTreeNode currentNode;                                //Current Node in the QuadTree this Entity is assigned to
         internal Rectangle prevPxBoundingBox;                             //the previous BoundingBox that was assigned to this Entity
         internal bool requiresAddition = false;                           //boolean flag notifying if the Entity needs addition into the QuadTree
 

@@ -127,8 +127,10 @@ namespace GameEngine
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
+        //TODO: Might be smarter to create a class for handling these
         Stopwatch _watch1;              //primary diagnostic watch
         Stopwatch _watch2;              //secondary diagnostic watch
+        Stopwatch _watch3;              //tertiary diagnostic watch
         DebugInfo _debugInfo;
         int _entityIdCounter = 0;       //used for automatic assigning of IDs
 
@@ -140,6 +142,7 @@ namespace GameEngine
             _debugInfo = new DebugInfo();
             _watch1 = new Stopwatch();
             _watch2 = new Stopwatch();
+            _watch3 = new Stopwatch();
             _entities = new Dictionary<string, Entity>();
 
             GraphicsDevice = Game.GraphicsDevice;
@@ -232,7 +235,6 @@ namespace GameEngine
         {
             this.Map = Map;
             this.QuadTree = new QuadTree(Map.txWidth, Map.txHeight, pxTileWidth, pxTileHeight);
-            this.QuadTree.Build(_entities.Values);
         }
 
         /// <summary>
@@ -252,10 +254,7 @@ namespace GameEngine
             this.pxTileHeight = pxTileHeight;
 
             if (Map != null)
-            {
                 QuadTree = new QuadTree(Map.txWidth, Map.txHeight, pxTileWidth, pxTileHeight);
-                QuadTree.Build(_entities.Values);
-            }
 
             if (_outputBuffer != null)
                 _outputBuffer.Dispose();
@@ -273,8 +272,7 @@ namespace GameEngine
         public override void Update(GameTime GameTime)
         {
             LastUpdateTime = GameTime;
-
-            List<Entity> requiresUpdateList = new List<Entity>();
+            _watch3.Restart();
 
             _watch1.Restart();
             foreach (string entityId in _entities.Keys)
@@ -289,22 +287,24 @@ namespace GameEngine
 
                 if (entity.requiresAddition)
                 {
-                    QuadTree.Root.Add(entity);
+                    QuadTree.Add(entity);
+                    entity.prevPxBoundingBox = entity.CurrentPxBoundingBox;
                     entity.requiresAddition = false;
                 }
-                else
-                if (entity.RequiresUpdate) 
-                    requiresUpdateList.Add(entity);
 
                 DebugInfo.EntityUpdateTime[entityId] = _watch2.Elapsed;
 
-            }
-            _debugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
 
-            _watch1.Restart();
-            foreach (Entity entity in requiresUpdateList)
-                QuadTree.Update(entity);
-            _debugInfo.QuadTreeUpdateTime = _watch1.Elapsed;
+                if (entity.CurrentPxBoundingBox != entity.prevPxBoundingBox)
+                {
+                    _watch3.Start();
+                    QuadTree.Update(entity);
+                    _watch3.Stop();
+                }
+            }
+
+            _debugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
+            _debugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
         }
         
         /// <summary>

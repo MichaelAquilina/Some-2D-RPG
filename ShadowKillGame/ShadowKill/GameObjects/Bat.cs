@@ -23,7 +23,7 @@ namespace ShadowKill.GameObjects
 
         public override void Update(GameTime GameTime, TeeEngine Engine)
         {
-            TX += (float)Math.Cos(GameTime.TotalGameTime.TotalSeconds + 90*_randomModifier) / 20;
+            TX += (float)Math.Cos(GameTime.TotalGameTime.TotalSeconds ) / 20;
         }
 
         public override void LoadContent(ContentManager Content)

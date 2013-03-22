@@ -43,6 +43,7 @@ namespace ShadowKill
         bool showQuadTree = true;
         bool showDiagnostics = false;
 
+        int TextCounter = 0;
         int SamplerIndex = 0;
         SamplerState CurrentSampler;
         SamplerState[] SamplerStates = new SamplerState[] { 
@@ -68,7 +69,6 @@ namespace ShadowKill
 
         TeeEngine Engine;
 
-        int _counter = 0;
 
         public ShadowKillGame()
         {
@@ -86,7 +86,8 @@ namespace ShadowKill
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
             Engine.LoadMap(tiledmap);
 
-            CurrentPlayer = new Hero(15.4f, 8.9f);
+            CurrentPlayer = new Hero(8, 10.2f);
+            CurrentPlayer.CollisionDetection = true;
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
             CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
@@ -103,8 +104,6 @@ namespace ShadowKill
 
         private void LoadMapObjects(TiledMap Map, ContentManager Content)
         {
-            int counter = 0;
-
             foreach (ObjectLayer layer in Map.ObjectLayers)
             {
                 foreach (MapObject mapObject in layer.Objects)
@@ -154,37 +153,21 @@ namespace ShadowKill
 
             LightShader.LightSources.Add(CurrentPlayer.LightSource);
             LightShader.LightSources.Add(new BasicLightSource(1.0f, 1.0f, 29.0f, 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
+            Engine.RegisterGameShader(LightShader);
+
 
             LoadMapObjects(Engine.Map, Content);
 
-            //Entity fireplace = new Entity(10.0f, 4.0f, 1.5f, 1.5f);
-            //fireplace.LoadAnimationXML(@"Animations/Objects/fireplace.anim", Content);
-            //fireplace.CurrentAnimation = "Burning";
-            //fireplace.Origin = new Vector2(0.5f, 1.0f);
-
-            //Engine.Entities.Add(fireplace);
-            //LightShader.LightSources.Add(new BasicLightSource(fireplace.X, fireplace.Y, 7, 7, Color.OrangeRed));
-
-            Random random = new Random();
-
-            Engine.RegisterGameShader(LightShader);
-            Engine.AddEntity("MonBat", new Bat(5,8, random.NextDouble()));
-            Engine.AddEntity(new Bat(7, 4.5f, random.NextDouble()));
-            Engine.AddEntity(new Bat(8, 3.3f, random.NextDouble()));
-            Engine.AddEntity(new Bat(9, 4, random.NextDouble()));
-            Engine.AddEntity(new Bat(8, 10, random.NextDouble()));
-            Engine.AddEntity(new Bat(21, 15, random.NextDouble()));
-            Engine.AddEntity(new Bat(4, 8, random.NextDouble()));
-            Engine.AddEntity(new Bat(2, 4, random.NextDouble()));
-            Engine.AddEntity(new Bat(9, 3, random.NextDouble()));
-            Engine.AddEntity(new Bat(23, 13, random.NextDouble()));
-            Engine.AddEntity(new Bat(7, 14, random.NextDouble()));
-            Engine.AddEntity(new Bat(4, 23, random.NextDouble()));
-            Engine.AddEntity(new Bat(18, 5, random.NextDouble()));
-            Engine.AddEntity(new Bat(15, 5, random.NextDouble()));
-
+            Random random = new Random();           
             Engine.AddEntity("Player", CurrentPlayer);
-            //Engine.Entities.Add(FemaleNPC);
+
+            for (int i = 0; i < 30; i++)
+            {
+                float tx = (float) random.NextDouble() * 20;
+                float ty = (float) random.NextDouble() * 20;
+
+                Engine.AddEntity(new Bat(tx, ty, random.NextDouble()));
+            }
 
             Engine.LoadContent();
 
@@ -270,14 +253,9 @@ namespace ShadowKill
             }
         }
 
-        private void ResetGenerator()
-        {
-            _counter = 0;
-        }
-
         private Vector2 GeneratePos(float textHeight)
         {
-            return new Vector2(0, _counter++ * textHeight);
+            return new Vector2(0, TextCounter++ * textHeight);
         }
 
         protected override void Draw(GameTime gameTime)
@@ -293,7 +271,7 @@ namespace ShadowKill
             };
             GraphicsDevice.Clear(Color.Black);
 
-            _counter = 0;
+            TextCounter = 0;
             float textHeight = DefaultSpriteFont.MeasureString("d").Y;
 
             Rectangle pxDestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
@@ -338,9 +316,7 @@ namespace ShadowKill
                     SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Sampler=" + CurrentSampler.ToString(), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, GeneratePos(textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "QuadTree Size = " + Engine.QuadTree.NodeList.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, GeneratePos(textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Player is Moving = " + CurrentPlayer.RequiresUpdate, GeneratePos(textHeight), Color.White);
                 }
 
                 if (showDiagnostics)
