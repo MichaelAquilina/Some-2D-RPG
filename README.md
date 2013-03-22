@@ -1,10 +1,6 @@
 Game Development
 ================
 
-<img src="GameProgress3.png" width="630" height="350"></img>
-<img src="GameProgress2.png" width="630" height="350"></img>
-<img src="GameProgress.png" width="630" height="350"></img>
-
 This GIT hub project is my way of getting familiar with game development techniques used in many modern day games. I chose 
 to first focus on 2D development since this would provide me with a nice starting point, all the while being
 able to make use of more advanced techniques like shaders. I also have a personal love for retro 2D games like the older
@@ -28,6 +24,7 @@ Some current features found in the Engine include:
 * Input Extension Methods for quicker development (Currently only for the keyboard)
 * Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting)
 * Support for loading [Tiled](http://www.mapeditor.org/) map files. (Current no zlib support - however this is planned)
+* Efficient Collision Detection using a QuadTree implementation (see GIF below)
 
 Some Future features that i aim to include:
 * Automatic Asset management (Loading/Unloading content when switching between maps and levels)
@@ -49,3 +46,11 @@ Assets that were made for the [Liberated Pixel Cup](http://lpc.opengameart.org/)
 
 I may attempt to design/draw some pixel art myself in the future, but i have decided to currently focus on development 
 rather than the creative design aspects (including sound/music).
+
+Screenshots
+-----------
+<img src="QuadTree.gif" width="630" height="350"></img>
+<img src="GameProgress3.png" width="630" height="350"></img>
+<img src="GameProgress2.png" width="630" height="350"></img>
+<img src="GameProgress.png" width="630" height="350"></img>
+
