@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
-using System;
-using System.Diagnostics;
 
 namespace GameEngine.DataStructures
 {

@@ -17,16 +17,6 @@ namespace GameEngine.GameObjects
         public float TX { get; set; }
         public float TY { get; set; }
 
-        /// <summary>
-        /// Returns a bool value specifying if this Enitites position has changed from the previous
-        /// Update loop. This will only work if the Entity has been added to the TeeEngine's list of
-        /// Entities.
-        /// </summary>
-        public bool RequiresUpdate
-        {
-            get { return prevPxBoundingBox != CurrentPxBoundingBox; }
-        }
-
         public float rxWidth { get; set; }                                //relative width where 1.0 = 100%
         public float rxHeight { get; set; }                               //relative height where 1.0 = 100%
 

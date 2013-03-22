@@ -41,7 +41,7 @@ namespace ShadowKill
         bool helmetVisible = true;
         bool showDebugInfo = true;
         bool showQuadTree = true;
-        bool showDiagnostics = false;
+        bool showDiagnostics = true;
 
         int TextCounter = 0;
         int SamplerIndex = 0;
@@ -65,10 +65,8 @@ namespace ShadowKill
         //Game Specific Variablies
         Hero CurrentPlayer;
         NPC FemaleNPC;
-        Bat MonBat;
 
         TeeEngine Engine;
-
 
         public ShadowKillGame()
         {
@@ -86,7 +84,7 @@ namespace ShadowKill
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
             Engine.LoadMap(tiledmap);
 
-            CurrentPlayer = new Hero(8, 10.2f);
+            CurrentPlayer = new Hero(14.5f, 7);
             CurrentPlayer.CollisionDetection = true;
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
