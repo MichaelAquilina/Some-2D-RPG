@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
+using System;
 
 namespace GameEngine.DataStructures
 {
@@ -11,7 +12,9 @@ namespace GameEngine.DataStructures
         public int pxTileWidth { get; private set; }
         public int pxTileHeight { get; private set; }
 
-        internal int currentNodeIndex = 1;
+        public bool UseNewUpdateAlgorithm = true;
+
+        public uint LatestNodeIndex { get; private set; }
 
         public QuadTree(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight, int EntityLimit=1)
         {
@@ -19,95 +22,62 @@ namespace GameEngine.DataStructures
             this.EntityLimit = EntityLimit;
             this.pxTileWidth = pxTileWidth;
             this.pxTileHeight = pxTileHeight;
+            this.LatestNodeIndex = 0;
         }
 
-        /// <summary>
-        /// Updates the appropriate Nodes in the QuadTree associated with the Entity due to some 
-        /// change that occured during an update loop. The detected change is entirely based on
-        /// the internal prevPxBoundingBox variable associated with the Entity.
-        /// </summary>
-        /// <param name="Entity">Entity to update in the QuadTree.</param>
         public void Update(Entity Entity)
         {
-            List<QuadTreeNode> Buffer = new List<QuadTreeNode>();
-            Rectangle dummyBox = Entity.CurrentPxBoundingBox;
-            
-            Entity.CurrentPxBoundingBox = Entity.prevPxBoundingBox;
-
-            Remove(Entity);
-            Entity.CurrentPxBoundingBox = dummyBox;
-
-            Add(Entity);
-        }
-
-        /// <summary>
-        /// Completely Removes the specified Entity from the association with this QuadTree. The
-        /// method will automatically clean up any un-needed nodes that may have been created from
-        /// the Removal process.
-        /// </summary>
-        /// <param name="Entity"></param>
-        public void Remove(Entity Entity)
-        {
-            List<QuadTreeNode> associations = new List<QuadTreeNode>();
-            Root.GetAssociatedNodes(Entity, ref associations);
-
-            foreach (QuadTreeNode node in associations)
+            if (UseNewUpdateAlgorithm)
             {
-                node.Entities.Remove(Entity);
-                node.Validate();
+                //NEW UPDATE METHOD
+                List<QuadTreeNode> updatedNodes = new List<QuadTreeNode>();
+                List<QuadTreeNode> associatedNodes = new List<QuadTreeNode>();
+                Root.GetAssociatedNodes(Entity, Entity.prevPxBoundingBox, ref associatedNodes);
+
+                foreach (QuadTreeNode node in associatedNodes)
+                {
+                    bool update = true;
+
+                    foreach (QuadTreeNode updatedNode in updatedNodes)
+                        if (node.IsChildOf(updatedNode))
+                            update = false;
+
+                    if (update)
+                    {
+                        QuadTreeNode updatedNode = Reposition(Entity, node);
+                        updatedNodes.Add(updatedNode);
+                    }
+                }
+            }
+            else
+            {
+                //OLD UPDATE METHOD
+                Root.Remove(Entity, Entity.prevPxBoundingBox);
+                Add(Entity);
             }
         }
 
-        /// <summary>
-        /// Adds the specified Entity to the QuadTree, recursivel building any required child QuadTreeNodes
-        /// along the way if needed.
-        /// </summary>
-        /// <param name="Entity">Entity object to add to the QuadTree</param>
+        public void Remove(Entity Entity)
+        {
+            Root.Remove(Entity, null);
+        }
+
         public void Add(Entity Entity)
         {
             Root.Add(Entity);
         }
 
-        /// <summary>
-        /// Rebuilds the QuadTree based on the input entities passed in the functions
-        /// parameter. The function tries to be as cheap as possible by re-using previously
-        /// insantiated objects in previous calls.
-        /// </summary>
-        /// <param name="Entities">Collection of Entities to build the QuadTree out of.</param>
         public void Rebuild(ICollection<Entity> Entities)
         {
-            Root.Clear();
+            this.Root.Clear();
+            this.LatestNodeIndex = 0;
 
             foreach (Entity entity in Entities)
                 Add(entity);
         }
 
         /// <summary>
-        /// Factory method for Generating QuadTreeNodes associated with this QuadTree. Automatically assigns
-        /// and increments the currentNodeIndex value to allow unique identification of Nodes in the tree 
-        /// when required.
-        /// </summary>
-        /// <param name="px">x location of the Node in pixels.</param>
-        /// <param name="py">y location of the Node in pixels.</param>
-        /// <param name="pxWidth">Width of the Node in pixels.</param>
-        /// <param name="pxHeight">Height of the Node in pixels.</param>
-        /// <param name="Parent">Parent Node of this Node in the QuadTree.</param>
-        /// <returns>The QuadTreeNode generated by this factory method.</returns>
-        public QuadTreeNode GetQuadTreeNode(int px, int py, int pxWidth, int pxHeight, QuadTreeNode Parent)
-        {
-            QuadTreeNode nodeResult = new QuadTreeNode();
-            nodeResult.Clear();
-            nodeResult.NodeID = currentNodeIndex;
-            nodeResult.pxBounds = new Rectangle(px, py, pxWidth, pxHeight);
-            nodeResult.QuadTree = this;
-            nodeResult.Parent = Parent;
-
-            currentNodeIndex++;
-
-            return nodeResult;
-        }
-
-        /// <summary>
+        /// TODO: May needs some revision
         /// Returns all intersecting Entities found in that region based on the
         /// CurrentPxBoundingBox property exposed by the Entity (which would have
         /// been last updated by the TeeEngine Update loop).
@@ -117,9 +87,40 @@ namespace GameEngine.DataStructures
         public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
         {
             List<Entity> result = new List<Entity>();
-            Root.GetIntersectingEntities(pxRegion, ref result);
+            Root.GetEntities(pxRegion, ref result);
 
             return result;
+        }
+
+        //repsition the specified Entity in the given Node if it no longer contains it
+        internal QuadTreeNode Reposition(Entity Entity, QuadTreeNode Node)
+        {
+            //if Node.Parent==null, then its the Root node and we have to do our best to add it
+            if (Node.Parent != null && !Node.Contains(Entity.CurrentPxBoundingBox))
+                return Reposition(Entity, Node.Parent);
+            else
+            {
+                if (Node.Node1 != null)
+                {
+                    Node.Remove(Entity, Entity.prevPxBoundingBox);
+                    Node.Add(Entity);
+                }
+                return Node;
+            }
+        }
+
+        internal QuadTreeNode GetQuadTreeNode(int px, int py, int pxWidth, int pxHeight, QuadTreeNode Parent)
+        {
+            QuadTreeNode nodeResult = new QuadTreeNode();
+            nodeResult.Clear();
+            nodeResult.NodeID = LatestNodeIndex;
+            nodeResult.pxBounds = new Rectangle(px, py, pxWidth, pxHeight);
+            nodeResult.QuadTree = this;
+            nodeResult.Parent = Parent;
+
+            LatestNodeIndex++;
+
+            return nodeResult;
         }
 
         public override string ToString()

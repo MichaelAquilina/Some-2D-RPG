@@ -24,7 +24,7 @@ namespace GameEngine.DataStructures
         public List<Entity> Entities { get; internal set; }
 
         public Rectangle pxBounds { get; internal set; }
-        public int NodeID { get; set; }
+        public uint NodeID { get; set; }
 
         public bool IsLeafNode { get { return Node1 == null; } }
 
@@ -34,26 +34,14 @@ namespace GameEngine.DataStructures
             Clear();
         }
 
-        /// <summary>
-        /// Checks if this Node or any of its child nodes contains this Entity regardless of its
-        /// BoundingBox state. This is useful for debugging purposes but is less effecient than
-        /// one would expect since all the child nodes are traversed.
-        /// </summary>
-        /// <param name="Entity">Entity to search for.</param>
-        /// <returns>bool value specifying if this Node or any of its children contains the Entity.</returns>
-        public bool HasEntity(Entity Entity)
+        public bool IsChildOf(QuadTreeNode Node)
         {
-            if (Node1 == null)
-                return Entities.Contains(Entity);
-            else
-            {
-                if (Node1.HasEntity(Entity)) return true;
-                if (Node2.HasEntity(Entity)) return true;
-                if (Node3.HasEntity(Entity)) return true;
-                if (Node4.HasEntity(Entity)) return true;
-            }
+            return Node.Contains(pxBounds);
+        }
 
-            return false;
+        public bool IsParentOf(QuadTreeNode Node)
+        {
+            return Contains(Node.pxBounds);
         }
 
         /// <summary>
@@ -71,104 +59,59 @@ namespace GameEngine.DataStructures
             Parent = null;
         }
 
-        public void Validate()
-        {
-            List<Entity> entities = new List<Entity>();
-            GetEntities(ref entities);
-
-            if (entities.Count <=  QuadTree.EntityLimit)
-            {
-                Node1 = null;
-                Node2 = null;
-                Node3 = null;
-                Node4 = null;
-                Entities = entities;
-
-                if (Parent != null)
-                    Parent.Validate();
-            }
-        }
-
-        public void GetEntities(ref List<Entity> Result)
+        public bool HasEntity(Entity Entity)
         {
             if (Node1 == null)
-            {
-                foreach (Entity entity in Entities)
-                    if (!Result.Contains(entity)) Result.Add(entity);
-            }
+                return Entities.Contains(Entity);
             else
             {
-                Node1.GetEntities(ref Result);
-                Node2.GetEntities(ref Result);
-                Node3.GetEntities(ref Result);
-                Node4.GetEntities(ref Result);                
-            }   
+                if (Node1.HasEntity(Entity)) return true;
+                if (Node2.HasEntity(Entity)) return true;
+                if (Node3.HasEntity(Entity)) return true;
+                if (Node4.HasEntity(Entity)) return true;
+            }
+
+            return false;
         }
-        
-        /// <summary>
-        /// Returns a list of all Entities intersecting this Node or its children
-        /// in the specified region. This method makes use of a global buffer in the
-        /// associated QuadTree to improve performance by avoiding over initialisation
-        /// of new Lists at each recursive step.
-        /// </summary>
-        /// <param name="pxRegion">Intersecting Rectangular region to check in Pixels.</param>
-        /// <param name="Result">List to place the Intersecting Entities in. Passed by reference.</param>
-        /// //TODO: This can probably be built using GetAssociatedNodes because they are very similiar
-        internal void GetIntersectingEntities(Rectangle pxRegion, ref List<Entity> Result)
+
+        public bool HasNode(QuadTreeNode Node)
         {
-            if (Entities.Count > 0)
-            {
-                foreach (Entity entity in Entities)
-                    if (entity.CurrentPxBoundingBox.Intersects(pxRegion) &&
-                        !Result.Contains(entity))
-                        Result.Add(entity);
-            }
-            else
-            {
-                if (IsLeafNode) return;
+            if (this == Node)
+                return true;
 
-                if (Node1.Intersects(pxRegion)) Node1.GetIntersectingEntities(pxRegion, ref Result);
-                if (Node2.Intersects(pxRegion)) Node2.GetIntersectingEntities(pxRegion, ref Result);
-                if (Node3.Intersects(pxRegion)) Node3.GetIntersectingEntities(pxRegion, ref Result);
-                if (Node4.Intersects(pxRegion)) Node4.GetIntersectingEntities(pxRegion, ref Result);
+            if (Node1 != null)
+            {
+                if (Node1.HasNode(Node)) return true;
+                if (Node2.HasNode(Node)) return true;
+                if (Node3.HasNode(Node)) return true;
+                if (Node4.HasNode(Node)) return true;
             }
+            
+            return false;
         }
 
-        /// <summary>
-        /// Checks whether the specified Bounding Box region specified in Pixels intersects
-        /// with the area specified in this QuadTreeNode. The function will return a true value
-        /// in the case where it intersects and a false in the case where it does not.
-        /// </summary>
-        /// <param name="pxBoundingBox">Bounding Box in pixels to check for intersection.</param>
-        /// <returns>bool value specifying the result of the intersection test.</returns>
+        public bool Contains(Rectangle pxBoundingBox)
+        {
+            return pxBounds.Contains(pxBoundingBox);
+        }
+
         public bool Intersects(Rectangle pxBoundingBox)
         {
             return pxBounds.Intersects(pxBoundingBox);
         }
 
-        //BUG: Not all the Associated nodes are retreived in some cases and this is due to a failed intersection test.
-        //I doubt the problem is with the intersect function itself, but rather the Current state of the CurrentPxBoundingBox
-        public void GetAssociatedNodes(Entity Entity, ref List<QuadTreeNode> Result)
+        public void Remove(Entity Entity, Rectangle? pxBoundingBox)
         {
-            if (Node1==null)
-            {
-                if(Entities.Contains(Entity)) Result.Add(this);
-                return;
-            }
+            List<QuadTreeNode> associations = new List<QuadTreeNode>();
+            GetAssociatedNodes(Entity, pxBoundingBox, ref associations);
 
-            if (Node1.Intersects(Entity.CurrentPxBoundingBox)) Node1.GetAssociatedNodes(Entity, ref Result);
-            if (Node2.Intersects(Entity.CurrentPxBoundingBox)) Node2.GetAssociatedNodes(Entity, ref Result);
-            if (Node3.Intersects(Entity.CurrentPxBoundingBox)) Node3.GetAssociatedNodes(Entity, ref Result);
-            if (Node4.Intersects(Entity.CurrentPxBoundingBox)) Node4.GetAssociatedNodes(Entity, ref Result);
+            foreach (QuadTreeNode node in associations)
+            {
+                node.Entities.Remove(Entity);
+                node.Validate(this);
+            }
         }
 
-        /// <summary>
-        /// Recursively adds the specified Entity to this QuadTreeNode and possibly any child QuadTreeNodes
-        /// contained in the one specified in the parameters. This function will create any new Child tree
-        /// nodes as necessary from the associated QuadTrees NodePool in order to be as cheap as possible
-        /// on both memory and CPU.
-        /// </summary>
-        /// <param name="Entity">Entity to add to this QuadTreeNode.</param>
         public void Add(Entity Entity)
         {
             int pxHalfWidth = (int)Math.Ceiling(pxBounds.Width / 2.0f);
@@ -224,6 +167,62 @@ namespace GameEngine.DataStructures
             }
 
             Entities.Clear();
+        }
+
+        //Validates this nodes MaxEntity/MinEntity requirements
+        internal void Validate(QuadTreeNode NodeLimit=null)
+        {
+            if (this == NodeLimit) return;
+
+            List<Entity> entities = new List<Entity>();
+            GetEntities(null, ref entities);
+
+            if (entities.Count <= QuadTree.EntityLimit)
+            {
+                Node1 = null;
+                Node2 = null;
+                Node3 = null;
+                Node4 = null;
+                Entities = entities;
+
+                if (Parent!=NodeLimit)
+                    Parent.Validate();
+            }
+        }
+
+        //if pxBoundingBox is null, it will search everywhere
+        //TODO: GetAssociatedNodes and GetEntities can probably be merged into one single function
+        public void GetAssociatedNodes(Entity Entity, Rectangle? pxBoundingBox, ref List<QuadTreeNode> Result)
+        {
+            if (Node1 == null)
+            {
+                if (Entities.Contains(Entity)) Result.Add(this);
+                return;
+            }
+
+            if (pxBoundingBox == null || Node1.Intersects(pxBoundingBox.Value)) Node1.GetAssociatedNodes(Entity, pxBoundingBox, ref Result);
+            if (pxBoundingBox == null || Node2.Intersects(pxBoundingBox.Value)) Node2.GetAssociatedNodes(Entity, pxBoundingBox, ref Result);
+            if (pxBoundingBox == null || Node3.Intersects(pxBoundingBox.Value)) Node3.GetAssociatedNodes(Entity, pxBoundingBox, ref Result);
+            if (pxBoundingBox == null || Node4.Intersects(pxBoundingBox.Value)) Node4.GetAssociatedNodes(Entity, pxBoundingBox, ref Result);
+        }
+
+        internal void GetEntities(Rectangle? pxRegion, ref List<Entity> Result)
+        {
+            if (Entities.Count > 0)
+            {
+                foreach (Entity entity in Entities)
+                    if (!Result.Contains(entity))
+                        Result.Add(entity);
+            }
+            else
+            {
+                if (IsLeafNode) return;
+
+                if (pxRegion == null || Node1.Intersects(pxRegion.Value)) Node1.GetEntities(pxRegion, ref Result);
+                if (pxRegion == null || Node2.Intersects(pxRegion.Value)) Node2.GetEntities(pxRegion, ref Result);
+                if (pxRegion == null || Node3.Intersects(pxRegion.Value)) Node3.GetEntities(pxRegion, ref Result);
+                if (pxRegion == null || Node4.Intersects(pxRegion.Value)) Node4.GetEntities(pxRegion, ref Result);
+            }
         }
 
         public override string ToString()

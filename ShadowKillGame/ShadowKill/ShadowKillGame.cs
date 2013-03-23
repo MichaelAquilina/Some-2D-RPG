@@ -84,8 +84,8 @@ namespace ShadowKill
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
             Engine.LoadMap(tiledmap);
 
-            CurrentPlayer = new Hero(14.5f, 7);
-            CurrentPlayer.CollisionDetection = true;
+            CurrentPlayer = new Hero(1629/50.0f, 140/50.0f);
+            CurrentPlayer.CollisionDetection = false;
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
             CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
@@ -159,10 +159,10 @@ namespace ShadowKill
             Random random = new Random();           
             Engine.AddEntity("Player", CurrentPlayer);
 
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 80; i++)
             {
-                float tx = (float) random.NextDouble() * 20;
-                float ty = (float) random.NextDouble() * 20;
+                float tx = (float) random.NextDouble() * Engine.Map.txWidth;
+                float ty = (float) random.NextDouble() * Engine.Map.txHeight;
 
                 Engine.AddEntity(new Bat(tx, ty, random.NextDouble()));
             }
@@ -220,6 +220,9 @@ namespace ShadowKill
                 helmetVisible = !helmetVisible;
                 CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
             }
+
+            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F12, true))
+                Engine.QuadTree.UseNewUpdateAlgorithm = !Engine.QuadTree.UseNewUpdateAlgorithm;
 
             base.Update(gameTime);
         }
@@ -315,6 +318,8 @@ namespace ShadowKill
                     SpriteBatch.DrawString(DefaultSpriteFont, "Sampler=" + CurrentSampler.ToString(), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Latest Node Index = " + Engine.QuadTree.LatestNodeIndex, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "New Update = " + Engine.QuadTree.UseNewUpdateAlgorithm, GeneratePos(textHeight), Color.White);
                 }
 
                 if (showDiagnostics)

@@ -189,7 +189,7 @@ namespace ShadowKill.GameObjects
                 prevIntersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentPxBoundingBox);
                 foreach (Entity entity in prevIntersectingEntities)
                 {
-                    if (entity != this)
+                    if (entity!= this && entity.CurrentPxBoundingBox.Intersects(CurrentPxBoundingBox))
                         entity.Opacity = 0.8f;
                 }
             }  

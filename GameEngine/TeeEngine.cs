@@ -208,7 +208,7 @@ namespace GameEngine
         {
             if (_entities.ContainsKey(Name))
             {
-                QuadTree.Remove(_entities[Name]);
+                QuadTree.Root.Remove(_entities[Name], null);
                 _entities.Remove(Name);
             }
         }
@@ -272,9 +272,9 @@ namespace GameEngine
         public override void Update(GameTime GameTime)
         {
             LastUpdateTime = GameTime;
-            _watch3.Restart();
-
+            _watch3.Reset();
             _watch1.Restart();
+
             foreach (string entityId in _entities.Keys)
             {
                 _watch2.Restart();
