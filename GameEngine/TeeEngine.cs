@@ -17,7 +17,7 @@ using System.Diagnostics;
 /// The TeeEngine - the result of my sweat, blood and tears into this project. The TeeEngine is simply a 2D Tile Engine that
 /// provides a number of powerful tools and properties to quickly create and design 2D games that rely on tiles as coordinate
 /// systems. The Name Tee Engine came from the idea of a TileEngine, ie a TEngine. I have a personal obsession with Tea, so changing
-/// the name of the engine to TeeEngine places a bit of me into this project.
+/// the name of the engine to TeeEngine embeds a bit of my personality into this project.
 /// 
 /// Using the TeeEngine is very simple:
 /// 
@@ -318,9 +318,6 @@ namespace GameEngine
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 txCenter, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
         {
-            //reset counters
-            EntitiesOnScreen.Clear();
-
             //Should be fast to create due to being a struct
             ViewPortInfo viewPortInfo = new ViewPortInfo();             
             {
@@ -374,15 +371,15 @@ namespace GameEngine
                             int tileY = (int)(j + viewPortInfo.txTopLeftY);
 
                             int tileGid = tileLayer[tileX, tileY];
+                            Rectangle pxTileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
+                            
+                            //traslate if there is any decimal displacement due to a Center with a floating point
+                            pxTileDestRect.X -= (int)(viewPortInfo.txDispX * pxTileWidth);
+                            pxTileDestRect.Y -= (int)(viewPortInfo.txDispY * pxTileHeight);
 
                             if (tileGid != 0)   //NULL Tile Gid is ignored
                             {
                                 Tile tile = Map.Tiles[tileGid];
-                                Rectangle pxTileDestRect = new Rectangle(i * pxTileWidth, j * pxTileHeight, pxTileWidth, pxTileHeight);
-
-                                //traslate if there is any decimal displacement due to a Center with a floating point
-                                pxTileDestRect.X -= (int)(viewPortInfo.txDispX * pxTileWidth);
-                                pxTileDestRect.Y -= (int)(viewPortInfo.txDispY * pxTileHeight);
 
                                 SpriteBatch.Draw(
                                     tile.SourceTexture,
@@ -393,11 +390,11 @@ namespace GameEngine
                                     SpriteEffects.None,
                                     depth    
                                 );
-
-                                //DEBUGGING
-                                //TODO: THIS IS VERY INEFFECIENT (mulitple draws in each layer for no reason)
-                                if(ShowTileGrid) SpriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                             }
+
+                            //Draw the layer grid on the last layer draw
+                            if(ShowTileGrid && layerIndex == Map.TileLayers.Count - 1 ) 
+                                SpriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                         }
                     }
                 }
