@@ -56,6 +56,9 @@ namespace GameEngine
     {
         #region Properties and Variables
 
+        /// <summary>
+        /// Graphics Device being used by this Engine to Render.
+        /// </summary>
         public GraphicsDevice GraphicsDevice { get; private set; }
 
         /// <summary>
@@ -127,11 +130,13 @@ namespace GameEngine
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
+
         //TODO: Might be smarter to create a class for handling these
         Stopwatch _watch1;              //primary diagnostic watch
         Stopwatch _watch2;              //secondary diagnostic watch
         Stopwatch _watch3;              //tertiary diagnostic watch
-        DebugInfo _debugInfo;
+        
+        DebugInfo _debugInfo;           //debug diagnostic information
         int _entityIdCounter = 0;       //used for automatic assigning of IDs
 
         #endregion
@@ -294,7 +299,7 @@ namespace GameEngine
                     entity.requiresAddition = false;
                 }
 
-                DebugInfo.EntityUpdateTime[entityId] = _watch2.Elapsed;
+                DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
     
                 //reset the IsOnScreen variable before the next drawing operation
                 entity.IsOnScreen = false;
@@ -311,17 +316,6 @@ namespace GameEngine
             _debugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
         }
         
-        /// <summary>
-        /// Draws a viewport of the current game world at the specified CenterX, CenterY location. The Viewport size and location on the screen must be 
-        /// specified in the DestRectangle parameter. The number of Tiles both Width-wise and Height-wise should be specified in the TileWidth and TileHeight
-        /// parameters. All Miscallaneous items and actors will be drawn on the screen, in an animated state (which depends on the values in the parameter
-        /// passed in GameTime). This can allow for rewinding of time in terms of animation if needs be.
-        /// </summary>
-        /// <param name="SpriteBatch">SpriteBatch object with which to render the Viewport. Should have already been opened for rendering.</param>
-        /// <param name="txCenter">X and Y Coordinates on the world map specifying where the viewport should be Centered.</param>
-        /// <param name="pxDestRectangle">Rectangle object specifying the render destination for the viewport. Should specify location, width and height.</param>
-        /// <param name="Color">Color object with which to blend the game world.</param>
-        /// <param name="SamplerState">Specifies the type of sampler to use when drawing images with the SpriteBatch object.</param>
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 txCenter, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
         {
             //reset counters
@@ -349,7 +343,7 @@ namespace GameEngine
                 viewPortInfo.txDispX = viewPortInfo.txTopLeftX - Math.Floor(viewPortInfo.txTopLeftX);
                 viewPortInfo.txDispY = viewPortInfo.txTopLeftY - Math.Floor(viewPortInfo.txTopLeftY);
 
-                viewPortInfo.pxViewPort = new Rectangle(
+                viewPortInfo.pxViewPortBounds = new Rectangle(
                     (int)Math.Ceiling(viewPortInfo.txTopLeftX * pxTileWidth),
                     (int)Math.Ceiling(viewPortInfo.txTopLeftY * pxTileHeight),
                     pxDestRectangle.Width,
@@ -416,7 +410,7 @@ namespace GameEngine
             _watch1.Restart();
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
-                EntitiesOnScreen = QuadTree.GetIntersectingEntites(viewPortInfo.pxViewPort);
+                EntitiesOnScreen = QuadTree.GetIntersectingEntites(viewPortInfo.pxViewPortBounds);
 
                 foreach (Entity entity in EntitiesOnScreen)
                 {
@@ -488,7 +482,7 @@ namespace GameEngine
                             layerDepth);
                     }
 
-                    _debugInfo.EntityRenderingTime[entity.Name] = _watch2.Elapsed;
+                    _debugInfo.EntityRenderingTimes[entity.Name] = _watch2.Elapsed;
                 }
             }
             SpriteBatch.End();

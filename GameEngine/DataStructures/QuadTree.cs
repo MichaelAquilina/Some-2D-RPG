@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
-using System;
 
 namespace GameEngine.DataStructures
 {
@@ -11,8 +10,6 @@ namespace GameEngine.DataStructures
         public int EntityLimit { get; private set; }
         public int pxTileWidth { get; private set; }
         public int pxTileHeight { get; private set; }
-
-        public bool UseNewUpdateAlgorithm = true;
 
         public uint LatestNodeIndex { get; private set; }
 
@@ -27,33 +24,21 @@ namespace GameEngine.DataStructures
 
         public void Update(Entity Entity)
         {
-            if (UseNewUpdateAlgorithm)
+            List<QuadTreeNode> updatedNodes = new List<QuadTreeNode>();
+            List<QuadTreeNode> associatedNodes = new List<QuadTreeNode>();
+            Root.GetAssociatedNodes(Entity, Entity.prevPxBoundingBox, ref associatedNodes);
+
+            foreach (QuadTreeNode node in associatedNodes)
             {
-                //NEW UPDATE METHOD
-                List<QuadTreeNode> updatedNodes = new List<QuadTreeNode>();
-                List<QuadTreeNode> associatedNodes = new List<QuadTreeNode>();
-                Root.GetAssociatedNodes(Entity, Entity.prevPxBoundingBox, ref associatedNodes);
+                bool update = true;
 
-                foreach (QuadTreeNode node in associatedNodes)
-                {
-                    bool update = true;
+                //if the one of the updated nodes already covers the current node
+                //then we dont need to bother repositioning this one
+                foreach (QuadTreeNode updatedNode in updatedNodes)
+                    if (updatedNode.Contains(node.pxBounds))
+                        update = false;
 
-                    foreach (QuadTreeNode updatedNode in updatedNodes)
-                        if (updatedNode.Contains(node.pxBounds))
-                            update = false;
-
-                    if (update)
-                    {
-                        QuadTreeNode updatedNode = Reposition(Entity, node);
-                        updatedNodes.Add(updatedNode);
-                    }
-                }
-            }
-            else
-            {
-                //OLD UPDATE METHOD
-                Root.Remove(Entity, Entity.prevPxBoundingBox);
-                Add(Entity);
+                if (update) updatedNodes.Add(Reposition(Entity, node));
             }
         }
 
@@ -76,14 +61,6 @@ namespace GameEngine.DataStructures
                 Add(entity);
         }
 
-        /// <summary>
-        /// TODO: May needs some revision
-        /// Returns all intersecting Entities found in that region based on the
-        /// CurrentPxBoundingBox property exposed by the Entity (which would have
-        /// been last updated by the TeeEngine Update loop).
-        /// </summary>
-        /// <param name="pxRegion">Rectangle region to check in Pixels.</param>
-        /// <returns>List of Entity objects intersecting the specified region.</returns>
         public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
         {
             List<Entity> result = new List<Entity>();
@@ -92,7 +69,7 @@ namespace GameEngine.DataStructures
             return result;
         }
 
-        //repsition the specified Entity in the given Node if it no longer contains it
+        //reposition the specified Entity in the given Node if it no longer contains it
         internal QuadTreeNode Reposition(Entity Entity, QuadTreeNode Node)
         {
             //if Node.Parent==null, then its the Root node and we have to do our best to add it
@@ -100,7 +77,7 @@ namespace GameEngine.DataStructures
                 return Reposition(Entity, Node.Parent);
             else
             {
-                if (Node.Node1 != null)
+                if (!Node.IsLeafNode)
                 {
                     Node.Remove(Entity, Entity.prevPxBoundingBox);
                     Node.Add(Entity);

@@ -46,7 +46,7 @@ namespace GameEngine.DataStructures
 
         public bool HasEntity(Entity Entity)
         {
-            if (Node1 == null)
+            if (IsLeafNode)
                 return Entities.Contains(Entity);
             else
             {
@@ -64,7 +64,7 @@ namespace GameEngine.DataStructures
             if (this == Node)
                 return true;
 
-            if (Node1 != null)
+            if (!IsLeafNode)
             {
                 if (Node1.HasNode(Node)) return true;
                 if (Node2.HasNode(Node)) return true;
@@ -102,7 +102,7 @@ namespace GameEngine.DataStructures
             int pxHalfWidth = (int)Math.Ceiling(pxBounds.Width / 2.0f);
             int pxHalfHeight = (int)Math.Ceiling(pxBounds.Height / 2.0f);
 
-            if ((Node1 == null && Entities.Count < QuadTree.EntityLimit) || pxHalfWidth <= QuadTree.pxTileWidth || pxHalfHeight <= QuadTree.pxTileHeight)
+            if ((IsLeafNode && Entities.Count < QuadTree.EntityLimit) || pxHalfWidth <= QuadTree.pxTileWidth || pxHalfHeight <= QuadTree.pxTileHeight)
             {
                 Entities.Add(Entity);
                 return;
@@ -178,7 +178,7 @@ namespace GameEngine.DataStructures
         //if pxBoundingBox is null, it will search everywhere
         public void GetAssociatedNodes(Entity Entity, Rectangle? pxBoundingBox, ref List<QuadTreeNode> Result)
         {
-            if (Node1 == null)
+            if (IsLeafNode)
             {
                 if (Entities.Contains(Entity)) Result.Add(this);
                 return;

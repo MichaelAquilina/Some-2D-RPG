@@ -12,7 +12,7 @@ namespace GameEngine.Info
     /// </summary>
     public struct ViewPortInfo
     {
-        public Rectangle pxViewPort { get; set; }
+        public Rectangle pxViewPortBounds { get; set; }
         public float pxTileWidth { get; set; }
         public float pxTileHeight { get; set; }
         public float txTopLeftX { get; set; }

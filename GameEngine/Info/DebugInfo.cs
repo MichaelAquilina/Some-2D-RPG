@@ -18,15 +18,15 @@ namespace GameEngine.Info
         public TimeSpan TotalEntityUpdateTime { get; internal set; }
         public TimeSpan TotalGameShaderRenderTime { get; internal set; }
 
-        public Dictionary<string, TimeSpan> EntityRenderingTime { get; internal set; }
-        public Dictionary<string, TimeSpan> EntityUpdateTime { get; internal set; }
-        public Dictionary<string, TimeSpan> GameShaderRenderingTime { get; internal set; }
+        public Dictionary<string, TimeSpan> EntityRenderingTimes { get; internal set; }
+        public Dictionary<string, TimeSpan> EntityUpdateTimes { get; internal set; }
+        public Dictionary<string, TimeSpan> GameShaderRenderingTimes { get; internal set; }
 
         public DebugInfo()
         {
-            EntityRenderingTime = new Dictionary<string, TimeSpan>();
-            GameShaderRenderingTime = new Dictionary<string, TimeSpan>();
-            EntityUpdateTime = new Dictionary<string, TimeSpan>();
+            EntityRenderingTimes = new Dictionary<string, TimeSpan>();
+            GameShaderRenderingTimes = new Dictionary<string, TimeSpan>();
+            EntityUpdateTimes = new Dictionary<string, TimeSpan>();
         }
 
         /// <summary>

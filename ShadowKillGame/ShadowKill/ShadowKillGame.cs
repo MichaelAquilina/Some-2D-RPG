@@ -221,9 +221,6 @@ namespace ShadowKill
                 CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
             }
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F12, true))
-                Engine.QuadTree.UseNewUpdateAlgorithm = !Engine.QuadTree.UseNewUpdateAlgorithm;
-
             base.Update(gameTime);
         }
 
@@ -319,7 +316,6 @@ namespace ShadowKill
                     SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Latest Node Index = " + Engine.QuadTree.LatestNodeIndex, GeneratePos(textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "New Update = " + Engine.QuadTree.UseNewUpdateAlgorithm, GeneratePos(textHeight), Color.White);
                 }
 
                 if (showDiagnostics)
@@ -327,9 +323,9 @@ namespace ShadowKill
                     StringBuilder builder = new StringBuilder();
                     builder.AppendLine(Engine.DebugInfo.ToString());
 
-                    builder.AppendLine("Entity Rendering Times");
-                    foreach (string entityId in Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityRenderingTime, 3).Keys)
-                        builder.AppendLine(string.Format("Entity '{0}' = {1}", entityId, Engine.DebugInfo.EntityUpdateTime[entityId]));
+                    builder.AppendLine("Entity Update Times");
+                    foreach (string entityId in Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityUpdateTimes, 3).Keys)
+                        builder.AppendLine(string.Format("Entity '{0}' = {1}", entityId, Engine.DebugInfo.EntityUpdateTimes[entityId]));
 
                     string textOutput = builder.ToString();
                     SpriteBatch.DrawString(DefaultSpriteFont, textOutput, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(textOutput).Y), Color.White);
