@@ -17,6 +17,8 @@ namespace GameEngine.GameObjects
         public float TX { get; set; }
         public float TY { get; set; }
 
+        public string Name { get; internal set; }                         //Name currently assigned to this Entity in the Engine
+
         public float rxWidth { get; set; }                                //relative width where 1.0 = 100%
         public float rxHeight { get; set; }                               //relative height where 1.0 = 100%
 

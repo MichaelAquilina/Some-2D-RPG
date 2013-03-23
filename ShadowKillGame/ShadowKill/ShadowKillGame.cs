@@ -85,7 +85,7 @@ namespace ShadowKill
             Engine.LoadMap(tiledmap);
 
             CurrentPlayer = new Hero(1629/50.0f, 140/50.0f);
-            CurrentPlayer.CollisionDetection = false;
+            CurrentPlayer.CollisionDetection = true;
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
             CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
@@ -327,7 +327,8 @@ namespace ShadowKill
                     StringBuilder builder = new StringBuilder();
                     builder.AppendLine(Engine.DebugInfo.ToString());
 
-                    foreach (string entityId in Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityUpdateTime, 3).Keys)
+                    builder.AppendLine("Entity Rendering Times");
+                    foreach (string entityId in Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityRenderingTime, 3).Keys)
                         builder.AppendLine(string.Format("Entity '{0}' = {1}", entityId, Engine.DebugInfo.EntityUpdateTime[entityId]));
 
                     string textOutput = builder.ToString();

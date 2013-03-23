@@ -196,6 +196,7 @@ namespace GameEngine
             if (Name == null) Name = string.Format("Entity{0}", _entityIdCounter++);
 
             _entities.Add(Name, Entity);
+            Entity.Name = Name;
             Entity.requiresAddition = true;
         }
 
@@ -209,6 +210,7 @@ namespace GameEngine
             if (_entities.ContainsKey(Name))
             {
                 QuadTree.Root.Remove(_entities[Name], null);
+                _entities[Name].Name = null;
                 _entities.Remove(Name);
             }
         }
@@ -293,7 +295,9 @@ namespace GameEngine
                 }
 
                 DebugInfo.EntityUpdateTime[entityId] = _watch2.Elapsed;
-
+    
+                //reset the IsOnScreen variable before the next drawing operation
+                entity.IsOnScreen = false;
 
                 if (entity.CurrentPxBoundingBox != entity.prevPxBoundingBox)
                 {
@@ -344,6 +348,12 @@ namespace GameEngine
                 //calculate any decimal displacement required (For Positions with decimal points)
                 viewPortInfo.txDispX = viewPortInfo.txTopLeftX - Math.Floor(viewPortInfo.txTopLeftX);
                 viewPortInfo.txDispY = viewPortInfo.txTopLeftY - Math.Floor(viewPortInfo.txTopLeftY);
+
+                viewPortInfo.pxViewPort = new Rectangle(
+                    (int)Math.Ceiling(viewPortInfo.txTopLeftX * pxTileWidth),
+                    (int)Math.Ceiling(viewPortInfo.txTopLeftY * pxTileHeight),
+                    pxDestRectangle.Width,
+                    pxDestRectangle.Height);
             }
 
             //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
@@ -360,11 +370,7 @@ namespace GameEngine
                 {
                     //DRAW EACH LAYER
                     TileLayer tileLayer = Map.TileLayers[layerIndex];
-
-                    //automatic layering based on layerIndex
-                    //TODO: Investigate this - this should belong in GameSpace
-                    //THIS WONT WORK IF WE USE DEFERRED RENDERING FOR SPRITESORTMODE!
-                    float depth = tileLayer.HasProperty("Foreground") ? 0 : 1 - (layerIndex / 10000.0f);
+                    float depth = 1 - (layerIndex / 10000.0f);
 
                     for (int i = 0; i < viewPortInfo.TileCountX; i++)
                     {
@@ -410,14 +416,14 @@ namespace GameEngine
             _watch1.Restart();
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
-                foreach (string entityId in _entities.Keys)
+                EntitiesOnScreen = QuadTree.GetIntersectingEntites(viewPortInfo.pxViewPort);
+
+                foreach (Entity entity in EntitiesOnScreen)
                 {
                     _watch2.Restart();
 
-                    Entity entity = _entities[entityId];
-                    entity.IsOnScreen = false;
-
                     if (!entity.Visible) continue;
+                    entity.IsOnScreen = true;
 
                     Vector2 pxEntityPos = new Vector2(
                         (int) Math.Ceiling((entity.TX - viewPortInfo.txTopLeftX) * pxTileWidth),
@@ -426,8 +432,8 @@ namespace GameEngine
 
                     Rectangle pxBoundingBox = entity.CurrentPxBoundingBox;
                     pxBoundingBox = new Rectangle(
-                        (int) Math.Ceiling(pxBoundingBox.X - viewPortInfo.txTopLeftX * pxTileWidth),
-                        (int) Math.Ceiling(pxBoundingBox.Y - viewPortInfo.txTopLeftY * pxTileHeight), 
+                        (int)Math.Ceiling(pxBoundingBox.X - viewPortInfo.txTopLeftX * pxTileWidth),
+                        (int)Math.Ceiling(pxBoundingBox.Y - viewPortInfo.txTopLeftY * pxTileHeight),
                         pxBoundingBox.Width, pxBoundingBox.Height
                     );
 
@@ -437,58 +443,52 @@ namespace GameEngine
                         SpriteBatch.DrawCross(pxEntityPos, 13, Color.Black, 0f);
                     }
 
-                    if (pxBoundingBox.Intersects(_inputBuffer.Bounds))
+                    foreach (GameDrawableInstance drawable in entity.Drawables[entity.CurrentDrawable])
                     {
-                        EntitiesOnScreen.Add(entity);
-                        entity.IsOnScreen = true;
+                        if (!drawable.Visible) continue;
 
-                        foreach (GameDrawableInstance drawable in entity.Drawables[entity.CurrentDrawable])
+                        //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
+                        //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
+                        //for panning at the edges.
+                        Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(LastUpdateTime);
+
+                        int pxObjectWidth = (int)(pxCurrentFrame.Width * entity.rxWidth);
+                        int pxObjectHeight = (int)(pxCurrentFrame.Height * entity.rxHeight);
+
+                        //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
+                        Rectangle objectDestRect = new Rectangle(
+                                (int)pxEntityPos.X,
+                                (int)pxEntityPos.Y,
+                                pxObjectWidth,
+                                pxObjectHeight
+                        );
+
+                        Vector2 drawableOrigin = drawable.Drawable.rxDrawOrigin * new Vector2(pxCurrentFrame.Width, pxCurrentFrame.Height);
+                        Color drawableColor = new Color()
                         {
-                            if (!drawable.Visible) continue;
+                            R = drawable.Color.R,
+                            G = drawable.Color.G,
+                            B = drawable.Color.B,
+                            A = (byte)(drawable.Color.A * entity.Opacity)
+                        };
 
-                            //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
-                            //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
-                            //for panning at the edges.
-                            Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(LastUpdateTime);
+                        //FIXME: Bug related to when layerDepth becomes small and reaches 0.99 for all levels, causing depth information to be lost
+                        //layer depth should depend how far down the object is on the map (Relative to Y)
+                        //Important to also take into account the animation layers for the entity
+                        float layerDepth = Math.Min(0.99f, 1 / (entity.TY + ((float)drawable.Layer / pxTileHeight)));
 
-                            int pxObjectWidth = (int)(pxCurrentFrame.Width * entity.rxWidth);
-                            int pxObjectHeight = (int)(pxCurrentFrame.Height * entity.rxHeight);
-
-                            //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
-                            Rectangle objectDestRect = new Rectangle(
-                                    (int)pxEntityPos.X,
-                                    (int)pxEntityPos.Y,
-                                    pxObjectWidth,
-                                    pxObjectHeight
-                            );
-
-                            Vector2 drawableOrigin = drawable.Drawable.rxDrawOrigin * new Vector2(pxCurrentFrame.Width, pxCurrentFrame.Height);
-                            Color drawableColor = new Color()
-                            {
-                                R = drawable.Color.R,
-                                G = drawable.Color.G,
-                                B = drawable.Color.B,
-                                A = (byte)(drawable.Color.A * entity.Opacity)
-                            };
-
-                            //FIXME: Bug related to when layerDepth becomes small and reaches 0.99 for all levels, causing depth information to be lost
-                            //layer depth should depend how far down the object is on the map (Relative to Y)
-                            //Important to also take into account the animation layers for the entity
-                            float layerDepth = Math.Min(0.99f, 1 / (entity.TY + ((float)drawable.Layer / pxTileHeight)));
-
-                            SpriteBatch.Draw(
-                                drawable.Drawable.GetSourceTexture(LastUpdateTime),
-                                objectDestRect,
-                                pxCurrentFrame,
-                                drawableColor,
-                                drawable.Rotation,
-                                drawableOrigin,
-                                drawable.SpriteEffects,
-                                layerDepth);
-                        }
+                        SpriteBatch.Draw(
+                            drawable.Drawable.GetSourceTexture(LastUpdateTime),
+                            objectDestRect,
+                            pxCurrentFrame,
+                            drawableColor,
+                            drawable.Rotation,
+                            drawableOrigin,
+                            drawable.SpriteEffects,
+                            layerDepth);
                     }
 
-                    _debugInfo.EntityRenderingTime[entityId] = _watch2.Elapsed;
+                    _debugInfo.EntityRenderingTime[entity.Name] = _watch2.Elapsed;
                 }
             }
             SpriteBatch.End();
