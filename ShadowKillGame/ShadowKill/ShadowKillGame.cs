@@ -40,8 +40,8 @@ namespace ShadowKill
 
         bool helmetVisible = true;
         bool showDebugInfo = true;
-        bool showQuadTree = true;
-        bool showDiagnostics = true;
+        bool showQuadTree = false;
+        bool showDiagnostics = false;
 
         int TextCounter = 0;
         int SamplerIndex = 0;
@@ -325,7 +325,11 @@ namespace ShadowKill
 
                     builder.AppendLine("Entity Update Times");
                     foreach (string entityId in Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityUpdateTimes, 3).Keys)
-                        builder.AppendLine(string.Format("Entity '{0}' = {1}", entityId, Engine.DebugInfo.EntityUpdateTimes[entityId]));
+                        builder.AppendLine(string.Format("'{0}' = {1}", entityId, Engine.DebugInfo.EntityUpdateTimes[entityId]));
+
+                    builder.AppendLine("Entity Rendering Times");
+                    foreach (string entityId in Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityRenderingTimes, 3).Keys)
+                        builder.AppendLine(string.Format("'{0}' = {1}", entityId, Engine.DebugInfo.EntityUpdateTimes[entityId]));
 
                     string textOutput = builder.ToString();
                     SpriteBatch.DrawString(DefaultSpriteFont, textOutput, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(textOutput).Y), Color.White);
