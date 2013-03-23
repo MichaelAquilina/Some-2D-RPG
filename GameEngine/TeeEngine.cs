@@ -420,9 +420,9 @@ namespace GameEngine
 
                 foreach (Entity entity in EntitiesOnScreen)
                 {
-                    _watch2.Restart();
-
                     if (!entity.Visible) continue;
+
+                    _watch2.Restart();                    
                     entity.IsOnScreen = true;
 
                     Vector2 pxEntityPos = new Vector2(

@@ -31,25 +31,10 @@ namespace GameEngine.DataStructures
         public QuadTreeNode()
         {
             Entities = new List<Entity>();
-            Clear();
+            Reset();
         }
 
-        public bool IsChildOf(QuadTreeNode Node)
-        {
-            return Node.Contains(pxBounds);
-        }
-
-        public bool IsParentOf(QuadTreeNode Node)
-        {
-            return Contains(Node.pxBounds);
-        }
-
-        /// <summary>
-        /// Completely resets this QuadTreeNode for later re-use. Mainly used by the QuadTree class
-        /// structure when the Node is pulled from its Node Pool to be used again in a new build
-        /// iteration.
-        /// </summary>
-        public void Clear()
+        public void Reset()
         {
             Entities.Clear();
             Node1 = null;
@@ -191,7 +176,6 @@ namespace GameEngine.DataStructures
         }
 
         //if pxBoundingBox is null, it will search everywhere
-        //TODO: GetAssociatedNodes and GetEntities can probably be merged into one single function
         public void GetAssociatedNodes(Entity Entity, Rectangle? pxBoundingBox, ref List<QuadTreeNode> Result)
         {
             if (Node1 == null)

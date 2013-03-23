@@ -39,7 +39,7 @@ namespace GameEngine.DataStructures
                     bool update = true;
 
                     foreach (QuadTreeNode updatedNode in updatedNodes)
-                        if (node.IsChildOf(updatedNode))
+                        if (updatedNode.Contains(node.pxBounds))
                             update = false;
 
                     if (update)
@@ -69,7 +69,7 @@ namespace GameEngine.DataStructures
 
         public void Rebuild(ICollection<Entity> Entities)
         {
-            this.Root.Clear();
+            this.Root.Reset();
             this.LatestNodeIndex = 0;
 
             foreach (Entity entity in Entities)
@@ -112,7 +112,7 @@ namespace GameEngine.DataStructures
         internal QuadTreeNode GetQuadTreeNode(int px, int py, int pxWidth, int pxHeight, QuadTreeNode Parent)
         {
             QuadTreeNode nodeResult = new QuadTreeNode();
-            nodeResult.Clear();
+            nodeResult.Reset();
             nodeResult.NodeID = LatestNodeIndex;
             nodeResult.pxBounds = new Rectangle(px, py, pxWidth, pxHeight);
             nodeResult.QuadTree = this;
