@@ -9,12 +9,14 @@ namespace ShadowKill.GameObjects
 {
     public class Bat : Entity
     {
-        private double _randomModifier; 
+        private static Random randomGenerator = new Random();
 
-        public Bat(float TX, float TY, double RandomModifier)
+        private double _randomModifier;
+
+        public Bat(float TX, float TY)
             :base(TX, TY)
         {
-            this._randomModifier = RandomModifier;
+            this._randomModifier = randomGenerator.NextDouble();
             this.Origin = new Vector2(1.0f, 0.5f);
             this.Visible = true;
             this.rxWidth = 1.5f;

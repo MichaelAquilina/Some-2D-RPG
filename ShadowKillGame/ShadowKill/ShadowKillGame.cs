@@ -153,10 +153,9 @@ namespace ShadowKill
             LightShader.LightSources.Add(new BasicLightSource(1.0f, 1.0f, 29.0f, 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader(LightShader);
 
-
+            Random random = new Random();
             LoadMapObjects(Engine.Map, Content);
-
-            Random random = new Random();           
+      
             Engine.AddEntity("Player", CurrentPlayer);
 
             for (int i = 0; i < 80; i++)
@@ -164,7 +163,7 @@ namespace ShadowKill
                 float tx = (float) random.NextDouble() * Engine.Map.txWidth;
                 float ty = (float) random.NextDouble() * Engine.Map.txHeight;
 
-                Engine.AddEntity(new Bat(tx, ty, random.NextDouble()));
+                Engine.AddEntity(new Bat(tx, ty));
             }
 
             Engine.LoadContent();

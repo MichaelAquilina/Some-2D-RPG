@@ -43,7 +43,7 @@ namespace ShadowKill.GameObjects
         }
 
         //TODO REMOVE
-        private bool Contains(string[] array, string item)
+        private bool ContainsItem(string[] array, string item)
         {
             for (int i = 0; i < array.Length; i++)
                 if (array[i] == item) return true;
@@ -138,16 +138,16 @@ namespace ShadowKill.GameObjects
                     bool right = prevX > tileX + 1;
 
                     //ensure entry points
-                    impassable |= top && !Contains(entryPoints, "Top");
-                    impassable |= bottom && !Contains(entryPoints, "Bottom");
-                    impassable |= left && !Contains(entryPoints, "Left");
-                    impassable |= right && !Contains(entryPoints, "Right");
+                    impassable |= top && !ContainsItem(entryPoints, "Top");
+                    impassable |= bottom && !ContainsItem(entryPoints, "Bottom");
+                    impassable |= left && !ContainsItem(entryPoints, "Left");
+                    impassable |= right && !ContainsItem(entryPoints, "Right");
 
                     //ensure exit points
-                    impassable |= top && !Contains(exitPoints, "Bottom");
-                    impassable |= bottom && !Contains(exitPoints, "Top");
-                    impassable |= left && !Contains(exitPoints, "Right");
-                    impassable |= right && !Contains(exitPoints, "Left");
+                    impassable |= top && !ContainsItem(exitPoints, "Bottom");
+                    impassable |= bottom && !ContainsItem(exitPoints, "Top");
+                    impassable |= left && !ContainsItem(exitPoints, "Right");
+                    impassable |= right && !ContainsItem(exitPoints, "Left");
 
                     //IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT
                     //if impassable, adjust X and Y accordingly

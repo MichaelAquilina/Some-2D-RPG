@@ -12,29 +12,29 @@
   </Animation>
   <Animation Name="Slash_Left" Loop="True" SpriteSheet="LPC\Weapons\WEAPON_dagger" FrameDelay="75" Origin="0.7, 1.0">
     <Frames>
-      <Frame>69  , 78, 40, 49</Frame>
-      <Frame>133 , 78, 40, 49</Frame>
-      <Frame>197 , 78, 40, 49</Frame>
-      <Frame>261 , 78, 40, 49</Frame>
-      <Frame>325 , 78, 40, 49</Frame>
+      <Frame>64  , 78, 47, 49</Frame>
+      <Frame>128 , 78, 47, 49</Frame>
+      <Frame>192 , 78, 47, 49</Frame>
+      <Frame>256 , 78, 47, 49</Frame>
+      <Frame>320 , 78, 47, 49</Frame>
     </Frames>
   </Animation>
   <Animation Name="Slash_Down" Loop="True" SpriteSheet="LPC\Weapons\WEAPON_dagger" FrameDelay="75" Origin="0.4, 1.0">
     <Frames>
-      <Frame>80 , 142, 42, 49</Frame>
-      <Frame>144, 142, 42, 49</Frame>
-      <Frame>208, 142, 42, 49</Frame>
-      <Frame>272, 142, 42, 49</Frame>
-      <Frame>336, 142, 42, 49</Frame>
+      <Frame>78 , 143, 49, 47</Frame>
+      <Frame>142, 143, 49, 47</Frame>
+      <Frame>206, 143, 49, 47</Frame>
+      <Frame>270, 143, 49, 47</Frame>
+      <Frame>334, 143, 49, 47</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Right" Loop="True" SpriteSheet="LPC\Weapons\WEAPON_dagger" FrameDelay="75" Origin="0.4, 1.0">
+  <Animation Name="Slash_Right" Loop="True" SpriteSheet="LPC\Weapons\WEAPON_dagger" FrameDelay="75" Origin="0.34, 1.0">
     <Frames>
-      <Frame>82 , 207, 40, 48</Frame>
-      <Frame>146, 207, 40, 48</Frame>
-      <Frame>210, 207, 40, 48</Frame>
-      <Frame>274, 207, 40, 48</Frame>
-      <Frame>338, 207, 40, 48</Frame>
+      <Frame>81 , 207, 47, 49</Frame>
+      <Frame>145, 207, 47, 49</Frame>
+      <Frame>209, 207, 47, 49</Frame>
+      <Frame>273, 207, 47, 49</Frame>
+      <Frame>337, 207, 47, 49</Frame>
     </Frames>
   </Animation>
 </Animations>

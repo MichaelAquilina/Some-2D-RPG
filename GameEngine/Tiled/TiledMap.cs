@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using GameEngine.Helpers;
 using Microsoft.Xna.Framework.Content;
