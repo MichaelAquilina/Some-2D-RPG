@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Some2DRPG", "ShadowKillGame\ShadowKill\Some2DRPG.csproj", "{2F3ED79A-86C9-460D-8A41-F18BE984B3E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Some2DRPG", "Some2DRPG\Some2DRPG\Some2DRPG.csproj", "{2F3ED79A-86C9-460D-8A41-F18BE984B3E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Some2DRPGContent", "ShadowKillGame\ShadowKillContent\Some2DRPGContent.contentproj", "{CBBD5B93-1E1B-4AF3-B99B-C4689A0AA64E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Some2DRPGContent", "Some2DRPG\Some2DRPGContent\Some2DRPGContent.contentproj", "{CBBD5B93-1E1B-4AF3-B99B-C4689A0AA64E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{A3846010-DA2C-44F2-9B55-856CC643C898}"
 EndProject
