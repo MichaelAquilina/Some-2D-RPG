@@ -31,9 +31,6 @@ namespace ShadowKill
 
         const int WORLD_HEIGHT = 500;
         const int WORLD_WIDTH = 500;
-        
-        const int TILE_WIDTH = 50;
-        const int TILE_HEIGHT = 50;
 
         const int VIEW_WIDTH = 500;
         const int VIEW_HEIGHT = 480;
@@ -42,6 +39,8 @@ namespace ShadowKill
         bool showDebugInfo = true;
         bool showQuadTree = false;
         bool showDiagnostics = false;
+
+        float Zoom = 1.5f;
 
         int TextCounter = 0;
         int SamplerIndex = 0;
@@ -63,6 +62,7 @@ namespace ShadowKill
         SpriteFont DefaultSpriteFont;
 
         //Game Specific Variablies
+        Entity FollowEntity;
         Hero CurrentPlayer;
         NPC FemaleNPC;
 
@@ -81,10 +81,10 @@ namespace ShadowKill
         {
             TiledMap tiledmap = TiledMap.LoadTiledXML("Content/example_map.tmx", Content);
 
-            Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT, TILE_WIDTH, TILE_HEIGHT);
+            Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             Engine.LoadMap(tiledmap);
 
-            CurrentPlayer = new Hero(1629/50.0f, 140/50.0f);
+            CurrentPlayer = new Hero(1629, 140);
             CurrentPlayer.CollisionDetection = true;
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
@@ -93,6 +93,8 @@ namespace ShadowKill
             CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
             CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
             CurrentPlayer.Weapon = NPC.WEAPON_DAGGER;
+
+            FollowEntity = CurrentPlayer;
 
             FemaleNPC = new NPC(15, 9, NPC.FEMALE_HUMAN);
             //FemaleNPC.Legs = NPC.PLATE_ARMOR_LEGS;
@@ -109,8 +111,8 @@ namespace ShadowKill
                     if (mapObject.Type != null && mapObject.Type.ToUpper() == "ENTITY")
                     {
                         Entity entity = new Entity();
-                        entity.TX = (float)mapObject.X / Map.pxTileWidth;
-                        entity.TY = (float)mapObject.Y / Map.pxTileHeight;
+                        entity.PX = mapObject.X;
+                        entity.PY = mapObject.Y;
                         entity.rxWidth = mapObject.GetProperty<float>("Width", 1.0f);
                         entity.rxHeight = mapObject.GetProperty<float>("Height", 1.0f);
                         entity.Visible = true;
@@ -123,10 +125,10 @@ namespace ShadowKill
                     if (mapObject.Type != null && mapObject.Type.ToUpper() == "MAPOBJECT" || mapObject.Type == "")
                     {
                         Entity entity = new Entity();
-                        entity.TX = (float)mapObject.X / Map.pxTileWidth;
-                        entity.TY = (float)mapObject.Y / Map.pxTileHeight;
-                        entity.rxWidth = 1.5f;
-                        entity.rxHeight = 1.5f;
+                        entity.PX = mapObject.X;
+                        entity.PY = mapObject.Y;
+                        entity.rxWidth = 1.0f;
+                        entity.rxHeight = 1.0f;
                         entity.Visible = true;
 
                         Tile SourceTile = Map.Tiles[mapObject.Gid];
@@ -150,7 +152,7 @@ namespace ShadowKill
             LightShader.Enabled = false;
 
             LightShader.LightSources.Add(CurrentPlayer.LightSource);
-            LightShader.LightSources.Add(new BasicLightSource(1.0f, 1.0f, 29.0f, 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
+            LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader(LightShader);
 
             Random random = new Random();
@@ -160,10 +162,12 @@ namespace ShadowKill
 
             for (int i = 0; i < 200; i++)
             {
-                float tx = (float) random.NextDouble() * Engine.Map.txWidth;
-                float ty = (float) random.NextDouble() * Engine.Map.txHeight;
+                int px = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxWidth);
+                int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
 
-                Engine.AddEntity(new Bat(tx, ty));
+                Bat bat = new Bat(px, py);
+                Engine.AddEntity(bat);
+                //FollowEntity = bat;
             }
 
             Engine.LoadContent();
@@ -220,6 +224,12 @@ namespace ShadowKill
                 CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
             }
 
+            if(KeyboardHelper.GetKeyDownState(keyboardState, Keys.OemPlus, true))
+                Zoom += 0.1f;
+
+            if(KeyboardHelper.GetKeyDownState(keyboardState, Keys.OemMinus, true))
+                Zoom -= 0.1f;
+
             base.Update(gameTime);
         }
 
@@ -227,15 +237,15 @@ namespace ShadowKill
         {
             if( Node == null ) return;
 
-            int PX = (int) Math.Ceiling(Node.pxBounds.X - viewPort.txTopLeftX * viewPort.pxTileWidth);
-            int PY = (int) Math.Ceiling(Node.pxBounds.Y - viewPort.txTopLeftY * viewPort.pxTileHeight);
+            float PX = Node.pxBounds.X - viewPort.pxTopLeftX;
+            float PY = Node.pxBounds.Y - viewPort.pxTopLeftY;
             int pxWidth = Node.pxBounds.Width;
             int pxHeight = Node.pxBounds.Height;
             string nodeIdText = Node.NodeID.ToString();
 
-            if (new Rectangle(PX, PY, pxWidth, pxHeight).Intersects(DestRectangle))
+            if (new Rectangle((int)PX, (int)PY, pxWidth, pxHeight).Intersects(DestRectangle))
             {
-                SpriteBatch.DrawRectangle(new Rectangle(PX, PY, pxWidth, pxHeight), Color.Lime, 0);
+                SpriteBatch.DrawRectangle(new Rectangle((int)PX, (int)PY, pxWidth, pxHeight), Color.Lime, 0);
                 SpriteBatch.DrawString(
                     DefaultSpriteFont,
                     nodeIdText,
@@ -276,7 +286,9 @@ namespace ShadowKill
             //Draw the World View Port, Centered on the CurrentPlayer Actor
             ViewPortInfo viewPort = Engine.DrawWorldViewPort(
                                             SpriteBatch,
-                                            new Vector2(CurrentPlayer.TX, CurrentPlayer.TY),
+                                            FollowEntity.PX,
+                                            FollowEntity.PY,
+                                            Zoom,
                                             pxDestRectangle,
                                             Color.White,
                                             CurrentSampler);
@@ -307,7 +319,7 @@ namespace ShadowKill
                     double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
                     Color fpsColor = (Math.Ceiling(fps) < 60) ? Color.Red : Color.White;
 
-                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.TX.ToString("0.0") + "," + CurrentPlayer.TY.ToString("0.0"), GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.PX.ToString("0.0") + "," + CurrentPlayer.PY.ToString("0.0"), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), GeneratePos(textHeight), fpsColor);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, GeneratePos(textHeight), Color.White);
@@ -315,6 +327,7 @@ namespace ShadowKill
                     SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Latest Node Index = " + Engine.QuadTree.LatestNodeIndex, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Zoom = " + Zoom, GeneratePos(textHeight), Color.White);
                 }
 
                 if (showDiagnostics)

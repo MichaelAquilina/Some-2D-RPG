@@ -1,16 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml;
-using GameEngine.Interfaces;
 using GameEngine.Helpers;
+using GameEngine.Interfaces;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
 
 namespace GameEngine.Tiled
 {
     public class TiledMap : PropertyBag
     {
+        public int pxWidth { get { return txWidth * pxTileWidth; } }
+        public int pxHeight { get { return txHeight * pxTileHeight; } }
+
         public int txWidth { get; set; }
         public int txHeight { get; set; }
 
@@ -34,21 +37,29 @@ namespace GameEngine.Tiled
         /// from the top will be returned by this function. Tiles found in Tile layers marked as "Foreground" 
         /// are not included. If no non-zero tile is found in any layer, then a null value is returned.
         /// </summary>
-        /// <param name="X">integer X value.</param>
-        /// <param name="Y">integer Y value.</param>
+        /// <param name="TX">integer X value.</param>
+        /// <param name="TY">integer Y value.</param>
         /// <returns>Topmost Tile object found at the specified location. Null if none exists.</returns>
-        public Tile GetTopMostTile(int X, int Y)
+        public Tile GetTxTopMostTile(float TX, float TY)
         {
             for (int layerIndex = TileLayers.Count - 1; layerIndex >= 0; layerIndex--)
             {
                 TileLayer layer = TileLayers[layerIndex];
                 if (layer.HasProperty("Foreground")) continue;      //ignore foreground layers
 
-                if( layer[X, Y] != 0 )
-                    return Tiles[layer[X, Y]];
+                if( layer[(int)TX, (int)TY] != 0 )
+                    return Tiles[layer[(int)TX,(int)TY]];
             }
 
             return null;
+        }
+
+        public Tile GetPxTopMostTile(float PX, float PY)
+        {
+            return GetTxTopMostTile(
+                PX / pxTileWidth, 
+                PY / pxTileHeight
+            );
         }
 
         public override string ToString()

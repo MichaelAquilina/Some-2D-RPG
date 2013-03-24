@@ -13,19 +13,19 @@ namespace ShadowKill.GameObjects
 
         private double _randomModifier;
 
-        public Bat(float TX, float TY)
-            :base(TX, TY)
+        public Bat(int PX, int PY)
+            :base(PX, PY)
         {
             this._randomModifier = randomGenerator.NextDouble();
             this.Origin = new Vector2(1.0f, 0.5f);
             this.Visible = true;
-            this.rxWidth = 1.5f;
-            this.rxHeight = 1.5f;
+            //this.rxWidth = 1.5f;
+            //this.rxHeight = 1.5f;
         }
 
         public override void Update(GameTime GameTime, TeeEngine Engine)
         {
-            TX += (float)Math.Cos(GameTime.TotalGameTime.TotalSeconds - _randomModifier*90) / 20;
+            PX += (float) (Math.Cos(GameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
 
             //for testing
             Engine.QuadTree.GetIntersectingEntites(CurrentPxBoundingBox);

@@ -13,12 +13,12 @@ namespace ShadowKill.GameObjects
 {
     public class Hero : NPC
     {
-        const int INPUT_DELAY = 30;
-        const float MOVEMENT_SPEED = 0.2f;
+        const int INPUT_DELAY = 0;
+        const float MOVEMENT_SPEED = 2.4f;
         double PrevGameTime = 0;
 
-        public float LightX { get { return TX; } }
-        public float LightY { get { return TY; } }
+        public float LightX { get { return PX; } }
+        public float LightY { get { return PY; } }
 
         public bool CollisionDetection { get; set; }
 
@@ -26,13 +26,13 @@ namespace ShadowKill.GameObjects
 
         private List<Entity> prevIntersectingEntities;
 
-        public Hero(float X, float Y) :
-            base(X, Y, NPC.MALE_HUMAN)
+        public Hero(int PX, int PY) :
+            base(PX, PY, NPC.MALE_HUMAN)
         {
             CollisionDetection = true;
             LightSource = new BasicLightSource();
-            LightSource.RadiusX = 8.0f;
-            LightSource.RadiusX = 8.0f;
+            LightSource.RadiusX = 32 * 8;
+            LightSource.RadiusY = 32 * 8;
             LightSource.Color = Color.White;
             LightSource.PositionType = LightPositionType.Relative;
         }
@@ -55,9 +55,10 @@ namespace ShadowKill.GameObjects
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
-            float prevX = TX;
-            float prevY = TY;
-            Tile prevTile = Engine.Map.GetTopMostTile((int) TX, (int)TY);
+            float prevX = PX;
+            float prevY = PY;
+
+            Tile prevTile = Engine.Map.GetPxTopMostTile(PX, PY);
             float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
@@ -82,7 +83,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    TY -= MOVEMENT_SPEED * moveSpeedModifier;
+                    PY -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
@@ -91,7 +92,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    TY += MOVEMENT_SPEED * moveSpeedModifier;
+                    PY += MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
@@ -100,7 +101,7 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    TX -= MOVEMENT_SPEED * moveSpeedModifier;
+                    PX -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
@@ -109,20 +110,31 @@ namespace ShadowKill.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    TX += MOVEMENT_SPEED * moveSpeedModifier;
+                    PX += MOVEMENT_SPEED * moveSpeedModifier;
                 }
 
                 //Set animation to idle of no movements where made
                 if (moved == false)
                     CurrentDrawable = "Idle_" + Direction;
 
+                //prevent from going out of range
+                if (PX < 0) PX = 0;
+                if (PY < 0) PY = 0;
+                if (PX >= Engine.Map.pxWidth - 1) PX = Engine.Map.pxWidth - 1;
+                if (PY >= Engine.Map.pxHeight - 1) PY = Engine.Map.pxHeight - 1;
+
                 if (CollisionDetection)
                 {
                     //iterate through each layer and determine if the tile is passable
-                    int tileX = (int)TX;
-                    int tileY = (int)TY;
+                    int tileX = (int)PX / Engine.Map.pxTileWidth;
+                    int tileY = (int)PY / Engine.Map.pxTileHeight;
 
-                    Tile currentTile = Engine.Map.GetTopMostTile(tileX, tileY);
+                    int pxTileX = tileX * Engine.Map.pxTileWidth;
+                    int pxTileY = tileY * Engine.Map.pxTileHeight;
+                    int pxTileWidth = Engine.Map.pxTileWidth;
+                    int pxTileHeight = Engine.Map.pxTileHeight;
+
+                    Tile currentTile = Engine.Map.GetPxTopMostTile(PX, PY);
                     bool impassable = currentTile.HasProperty("Impassable");
 
                     //CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
@@ -132,10 +144,10 @@ namespace ShadowKill.GameObjects
                     string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     string[] exitPoints = prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                    bool top = prevY < tileY;
-                    bool bottom = prevY > tileY + 1;
-                    bool left = prevX < tileX;
-                    bool right = prevX > tileX + 1;
+                    bool top = prevY < pxTileY;
+                    bool bottom = prevY > pxTileY + pxTileHeight;
+                    bool left = prevX < pxTileX;
+                    bool right = prevX > pxTileX + pxTileWidth;
 
                     //ensure entry points
                     impassable |= top && !ContainsItem(entryPoints, "Top");
@@ -151,34 +163,28 @@ namespace ShadowKill.GameObjects
 
                     //IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT
                     //if impassable, adjust X and Y accordingly
-                    float padding = 0.00001f;
+                    float padding = 1.0f;
                     if (impassable)
                     {
-                        if (prevY <= tileY && TY > tileY)
-                            TY = tileY - padding;
+                        if (prevY <= pxTileY && PY > pxTileY)
+                            PY = pxTileY - padding;
                         else
-                            if (prevY >= tileY + 1 && TY < tileY + 1)
-                                TY = tileY + 1 + padding;
+                            if (prevY >= pxTileY + pxTileHeight && PY < pxTileY + pxTileHeight)
+                                PY = pxTileY + pxTileHeight + padding;
 
-                        if (prevX <= tileX && TX > tileX)
-                            TX = tileX - padding;
+                        if (prevX <= pxTileX && PX > pxTileX)
+                            PX = pxTileX - padding;
                         else
-                            if (prevX >= tileX + 1 && TX < tileX + 1)
-                                TX = tileX + 1 + padding;
+                            if (prevX >= pxTileX + pxTileWidth && PX < pxTileX + pxTileWidth)
+                                PX = pxTileX + pxTileWidth + padding;
                     }
                 }
 
-                //prevent from going out of range
-                if (TX < 0) TX = 0;
-                if (TY < 0) TY = 0;
-                if (TX >= Engine.Map.txWidth - 1) TX = Engine.Map.txWidth - 1;
-                if (TY >= Engine.Map.txHeight - 1) TY = Engine.Map.txHeight - 1;
-
                 //Change the radius of the LightSource overtime using a SINE wave pattern
-                LightSource.TX = this.TX;
-                LightSource.TY = this.TY;
-                LightSource.RadiusX = (float)(8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
-                LightSource.RadiusY = (float)(8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
+                LightSource.PX = this.PX;
+                LightSource.PY = this.PY;
+                LightSource.RadiusX = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
+                LightSource.RadiusY = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
 
                 //EXAMPLE OF HOW THE QUAD TREE INTERSECTING ENTITIES FUNCTION CAN WORK
                 //TODO: Add PER PIXEL collision detection to each one of these entities
@@ -191,7 +197,7 @@ namespace ShadowKill.GameObjects
                 {
                     if ( entity!= this && 
                          entity.CurrentPxBoundingBox.Intersects(CurrentPxBoundingBox) &&
-                         entity.TY > this.TY )
+                         entity.PY > this.PY )
                         entity.Opacity = 0.8f;
                 }
             }  

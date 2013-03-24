@@ -13,9 +13,9 @@ namespace GameEngine.GameObjects
     //game engine.
     public class Entity : ILoadable
     {
-        //X and Y Tile position on the Map
-        public float TX { get; set; }
-        public float TY { get; set; }
+        //X and Y position on the Map
+        public float PX { get; set; }
+        public float PY { get; set; }
 
         public string Name { get; internal set; }                         //Name currently assigned to this Entity in the Engine
 
@@ -39,10 +39,10 @@ namespace GameEngine.GameObjects
             Init();
         }
 
-        public Entity(float TX, float TY, float rxWidth=1, float rxHeight=1, bool Visible=true)
+        public Entity(float PX, float PY, float rxWidth=1, float rxHeight=1, bool Visible=true)
         {
-            this.TX = TX;
-            this.TY = TY;
+            this.PX = PX;
+            this.PY = PY;
             this.rxWidth = rxWidth;
             this.rxHeight = rxHeight;
             this.Visible = Visible;
@@ -69,14 +69,11 @@ namespace GameEngine.GameObjects
         /// <param name="pxTileWidth">The Width of the viewport tiles in Pixels.</param>
         /// <param name="pxTileHeight">The Height of the viewport tiles in Pixels.</param>
         /// <returns>A Rectangle object specifying the bounding box of this Entity in Pixels.</returns>
-        public Rectangle GetPxBoundingBox(GameTime GameTime, int pxTileWidth, int pxTileHeight)
+        public Rectangle GetPxBoundingBox(GameTime GameTime)
         {
             List<GameDrawableInstance> drawables = Drawables[CurrentDrawable];
 
-            int pxPosX = (int) Math.Floor(TX * pxTileWidth);
-            int pxPosY = (int) Math.Floor(TY * pxTileHeight);
-
-            if (drawables.Count == 0) return new Rectangle(pxPosX, pxPosY, 0, 0);
+            if (drawables.Count == 0) return new Rectangle((int) PX, (int) PY, 0, 0);
 
             int minX = Int32.MaxValue;
             int minY = Int32.MaxValue;
@@ -90,8 +87,8 @@ namespace GameEngine.GameObjects
 
                 int pxWidth = (int) Math.Ceiling(pxDrawRectangle.Width * this.rxWidth);
                 int pxHeight = (int)Math.Ceiling(pxDrawRectangle.Height * this.rxHeight);
-                int pxFrameX = (int)Math.Ceiling(pxPosX + -1 * rxDrawOrigin.X * pxWidth);
-                int pxFrameY = (int)Math.Ceiling(pxPosY + -1 * rxDrawOrigin.Y * pxHeight);
+                int pxFrameX = (int)Math.Ceiling(PX + -1 * rxDrawOrigin.X * pxWidth);
+                int pxFrameY = (int)Math.Ceiling(PY + -1 * rxDrawOrigin.Y * pxHeight);
 
                 if (pxFrameX < minX) minX = pxFrameX;
                 if (pxFrameY < minY) minY = pxFrameY;
@@ -117,7 +114,7 @@ namespace GameEngine.GameObjects
         public override string ToString()
         {
             return string.Format("Entity: txPos=({0},{1}), Width={2}, Height={3}, Visible={4}, IsOnScreen={5}", 
-                TX, TY, rxWidth, rxHeight, Visible, IsOnScreen);
+                PX, PY, rxWidth, rxHeight, Visible, IsOnScreen);
         }
     }
 }

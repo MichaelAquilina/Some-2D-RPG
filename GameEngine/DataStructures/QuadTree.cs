@@ -22,23 +22,28 @@ namespace GameEngine.DataStructures
             this.LatestNodeIndex = 0;
         }
 
-        public void Update(Entity Entity)
+        public void Update(Entity Entity, bool AddOnMissing=true)
         {
             List<QuadTreeNode> updatedNodes = new List<QuadTreeNode>();
             List<QuadTreeNode> associatedNodes = new List<QuadTreeNode>();
             Root.GetAssociatedNodes(Entity, Entity.prevPxBoundingBox, ref associatedNodes);
 
-            foreach (QuadTreeNode node in associatedNodes)
+            if (associatedNodes.Count == 0 && AddOnMissing)
+                Add(Entity);
+            else
             {
-                bool update = true;
+                foreach (QuadTreeNode node in associatedNodes)
+                {
+                    bool update = true;
 
-                //if the one of the updated nodes already covers the current node
-                //then we dont need to bother repositioning this one
-                foreach (QuadTreeNode updatedNode in updatedNodes)
-                    if (updatedNode.Contains(node.pxBounds))
-                        update = false;
+                    //if the one of the updated nodes already covers the current node
+                    //then we dont need to bother repositioning this one
+                    foreach (QuadTreeNode updatedNode in updatedNodes)
+                        if (updatedNode.Contains(node.pxBounds))
+                            update = false;
 
-                if (update) updatedNodes.Add(Reposition(Entity, node));
+                    if (update) updatedNodes.Add(Reposition(Entity, node));
+                }
             }
         }
 

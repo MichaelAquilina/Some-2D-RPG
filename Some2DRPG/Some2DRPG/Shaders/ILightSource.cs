@@ -6,9 +6,9 @@ namespace ShadowKill.Shaders
 {
     public interface ILightSource
     {
-        float TX { get; }
+        float PX { get; }
 
-        float TY { get; }
+        float PY { get; }
 
         Color Color { get; }
 

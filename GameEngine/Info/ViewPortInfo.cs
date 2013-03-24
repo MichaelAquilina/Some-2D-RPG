@@ -15,11 +15,13 @@ namespace GameEngine.Info
         public Rectangle pxViewPortBounds { get; set; }     //Current viewportr rectangular bounds in pixels
         public float pxTileWidth { get; set; }              //Width of each tile in pixels
         public float pxTileHeight { get; set; }             //Height of each tile in pixels
-        public float txTopLeftX { get; set; }               //TopLeft tile X coordinate
-        public float txTopLeftY { get; set; }               //TopLeft tile Y coordinate
+        public float pxTopLeftX { get; set; }                 //TopLeft X coordinate
+        public float pxTopLeftY { get; set; }                 //TopLeft Y coordinate
+        public float pxWidth { get; set; }
+        public float pxHeight { get; set; }
         public int TileCountX { get; set; }                 //width count of Tiles on the screen
         public int TileCountY { get; set; }                 //height count of Tiles on the screen
-        public double txDispX { get; set; }                 //decimal displacement X
-        public double txDispY { get; set; }                 //decimal displacement Y
+        public float pxDispX { get; set; }                    //displacement X
+        public float pxDispY { get; set; }                    //displacement Y
     }
 }

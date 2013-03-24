@@ -96,23 +96,21 @@ namespace ShadowKill.Shaders
 
             foreach (ILightSource lightSource in LightSources)
             {
-                float x = lightSource.TX;
-                float y = lightSource.TY;
+                float x = lightSource.PX;
+                float y = lightSource.PY;
 
                 if (lightSource.PositionType == LightPositionType.Relative)
                 {
-                    x -= ViewPortInfo.txTopLeftX;
-                    y -= ViewPortInfo.txTopLeftY;
-                    x *= ViewPortInfo.pxTileWidth;
-                    y *= ViewPortInfo.pxTileHeight;
+                    x -= ViewPortInfo.pxTopLeftX;
+                    y -= ViewPortInfo.pxTopLeftY;
                     x /= _lightTarget.Width;
                     y /= _lightTarget.Height;
                     x = -1.0f + x * 2;
                     y = 1.0f - y * 2;
                 }
 
-                float radiusX = lightSource.RadiusX * ViewPortInfo.pxTileWidth;
-                float radiusY = lightSource.RadiusY * ViewPortInfo.pxTileHeight;
+                float radiusX = lightSource.RadiusX;
+                float radiusY = lightSource.RadiusY;
 
                 radiusX /= _lightTarget.Width;
                 radiusY /= _lightTarget.Height;

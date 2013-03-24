@@ -32,8 +32,8 @@ namespace ShadowKill.GameObjects
         public string Hands { get; set; }
         public string BaseRace { get; set; }
 
-        public NPC(float X, float Y, string BaseRace) :
-            base(X, Y, 1.5f, 1.5f)
+        public NPC(int PX, int PY, string BaseRace) :
+            base(PX, PY, 1.0f, 1.0f)
         {
             this.Direction = Direction.Right;
             this.BaseRace = BaseRace;
