@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using GameEngine.DataStructures;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
+using GameEngine.Geometry;
+using GameEngine.Info;
 using GameEngine.Interfaces;
 using GameEngine.Shaders;
 using GameEngine.Tiled;
-using GameEngine.Geometry;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameEngine.DataStructures;
-using GameEngine.Info;
-using System.Diagnostics;
 
 /// <summary>
 /// The TeeEngine - the result of my sweat, blood and tears into this project. The TeeEngine is simply a 2D Tile Engine that
@@ -124,7 +124,7 @@ namespace GameEngine
         /// <summary>
         /// Debug Information that can be accessed by the player.
         /// </summary>
-        public DebugInfo DebugInfo { get { return _debugInfo; } }
+        public DebugInfo DebugInfo { get; private set; }
 
         Dictionary<string, Entity> _entities;
         RenderTarget2D _inputBuffer;
@@ -136,7 +136,6 @@ namespace GameEngine
         Stopwatch _watch2;              //secondary diagnostic watch
         Stopwatch _watch3;              //tertiary diagnostic watch
         
-        DebugInfo _debugInfo;           //debug diagnostic information
         int _entityIdCounter = 0;       //used for automatic assigning of IDs
 
         #endregion
@@ -144,7 +143,6 @@ namespace GameEngine
         public TeeEngine(Game Game, int pxWidth, int pxHeight, int pxTileWidth, int pxTileHeight)
             :base(Game)
         {
-            _debugInfo = new DebugInfo();
             _watch1 = new Stopwatch();
             _watch2 = new Stopwatch();
             _watch3 = new Stopwatch();
@@ -156,6 +154,7 @@ namespace GameEngine
             ShowBoundingBoxes = false;
             EntitiesOnScreen = new List<Entity>();
 
+            DebugInfo = new DebugInfo();
             GameShaders = new List<GameShader>();
 
             SetResolution(pxWidth, pxHeight, pxTileWidth, pxTileHeight);
@@ -284,13 +283,16 @@ namespace GameEngine
 
             foreach (string entityId in _entities.Keys)
             {
-                _watch2.Restart();
-
                 Entity entity = _entities[entityId];
                 entity.prevPxBoundingBox = entity.CurrentPxBoundingBox;
 
-                entity.Update(GameTime, this);
-                entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);
+                //perform any per-entity update logic
+                _watch2.Restart();
+                {
+                    entity.Update(GameTime, this);
+                    entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime, pxTileWidth, pxTileHeight);
+                }
+                DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
 
                 if (entity.requiresAddition)
                 {
@@ -299,21 +301,20 @@ namespace GameEngine
                     entity.requiresAddition = false;
                 }
 
-                DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
-    
                 //reset the IsOnScreen variable before the next drawing operation
                 entity.IsOnScreen = false;
 
-                if (entity.CurrentPxBoundingBox != entity.prevPxBoundingBox)
+                //if the entity has moved, then update his position in the QuadTree
+                _watch3.Start();
                 {
-                    _watch3.Start();
-                    QuadTree.Update(entity);
-                    _watch3.Stop();
+                    if (entity.CurrentPxBoundingBox != entity.prevPxBoundingBox)
+                        QuadTree.Update(entity);
                 }
+                _watch3.Stop();
             }
 
-            _debugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
-            _debugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
+            DebugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
+            DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
         }
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, Vector2 txCenter, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
@@ -400,7 +401,7 @@ namespace GameEngine
                 }
             }
             SpriteBatch.End();
-            _debugInfo.TileRenderingTime = _watch1.Elapsed;
+            DebugInfo.TileRenderingTime = _watch1.Elapsed;
 
 
             //DRAW VISIBLE REGISTERED ENTITIES
@@ -479,11 +480,11 @@ namespace GameEngine
                             layerDepth);
                     }
 
-                    _debugInfo.EntityRenderingTimes[entity.Name] = _watch2.Elapsed;
+                    DebugInfo.EntityRenderingTimes[entity.Name] = _watch2.Elapsed;
                 }
             }
             SpriteBatch.End();
-            _debugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
+            DebugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
 
             _watch1.Restart();
             //APPLY GAME SHADERS TO THE RESULTANT IMAGE
@@ -499,7 +500,7 @@ namespace GameEngine
                     _outputBuffer = _dummyBuffer;
                 }
             }
-            _debugInfo.TotalGameShaderRenderTime = _watch1.Elapsed;
+            DebugInfo.TotalGameShaderRenderTime = _watch1.Elapsed;
 
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);

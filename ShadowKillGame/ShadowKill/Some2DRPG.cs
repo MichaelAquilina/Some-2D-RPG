@@ -19,7 +19,7 @@ using System.Text;
 
 namespace ShadowKill
 {
-    public class ShadowKillGame : Microsoft.Xna.Framework.Game
+    public class Some2DRPG : Microsoft.Xna.Framework.Game
     {
         //Constant (Editable) Valuables
         const bool DEBUG = true;
@@ -68,7 +68,7 @@ namespace ShadowKill
 
         TeeEngine Engine;
 
-        public ShadowKillGame()
+        public Some2DRPG()
         {
             Graphics = new GraphicsDeviceManager(this);
 
@@ -158,7 +158,7 @@ namespace ShadowKill
       
             Engine.AddEntity("Player", CurrentPlayer);
 
-            for (int i = 0; i < 80; i++)
+            for (int i = 0; i < 200; i++)
             {
                 float tx = (float) random.NextDouble() * Engine.Map.txWidth;
                 float ty = (float) random.NextDouble() * Engine.Map.txHeight;

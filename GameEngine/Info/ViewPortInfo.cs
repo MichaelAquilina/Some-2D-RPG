@@ -12,14 +12,14 @@ namespace GameEngine.Info
     /// </summary>
     public struct ViewPortInfo
     {
-        public Rectangle pxViewPortBounds { get; set; }
-        public float pxTileWidth { get; set; }
-        public float pxTileHeight { get; set; }
-        public float txTopLeftX { get; set; }
-        public float txTopLeftY { get; set; }
-        public int TileCountX { get; set; }
-        public int TileCountY { get; set; }
-        public double txDispX { get; set; }
-        public double txDispY { get; set; }
+        public Rectangle pxViewPortBounds { get; set; }     //Current viewportr rectangular bounds in pixels
+        public float pxTileWidth { get; set; }              //Width of each tile in pixels
+        public float pxTileHeight { get; set; }             //Height of each tile in pixels
+        public float txTopLeftX { get; set; }               //TopLeft tile X coordinate
+        public float txTopLeftY { get; set; }               //TopLeft tile Y coordinate
+        public int TileCountX { get; set; }                 //width count of Tiles on the screen
+        public int TileCountY { get; set; }                 //height count of Tiles on the screen
+        public double txDispX { get; set; }                 //decimal displacement X
+        public double txDispY { get; set; }                 //decimal displacement Y
     }
 }

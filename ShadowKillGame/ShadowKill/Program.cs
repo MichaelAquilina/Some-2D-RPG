@@ -7,7 +7,7 @@ namespace ShadowKill
     {
         static void Main(string[] args)
         {
-            using (ShadowKillGame game = new ShadowKillGame())
+            using (Some2DRPG game = new Some2DRPG())
             {
                 game.Run();
             }
