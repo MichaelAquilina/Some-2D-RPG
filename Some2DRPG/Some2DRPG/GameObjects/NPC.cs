@@ -50,6 +50,8 @@ namespace ShadowKill.GameObjects
             if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, Content, "Legs", 1);
             if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, Content, "Weapon", 7);
             Animation.LoadAnimationXML(Drawables, BaseRace, Content, "Base", 0);
+            Drawables.SetGroupProperty("Weapon", "Color", Color.Red);
+
             CurrentDrawable = "Walk_Right";
         }
 

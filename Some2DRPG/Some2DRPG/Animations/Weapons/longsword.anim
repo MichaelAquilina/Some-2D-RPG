@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Animations>
+  <Animation Name="Slash_Up" Loop="True" SpriteSheet="LPC\Weapons\WEAPON_longsword" FrameDelay="75" Origin="0.4, 1.0">
+    <Frames>
+      <Frame>79  , 13, 43, 50</Frame>
+      <Frame>143 , 13, 43, 50</Frame>
+      <Frame>207 , 13, 43, 50</Frame>
+      <Frame>271 , 13, 43, 50</Frame>
+      <Frame>335 , 13, 43, 50</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Slash_Left" Loop="True" SpriteSheet="LPC\Weapons\WEAPON_longsword" FrameDelay="75" Origin="0.7, 1.0">
+    <Frames>
+      <Frame>64  , 78, 47, 49</Frame>
+      <Frame>128 , 78, 47, 49</Frame>
+      <Frame>192 , 78, 47, 49</Frame>
+      <Frame>256 , 78, 47, 49</Frame>
+      <Frame>320 , 78, 47, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Slash_Down" Loop="True" SpriteSheet="LPC\Weapons\WEAPON_longsword" FrameDelay="75" Origin="0.35, 1.0">
+    <Frames>
+      <Frame>78 , 143, 53, 48</Frame>
+      <Frame>142, 143, 53, 48</Frame>
+      <Frame>206, 143, 53, 48</Frame>
+      <Frame>270, 143, 53, 48</Frame>
+      <Frame>334, 143, 53, 48</Frame>
+    </Frames>
+  </Animation>
+  <Animation Name="Slash_Right" Loop="True" SpriteSheet="LPC\Weapons\WEAPON_longsword" FrameDelay="75" Origin="0.34, 1.0">
+    <Frames>
+      <Frame>81 , 207, 47, 49</Frame>
+      <Frame>145, 207, 47, 49</Frame>
+      <Frame>209, 207, 47, 49</Frame>
+      <Frame>273, 207, 47, 49</Frame>
+      <Frame>337, 207, 47, 49</Frame>
+    </Frames>
+  </Animation>
+</Animations>
