@@ -360,15 +360,11 @@ namespace GameEngine
 
                             int tileGid = tileLayer[tileX, tileY];
                             Rectangle pxTileDestRect = new Rectangle(
-                                (int) Math.Ceiling(i * viewPortInfo.pxTileWidth), 
-                                (int) Math.Ceiling(j * viewPortInfo.pxTileHeight), 
+                                (int) Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * Zoom), 
+                                (int) Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * Zoom), 
                                 (int) Math.Ceiling(viewPortInfo.pxTileWidth), 
                                 (int) Math.Ceiling(viewPortInfo.pxTileHeight)
                             );
-                            
-                            //traslate if there is any decimal displacement due to a Center with a floating point
-                            pxTileDestRect.X -= (int) Math.Ceiling(viewPortInfo.pxDispX * Zoom);
-                            pxTileDestRect.Y -= (int) Math.Ceiling(viewPortInfo.pxDispY * Zoom);
 
                             if (tileGid != 0)   //NULL Tile Gid is ignored
                             {
@@ -386,6 +382,7 @@ namespace GameEngine
                             }
 
                             //Draw the layer grid on the last layer draw
+                            //TODO: Bug when rendering at some zoom levels such as 1.7/1.8
                             if(ShowTileGrid && layerIndex == Map.TileLayers.Count - 1 ) 
                                 SpriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                         }

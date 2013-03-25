@@ -245,6 +245,11 @@ namespace ShadowKill
 
             if (new Rectangle((int)PX, (int)PY, pxWidth, pxHeight).Intersects(DestRectangle))
             {
+                PX = (int)Math.Ceiling(PX * Zoom);
+                PY = (int)Math.Ceiling(PY * Zoom);
+                pxWidth = (int)Math.Ceiling(pxWidth * Zoom);
+                pxHeight = (int)Math.Ceiling(pxHeight * Zoom);
+
                 SpriteBatch.DrawRectangle(new Rectangle((int)PX, (int)PY, pxWidth, pxHeight), Color.Lime, 0);
                 SpriteBatch.DrawString(
                     DefaultSpriteFont,
