@@ -20,6 +20,7 @@ namespace ShadowKill.GameObjects
         public const string PLATE_ARMOR_SHOULDERS = @"Animations/Plate Armor/plate_armor_shoulders.anim";
 
         public const string WEAPON_DAGGER = @"Animations/Weapons/dagger.anim";
+        public const string WEAPON_LONGSWORD = @"Animations/Weapons/longsword.anim";
 
         public Direction Direction { get; set; }
 

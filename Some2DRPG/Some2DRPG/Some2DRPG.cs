@@ -40,7 +40,7 @@ namespace ShadowKill
         bool showQuadTree = false;
         bool showDiagnostics = false;
 
-        float Zoom = 1.5f;
+        float Zoom = 1.8f;
 
         int TextCounter = 0;
         int SamplerIndex = 0;
@@ -92,7 +92,7 @@ namespace ShadowKill
             CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
             CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
             CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
-            CurrentPlayer.Weapon = NPC.WEAPON_DAGGER;
+            CurrentPlayer.Weapon = NPC.WEAPON_LONGSWORD;
 
             FollowEntity = CurrentPlayer;
 
