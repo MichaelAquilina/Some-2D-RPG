@@ -36,6 +36,11 @@ Some Future features that i aim to include:
 * Automatic Asset management (Loading/Unloading content when switching between maps and levels)
 * Animated Tiles
 * AI framework for Entities (Possibly pre-built Pathfinding techniques)
+* Inheritence in Animation files to reduce redundancy
+* Pause/Resume functionality
+* Map Scripts
+* Sound Management
+* Application to quickly specify and design animations from spritesheets
 
 Game
 ----
