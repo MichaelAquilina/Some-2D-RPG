@@ -25,11 +25,17 @@ Some current features found in the Engine include:
 * Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting)
 * Support for loading [Tiled](http://www.mapeditor.org/) map files. (Current no zlib support - however this is planned)
 * Efficient Collision Detection using a QuadTree implementation (see GIF below)
+* Adjustable viewports of the current Game state, including the ability to Scale.
+* Detailed Diagnostic information about engine performance that will allow easy detection of bottlenecks
+
+Some other features present outside the engine
+* 2D Light Shader
+* Customize character appearance (Hair, Gender, Armour, Weapon etc..)
 
 Some Future features that i aim to include:
 * Automatic Asset management (Loading/Unloading content when switching between maps and levels)
 * Animated Tiles
-* AI framework for Entities
+* AI framework for Entities (Possibly pre-built Pathfinding techniques)
 
 Game
 ----
