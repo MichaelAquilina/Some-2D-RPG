@@ -40,53 +40,46 @@ namespace GameEngine.Tiled
         /// <param name="TX">integer X value.</param>
         /// <param name="TY">integer Y value.</param>
         /// <returns>Topmost Tile object found at the specified location. Null if none exists.</returns>
-        public Tile GetTxTopMostTile(float TX, float TY)
+        public Tile GetTxTopMostTile(int TX, int TY)
         {
             for (int layerIndex = TileLayers.Count - 1; layerIndex >= 0; layerIndex--)
             {
                 TileLayer layer = TileLayers[layerIndex];
-                if (layer.HasProperty("Foreground")) continue;      //ignore foreground layers
+                int tileGid = layer[TX, TY];
 
-                if( layer[(int)TX, (int)TY] != 0 )
-                    return Tiles[layer[(int)TX,(int)TY]];
+                if(  tileGid != 0 && tileGid != -1 )
+                    return Tiles[layer[TX, TY]];
             }
 
             return null;
         }
-
+        
+        //same as GetTxTopMostFile but using pixel coordinates
         public Tile GetPxTopMostTile(float PX, float PY)
         {
             return GetTxTopMostTile(
-                PX / pxTileWidth, 
-                PY / pxTileHeight
+                (int) (PX / pxTileWidth), 
+                (int) (PY / pxTileHeight)
             );
         }
 
-        public override string ToString()
-        {
-            return string.Format("TiledMap: Dimensions={0}x{1}, TileDimensions={2}x{3}, TileLayers={4}, ObjectLayers={5}",
-                txWidth, txHeight,
-                pxTileWidth, pxTileHeight,
-                TileLayers.Count,
-                ObjectLayers.Count
-                );
-        }
-
-        /// <summary>
-        /// Retrieves the Tile object found in the specified location of the map, in a specified
-        /// Layer (by Index). Will return null if no tile was found at the layer and specified
-        /// location.
-        /// </summary>
-        /// <param name="X">integer X value.</param>
-        /// <param name="Y">integer Y value.</param>
-        /// <param name="layerIndex">Index of the layer to search In.</param>
-        /// <returns>Tile object found at the specified location. Null if none exists.</returns>
-        public Tile GetTile(int X, int Y, int layerIndex)
+        //Get the specified tile from the specified layer index using tx coordinates
+        public Tile GetTxTile(int TX, int TY, int layerIndex)
         {
             TileLayer layer = TileLayers[layerIndex];
-            int tileID = layer[X, Y];
+            int tileID = layer[TX, TY];
 
             return (tileID == 0) ? null : Tiles[tileID];
+        }
+
+        //same as GetTxTile but specified in pixels
+        public Tile GetPxTile(int PX, int PY, int layerIndex)
+        {
+            return GetTxTile(
+                (int)(PX / pxTileWidth),
+                (int)(PY / pxTileHeight),
+                layerIndex
+            );
         }
 
         //TODO: Support for zlib compression of tile data  (Zlib.NET)
@@ -198,6 +191,16 @@ namespace GameEngine.Tiled
             }
 
             return map;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("TiledMap: Dimensions={0}x{1}, TileDimensions={2}x{3}, TileLayers={4}, ObjectLayers={5}",
+                txWidth, txHeight,
+                pxTileWidth, pxTileHeight,
+                TileLayers.Count,
+                ObjectLayers.Count
+                );
         }
     }
 }
