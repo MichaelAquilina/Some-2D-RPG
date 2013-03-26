@@ -26,7 +26,10 @@ namespace GameEngine.Tiled
 
         public int this[int x, int y]
         {
-            get { return _tiles[x + y * txWidth ]; }
+            get {
+                if (x <0 || y < 0 || x >= txWidth || y >= txHeight) return -1;
+                return _tiles[x + y * txWidth ]; 
+            }
             set { _tiles[x + y * txWidth] = value; }
         }
 
