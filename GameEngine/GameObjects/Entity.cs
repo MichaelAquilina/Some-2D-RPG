@@ -19,8 +19,8 @@ namespace GameEngine.GameObjects
 
         public string Name { get; internal set; }                         //Name currently assigned to this Entity in the Engine
 
-        public float rxWidth { get; set; }                                //relative width where 1.0 = 100%
-        public float rxHeight { get; set; }                               //relative height where 1.0 = 100%
+        public float ScaleX { get; set; }                                 //Amount to scale the Entities X value by (where 1.0=100%)
+        public float ScaleY { get; set; }                                 //Amount ot scale the Entities Y value by (where 1.0=100%)
 
         public float Opacity { get; set; }                                //Opacity for the Entity. This effect stacks with whats specified in each drawables Color
         public bool Visible { get; set; }                                 //Hide or Show the entity
@@ -43,8 +43,8 @@ namespace GameEngine.GameObjects
         {
             this.PX = PX;
             this.PY = PY;
-            this.rxWidth = rxWidth;
-            this.rxHeight = rxHeight;
+            this.ScaleX = rxWidth;
+            this.ScaleY = rxHeight;
             this.Visible = Visible;
             this.IsOnScreen = false;
 
@@ -85,8 +85,8 @@ namespace GameEngine.GameObjects
                 Rectangle pxDrawRectangle = draw.Drawable.GetSourceRectangle(GameTime);
                 Vector2 rxDrawOrigin = draw.Drawable.rxDrawOrigin;
 
-                int pxWidth = (int) Math.Ceiling(pxDrawRectangle.Width * this.rxWidth);
-                int pxHeight = (int)Math.Ceiling(pxDrawRectangle.Height * this.rxHeight);
+                int pxWidth = (int) Math.Ceiling(pxDrawRectangle.Width * this.ScaleX);
+                int pxHeight = (int)Math.Ceiling(pxDrawRectangle.Height * this.ScaleY);
                 int pxFrameX = (int)Math.Ceiling(PX + -1 * rxDrawOrigin.X * pxWidth);
                 int pxFrameY = (int)Math.Ceiling(PY + -1 * rxDrawOrigin.Y * pxHeight);
 
@@ -114,7 +114,7 @@ namespace GameEngine.GameObjects
         public override string ToString()
         {
             return string.Format("Entity: txPos=({0},{1}), Width={2}, Height={3}, Visible={4}, IsOnScreen={5}", 
-                PX, PY, rxWidth, rxHeight, Visible, IsOnScreen);
+                PX, PY, ScaleX, ScaleY, Visible, IsOnScreen);
         }
     }
 }

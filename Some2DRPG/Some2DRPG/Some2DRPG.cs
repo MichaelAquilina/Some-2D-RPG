@@ -113,8 +113,8 @@ namespace ShadowKill
                         Entity entity = new Entity();
                         entity.PX = mapObject.X;
                         entity.PY = mapObject.Y;
-                        entity.rxWidth = mapObject.GetProperty<float>("Width", 1.0f);
-                        entity.rxHeight = mapObject.GetProperty<float>("Height", 1.0f);
+                        entity.ScaleX = mapObject.GetProperty<float>("Width", 1.0f);
+                        entity.ScaleY = mapObject.GetProperty<float>("Height", 1.0f);
                         entity.Visible = true;
                         Animation.LoadAnimationXML(entity.Drawables, mapObject.GetProperty("AnimationSet"), Content, "");
                         entity.CurrentDrawable = mapObject.GetProperty("CurrentAnimation");
@@ -127,8 +127,8 @@ namespace ShadowKill
                         Entity entity = new Entity();
                         entity.PX = mapObject.X;
                         entity.PY = mapObject.Y;
-                        entity.rxWidth = 1.0f;
-                        entity.rxHeight = 1.0f;
+                        entity.ScaleX = 1.0f;
+                        entity.ScaleY = 1.0f;
                         entity.Visible = true;
 
                         Tile SourceTile = Map.Tiles[mapObject.Gid];

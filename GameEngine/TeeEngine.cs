@@ -439,8 +439,8 @@ namespace GameEngine
                         //for panning at the edges.
                         Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(LastUpdateTime);
 
-                        int pxObjectWidth = (int)(pxCurrentFrame.Width * entity.rxWidth);
-                        int pxObjectHeight = (int)(pxCurrentFrame.Height * entity.rxHeight);
+                        int pxObjectWidth = (int)(pxCurrentFrame.Width * entity.ScaleX);
+                        int pxObjectHeight = (int)(pxCurrentFrame.Height * entity.ScaleY);
 
                         //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
                         Rectangle objectDestRect = new Rectangle(
