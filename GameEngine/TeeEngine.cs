@@ -301,8 +301,8 @@ namespace GameEngine
             //Should be fast to create due to being a struct
             ViewPortInfo viewPortInfo = new ViewPortInfo();             
             {
-                viewPortInfo.pxTileWidth  = Map.pxTileWidth * Zoom;
-                viewPortInfo.pxTileHeight = Map.pxTileHeight * Zoom;
+                viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * Zoom);
+                viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * Zoom);
                 viewPortInfo.pxWidth  = pxDestRectangle.Width / Zoom;
                 viewPortInfo.pxHeight = pxDestRectangle.Height / Zoom;
 
@@ -366,7 +366,7 @@ namespace GameEngine
                                 (int) Math.Ceiling(viewPortInfo.pxTileHeight)
                             );
 
-                            if (tileGid != 0)   //NULL Tile Gid is ignored
+                            if (tileGid != 0 && tileGid!=-1)   //NULL Tile Gid is ignored
                             {
                                 Tile tile = Map.Tiles[tileGid];
 
