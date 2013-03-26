@@ -10,7 +10,7 @@ Development Platform
 --------------------
 I decided to make use of XNA becauase i feel very comfortable using C# as a development language, and still have a lot to learn when it comes to C++.
 Using XNA also allows me to concentrate on the actual game development rather than dealing with lower level programing details and memory concerns. In the future
-i could possibly take this code and try make it run on the cross-platform implementation of XNA - MonoGame.
+i could possibly take this code and try make it run on the cross-platform implementation of XNA - [MonoGame](https://github.com/mono/MonoGame).
 
 Game Engine
 -----------
