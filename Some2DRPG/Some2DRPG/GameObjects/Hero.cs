@@ -163,7 +163,7 @@ namespace ShadowKill.GameObjects
 
                     //IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT
                     //if impassable, adjust X and Y accordingly
-                    float padding = 0.0f;
+                    float padding = 0.001f;
                     if (impassable)
                     {
                         if (prevY <= pxTileY && PY > pxTileY)

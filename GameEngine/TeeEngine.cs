@@ -298,6 +298,10 @@ namespace GameEngine
             viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * Zoom);
             viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * Zoom);
 
+            //Note about ActualZoom Property:
+            //because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
+            //we need to determine what was the actual level of zoom that was applied to the tiles and use that
+            //this ensures that entities that will be drawn will be placed correctly on the screen
             viewPortInfo.ActualZoom = viewPortInfo.pxTileWidth / Map.pxTileWidth;
 
             viewPortInfo.pxWidth  = pxDestRectangle.Width / viewPortInfo.ActualZoom;
