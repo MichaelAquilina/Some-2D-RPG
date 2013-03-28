@@ -33,7 +33,6 @@ using Microsoft.Xna.Framework.Graphics;
 ///In the Context of this Game Engine, the following Coordinate units are used:
 ///        PX: Pixels
 ///        TX: Tixels (Tile units)
-///        RX: Rexels (Relative Units)
 ///The above can be renamed as necessary in the future if need be.
 ///
 ///any coordinate property should have one of the above units prepended to thei name
@@ -46,9 +45,6 @@ using Microsoft.Xna.Framework.Graphics;
 ///     px + px = px
 ///     tx * px = px
 ///     tx + px = INVALID
-///     rx * px = px
-///     rx + rx = rx
-///     rx * tx = INVALID
 /// </summary>
 namespace GameEngine
 {
@@ -298,40 +294,40 @@ namespace GameEngine
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, float pxCenterX, float pxCenterY, float Zoom, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
         {
-            //Should be fast to create due to being a struct
             ViewPortInfo viewPortInfo = new ViewPortInfo();             
-            {
-                viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * Zoom);
-                viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * Zoom);
-                viewPortInfo.pxWidth  = pxDestRectangle.Width / Zoom;
-                viewPortInfo.pxHeight = pxDestRectangle.Height / Zoom;
+            viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * Zoom);
+            viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * Zoom);
 
-                viewPortInfo.pxTopLeftX = pxCenterX - viewPortInfo.pxWidth / 2.0f;
-                viewPortInfo.pxTopLeftY = pxCenterY - viewPortInfo.pxHeight / 2.0f;
+            viewPortInfo.ActualZoom = viewPortInfo.pxTileWidth / Map.pxTileWidth;
 
-                viewPortInfo.TileCountX = (int)Math.Ceiling((double)viewPortInfo.pxWidth / Map.pxTileWidth) + 1;
-                viewPortInfo.TileCountY = (int)Math.Ceiling((double)viewPortInfo.pxHeight / Map.pxTileHeight) + 1;
+            viewPortInfo.pxWidth  = pxDestRectangle.Width / viewPortInfo.ActualZoom;
+            viewPortInfo.pxHeight = pxDestRectangle.Height / viewPortInfo.ActualZoom;
 
-                //Prevent the View from going outisde of the WORLD coordinates
-                if (viewPortInfo.pxTopLeftX < 0) viewPortInfo.pxTopLeftX = 0;
-                if (viewPortInfo.pxTopLeftY < 0) viewPortInfo.pxTopLeftY = 0;
+            viewPortInfo.pxTopLeftX = pxCenterX - viewPortInfo.pxWidth / 2.0f;
+            viewPortInfo.pxTopLeftY = pxCenterY - viewPortInfo.pxHeight / 2.0f;
 
-                if (viewPortInfo.pxTopLeftX + viewPortInfo.pxWidth >= Map.pxWidth)
-                    viewPortInfo.pxTopLeftX = Map.pxWidth - viewPortInfo.pxWidth;
-                if (viewPortInfo.pxTopLeftY + viewPortInfo.pxHeight >= Map.pxHeight) 
-                    viewPortInfo.pxTopLeftY = Map.pxHeight - viewPortInfo.pxHeight;
+            viewPortInfo.TileCountX = (int) Math.Ceiling((double)viewPortInfo.pxWidth / Map.pxTileWidth) + 1;
+            viewPortInfo.TileCountY = (int) Math.Ceiling((double)viewPortInfo.pxHeight / Map.pxTileHeight) + 1;
 
-                //calculate any decimal displacement required (For Positions with decimal points)
-                viewPortInfo.pxDispX = viewPortInfo.pxTopLeftX - ((int)viewPortInfo.pxTopLeftX / Map.pxTileWidth) * Map.pxTileWidth;
-                viewPortInfo.pxDispY = viewPortInfo.pxTopLeftY - ((int)viewPortInfo.pxTopLeftY / Map.pxTileHeight) * Map.pxTileHeight;
+            //Prevent the View from going outisde of the WORLD coordinates
+            if (viewPortInfo.pxTopLeftX < 0) viewPortInfo.pxTopLeftX = 0;
+            if (viewPortInfo.pxTopLeftY < 0) viewPortInfo.pxTopLeftY = 0;
 
-                viewPortInfo.pxViewPortBounds = new Rectangle(
-                    (int)Math.Ceiling(viewPortInfo.pxTopLeftX),
-                    (int)Math.Ceiling(viewPortInfo.pxTopLeftY),
-                    (int)Math.Ceiling(viewPortInfo.pxWidth),
-                    (int)Math.Ceiling(viewPortInfo.pxHeight)
-                );
-            }
+            if (viewPortInfo.pxTopLeftX + viewPortInfo.pxWidth >= Map.pxWidth)
+                viewPortInfo.pxTopLeftX = Map.pxWidth - viewPortInfo.pxWidth;
+            if (viewPortInfo.pxTopLeftY + viewPortInfo.pxHeight >= Map.pxHeight) 
+                viewPortInfo.pxTopLeftY = Map.pxHeight - viewPortInfo.pxHeight;
+
+            //calculate any decimal displacement required (For Positions with decimal points)
+            viewPortInfo.pxDispX = viewPortInfo.pxTopLeftX - ((int)viewPortInfo.pxTopLeftX / Map.pxTileWidth) * Map.pxTileWidth;
+            viewPortInfo.pxDispY = viewPortInfo.pxTopLeftY - ((int)viewPortInfo.pxTopLeftY / Map.pxTileHeight) * Map.pxTileHeight;
+
+            viewPortInfo.pxViewPortBounds = new Rectangle(
+                (int)Math.Ceiling(viewPortInfo.pxTopLeftX),
+                (int)Math.Ceiling(viewPortInfo.pxTopLeftY),
+                (int)Math.Ceiling(viewPortInfo.pxWidth),
+                (int)Math.Ceiling(viewPortInfo.pxHeight)
+            );
 
             //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
             GraphicsDevice.SetRenderTarget(_inputBuffer);
@@ -360,8 +356,8 @@ namespace GameEngine
 
                             int tileGid = tileLayer[tileX, tileY];
                             Rectangle pxTileDestRect = new Rectangle(
-                                (int) Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * Zoom), 
-                                (int) Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * Zoom), 
+                                (int) Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom), 
+                                (int) Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom), 
                                 (int) Math.Ceiling(viewPortInfo.pxTileWidth), 
                                 (int) Math.Ceiling(viewPortInfo.pxTileHeight)
                             );
@@ -382,7 +378,6 @@ namespace GameEngine
                             }
 
                             //Draw the layer grid on the last layer draw
-                            //TODO: Bug when rendering at some zoom levels such as 1.7/1.8
                             if(ShowTileGrid && layerIndex == Map.TileLayers.Count - 1 ) 
                                 SpriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                         }
@@ -407,27 +402,26 @@ namespace GameEngine
                     entity.IsOnScreen = true;
 
                     Vector2 pxAbsEntityPos = new Vector2(
-                        entity.PX - viewPortInfo.pxTopLeftX,
-                        entity.PY - viewPortInfo.pxTopLeftY
+                        (entity.PX - viewPortInfo.pxTopLeftX) * viewPortInfo.ActualZoom,
+                        (entity.PY - viewPortInfo.pxTopLeftY) * viewPortInfo.ActualZoom
                     );
 
-                    Rectangle pxAbsBoundingBox = entity.CurrentPxBoundingBox;
-                    pxAbsBoundingBox = new Rectangle(
-                        (int) Math.Ceiling(pxAbsBoundingBox.X - viewPortInfo.pxTopLeftX),
-                        (int) Math.Ceiling(pxAbsBoundingBox.Y - viewPortInfo.pxTopLeftY),
-                        pxAbsBoundingBox.Width, 
-                        pxAbsBoundingBox.Height
+                    Rectangle pxAbsBoundingBox = new Rectangle(
+                        (int) Math.Ceiling((entity.CurrentPxBoundingBox.X - viewPortInfo.pxTopLeftX) * viewPortInfo.ActualZoom),
+                        (int) Math.Ceiling((entity.CurrentPxBoundingBox.Y - viewPortInfo.pxTopLeftY) * viewPortInfo.ActualZoom),
+                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Width * viewPortInfo.ActualZoom),
+                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Height * viewPortInfo.ActualZoom)
                     );
 
                     if (ShowBoundingBoxes)
                     {
                         SpriteBatch.DrawRectangle(new Rectangle(
-                            (int) Math.Ceiling(pxAbsBoundingBox.X * Zoom),
-                            (int) Math.Ceiling(pxAbsBoundingBox.Y * Zoom),
-                            (int) Math.Ceiling(pxAbsBoundingBox.Width * Zoom),
-                            (int) Math.Ceiling(pxAbsBoundingBox.Height * Zoom))
+                            pxAbsBoundingBox.X,
+                            pxAbsBoundingBox.Y,
+                            pxAbsBoundingBox.Width,
+                            pxAbsBoundingBox.Height)
                             , Color.Red, 0f);
-                        SpriteBatch.DrawCross(new Vector2(pxAbsEntityPos.X * Zoom, pxAbsEntityPos.Y * Zoom), 13, Color.Black, 0f);
+                        SpriteBatch.DrawCross(new Vector2(pxAbsEntityPos.X, pxAbsEntityPos.Y), 13, Color.Black, 0f);
                     }
 
                     foreach (GameDrawableInstance drawable in entity.Drawables[entity.CurrentDrawable])
@@ -439,15 +433,15 @@ namespace GameEngine
                         //for panning at the edges.
                         Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(LastUpdateTime);
 
-                        int pxObjectWidth = (int)(pxCurrentFrame.Width * entity.ScaleX);
-                        int pxObjectHeight = (int)(pxCurrentFrame.Height * entity.ScaleY);
+                        int pxObjectWidth  = (int) Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
+                        int pxObjectHeight = (int) Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
 
                         //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
                         Rectangle objectDestRect = new Rectangle(
-                                (int)Math.Ceiling(pxAbsEntityPos.X * Zoom),
-                                (int)Math.Ceiling(pxAbsEntityPos.Y * Zoom),
-                                (int)Math.Ceiling(pxObjectWidth * Zoom),
-                                (int)Math.Ceiling(pxObjectHeight * Zoom)
+                                (int) Math.Ceiling(pxAbsEntityPos.X),
+                                (int) Math.Ceiling(pxAbsEntityPos.Y),
+                                pxObjectWidth,
+                                pxObjectHeight
                         );
 
                         Vector2 drawableOrigin = drawable.Drawable.rxDrawOrigin * new Vector2(pxCurrentFrame.Width, pxCurrentFrame.Height);

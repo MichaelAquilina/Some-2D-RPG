@@ -84,7 +84,7 @@ namespace ShadowKill
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
             Engine.LoadMap(tiledmap);
 
-            CurrentPlayer = new Hero(1629, 140);
+            CurrentPlayer = new Hero(32 * 4, 32 * 4);
             CurrentPlayer.CollisionDetection = true;
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
@@ -155,8 +155,11 @@ namespace ShadowKill
             LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader(LightShader);
 
+            Engine.ShowBoundingBoxes = true;
+            Engine.ShowTileGrid = true;
+
             Random random = new Random();
-            LoadMapObjects(Engine.Map, Content);
+            //LoadMapObjects(Engine.Map, Content);
       
             Engine.AddEntity("Player", CurrentPlayer);
 
@@ -166,7 +169,7 @@ namespace ShadowKill
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
 
                 Bat bat = new Bat(px, py);
-                Engine.AddEntity(bat);
+                //Engine.AddEntity(bat);
                 //FollowEntity = bat;
             }
 
@@ -324,7 +327,11 @@ namespace ShadowKill
                     double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
                     Color fpsColor = (Math.Ceiling(fps) < 60) ? Color.Red : Color.White;
 
+                    float TX = CurrentPlayer.PX / Engine.Map.pxTileWidth;
+                    float TY = CurrentPlayer.PY / Engine.Map.pxTileHeight;
+
                     SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.PX.ToString("0.0") + "," + CurrentPlayer.PY.ToString("0.0"), GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, TX.ToString("0.0") + "," + TY.ToString("0.0"), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), GeneratePos(textHeight), fpsColor);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, GeneratePos(textHeight), Color.White);
@@ -332,7 +339,7 @@ namespace ShadowKill
                     SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Latest Node Index = " + Engine.QuadTree.LatestNodeIndex, GeneratePos(textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Zoom = " + Zoom, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Zoom = " + viewPort.ActualZoom, GeneratePos(textHeight), Color.White);
                 }
 
                 if (showDiagnostics)
