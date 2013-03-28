@@ -155,11 +155,11 @@ namespace ShadowKill
             LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader(LightShader);
 
-            Engine.ShowBoundingBoxes = true;
-            Engine.ShowTileGrid = true;
+            Engine.ShowBoundingBoxes = false;
+            Engine.ShowTileGrid = false;
 
             Random random = new Random();
-            //LoadMapObjects(Engine.Map, Content);
+            LoadMapObjects(Engine.Map, Content);
       
             Engine.AddEntity("Player", CurrentPlayer);
 
@@ -169,7 +169,7 @@ namespace ShadowKill
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
 
                 Bat bat = new Bat(px, py);
-                //Engine.AddEntity(bat);
+                Engine.AddEntity(bat);
                 //FollowEntity = bat;
             }
 
@@ -248,10 +248,10 @@ namespace ShadowKill
 
             if (new Rectangle((int)PX, (int)PY, pxWidth, pxHeight).Intersects(DestRectangle))
             {
-                PX = (int)Math.Ceiling(PX * Zoom);
-                PY = (int)Math.Ceiling(PY * Zoom);
-                pxWidth = (int)Math.Ceiling(pxWidth * Zoom);
-                pxHeight = (int)Math.Ceiling(pxHeight * Zoom);
+                PX = (int)Math.Ceiling(PX * viewPort.ActualZoom);
+                PY = (int)Math.Ceiling(PY * viewPort.ActualZoom);
+                pxWidth = (int)Math.Ceiling(pxWidth * viewPort.ActualZoom);
+                pxHeight = (int)Math.Ceiling(pxHeight * viewPort.ActualZoom);
 
                 SpriteBatch.DrawRectangle(new Rectangle((int)PX, (int)PY, pxWidth, pxHeight), Color.Lime, 0);
                 SpriteBatch.DrawString(

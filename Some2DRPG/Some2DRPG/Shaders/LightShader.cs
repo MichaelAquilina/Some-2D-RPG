@@ -103,6 +103,8 @@ namespace ShadowKill.Shaders
                 {
                     x -= ViewPortInfo.pxTopLeftX;
                     y -= ViewPortInfo.pxTopLeftY;
+                    x *= ViewPortInfo.ActualZoom;
+                    y *= ViewPortInfo.ActualZoom;
                     x /= _lightTarget.Width;
                     y /= _lightTarget.Height;
                     x = -1.0f + x * 2;
