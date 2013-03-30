@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace ShadowKill.Shaders
+namespace Some2DRPG.Shaders
 {
     public interface ILightSource
     {

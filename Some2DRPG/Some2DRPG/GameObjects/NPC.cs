@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using GameEngine.Drawing;
 
-namespace ShadowKill.GameObjects
+namespace Some2DRPG.GameObjects
 {
     public enum Direction { Left, Right, Up, Down };
 

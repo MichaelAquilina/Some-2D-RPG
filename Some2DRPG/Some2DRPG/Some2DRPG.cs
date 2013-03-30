@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using ShadowKill.GameObjects;
-using ShadowKill.Shaders;
+using Some2DRPG.GameObjects;
+using Some2DRPG.Shaders;
 using ShadowKillGame.GameObjects;
 using GameEngine.Drawing;
 using GameEngine.Geometry;
@@ -17,7 +17,7 @@ using GameEngine.Info;
 using System.Diagnostics;
 using System.Text;
 
-namespace ShadowKill
+namespace Some2DRPG
 {
     public class Some2DRPG : Microsoft.Xna.Framework.Game
     {
@@ -155,6 +155,7 @@ namespace ShadowKill
             LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader(LightShader);
 
+            Engine.ShowEntityDebugInfo = false;
             Engine.ShowBoundingBoxes = false;
             Engine.ShowTileGrid = false;
 
@@ -299,7 +300,8 @@ namespace ShadowKill
                                             Zoom,
                                             pxDestRectangle,
                                             Color.White,
-                                            CurrentSampler);
+                                            CurrentSampler,
+                                            DefaultSpriteFont);
 
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();

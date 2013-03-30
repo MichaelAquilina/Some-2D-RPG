@@ -1,6 +1,6 @@
 using System;
 
-namespace ShadowKill
+namespace Some2DRPG
 {
 #if WINDOWS || XBOX
     static class Program

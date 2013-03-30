@@ -5,7 +5,7 @@ using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace ShadowKill.GameObjects
+namespace Some2DRPG.GameObjects
 {
     public class Bat : Entity
     {

@@ -9,7 +9,7 @@ using GameEngine.Shaders;
 using GameEngine;
 using GameEngine.Info;
 
-namespace ShadowKill.Shaders
+namespace Some2DRPG.Shaders
 {
     public enum LightPositionType { Fixed, Relative };
 

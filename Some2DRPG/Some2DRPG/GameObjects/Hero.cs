@@ -3,13 +3,13 @@ using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using ShadowKill.Shaders;
+using Some2DRPG.Shaders;
 using GameEngine;
 using ShadowKillGame.GameObjects;
 using GameEngine.GameObjects;
 using System.Collections.Generic;
 
-namespace ShadowKill.GameObjects
+namespace Some2DRPG.GameObjects
 {
     public class Hero : NPC
     {
