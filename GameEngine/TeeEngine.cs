@@ -195,6 +195,7 @@ namespace GameEngine
 
         public void AddEntity(string Name, Entity Entity)
         {
+            //Assign an automatic, unique entity name if none is supplied
             if (Name == null) Name = string.Format("Entity{0}", _entityIdCounter++);
 
             _entities.Add(Name, Entity);
@@ -340,8 +341,8 @@ namespace GameEngine
         {
             ViewPortInfo viewPortInfo = new ViewPortInfo();
             {
-                viewPortInfo.pxTileWidth = (int)Math.Round(Map.pxTileWidth * Zoom);
-                viewPortInfo.pxTileHeight = (int)Math.Round(Map.pxTileHeight * Zoom);
+                viewPortInfo.pxTileWidth  = (int) Math.Round(Map.pxTileWidth * Zoom);
+                viewPortInfo.pxTileHeight = (int) Math.Round(Map.pxTileHeight * Zoom);
 
                 //Note about ActualZoom Property:
                 //because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
@@ -355,8 +356,8 @@ namespace GameEngine
                 viewPortInfo.pxTopLeftX = pxCenterX - viewPortInfo.pxWidth / 2.0f;
                 viewPortInfo.pxTopLeftY = pxCenterY - viewPortInfo.pxHeight / 2.0f;
 
-                viewPortInfo.TileCountX = (int)Math.Ceiling((double)viewPortInfo.pxWidth / Map.pxTileWidth) + 1;
-                viewPortInfo.TileCountY = (int)Math.Ceiling((double)viewPortInfo.pxHeight / Map.pxTileHeight) + 1;
+                viewPortInfo.TileCountX = (int) Math.Ceiling((double)viewPortInfo.pxWidth / Map.pxTileWidth) + 1;
+                viewPortInfo.TileCountY = (int) Math.Ceiling((double)viewPortInfo.pxHeight / Map.pxTileHeight) + 1;
 
                 //Prevent the View from going outisde of the WORLD coordinates
                 if (viewPortInfo.pxTopLeftX < 0) viewPortInfo.pxTopLeftX = 0;
@@ -372,10 +373,10 @@ namespace GameEngine
                 viewPortInfo.pxDispY = viewPortInfo.pxTopLeftY - ((int)viewPortInfo.pxTopLeftY / Map.pxTileHeight) * Map.pxTileHeight;
 
                 viewPortInfo.pxViewPortBounds = new Rectangle(
-                    (int)Math.Ceiling(viewPortInfo.pxTopLeftX),
-                    (int)Math.Ceiling(viewPortInfo.pxTopLeftY),
-                    (int)Math.Ceiling(viewPortInfo.pxWidth),
-                    (int)Math.Ceiling(viewPortInfo.pxHeight)
+                    (int) Math.Ceiling(viewPortInfo.pxTopLeftX),
+                    (int) Math.Ceiling(viewPortInfo.pxTopLeftY),
+                    (int) Math.Ceiling(viewPortInfo.pxWidth),
+                    (int) Math.Ceiling(viewPortInfo.pxHeight)
                 );
             }
 
@@ -405,10 +406,10 @@ namespace GameEngine
                             int tileGid = tileLayer[tileX, tileY];
 
                             Rectangle pxTileDestRect = new Rectangle(
-                                (int)Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom),
-                                (int)Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom),
-                                (int)viewPortInfo.pxTileWidth,
-                                (int)viewPortInfo.pxTileHeight
+                                (int) Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom),
+                                (int) Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom),
+                                (int) viewPortInfo.pxTileWidth,
+                                (int) viewPortInfo.pxTileHeight
                             );
 
                             if (tileGid != 0 && tileGid != -1)   //NULL or INVALID Tile Gid is ignored
@@ -437,8 +438,8 @@ namespace GameEngine
             DebugInfo.TileRenderingTime = _watch1.Elapsed;
 
             //Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
-            float entityDispX = (int)Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
-            float entityDispY = (int)Math.Ceiling(viewPortInfo.pxTopLeftY * viewPortInfo.ActualZoom);
+            float entityDispX = (int) Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
+            float entityDispY = (int) Math.Ceiling(viewPortInfo.pxTopLeftY * viewPortInfo.ActualZoom);
 
             //DRAW VISIBLE REGISTERED ENTITIES
             _watch1.Restart();
@@ -448,9 +449,9 @@ namespace GameEngine
 
                 foreach (Entity entity in EntitiesOnScreen)
                 {
-                    if (!entity.Visible) continue;
-
                     _watch2.Restart();
+
+                    if (!entity.Visible) continue;
                     entity.IsOnScreen = true;
 
                     Vector2 pxAbsEntityPos = new Vector2(
@@ -459,12 +460,13 @@ namespace GameEngine
                     );
 
                     Rectangle pxAbsBoundingBox = new Rectangle(
-                        (int)Math.Ceiling(entity.CurrentPxBoundingBox.X * viewPortInfo.ActualZoom - entityDispX),
-                        (int)Math.Ceiling(entity.CurrentPxBoundingBox.Y * viewPortInfo.ActualZoom - entityDispY),
-                        (int)Math.Ceiling(entity.CurrentPxBoundingBox.Width * viewPortInfo.ActualZoom),
-                        (int)Math.Ceiling(entity.CurrentPxBoundingBox.Height * viewPortInfo.ActualZoom)
+                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.X * viewPortInfo.ActualZoom - entityDispX),
+                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Y * viewPortInfo.ActualZoom - entityDispY),
+                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Width * viewPortInfo.ActualZoom),
+                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Height * viewPortInfo.ActualZoom)
                     );
 
+                    //DRAW ENTITY BOUNDING BOXES IF ENABLED
                     if (ShowBoundingBoxes)
                     {
                         SpriteBatch.DrawRectangle(new Rectangle(
@@ -485,13 +487,13 @@ namespace GameEngine
                         //for panning at the edges.
                         Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(LastUpdateTime);
 
-                        int pxObjectWidth = (int)Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
-                        int pxObjectHeight = (int)Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
+                        int pxObjectWidth  = (int) Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
+                        int pxObjectHeight = (int) Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
 
                         //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
                         Rectangle objectDestRect = new Rectangle(
-                                (int)Math.Ceiling(pxAbsEntityPos.X),
-                                (int)Math.Ceiling(pxAbsEntityPos.Y),
+                                (int) Math.Ceiling(pxAbsEntityPos.X),
+                                (int) Math.Ceiling(pxAbsEntityPos.Y),
                                 pxObjectWidth,
                                 pxObjectHeight
                         );

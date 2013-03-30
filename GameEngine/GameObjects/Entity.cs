@@ -85,10 +85,10 @@ namespace GameEngine.GameObjects
                 Rectangle pxDrawRectangle = draw.Drawable.GetSourceRectangle(GameTime);
                 Vector2 rxDrawOrigin = draw.Drawable.rxDrawOrigin;
 
-                int pxWidth = (int) Math.Ceiling(pxDrawRectangle.Width * this.ScaleX);
-                int pxHeight = (int)Math.Ceiling(pxDrawRectangle.Height * this.ScaleY);
-                int pxFrameX = (int)Math.Ceiling(PX + -1 * rxDrawOrigin.X * pxWidth);
-                int pxFrameY = (int)Math.Ceiling(PY + -1 * rxDrawOrigin.Y * pxHeight);
+                int pxWidth  = (int) Math.Ceiling(pxDrawRectangle.Width * this.ScaleX);
+                int pxHeight = (int) Math.Ceiling(pxDrawRectangle.Height * this.ScaleY);
+                int pxFrameX = (int) Math.Ceiling(PX + -1 * rxDrawOrigin.X * pxWidth);
+                int pxFrameY = (int) Math.Ceiling(PY + -1 * rxDrawOrigin.Y * pxHeight);
 
                 if (pxFrameX < minX) minX = pxFrameX;
                 if (pxFrameY < minY) minY = pxFrameY;
