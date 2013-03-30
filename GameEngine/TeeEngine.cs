@@ -338,44 +338,46 @@ namespace GameEngine
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, float pxCenterX, float pxCenterY, float Zoom, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState, SpriteFont SpriteFont=null)
         {
-            ViewPortInfo viewPortInfo = new ViewPortInfo();             
-            viewPortInfo.pxTileWidth  = (int) Math.Round(Map.pxTileWidth * Zoom);
-            viewPortInfo.pxTileHeight = (int) Math.Round(Map.pxTileHeight * Zoom);
+            ViewPortInfo viewPortInfo = new ViewPortInfo();
+            {
+                viewPortInfo.pxTileWidth = (int)Math.Round(Map.pxTileWidth * Zoom);
+                viewPortInfo.pxTileHeight = (int)Math.Round(Map.pxTileHeight * Zoom);
 
-            //Note about ActualZoom Property:
-            //because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
-            //we need to determine what was the actual level of zoom that was applied to the tiles and use that
-            //this ensures that entities that will be drawn will be placed correctly on the screen
-            viewPortInfo.ActualZoom = viewPortInfo.pxTileWidth / Map.pxTileWidth;
+                //Note about ActualZoom Property:
+                //because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
+                //we need to determine what was the actual level of zoom that was applied to the tiles and use that
+                //this ensures that entities that will be drawn will be placed correctly on the screen
+                viewPortInfo.ActualZoom = viewPortInfo.pxTileWidth / Map.pxTileWidth;
 
-            viewPortInfo.pxWidth  = pxDestRectangle.Width / viewPortInfo.ActualZoom;
-            viewPortInfo.pxHeight = pxDestRectangle.Height / viewPortInfo.ActualZoom;
+                viewPortInfo.pxWidth = pxDestRectangle.Width / viewPortInfo.ActualZoom;
+                viewPortInfo.pxHeight = pxDestRectangle.Height / viewPortInfo.ActualZoom;
 
-            viewPortInfo.pxTopLeftX = pxCenterX - viewPortInfo.pxWidth / 2.0f;
-            viewPortInfo.pxTopLeftY = pxCenterY - viewPortInfo.pxHeight / 2.0f;
+                viewPortInfo.pxTopLeftX = pxCenterX - viewPortInfo.pxWidth / 2.0f;
+                viewPortInfo.pxTopLeftY = pxCenterY - viewPortInfo.pxHeight / 2.0f;
 
-            viewPortInfo.TileCountX = (int) Math.Ceiling((double)viewPortInfo.pxWidth / Map.pxTileWidth) + 1;
-            viewPortInfo.TileCountY = (int) Math.Ceiling((double)viewPortInfo.pxHeight / Map.pxTileHeight) + 1;
+                viewPortInfo.TileCountX = (int)Math.Ceiling((double)viewPortInfo.pxWidth / Map.pxTileWidth) + 1;
+                viewPortInfo.TileCountY = (int)Math.Ceiling((double)viewPortInfo.pxHeight / Map.pxTileHeight) + 1;
 
-            //Prevent the View from going outisde of the WORLD coordinates
-            if (viewPortInfo.pxTopLeftX < 0) viewPortInfo.pxTopLeftX = 0;
-            if (viewPortInfo.pxTopLeftY < 0) viewPortInfo.pxTopLeftY = 0;
+                //Prevent the View from going outisde of the WORLD coordinates
+                if (viewPortInfo.pxTopLeftX < 0) viewPortInfo.pxTopLeftX = 0;
+                if (viewPortInfo.pxTopLeftY < 0) viewPortInfo.pxTopLeftY = 0;
 
-            if (viewPortInfo.pxTopLeftX + viewPortInfo.pxWidth >= Map.pxWidth)
-                viewPortInfo.pxTopLeftX = Map.pxWidth - viewPortInfo.pxWidth;
-            if (viewPortInfo.pxTopLeftY + viewPortInfo.pxHeight >= Map.pxHeight) 
-                viewPortInfo.pxTopLeftY = Map.pxHeight - viewPortInfo.pxHeight;
+                if (viewPortInfo.pxTopLeftX + viewPortInfo.pxWidth >= Map.pxWidth)
+                    viewPortInfo.pxTopLeftX = Map.pxWidth - viewPortInfo.pxWidth;
+                if (viewPortInfo.pxTopLeftY + viewPortInfo.pxHeight >= Map.pxHeight)
+                    viewPortInfo.pxTopLeftY = Map.pxHeight - viewPortInfo.pxHeight;
 
-            //calculate any decimal displacement required (For Positions with decimal points)
-            viewPortInfo.pxDispX = viewPortInfo.pxTopLeftX - ((int)viewPortInfo.pxTopLeftX / Map.pxTileWidth) * Map.pxTileWidth;
-            viewPortInfo.pxDispY = viewPortInfo.pxTopLeftY - ((int)viewPortInfo.pxTopLeftY / Map.pxTileHeight) * Map.pxTileHeight;
+                //calculate any decimal displacement required (For Positions with decimal points)
+                viewPortInfo.pxDispX = viewPortInfo.pxTopLeftX - ((int)viewPortInfo.pxTopLeftX / Map.pxTileWidth) * Map.pxTileWidth;
+                viewPortInfo.pxDispY = viewPortInfo.pxTopLeftY - ((int)viewPortInfo.pxTopLeftY / Map.pxTileHeight) * Map.pxTileHeight;
 
-            viewPortInfo.pxViewPortBounds = new Rectangle(
-                (int)Math.Ceiling(viewPortInfo.pxTopLeftX),
-                (int)Math.Ceiling(viewPortInfo.pxTopLeftY),
-                (int)Math.Ceiling(viewPortInfo.pxWidth),
-                (int)Math.Ceiling(viewPortInfo.pxHeight)
-            );
+                viewPortInfo.pxViewPortBounds = new Rectangle(
+                    (int)Math.Ceiling(viewPortInfo.pxTopLeftX),
+                    (int)Math.Ceiling(viewPortInfo.pxTopLeftY),
+                    (int)Math.Ceiling(viewPortInfo.pxWidth),
+                    (int)Math.Ceiling(viewPortInfo.pxHeight)
+                );
+            }
 
             //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
             GraphicsDevice.SetRenderTarget(_inputBuffer);
@@ -383,7 +385,7 @@ namespace GameEngine
 
             //DRAW THE WORLD MAP
             _watch1.Restart();
-            
+
             //Deferred Rendering should be fine for rendering tile as long as we draw tile layers one at a time
             SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState, null, null);
             {
@@ -409,7 +411,7 @@ namespace GameEngine
                                 (int)viewPortInfo.pxTileHeight
                             );
 
-                            if (tileGid != 0 && tileGid!=-1)   //NULL or INVALID Tile Gid is ignored
+                            if (tileGid != 0 && tileGid != -1)   //NULL or INVALID Tile Gid is ignored
                             {
                                 Tile tile = Map.Tiles[tileGid];
 
@@ -420,12 +422,12 @@ namespace GameEngine
                                     Color.White,
                                     0, Vector2.Zero,
                                     SpriteEffects.None,
-                                    depth    
+                                    depth
                                 );
                             }
 
                             //DRAW THE TILE LAYER GRID IF ENABLE
-                            if(ShowTileGrid && layerIndex == Map.TileLayers.Count - 1 ) 
+                            if (ShowTileGrid && layerIndex == Map.TileLayers.Count - 1)
                                 SpriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                         }
                     }
@@ -434,8 +436,8 @@ namespace GameEngine
             SpriteBatch.End();
             DebugInfo.TileRenderingTime = _watch1.Elapsed;
 
-            //calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
-            float entityDispX = (int) Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
+            //Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
+            float entityDispX = (int)Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
             float entityDispY = (int)Math.Ceiling(viewPortInfo.pxTopLeftY * viewPortInfo.ActualZoom);
 
             //DRAW VISIBLE REGISTERED ENTITIES
@@ -448,7 +450,7 @@ namespace GameEngine
                 {
                     if (!entity.Visible) continue;
 
-                    _watch2.Restart();                    
+                    _watch2.Restart();
                     entity.IsOnScreen = true;
 
                     Vector2 pxAbsEntityPos = new Vector2(
@@ -518,7 +520,7 @@ namespace GameEngine
                             drawable.SpriteEffects,
                             layerDepth);
 
-                        //draw details about the entities position and current draw frames
+                        //DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
                         if (ShowEntityDebugInfo)
                         {
                             List<string> Messages = new List<string>();
@@ -530,7 +532,7 @@ namespace GameEngine
                                 entity.PY * viewPortInfo.ActualZoom
                                 ));
 
-                            for(int i=0; i<Messages.Count; i++)
+                            for (int i = 0; i < Messages.Count; i++)
                             {
                                 string message = Messages[i];
 
