@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 
 namespace GameEngine.Geometry
 {
@@ -45,6 +46,47 @@ namespace GameEngine.Geometry
                 FRectangle.Width,
                 FRectangle.Height
             );
+        }
+
+        public static bool operator ==(FRectangle FRect1, FRectangle FRect2)
+        {
+            return
+                FRect1.X == FRect2.X &&
+                FRect1.Y == FRect2.Y &&
+                FRect1.Width == FRect2.Width &&
+                FRect1.Height == FRect2.Height;
+        }
+
+        public static bool operator !=(FRectangle FRect1, FRectangle FRect2)
+        {
+            return !(FRect1 == FRect2);
+        }
+
+        public Rectangle ToRectangle()
+        {
+            return new Rectangle(
+                (int)Math.Ceiling(X),
+                (int)Math.Ceiling(Y),
+                (int)Math.Ceiling(Width),
+                (int)Math.Ceiling(Height));
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is FRectangle)
+                return this == (FRectangle)obj;
+            else
+                return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() + Y.GetHashCode() + Width.GetHashCode() + Height.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("FRectangle: X={0}, Y={1}, Width={2}, Height={3}", X, Y, Width, Height);
         }
     }
 }
