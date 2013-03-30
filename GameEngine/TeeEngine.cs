@@ -88,6 +88,11 @@ namespace GameEngine
         public List<GameShader> GameShaders { get; private set; }
 
         /// <summary>
+        /// Show Entity debug information when drawing the world view port to the screen.
+        /// </summary>
+        public bool ShowEntityDebugInfo { get; set; }
+
+        /// <summary>
         /// bool value specifying if the tile grid should be shown during render calls.
         /// </summary>
         public bool ShowTileGrid { get; set; }
@@ -136,6 +141,7 @@ namespace GameEngine
 
             GraphicsDevice = Game.GraphicsDevice;
 
+            ShowEntityDebugInfo = false;
             ShowTileGrid = false;
             ShowBoundingBoxes = false;
             EntitiesOnScreen = new List<Entity>();
@@ -292,11 +298,11 @@ namespace GameEngine
             DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
         }
         
-        public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, float pxCenterX, float pxCenterY, float Zoom, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState)
+        public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, float pxCenterX, float pxCenterY, float Zoom, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState, SpriteFont SpriteFont=null)
         {
             ViewPortInfo viewPortInfo = new ViewPortInfo();             
-            viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * Zoom);
-            viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * Zoom);
+            viewPortInfo.pxTileWidth  = (int) Math.Round(Map.pxTileWidth * Zoom);
+            viewPortInfo.pxTileHeight = (int) Math.Round(Map.pxTileHeight * Zoom);
 
             //Note about ActualZoom Property:
             //because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
@@ -362,8 +368,8 @@ namespace GameEngine
                             Rectangle pxTileDestRect = new Rectangle(
                                 (int) Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom), 
                                 (int) Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom), 
-                                (int) Math.Ceiling(viewPortInfo.pxTileWidth), 
-                                (int) Math.Ceiling(viewPortInfo.pxTileHeight)
+                                (int) viewPortInfo.pxTileWidth, 
+                                (int) viewPortInfo.pxTileHeight
                             );
 
                             if (tileGid != 0 && tileGid!=-1)   //NULL Tile Gid is ignored
@@ -391,6 +397,9 @@ namespace GameEngine
             SpriteBatch.End();
             DebugInfo.TileRenderingTime = _watch1.Elapsed;
 
+            //calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
+            float entityDispX = (int) Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
+            float entityDispY = (int)Math.Ceiling(viewPortInfo.pxTopLeftY * viewPortInfo.ActualZoom);
 
             //DRAW VISIBLE REGISTERED ENTITIES
             _watch1.Restart();
@@ -406,15 +415,15 @@ namespace GameEngine
                     entity.IsOnScreen = true;
 
                     Vector2 pxAbsEntityPos = new Vector2(
-                        (entity.PX - viewPortInfo.pxTopLeftX) * viewPortInfo.ActualZoom,
-                        (entity.PY - viewPortInfo.pxTopLeftY) * viewPortInfo.ActualZoom
+                        entity.PX * viewPortInfo.ActualZoom - entityDispX,
+                        entity.PY * viewPortInfo.ActualZoom - entityDispY
                     );
 
                     Rectangle pxAbsBoundingBox = new Rectangle(
-                        (int) Math.Ceiling((entity.CurrentPxBoundingBox.X - viewPortInfo.pxTopLeftX) * viewPortInfo.ActualZoom),
-                        (int) Math.Ceiling((entity.CurrentPxBoundingBox.Y - viewPortInfo.pxTopLeftY) * viewPortInfo.ActualZoom),
-                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Width * viewPortInfo.ActualZoom),
-                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Height * viewPortInfo.ActualZoom)
+                        (int)Math.Ceiling(entity.CurrentPxBoundingBox.X * viewPortInfo.ActualZoom - entityDispX),
+                        (int)Math.Ceiling(entity.CurrentPxBoundingBox.Y * viewPortInfo.ActualZoom - entityDispY),
+                        (int)Math.Ceiling(entity.CurrentPxBoundingBox.Width * viewPortInfo.ActualZoom),
+                        (int)Math.Ceiling(entity.CurrentPxBoundingBox.Height * viewPortInfo.ActualZoom)
                     );
 
                     if (ShowBoundingBoxes)
@@ -437,13 +446,13 @@ namespace GameEngine
                         //for panning at the edges.
                         Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(LastUpdateTime);
 
-                        int pxObjectWidth  = (int) Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
-                        int pxObjectHeight = (int) Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
+                        int pxObjectWidth = (int)Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
+                        int pxObjectHeight = (int)Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
 
                         //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
                         Rectangle objectDestRect = new Rectangle(
-                                (int) Math.Ceiling(pxAbsEntityPos.X),
-                                (int) Math.Ceiling(pxAbsEntityPos.Y),
+                                (int)Math.Ceiling(pxAbsEntityPos.X),
+                                (int)Math.Ceiling(pxAbsEntityPos.Y),
                                 pxObjectWidth,
                                 pxObjectHeight
                         );
@@ -471,6 +480,31 @@ namespace GameEngine
                             drawableOrigin,
                             drawable.SpriteEffects,
                             layerDepth);
+
+                        //draw details about the entities position and current draw frames
+                        if (ShowEntityDebugInfo)
+                        {
+                            List<string> Messages = new List<string>();
+                            Messages.Add(objectDestRect.ToString());
+                            Messages.Add(string.Format(
+                                "PX={0},PY={1}",
+                                entity.PX, entity.PY,
+                                entity.PX * viewPortInfo.ActualZoom,
+                                entity.PY * viewPortInfo.ActualZoom
+                                ));
+
+                            for(int i=0; i<Messages.Count; i++)
+                            {
+                                string message = Messages[i];
+
+                                Vector2 messageMetrics = SpriteFont.MeasureString(message);
+                                Vector2 messageVector = new Vector2(
+                                        pxAbsBoundingBox.X + objectDestRect.Width / 2 - messageMetrics.X / 2,
+                                        pxAbsBoundingBox.Y + objectDestRect.Height / 2 - messageMetrics.Y * Messages.Count / 2 + i * messageMetrics.Y
+                                    );
+                                SpriteBatch.DrawString(SpriteFont, message, messageVector, Color.Red);
+                            }
+                        }
                     }
 
                     DebugInfo.EntityRenderingTimes[entity.Name] = _watch2.Elapsed;
