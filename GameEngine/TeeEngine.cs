@@ -362,17 +362,16 @@ namespace GameEngine
                             int tileX = (int)(i + viewPortInfo.pxTopLeftX / Map.pxTileWidth);
                             int tileY = (int)(j + viewPortInfo.pxTopLeftY / Map.pxTileHeight);
 
-                            if (tileX >= tileLayer.txWidth || tileY >= tileLayer.txHeight) continue;
-
                             int tileGid = tileLayer[tileX, tileY];
+
                             Rectangle pxTileDestRect = new Rectangle(
-                                (int) Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom), 
-                                (int) Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom), 
-                                (int) viewPortInfo.pxTileWidth, 
-                                (int) viewPortInfo.pxTileHeight
+                                (int)Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom),
+                                (int)Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom),
+                                (int)viewPortInfo.pxTileWidth,
+                                (int)viewPortInfo.pxTileHeight
                             );
 
-                            if (tileGid != 0 && tileGid!=-1)   //NULL Tile Gid is ignored
+                            if (tileGid != 0 && tileGid!=-1)   //NULL or INVALID Tile Gid is ignored
                             {
                                 Tile tile = Map.Tiles[tileGid];
 
