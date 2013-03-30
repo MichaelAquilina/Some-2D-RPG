@@ -103,16 +103,17 @@ namespace ShadowKill.Shaders
                 {
                     x -= ViewPortInfo.pxTopLeftX;
                     y -= ViewPortInfo.pxTopLeftY;
-                    x *= ViewPortInfo.ActualZoom;
-                    y *= ViewPortInfo.ActualZoom;
-                    x /= _lightTarget.Width;
-                    y /= _lightTarget.Height;
-                    x = -1.0f + x * 2;
-                    y = 1.0f - y * 2;
                 }
 
-                float radiusX = lightSource.RadiusX;
-                float radiusY = lightSource.RadiusY;
+                x *= ViewPortInfo.ActualZoom;
+                y *= ViewPortInfo.ActualZoom;
+                x /= _lightTarget.Width;
+                y /= _lightTarget.Height;
+                x = -1.0f + x * 2;
+                y = 1.0f - y * 2;
+
+                float radiusX = lightSource.RadiusX * ViewPortInfo.ActualZoom;
+                float radiusY = lightSource.RadiusY * ViewPortInfo.ActualZoom;
 
                 radiusX /= _lightTarget.Width;
                 radiusY /= _lightTarget.Height;
