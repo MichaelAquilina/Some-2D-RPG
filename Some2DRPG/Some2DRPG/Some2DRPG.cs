@@ -37,7 +37,6 @@ namespace Some2DRPG
 
         bool helmetVisible = true;
         bool showDebugInfo = true;
-        bool showQuadTree = false;
         bool showDiagnostics = false;
 
         float Zoom = 1.8f;
@@ -214,7 +213,7 @@ namespace Some2DRPG
                 Engine.ShowTileGrid = !Engine.ShowTileGrid;
 
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F6, true))
-                showQuadTree = !showQuadTree;
+                Engine.ShowQuadTree = !Engine.ShowQuadTree;
 
             if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F7, true))
                 showDiagnostics = !showDiagnostics;
@@ -235,38 +234,6 @@ namespace Some2DRPG
                 Zoom -= 0.1f;
 
             base.Update(gameTime);
-        }
-
-        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch SpriteBatch, QuadTreeNode Node, Rectangle DestRectangle)
-        {
-            if( Node == null ) return;
-
-            float PX = Node.pxBounds.X - viewPort.pxTopLeftX;
-            float PY = Node.pxBounds.Y - viewPort.pxTopLeftY;
-            int pxWidth = Node.pxBounds.Width;
-            int pxHeight = Node.pxBounds.Height;
-            string nodeIdText = Node.NodeID.ToString();
-
-            if (new Rectangle((int)PX, (int)PY, pxWidth, pxHeight).Intersects(DestRectangle))
-            {
-                PX = (int)Math.Ceiling(PX * viewPort.ActualZoom);
-                PY = (int)Math.Ceiling(PY * viewPort.ActualZoom);
-                pxWidth = (int)Math.Ceiling(pxWidth * viewPort.ActualZoom);
-                pxHeight = (int)Math.Ceiling(pxHeight * viewPort.ActualZoom);
-
-                SpriteBatch.DrawRectangle(new Rectangle((int)PX, (int)PY, pxWidth, pxHeight), Color.Lime, 0);
-                SpriteBatch.DrawString(
-                    DefaultSpriteFont,
-                    nodeIdText,
-                    new Vector2(PX + pxWidth / 2.0f, PY + pxHeight / 2.0f) - DefaultSpriteFont.MeasureString(nodeIdText) / 2,
-                    Color.Lime
-                );
-
-                DrawQuadTree(viewPort, SpriteBatch, Node.Node1, DestRectangle);
-                DrawQuadTree(viewPort, SpriteBatch, Node.Node2, DestRectangle);
-                DrawQuadTree(viewPort, SpriteBatch, Node.Node3, DestRectangle);
-                DrawQuadTree(viewPort, SpriteBatch, Node.Node4, DestRectangle);
-            }
         }
 
         private Vector2 GeneratePos(float textHeight)
@@ -306,8 +273,6 @@ namespace Some2DRPG
             //DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
             {
-                if (showQuadTree) DrawQuadTree(viewPort, SpriteBatch, Engine.QuadTree.Root, pxDestRectangle);
-
                 if (showDebugInfo)
                 {
                     //DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING

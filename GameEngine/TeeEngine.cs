@@ -93,6 +93,11 @@ namespace GameEngine
         public bool ShowEntityDebugInfo { get; set; }
 
         /// <summary>
+        /// Shows the QuadTrees bounding boxes when drawing the world viewport.
+        /// </summary>
+        public bool ShowQuadTree { get; set; }
+
+        /// <summary>
         /// bool value specifying if the tile grid should be shown during render calls.
         /// </summary>
         public bool ShowTileGrid { get; set; }
@@ -141,6 +146,7 @@ namespace GameEngine
 
             GraphicsDevice = Game.GraphicsDevice;
 
+            ShowQuadTree = false;
             ShowEntityDebugInfo = false;
             ShowTileGrid = false;
             ShowBoundingBoxes = false;
@@ -297,6 +303,38 @@ namespace GameEngine
             DebugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
             DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
         }
+
+        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch SpriteBatch, QuadTreeNode Node, Rectangle DestRectangle, SpriteFont SpriteFont)
+        {
+            if (Node == null) return;
+
+            float PX = Node.pxBounds.X - viewPort.pxTopLeftX;
+            float PY = Node.pxBounds.Y - viewPort.pxTopLeftY;
+            int pxWidth = Node.pxBounds.Width;
+            int pxHeight = Node.pxBounds.Height;
+            string nodeIdText = Node.NodeID.ToString();
+
+            if (new Rectangle((int)PX, (int)PY, pxWidth, pxHeight).Intersects(DestRectangle))
+            {
+                PX = (int)Math.Ceiling(PX * viewPort.ActualZoom);
+                PY = (int)Math.Ceiling(PY * viewPort.ActualZoom);
+                pxWidth = (int)Math.Ceiling(pxWidth * viewPort.ActualZoom);
+                pxHeight = (int)Math.Ceiling(pxHeight * viewPort.ActualZoom);
+
+                SpriteBatch.DrawRectangle(new Rectangle((int)PX, (int)PY, pxWidth, pxHeight), Color.Lime, 0);
+                SpriteBatch.DrawString(
+                    SpriteFont,
+                    nodeIdText,
+                    new Vector2(PX + pxWidth / 2.0f, PY + pxHeight / 2.0f) - SpriteFont.MeasureString(nodeIdText) / 2,
+                    Color.Lime
+                );
+
+                DrawQuadTree(viewPort, SpriteBatch, Node.Node1, DestRectangle, SpriteFont);
+                DrawQuadTree(viewPort, SpriteBatch, Node.Node2, DestRectangle, SpriteFont);
+                DrawQuadTree(viewPort, SpriteBatch, Node.Node3, DestRectangle, SpriteFont);
+                DrawQuadTree(viewPort, SpriteBatch, Node.Node4, DestRectangle, SpriteFont);
+            }
+        }
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, float pxCenterX, float pxCenterY, float Zoom, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState, SpriteFont SpriteFont=null)
         {
@@ -386,7 +424,7 @@ namespace GameEngine
                                 );
                             }
 
-                            //Draw the layer grid on the last layer draw
+                            //DRAW THE TILE LAYER GRID IF ENABLE
                             if(ShowTileGrid && layerIndex == Map.TileLayers.Count - 1 ) 
                                 SpriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                         }
@@ -511,6 +549,14 @@ namespace GameEngine
             }
             SpriteBatch.End();
             DebugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
+
+            //DRAW THE QUAD TREE IF ENABLEd
+            if (ShowQuadTree)
+            {
+                SpriteBatch.Begin();
+                DrawQuadTree(viewPortInfo, SpriteBatch, QuadTree.Root, pxDestRectangle, SpriteFont);
+                SpriteBatch.End();
+            }
 
             _watch1.Restart();
             //APPLY GAME SHADERS TO THE RESULTANT IMAGE
