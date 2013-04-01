@@ -1,7 +1,7 @@
 using System;
 using GameEngine;
 using GameEngine.GameObjects;
-using GameEngine.Helpers;
+using GameEngine.Extensions;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -154,7 +154,7 @@ namespace Some2DRPG
             LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader(LightShader);
 
-            Engine.ShowEntityDebugInfo = false;
+            Engine.ShowEntityDebugInfo = true;
             Engine.ShowBoundingBoxes = false;
             Engine.ShowTileGrid = false;
 
@@ -197,40 +197,40 @@ namespace Some2DRPG
 
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F1, true))
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F1, true))
                 Engine.ShowBoundingBoxes = !Engine.ShowBoundingBoxes;
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F2, true))
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F2, true))
                 showDebugInfo = !showDebugInfo;
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F3, true))
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F3, true))
                 LightShader.Enabled = !LightShader.Enabled;
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F4, true))
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F4, true))
                 CurrentSampler = SamplerStates[++SamplerIndex % SamplerStates.Length];
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F5, true))
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F5, true))
                 Engine.ShowTileGrid = !Engine.ShowTileGrid;
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F6, true))
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F6, true))
                 Engine.ShowQuadTree = !Engine.ShowQuadTree;
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F7, true))
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F7, true))
                 showDiagnostics = !showDiagnostics;
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F10, true))
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F10, true))
                 Graphics.ToggleFullScreen();
 
-            if (KeyboardHelper.GetKeyDownState(keyboardState, Keys.F11, true))
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F11, true))
             {
                 helmetVisible = !helmetVisible;
                 CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
             }
 
-            if(KeyboardHelper.GetKeyDownState(keyboardState, Keys.OemPlus, true))
+            if(KeyboardExtensions.GetKeyDownState(keyboardState, Keys.OemPlus, true))
                 Zoom += 0.1f;
 
-            if(KeyboardHelper.GetKeyDownState(keyboardState, Keys.OemMinus, true))
+            if(KeyboardExtensions.GetKeyDownState(keyboardState, Keys.OemMinus, true))
                 Zoom -= 0.1f;
 
             base.Update(gameTime);

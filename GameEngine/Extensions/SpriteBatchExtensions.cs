@@ -1,13 +1,31 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
 
-namespace GameEngine.Geometry
+namespace GameEngine.Extensions
 {
-    /// <summary>
-    /// Class that provides static extension methods for drawing Geometrical shapes on the Display
-    /// </summary>
-    public static class ShapeExtensions
+    public static class SpriteBatchExtensions
     {
+        public static void DrawMultiLineString(this SpriteBatch SpriteBatch, SpriteFont SpriteFont, string Message, Vector2 Position, Color Color)
+        {
+            string[] messageLines = Message.Split('\n');
+
+            for (int i = 0; i < messageLines.Length; i++)
+            {
+                string message = messageLines[i];
+
+                Vector2 messageMetrics = SpriteFont.MeasureString(message);
+                Vector2 messageVector = new Vector2(
+                        Position.X - messageMetrics.X / 2,
+                        Position.Y - messageMetrics.Y * messageLines.Length / 2 + i * messageMetrics.Y
+                    );
+                SpriteBatch.DrawString(SpriteFont, message, messageVector, Color);
+            }
+        }
+
         //NOTE: It is important to avoid initialising a new Texture each time
         //This is extremely memory intensive and will end up causing a large memory leak
         //use a cached copy of a texture each time one of the methods below are called

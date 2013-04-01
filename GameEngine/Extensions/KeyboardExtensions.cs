@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 
-namespace GameEngine.Helpers
+namespace GameEngine.Extensions
 {
-    public static class KeyboardHelper
+    public static class KeyboardExtensions
     {
         private static HashSet<Keys> _lockedKeys = new HashSet<Keys>();
 

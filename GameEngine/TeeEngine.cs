@@ -9,6 +9,7 @@ using GameEngine.Info;
 using GameEngine.Interfaces;
 using GameEngine.Shaders;
 using GameEngine.Tiled;
+using GameEngine.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -530,26 +531,15 @@ namespace GameEngine
                         //DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
                         if (ShowEntityDebugInfo)
                         {
-                            List<string> Messages = new List<string>();
-                            Messages.Add(objectDestRect.ToString());
-                            Messages.Add(string.Format(
-                                "PX={0},PY={1}",
-                                entity.PX, entity.PY,
-                                entity.PX * viewPortInfo.ActualZoom,
-                                entity.PY * viewPortInfo.ActualZoom
-                                ));
-
-                            for (int i = 0; i < Messages.Count; i++)
-                            {
-                                string message = Messages[i];
-
-                                Vector2 messageMetrics = SpriteFont.MeasureString(message);
-                                Vector2 messageVector = new Vector2(
-                                        pxAbsBoundingBox.X + objectDestRect.Width / 2 - messageMetrics.X / 2,
-                                        pxAbsBoundingBox.Y + objectDestRect.Height / 2 - messageMetrics.Y * Messages.Count / 2 + i * messageMetrics.Y
-                                    );
-                                SpriteBatch.DrawString(SpriteFont, message, messageVector, Color.Red);
-                            }
+                            string message = string.Format("{0}\nPX={1},PY={2}", objectDestRect, entity.PX, entity.PY);
+                            SpriteBatch.DrawMultiLineString(
+                                SpriteFont,
+                                message,
+                                new Vector2(
+                                    objectDestRect.X - objectDestRect.Width * drawable.Drawable.rxDrawOrigin.X + objectDestRect.Width / 2, 
+                                    objectDestRect.Y - objectDestRect.Height * drawable.Drawable.rxDrawOrigin.Y + objectDestRect.Height / 2
+                                    ),
+                                Color.Red);
                         }
                     }
 

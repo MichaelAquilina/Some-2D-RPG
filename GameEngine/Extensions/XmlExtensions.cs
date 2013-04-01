@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace GameEngine.Helpers
+namespace GameEngine.Extensions
 {
     public static class XmlExtensions
     {
