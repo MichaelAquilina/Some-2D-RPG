@@ -9,6 +9,7 @@ namespace GameEngine.Extensions
 {
     public static class SpriteBatchExtensions
     {
+        //TODO, IS THIS REALLLLY NEEDED? THIS SEEMS TO BE DEFAULT BEHAVIOUR IN XNA
         public static void DrawMultiLineString(this SpriteBatch SpriteBatch, SpriteFont SpriteFont, string Message, Vector2 Position, Color Color)
         {
             string[] messageLines = Message.Split('\n');

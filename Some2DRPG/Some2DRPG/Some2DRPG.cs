@@ -192,6 +192,8 @@ namespace Some2DRPG
             //F4 = Change Current SamplerState
             //F5 = Show/Hide Tile Grid
             //F6 = Show/Hide Quad Tree
+            //F7 = Show Performance Diagnostics
+            //F8 = Show Entity Debug Info
             //F10 = Toggle Fullscreen Mode
             //F11 = Show/Hide Player Helmet
 
@@ -230,9 +232,11 @@ namespace Some2DRPG
                 CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
             }
 
+            //INCREASE ZOOM LEVEL
             if(KeyboardExtensions.GetKeyDownState(keyboardState, Keys.OemPlus, true))
                 Zoom += 0.1f;
 
+            //DECREASE ZOOM LEVEL
             if(KeyboardExtensions.GetKeyDownState(keyboardState, Keys.OemMinus, true))
                 Zoom -= 0.1f;
 
@@ -309,7 +313,7 @@ namespace Some2DRPG
                     SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Latest Node Index = " + Engine.QuadTree.LatestNodeIndex, GeneratePos(textHeight), Color.White);
-                    SpriteBatch.DrawString(DefaultSpriteFont, "Zoom = " + viewPort.ActualZoom, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Actual Zoom = " + viewPort.ActualZoom, GeneratePos(textHeight), Color.White);
                 }
 
                 if (showDiagnostics)
