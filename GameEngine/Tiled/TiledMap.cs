@@ -20,6 +20,8 @@ namespace GameEngine.Tiled
         public int pxTileWidth { get; set; }
         public int pxTileHeight { get; set; }
 
+        public Color Background { get; set; }
+
         public SortedList<int, Tile> Tiles { get; set; }
         public List<TileLayer> TileLayers { get; set; }
         public List<ObjectLayer> ObjectLayers { get; set; }
@@ -96,7 +98,7 @@ namespace GameEngine.Tiled
             map.txHeight = mapNode.GetAttributeValue<int>("height", -1, true);
             map.pxTileWidth = mapNode.GetAttributeValue<int>("tilewidth", -1, true);
             map.pxTileHeight = mapNode.GetAttributeValue<int>("tileheight", -1, true);
-            map.LoadProperties(mapNode);
+            map.Background = mapNode.GetAttributeValue("backgroundcolor", "#000000").ToColor();
 
             //OBJECT LAYERS
             foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))

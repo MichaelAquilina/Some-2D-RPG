@@ -354,8 +354,8 @@ namespace GameEngine
         {
             ViewPortInfo viewPortInfo = new ViewPortInfo();
             {
-                viewPortInfo.pxTileWidth  = (int) Math.Round(Map.pxTileWidth * Zoom);
-                viewPortInfo.pxTileHeight = (int) Math.Round(Map.pxTileHeight * Zoom);
+                viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * Zoom);
+                viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * Zoom);
 
                 //Note about ActualZoom Property:
                 //because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
@@ -395,7 +395,7 @@ namespace GameEngine
 
             //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
             GraphicsDevice.SetRenderTarget(_inputBuffer);
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Map.Background);
 
             //DRAW THE WORLD MAP
             _watch1.Restart();
