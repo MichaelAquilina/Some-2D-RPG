@@ -1,21 +1,21 @@
 using System;
+using System.Diagnostics;
+using System.Text;
 using GameEngine;
-using GameEngine.GameObjects;
+using GameEngine.DataStructures;
+using GameEngine.Drawing;
 using GameEngine.Extensions;
+using GameEngine.GameObjects;
+using GameEngine.Geometry;
+using GameEngine.Info;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using ShadowKillGame.GameObjects;
 using Some2DRPG.GameObjects;
 using Some2DRPG.Shaders;
-using ShadowKillGame.GameObjects;
-using GameEngine.Drawing;
-using GameEngine.Geometry;
-using GameEngine.DataStructures;
-using GameEngine.Info;
-using System.Diagnostics;
-using System.Text;
 
 namespace Some2DRPG
 {
