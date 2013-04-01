@@ -107,21 +107,7 @@ namespace Some2DRPG
             {
                 foreach (MapObject mapObject in layer.Objects)
                 {
-                    if (mapObject.Type != null && mapObject.Type.ToUpper() == "ENTITY")
-                    {
-                        Entity entity = new Entity();
-                        entity.PX = mapObject.X;
-                        entity.PY = mapObject.Y;
-                        entity.ScaleX = mapObject.GetProperty<float>("Width", 1.0f);
-                        entity.ScaleY = mapObject.GetProperty<float>("Height", 1.0f);
-                        entity.Visible = true;
-                        Animation.LoadAnimationXML(entity.Drawables, mapObject.GetProperty("AnimationSet"), Content, "");
-                        entity.CurrentDrawable = mapObject.GetProperty("CurrentAnimation");
-                        entity.Origin = new Vector2(0.5f, 1.0f);   //TODO: Load from Map Object Properties rather than hard code
-
-                        Engine.AddEntity(mapObject.Name, entity);
-                    }
-                    if (mapObject.Type != null && mapObject.Type.ToUpper() == "MAPOBJECT" || mapObject.Type == "")
+                    if (mapObject.Gid != -1)
                     {
                         Entity entity = new Entity();
                         entity.PX = mapObject.X;

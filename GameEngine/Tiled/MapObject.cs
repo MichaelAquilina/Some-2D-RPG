@@ -13,6 +13,13 @@ namespace GameEngine.Tiled
         public string Name { get; set; }
         public string Type { get; set; }
 
+        public MapObject()
+        {
+            Gid = -1;
+            X = -1;
+            Y = -1;
+        }
+
         public override string ToString()
         {
             return string.Format("MapObject: Name={0}, Type={1}, Pos=({2},{3})",

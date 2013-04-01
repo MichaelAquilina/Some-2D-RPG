@@ -115,7 +115,7 @@ namespace GameEngine.Tiled
                     mapObject.Type = objectNode.GetAttributeValue("type");
                     mapObject.X = objectNode.GetAttributeValue<int>("x", 0);
                     mapObject.Y = objectNode.GetAttributeValue<int>("y", 0);
-                    mapObject.Gid = objectNode.GetAttributeValue<int>("gid", 0);
+                    mapObject.Gid = objectNode.GetAttributeValue<int>("gid", -1);
                     mapObject.LoadProperties(objectNode);
 
                     mapObjectLayer.Objects.Add(mapObject);
@@ -138,7 +138,8 @@ namespace GameEngine.Tiled
                 int imageHeight = imageNode.GetAttributeValue<int>("height", -1, true);
 
                 //TODO: Make this a abit smart since tile wont set the content names automatically for us
-                Texture2D sourceTexture = Content.Load<Texture2D>(source.Substring(0,source.LastIndexOf('.')));     //TEMP WORKAROUND FOR TILED SAVING FORMAT
+                //TEMP WORKAROUND FOR TILED SAVING FORMAT
+                Texture2D sourceTexture = Content.Load<Texture2D>(source.Substring(0,source.LastIndexOf('.')));     
 
                 //PreBuild the tiles from the tileset information
                 int i = 0;
