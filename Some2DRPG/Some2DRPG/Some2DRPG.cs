@@ -154,7 +154,7 @@ namespace Some2DRPG
             LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader(LightShader);
 
-            Engine.ShowEntityDebugInfo = true;
+            Engine.ShowEntityDebugInfo = false;
             Engine.ShowBoundingBoxes = false;
             Engine.ShowTileGrid = false;
 
@@ -217,6 +217,9 @@ namespace Some2DRPG
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F7, true))
                 showDiagnostics = !showDiagnostics;
+
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F8, true))
+                Engine.ShowEntityDebugInfo = !Engine.ShowEntityDebugInfo;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F10, true))
                 Graphics.ToggleFullScreen();
