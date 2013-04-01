@@ -309,25 +309,27 @@ namespace GameEngine
         {
             if (Node == null) return;
 
-            float PX = Node.pxBounds.X - viewPort.pxTopLeftX;
-            float PY = Node.pxBounds.Y - viewPort.pxTopLeftY;
-            int pxWidth = Node.pxBounds.Width;
-            int pxHeight = Node.pxBounds.Height;
+            float absoluteX = Node.pxBounds.X - viewPort.pxTopLeftX;
+            float absoluteY = Node.pxBounds.Y - viewPort.pxTopLeftY;
 
-            string nodeIdText = Node.NodeID.ToString();
+            int actualX = (int)Math.Ceiling(absoluteX * viewPort.ActualZoom);
+            int actualY = (int)Math.Ceiling(absoluteY * viewPort.ActualZoom);
 
-            if (new Rectangle((int)PX, (int)PY, pxWidth, pxHeight).Intersects(DestRectangle) && Node.Node1 == null)
+            //We need to calculate the 'Actual' width and height otherwise drawing might be innacurate when zoomed
+            int actualWidth = (int)Math.Ceiling(((absoluteX + Node.pxBounds.Width) * viewPort.ActualZoom) - actualX);
+            int actualHeight = (int)Math.Ceiling(((absoluteY + Node.pxBounds.Height) * viewPort.ActualZoom) - actualY);
+
+            //Only draw leaf nodes which are within the viewport specified
+            if (Node.Node1 == null 
+                && new Rectangle(actualX, actualY, actualWidth, actualHeight).Intersects(DestRectangle))
             {
-                PX = (int)Math.Ceiling(PX * viewPort.ActualZoom);
-                PY = (int)Math.Ceiling(PY * viewPort.ActualZoom);
-                pxWidth = (int)Math.Round(pxWidth * viewPort.ActualZoom);
-                pxHeight = (int)Math.Round(pxHeight * viewPort.ActualZoom);
+                string nodeText = Node.NodeID.ToString();
 
-                SpriteBatch.DrawRectangle(new Rectangle((int)PX, (int)PY, pxWidth, pxHeight), Color.Lime, 0);
+                SpriteBatch.DrawRectangle(new Rectangle(actualX, actualY, actualWidth, actualHeight), Color.Lime, 0);
                 SpriteBatch.DrawString(
                     SpriteFont,
-                    nodeIdText,
-                    new Vector2(PX + pxWidth / 2.0f, PY + pxHeight / 2.0f) - SpriteFont.MeasureString(nodeIdText) / 2,
+                    nodeText,
+                    new Vector2(actualX + actualWidth / 2.0f, actualY + actualHeight / 2.0f) - SpriteFont.MeasureString(nodeText) / 2,
                     Color.Lime
                 );
             }
