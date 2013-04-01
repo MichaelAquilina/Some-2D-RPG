@@ -313,14 +313,15 @@ namespace GameEngine
             float PY = Node.pxBounds.Y - viewPort.pxTopLeftY;
             int pxWidth = Node.pxBounds.Width;
             int pxHeight = Node.pxBounds.Height;
+
             string nodeIdText = Node.NodeID.ToString();
 
-            if (new Rectangle((int)PX, (int)PY, pxWidth, pxHeight).Intersects(DestRectangle))
+            if (new Rectangle((int)PX, (int)PY, pxWidth, pxHeight).Intersects(DestRectangle) && Node.Node1 == null)
             {
                 PX = (int)Math.Ceiling(PX * viewPort.ActualZoom);
                 PY = (int)Math.Ceiling(PY * viewPort.ActualZoom);
-                pxWidth = (int)Math.Ceiling(pxWidth * viewPort.ActualZoom);
-                pxHeight = (int)Math.Ceiling(pxHeight * viewPort.ActualZoom);
+                pxWidth = (int)Math.Round(pxWidth * viewPort.ActualZoom);
+                pxHeight = (int)Math.Round(pxHeight * viewPort.ActualZoom);
 
                 SpriteBatch.DrawRectangle(new Rectangle((int)PX, (int)PY, pxWidth, pxHeight), Color.Lime, 0);
                 SpriteBatch.DrawString(
@@ -329,12 +330,12 @@ namespace GameEngine
                     new Vector2(PX + pxWidth / 2.0f, PY + pxHeight / 2.0f) - SpriteFont.MeasureString(nodeIdText) / 2,
                     Color.Lime
                 );
-
-                DrawQuadTree(viewPort, SpriteBatch, Node.Node1, DestRectangle, SpriteFont);
-                DrawQuadTree(viewPort, SpriteBatch, Node.Node2, DestRectangle, SpriteFont);
-                DrawQuadTree(viewPort, SpriteBatch, Node.Node3, DestRectangle, SpriteFont);
-                DrawQuadTree(viewPort, SpriteBatch, Node.Node4, DestRectangle, SpriteFont);
             }
+
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node1, DestRectangle, SpriteFont);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node2, DestRectangle, SpriteFont);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node3, DestRectangle, SpriteFont);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node4, DestRectangle, SpriteFont);
         }
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, float pxCenterX, float pxCenterY, float Zoom, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState, SpriteFont SpriteFont=null)
@@ -459,6 +460,8 @@ namespace GameEngine
                         entity.PY * viewPortInfo.ActualZoom - entityDispY
                     );
 
+                    //BUG: Due to float nature of PX, PY, the bounding box can be very very innacurate when drawing on the screen
+                    //We need to find a way round this because it is not ideal if we intend to allow entities to move using floating point accuracy
                     Rectangle pxAbsBoundingBox = new Rectangle(
                         (int) Math.Ceiling(entity.CurrentPxBoundingBox.X * viewPortInfo.ActualZoom - entityDispX),
                         (int) Math.Ceiling(entity.CurrentPxBoundingBox.Y * viewPortInfo.ActualZoom - entityDispY),
