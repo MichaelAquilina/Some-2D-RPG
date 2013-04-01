@@ -61,9 +61,9 @@ rather than the creative design aspects (including sound/music).
 Screenshots
 -----------
 
-<img src="HighEntities.png" width="630" height="350"></img>
-<img src="QuadTree.gif" width="630" height="350"></img>
-<img src="GameProgress3.png" width="630" height="350"></img>
-<img src="GameProgress2.png" width="630" height="350"></img>
-<img src="GameProgress.png" width="630" height="350"></img>
+<img src="Images/HighEntities.png" width="630" height="350"></img>
+<img src="Images/QuadTree.gif" width="630" height="350"></img>
+<img src="Images/GameProgress3.png" width="630" height="350"></img>
+<img src="Images/GameProgress2.png" width="630" height="350"></img>
+<img src="Images/GameProgress.png" width="630" height="350"></img>
 
