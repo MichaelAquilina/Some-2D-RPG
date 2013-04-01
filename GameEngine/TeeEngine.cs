@@ -4,7 +4,6 @@ using System.Diagnostics;
 using GameEngine.DataStructures;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
-using GameEngine.Geometry;
 using GameEngine.Info;
 using GameEngine.Interfaces;
 using GameEngine.Shaders;
@@ -189,6 +188,35 @@ namespace GameEngine
                 loadableShader.UnloadContent();
         }
 
+        public void LoadMap(TiledMap Map)
+        {
+            this.Map = Map;
+            this.QuadTree = new QuadTree(Map.txWidth, Map.txHeight, Map.pxTileWidth, Map.pxTileHeight);
+        }
+
+        public void SetResolution(int pxWidth, int pxHeight)
+        {
+            this.pxWidth = pxWidth;
+            this.pxHeight = pxHeight;
+
+            if (Map != null)
+                QuadTree = new QuadTree(Map.txWidth, Map.txHeight, Map.pxTileWidth, Map.pxTileHeight);
+
+            if (_outputBuffer != null)
+                _outputBuffer.Dispose();
+
+            if (_inputBuffer != null)
+                _inputBuffer.Dispose();
+
+            _inputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
+            _outputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
+
+            //allow all game shaders to become aware of the change in resolution
+            foreach (GameShader shader in GameShaders) shader.SetResolution(pxWidth, pxHeight);
+        }
+
+        #region Entity Related Functions
+
         public void AddEntity(Entity Entity)
         {
             AddEntity(null, Entity);
@@ -219,6 +247,10 @@ namespace GameEngine
             }
         }
 
+        #endregion
+
+        #region Shader Related Functions
+
         public bool IsRegistered(GameShader Shader)
         {
             return GameShaders.Contains(Shader);
@@ -237,32 +269,7 @@ namespace GameEngine
             return GameShaders.Remove(Shader);
         }
 
-        public void LoadMap(TiledMap Map)
-        {
-            this.Map = Map;
-            this.QuadTree = new QuadTree(Map.txWidth, Map.txHeight, Map.pxTileWidth, Map.pxTileHeight);
-        }
-
-        public void SetResolution(int pxWidth, int pxHeight)
-        {
-            this.pxWidth = pxWidth;
-            this.pxHeight = pxHeight;
-
-            if (Map != null)
-                QuadTree = new QuadTree(Map.txWidth, Map.txHeight, Map.pxTileWidth, Map.pxTileHeight);
-
-            if (_outputBuffer != null)
-                _outputBuffer.Dispose();
-
-            if (_inputBuffer != null)
-                _inputBuffer.Dispose();
-
-            _inputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
-            _outputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
-
-            //allow all game shaders to become aware of the change in resolution
-            foreach (GameShader shader in GameShaders) shader.SetResolution(pxWidth, pxHeight);
-        }
+        #endregion
 
         public override void Update(GameTime GameTime)
         {
@@ -305,6 +312,8 @@ namespace GameEngine
             DebugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
             DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
         }
+
+        #region Drawing Code
 
         private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch SpriteBatch, QuadTreeNode Node, Rectangle DestRectangle, SpriteFont SpriteFont)
         {
@@ -583,5 +592,7 @@ namespace GameEngine
 
             return viewPortInfo;
         }
+
+        #endregion
     }
 }
