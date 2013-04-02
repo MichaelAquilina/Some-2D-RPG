@@ -6,7 +6,6 @@ using GameEngine.DataStructures;
 using GameEngine.Drawing;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
-using GameEngine.Geometry;
 using GameEngine.Info;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;

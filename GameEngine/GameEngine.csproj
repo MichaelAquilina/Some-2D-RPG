@@ -95,7 +95,7 @@
     <Compile Include="Drawing\Animation.cs" />
     <Compile Include="Drawing\DrawableSet.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
-    <Compile Include="Geometry\FRectangle.cs" />
+    <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="Drawing\GameDrawableInstance.cs" />
     <Compile Include="Drawing\StaticImage.cs" />
     <Compile Include="Extensions\SpriteBatchExtensions.cs" />

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 
-namespace GameEngine.Geometry
+namespace GameEngine.Drawing
 {
     /// <summary>
     /// Rectangle Structure that uses Float values as storage rather than integers such as the ones
