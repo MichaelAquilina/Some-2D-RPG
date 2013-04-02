@@ -6,6 +6,14 @@ to first focus on 2D development since this would provide me with a nice startin
 able to make use of more advanced techniques like shaders. I also have a personal love for retro 2D games like the older
 final fantasy series and other SNES titles.
 
+Contribution
+============
+
+If anyone wishes to contact me about possibly contributing to the project they may do so by emailing me on michaelaquilina (AT) gmail.com.
+
+I am mainly in need of artists and sound engineers - however programmers and game designers are also welcome to contribute.
+
+
 Development Platform
 --------------------
 I decided to make use of XNA becauase i feel very comfortable using C# as a development language, and still have a lot to learn when it comes to C++.
@@ -67,13 +75,6 @@ Assets that were made for the [Liberated Pixel Cup](http://lpc.opengameart.org/)
 
 I may attempt to design/draw some pixel art myself in the future, but i have decided to currently focus on development 
 rather than the creative design aspects (including sound/music).
-
-Contribution
-------------
-
-If anyone wishes to contact me about possibly contributing to the project they may do so by emailing me on michaelaquilina (AT) gmail.com.
-
-I am mainly in need of artists and sound engineers - however programmers and game designers are also welcome to contribute.
 
 Screenshots
 -----------
