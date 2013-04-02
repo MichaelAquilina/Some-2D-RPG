@@ -15,10 +15,23 @@ namespace GameEngine.Drawing
         public float Width { get { return _width; } set { _width = value; } }
         public float Height { get { return _height; } set { _height = value; } }
 
+        public float Top { get { return _y; } }
+        public float Left { get { return _x; } }
+        public float Bottom { get { return _y + _height; } }
+        public float Right { get { return _x + _width; } }
+
         private float _x;
         private float _y;
         private float _width;
         private float _height;
+
+        public FRectangle(Rectangle Rectangle)
+        {
+            _x = Rectangle.X;
+            _y = Rectangle.Y;
+            _width = Rectangle.Width;
+            _height = Rectangle.Height;
+        }
 
         public FRectangle(float X, float Y, float Width, float Height)
         {
@@ -27,6 +40,61 @@ namespace GameEngine.Drawing
             _width = Width;
             _height = Height;
         }
+
+        public bool Intersects(FRectangle FRectangle)
+        {
+            return !(FRectangle.Right < this.Left
+                      || FRectangle.Left > this.Right
+                      || FRectangle.Bottom < this.Top
+                      || FRectangle.Top > this.Bottom );
+        }
+
+        public bool Contains(FRectangle FRectangle)
+        {
+            return !(FRectangle.Right < this.Left || FRectangle.Right > this.Right
+                     || FRectangle.Left < this.Left || FRectangle.Left > this.Right
+                     || FRectangle.Top < this.Top || FRectangle.Top > this.Bottom
+                     || FRectangle.Bottom < this.Top || FRectangle.Bottom > this.Bottom);
+        }
+
+        public bool Intersects(Rectangle Rectangle)
+        {
+            return Intersects(new FRectangle(Rectangle));
+        }
+
+        public bool Contains(Rectangle Rectangle)
+        {
+            return Contains(new FRectangle(Rectangle));
+        }
+
+        public Rectangle ToRectangle()
+        {
+            return new Rectangle(
+                (int)Math.Ceiling(X),
+                (int)Math.Ceiling(Y),
+                (int)Math.Ceiling(Width),
+                (int)Math.Ceiling(Height));
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is FRectangle)
+                return this == (FRectangle)obj;
+            else
+                return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return X.GetHashCode() + Y.GetHashCode() + Width.GetHashCode() + Height.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return string.Format("FRectangle: X={0}, Y={1}, Width={2}, Height={3}", X, Y, Width, Height);
+        }
+
+        #region Static Operators
 
         public static FRectangle operator +(FRectangle FRectangle, Vector2 Vector)
         {
@@ -62,31 +130,6 @@ namespace GameEngine.Drawing
             return !(FRect1 == FRect2);
         }
 
-        public Rectangle ToRectangle()
-        {
-            return new Rectangle(
-                (int)Math.Ceiling(X),
-                (int)Math.Ceiling(Y),
-                (int)Math.Ceiling(Width),
-                (int)Math.Ceiling(Height));
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is FRectangle)
-                return this == (FRectangle)obj;
-            else
-                return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return X.GetHashCode() + Y.GetHashCode() + Width.GetHashCode() + Height.GetHashCode();
-        }
-
-        public override string ToString()
-        {
-            return string.Format("FRectangle: X={0}, Y={1}, Width={2}, Height={3}", X, Y, Width, Height);
-        }
+        #endregion
     }
 }
