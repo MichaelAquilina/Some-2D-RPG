@@ -22,7 +22,7 @@ Some current features found in the Engine include:
 * Composite Animation Support (Including loading from XML files)
 * Entity framework for Players, NPCs, Monsters, objects etc..
 * Input Extension Methods for quicker development (Currently only for the keyboard)
-* Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting)
+* Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting). *In its current state, these are technically only post-effect shaders however i plan to support an interface for tile and pre entity shadering*
 * Support for loading [Tiled](http://www.mapeditor.org/) map files. (Current no zlib support - however this is planned)
 * Efficient Collision Detection using a QuadTree implementation (see GIF below)
 * Adjustable viewports of the current Game state, including the ability to Scale.
@@ -64,7 +64,7 @@ Contribution
 
 If anyone wishes to contact me about possibly contributing to the project they may do so by emailing me on michaelaquilina (AT) gmail.com.
 
-I am mainly in need of artists and sound engineers, however programmers and game designers are also welcome to contribute.
+I am mainly in need of artists and sound engineers - however programmers and game designers are also welcome to contribute.
 
 Screenshots
 -----------
