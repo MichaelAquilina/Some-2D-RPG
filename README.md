@@ -27,6 +27,7 @@ Some current features found in the Engine include:
 * Efficient Collision Detection using a QuadTree implementation (see GIF below)
 * Adjustable viewports of the current Game state, including the ability to Scale.
 * Detailed Diagnostic information about engine performance that will allow easy detection of bottlenecks
+* The ability to Zoom at any specified level when drawing the game world in a viewport
 
 Some other features present outside the engine
 * 2D Light Shader
@@ -57,6 +58,13 @@ Assets that were made for the [Liberated Pixel Cup](http://lpc.opengameart.org/)
 
 I may attempt to design/draw some pixel art myself in the future, but i have decided to currently focus on development 
 rather than the creative design aspects (including sound/music).
+
+Contribution
+------------
+
+If anyone wishes to contact me about possibly contributing to the project they may do so by emailing me on michaelaquilina (AT) gmail.com.
+
+I am mainly in need of artists and sound engineers, however programmers and game designers are also welcome to contribute.
 
 Screenshots
 -----------
