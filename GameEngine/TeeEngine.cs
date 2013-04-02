@@ -484,22 +484,17 @@ namespace GameEngine
                         entity.PY * viewPortInfo.ActualZoom - entityDispY
                     );
 
-                    Rectangle pxAbsBoundingBox = new Rectangle(
-                        (int) Math.Floor(entity.CurrentPxBoundingBox.X * viewPortInfo.ActualZoom - entityDispX),
-                        (int) Math.Floor(entity.CurrentPxBoundingBox.Y * viewPortInfo.ActualZoom - entityDispY),
-                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Width * viewPortInfo.ActualZoom),
-                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Height * viewPortInfo.ActualZoom)
+                    FRectangle pxAbsBoundingBox = new FRectangle(
+                        (entity.CurrentPxBoundingBox.X - viewPortInfo.pxTopLeftX) * viewPortInfo.ActualZoom,
+                        (entity.CurrentPxBoundingBox.Y - viewPortInfo.pxTopLeftY) * viewPortInfo.ActualZoom,
+                        entity.CurrentPxBoundingBox.Width * viewPortInfo.ActualZoom,
+                        entity.CurrentPxBoundingBox.Height * viewPortInfo.ActualZoom
                     );
 
                     //DRAW ENTITY BOUNDING BOXES IF ENABLED
                     if (ShowBoundingBoxes)
                     {
-                        SpriteBatch.DrawRectangle(new Rectangle(
-                            pxAbsBoundingBox.X,
-                            pxAbsBoundingBox.Y,
-                            pxAbsBoundingBox.Width,
-                            pxAbsBoundingBox.Height)
-                            , Color.Red, 0f);
+                        SpriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0f);
                         SpriteBatch.DrawCross(new Vector2(pxAbsEntityPos.X, pxAbsEntityPos.Y), 13, Color.Black, 0f);
                     }
 
@@ -550,7 +545,7 @@ namespace GameEngine
                         //DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
                         if (ShowEntityDebugInfo)
                         {
-                            string message = string.Format("{0}\nPX={1},PY={2}", objectDestRect, entity.PX, entity.PY);
+                            string message = string.Format("{0}\nPX={1},PY={2}\n{3}/{4}", objectDestRect, entity.PX, entity.PY, pxAbsBoundingBox, (entity.CurrentPxBoundingBox.Y - viewPortInfo.pxTopLeftY )* viewPortInfo.ActualZoom);
                             SpriteBatch.DrawMultiLineString(
                                 SpriteFont,
                                 message,

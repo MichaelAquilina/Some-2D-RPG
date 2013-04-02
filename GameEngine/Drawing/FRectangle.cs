@@ -69,11 +69,12 @@ namespace GameEngine.Drawing
 
         public Rectangle ToRectangle()
         {
-            return new Rectangle(
-                (int)Math.Ceiling(X),
-                (int)Math.Ceiling(Y),
-                (int)Math.Ceiling(Width),
-                (int)Math.Ceiling(Height));
+            int X = (int)Math.Floor(this.X); 
+            int Y = (int)Math.Floor(this.Y);
+            int Height = (int) (Math.Round(this.Height + X - this.X));     //determine the difference between the floored X and actual X
+            int Width =  (int) (Math.Round(this.Width + Y - this.Y));      //same as above
+
+            return new Rectangle(X, Y, Width, Height);
         }
 
         public override bool Equals(object obj)
