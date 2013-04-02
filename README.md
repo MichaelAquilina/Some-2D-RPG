@@ -27,7 +27,15 @@ Some current features found in the Engine include:
 * Support for loading [Tiled](http://www.mapeditor.org/) map files. (Current no zlib support - however this is planned)
 * Efficient Collision Detection using a QuadTree implementation (see GIF below)
 * Adjustable viewports of the current Game state, including the ability to Scale.
-* Detailed Diagnostic information about engine performance that will allow easy detection of bottlenecks
+* Detailed Diagnostic information about engine performance that will allow easy detection of bottlenecks. (see *DebugInfo*)
+    * Per Entity Render Time
+    * Per Entity Update Time
+    * Total Entity Update Tmie
+    * Total Entity Render Time
+    * Total Tile Render Time
+    * Per Game Shader Render Time
+    * Total Game Shader Render Time
+    * QuadTree Update Time
 * The ability to Zoom at any specified level when drawing the game world in a viewport
 
 Some other features present outside the engine
