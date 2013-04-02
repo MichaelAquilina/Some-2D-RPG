@@ -237,14 +237,21 @@ namespace GameEngine
             return _entities[Name];
         }
 
-        public void RemoveEntity(string Name)
+        public bool RemoveEntity(string Name)
         {
             if (_entities.ContainsKey(Name))
             {
                 QuadTree.Root.Remove(_entities[Name], null);
                 _entities[Name].Name = null;
-                _entities.Remove(Name);
+                return _entities.Remove(Name);
             }
+
+            return false;
+        }
+
+        public bool RemoveEntity(Entity Entity)
+        {
+            return RemoveEntity(Entity.Name);
         }
 
         #endregion
