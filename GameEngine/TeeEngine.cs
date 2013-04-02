@@ -232,6 +232,11 @@ namespace GameEngine
             Entity.requiresAddition = true;
         }
 
+        public ICollection<Entity> GetEntities()
+        {
+            return _entities.Values;
+        }
+
         public Entity GetEntity(string Name)
         {
             return _entities[Name];
