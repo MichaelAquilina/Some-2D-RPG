@@ -470,7 +470,7 @@ namespace GameEngine
             _watch1.Restart();
             SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
             {
-                EntitiesOnScreen = QuadTree.GetIntersectingEntites(viewPortInfo.pxViewPortBounds);
+                EntitiesOnScreen = QuadTree.GetIntersectingEntites(new FRectangle(viewPortInfo.pxViewPortBounds));
 
                 foreach (Entity entity in EntitiesOnScreen)
                 {
@@ -484,11 +484,9 @@ namespace GameEngine
                         entity.PY * viewPortInfo.ActualZoom - entityDispY
                     );
 
-                    //BUG: Due to float nature of PX, PY, the bounding box can be very very innacurate when drawing on the screen
-                    //We need to find a way round this because it is not ideal if we intend to allow entities to move using floating point accuracy
                     Rectangle pxAbsBoundingBox = new Rectangle(
-                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.X * viewPortInfo.ActualZoom - entityDispX),
-                        (int) Math.Ceiling(entity.CurrentPxBoundingBox.Y * viewPortInfo.ActualZoom - entityDispY),
+                        (int) Math.Floor(entity.CurrentPxBoundingBox.X * viewPortInfo.ActualZoom - entityDispX),
+                        (int) Math.Floor(entity.CurrentPxBoundingBox.Y * viewPortInfo.ActualZoom - entityDispY),
                         (int) Math.Ceiling(entity.CurrentPxBoundingBox.Width * viewPortInfo.ActualZoom),
                         (int) Math.Ceiling(entity.CurrentPxBoundingBox.Height * viewPortInfo.ActualZoom)
                     );

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
+using GameEngine.Drawing;
 
 namespace GameEngine.DataStructures
 {
@@ -23,7 +24,7 @@ namespace GameEngine.DataStructures
         public QuadTree QuadTree { get; internal set; }
         public List<Entity> Entities { get; internal set; }
 
-        public Rectangle pxBounds { get; internal set; }
+        public FRectangle pxBounds { get; internal set; }
         public uint NodeID { get; set; }
 
         public bool IsLeafNode { get { return Node1 == null; } }
@@ -75,17 +76,17 @@ namespace GameEngine.DataStructures
             return false;
         }
 
-        public bool Contains(Rectangle pxBoundingBox)
+        public bool Contains(FRectangle pxBoundingBox)
         {
             return pxBounds.Contains(pxBoundingBox);
         }
 
-        public bool Intersects(Rectangle pxBoundingBox)
+        public bool Intersects(FRectangle pxBoundingBox)
         {
             return pxBounds.Intersects(pxBoundingBox);
         }
 
-        public void Remove(Entity Entity, Rectangle? pxBoundingBox)
+        public void Remove(Entity Entity, FRectangle? pxBoundingBox)
         {
             List<QuadTreeNode> associations = new List<QuadTreeNode>();
             GetAssociatedNodes(Entity, pxBoundingBox, ref associations);
@@ -99,8 +100,8 @@ namespace GameEngine.DataStructures
 
         public void Add(Entity Entity)
         {
-            int pxHalfWidth = (int)Math.Ceiling(pxBounds.Width / 2.0f);
-            int pxHalfHeight = (int)Math.Ceiling(pxBounds.Height / 2.0f);
+            float pxHalfWidth = pxBounds.Width / 2.0f;
+            float pxHalfHeight = pxBounds.Height / 2.0f;
 
             if ((IsLeafNode && Entities.Count < QuadTree.EntityLimit) || pxHalfWidth <= QuadTree.pxTileWidth || pxHalfHeight <= QuadTree.pxTileHeight)
             {
@@ -119,20 +120,20 @@ namespace GameEngine.DataStructures
                 Node2 = QuadTree.GetQuadTreeNode(
                     pxBounds.X + pxHalfWidth,
                     pxBounds.Y,
-                    pxBounds.Width - pxHalfWidth,
+                    pxHalfWidth,
                     pxHalfHeight,
                     this);
                 Node3 = QuadTree.GetQuadTreeNode(
                     pxBounds.X,
                     pxBounds.Y + pxHalfHeight,
                     pxHalfWidth,
-                    pxBounds.Height - pxHalfHeight,
+                    pxHalfHeight,
                     this);
                 Node4 = QuadTree.GetQuadTreeNode(
                     pxBounds.X + pxHalfWidth,
                     pxBounds.Y + pxHalfHeight,
-                    pxBounds.Width - pxHalfWidth,
-                    pxBounds.Height - pxHalfHeight,
+                    pxHalfWidth,
+                    pxHalfHeight,
                     this);
             }
 
@@ -176,7 +177,7 @@ namespace GameEngine.DataStructures
         }
 
         //if pxBoundingBox is null, it will search everywhere
-        public void GetAssociatedNodes(Entity Entity, Rectangle? pxBoundingBox, ref List<QuadTreeNode> Result)
+        public void GetAssociatedNodes(Entity Entity, FRectangle? pxBoundingBox, ref List<QuadTreeNode> Result)
         {
             if (IsLeafNode)
             {
@@ -190,7 +191,7 @@ namespace GameEngine.DataStructures
             if (pxBoundingBox == null || Node4.Intersects(pxBoundingBox.Value)) Node4.GetAssociatedNodes(Entity, pxBoundingBox, ref Result);
         }
 
-        internal void GetEntities(Rectangle? pxRegion, ref List<Entity> Result)
+        internal void GetEntities(FRectangle? pxRegion, ref List<Entity> Result)
         {
             if (Entities.Count > 0)
             {

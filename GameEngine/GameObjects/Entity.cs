@@ -25,13 +25,13 @@ namespace GameEngine.GameObjects
         public float Opacity { get; set; }                                //Opacity for the Entity. This effect stacks with whats specified in each drawables Color
         public bool Visible { get; set; }                                 //Hide or Show the entity
         public bool IsOnScreen { get; internal set; }                     //is the Entity currently on the screen or not
-        public Rectangle CurrentPxBoundingBox { get; internal set; }      //the last bounding box generated during the TeeEngine update
+        public FRectangle CurrentPxBoundingBox { get; internal set; }     //the last bounding box generated during the TeeEngine update
         public Vector2 Origin { get; set; }                               //Relative Origin to the Width and height of each animation
 
         public DrawableSet Drawables { get; set; }                        //The set of drawable instances associated with this Entity
         public string CurrentDrawable { get; set; }                       //The current Drawables enabled
 
-        internal Rectangle prevPxBoundingBox;                             //the previous BoundingBox that was assigned to this Entity
+        internal FRectangle prevPxBoundingBox;                            //the previous BoundingBox that was assigned to this Entity
         internal bool requiresAddition = false;                           //boolean flag notifying if the Entity needs addition into the QuadTree
 
         public Entity()
@@ -69,26 +69,26 @@ namespace GameEngine.GameObjects
         /// <param name="pxTileWidth">The Width of the viewport tiles in Pixels.</param>
         /// <param name="pxTileHeight">The Height of the viewport tiles in Pixels.</param>
         /// <returns>A Rectangle object specifying the bounding box of this Entity in Pixels.</returns>
-        public Rectangle GetPxBoundingBox(GameTime GameTime)
+        public FRectangle GetPxBoundingBox(GameTime GameTime)
         {
             List<GameDrawableInstance> drawables = Drawables[CurrentDrawable];
 
-            if (drawables.Count == 0) return new Rectangle((int) PX, (int) PY, 0, 0);
+            if (drawables.Count == 0) return new FRectangle(PX, PY, 0, 0);
 
-            int minX = Int32.MaxValue;
-            int minY = Int32.MaxValue;
-            int maxX = Int32.MinValue;
-            int maxY = Int32.MinValue;
+            float minX = Int32.MaxValue;
+            float minY = Int32.MaxValue;
+            float maxX = Int32.MinValue;
+            float maxY = Int32.MinValue;
 
             foreach (GameDrawableInstance draw in drawables)
             {
                 Rectangle pxDrawRectangle = draw.Drawable.GetSourceRectangle(GameTime);
                 Vector2 rxDrawOrigin = draw.Drawable.rxDrawOrigin;
 
-                int pxWidth  = (int) Math.Ceiling(pxDrawRectangle.Width * this.ScaleX);
-                int pxHeight = (int) Math.Ceiling(pxDrawRectangle.Height * this.ScaleY);
-                int pxFrameX = (int) Math.Ceiling(PX + -1 * rxDrawOrigin.X * pxWidth);
-                int pxFrameY = (int) Math.Ceiling(PY + -1 * rxDrawOrigin.Y * pxHeight);
+                float pxWidth  = pxDrawRectangle.Width * this.ScaleX;
+                float pxHeight = pxDrawRectangle.Height * this.ScaleY;
+                float pxFrameX = PX + -1 * rxDrawOrigin.X * pxWidth;
+                float pxFrameY = PY + -1 * rxDrawOrigin.Y * pxHeight;
 
                 if (pxFrameX < minX) minX = pxFrameX;
                 if (pxFrameY < minY) minY = pxFrameY;
@@ -96,7 +96,7 @@ namespace GameEngine.GameObjects
                 if (pxFrameY + pxDrawRectangle.Height > maxY) maxY = pxFrameY + pxHeight;
             }
 
-            return new Rectangle(minX, minY, maxX - minX, maxY - minY);
+            return new FRectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
         public virtual void Update(GameTime GameTime, TeeEngine Engine)

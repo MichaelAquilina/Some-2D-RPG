@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
+using GameEngine.Drawing;
 
 namespace GameEngine.DataStructures
 {
@@ -66,7 +67,7 @@ namespace GameEngine.DataStructures
                 Add(entity);
         }
 
-        public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
+        public List<Entity> GetIntersectingEntites(FRectangle pxRegion)
         {
             List<Entity> result = new List<Entity>();
             Root.GetEntities(pxRegion, ref result);
@@ -91,12 +92,12 @@ namespace GameEngine.DataStructures
             }
         }
 
-        internal QuadTreeNode GetQuadTreeNode(int px, int py, int pxWidth, int pxHeight, QuadTreeNode Parent)
+        internal QuadTreeNode GetQuadTreeNode(float px, float py, float pxWidth, float pxHeight, QuadTreeNode Parent)
         {
             QuadTreeNode nodeResult = new QuadTreeNode();
             nodeResult.Reset();
             nodeResult.NodeID = LatestNodeIndex;
-            nodeResult.pxBounds = new Rectangle(px, py, pxWidth, pxHeight);
+            nodeResult.pxBounds = new FRectangle(px, py, pxWidth, pxHeight);
             nodeResult.QuadTree = this;
             nodeResult.Parent = Parent;
 
