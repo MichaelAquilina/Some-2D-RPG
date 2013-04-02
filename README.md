@@ -6,6 +6,14 @@ to first focus on 2D development since this would provide me with a nice startin
 able to make use of more advanced techniques like shaders. I also have a personal love for retro 2D games like the older
 final fantasy series and other SNES titles.
 
+Contribution
+============
+
+If anyone wishes to contact me about possibly contributing to the project they may do so by emailing me on michaelaquilina (AT) gmail.com.
+
+I am mainly in need of artists and sound engineers - however programmers and game designers are also welcome to contribute.
+
+
 Development Platform
 --------------------
 I decided to make use of XNA becauase i feel very comfortable using C# as a development language, and still have a lot to learn when it comes to C++.
@@ -22,11 +30,21 @@ Some current features found in the Engine include:
 * Composite Animation Support (Including loading from XML files)
 * Entity framework for Players, NPCs, Monsters, objects etc..
 * Input Extension Methods for quicker development (Currently only for the keyboard)
-* Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting)
+* Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting). *In its current state, these 
+  are technically only post-effect shaders however i plan to support an interface for tile and pre entity shading*
 * Support for loading [Tiled](http://www.mapeditor.org/) map files. (Current no zlib support - however this is planned)
 * Efficient Collision Detection using a QuadTree implementation (see GIF below)
 * Adjustable viewports of the current Game state, including the ability to Scale.
-* Detailed Diagnostic information about engine performance that will allow easy detection of bottlenecks
+* Detailed Diagnostic information about engine performance that will allow easy detection of bottlenecks. (see *DebugInfo*)
+    * Per Entity Render Time
+    * Per Entity Update Time
+    * Total Entity Update Tmie
+    * Total Entity Render Time
+    * Total Tile Render Time
+    * Per Game Shader Render Time
+    * Total Game Shader Render Time
+    * QuadTree Update Time
+* The ability to Zoom at any specified level when drawing the game world in a viewport
 
 Some other features present outside the engine
 * 2D Light Shader
