@@ -108,12 +108,7 @@ namespace GameEngine.Drawing
 
         public static FRectangle operator -(FRectangle FRectangle, Vector2 Vector)
         {
-            return new FRectangle(
-                FRectangle.X - Vector.X,
-                FRectangle.Y - Vector.Y,
-                FRectangle.Width,
-                FRectangle.Height
-            );
+            return FRectangle + (-1 * Vector);
         }
 
         public static bool operator ==(FRectangle FRect1, FRectangle FRect2)
