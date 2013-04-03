@@ -17,8 +17,8 @@ namespace Some2DRPG.GameObjects
         const float MOVEMENT_SPEED = 2.4f;
         double PrevGameTime = 0;
 
-        public float LightX { get { return PX; } }
-        public float LightY { get { return PY; } }
+        public float LightX { get { return X; } }
+        public float LightY { get { return Y; } }
 
         public bool CollisionDetection { get; set; }
 
@@ -55,10 +55,10 @@ namespace Some2DRPG.GameObjects
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
-            float prevX = PX;
-            float prevY = PY;
+            float prevX = X;
+            float prevY = Y;
 
-            Tile prevTile = Engine.Map.GetPxTopMostTile(PX, PY);
+            Tile prevTile = Engine.Map.GetPxTopMostTile(X, Y);
             float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
@@ -83,7 +83,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    PY -= MOVEMENT_SPEED * moveSpeedModifier;
+                    Y -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
@@ -92,7 +92,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    PY += MOVEMENT_SPEED * moveSpeedModifier;
+                    Y += MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
@@ -101,7 +101,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    PX -= MOVEMENT_SPEED * moveSpeedModifier;
+                    X -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
@@ -110,7 +110,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    PX += MOVEMENT_SPEED * moveSpeedModifier;
+                    X += MOVEMENT_SPEED * moveSpeedModifier;
                 }
 
                 //Set animation to idle of no movements where made
@@ -118,23 +118,23 @@ namespace Some2DRPG.GameObjects
                     CurrentDrawable = "Idle_" + Direction;
 
                 //prevent from going out of range
-                if (PX < 0) PX = 0;
-                if (PY < 0) PY = 0;
-                if (PX >= Engine.Map.pxWidth - 1) PX = Engine.Map.pxWidth - 1;
-                if (PY >= Engine.Map.pxHeight - 1) PY = Engine.Map.pxHeight - 1;
+                if (X < 0) X = 0;
+                if (Y < 0) Y = 0;
+                if (X >= Engine.Map.pxWidth - 1) X = Engine.Map.pxWidth - 1;
+                if (Y >= Engine.Map.pxHeight - 1) Y = Engine.Map.pxHeight - 1;
 
                 if (CollisionDetection)
                 {
                     //iterate through each layer and determine if the tile is passable
-                    int tileX = (int)PX / Engine.Map.pxTileWidth;
-                    int tileY = (int)PY / Engine.Map.pxTileHeight;
+                    int tileX = (int)X / Engine.Map.pxTileWidth;
+                    int tileY = (int)Y / Engine.Map.pxTileHeight;
 
                     int pxTileX = tileX * Engine.Map.pxTileWidth;
                     int pxTileY = tileY * Engine.Map.pxTileHeight;
                     int pxTileWidth = Engine.Map.pxTileWidth;
                     int pxTileHeight = Engine.Map.pxTileHeight;
 
-                    Tile currentTile = Engine.Map.GetPxTopMostTile(PX, PY);
+                    Tile currentTile = Engine.Map.GetPxTopMostTile(X, Y);
                     bool impassable = currentTile.HasProperty("Impassable");
 
                     //CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
@@ -166,23 +166,23 @@ namespace Some2DRPG.GameObjects
                     float padding = 0.001f;
                     if (impassable)
                     {
-                        if (prevY <= pxTileY && PY > pxTileY)
-                            PY = pxTileY - padding;
+                        if (prevY <= pxTileY && Y > pxTileY)
+                            Y = pxTileY - padding;
                         else
-                            if (prevY >= pxTileY + pxTileHeight && PY < pxTileY + pxTileHeight)
-                                PY = pxTileY + pxTileHeight + padding;
+                            if (prevY >= pxTileY + pxTileHeight && Y < pxTileY + pxTileHeight)
+                                Y = pxTileY + pxTileHeight + padding;
 
-                        if (prevX <= pxTileX && PX > pxTileX)
-                            PX = pxTileX - padding;
+                        if (prevX <= pxTileX && X > pxTileX)
+                            X = pxTileX - padding;
                         else
-                            if (prevX >= pxTileX + pxTileWidth && PX < pxTileX + pxTileWidth)
-                                PX = pxTileX + pxTileWidth + padding;
+                            if (prevX >= pxTileX + pxTileWidth && X < pxTileX + pxTileWidth)
+                                X = pxTileX + pxTileWidth + padding;
                     }
                 }
 
                 //Change the radius of the LightSource overtime using a SINE wave pattern
-                LightSource.PX = this.PX;
-                LightSource.PY = this.PY;
+                LightSource.PX = this.X;
+                LightSource.PY = this.Y;
                 LightSource.RadiusX = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
                 LightSource.RadiusY = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
 
@@ -192,12 +192,12 @@ namespace Some2DRPG.GameObjects
                     foreach (Entity entity in prevIntersectingEntities)
                         entity.Opacity = 1.0f;
 
-                prevIntersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentPxBoundingBox);
+                prevIntersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentBoundingBox);
                 foreach (Entity entity in prevIntersectingEntities)
                 {
                     if ( entity!= this && 
-                         entity.CurrentPxBoundingBox.Intersects(CurrentPxBoundingBox) &&
-                         entity.PY > this.PY )
+                         entity.CurrentBoundingBox.Intersects(CurrentBoundingBox) &&
+                         entity.Y > this.Y )
                         entity.Opacity = 0.8f;
                 }
             }  

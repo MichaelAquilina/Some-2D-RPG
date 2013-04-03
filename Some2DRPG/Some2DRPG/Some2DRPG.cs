@@ -109,8 +109,8 @@ namespace Some2DRPG
                     if (mapObject.Gid != -1)
                     {
                         Entity entity = new Entity();
-                        entity.PX = mapObject.X;
-                        entity.PY = mapObject.Y;
+                        entity.X = mapObject.X;
+                        entity.Y = mapObject.Y;
                         entity.ScaleX = 1.0f;
                         entity.ScaleY = 1.0f;
                         entity.Visible = true;
@@ -253,8 +253,8 @@ namespace Some2DRPG
             //Draw the World View Port, Centered on the CurrentPlayer Actor
             ViewPortInfo viewPort = Engine.DrawWorldViewPort(
                                             SpriteBatch,
-                                            FollowEntity.PX,
-                                            FollowEntity.PY,
+                                            FollowEntity.X,
+                                            FollowEntity.Y,
                                             Zoom,
                                             pxDestRectangle,
                                             Color.White,
@@ -285,10 +285,10 @@ namespace Some2DRPG
                     double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
                     Color fpsColor = (Math.Ceiling(fps) < 60) ? Color.Red : Color.White;
 
-                    float TX = CurrentPlayer.PX / Engine.Map.pxTileWidth;
-                    float TY = CurrentPlayer.PY / Engine.Map.pxTileHeight;
+                    float TX = CurrentPlayer.X / Engine.Map.pxTileWidth;
+                    float TY = CurrentPlayer.Y / Engine.Map.pxTileHeight;
 
-                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.PX.ToString("0.0") + "," + CurrentPlayer.PY.ToString("0.0"), GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, TX.ToString("0.0") + "," + TY.ToString("0.0"), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), GeneratePos(textHeight), fpsColor);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, GeneratePos(textHeight), Color.White);

@@ -138,18 +138,18 @@ namespace GameEngine.DataStructures
             }
 
             //add the entity specified in the function paramaters
-            if (Node1.Intersects(Entity.CurrentPxBoundingBox)) Node1.Add(Entity);
-            if (Node2.Intersects(Entity.CurrentPxBoundingBox)) Node2.Add(Entity);
-            if (Node3.Intersects(Entity.CurrentPxBoundingBox)) Node3.Add(Entity);
-            if (Node4.Intersects(Entity.CurrentPxBoundingBox)) Node4.Add(Entity);
+            if (Node1.Intersects(Entity.CurrentBoundingBox)) Node1.Add(Entity);
+            if (Node2.Intersects(Entity.CurrentBoundingBox)) Node2.Add(Entity);
+            if (Node3.Intersects(Entity.CurrentBoundingBox)) Node3.Add(Entity);
+            if (Node4.Intersects(Entity.CurrentBoundingBox)) Node4.Add(Entity);
 
             //distrobute any entities found in this current Node
             foreach (Entity entityToAdd in this.Entities)
             {
-                if (Node1.Intersects(entityToAdd.CurrentPxBoundingBox)) Node1.Add(entityToAdd);
-                if (Node2.Intersects(entityToAdd.CurrentPxBoundingBox)) Node2.Add(entityToAdd);
-                if (Node3.Intersects(entityToAdd.CurrentPxBoundingBox)) Node3.Add(entityToAdd);
-                if (Node4.Intersects(entityToAdd.CurrentPxBoundingBox)) Node4.Add(entityToAdd);
+                if (Node1.Intersects(entityToAdd.CurrentBoundingBox)) Node1.Add(entityToAdd);
+                if (Node2.Intersects(entityToAdd.CurrentBoundingBox)) Node2.Add(entityToAdd);
+                if (Node3.Intersects(entityToAdd.CurrentBoundingBox)) Node3.Add(entityToAdd);
+                if (Node4.Intersects(entityToAdd.CurrentBoundingBox)) Node4.Add(entityToAdd);
             }
 
             Entities.Clear();

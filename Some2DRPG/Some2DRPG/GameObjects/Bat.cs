@@ -24,10 +24,10 @@ namespace Some2DRPG.GameObjects
 
         public override void Update(GameTime GameTime, TeeEngine Engine)
         {
-            PX += (float) (Math.Cos(GameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
+            X += (float) (Math.Cos(GameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
 
             //for testing
-            Engine.QuadTree.GetIntersectingEntites(CurrentPxBoundingBox);
+            Engine.QuadTree.GetIntersectingEntites(CurrentBoundingBox);
         }
 
         public override void LoadContent(ContentManager Content)

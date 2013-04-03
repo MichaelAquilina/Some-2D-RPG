@@ -27,7 +27,7 @@ namespace GameEngine.DataStructures
         {
             List<QuadTreeNode> updatedNodes = new List<QuadTreeNode>();
             List<QuadTreeNode> associatedNodes = new List<QuadTreeNode>();
-            Root.GetAssociatedNodes(Entity, Entity.prevPxBoundingBox, ref associatedNodes);
+            Root.GetAssociatedNodes(Entity, Entity.prevBoundingBox, ref associatedNodes);
 
             if (associatedNodes.Count == 0 && AddOnMissing)
                 Add(Entity);
@@ -79,13 +79,13 @@ namespace GameEngine.DataStructures
         internal QuadTreeNode Reposition(Entity Entity, QuadTreeNode Node)
         {
             //if Node.Parent==null, then its the Root node and we have to do our best to add it
-            if (Node.Parent != null && !Node.Contains(Entity.CurrentPxBoundingBox))
+            if (Node.Parent != null && !Node.Contains(Entity.CurrentBoundingBox))
                 return Reposition(Entity, Node.Parent);
             else
             {
                 if (!Node.IsLeafNode)
                 {
-                    Node.Remove(Entity, Entity.prevPxBoundingBox);
+                    Node.Remove(Entity, Entity.prevBoundingBox);
                     Node.Add(Entity);
                 }
                 return Node;

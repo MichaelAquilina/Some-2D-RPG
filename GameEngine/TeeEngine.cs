@@ -292,20 +292,20 @@ namespace GameEngine
             foreach (string entityId in _entities.Keys)
             {
                 Entity entity = _entities[entityId];
-                entity.prevPxBoundingBox = entity.CurrentPxBoundingBox;
+                entity.prevBoundingBox = entity.CurrentBoundingBox;
 
                 //perform any per-entity update logic
                 _watch2.Restart();
                 {
                     entity.Update(GameTime, this);
-                    entity.CurrentPxBoundingBox = entity.GetPxBoundingBox(GameTime);
+                    entity.CurrentBoundingBox = entity.GetPxBoundingBox(GameTime);
                 }
                 DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
 
                 if (entity.requiresAddition)
                 {
                     QuadTree.Add(entity);
-                    entity.prevPxBoundingBox = entity.CurrentPxBoundingBox;
+                    entity.prevBoundingBox = entity.CurrentBoundingBox;
                     entity.requiresAddition = false;
                 }
 
@@ -315,7 +315,7 @@ namespace GameEngine
                 //if the entity has moved, then update his position in the QuadTree
                 _watch3.Start();
                 {
-                    if (entity.CurrentPxBoundingBox != entity.prevPxBoundingBox)
+                    if (entity.CurrentBoundingBox != entity.prevBoundingBox)
                         QuadTree.Update(entity);
                 }
                 _watch3.Stop();
@@ -480,15 +480,15 @@ namespace GameEngine
                     entity.IsOnScreen = true;
 
                     Vector2 pxAbsEntityPos = new Vector2(
-                        entity.PX * viewPortInfo.ActualZoom - entityDispX,
-                        entity.PY * viewPortInfo.ActualZoom - entityDispY
+                        entity.X * viewPortInfo.ActualZoom - entityDispX,
+                        entity.Y * viewPortInfo.ActualZoom - entityDispY
                     );
 
                     FRectangle pxAbsBoundingBox = new FRectangle(
-                        (entity.CurrentPxBoundingBox.X - viewPortInfo.pxTopLeftX) * viewPortInfo.ActualZoom,
-                        (entity.CurrentPxBoundingBox.Y - viewPortInfo.pxTopLeftY) * viewPortInfo.ActualZoom,
-                        entity.CurrentPxBoundingBox.Width * viewPortInfo.ActualZoom,
-                        entity.CurrentPxBoundingBox.Height * viewPortInfo.ActualZoom
+                        (entity.CurrentBoundingBox.X - viewPortInfo.pxTopLeftX) * viewPortInfo.ActualZoom,
+                        (entity.CurrentBoundingBox.Y - viewPortInfo.pxTopLeftY) * viewPortInfo.ActualZoom,
+                        entity.CurrentBoundingBox.Width * viewPortInfo.ActualZoom,
+                        entity.CurrentBoundingBox.Height * viewPortInfo.ActualZoom
                     );
 
                     //DRAW ENTITY BOUNDING BOXES IF ENABLED
@@ -530,7 +530,7 @@ namespace GameEngine
                         //FIXME: Bug related to when layerDepth becomes small and reaches 0.99 for all levels, causing depth information to be lost
                         //layer depth should depend how far down the object is on the map (Relative to Y)
                         //Important to also take into account the animation layers for the entity
-                        float layerDepth = Math.Min(0.99f, 1 / (entity.PY + ((float)drawable.Layer / Map.pxHeight)));
+                        float layerDepth = Math.Min(0.99f, 1 / (entity.Y + ((float)drawable.Layer / Map.pxHeight)));
 
                         SpriteBatch.Draw(
                             drawable.Drawable.GetSourceTexture(LastUpdateTime),
@@ -545,7 +545,7 @@ namespace GameEngine
                         //DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
                         if (ShowEntityDebugInfo)
                         {
-                            string message = string.Format("{0}\nPX={1},PY={2}\n{3}/{4}", objectDestRect, entity.PX, entity.PY, pxAbsBoundingBox, (entity.CurrentPxBoundingBox.Y - viewPortInfo.pxTopLeftY )* viewPortInfo.ActualZoom);
+                            string message = string.Format("{0}\nPX={1},PY={2}\n{3}/{4}", objectDestRect, entity.X, entity.Y, pxAbsBoundingBox, (entity.CurrentBoundingBox.Y - viewPortInfo.pxTopLeftY )* viewPortInfo.ActualZoom);
                             SpriteBatch.DrawMultiLineString(
                                 SpriteFont,
                                 message,
