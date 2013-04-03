@@ -26,7 +26,6 @@ namespace GameEngine.GameObjects
         public bool Visible { get; set; }                                 //Hide or Show the entity
         public bool IsOnScreen { get; internal set; }                     //is the Entity currently on the screen or not
         public FRectangle CurrentPxBoundingBox { get; internal set; }     //the last bounding box generated during the TeeEngine update
-        public Vector2 Origin { get; set; }                               //Relative Origin to the Width and height of each animation
 
         public DrawableSet Drawables { get; set; }                        //The set of drawable instances associated with this Entity
         public string CurrentDrawable { get; set; }                       //The current Drawables enabled
@@ -54,7 +53,6 @@ namespace GameEngine.GameObjects
         private void Init()
         {
             this.Opacity = 1.0f;
-            this.Origin = Vector2.Zero;
             this.Drawables = new DrawableSet();
         }
 

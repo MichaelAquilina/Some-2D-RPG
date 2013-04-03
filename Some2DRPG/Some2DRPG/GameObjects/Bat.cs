@@ -17,7 +17,6 @@ namespace Some2DRPG.GameObjects
             :base(PX, PY)
         {
             this._randomModifier = randomGenerator.NextDouble();
-            this.Origin = new Vector2(1.0f, 0.5f);
             this.Visible = true;
             //this.rxWidth = 1.5f;
             //this.rxHeight = 1.5f;

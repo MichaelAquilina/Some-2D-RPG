@@ -38,7 +38,6 @@ namespace Some2DRPG.GameObjects
         {
             this.Direction = Direction.Right;
             this.BaseRace = BaseRace;
-            this.Origin = new Vector2(0.5f, 1.0f);
         }
 
         public override void LoadContent(ContentManager Content)
