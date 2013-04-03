@@ -69,10 +69,10 @@ namespace GameEngine.Drawing
 
         public Rectangle ToRectangle()
         {
-            int X = (int)Math.Floor(this.X); 
-            int Y = (int)Math.Floor(this.Y);
-            int Height = (int) (Math.Round(this.Height + X - this.X));     //determine the difference between the floored X and actual X
-            int Width =  (int) (Math.Round(this.Width + Y - this.Y));      //same as above
+            int X = (int)Math.Round(this.X); 
+            int Y = (int)Math.Round(this.Y);
+            int Width =   (int) Math.Ceiling(this.Width);     //determine the difference between the floored X and actual X
+            int Height =  (int) Math.Ceiling(this.Height);  //same as above
 
             return new Rectangle(X, Y, Width, Height);
         }
@@ -92,7 +92,7 @@ namespace GameEngine.Drawing
 
         public override string ToString()
         {
-            return string.Format("FRectangle: X={0}, Y={1}, Width={2}, Height={3}", X, Y, Width, Height);
+            return string.Format("X={0}, Y={1}, Width={2}, Height={3}", X, Y, Width, Height);
         }
 
         #region Static Operators

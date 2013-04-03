@@ -154,7 +154,7 @@ namespace Some2DRPG
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
 
                 Bat bat = new Bat(px, py);
-                Engine.AddEntity(bat);
+                //Engine.AddEntity(bat);
                 //FollowEntity = bat;
             }
 
