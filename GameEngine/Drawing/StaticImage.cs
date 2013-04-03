@@ -13,13 +13,13 @@ namespace GameEngine.Drawing
         public Texture2D SourceTexture { get; set; }
         public Rectangle SourceRectangle { get; set; }
 
-        public Vector2 rxDrawOrigin { get; set; }
+        public Vector2 Origin { get; set; }
 
         public StaticImage(Texture2D SourceTexture, Rectangle SourceRectangle)
         {
             this.SourceTexture = SourceTexture;
             this.SourceRectangle = SourceRectangle;
-            this.rxDrawOrigin = new Vector2(0, 1);
+            this.Origin = new Vector2(0, 1);
         }
 
         public Texture2D GetSourceTexture(GameTime GameTime)
@@ -35,7 +35,7 @@ namespace GameEngine.Drawing
         public override string ToString()
         {
             return string.Format("StaticImage: SourceTexture={0}, DrawOrigin={1}",
-                SourceTexture.Name, rxDrawOrigin);
+                SourceTexture.Name, Origin);
         }
     }
 }

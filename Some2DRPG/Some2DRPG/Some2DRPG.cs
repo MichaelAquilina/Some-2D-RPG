@@ -213,7 +213,6 @@ namespace Some2DRPG
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F11, true))
             {
-                helmetVisible = !helmetVisible;
                 CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
             }
 

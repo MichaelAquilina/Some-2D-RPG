@@ -518,7 +518,7 @@ namespace GameEngine
                                 pxObjectHeight
                         );
 
-                        Vector2 drawableOrigin = drawable.Drawable.rxDrawOrigin * new Vector2(pxCurrentFrame.Width, pxCurrentFrame.Height);
+                        Vector2 drawableOrigin = drawable.Drawable.Origin * new Vector2(pxCurrentFrame.Width, pxCurrentFrame.Height);
                         Color drawableColor = new Color()
                         {
                             R = drawable.Color.R,
@@ -550,8 +550,8 @@ namespace GameEngine
                                 SpriteFont,
                                 message,
                                 new Vector2(
-                                    objectDestRect.X - objectDestRect.Width * drawable.Drawable.rxDrawOrigin.X + objectDestRect.Width / 2, 
-                                    objectDestRect.Y - objectDestRect.Height * drawable.Drawable.rxDrawOrigin.Y + objectDestRect.Height / 2
+                                    objectDestRect.X - objectDestRect.Width * drawable.Drawable.Origin.X + objectDestRect.Width / 2, 
+                                    objectDestRect.Y - objectDestRect.Height * drawable.Drawable.Origin.Y + objectDestRect.Height / 2
                                     ),
                                 Color.Red);
                         }

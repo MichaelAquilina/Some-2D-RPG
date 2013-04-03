@@ -21,7 +21,7 @@ namespace GameEngine.Drawing
         public Rectangle[] Frames { get; set; }
         public int FrameDelay { get; set; }
         public bool Loop { get; set; }
-        public Vector2 rxDrawOrigin { get; set; }
+        public Vector2 Origin { get; set; }
 
         private double _startTime = 0;
 
@@ -41,7 +41,7 @@ namespace GameEngine.Drawing
             this.Frames = Frames;
             this.FrameDelay = FrameDelay;
             this.Loop = Loop;
-            this.rxDrawOrigin = Vector2.Zero;
+            this.Origin = Vector2.Zero;
         }
 
         public Texture2D GetSourceTexture(GameTime GameTime)
@@ -146,7 +146,7 @@ namespace GameEngine.Drawing
                 }
 
                 Animation animation = new Animation(Content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
-                animation.rxDrawOrigin = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
+                animation.Origin = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
                 DrawableSet.Add(name, animation, Group, Layer);
             }
         }

@@ -81,7 +81,7 @@ namespace GameEngine.GameObjects
             foreach (GameDrawableInstance draw in drawables)
             {
                 Rectangle pxDrawRectangle = draw.Drawable.GetSourceRectangle(GameTime);
-                Vector2 rxDrawOrigin = draw.Drawable.rxDrawOrigin;
+                Vector2 rxDrawOrigin = draw.Drawable.Origin;
 
                 float pxWidth  = pxDrawRectangle.Width * this.ScaleX;
                 float pxHeight = pxDrawRectangle.Height * this.ScaleY;
