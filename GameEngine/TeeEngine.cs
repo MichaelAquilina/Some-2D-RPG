@@ -494,7 +494,7 @@ namespace GameEngine
                     //DRAW ENTITY BOUNDING BOXES IF ENABLED
                     if (ShowBoundingBoxes)
                     {
-                        SpriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0f);
+                        SpriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0.0001f);
                         SpriteBatch.DrawCross(new Vector2(pxAbsEntityPos.X, pxAbsEntityPos.Y), 13, Color.Black, 0f);
                     }
 
@@ -512,8 +512,8 @@ namespace GameEngine
 
                         //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
                         Rectangle objectDestRect = new Rectangle(
-                                (int) Math.Round(pxAbsEntityPos.X),
-                                (int) Math.Round(pxAbsEntityPos.Y),
+                                (int) Math.Ceiling(pxAbsEntityPos.X),
+                                (int) Math.Ceiling(pxAbsEntityPos.Y),
                                 pxObjectWidth,
                                 pxObjectHeight
                         );

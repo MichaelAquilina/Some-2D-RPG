@@ -69,8 +69,8 @@ namespace GameEngine.Drawing
 
         public Rectangle ToRectangle()
         {
-            int X = (int)Math.Round(this.X); 
-            int Y = (int)Math.Round(this.Y);
+            int X = (int)Math.Floor(this.X); 
+            int Y = (int)Math.Floor(this.Y);
             int Width =   (int) Math.Ceiling(this.Width);     //determine the difference between the floored X and actual X
             int Height =  (int) Math.Ceiling(this.Height);  //same as above
 
