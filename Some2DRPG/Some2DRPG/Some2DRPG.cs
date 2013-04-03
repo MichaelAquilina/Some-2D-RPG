@@ -38,7 +38,7 @@ namespace Some2DRPG
         bool showDebugInfo = true;
         bool showDiagnostics = false;
 
-        float Zoom = 1.8f;
+        float Zoom = 1.0f;
 
         int TextCounter = 0;
         int SamplerIndex = 0;
@@ -154,7 +154,7 @@ namespace Some2DRPG
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
 
                 Bat bat = new Bat(px, py);
-                Engine.AddEntity(bat);
+                //Engine.AddEntity(bat);
                 //FollowEntity = bat;
             }
 

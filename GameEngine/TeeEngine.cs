@@ -518,7 +518,11 @@ namespace GameEngine
                                 pxObjectHeight
                         );
 
-                        Vector2 drawableOrigin = drawable.Drawable.Origin * new Vector2(pxCurrentFrame.Width, pxCurrentFrame.Height);
+                        Vector2 drawableOrigin = new Vector2(
+                            (int)Math.Ceiling(drawable.Drawable.Origin.X * pxCurrentFrame.Width),
+                            (int)Math.Ceiling(drawable.Drawable.Origin.Y * pxCurrentFrame.Height)
+                            );
+
                         Color drawableColor = new Color()
                         {
                             R = drawable.Color.R,
@@ -545,7 +549,13 @@ namespace GameEngine
                         //DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
                         if (ShowEntityDebugInfo)
                         {
-                            string message = string.Format("{0}\nPX={1},PY={2}\n{3}/{4}", objectDestRect, entity.X, entity.Y, pxAbsBoundingBox, (entity.CurrentBoundingBox.Y - viewPortInfo.pxTopLeftY )* viewPortInfo.ActualZoom);
+                            string message = string.Format(
+                                "{0}\nPos=({1},{2})\nBB: {3}\nDR: {4}", 
+                                objectDestRect, 
+                                entity.X, entity.Y, 
+                                pxAbsBoundingBox, 
+                                objectDestRect);
+
                             SpriteBatch.DrawMultiLineString(
                                 SpriteFont,
                                 message,

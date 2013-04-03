@@ -455,7 +455,7 @@
   </object>
   <object type="MapObject" gid="105" x="496" y="296"/>
   <object type="MapObject" gid="105" x="531" y="134"/>
-  <object type="MapObject" gid="105" x="268" y="347"/>
+  <object type="MapObject" gid="105" x="322" y="366"/>
   <object type="MapObject" gid="105" x="807" y="460"/>
   <object type="MapObject" gid="105" x="512" y="757"/>
   <object type="MapObject" gid="106" x="568" y="375"/>
