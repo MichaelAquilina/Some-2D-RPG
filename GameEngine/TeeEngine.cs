@@ -512,8 +512,8 @@ namespace GameEngine
 
                         //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
                         Rectangle objectDestRect = new Rectangle(
-                                (int) Math.Ceiling(pxAbsEntityPos.X),
-                                (int) Math.Ceiling(pxAbsEntityPos.Y),
+                                (int) Math.Round(pxAbsEntityPos.X),
+                                (int) Math.Round(pxAbsEntityPos.Y),
                                 pxObjectWidth,
                                 pxObjectHeight
                         );
