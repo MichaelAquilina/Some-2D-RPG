@@ -69,10 +69,10 @@ namespace GameEngine.Drawing
 
         public Rectangle ToRectangle()
         {
-            int X = (int)Math.Floor(this.X); 
-            int Y = (int)Math.Floor(this.Y);
-            int Width =   (int) Math.Ceiling(this.Width);     //determine the difference between the floored X and actual X
-            int Height =  (int) Math.Ceiling(this.Height);  //same as above
+            int X = (int) Math.Floor(this.X); 
+            int Y = (int) Math.Floor(this.Y);
+            int Width =   (int) (Math.Ceiling(this.Width) + Math.Round(this.X -X));     //determine the difference between the floored X and actual X
+            int Height =  (int) (Math.Ceiling(this.Height) + Math.Round(this.Y -Y));  //same as above
 
             return new Rectangle(X, Y, Width, Height);
         }
@@ -90,9 +90,19 @@ namespace GameEngine.Drawing
             return X.GetHashCode() + Y.GetHashCode() + Width.GetHashCode() + Height.GetHashCode();
         }
 
+        private static string FORMAT_STRING = "X={0}, Y={1}, Width={2}, Height={3}";
+
         public override string ToString()
         {
-            return string.Format("X={0}, Y={1}, Width={2}, Height={3}", X, Y, Width, Height);
+            return string.Format(FORMAT_STRING, X, Y, Width, Height);
+        }
+
+        public string ToString(string format)
+        {
+            return string.Format(
+                FORMAT_STRING, 
+                X.ToString(format), Y.ToString(format), 
+                Width.ToString(format), Height.ToString(format));
         }
 
         #region Static Operators

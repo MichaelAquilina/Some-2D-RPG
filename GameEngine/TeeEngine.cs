@@ -463,6 +463,8 @@ namespace GameEngine
             DebugInfo.TileRenderingTime = _watch1.Elapsed;
 
             //Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
+            //Each entity should be displaced by the *same amount* based on the pxTopLeftX/Y values
+            //this is to prevent entities 'jittering on the screen' when moving the camera.
             float entityDispX = (int) Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
             float entityDispY = (int) Math.Ceiling(viewPortInfo.pxTopLeftY * viewPortInfo.ActualZoom);
 
@@ -485,8 +487,8 @@ namespace GameEngine
                     );
 
                     FRectangle pxAbsBoundingBox = new FRectangle(
-                        (entity.CurrentBoundingBox.X - viewPortInfo.pxTopLeftX) * viewPortInfo.ActualZoom,
-                        (entity.CurrentBoundingBox.Y - viewPortInfo.pxTopLeftY) * viewPortInfo.ActualZoom,
+                        entity.CurrentBoundingBox.X * viewPortInfo.ActualZoom - entityDispX,
+                        entity.CurrentBoundingBox.Y * viewPortInfo.ActualZoom - entityDispY,
                         entity.CurrentBoundingBox.Width * viewPortInfo.ActualZoom,
                         entity.CurrentBoundingBox.Height * viewPortInfo.ActualZoom
                     );
@@ -495,7 +497,12 @@ namespace GameEngine
                     if (ShowBoundingBoxes)
                     {
                         SpriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0.0001f);
-                        SpriteBatch.DrawCross(new Vector2(pxAbsEntityPos.X, pxAbsEntityPos.Y), 13, Color.Black, 0f);
+                        SpriteBatch.DrawCross(
+                            new Vector2(
+                                (int) Math.Ceiling(pxAbsEntityPos.X), 
+                                (int) Math.Ceiling(pxAbsEntityPos.Y)
+                            ), 
+                            13, Color.Black, 0f);
                     }
 
                     foreach (GameDrawableInstance drawable in entity.Drawables[entity.CurrentDrawable])
@@ -519,8 +526,8 @@ namespace GameEngine
                         );
 
                         Vector2 drawableOrigin = new Vector2(
-                            (int)Math.Ceiling(drawable.Drawable.Origin.X * pxCurrentFrame.Width),
-                            (int)Math.Ceiling(drawable.Drawable.Origin.Y * pxCurrentFrame.Height)
+                            (int) Math.Ceiling(drawable.Drawable.Origin.X * pxCurrentFrame.Width),
+                            (int) Math.Ceiling(drawable.Drawable.Origin.Y * pxCurrentFrame.Height)
                             );
 
                         Color drawableColor = new Color()
@@ -550,10 +557,9 @@ namespace GameEngine
                         if (ShowEntityDebugInfo)
                         {
                             string message = string.Format(
-                                "{0}\nPos=({1},{2})\nBB: {3}\nDR: {4}", 
-                                objectDestRect, 
-                                entity.X, entity.Y, 
-                                pxAbsBoundingBox, 
+                                "Pos=({0},{1}), Lyr={2}\nBB: {3}\nDR: {4}", 
+                                entity.X, entity.Y, layerDepth.ToString("0.000"),
+                                pxAbsBoundingBox.ToString("0.0"), 
                                 objectDestRect);
 
                             SpriteBatch.DrawMultiLineString(
