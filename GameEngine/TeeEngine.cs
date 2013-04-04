@@ -327,19 +327,16 @@ namespace GameEngine
 
         #region Drawing Code
 
-        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch SpriteBatch, QuadTreeNode Node, Rectangle DestRectangle, SpriteFont SpriteFont)
+        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch SpriteBatch, QuadTreeNode Node, Rectangle DestRectangle, SpriteFont SpriteFont, float globalDispX, float globalDispY)
         {
             if (Node == null) return;
 
-            float absoluteX = Node.pxBounds.X - viewPort.pxTopLeftX;
-            float absoluteY = Node.pxBounds.Y - viewPort.pxTopLeftY;
-
-            int actualX = (int)Math.Ceiling(absoluteX * viewPort.ActualZoom);
-            int actualY = (int)Math.Ceiling(absoluteY * viewPort.ActualZoom);
+            int actualX = (int) Math.Ceiling(Node.pxBounds.X * viewPort.ActualZoom - globalDispX);
+            int actualY = (int) Math.Ceiling(Node.pxBounds.Y * viewPort.ActualZoom - globalDispY);
 
             //We need to calculate the 'Actual' width and height otherwise drawing might be innacurate when zoomed
-            int actualWidth = (int)Math.Ceiling(((absoluteX + Node.pxBounds.Width) * viewPort.ActualZoom) - actualX);
-            int actualHeight = (int)Math.Ceiling(((absoluteY + Node.pxBounds.Height) * viewPort.ActualZoom) - actualY);
+            int actualWidth  = (int) Math.Ceiling(Node.pxBounds.Width * viewPort.ActualZoom);
+            int actualHeight = (int) Math.Ceiling(Node.pxBounds.Height * viewPort.ActualZoom);
 
             //Only draw leaf nodes which are within the viewport specified
             if (Node.Node1 == null 
@@ -356,10 +353,10 @@ namespace GameEngine
                 );
             }
 
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node1, DestRectangle, SpriteFont);
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node2, DestRectangle, SpriteFont);
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node3, DestRectangle, SpriteFont);
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node4, DestRectangle, SpriteFont);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node1, DestRectangle, SpriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node2, DestRectangle, SpriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node3, DestRectangle, SpriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, SpriteBatch, Node.Node4, DestRectangle, SpriteFont, globalDispX, globalDispY);
         }
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, float pxCenterX, float pxCenterY, float Zoom, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState, SpriteFont SpriteFont=null)
@@ -465,8 +462,8 @@ namespace GameEngine
             //Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
             //Each entity should be displaced by the *same amount* based on the pxTopLeftX/Y values
             //this is to prevent entities 'jittering on the screen' when moving the camera.
-            float entityDispX = (int) Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
-            float entityDispY = (int) Math.Ceiling(viewPortInfo.pxTopLeftY * viewPortInfo.ActualZoom);
+            float globalDispX = (int) Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
+            float globalDispY = (int) Math.Ceiling(viewPortInfo.pxTopLeftY * viewPortInfo.ActualZoom);
 
             //DRAW VISIBLE REGISTERED ENTITIES
             _watch1.Restart();
@@ -482,13 +479,13 @@ namespace GameEngine
                     entity.IsOnScreen = true;
 
                     Vector2 pxAbsEntityPos = new Vector2(
-                        entity.X * viewPortInfo.ActualZoom - entityDispX,
-                        entity.Y * viewPortInfo.ActualZoom - entityDispY
+                        entity.X * viewPortInfo.ActualZoom - globalDispX,
+                        entity.Y * viewPortInfo.ActualZoom - globalDispY
                     );
 
                     FRectangle pxAbsBoundingBox = new FRectangle(
-                        entity.CurrentBoundingBox.X * viewPortInfo.ActualZoom - entityDispX,
-                        entity.CurrentBoundingBox.Y * viewPortInfo.ActualZoom - entityDispY,
+                        entity.CurrentBoundingBox.X * viewPortInfo.ActualZoom - globalDispX,
+                        entity.CurrentBoundingBox.Y * viewPortInfo.ActualZoom - globalDispY,
                         entity.CurrentBoundingBox.Width * viewPortInfo.ActualZoom,
                         entity.CurrentBoundingBox.Height * viewPortInfo.ActualZoom
                     );
@@ -583,7 +580,13 @@ namespace GameEngine
             if (ShowQuadTree)
             {
                 SpriteBatch.Begin();
-                DrawQuadTree(viewPortInfo, SpriteBatch, QuadTree.Root, pxDestRectangle, SpriteFont);
+                DrawQuadTree(
+                    viewPortInfo, 
+                    SpriteBatch, 
+                    QuadTree.Root, 
+                    pxDestRectangle, 
+                    SpriteFont,
+                    globalDispX, globalDispY);
                 SpriteBatch.End();
             }
 
