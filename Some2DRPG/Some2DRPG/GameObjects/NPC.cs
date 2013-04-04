@@ -33,6 +33,9 @@ namespace Some2DRPG.GameObjects
         public string Hands { get; set; }
         public string BaseRace { get; set; }
 
+        public int HP { get; set; }
+        public int XP { get; set; }
+
         public NPC(int PX, int PY, string BaseRace) :
             base(PX, PY, 1.0f, 1.0f)
         {
