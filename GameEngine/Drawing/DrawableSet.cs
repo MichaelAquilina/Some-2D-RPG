@@ -42,15 +42,7 @@ namespace GameEngine.Drawing
             get { return _drawables[Name]; }
         }
 
-        /// <summary>
-        /// Adds an IGameDrawable to the DrawableSet under the give NAME. An IGameDrawable added to a DrawableSet will be placed in
-        /// a GameDrawableInstance which allows the user to set per Instance values for Color, Rotation, Visibility etc...
-        /// </summary>
-        /// <param name="Name">string NAME to place the IGameDrawable item under.</param>
-        /// <param name="Drawable">IGameDrawable item to add to the DrawableSet.</param>
-        /// <param name="Group">(optional) Associate a string Group name with the IGameDrawable for batch setting of related items.</param>
-        /// <param name="Layer">(optional) Assign a Z layer value to this IGameDrawable in relation to drawables in the same set.</param>
-        public void Add(string Name, IGameDrawable Drawable, string Group=null, int Layer=0)
+        public GameDrawableInstance Add(string Name, IGameDrawable Drawable, string Group=null, int Layer=0)
         {
             if (!_drawables.ContainsKey(Name))
                 _drawables.Add(Name, new List<GameDrawableInstance>());
@@ -60,6 +52,8 @@ namespace GameEngine.Drawing
             gameDrawableInstance.Layer = Layer;
 
             _drawables[Name].Add(gameDrawableInstance);
+
+            return gameDrawableInstance;
         }
 
         public void Clear(string Name)

@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using ShadowKillGame.GameObjects;
 using Some2DRPG.GameObjects;
 using Some2DRPG.Shaders;
+using GameEngine.Drawing;
 
 namespace Some2DRPG
 {
@@ -113,10 +114,15 @@ namespace Some2DRPG
                         entity.Visible = true;
 
                         Tile SourceTile = Map.Tiles[mapObject.Gid];
-                        entity.Drawables.Add("standard", SourceTile);
+                        GameDrawableInstance instance = entity.Drawables.Add("standard", SourceTile);
                         //entity.Drawables.SetNameProperty("standard", "Color", new Color(255, 255, 255, 200));
 
                         entity.CurrentDrawable = "standard";
+
+                        //because tileds default draw origin is (0,1) - we need to update the entity positions based 
+                        //on the custom position defined in the SourceTile.Origin property.
+                        entity.X+= (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(null).Width;
+                        entity.Y+= (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(null).Height;
 
                         Engine.AddEntity(mapObject.Name, entity);
                     }
@@ -151,7 +157,7 @@ namespace Some2DRPG
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
 
                 Bat bat = new Bat(px, py);
-                Engine.AddEntity(bat);
+                //Engine.AddEntity(bat);
                 //FollowEntity = bat;
             }
 

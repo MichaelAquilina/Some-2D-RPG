@@ -168,6 +168,13 @@ namespace GameEngine.Tiled
                     int tileGid = firstGID + tileNode.GetAttributeValue<int>("id", -1, true);
                     Tile tile = map.Tiles[tileGid];
                     tile.LoadProperties(tileNode);
+
+                    //adjust the draw origin based on the tile property 'DrawOrigin'
+                    string[] drawOrigin = tile.GetProperty("DrawOrigin", "0, 1").Split(',');
+                    tile.Origin = new Vector2(
+                        (float)Convert.ToDouble(drawOrigin[0]),
+                        (float)Convert.ToDouble(drawOrigin[1])
+                        );
                 }
             }
 
