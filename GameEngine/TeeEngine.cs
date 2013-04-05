@@ -507,9 +507,9 @@ namespace GameEngine
                     {
                         if (!drawable.Visible) continue;
 
-                        //The relative position of the object should always be (X,Y) - (viewPortInfo.TopLeftX,viewPortInfo.TopLeftY) where viewPortInfo.TopLeftX and
-                        //viewPortInfo.TopLeftY have already been corrected in terms of the bounds of the WORLD map coordinates. This allows
-                        //for panning at the edges.
+                        //The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
+                        //are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
+                        //already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
                         Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(LastUpdateTime);
 
                         int pxObjectWidth  = (int) Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
@@ -536,7 +536,6 @@ namespace GameEngine
                             A = (byte)(drawable.Color.A * entity.Opacity)
                         };
 
-                        //FIXME: Bug related to when layerDepth becomes small and reaches 0.99 for all levels, causing depth information to be lost
                         //layer depth should depend how far down the object is on the map (Relative to Y)
                         //Important to also take into account the animation layers for the entity
                         float layerDepth = Math.Min(0.99f, 1 / (entity.Y + ((float)drawable.Layer / Map.pxHeight)));
@@ -578,7 +577,7 @@ namespace GameEngine
             SpriteBatch.End();
             DebugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
 
-            //DRAW THE QUAD TREE IF ENABLEd
+            //DRAW THE QUAD TREE IF ENABLED
             if (ShowQuadTree)
             {
                 SpriteBatch.Begin();
