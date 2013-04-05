@@ -55,7 +55,7 @@ namespace Some2DRPG.GameObjects
             Animation.LoadAnimationXML(Drawables, BaseRace, Content, "Base", 0);
             Drawables.SetGroupProperty("Weapon", "Color", Color.Red);
 
-            CurrentDrawable = "Walk_Right";
+            CurrentDrawableState = "Walk_Right";
         }
 
         public override void UnloadContent()

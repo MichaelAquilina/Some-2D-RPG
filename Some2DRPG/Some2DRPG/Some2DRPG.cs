@@ -117,7 +117,7 @@ namespace Some2DRPG
                         GameDrawableInstance instance = entity.Drawables.Add("standard", SourceTile);
                         //entity.Drawables.SetNameProperty("standard", "Color", new Color(255, 255, 255, 200));
 
-                        entity.CurrentDrawable = "standard";
+                        entity.CurrentDrawableState = "standard";
 
                         //because tileds default draw origin is (0,1) - we need to update the entity positions based 
                         //on the custom position defined in the SourceTile.Origin property.
@@ -157,7 +157,7 @@ namespace Some2DRPG
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
 
                 Bat bat = new Bat(px, py);
-                //Engine.AddEntity(bat);
+                Engine.AddEntity(bat);
                 //FollowEntity = bat;
             }
 
@@ -216,6 +216,7 @@ namespace Some2DRPG
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F11, true))
             {
+                helmetVisible = !helmetVisible;
                 CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
             }
 

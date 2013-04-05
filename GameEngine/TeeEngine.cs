@@ -502,7 +502,7 @@ namespace GameEngine
                             13, Color.Black, 0f);
                     }
 
-                    foreach (GameDrawableInstance drawable in entity.Drawables[entity.CurrentDrawable])
+                    foreach (GameDrawableInstance drawable in entity.Drawables.GetDrawablesByState(entity.CurrentDrawableState))
                     {
                         if (!drawable.Visible) continue;
 

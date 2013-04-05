@@ -18,22 +18,20 @@ namespace Some2DRPG.GameObjects
         {
             this._randomModifier = randomGenerator.NextDouble();
             this.Visible = true;
-            //this.rxWidth = 1.5f;
-            //this.rxHeight = 1.5f;
         }
 
         public override void Update(GameTime GameTime, TeeEngine Engine)
         {
             X += (float) (Math.Cos(GameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
 
-            //for testing
+            //for testing (performance)
             Engine.QuadTree.GetIntersectingEntites(CurrentBoundingBox);
         }
 
         public override void LoadContent(ContentManager Content)
         {
-            Animation.LoadAnimationXML(Drawables, "Animations/Monsters/bat.anim", Content, null, 0);
-            CurrentDrawable = "Down";
+            Animation.LoadAnimationXML(Drawables, "Animations/Monsters/bat.anim", Content, "", 0);
+            CurrentDrawableState = "Down";
         }
     }
 }

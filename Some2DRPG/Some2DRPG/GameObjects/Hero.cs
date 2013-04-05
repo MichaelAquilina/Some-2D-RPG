@@ -67,9 +67,9 @@ namespace Some2DRPG.GameObjects
 
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
-                    bool reset = !CurrentDrawable.StartsWith("Slash");
+                    bool reset = !CurrentDrawableState.StartsWith("Slash");
                         
-                    CurrentDrawable = "Slash_" + Direction;
+                    CurrentDrawableState = "Slash_" + Direction;
                     moved = true;
 
                     ///if (reset) Animations.ResetAnimations(CurrentAnimation, gameTime);
@@ -78,7 +78,7 @@ namespace Some2DRPG.GameObjects
                 //MOVEMENT BASED KEYBOARD EVENTS
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
-                    CurrentDrawable = "Walk_Up";
+                    CurrentDrawableState = "Walk_Up";
                     Direction = Direction.Up;
                     moved = true;
 
@@ -87,7 +87,7 @@ namespace Some2DRPG.GameObjects
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
-                    CurrentDrawable = "Walk_Down";
+                    CurrentDrawableState = "Walk_Down";
                     Direction = Direction.Down;
                     moved = true;
 
@@ -96,7 +96,7 @@ namespace Some2DRPG.GameObjects
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
-                    CurrentDrawable = "Walk_Left";
+                    CurrentDrawableState = "Walk_Left";
                     Direction = Direction.Left;
                     moved = true;
 
@@ -105,7 +105,7 @@ namespace Some2DRPG.GameObjects
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
-                    CurrentDrawable = "Walk_Right";
+                    CurrentDrawableState = "Walk_Right";
                     Direction = Direction.Right;
                     moved = true;
 
@@ -115,7 +115,7 @@ namespace Some2DRPG.GameObjects
 
                 //Set animation to idle of no movements where made
                 if (moved == false)
-                    CurrentDrawable = "Idle_" + Direction;
+                    CurrentDrawableState = "Idle_" + Direction;
 
                 //prevent from going out of range
                 if (X < 0) X = 0;

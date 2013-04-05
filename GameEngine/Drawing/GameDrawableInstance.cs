@@ -12,7 +12,11 @@ namespace GameEngine.Drawing
         public Color Color { get; set; }
         public SpriteEffects SpriteEffects { get; set; }
         public int Layer { get; set; }
-        public string Group { get; set; }
+
+        //associated state and group when added to a DrawableSet
+        //a GameDrawableInstance should be associated with one and only one DrawableSet
+        internal string _associatedState = null;
+        internal string _associatedGroup = null;
 
         public GameDrawableInstance(IGameDrawable Drawable)
         {
@@ -22,13 +26,12 @@ namespace GameEngine.Drawing
             this.Color = Color.White;
             this.SpriteEffects = SpriteEffects.None;
             this.Layer = 0;
-            this.Group = null;
         }
 
         public override string ToString()
         {
-            return string.Format("GameDrawableInstance: Visible={0}, Group={1}, Layer={2}, Color={3}, Rotation={4}",
-                Visible, Group, Layer, Color, Rotation);
+            return string.Format("GameDrawableInstance: Visible={0}, Layer={1}, Color={2}, Rotation={3}",
+                Visible, Layer, Color, Rotation);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace GameEngine.GameObjects
         public FRectangle CurrentBoundingBox { get; internal set; }       //the last bounding box generated during the TeeEngine update
 
         public DrawableSet Drawables { get; set; }                        //The set of drawable instances associated with this Entity
-        public string CurrentDrawable { get; set; }                       //The current Drawables enabled
+        public string CurrentDrawableState { get; set; }                  //The current Drawables enabled
 
         internal FRectangle prevBoundingBox;                              //the previous BoundingBox that was assigned to this Entity
         internal bool requiresAddition = false;                           //boolean flag notifying if the Entity needs addition into the QuadTree
@@ -69,7 +69,7 @@ namespace GameEngine.GameObjects
         /// <returns>A Rectangle object specifying the bounding box of this Entity in Pixels.</returns>
         public FRectangle GetPxBoundingBox(GameTime GameTime)
         {
-            List<GameDrawableInstance> drawables = Drawables[CurrentDrawable];
+            List<GameDrawableInstance> drawables = Drawables.GetDrawablesByState(CurrentDrawableState);
 
             if (drawables.Count == 0) return new FRectangle(X, Y, 0, 0);
 
