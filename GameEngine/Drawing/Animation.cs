@@ -121,12 +121,12 @@ namespace GameEngine.Drawing
 
             foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
             {
-                int frameDelay = animNode.GetAttributeValue<int>("FrameDelay", 90);
-                bool loop = animNode.GetAttributeValue<bool>("Loop", true);
+                int frameDelay = XmlExtensions.GetAttributeValue<int>(animNode, "FrameDelay", 90);
+                bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);
 
-                string name = animNode.GetAttributeValue("Name");
-                string spriteSheet = animNode.GetAttributeValue("SpriteSheet");
-                string[] origin = animNode.GetAttributeValue("Origin", "0.5, 1.0").Split(',');
+                string name = XmlExtensions.GetAttributeValue(animNode, "Name");
+                string spriteSheet = XmlExtensions.GetAttributeValue(animNode, "SpriteSheet");
+                string[] origin = XmlExtensions.GetAttributeValue(animNode, "Origin", "0.5, 1.0").Split(',');
 
                 XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
                 Rectangle[] frames = new Rectangle[frameNodes.Count];

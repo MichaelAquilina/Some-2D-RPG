@@ -13,7 +13,7 @@ namespace GameEngine.Extensions
         /// <param name="color">The <see cref="Color"/> value to parse.</param>
         /// <param name="includeHash">Determines whether to include the hash mark (#) character in the string. Defaults to true if not specified.</param>
         /// <returns>A hex string representation of the specified <see cref="Color"/> value.</returns>
-        public static string ToHex(this Color color, bool includeHash=true)
+        public static string ToHex(Color color, bool includeHash=true)
         {
             string[] argb = {
                 color.A.ToString("X2"),
@@ -32,7 +32,7 @@ namespace GameEngine.Extensions
         /// A <see cref="Color"/> value as defined by the ARGB or RGB hex string.
         /// </returns>
         /// <exception cref="InvalidOperationException">Thrown if the string is not a valid ARGB or RGB hex value.</exception>
-        public static Color ToColor(this string hexString)
+        public static Color ToColor(string hexString)
         {
             if (hexString.StartsWith("#"))
                 hexString = hexString.Substring(1);

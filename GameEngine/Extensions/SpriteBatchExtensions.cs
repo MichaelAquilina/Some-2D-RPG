@@ -10,7 +10,7 @@ namespace GameEngine.Extensions
     public static class SpriteBatchExtensions
     {
         //TODO, IS THIS REALLLLY NEEDED? THIS SEEMS TO BE DEFAULT BEHAVIOUR IN XNA
-        public static void DrawMultiLineString(this SpriteBatch SpriteBatch, SpriteFont SpriteFont, string Message, Vector2 Position, Color Color)
+        public static void DrawMultiLineString(SpriteBatch SpriteBatch, SpriteFont SpriteFont, string Message, Vector2 Position, Color Color)
         {
             string[] messageLines = Message.Split('\n');
 
@@ -32,7 +32,7 @@ namespace GameEngine.Extensions
         //use a cached copy of a texture each time one of the methods below are called
         private static Texture2D _rectText;
 
-        public static void DrawCross(this SpriteBatch SpriteBatch, Vector2 Center, int Size, Color Background, float layerDepth)
+        public static void DrawCross(SpriteBatch SpriteBatch, Vector2 Center, int Size, Color Background, float layerDepth)
         {
             if (_rectText == null)
             {
@@ -49,7 +49,7 @@ namespace GameEngine.Extensions
                 null, Background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
         }
 
-        public static void FillRectangle(this SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background, float layerDepth)
+        public static void FillRectangle(SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background, float layerDepth)
         {
             if(_rectText == null)
             {

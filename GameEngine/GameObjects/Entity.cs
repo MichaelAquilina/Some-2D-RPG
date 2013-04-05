@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameEngine.DataStructures;
 using GameEngine.Drawing;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using GameEngine.DataStructures;
 
 namespace GameEngine.GameObjects
 {

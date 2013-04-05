@@ -494,7 +494,8 @@ namespace GameEngine
                     if (ShowBoundingBoxes)
                     {
                         SpriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0.0001f);
-                        SpriteBatch.DrawCross(
+                        SpriteBatchExtensions.DrawCross(
+                            SpriteBatch,
                             new Vector2(
                                 (int) Math.Ceiling(pxAbsEntityPos.X), 
                                 (int) Math.Ceiling(pxAbsEntityPos.Y)
@@ -559,7 +560,8 @@ namespace GameEngine
                                 pxAbsBoundingBox.ToString("0.0"), 
                                 objectDestRect);
 
-                            SpriteBatch.DrawMultiLineString(
+                            SpriteBatchExtensions.DrawMultiLineString(
+                                SpriteBatch,
                                 SpriteFont,
                                 message,
                                 new Vector2(

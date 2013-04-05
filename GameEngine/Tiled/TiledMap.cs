@@ -94,28 +94,32 @@ namespace GameEngine.Tiled
             XmlNode mapNode = document.SelectSingleNode("map");
 
             TiledMap map = new TiledMap();
-            map.txWidth = mapNode.GetAttributeValue<int>("width", -1, true);
-            map.txHeight = mapNode.GetAttributeValue<int>("height", -1, true);
-            map.pxTileWidth = mapNode.GetAttributeValue<int>("tilewidth", -1, true);
-            map.pxTileHeight = mapNode.GetAttributeValue<int>("tileheight", -1, true);
-            map.Background = mapNode.GetAttributeValue("backgroundcolor", "#000000").ToColor();
+            map.txWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "width", -1, true);
+            map.txHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "height", -1, true);
+            map.pxTileWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "tilewidth", -1, true);
+            map.pxTileHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "tileheight", -1, true);
+            map.Background = ColorExtensions.ToColor(
+                XmlExtensions.GetAttributeValue(
+                    mapNode, "backgroundcolor", "#000000"
+                )
+            );
 
             //OBJECT LAYERS
             foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
             {
                 ObjectLayer mapObjectLayer = new ObjectLayer();
-                mapObjectLayer.Width = objectLayerNode.GetAttributeValue<int>("width", 1);
-                mapObjectLayer.Height = objectLayerNode.GetAttributeValue<int>("height", 1);
-                mapObjectLayer.Name = objectLayerNode.GetAttributeValue("name");
+                mapObjectLayer.Width = XmlExtensions.GetAttributeValue<int>(objectLayerNode, "width", 1);
+                mapObjectLayer.Height = XmlExtensions.GetAttributeValue<int>(objectLayerNode, "height", 1);
+                mapObjectLayer.Name = XmlExtensions.GetAttributeValue(objectLayerNode, "name");
 
                 foreach (XmlNode objectNode in objectLayerNode.SelectNodes("object"))
                 {
                     MapObject mapObject = new MapObject();
-                    mapObject.Name = objectNode.GetAttributeValue("name");
-                    mapObject.Type = objectNode.GetAttributeValue("type");
-                    mapObject.X = objectNode.GetAttributeValue<int>("x", 0);
-                    mapObject.Y = objectNode.GetAttributeValue<int>("y", 0);
-                    mapObject.Gid = objectNode.GetAttributeValue<int>("gid", -1);
+                    mapObject.Name = XmlExtensions.GetAttributeValue(objectNode, "name");
+                    mapObject.Type = XmlExtensions.GetAttributeValue(objectNode, "type");
+                    mapObject.X = XmlExtensions.GetAttributeValue<int>(objectNode, "x", 0);
+                    mapObject.Y = XmlExtensions.GetAttributeValue<int>(objectNode, "y", 0);
+                    mapObject.Gid = XmlExtensions.GetAttributeValue<int>(objectNode, "gid", -1);
                     mapObject.LoadProperties(objectNode);
 
                     mapObjectLayer.Objects.Add(mapObject);
@@ -127,15 +131,15 @@ namespace GameEngine.Tiled
             //TILESETS
             foreach (XmlNode tilesetNode in mapNode.SelectNodes("tileset"))
             {
-                int firstGID = tilesetNode.GetAttributeValue<int>("firstgid", -1, true);
-                string tilesetName = tilesetNode.GetAttributeValue("name");
-                int tileHeight = tilesetNode.GetAttributeValue<int>("tileheight", -1, true);
-                int tileWidth = tilesetNode.GetAttributeValue<int>("tilewidth", -1, true);
+                int firstGID = XmlExtensions.GetAttributeValue<int>(tilesetNode, "firstgid", -1, true);
+                string tilesetName = XmlExtensions.GetAttributeValue(tilesetNode, "name");
+                int tileHeight = XmlExtensions.GetAttributeValue<int>(tilesetNode, "tileheight", -1, true);
+                int tileWidth = XmlExtensions.GetAttributeValue<int>(tilesetNode, "tilewidth", -1, true);
 
                 XmlNode imageNode = tilesetNode.SelectSingleNode("image");
-                string source = imageNode.GetAttributeValue<string>("source", "", true);
-                int imageWidth = imageNode.GetAttributeValue<int>("width", -1, true);
-                int imageHeight = imageNode.GetAttributeValue<int>("height", -1, true);
+                string source = XmlExtensions.GetAttributeValue<string>(imageNode, "source", "", true);
+                int imageWidth = XmlExtensions.GetAttributeValue<int>(imageNode, "width", -1, true);
+                int imageHeight = XmlExtensions.GetAttributeValue<int>(imageNode, "height", -1, true);
 
                 //TODO: Make this a abit smart since tile wont set the content names automatically for us
                 //TEMP WORKAROUND FOR TILED SAVING FORMAT
@@ -165,7 +169,7 @@ namespace GameEngine.Tiled
                 //add any individual properties to the tiles we have created
                 foreach (XmlNode tileNode in tilesetNode.SelectNodes("tile"))
                 {
-                    int tileGid = firstGID + tileNode.GetAttributeValue<int>("id", -1, true);
+                    int tileGid = firstGID + XmlExtensions.GetAttributeValue<int>(tileNode, "id", -1, true);
                     Tile tile = map.Tiles[tileGid];
                     tile.LoadProperties(tileNode);
 
@@ -181,11 +185,11 @@ namespace GameEngine.Tiled
             //TILE LAYERS
             foreach (XmlNode layerNode in mapNode.SelectNodes("layer"))
             {
-                int width = layerNode.GetAttributeValue<int>("width", 0);
-                int height = layerNode.GetAttributeValue<int>("height", 0);
+                int width = XmlExtensions.GetAttributeValue<int>(layerNode, "width", 0);
+                int height = XmlExtensions.GetAttributeValue<int>(layerNode, "height", 0);
 
                 TileLayer tileLayer = new TileLayer(width, height);
-                tileLayer.Name = layerNode.GetAttributeValue("name");
+                tileLayer.Name = XmlExtensions.GetAttributeValue(layerNode, "name");
                 tileLayer.LoadProperties(layerNode);
 
                 XmlNode dataNode = layerNode.SelectSingleNode("data");

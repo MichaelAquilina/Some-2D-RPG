@@ -8,7 +8,7 @@ namespace GameEngine.Extensions
 {
     public static class XmlExtensions
     {
-        public static T GetAttributeValue<T>(this XmlNode Node, string Name, T Default, bool ThrowOnNotFound=false) where T : IConvertible
+        public static T GetAttributeValue<T>(XmlNode Node, string Name, T Default, bool ThrowOnNotFound=false) where T : IConvertible
         {
             if (Node.Attributes[Name] == null)
                 if (ThrowOnNotFound)
@@ -19,7 +19,7 @@ namespace GameEngine.Extensions
             return (T)Convert.ChangeType(Node.Attributes[Name].Value, typeof(T));
         }
 
-        public static string GetAttributeValue(this XmlNode Node, string Name, string Default = null)
+        public static string GetAttributeValue(XmlNode Node, string Name, string Default = null)
         {
             return Node.Attributes[Name] == null ? Default : Node.Attributes[Name].Value;
         }
