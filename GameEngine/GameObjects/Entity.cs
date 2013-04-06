@@ -69,7 +69,7 @@ namespace GameEngine.GameObjects
         /// <returns>A Rectangle object specifying the bounding box of this Entity in Pixels.</returns>
         public FRectangle GetPxBoundingBox(GameTime GameTime)
         {
-            List<GameDrawableInstance> drawables = Drawables.GetDrawablesByState(CurrentDrawableState);
+            List<GameDrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
 
             if (drawables.Count == 0) return new FRectangle(X, Y, 0, 0);
 
@@ -80,7 +80,7 @@ namespace GameEngine.GameObjects
 
             foreach (GameDrawableInstance draw in drawables)
             {
-                Rectangle pxDrawRectangle = draw.Drawable.GetSourceRectangle(GameTime);
+                Rectangle pxDrawRectangle = draw.GetSourceRectangle(GameTime);
                 Vector2 drawOrigin = draw.Drawable.Origin;
 
                 float pxWidth  = pxDrawRectangle.Width * this.ScaleX;

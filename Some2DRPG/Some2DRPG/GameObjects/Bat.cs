@@ -30,7 +30,12 @@ namespace Some2DRPG.GameObjects
 
         public override void LoadContent(ContentManager Content)
         {
-            Animation.LoadAnimationXML(Drawables, "Animations/Monsters/bat.anim", Content, "", 0);
+            Animation.LoadAnimationXML(
+                Drawables, 
+                "Animations/Monsters/bat.anim", 
+                Content, "", 0,
+                randomGenerator.NextDouble() * 4000
+                );
             CurrentDrawableState = "Down";
         }
     }

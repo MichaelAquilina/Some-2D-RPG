@@ -26,7 +26,7 @@ Should Have
 - [] - Animated tile support
 - [Done] - Composite drawing support in entities (allowing entities to make use of more than one animation at one go)
 - [Done] - Detailed diagnostic information in terms of performance counters
-- [] - the ability to reset animations
+- [Done] - the ability to reset animations
 
 Nice to Have
 ------------

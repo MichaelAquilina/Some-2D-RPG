@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using GameEngine.Interfaces;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.Drawing
 {
@@ -35,12 +36,12 @@ namespace GameEngine.Drawing
         private Dictionary<string, List<GameDrawableInstance>> _stateDictionary = new Dictionary<string, List<GameDrawableInstance>>();
         private Dictionary<string, List<GameDrawableInstance>> _groupDictionary = new Dictionary<string, List<GameDrawableInstance>>();
 
-        public List<GameDrawableInstance> GetDrawablesByState(string State)
+        public List<GameDrawableInstance> GetByState(string State)
         {
             return _stateDictionary[State];
         }
 
-        public List<GameDrawableInstance> GetDrawablesByGroup(string Group)
+        public List<GameDrawableInstance> GetByGroup(string Group)
         {
             return _groupDictionary[Group];
         }
@@ -78,6 +79,18 @@ namespace GameEngine.Drawing
         {
             _stateDictionary.Clear();
             _groupDictionary.Clear();
+        }
+
+        public void ResetState(string State, GameTime GameTime)
+        {
+            foreach (GameDrawableInstance instance in _stateDictionary[State])
+                instance.Reset(GameTime);
+        }
+
+        public void ResetGroup(string Group, GameTime GameTime)
+        {
+            foreach (GameDrawableInstance instance in _groupDictionary[Group])
+                instance.Reset(GameTime);
         }
 
         public void SetGroupProperty(string Group, string Property, object Value)

@@ -5,6 +5,7 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace GameEngine.Drawing
 {
@@ -22,8 +23,6 @@ namespace GameEngine.Drawing
         public int FrameDelay { get; set; }
         public bool Loop { get; set; }
         public Vector2 Origin { get; set; }
-
-        private double _startTime = 0;
 
         /// <summary>
         /// Initialises an Animation object specifies a SpriteSheet to us and the individual frame locations
@@ -44,27 +43,14 @@ namespace GameEngine.Drawing
             this.Origin = Vector2.Zero;
         }
 
-        public Texture2D GetSourceTexture(GameTime GameTime)
+        public Texture2D GetSourceTexture(double ElapsedMS)
         {
             return SpriteSheet;
         }
 
-        public Rectangle GetSourceRectangle(GameTime GameTime)
+        public Rectangle GetSourceRectangle(double ElapsedMS)
         {
-            return GetCurrentFrame(GameTime);
-        }
-
-        /// <summary>
-        /// Resets the Animation to the first frame. Requires the GameTime as an input
-        /// parameters so that the animation may know at point in time the game is at.
-        /// This shouldnt be a problem since most of the logic involved with animations
-        /// will occur in Draw and Update methods - both of which are passed GameTime
-        /// parameters.
-        /// </summary>
-        /// <param name="GameTime">Current GameTime that the game is at.</param>
-        public void ResetAnimation(GameTime GameTime)
-        {
-            _startTime = GameTime.TotalGameTime.TotalMilliseconds;
+            return GetFrame(ElapsedMS);
         }
 
         /// <summary>
@@ -73,9 +59,9 @@ namespace GameEngine.Drawing
         /// </summary>
         /// <param name="GameTime">GameTime object representing the current GameTime in the application.</param>
         /// <returns>Int index of the current frame in the Frames property.</returns>
-        public int GetCurrentFrameIndex(GameTime GameTime)
+        public int GetFrameIndex(double ElapsedMS)
         {
-            int index = (int)((GameTime.TotalGameTime.TotalMilliseconds - _startTime) / FrameDelay);
+            int index = (int) Math.Abs((ElapsedMS) / FrameDelay);
 
             return (Loop)? index % Frames.Length : index;               //If looping, start from the beginning
         }
@@ -88,9 +74,9 @@ namespace GameEngine.Drawing
         /// </summary>
         /// <param name="GameTime">GameTime object specifying the current Game Time.</param>
         /// <returns>bool value specifying whether the animation has finished.</returns>
-        public bool IsFinished(GameTime GameTime)
+        public bool IsFinished(double ElapsedMS)
         {
-            return Loop || GetCurrentFrameIndex(GameTime) >= Frames.Length;
+            return Loop || GetFrameIndex(ElapsedMS) >= Frames.Length;
         }
 
         /// <summary>
@@ -99,9 +85,9 @@ namespace GameEngine.Drawing
         /// </summary>
         /// <param name="GameTime">GameTime object representing the current state in time of the game.</param>
         /// <returns>Rectangle object representing the Frame in the spritesheet to show.</returns>
-        public Rectangle GetCurrentFrame(GameTime GameTime)
+        public Rectangle GetFrame(double ElapsedMS)
         {
-            return Frames[Math.Min(GetCurrentFrameIndex(GameTime), Frames.Length-1)];
+            return Frames[Math.Min(GetFrameIndex(ElapsedMS), Frames.Length-1)];
         }
 
         /// <summary>
@@ -114,7 +100,7 @@ namespace GameEngine.Drawing
         /// <param name="Path">String path to the XML formatted .anim file</param>
         /// <param name="Content">Reference to the ContentManager instance being used in the application</param>
         /// <param name="Layer">(optional) integer layer value for y ordering on the same DrawableSet.</param>
-        public static void LoadAnimationXML(DrawableSet DrawableSet, string Path, ContentManager Content, string Group="", int Layer = 0)
+        public static void LoadAnimationXML(DrawableSet DrawableSet, string Path, ContentManager Content, string Group="", int Layer = 0, double StartTimeMS=0)
         {
             XmlDocument document = new XmlDocument();
             document.Load(Path);
@@ -147,7 +133,9 @@ namespace GameEngine.Drawing
 
                 Animation animation = new Animation(Content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
                 animation.Origin = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
-                DrawableSet.Add(name, animation, Group, Layer);
+                
+                GameDrawableInstance instance = DrawableSet.Add(name, animation, Group, Layer);
+                instance.StartTimeMS = StartTimeMS;
             }
         }
 

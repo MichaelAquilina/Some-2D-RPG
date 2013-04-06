@@ -121,8 +121,8 @@ namespace Some2DRPG
 
                         //because tileds default draw origin is (0,1) - we need to update the entity positions based 
                         //on the custom position defined in the SourceTile.Origin property.
-                        entity.X+= (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(null).Width;
-                        entity.Y+= (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(null).Height;
+                        entity.X+= (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(0).Width;
+                        entity.Y+= (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(0).Height;
 
                         Engine.AddEntity(mapObject.Name, entity);
                     }

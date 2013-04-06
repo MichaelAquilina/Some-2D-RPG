@@ -22,12 +22,12 @@ namespace GameEngine.Drawing
             this.Origin = new Vector2(0, 1);
         }
 
-        public Texture2D GetSourceTexture(GameTime GameTime)
+        public Texture2D GetSourceTexture(double ElapsedMS)
         {
             return SourceTexture;
         }
 
-        public Rectangle GetSourceRectangle(GameTime GameTime)
+        public Rectangle GetSourceRectangle(double ElapsedMS)
         {
             return SourceRectangle;
         }

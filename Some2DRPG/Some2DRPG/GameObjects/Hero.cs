@@ -8,6 +8,7 @@ using GameEngine;
 using ShadowKillGame.GameObjects;
 using GameEngine.GameObjects;
 using System.Collections.Generic;
+using GameEngine.Drawing;
 
 namespace Some2DRPG.GameObjects
 {
@@ -68,11 +69,11 @@ namespace Some2DRPG.GameObjects
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
                     bool reset = !CurrentDrawableState.StartsWith("Slash");
-                        
+
                     CurrentDrawableState = "Slash_" + Direction;
                     moved = true;
 
-                    ///if (reset) Animations.ResetAnimations(CurrentAnimation, gameTime);
+                    if (reset) Drawables.ResetState(CurrentDrawableState, gameTime);
                 }
 
                 //MOVEMENT BASED KEYBOARD EVENTS

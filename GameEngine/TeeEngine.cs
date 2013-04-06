@@ -503,14 +503,14 @@ namespace GameEngine
                             13, Color.Black, 0f);
                     }
 
-                    foreach (GameDrawableInstance drawable in entity.Drawables.GetDrawablesByState(entity.CurrentDrawableState))
+                    foreach (GameDrawableInstance drawable in entity.Drawables.GetByState(entity.CurrentDrawableState))
                     {
                         if (!drawable.Visible) continue;
 
                         //The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
                         //are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
                         //already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
-                        Rectangle pxCurrentFrame = drawable.Drawable.GetSourceRectangle(LastUpdateTime);
+                        Rectangle pxCurrentFrame = drawable.GetSourceRectangle(LastUpdateTime);
 
                         int pxObjectWidth  = (int) Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
                         int pxObjectHeight = (int) Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
@@ -524,8 +524,8 @@ namespace GameEngine
                         );
 
                         Vector2 drawableOrigin = new Vector2(
-                            (int) Math.Ceiling(drawable.Drawable.Origin.X * pxCurrentFrame.Width),
-                            (int) Math.Ceiling(drawable.Drawable.Origin.Y * pxCurrentFrame.Height)
+                            (float) Math.Ceiling(drawable.Drawable.Origin.X * pxCurrentFrame.Width),
+                            (float) Math.Ceiling(drawable.Drawable.Origin.Y * pxCurrentFrame.Height)
                             );
 
                         Color drawableColor = new Color()
@@ -541,7 +541,7 @@ namespace GameEngine
                         float layerDepth = Math.Min(0.99f, 1 / (entity.Y + ((float)drawable.Layer / Map.pxHeight)));
 
                         SpriteBatch.Draw(
-                            drawable.Drawable.GetSourceTexture(LastUpdateTime),
+                            drawable.GetSourceTexture(LastUpdateTime),
                             objectDestRect,
                             pxCurrentFrame,
                             drawableColor,
