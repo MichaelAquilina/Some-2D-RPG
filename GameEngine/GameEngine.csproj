@@ -94,7 +94,6 @@
   <ItemGroup>
     <Compile Include="Drawing\Animation.cs" />
     <Compile Include="Drawing\DrawableSet.cs" />
-    <Compile Include="Drawing\List.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="Drawing\GameDrawableInstance.cs" />

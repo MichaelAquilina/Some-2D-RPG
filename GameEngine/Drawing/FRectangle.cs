@@ -3,6 +3,10 @@ using System;
 
 namespace GameEngine.Drawing
 {
+    //TODO: Might be smarter to make use of integers internally. These would have a precision of say 1000 decimals
+    //and when retrieved from a property would be divided by 1000 and returned. Internally however, any operations that
+    //would occur would be with integers which are faster on the CPU to perform. Have to think about *benefit* vs *complexity*
+    //though as this would possibly introduce new bugs.
     /// <summary>
     /// Rectangle Structure that uses Float values as storage rather than integers such as the ones
     /// used in the standard XNA rectangle struct. The FRectangle structure can be used to specify
@@ -69,12 +73,12 @@ namespace GameEngine.Drawing
 
         public Rectangle ToRectangle()
         {
-            int X = (int) Math.Floor(this.X); 
-            int Y = (int) Math.Floor(this.Y);
-            int Width =   (int) (Math.Ceiling(this.Width) + Math.Round(this.X -X));     //determine the difference between the floored X and actual X
-            int Height =  (int) (Math.Ceiling(this.Height) + Math.Round(this.Y -Y));  //same as above
-
-            return new Rectangle(X, Y, Width, Height);
+            return new Rectangle(
+                (int) Math.Floor(this.X),
+                (int) Math.Floor(this.Y),
+                (int) (Math.Ceiling(this.Width) + Math.Round(this.X -X)),
+                (int) (Math.Ceiling(this.Height) + Math.Round(this.Y -Y))
+            );
         }
 
         public override bool Equals(object obj)
