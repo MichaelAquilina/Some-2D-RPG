@@ -122,7 +122,8 @@ namespace GameEngine
         /// </summary>
         public DebugInfo DebugInfo { get; private set; }
 
-        Dictionary<string, Entity> _entities;
+        List<string> _entityTrash = new List<string>();                 //a list of named entities that are in need of removal
+        Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
@@ -142,7 +143,6 @@ namespace GameEngine
             _watch1 = new Stopwatch();
             _watch2 = new Stopwatch();
             _watch3 = new Stopwatch();
-            _entities = new Dictionary<string, Entity>();
 
             GraphicsDevice = Game.GraphicsDevice;
 
@@ -246,9 +246,12 @@ namespace GameEngine
         {
             if (_entities.ContainsKey(Name))
             {
-                QuadTree.Root.Remove(_entities[Name], null);
-                _entities[Name].Name = null;
-                return _entities.Remove(Name);
+                //Deferred removal is important because
+                //we cannot alter the update loops _entities.Values
+                //or else a runtime error will occur if an entity
+                //removes itself or someone else in an Update call
+                _entityTrash.Add(Name);
+                return true;
             }
 
             return false;
@@ -320,6 +323,18 @@ namespace GameEngine
                 }
                 _watch3.Stop();
             }
+
+            //REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
+            foreach (string namedEntity in _entityTrash)
+            {
+                Entity entity = _entities[namedEntity];
+                _entities.Remove(namedEntity);
+
+                entity.Name = null;
+                QuadTree.Remove(entity);
+            }
+
+            _entityTrash.Clear();
 
             DebugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
             DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;

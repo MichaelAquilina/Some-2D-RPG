@@ -7,6 +7,7 @@ using GameEngine.GameObjects;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
 using GameEngine;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Some2DRPG.GameObjects
 {
@@ -15,6 +16,8 @@ namespace Some2DRPG.GameObjects
     public class Coin : Entity
     {
         public int CoinValue { get; set; }
+
+        public SoundEffect CoinSound { get; set; }
 
         public CoinType CoinType {
             get { return _coinType; }
@@ -40,18 +43,33 @@ namespace Some2DRPG.GameObjects
         {
             //Load the coin animation
             Animation.LoadAnimationXML(this.Drawables, "Animations/Misc/coin.anim", Content);
+
+            CoinSound = Content.Load<SoundEffect>("Sounds/Coins/coin1");
         }
 
         public override void Update(GameTime GameTime, TeeEngine Engine)
         {
-            Entity player = Engine.GetEntity("Player");
+            float COIN_MOVE_SPEED = 5000;
 
-            float distance = Vector2.Distance(Pos, player.Pos);
+            Hero player = (Hero) Engine.GetEntity("Player");
 
-            if (distance < 100)
-                this.Drawables.SetGroupProperty("", "Color", Color.Red);
-            else
-                this.Drawables.SetGroupProperty("", "Color", Color.White);
+            //find the distance between the player and this coin
+            float distanceSquared = Vector2.DistanceSquared(Pos, player.Pos);
+
+            float speed = COIN_MOVE_SPEED / distanceSquared;
+
+            if (speed > 1)
+            {
+                this.Pos.X += (player.Pos.X > this.Pos.X) ? speed : -1 * speed;
+                this.Pos.Y += (player.Pos.Y > this.Pos.Y) ? speed : -1 * speed;
+
+                if (this.CurrentBoundingBox.Intersects(player.CurrentBoundingBox))
+                {
+                    CoinSound.Play();
+                    player.Coins += this.CoinValue;
+                    Engine.RemoveEntity(this);
+                }
+            }
         }
 
         public override string ToString()

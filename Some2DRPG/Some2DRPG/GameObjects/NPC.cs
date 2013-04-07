@@ -35,10 +35,15 @@ namespace Some2DRPG.GameObjects
 
         public int HP { get; set; }
         public int XP { get; set; }
+        public int Coins { get; set; }
 
         public NPC(int PX, int PY, string BaseRace) :
             base(PX, PY, 1.0f, 1.0f)
         {
+            this.HP = 0;
+            this.XP = 0;
+            this.Coins = 0;
+
             this.Direction = Direction.Right;
             this.BaseRace = BaseRace;
         }

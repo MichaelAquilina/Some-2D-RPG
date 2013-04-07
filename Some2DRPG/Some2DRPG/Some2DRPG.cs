@@ -298,6 +298,7 @@ namespace Some2DRPG
 
                     SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.Pos.ToString(), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, TX.ToString("0.0") + "," + TY.ToString("0.0"), GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Coins=" + CurrentPlayer.Coins, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), GeneratePos(textHeight), fpsColor);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "MapSize=" + Engine.Map.txWidth + "x" + Engine.Map.txHeight, GeneratePos(textHeight), Color.White);
