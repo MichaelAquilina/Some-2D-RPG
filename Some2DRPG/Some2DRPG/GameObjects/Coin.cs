@@ -46,7 +46,7 @@ namespace Some2DRPG.GameObjects
         {
             Entity player = Engine.GetEntity("Player");
 
-            float distance = Vector2.Distance(new Vector2(X, Y), new Vector2(player.X, player.Y));
+            float distance = Vector2.Distance(Pos, player.Pos);
 
             if (distance < 100)
                 this.Drawables.SetGroupProperty("", "Color", Color.Red);
@@ -57,10 +57,10 @@ namespace Some2DRPG.GameObjects
         public override string ToString()
         {
             return string.Format(
-                "Coin: CoinValue={0}, CoinType={1}, Pos=({2},{3})",
+                "Coin: CoinValue={0}, CoinType={1}, Pos={2}",
                 CoinValue,
                 CoinType,
-                X, Y );
+                Pos );
 
         }
     }

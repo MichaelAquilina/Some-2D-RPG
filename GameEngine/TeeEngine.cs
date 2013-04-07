@@ -479,8 +479,8 @@ namespace GameEngine
                     entity.IsOnScreen = true;
 
                     Vector2 pxAbsEntityPos = new Vector2(
-                        entity.X * viewPortInfo.ActualZoom - globalDispX,
-                        entity.Y * viewPortInfo.ActualZoom - globalDispY
+                        entity.Pos.X * viewPortInfo.ActualZoom - globalDispX,
+                        entity.Pos.Y * viewPortInfo.ActualZoom - globalDispY
                     );
 
                     FRectangle pxAbsBoundingBox = new FRectangle(
@@ -538,7 +538,7 @@ namespace GameEngine
 
                         //layer depth should depend how far down the object is on the map (Relative to Y)
                         //Important to also take into account the animation layers for the entity
-                        float layerDepth = Math.Min(0.99f, 1 / (entity.Y + ((float)drawable.Layer / Map.pxHeight)));
+                        float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
 
                         SpriteBatch.Draw(
                             drawable.GetSourceTexture(LastUpdateTime),
@@ -554,8 +554,8 @@ namespace GameEngine
                         if (ShowEntityDebugInfo)
                         {
                             string message = string.Format(
-                                "Pos=({0},{1}), Lyr={2}\nBB: {3}\nDR: {4}", 
-                                entity.X, entity.Y, layerDepth.ToString("0.000"),
+                                "Pos={0}, Lyr={1}\nBB: {2}\nDR: {3}", 
+                                entity.Pos, layerDepth.ToString("0.000"),
                                 pxAbsBoundingBox.ToString("0.0"), 
                                 objectDestRect);
 

@@ -18,9 +18,6 @@ namespace Some2DRPG.GameObjects
         const float MOVEMENT_SPEED = 2.4f;
         double PrevGameTime = 0;
 
-        public float LightX { get { return X; } }
-        public float LightY { get { return Y; } }
-
         public bool CollisionDetection { get; set; }
 
         public BasicLightSource LightSource { get; set; }
@@ -56,10 +53,10 @@ namespace Some2DRPG.GameObjects
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
-            float prevX = X;
-            float prevY = Y;
+            float prevX = Pos.X;
+            float prevY = Pos.Y;
 
-            Tile prevTile = Engine.Map.GetPxTopMostTile(X, Y);
+            Tile prevTile = Engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
             float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
@@ -84,7 +81,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Y -= MOVEMENT_SPEED * moveSpeedModifier;
+                    Pos.Y -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
@@ -93,7 +90,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Y += MOVEMENT_SPEED * moveSpeedModifier;
+                    Pos.Y += MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
@@ -102,7 +99,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    X -= MOVEMENT_SPEED * moveSpeedModifier;
+                    Pos.X -= MOVEMENT_SPEED * moveSpeedModifier;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
@@ -111,7 +108,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    X += MOVEMENT_SPEED * moveSpeedModifier;
+                    Pos.X += MOVEMENT_SPEED * moveSpeedModifier;
                 }
 
                 //Set animation to idle of no movements where made
@@ -119,23 +116,23 @@ namespace Some2DRPG.GameObjects
                     CurrentDrawableState = "Idle_" + Direction;
 
                 //prevent from going out of range
-                if (X < 0) X = 0;
-                if (Y < 0) Y = 0;
-                if (X >= Engine.Map.pxWidth - 1) X = Engine.Map.pxWidth - 1;
-                if (Y >= Engine.Map.pxHeight - 1) Y = Engine.Map.pxHeight - 1;
+                if (Pos.X < 0) Pos.X = 0;
+                if (Pos.Y < 0) Pos.Y = 0;
+                if (Pos.X >= Engine.Map.pxWidth - 1) Pos.X = Engine.Map.pxWidth - 1;
+                if (Pos.Y >= Engine.Map.pxHeight - 1) Pos.Y = Engine.Map.pxHeight - 1;
 
                 if (CollisionDetection)
                 {
                     //iterate through each layer and determine if the tile is passable
-                    int tileX = (int)X / Engine.Map.pxTileWidth;
-                    int tileY = (int)Y / Engine.Map.pxTileHeight;
+                    int tileX = (int) Pos.X / Engine.Map.pxTileWidth;
+                    int tileY = (int) Pos.Y / Engine.Map.pxTileHeight;
 
                     int pxTileX = tileX * Engine.Map.pxTileWidth;
                     int pxTileY = tileY * Engine.Map.pxTileHeight;
                     int pxTileWidth = Engine.Map.pxTileWidth;
                     int pxTileHeight = Engine.Map.pxTileHeight;
 
-                    Tile currentTile = Engine.Map.GetPxTopMostTile(X, Y);
+                    Tile currentTile = Engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
                     bool impassable = currentTile.HasProperty("Impassable");
 
                     //CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
@@ -167,23 +164,23 @@ namespace Some2DRPG.GameObjects
                     float padding = 0.001f;
                     if (impassable)
                     {
-                        if (prevY <= pxTileY && Y > pxTileY)
-                            Y = pxTileY - padding;
+                        if (prevY <= pxTileY && Pos.Y > pxTileY)
+                            Pos.Y = pxTileY - padding;
                         else
-                            if (prevY >= pxTileY + pxTileHeight && Y < pxTileY + pxTileHeight)
-                                Y = pxTileY + pxTileHeight + padding;
+                            if (prevY >= pxTileY + pxTileHeight && Pos.Y < pxTileY + pxTileHeight)
+                                Pos.Y = pxTileY + pxTileHeight + padding;
 
-                        if (prevX <= pxTileX && X > pxTileX)
-                            X = pxTileX - padding;
+                        if (prevX <= pxTileX && Pos.X > pxTileX)
+                            Pos.X = pxTileX - padding;
                         else
-                            if (prevX >= pxTileX + pxTileWidth && X < pxTileX + pxTileWidth)
-                                X = pxTileX + pxTileWidth + padding;
+                            if (prevX >= pxTileX + pxTileWidth && Pos.X < pxTileX + pxTileWidth)
+                                Pos.X = pxTileX + pxTileWidth + padding;
                     }
                 }
 
                 //Change the radius of the LightSource overtime using a SINE wave pattern
-                LightSource.PX = this.X;
-                LightSource.PY = this.Y;
+                LightSource.PX = Pos.X;
+                LightSource.PY = Pos.Y;
                 LightSource.RadiusX = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
                 LightSource.RadiusY = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
 
@@ -198,7 +195,7 @@ namespace Some2DRPG.GameObjects
                 {
                     if ( entity!= this && 
                          entity.CurrentBoundingBox.Intersects(CurrentBoundingBox) &&
-                         entity.Y > this.Y )
+                         entity.Pos.Y > this.Pos.Y )
                         entity.Opacity = 0.8f;
                 }
             }  

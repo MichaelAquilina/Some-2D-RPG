@@ -75,7 +75,7 @@ namespace GameEngine.Tiled
         }
 
         //same as GetTxTile but specified in pixels
-        public Tile GetPxTile(int PX, int PY, int layerIndex)
+        public Tile GetPxTile(float PX, float PY, int layerIndex)
         {
             return GetTxTile(
                 (int)(PX / pxTileWidth),

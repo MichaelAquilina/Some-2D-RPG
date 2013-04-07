@@ -14,8 +14,7 @@ namespace GameEngine.GameObjects
     public class Entity : ILoadable
     {
         //X and Y position on the Map
-        public float X { get; set; }
-        public float Y { get; set; }
+        public Vector2 Pos;
 
         public string Name { get; internal set; }                         //Name currently assigned to this Entity in the Engine
 
@@ -40,8 +39,7 @@ namespace GameEngine.GameObjects
 
         public Entity(float X, float Y, float ScaleX=1, float ScaleY=1, bool Visible=true)
         {
-            this.X = X;
-            this.Y = Y;
+            this.Pos = new Vector2(X, Y);
             this.ScaleX = ScaleX;
             this.ScaleY = ScaleY;
             this.Visible = Visible;
@@ -71,7 +69,7 @@ namespace GameEngine.GameObjects
         {
             List<GameDrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
 
-            if (drawables.Count == 0) return new FRectangle(X, Y, 0, 0);
+            if (drawables.Count == 0) return new FRectangle(Pos.X, Pos.Y, 0, 0);
 
             float minX = Int32.MaxValue;
             float minY = Int32.MaxValue;
@@ -85,8 +83,8 @@ namespace GameEngine.GameObjects
 
                 float pxWidth  = pxDrawRectangle.Width * this.ScaleX;
                 float pxHeight = pxDrawRectangle.Height * this.ScaleY;
-                float pxFrameX = X + -1 * drawOrigin.X * pxWidth;
-                float pxFrameY = Y + -1 * drawOrigin.Y * pxHeight;
+                float pxFrameX = Pos.X + -1 * drawOrigin.X * pxWidth;
+                float pxFrameY = Pos.Y + -1 * drawOrigin.Y * pxHeight;
 
                 if (pxFrameX < minX) minX = pxFrameX;
                 if (pxFrameY < minY) minY = pxFrameY;
@@ -111,8 +109,8 @@ namespace GameEngine.GameObjects
 
         public override string ToString()
         {
-            return string.Format("Entity: Pos=({0},{1}), Width={2}, Height={3}, Visible={4}, IsOnScreen={5}", 
-                X, Y, ScaleX, ScaleY, Visible, IsOnScreen);
+            return string.Format("Entity: Pos={0}, Width={1}, Height={2}, Visible={3}, IsOnScreen={4}", 
+                Pos, ScaleX, ScaleY, Visible, IsOnScreen);
         }
     }
 }

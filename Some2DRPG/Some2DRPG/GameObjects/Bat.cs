@@ -22,7 +22,7 @@ namespace Some2DRPG.GameObjects
 
         public override void Update(GameTime GameTime, TeeEngine Engine)
         {
-            X += (float) (Math.Cos(GameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
+            Pos.X += (float) (Math.Cos(GameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
 
             //for testing (performance)
             Engine.QuadTree.GetIntersectingEntites(CurrentBoundingBox);

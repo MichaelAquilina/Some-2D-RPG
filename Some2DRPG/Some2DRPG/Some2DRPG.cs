@@ -107,8 +107,7 @@ namespace Some2DRPG
                     if (mapObject.Gid != -1)
                     {
                         Entity entity = new Entity();
-                        entity.X = mapObject.X;
-                        entity.Y = mapObject.Y;
+                        entity.Pos = new Vector2(mapObject.X, mapObject.Y);
                         entity.ScaleX = 1.0f;
                         entity.ScaleY = 1.0f;
                         entity.Visible = true;
@@ -121,8 +120,8 @@ namespace Some2DRPG
 
                         //because tileds default draw origin is (0,1) - we need to update the entity positions based 
                         //on the custom position defined in the SourceTile.Origin property.
-                        entity.X+= (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(0).Width;
-                        entity.Y+= (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(0).Height;
+                        entity.Pos.X += (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(0).Width;
+                        entity.Pos.Y += (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(0).Height;
 
                         Engine.AddEntity(mapObject.Name, entity);
                     }
@@ -262,8 +261,8 @@ namespace Some2DRPG
             //Draw the World View Port, Centered on the CurrentPlayer Actor
             ViewPortInfo viewPort = Engine.DrawWorldViewPort(
                                             SpriteBatch,
-                                            FollowEntity.X,
-                                            FollowEntity.Y,
+                                            FollowEntity.Pos.X,
+                                            FollowEntity.Pos.Y,
                                             Zoom,
                                             pxDestRectangle,
                                             Color.White,
@@ -294,10 +293,10 @@ namespace Some2DRPG
                     double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
                     Color fpsColor = (Math.Ceiling(fps) < 60) ? Color.Red : Color.White;
 
-                    float TX = CurrentPlayer.X / Engine.Map.pxTileWidth;
-                    float TY = CurrentPlayer.Y / Engine.Map.pxTileHeight;
+                    float TX = CurrentPlayer.Pos.X / Engine.Map.pxTileWidth;
+                    float TY = CurrentPlayer.Pos.Y / Engine.Map.pxTileHeight;
 
-                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.X.ToString("0.0") + "," + CurrentPlayer.Y.ToString("0.0"), GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.Pos.ToString(), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, TX.ToString("0.0") + "," + TY.ToString("0.0"), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, fps.ToString("0.0 FPS"), GeneratePos(textHeight), fpsColor);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Resolution=" + Engine.pxWidth + "x" + Engine.pxHeight, GeneratePos(textHeight), Color.White);
