@@ -5,6 +5,8 @@ using System.Text;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework;
+using GameEngine;
 
 namespace Some2DRPG.GameObjects
 {
@@ -38,6 +40,18 @@ namespace Some2DRPG.GameObjects
         {
             //Load the coin animation
             Animation.LoadAnimationXML(this.Drawables, "Animations/Misc/coin.anim", Content);
+        }
+
+        public override void Update(GameTime GameTime, TeeEngine Engine)
+        {
+            Entity player = Engine.GetEntity("Player");
+
+            float distance = Vector2.Distance(new Vector2(X, Y), new Vector2(player.X, player.Y));
+
+            if (distance < 100)
+                this.Drawables.SetGroupProperty("", "Color", Color.Red);
+            else
+                this.Drawables.SetGroupProperty("", "Color", Color.White);
         }
 
         public override string ToString()
