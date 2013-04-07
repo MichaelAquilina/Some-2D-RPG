@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="GameObjects\BasicLightSource.cs" />
     <Compile Include="GameObjects\Bat.cs" />
+    <Compile Include="GameObjects\Coin.cs" />
     <Compile Include="GameObjects\Hero.cs" />
     <Compile Include="GameObjects\NPC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -160,30 +161,34 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Animations\Misc\coin.anim">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Animations\Monsters\bat.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Animations\Objects\fireplace.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Animations\Plate Armor\plate_armor_shoulders.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Animations\Plate Armor\plate_armor_head.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Animations\Plate Armor\plate_armor_hands.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Animations\Plate Armor\plate_armor_feet.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Animations\Plate Armor\plate_armor_legs.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
     <None Include="Animations\Plate Armor\plate_armor_torso.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Animations\Characters\female_npc.anim">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -195,10 +200,10 @@
     </None>
     <None Include="Animations\Weapons\longsword.anim">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Animations\Weapons\dagger.anim">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>

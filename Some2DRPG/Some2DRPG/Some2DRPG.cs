@@ -157,7 +157,12 @@ namespace Some2DRPG
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
 
                 Bat bat = new Bat(px, py);
-                Engine.AddEntity(bat);
+                Coin coin = new Coin(px, py, 100, (CoinType) random.Next(3));
+
+                //switch between adding bats and coins to the map
+                if (i % 2 == 0) Engine.AddEntity(bat);
+                else
+                    Engine.AddEntity(coin);
                 //FollowEntity = bat;
             }
 
