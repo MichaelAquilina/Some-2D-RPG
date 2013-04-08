@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using GameEngine;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework;
-using GameEngine;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
 
 namespace Some2DRPG.GameObjects
 {
