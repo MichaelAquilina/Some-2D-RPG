@@ -119,6 +119,8 @@ namespace GameEngine.Tiled
                     mapObject.Type = XmlExtensions.GetAttributeValue(objectNode, "type");
                     mapObject.X = XmlExtensions.GetAttributeValue<int>(objectNode, "x", 0);
                     mapObject.Y = XmlExtensions.GetAttributeValue<int>(objectNode, "y", 0);
+                    mapObject.Width = XmlExtensions.GetAttributeValue<int>(objectNode, "width", 0);
+                    mapObject.Height = XmlExtensions.GetAttributeValue<int>(objectNode, "height", 0);
                     mapObject.Gid = XmlExtensions.GetAttributeValue<int>(objectNode, "gid", -1);
                     mapObject.LoadProperties(objectNode);
 
