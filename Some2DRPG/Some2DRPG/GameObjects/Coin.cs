@@ -47,15 +47,17 @@ namespace Some2DRPG.GameObjects
         public override void Update(GameTime GameTime, TeeEngine Engine)
         {
             float COIN_MOVE_SPEED = 5000;
+            float TERMINAL_VELOCITY = 3;
 
             Hero player = (Hero) Engine.GetEntity("Player");
 
             //find the distance between the player and this coin
             float distanceSquared = Vector2.DistanceSquared(Pos, player.Pos);
 
-            float speed = COIN_MOVE_SPEED / distanceSquared;
+            float speed = COIN_MOVE_SPEED / distanceSquared;  //mangitude of velocity
+            speed = Math.Min(speed, TERMINAL_VELOCITY);
 
-            if (speed > 1)
+            if (speed > 0.5)
             {
                 //calculate the angle between the player and the coin
                 double angle = Math.Atan2(
@@ -66,9 +68,10 @@ namespace Some2DRPG.GameObjects
                 this.Pos.X += (float) (Math.Cos(angle) * speed);        //x component
                 this.Pos.Y += (float) (Math.Sin(angle) * speed);        //y component
 
+                //check to see if coin can be considered collected
                 if (this.CurrentBoundingBox.Intersects(player.CurrentBoundingBox))
                 {
-                    CoinSound.Play();
+                    CoinSound.Play(0.3f, 0.0f, 0.0f);
                     player.Coins += this.CoinValue;
                     Engine.RemoveEntity(this);
                 }
