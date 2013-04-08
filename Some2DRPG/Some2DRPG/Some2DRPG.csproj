@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="GameObjects\BasicLightSource.cs" />
     <Compile Include="GameObjects\Bat.cs" />
+    <Compile Include="GameObjects\Chest.cs" />
     <Compile Include="GameObjects\Coin.cs" />
     <Compile Include="GameObjects\Hero.cs" />
     <Compile Include="GameObjects\NPC.cs" />
@@ -162,6 +163,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Animations\Misc\coin.anim">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Animations\Misc\chests.anim">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -106,6 +106,13 @@ namespace Some2DRPG
             {
                 foreach (MapObject mapObject in layer.Objects)
                 {
+                    if (mapObject.Type == "Chest")
+                    {
+                        Chest chest = new Chest(mapObject.X, mapObject.Y);
+
+                        Engine.AddEntity(chest);
+                    }
+                    else
                     if (mapObject.Type == "CoinArea")
                     {
                         int density = mapObject.GetProperty<int>("Density", 0);
