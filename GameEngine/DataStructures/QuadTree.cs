@@ -52,7 +52,6 @@ namespace GameEngine.DataStructures
         public void Remove(Entity Entity)
         {
             Root.Remove(Entity, null);
-            if (Root.DebugHasEntity(Entity)) throw new Exception("WTF");
         }
 
         public void Add(Entity Entity)

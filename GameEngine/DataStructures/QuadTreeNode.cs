@@ -105,7 +105,7 @@ namespace GameEngine.DataStructures
 
             if ((IsLeafNode && Entities.Count < QuadTree.EntityLimit) || pxHalfWidth <= QuadTree.pxTileWidth || pxHalfHeight <= QuadTree.pxTileHeight)
             {
-                Entities.Add(Entity);
+                if(!Entities.Contains(Entity)) Entities.Add(Entity);
                 return;
             }
 
