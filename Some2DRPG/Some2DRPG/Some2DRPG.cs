@@ -106,6 +106,24 @@ namespace Some2DRPG
             {
                 foreach (MapObject mapObject in layer.Objects)
                 {
+                    if (mapObject.Type == "CoinArea")
+                    {
+                        int density = mapObject.GetProperty<int>("Density", 0);
+
+                        int coinx = mapObject.Width / density;
+                        int coiny = mapObject.Height / density;
+
+                        for (int i = 0; i < coinx; i++)
+                        {
+                            for (int j = 0; j < coiny; j++)
+                            {
+                                Coin coin = new Coin(mapObject.X + i * density, mapObject.Y + j * density, 100, CoinType.Gold);
+                                coin.Visible = true;
+
+                                Engine.AddEntity(coin);
+                            }
+                        }
+                    }
                     if (mapObject.Type == "Coin")
                     {
                         Coin coin = new Coin(mapObject.X, mapObject.Y, 100, CoinType.Gold);
