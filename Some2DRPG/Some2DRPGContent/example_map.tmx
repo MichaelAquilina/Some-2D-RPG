@@ -648,5 +648,6 @@
     <property name="Density" value="15"/>
    </properties>
   </object>
+  <object type="Chest" x="291" y="52" width="37" height="36"/>
  </objectgroup>
 </map>
