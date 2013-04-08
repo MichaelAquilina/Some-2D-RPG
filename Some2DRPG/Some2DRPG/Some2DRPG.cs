@@ -100,10 +100,20 @@ namespace Some2DRPG
 
         private void LoadMapObjects(TiledMap Map, ContentManager Content)
         {
+            Random random = new Random();
+
             foreach (ObjectLayer layer in Map.ObjectLayers)
             {
                 foreach (MapObject mapObject in layer.Objects)
                 {
+                    if (mapObject.Type == "Coin")
+                    {
+                        Coin coin = new Coin(mapObject.X, mapObject.Y, 100, CoinType.Gold);
+                        coin.Visible = true;
+
+                        Engine.AddEntity(coin);
+                    }
+                    else
                     if (mapObject.Gid != -1)
                     {
                         Entity entity = new Entity();
