@@ -4,11 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - When entities are removed, their entry in the diagnostic dictionary should be removed
-- [] - bug in QuadTree in some instances where Entity wont be removed proporly
-- [] - proper gravitational model for attracting coins to the main player
 - [] - AI for bats. Use A* for path finding techniques
-- [] - Proper x and y component calculation for vectors (using Sine and Cosine). On both coins and entities
 - [] - better entity integration in map loading
 - [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 
