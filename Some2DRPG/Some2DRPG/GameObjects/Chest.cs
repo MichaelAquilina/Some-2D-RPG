@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameEngine.GameObjects;
-using Microsoft.Xna.Framework.Content;
+﻿using GameEngine;
 using GameEngine.Drawing;
-using Microsoft.Xna.Framework;
-using GameEngine;
-using Microsoft.Xna.Framework.Input;
 using GameEngine.Extensions;
+using GameEngine.GameObjects;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Input;
 
 namespace Some2DRPG.GameObjects
 {
