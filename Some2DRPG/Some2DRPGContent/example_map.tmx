@@ -623,5 +623,10 @@
   <object type="Coin" x="1261" y="417" width="13" height="13"/>
   <object type="Coin" x="1261" y="436" width="13" height="13"/>
   <object type="Coin" x="1281" y="418" width="13" height="13"/>
+  <object type="CoinArea" x="1429" y="930" width="404" height="348">
+   <properties>
+    <property name="Density" value="15"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

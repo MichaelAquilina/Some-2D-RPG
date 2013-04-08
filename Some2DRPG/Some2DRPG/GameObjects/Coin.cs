@@ -71,7 +71,7 @@ namespace Some2DRPG.GameObjects
                 //check to see if coin can be considered collected
                 if (this.CurrentBoundingBox.Intersects(player.CurrentBoundingBox))
                 {
-                    CoinSound.Play(0.3f, 0.0f, 0.0f);
+                    CoinSound.Play(0.05f, 0.0f, 0.0f);
                     player.Coins += this.CoinValue;
                     Engine.RemoveEntity(this);
                 }
