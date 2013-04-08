@@ -81,7 +81,8 @@ namespace Some2DRPG.GameObjects
         public override string ToString()
         {
             return string.Format(
-                "Coin: CoinValue={0}, CoinType={1}, Pos={2}",
+                "Coin: Name={0}, CoinValue={1}, CoinType={2}, Pos={3}",
+                Name,
                 CoinValue,
                 CoinType,
                 Pos );

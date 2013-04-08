@@ -109,8 +109,8 @@ namespace GameEngine.GameObjects
 
         public override string ToString()
         {
-            return string.Format("Entity: Name={0}, Pos={1}, Width={2}, Height={3}, Visible={4}, IsOnScreen={5}", 
-                Name, Pos, ScaleX, ScaleY, Visible, IsOnScreen);
+            return string.Format("Entity: Name={0}, Type={1}, Pos={2}, Width={3}, Height={4}", 
+                Name, GetType(), Pos, ScaleX, ScaleY);
         }
     }
 }
