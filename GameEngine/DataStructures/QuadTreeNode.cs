@@ -45,32 +45,32 @@ namespace GameEngine.DataStructures
             Parent = null;
         }
 
-        public bool HasEntity(Entity Entity)
+        public bool DebugHasEntity(Entity Entity)
         {
             if (IsLeafNode)
                 return Entities.Contains(Entity);
             else
             {
-                if (Node1.HasEntity(Entity)) return true;
-                if (Node2.HasEntity(Entity)) return true;
-                if (Node3.HasEntity(Entity)) return true;
-                if (Node4.HasEntity(Entity)) return true;
+                if (Node1.DebugHasEntity(Entity)) return true;
+                if (Node2.DebugHasEntity(Entity)) return true;
+                if (Node3.DebugHasEntity(Entity)) return true;
+                if (Node4.DebugHasEntity(Entity)) return true;
             }
 
             return false;
         }
 
-        public bool HasNode(QuadTreeNode Node)
+        public bool DebugHasNode(QuadTreeNode Node)
         {
             if (this == Node)
                 return true;
 
             if (!IsLeafNode)
             {
-                if (Node1.HasNode(Node)) return true;
-                if (Node2.HasNode(Node)) return true;
-                if (Node3.HasNode(Node)) return true;
-                if (Node4.HasNode(Node)) return true;
+                if (Node1.DebugHasNode(Node)) return true;
+                if (Node2.DebugHasNode(Node)) return true;
+                if (Node3.DebugHasNode(Node)) return true;
+                if (Node4.DebugHasNode(Node)) return true;
             }
             
             return false;

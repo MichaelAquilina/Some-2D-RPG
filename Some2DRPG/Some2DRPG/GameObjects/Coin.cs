@@ -60,8 +60,14 @@ namespace Some2DRPG.GameObjects
 
             if (speed > 1)
             {
-                this.Pos.X += (player.Pos.X > this.Pos.X) ? speed : -1 * speed;
-                this.Pos.Y += (player.Pos.Y > this.Pos.Y) ? speed : -1 * speed;
+                //calculate the angle between the player and the coin
+                double angle = Math.Atan2(
+                    player.Pos.Y - this.Pos.Y, 
+                    player.Pos.X - this.Pos.X
+                    );
+
+                this.Pos.X += (float) (Math.Cos(angle) * speed);        //x component
+                this.Pos.Y += (float) (Math.Sin(angle) * speed);        //y component
 
                 if (this.CurrentBoundingBox.Intersects(player.CurrentBoundingBox))
                 {
