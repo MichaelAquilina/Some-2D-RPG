@@ -292,6 +292,9 @@ namespace GameEngine
             _watch3.Reset();
             _watch1.Restart();
 
+            //clear previous entity update times
+            DebugInfo.EntityUpdateTimes.Clear();
+
             foreach (string entityId in _entities.Keys)
             {
                 Entity entity = _entities[entityId];
@@ -376,6 +379,9 @@ namespace GameEngine
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, float pxCenterX, float pxCenterY, float Zoom, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState, SpriteFont SpriteFont=null)
         {
+            DebugInfo.EntityRenderingTimes.Clear();
+            DebugInfo.GameShaderRenderingTimes.Clear();
+
             ViewPortInfo viewPortInfo = new ViewPortInfo();
             {
                 viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * Zoom);
