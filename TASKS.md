@@ -10,6 +10,7 @@ Todo
 - [] - AI for bats. Use A* for path finding techniques
 - [] - Proper x and y component calculation for vectors (using Sine and Cosine). On both coins and entities
 - [] - better entity integration in map loading
+- [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 
 Must Have
 ---------
