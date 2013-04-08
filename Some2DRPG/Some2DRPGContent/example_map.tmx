@@ -628,5 +628,25 @@
     <property name="Density" value="15"/>
    </properties>
   </object>
+  <object type="CoinArea" x="171" y="902" width="68" height="252">
+   <properties>
+    <property name="Density" value="15"/>
+   </properties>
+  </object>
+  <object type="CoinArea" x="295" y="1282" width="47" height="452">
+   <properties>
+    <property name="Density" value="15"/>
+   </properties>
+  </object>
+  <object type="CoinArea" x="910" y="317" width="219" height="316">
+   <properties>
+    <property name="Density" value="15"/>
+   </properties>
+  </object>
+  <object type="CoinArea" x="967" y="112" width="163" height="199">
+   <properties>
+    <property name="Density" value="15"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
