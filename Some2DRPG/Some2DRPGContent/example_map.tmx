@@ -454,7 +454,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="Object Layer 1" width="60" height="60">
+ <objectgroup color="#ffff00" name="Object Layer 1" width="60" height="60">
   <object name="fireplace_1" type="Entity" x="447" y="316" width="38" height="41">
    <properties>
     <property name="AnimationSet" value="Animations/Objects/fireplace.anim"/>
@@ -567,5 +567,61 @@
   <object type="MapObject" gid="106" x="1004" y="1642"/>
   <object type="MapObject" gid="106" x="1052" y="1578"/>
   <object type="MapObject" gid="106" x="1635" y="1966"/>
+  <object type="Coin" x="1215" y="70" width="13" height="13"/>
+  <object type="Coin" x="1215" y="87" width="13" height="13"/>
+  <object type="Coin" x="1215" y="106" width="13" height="13"/>
+  <object type="Coin" x="1237" y="106" width="13" height="13"/>
+  <object type="Coin" x="1282" y="68" width="13" height="13"/>
+  <object type="Coin" x="1282" y="86" width="13" height="13"/>
+  <object type="Coin" x="1282" y="106" width="13" height="13"/>
+  <object type="Coin" x="1321" y="67" width="13" height="13"/>
+  <object type="Coin" x="1321" y="86" width="13" height="13"/>
+  <object type="Coin" x="1321" y="106" width="13" height="13"/>
+  <object type="Coin" x="1302" y="68" width="13" height="13"/>
+  <object type="Coin" x="1302" y="107" width="13" height="13"/>
+  <object type="Coin" x="1344" y="105" width="13" height="13"/>
+  <object type="Coin" x="1344" y="69" width="13" height="13"/>
+  <object type="Coin" x="1366" y="105" width="13" height="13"/>
+  <object type="Coin" x="1344" y="86" width="13" height="13"/>
+  <object type="Coin" x="1387" y="104" width="13" height="13"/>
+  <object type="Coin" x="1256" y="106" width="13" height="13"/>
+  <object type="Coin" x="1326" y="368" width="13" height="13"/>
+  <object type="Coin" x="1285" y="368" width="13" height="13"/>
+  <object type="Coin" x="1285" y="332" width="13" height="13"/>
+  <object type="Coin" x="1305" y="368" width="13" height="13"/>
+  <object type="Coin" x="1285" y="349" width="13" height="13"/>
+  <object type="Coin" x="1305" y="350" width="13" height="13"/>
+  <object type="Coin" x="1305" y="332" width="13" height="13"/>
+  <object type="Coin" x="1324" y="332" width="13" height="13"/>
+  <object type="Coin" x="1325" y="350" width="13" height="13"/>
+  <object type="Coin" x="1393" y="368" width="13" height="13"/>
+  <object type="Coin" x="1412" y="332" width="13" height="13"/>
+  <object type="Coin" x="1413" y="350" width="13" height="13"/>
+  <object type="Coin" x="1373" y="349" width="13" height="13"/>
+  <object type="Coin" x="1373" y="332" width="13" height="13"/>
+  <object type="Coin" x="1393" y="332" width="13" height="13"/>
+  <object type="Coin" x="1414" y="368" width="13" height="13"/>
+  <object type="Coin" x="1373" y="368" width="13" height="13"/>
+  <object type="Coin" x="1393" y="350" width="13" height="13"/>
+  <object type="Coin" x="1359" y="462" width="13" height="13"/>
+  <object type="Coin" x="1339" y="443" width="13" height="13"/>
+  <object type="Coin" x="1339" y="462" width="13" height="13"/>
+  <object type="Coin" x="1359" y="444" width="13" height="13"/>
+  <object type="Coin" x="1398" y="456" width="13" height="13"/>
+  <object type="Coin" x="1378" y="437" width="13" height="13"/>
+  <object type="Coin" x="1378" y="456" width="13" height="13"/>
+  <object type="Coin" x="1398" y="438" width="13" height="13"/>
+  <object type="Coin" x="1435" y="436" width="13" height="13"/>
+  <object type="Coin" x="1415" y="417" width="13" height="13"/>
+  <object type="Coin" x="1415" y="436" width="13" height="13"/>
+  <object type="Coin" x="1435" y="418" width="13" height="13"/>
+  <object type="Coin" x="1320" y="454" width="13" height="13"/>
+  <object type="Coin" x="1300" y="435" width="13" height="13"/>
+  <object type="Coin" x="1300" y="454" width="13" height="13"/>
+  <object type="Coin" x="1320" y="436" width="13" height="13"/>
+  <object type="Coin" x="1281" y="436" width="13" height="13"/>
+  <object type="Coin" x="1261" y="417" width="13" height="13"/>
+  <object type="Coin" x="1261" y="436" width="13" height="13"/>
+  <object type="Coin" x="1281" y="418" width="13" height="13"/>
  </objectgroup>
 </map>
