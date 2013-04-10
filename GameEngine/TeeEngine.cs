@@ -122,7 +122,8 @@ namespace GameEngine
         /// </summary>
         public DebugInfo DebugInfo { get; private set; }
 
-        List<string> _entityTrash = new List<string>();                 //a list of named entities that are in need of removal
+        List<Entity> _entityTrash = new List<Entity>();                 //a list of named entities that are in need of removal
+        
         Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
@@ -250,7 +251,7 @@ namespace GameEngine
                 //we cannot alter the update loops _entities.Values
                 //or else a runtime error will occur if an entity
                 //removes itself or someone else in an Update call
-                _entityTrash.Add(Name);
+                _entityTrash.Add(_entities[Name]);
                 return true;
             }
 
@@ -328,10 +329,9 @@ namespace GameEngine
             }
 
             //REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
-            foreach (string namedEntity in _entityTrash)
+            foreach (Entity entity in _entityTrash)
             {
-                Entity entity = _entities[namedEntity];
-                _entities.Remove(namedEntity);
+                _entities.Remove(entity.Name);
 
                 entity.Name = null;
                 QuadTree.Remove(entity);
