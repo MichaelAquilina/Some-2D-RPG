@@ -649,5 +649,6 @@
    </properties>
   </object>
   <object type="Chest" x="291" y="52" width="37" height="36"/>
+  <object type="Chest" x="196" y="738" width="37" height="36"/>
  </objectgroup>
 </map>
