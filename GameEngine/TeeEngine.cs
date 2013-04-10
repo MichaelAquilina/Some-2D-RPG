@@ -168,8 +168,8 @@ namespace GameEngine
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.LoadContent(Content);
 
-            foreach (Entity entity in _entities.Values)
-                entity.LoadContent(Content);
+            //foreach (Entity entity in _entities.Values)
+            //    entity.LoadContent(Content);
         }
 
         public void UnloadContent()
@@ -314,7 +314,7 @@ namespace GameEngine
                 entity.IsOnScreen = false;
 
                 //if the entity has moved, then update his position in the QuadTree
-                _watch3.Start();
+                _watch3.Restart();
                 {
                     if (entity.CurrentBoundingBox != entity.prevBoundingBox)
                         QuadTree.Update(entity);
@@ -323,6 +323,7 @@ namespace GameEngine
             }
 
             //REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
+            _watch2.Restart();
             foreach (Entity entity in _entityTrash)
             {
                 _entities.Remove(entity.Name);
@@ -330,7 +331,9 @@ namespace GameEngine
                 entity.Name = null;
                 QuadTree.Remove(entity);
             }
+            DebugInfo.EntityRemovalTime = _watch2.Elapsed;
 
+            _watch2.Restart();
             foreach (Entity entity in _entityCreate)
             {
                 _entities.Add(entity.Name, entity);
@@ -338,6 +341,7 @@ namespace GameEngine
                 QuadTree.Add(entity);
                 entity.prevBoundingBox = entity.CurrentBoundingBox;
             }
+            DebugInfo.EntityAdditionTime = _watch2.Elapsed;
 
             _entityCreate.Clear();
             _entityTrash.Clear();

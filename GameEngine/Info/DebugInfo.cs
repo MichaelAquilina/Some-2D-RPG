@@ -18,6 +18,11 @@ namespace GameEngine.Info
         public TimeSpan TotalEntityUpdateTime { get; internal set; }
         public TimeSpan TotalGameShaderRenderTime { get; internal set; }
 
+        public TimeSpan EntityAdditionTime { get; internal set; }
+        public TimeSpan EntityRemovalTime { get; internal set; }
+
+        public TimeSpan InitialLoadTime { get; internal set; }
+
         public Dictionary<string, TimeSpan> EntityRenderingTimes { get; internal set; }
         public Dictionary<string, TimeSpan> EntityUpdateTimes { get; internal set; }
         public Dictionary<string, TimeSpan> GameShaderRenderingTimes { get; internal set; }
@@ -60,6 +65,9 @@ namespace GameEngine.Info
             builder.AppendLine("Total Entity Rendering Time = " + TotalEntityRenderingTime);
             builder.AppendLine("Total Entity Update Time = " + TotalEntityUpdateTime);
             builder.AppendLine("Total Game Shader Time = " + TotalGameShaderRenderTime);
+            builder.AppendLine("Entity Addition Time = " + EntityAdditionTime);
+            builder.AppendLine("Entity Remval Time = " + EntityRemovalTime);
+            builder.AppendLine("Initial Load Time = " + InitialLoadTime);
 
             return builder.ToString();
         }
