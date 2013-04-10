@@ -5,6 +5,7 @@ using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace Some2DRPG.GameObjects
 {
@@ -25,8 +26,19 @@ namespace Some2DRPG.GameObjects
             {
                 if (CurrentDrawableState != "Open")
                 {
+                    Random random = new Random();
+
                     CurrentDrawableState = "Open";
                     Drawables.ResetState("Open", GameTime);
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        Coin coin = new Coin(this.Pos.X, this.Pos.Y, 100, (CoinType)random.Next(3));
+                        coin.Pos.X+= (float) ((random.NextDouble() - 0.5) * 100);
+                        coin.Pos.Y += (float)((random.NextDouble() - 0.5) * 100);
+
+                        Engine.AddEntity(coin);
+                    }
                 }
             }
         }

@@ -122,6 +122,7 @@ namespace GameEngine
         /// </summary>
         public DebugInfo DebugInfo { get; private set; }
 
+        List<Entity> _entityCreate = new List<Entity>();                //a list of entities which need to be added
         List<Entity> _entityTrash = new List<Entity>();                 //a list of named entities that are in need of removal
         
         Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();
@@ -228,9 +229,9 @@ namespace GameEngine
             //Assign an automatic, unique entity name if none is supplied
             if (Name == null) Name = string.Format("Entity{0}", _entityIdCounter++);
 
-            _entities.Add(Name, Entity);
             Entity.Name = Name;
-            Entity.requiresAddition = true;
+            Entity.LoadContent(Game.Content);
+            _entityCreate.Add(Entity);
         }
 
         public ICollection<Entity> GetEntities()
@@ -309,13 +310,6 @@ namespace GameEngine
                 }
                 DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
 
-                if (entity.requiresAddition)
-                {
-                    QuadTree.Add(entity);
-                    entity.prevBoundingBox = entity.CurrentBoundingBox;
-                    entity.requiresAddition = false;
-                }
-
                 //reset the IsOnScreen variable before the next drawing operation
                 entity.IsOnScreen = false;
 
@@ -337,6 +331,15 @@ namespace GameEngine
                 QuadTree.Remove(entity);
             }
 
+            foreach (Entity entity in _entityCreate)
+            {
+                _entities.Add(entity.Name, entity);
+
+                QuadTree.Add(entity);
+                entity.prevBoundingBox = entity.CurrentBoundingBox;
+            }
+
+            _entityCreate.Clear();
             _entityTrash.Clear();
 
             DebugInfo.TotalEntityUpdateTime = _watch1.Elapsed;

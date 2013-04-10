@@ -30,7 +30,6 @@ namespace GameEngine.GameObjects
         public string CurrentDrawableState { get; set; }                  //The current Drawables enabled
 
         internal FRectangle prevBoundingBox;                              //the previous BoundingBox that was assigned to this Entity
-        internal bool requiresAddition = false;                           //boolean flag notifying if the Entity needs addition into the QuadTree
 
         public Entity()
         {
