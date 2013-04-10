@@ -36,12 +36,12 @@ namespace GameEngine.GameObjects
             Init();
         }
 
-        public Entity(float X, float Y, float ScaleX=1, float ScaleY=1, bool Visible=true)
+        public Entity(float x, float y, float scaleX=1, float scaleY=1, bool visible=true)
         {
-            this.Pos = new Vector2(X, Y);
-            this.ScaleX = ScaleX;
-            this.ScaleY = ScaleY;
-            this.Visible = Visible;
+            this.Pos = new Vector2(x, y);
+            this.ScaleX = scaleX;
+            this.ScaleY = scaleY;
+            this.Visible = visible;
             this.IsOnScreen = false;
 
             Init();
@@ -60,11 +60,9 @@ namespace GameEngine.GameObjects
         /// Drawables. If no drawables are found in the entity, then a rectangle with 0 width and 0 height
         /// will be returned.
         /// </summary>
-        /// <param name="GameTime">The Current GameTime.</param>
-        /// <param name="pxTileWidth">The Width of the viewport tiles in Pixels.</param>
-        /// <param name="pxTileHeight">The Height of the viewport tiles in Pixels.</param>
-        /// <returns>A Rectangle object specifying the bounding box of this Entity in Pixels.</returns>
-        public FRectangle GetPxBoundingBox(GameTime GameTime)
+        /// <param name="gameTime">The Current GameTime.</param>
+        /// <returns>An FRectangle object specifying the bounding box of this Entity in Pixels.</returns>
+        public FRectangle GetPxBoundingBox(GameTime gameTime)
         {
             List<GameDrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
 
@@ -77,7 +75,7 @@ namespace GameEngine.GameObjects
 
             foreach (GameDrawableInstance draw in drawables)
             {
-                Rectangle pxDrawRectangle = draw.GetSourceRectangle(GameTime);
+                Rectangle pxDrawRectangle = draw.GetSourceRectangle(gameTime);
                 Vector2 drawOrigin = draw.Drawable.Origin;
 
                 float pxWidth  = pxDrawRectangle.Width * this.ScaleX;
@@ -94,11 +92,11 @@ namespace GameEngine.GameObjects
             return new FRectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
-        public virtual void Update(GameTime GameTime, TeeEngine Engine)
+        public virtual void Update(GameTime gameTime, TeeEngine engine)
         {
         }
 
-        public virtual void LoadContent(ContentManager Content)
+        public virtual void LoadContent(ContentManager content)
         {
         }
 

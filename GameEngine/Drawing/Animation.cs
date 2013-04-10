@@ -29,28 +29,28 @@ namespace GameEngine.Drawing
         /// within the sheet the use. Optionally, the Delay between Frame changes and whether the animation
         /// should loop when complete can be passed as constructor parameters.
         /// </summary>
-        /// <param name="SpriteSheet">Texture2D object that represents the SpriteSheet to use for this animation.</param>
-        /// <param name="Frames">Array of Rectangle objects that specify the locations in the spritesheet to use as frames.</param>
+        /// <param name="spriteSheet">Texture2D object that represents the SpriteSheet to use for this animation.</param>
+        /// <param name="frames">Array of Rectangle objects that specify the locations in the spritesheet to use as frames.</param>
         /// <param name="FrameChange">integer value specifying the amount of time in ms to delay between each frame change. Set to 100 by Default.</param>
-        /// <param name="Loop">bool value specifying wheter the animation should re-start at the end of the animation frames. Defaults to false.</param>
+        /// <param name="loop">bool value specifying wheter the animation should re-start at the end of the animation frames. Defaults to false.</param>
         /// <param name="Visible">bool value specifying whether the animation is visible on the screen. Defaults to false.</param>
-        public Animation(Texture2D SpriteSheet, Rectangle[] Frames, int FrameDelay = FRAME_DELAY_DEFAULT, bool Loop=false)
+        public Animation(Texture2D spriteSheet, Rectangle[] frames, int frameDelay = FRAME_DELAY_DEFAULT, bool loop=false)
         {
-            this.SpriteSheet = SpriteSheet;
-            this.Frames = Frames;
-            this.FrameDelay = FrameDelay;
-            this.Loop = Loop;
+            this.SpriteSheet = spriteSheet;
+            this.Frames = frames;
+            this.FrameDelay = frameDelay;
+            this.Loop = loop;
             this.Origin = Vector2.Zero;
         }
 
-        public Texture2D GetSourceTexture(double ElapsedMS)
+        public Texture2D GetSourceTexture(double elapsedMS)
         {
             return SpriteSheet;
         }
 
-        public Rectangle GetSourceRectangle(double ElapsedMS)
+        public Rectangle GetSourceRectangle(double elapsedMS)
         {
-            return GetFrame(ElapsedMS);
+            return GetFrame(elapsedMS);
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace GameEngine.Drawing
         /// </summary>
         /// <param name="GameTime">GameTime object representing the current GameTime in the application.</param>
         /// <returns>Int index of the current frame in the Frames property.</returns>
-        public int GetFrameIndex(double ElapsedMS)
+        public int GetFrameIndex(double elapsedMS)
         {
-            int index = (int) Math.Abs((ElapsedMS) / FrameDelay);
+            int index = (int) Math.Abs((elapsedMS) / FrameDelay);
 
             return (Loop)? index % Frames.Length : index;               //If looping, start from the beginning
         }
@@ -74,9 +74,9 @@ namespace GameEngine.Drawing
         /// </summary>
         /// <param name="GameTime">GameTime object specifying the current Game Time.</param>
         /// <returns>bool value specifying whether the animation has finished.</returns>
-        public bool IsFinished(double ElapsedMS)
+        public bool IsFinished(double elapsedMS)
         {
-            return Loop || GetFrameIndex(ElapsedMS) >= Frames.Length;
+            return Loop || GetFrameIndex(elapsedMS) >= Frames.Length;
         }
 
         /// <summary>
@@ -85,9 +85,9 @@ namespace GameEngine.Drawing
         /// </summary>
         /// <param name="GameTime">GameTime object representing the current state in time of the game.</param>
         /// <returns>Rectangle object representing the Frame in the spritesheet to show.</returns>
-        public Rectangle GetFrame(double ElapsedMS)
+        public Rectangle GetFrame(double elapsedMS)
         {
-            return Frames[Math.Min(GetFrameIndex(ElapsedMS), Frames.Length-1)];
+            return Frames[Math.Min(GetFrameIndex(elapsedMS), Frames.Length-1)];
         }
 
         /// <summary>
@@ -96,14 +96,14 @@ namespace GameEngine.Drawing
         /// ContentManager. An optional Layer value can be specified for the ordering of the animations in the 
         /// DrawableSet.
         /// </summary>
-        /// <param name="DrawableSet">DrawableSet object to load the animations into.</param>
-        /// <param name="Path">String path to the XML formatted .anim file</param>
-        /// <param name="Content">Reference to the ContentManager instance being used in the application</param>
-        /// <param name="Layer">(optional) integer layer value for y ordering on the same DrawableSet.</param>
-        public static void LoadAnimationXML(DrawableSet DrawableSet, string Path, ContentManager Content, string Group="", int Layer = 0, double StartTimeMS=0)
+        /// <param name="drawableSet">DrawableSet object to load the animations into.</param>
+        /// <param name="path">String path to the XML formatted .anim file</param>
+        /// <param name="content">Reference to the ContentManager instance being used in the application</param>
+        /// <param name="layer">(optional) integer layer value for y ordering on the same DrawableSet.</param>
+        public static void LoadAnimationXML(DrawableSet drawableSet, string path, ContentManager content, string group="", int layer = 0, double startTimeMS=0)
         {
             XmlDocument document = new XmlDocument();
-            document.Load(Path);
+            document.Load(path);
 
             foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
             {
@@ -131,11 +131,11 @@ namespace GameEngine.Drawing
                     frames[i] = new Rectangle(X, Y, width, height);
                 }
 
-                Animation animation = new Animation(Content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
+                Animation animation = new Animation(content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
                 animation.Origin = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
                 
-                GameDrawableInstance instance = DrawableSet.Add(name, animation, Group, Layer);
-                instance.StartTimeMS = StartTimeMS;
+                GameDrawableInstance instance = drawableSet.Add(name, animation, group, layer);
+                instance.StartTimeMS = startTimeMS;
             }
         }
 

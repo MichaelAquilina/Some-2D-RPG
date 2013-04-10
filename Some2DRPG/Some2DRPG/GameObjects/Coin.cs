@@ -27,29 +27,29 @@ namespace Some2DRPG.GameObjects
 
         private CoinType _coinType;
 
-        public Coin(float X, float Y, int CoinValue, CoinType CoinType)
-            : base(X, Y)
+        public Coin(float x, float y, int coinValue, CoinType coinType)
+            : base(x, y)
         {
-            this.CoinType = CoinType;
+            this.CoinType = coinType;
             this.ScaleX = 0.7f;
             this.ScaleY = 0.7f;
-            this.CoinValue = CoinValue;
+            this.CoinValue = coinValue;
         }
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager content)
         {
             //Load the coin animation
-            Animation.LoadAnimationXML(this.Drawables, "Animations/Misc/coin.anim", Content);
+            Animation.LoadAnimationXML(this.Drawables, "Animations/Misc/coin.anim", content);
 
-            CoinSound = Content.Load<SoundEffect>("Sounds/Coins/coin1");
+            CoinSound = content.Load<SoundEffect>("Sounds/Coins/coin1");
         }
 
-        public override void Update(GameTime GameTime, TeeEngine Engine)
+        public override void Update(GameTime gameTime, TeeEngine engine)
         {
             float COIN_MOVE_SPEED = 5000;
             float TERMINAL_VELOCITY = 3;
 
-            Hero player = (Hero) Engine.GetEntity("Player");
+            Hero player = (Hero) engine.GetEntity("Player");
 
             //find the distance between the player and this coin
             float distanceSquared = Vector2.DistanceSquared(Pos, player.Pos);
@@ -73,7 +73,7 @@ namespace Some2DRPG.GameObjects
                 {
                     CoinSound.Play(0.05f, 0.0f, 0.0f);
                     player.Coins += this.CoinValue;
-                    Engine.RemoveEntity(this);
+                    engine.RemoveEntity(this);
                 }
             }
         }

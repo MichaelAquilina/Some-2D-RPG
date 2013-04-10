@@ -36,41 +36,41 @@ namespace GameEngine.Drawing
         private Dictionary<string, List<GameDrawableInstance>> _stateDictionary = new Dictionary<string, List<GameDrawableInstance>>();
         private Dictionary<string, List<GameDrawableInstance>> _groupDictionary = new Dictionary<string, List<GameDrawableInstance>>();
 
-        public List<GameDrawableInstance> GetByState(string State)
+        public List<GameDrawableInstance> GetByState(string state)
         {
-            return _stateDictionary[State];
+            return _stateDictionary[state];
         }
 
-        public List<GameDrawableInstance> GetByGroup(string Group)
+        public List<GameDrawableInstance> GetByGroup(string group)
         {
-            return _groupDictionary[Group];
+            return _groupDictionary[group];
         }
 
-        public GameDrawableInstance Add(string State, IGameDrawable Drawable, string Group="", int Layer=0)
+        public GameDrawableInstance Add(string state, IGameDrawable drawable, string group="", int layer=0)
         {
-            if (!_stateDictionary.ContainsKey(State))
-                _stateDictionary.Add(State, new List<GameDrawableInstance>());
+            if (!_stateDictionary.ContainsKey(state))
+                _stateDictionary.Add(state, new List<GameDrawableInstance>());
 
-            if (!_groupDictionary.ContainsKey(Group))
-                _groupDictionary.Add(Group, new List<GameDrawableInstance>());
+            if (!_groupDictionary.ContainsKey(group))
+                _groupDictionary.Add(group, new List<GameDrawableInstance>());
 
-            GameDrawableInstance instance = new GameDrawableInstance(Drawable);
-            instance.Layer = Layer;
+            GameDrawableInstance instance = new GameDrawableInstance(drawable);
+            instance.Layer = layer;
 
-            instance._associatedGroup = Group;
-            instance._associatedGroup = State;
+            instance._associatedGroup = group;
+            instance._associatedGroup = state;
 
-            _stateDictionary[State].Add(instance);
-            _groupDictionary[Group].Add(instance);
+            _stateDictionary[state].Add(instance);
+            _groupDictionary[group].Add(instance);
 
             return instance;
         }
 
-        public bool Remove(GameDrawableInstance GameDrawableInstance)
+        public bool Remove(GameDrawableInstance gameDrawableInstance)
         {
             bool result = true;
-            result &= _stateDictionary.Remove(GameDrawableInstance._associatedState);
-            result &= _groupDictionary.Remove(GameDrawableInstance._associatedGroup);
+            result &= _stateDictionary.Remove(gameDrawableInstance._associatedState);
+            result &= _groupDictionary.Remove(gameDrawableInstance._associatedGroup);
 
             return result;
         }
@@ -81,36 +81,36 @@ namespace GameEngine.Drawing
             _groupDictionary.Clear();
         }
 
-        public void ResetState(string State, GameTime GameTime)
+        public void ResetState(string state, GameTime gameTime)
         {
-            foreach (GameDrawableInstance instance in _stateDictionary[State])
-                instance.Reset(GameTime);
+            foreach (GameDrawableInstance instance in _stateDictionary[state])
+                instance.Reset(gameTime);
         }
 
-        public void ResetGroup(string Group, GameTime GameTime)
+        public void ResetGroup(string group, GameTime gameTime)
         {
-            foreach (GameDrawableInstance instance in _groupDictionary[Group])
-                instance.Reset(GameTime);
+            foreach (GameDrawableInstance instance in _groupDictionary[group])
+                instance.Reset(gameTime);
         }
 
-        public void SetGroupProperty(string Group, string Property, object Value)
+        public void SetGroupProperty(string group, string property, object value)
         {
-            PropertyInfo property = typeof(GameDrawableInstance).GetProperty(Property);
+            PropertyInfo propertyInfo = typeof(GameDrawableInstance).GetProperty(property);
 
-            if (property == null) throw new ArgumentException(string.Format("The Property '{0}' does not exist", Property));
+            if (property == null) throw new ArgumentException(string.Format("The Property '{0}' does not exist", property));
 
-            foreach (GameDrawableInstance drawable in _groupDictionary[Group])
-                property.SetValue(drawable, Value, null);
+            foreach (GameDrawableInstance drawable in _groupDictionary[group])
+                propertyInfo.SetValue(drawable, value, null);
         }
 
-        public void SetStateProperty(string State, string Property, object Value)
+        public void SetStateProperty(string state, string property, object value)
         {
-            PropertyInfo property = typeof(GameDrawableInstance).GetProperty(Property);
+            PropertyInfo propertyInfo = typeof(GameDrawableInstance).GetProperty(property);
 
-            if (property == null) throw new ArgumentException(string.Format("The Property '{0}' does not exist", Property));
+            if (property == null) throw new ArgumentException(string.Format("The Property '{0}' does not exist", property));
 
-            foreach (GameDrawableInstance drawable in _stateDictionary[State])
-                property.SetValue(drawable, Value, null);
+            foreach (GameDrawableInstance drawable in _stateDictionary[state])
+                propertyInfo.SetValue(drawable, value, null);
         }
 
         public override string ToString()

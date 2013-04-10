@@ -139,14 +139,14 @@ namespace GameEngine
 
         #endregion
 
-        public TeeEngine(Game Game, int pxWidth, int pxHeight)
-            :base(Game)
+        public TeeEngine(Game game, int pxWidth, int pxHeight)
+            :base(game)
         {
             _watch1 = new Stopwatch();
             _watch2 = new Stopwatch();
             _watch3 = new Stopwatch();
 
-            GraphicsDevice = Game.GraphicsDevice;
+            GraphicsDevice = game.GraphicsDevice;
 
             ShowQuadTree = false;
             ShowEntityDebugInfo = false;
@@ -158,7 +158,7 @@ namespace GameEngine
             GameShaders = new List<GameShader>();
 
             SetResolution(pxWidth, pxHeight);
-            Game.Components.Add(this);
+            game.Components.Add(this);
         }
 
         public void LoadContent()
@@ -190,10 +190,10 @@ namespace GameEngine
                 loadableShader.UnloadContent();
         }
 
-        public void LoadMap(TiledMap Map)
+        public void LoadMap(TiledMap map)
         {
-            this.Map = Map;
-            this.QuadTree = new QuadTree(Map.txWidth, Map.txHeight, Map.pxTileWidth, Map.pxTileHeight);
+            this.Map = map;
+            this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.pxTileWidth, map.pxTileHeight);
         }
 
         public void SetResolution(int pxWidth, int pxHeight)
@@ -219,19 +219,19 @@ namespace GameEngine
 
         #region Entity Related Functions
 
-        public void AddEntity(Entity Entity)
+        public void AddEntity(Entity entity)
         {
-            AddEntity(null, Entity);
+            AddEntity(null, entity);
         }
 
-        public void AddEntity(string Name, Entity Entity)
+        public void AddEntity(string name, Entity entity)
         {
             //Assign an automatic, unique entity name if none is supplied
-            if (Name == null) Name = string.Format("Entity{0}", _entityIdCounter++);
+            if (name == null) name = string.Format("Entity{0}", _entityIdCounter++);
 
-            Entity.Name = Name;
-            Entity.LoadContent(Game.Content);
-            _entityCreate.Add(Entity);
+            entity.Name = name;
+            entity.LoadContent(Game.Content);
+            _entityCreate.Add(entity);
         }
 
         public ICollection<Entity> GetEntities()
@@ -239,58 +239,58 @@ namespace GameEngine
             return _entities.Values;
         }
 
-        public Entity GetEntity(string Name)
+        public Entity GetEntity(string name)
         {
-            return _entities[Name];
+            return _entities[name];
         }
 
-        public bool RemoveEntity(string Name)
+        public bool RemoveEntity(string name)
         {
-            if (_entities.ContainsKey(Name))
+            if (_entities.ContainsKey(name))
             {
                 //Deferred removal is important because
                 //we cannot alter the update loops _entities.Values
                 //or else a runtime error will occur if an entity
                 //removes itself or someone else in an Update call
-                _entityTrash.Add(_entities[Name]);
+                _entityTrash.Add(_entities[name]);
                 return true;
             }
 
             return false;
         }
 
-        public bool RemoveEntity(Entity Entity)
+        public bool RemoveEntity(Entity entity)
         {
-            return RemoveEntity(Entity.Name);
+            return RemoveEntity(entity.Name);
         }
 
         #endregion
 
         #region Shader Related Functions
 
-        public bool IsRegistered(GameShader Shader)
+        public bool IsRegistered(GameShader shader)
         {
-            return GameShaders.Contains(Shader);
+            return GameShaders.Contains(shader);
         }
 
-        public void RegisterGameShader(GameShader Shader)
+        public void RegisterGameShader(GameShader shader)
         {
-            GameShaders.Add(Shader);
-            Shader.LoadContent(this.Game.Content);
-            Shader.SetResolution(pxWidth, pxHeight);
+            GameShaders.Add(shader);
+            shader.LoadContent(this.Game.Content);
+            shader.SetResolution(pxWidth, pxHeight);
         }
 
-        public bool UnregisterGameShader(GameShader Shader)
+        public bool UnregisterGameShader(GameShader shader)
         {
-            Shader.UnloadContent();
-            return GameShaders.Remove(Shader);
+            shader.UnloadContent();
+            return GameShaders.Remove(shader);
         }
 
         #endregion
 
-        public override void Update(GameTime GameTime)
+        public override void Update(GameTime gameTime)
         {
-            LastUpdateTime = GameTime;
+            LastUpdateTime = gameTime;
             _watch3.Reset();
             _watch1.Restart();
 
@@ -305,8 +305,8 @@ namespace GameEngine
                 //perform any per-entity update logic
                 _watch2.Restart();
                 {
-                    entity.Update(GameTime, this);
-                    entity.CurrentBoundingBox = entity.GetPxBoundingBox(GameTime);
+                    entity.Update(gameTime, this);
+                    entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
                 }
                 DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
 
@@ -352,47 +352,47 @@ namespace GameEngine
 
         #region Drawing Code
 
-        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch SpriteBatch, QuadTreeNode Node, Rectangle DestRectangle, SpriteFont SpriteFont, float globalDispX, float globalDispY)
+        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch spriteBatch, QuadTreeNode node, Rectangle destRectangle, SpriteFont spriteFont, float globalDispX, float globalDispY)
         {
-            if (Node == null) return;
+            if (node == null) return;
 
-            int actualX = (int) Math.Ceiling(Node.pxBounds.X * viewPort.ActualZoom - globalDispX);
-            int actualY = (int) Math.Ceiling(Node.pxBounds.Y * viewPort.ActualZoom - globalDispY);
+            int actualX = (int) Math.Ceiling(node.pxBounds.X * viewPort.ActualZoom - globalDispX);
+            int actualY = (int) Math.Ceiling(node.pxBounds.Y * viewPort.ActualZoom - globalDispY);
 
             //We need to calculate the 'Actual' width and height otherwise drawing might be innacurate when zoomed
-            int actualWidth  = (int) Math.Ceiling(Node.pxBounds.Width * viewPort.ActualZoom);
-            int actualHeight = (int) Math.Ceiling(Node.pxBounds.Height * viewPort.ActualZoom);
+            int actualWidth  = (int) Math.Ceiling(node.pxBounds.Width * viewPort.ActualZoom);
+            int actualHeight = (int) Math.Ceiling(node.pxBounds.Height * viewPort.ActualZoom);
 
             //Only draw leaf nodes which are within the viewport specified
-            if (Node.Node1 == null 
-                && new Rectangle(actualX, actualY, actualWidth, actualHeight).Intersects(DestRectangle))
+            if (node.Node1 == null 
+                && new Rectangle(actualX, actualY, actualWidth, actualHeight).Intersects(destRectangle))
             {
-                string nodeText = Node.NodeID.ToString();
+                string nodeText = node.NodeID.ToString();
 
-                SpriteBatch.DrawRectangle(new Rectangle(actualX, actualY, actualWidth, actualHeight), Color.Lime, 0);
-                SpriteBatch.DrawString(
-                    SpriteFont,
+                spriteBatch.DrawRectangle(new Rectangle(actualX, actualY, actualWidth, actualHeight), Color.Lime, 0);
+                spriteBatch.DrawString(
+                    spriteFont,
                     nodeText,
-                    new Vector2(actualX + actualWidth / 2.0f, actualY + actualHeight / 2.0f) - SpriteFont.MeasureString(nodeText) / 2,
+                    new Vector2(actualX + actualWidth / 2.0f, actualY + actualHeight / 2.0f) - spriteFont.MeasureString(nodeText) / 2,
                     Color.Lime
                 );
             }
 
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node1, DestRectangle, SpriteFont, globalDispX, globalDispY);
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node2, DestRectangle, SpriteFont, globalDispX, globalDispY);
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node3, DestRectangle, SpriteFont, globalDispX, globalDispY);
-            DrawQuadTree(viewPort, SpriteBatch, Node.Node4, DestRectangle, SpriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, spriteBatch, node.Node1, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, spriteBatch, node.Node2, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, spriteBatch, node.Node3, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, spriteBatch, node.Node4, destRectangle, spriteFont, globalDispX, globalDispY);
         }
         
-        public ViewPortInfo DrawWorldViewPort(SpriteBatch SpriteBatch, float pxCenterX, float pxCenterY, float Zoom, Rectangle pxDestRectangle, Color Color, SamplerState SamplerState, SpriteFont SpriteFont=null)
+        public ViewPortInfo DrawWorldViewPort(SpriteBatch spriteBatch, float pxCenterX, float pxCenterY, float zoom, Rectangle pxDestRectangle, Color color, SamplerState samplerState, SpriteFont spriteFont=null)
         {
             DebugInfo.EntityRenderingTimes.Clear();
             DebugInfo.GameShaderRenderingTimes.Clear();
 
             ViewPortInfo viewPortInfo = new ViewPortInfo();
             {
-                viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * Zoom);
-                viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * Zoom);
+                viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * zoom);
+                viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * zoom);
 
                 //Note about ActualZoom Property:
                 //because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
@@ -438,7 +438,7 @@ namespace GameEngine
             _watch1.Restart();
 
             //Deferred Rendering should be fine for rendering tile as long as we draw tile layers one at a time
-            SpriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState, null, null);
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, samplerState, null, null);
             {
                 for (int layerIndex = 0; layerIndex < Map.TileLayers.Count; layerIndex++)
                 {
@@ -466,7 +466,7 @@ namespace GameEngine
                             {
                                 Tile tile = Map.Tiles[tileGid];
 
-                                SpriteBatch.Draw(
+                                spriteBatch.Draw(
                                     tile.SourceTexture,
                                     pxTileDestRect,
                                     tile.SourceRectangle,
@@ -479,12 +479,12 @@ namespace GameEngine
 
                             //DRAW THE TILE LAYER GRID IF ENABLE
                             if (ShowTileGrid && layerIndex == Map.TileLayers.Count - 1)
-                                SpriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
+                                spriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                         }
                     }
                 }
             }
-            SpriteBatch.End();
+            spriteBatch.End();
             DebugInfo.TileRenderingTime = _watch1.Elapsed;
 
             //Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
@@ -495,7 +495,7 @@ namespace GameEngine
 
             //DRAW VISIBLE REGISTERED ENTITIES
             _watch1.Restart();
-            SpriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, SamplerState, null, null);
+            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, samplerState, null, null);
             {
                 EntitiesOnScreen = QuadTree.GetIntersectingEntites(new FRectangle(viewPortInfo.pxViewPortBounds));
 
@@ -521,9 +521,9 @@ namespace GameEngine
                     //DRAW ENTITY BOUNDING BOXES IF ENABLED
                     if (ShowBoundingBoxes)
                     {
-                        SpriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0.0001f);
+                        spriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0.0001f);
                         SpriteBatchExtensions.DrawCross(
-                            SpriteBatch,
+                            spriteBatch,
                             new Vector2(
                                 (int) Math.Ceiling(pxAbsEntityPos.X), 
                                 (int) Math.Ceiling(pxAbsEntityPos.Y)
@@ -568,7 +568,7 @@ namespace GameEngine
                         //Important to also take into account the animation layers for the entity
                         float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
 
-                        SpriteBatch.Draw(
+                        spriteBatch.Draw(
                             drawable.GetSourceTexture(LastUpdateTime),
                             objectDestRect,
                             pxCurrentFrame,
@@ -588,8 +588,8 @@ namespace GameEngine
                                 objectDestRect);
 
                             SpriteBatchExtensions.DrawMultiLineString(
-                                SpriteBatch,
-                                SpriteFont,
+                                spriteBatch,
+                                spriteFont,
                                 message,
                                 new Vector2(
                                     objectDestRect.X - objectDestRect.Width * drawable.Drawable.Origin.X + objectDestRect.Width / 2, 
@@ -602,21 +602,21 @@ namespace GameEngine
                     DebugInfo.EntityRenderingTimes[entity.Name] = _watch2.Elapsed;
                 }
             }
-            SpriteBatch.End();
+            spriteBatch.End();
             DebugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
 
             //DRAW THE QUAD TREE IF ENABLED
             if (ShowQuadTree)
             {
-                SpriteBatch.Begin();
+                spriteBatch.Begin();
                 DrawQuadTree(
                     viewPortInfo, 
-                    SpriteBatch, 
+                    spriteBatch, 
                     QuadTree.Root, 
                     pxDestRectangle, 
-                    SpriteFont,
+                    spriteFont,
                     globalDispX, globalDispY);
-                SpriteBatch.End();
+                spriteBatch.End();
             }
 
             _watch1.Restart();
@@ -625,7 +625,7 @@ namespace GameEngine
             {
                 if (GameShaders[i].Enabled)
                 {
-                    GameShaders[i].ApplyShader(SpriteBatch, viewPortInfo, LastUpdateTime, _inputBuffer, _outputBuffer);
+                    GameShaders[i].ApplyShader(spriteBatch, viewPortInfo, LastUpdateTime, _inputBuffer, _outputBuffer);
 
                     //swap buffers after each render
                     _dummyBuffer = _inputBuffer;
@@ -637,11 +637,11 @@ namespace GameEngine
 
             //DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);
-            SpriteBatch.Begin();
+            spriteBatch.Begin();
             {
-                SpriteBatch.Draw(_inputBuffer, pxDestRectangle, Color);
+                spriteBatch.Draw(_inputBuffer, pxDestRectangle, color);
             }
-            SpriteBatch.End();
+            spriteBatch.End();
 
             return viewPortInfo;
         }

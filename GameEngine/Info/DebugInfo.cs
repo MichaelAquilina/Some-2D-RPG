@@ -39,19 +39,19 @@ namespace GameEngine.Info
         /// can be used to retrieve the most important information from dictionary information available
         /// in this class.
         /// </summary>
-        /// <param name="TimeInfo">Dictionary containing a string item id as a key and a TimeSpan as a value.</param>
-        /// <param name="Top">integer value specifying how many of the top results should be returned.</param>
+        /// <param name="timeInfo">Dictionary containing a string item id as a key and a TimeSpan as a value.</param>
+        /// <param name="top">integer value specifying how many of the top results should be returned.</param>
         /// <returns>Dictionary of the specified amount of largest key value pairs.</returns>
-        public Dictionary<string, TimeSpan> GetTop(Dictionary<string, TimeSpan> TimeInfo, int Top)
+        public Dictionary<string, TimeSpan> GetTop(Dictionary<string, TimeSpan> timeInfo, int top)
         {
             Dictionary<string, TimeSpan> result = new Dictionary<string, TimeSpan>();
             List<KeyValuePair<string, TimeSpan>> sortList = new List<KeyValuePair<string, TimeSpan>>();
 
-            foreach (string itemId in TimeInfo.Keys)
-                sortList.Add(new KeyValuePair<string,TimeSpan>(itemId, TimeInfo[itemId]));
+            foreach (string itemId in timeInfo.Keys)
+                sortList.Add(new KeyValuePair<string,TimeSpan>(itemId, timeInfo[itemId]));
 
             sortList.Sort(CompareTimeSpans);
-            for (int i = 0; i < Top && i < sortList.Count; i++)
+            for (int i = 0; i < top && i < sortList.Count; i++)
                 result.Add(sortList[i].Key, sortList[i].Value);
 
             return result;
