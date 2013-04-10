@@ -8,6 +8,7 @@ Todo
 - [] - better entity integration in map loading
 - [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [] - Might be smarter to convert floats to integers * 100
+- [] - Refactor code to follow code conventions specified in personal share folder
 
 Must Have
 ---------
