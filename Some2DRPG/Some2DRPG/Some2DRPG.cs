@@ -185,7 +185,7 @@ namespace Some2DRPG
       
             Engine.AddEntity("Player", CurrentPlayer);
 
-            for (int i = 0; i < 600; i++)
+            for (int i = 0; i < 100; i++)
             {
                 int px = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxWidth);
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
@@ -256,7 +256,11 @@ namespace Some2DRPG
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F11, true))
             {
                 helmetVisible = !helmetVisible;
-                CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
+                //CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
+                if( helmetVisible)
+                    CurrentPlayer.Drawables.SetGroupProperty("Head", "Offset", Vector2.Zero);
+                else
+                    CurrentPlayer.Drawables.SetGroupProperty("Head", "Offset", new Vector2(0, -40));
             }
 
             // INCREASE ZOOM LEVEL
