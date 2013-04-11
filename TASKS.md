@@ -5,7 +5,6 @@ Todo
 ----
 
 - [] - Refactor code to follow code conventions specified in personal share folder
-- [] - Develop support for displacement (Vector2) in GameDrawableInstance. This would be good for shadows (e.g. coins when bouncing)
 - [] - AI for bats. Use A* for path finding techniques
 - [] - better entity integration in map loading
 - [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
