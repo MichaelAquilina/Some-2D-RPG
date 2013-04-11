@@ -12,10 +12,11 @@ namespace GameEngine.Drawing
         public Color Color { get; set; }
         public SpriteEffects SpriteEffects { get; set; }
         public int Layer { get; set; }
+        public Vector2 Offset { get; set; }
 
         public double StartTimeMS { get; set; }
 
-        // Associated state and group when added to a DrawableSet
+        // Associated state and group when added to a DrawableSet.
         // a GameDrawableInstance should be associated with one and only one DrawableSet.
         internal string _associatedState = null;
         internal string _associatedGroup = null;
@@ -29,6 +30,7 @@ namespace GameEngine.Drawing
             this.Color = Color.White;
             this.SpriteEffects = SpriteEffects.None;
             this.Layer = 0;
+            this.Offset = Vector2.Zero;
         }
 
         public void Reset(GameTime gameTime)

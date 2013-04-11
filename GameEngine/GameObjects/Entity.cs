@@ -80,8 +80,8 @@ namespace GameEngine.GameObjects
 
                 float pxWidth  = pxDrawRectangle.Width * this.ScaleX;
                 float pxHeight = pxDrawRectangle.Height * this.ScaleY;
-                float pxFrameX = Pos.X + -1 * drawOrigin.X * pxWidth;
-                float pxFrameY = Pos.Y + -1 * drawOrigin.Y * pxHeight;
+                float pxFrameX = Pos.X + draw.Offset.X + -1 * drawOrigin.X * pxWidth;
+                float pxFrameY = Pos.Y + draw.Offset.Y + -1 * drawOrigin.Y * pxHeight;
 
                 if (pxFrameX < minX) minX = pxFrameX;
                 if (pxFrameY < minY) minY = pxFrameY;

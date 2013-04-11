@@ -487,7 +487,7 @@ namespace GameEngine
             spriteBatch.End();
             DebugInfo.TileRenderingTime = _watch1.Elapsed;
 
-            // Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
+            // Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering.
             // Each entity should be displaced by the *same amount* based on the pxTopLeftX/Y values
             // this is to prevent entities 'jittering on the screen' when moving the camera.
             float globalDispX = (int) Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
@@ -545,8 +545,8 @@ namespace GameEngine
 
                         // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
                         Rectangle objectDestRect = new Rectangle(
-                                (int) Math.Ceiling(pxAbsEntityPos.X),
-                                (int) Math.Ceiling(pxAbsEntityPos.Y),
+                                (int) Math.Ceiling(pxAbsEntityPos.X + drawable.Offset.X * viewPortInfo.ActualZoom),
+                                (int) Math.Ceiling(pxAbsEntityPos.Y + drawable.Offset.Y * viewPortInfo.ActualZoom),
                                 pxObjectWidth,
                                 pxObjectHeight
                         );
