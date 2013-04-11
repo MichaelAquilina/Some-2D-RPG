@@ -44,9 +44,3 @@ Nice to Have
 - [] - zlib compression support in tmx files
 - [] - the ability to pause and resume the state of the world from within the engine itself
 - [] - the ability to run on MonoGame
-
-Bugs
-----
-
-- [] - when zoomed at certain levels, the SourceRectangle specified on enitities shows fragments outside the specified space
-
