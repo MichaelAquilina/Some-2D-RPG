@@ -20,20 +20,20 @@ namespace Some2DRPG.GameObjects
             this.Visible = true;
         }
 
-        public override void Update(GameTime GameTime, TeeEngine Engine)
+        public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            Pos.X += (float) (Math.Cos(GameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
+            Pos.X += (float) (Math.Cos(gameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
 
             //for testing (performance)
-            Engine.QuadTree.GetIntersectingEntites(CurrentBoundingBox);
+            engine.QuadTree.GetIntersectingEntites(CurrentBoundingBox);
         }
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager content)
         {
             Animation.LoadAnimationXML(
                 Drawables, 
                 "Animations/Monsters/bat.anim", 
-                Content, "", 0,
+                content, "", 0,
                 randomGenerator.NextDouble() * 4000
                 );
             CurrentDrawableState = "Down";

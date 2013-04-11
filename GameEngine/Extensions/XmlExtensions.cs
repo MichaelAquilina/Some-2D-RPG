@@ -8,20 +8,20 @@ namespace GameEngine.Extensions
 {
     public static class XmlExtensions
     {
-        public static T GetAttributeValue<T>(XmlNode Node, string Name, T Default, bool ThrowOnNotFound=false) where T : IConvertible
+        public static T GetAttributeValue<T>(XmlNode node, string name, T defaultValue, bool throwOnNotFound=false) where T : IConvertible
         {
-            if (Node.Attributes[Name] == null)
-                if (ThrowOnNotFound)
-                    throw new KeyNotFoundException("The Specified Attribute " + Name + " was not Found");
+            if (node.Attributes[name] == null)
+                if (throwOnNotFound)
+                    throw new KeyNotFoundException("The Specified Attribute " + name + " was not Found");
                 else
-                    return Default;
+                    return defaultValue;
 
-            return (T)Convert.ChangeType(Node.Attributes[Name].Value, typeof(T));
+            return (T)Convert.ChangeType(node.Attributes[name].Value, typeof(T));
         }
 
-        public static string GetAttributeValue(XmlNode Node, string Name, string Default = null)
+        public static string GetAttributeValue(XmlNode node, string name, string defaultValue = null)
         {
-            return Node.Attributes[Name] == null ? Default : Node.Attributes[Name].Value;
+            return node.Attributes[name] == null ? defaultValue : node.Attributes[name].Value;
         }
     }
 }

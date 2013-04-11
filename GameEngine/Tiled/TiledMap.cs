@@ -39,54 +39,54 @@ namespace GameEngine.Tiled
         /// from the top will be returned by this function. Tiles found in Tile layers marked as "Foreground" 
         /// are not included. If no non-zero tile is found in any layer, then a null value is returned.
         /// </summary>
-        /// <param name="TX">integer X value.</param>
-        /// <param name="TY">integer Y value.</param>
+        /// <param name="tx">integer X value.</param>
+        /// <param name="ty">integer Y value.</param>
         /// <returns>Topmost Tile object found at the specified location. Null if none exists.</returns>
-        public Tile GetTxTopMostTile(int TX, int TY)
+        public Tile GetTxTopMostTile(int tx, int ty)
         {
             for (int layerIndex = TileLayers.Count - 1; layerIndex >= 0; layerIndex--)
             {
                 TileLayer layer = TileLayers[layerIndex];
-                int tileGid = layer[TX, TY];
+                int tileGid = layer[tx, ty];
 
                 if(  tileGid != 0 && tileGid != -1 )
-                    return Tiles[layer[TX, TY]];
+                    return Tiles[layer[tx, ty]];
             }
 
             return null;
         }
         
-        //same as GetTxTopMostFile but using pixel coordinates
-        public Tile GetPxTopMostTile(float PX, float PY)
+        // Same as GetTxTopMostFile but using pixel coordinates
+        public Tile GetPxTopMostTile(float px, float py)
         {
             return GetTxTopMostTile(
-                (int) (PX / pxTileWidth), 
-                (int) (PY / pxTileHeight)
+                (int) (px / pxTileWidth), 
+                (int) (py / pxTileHeight)
             );
         }
 
-        //Get the specified tile from the specified layer index using tx coordinates
-        public Tile GetTxTile(int TX, int TY, int layerIndex)
+        // Get the specified tile from the specified layer index using tx coordinates
+        public Tile GetTxTile(int tx, int ty, int layerIndex)
         {
             TileLayer layer = TileLayers[layerIndex];
-            int tileID = layer[TX, TY];
+            int tileID = layer[tx, ty];
 
             return (tileID == 0) ? null : Tiles[tileID];
         }
 
-        //same as GetTxTile but specified in pixels
-        public Tile GetPxTile(float PX, float PY, int layerIndex)
+        // Same as GetTxTile but specified in pixels
+        public Tile GetPxTile(float px, float py, int layerIndex)
         {
             return GetTxTile(
-                (int)(PX / pxTileWidth),
-                (int)(PY / pxTileHeight),
+                (int)(px / pxTileWidth),
+                (int)(py / pxTileHeight),
                 layerIndex
             );
         }
 
-        //TODO: Support for zlib compression of tile data  (Zlib.NET)
-        //http://stackoverflow.com/questions/6620655/compression-and-decompression-problem-with-zlib-net
-        public static TiledMap LoadTiledXML(string file, ContentManager Content)
+        // TODO: Support for zlib compression of tile data  (Zlib.NET)
+        // http://stackoverflow.com/questions/6620655/compression-and-decompression-problem-with-zlib-net
+        public static TiledMap LoadTiledXML(string file, ContentManager content)
         {
             XmlDocument document = new XmlDocument();
             document.Load(file);
@@ -104,7 +104,7 @@ namespace GameEngine.Tiled
                 )
             );
 
-            //OBJECT LAYERS
+            // OBJECT LAYERS
             foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
             {
                 ObjectLayer mapObjectLayer = new ObjectLayer();
@@ -130,7 +130,7 @@ namespace GameEngine.Tiled
                 map.ObjectLayers.Add(mapObjectLayer);
             }
 
-            //TILESETS
+            // TILESETS
             foreach (XmlNode tilesetNode in mapNode.SelectNodes("tileset"))
             {
                 int firstGID = XmlExtensions.GetAttributeValue<int>(tilesetNode, "firstgid", -1, true);
@@ -143,18 +143,18 @@ namespace GameEngine.Tiled
                 int imageWidth = XmlExtensions.GetAttributeValue<int>(imageNode, "width", -1, true);
                 int imageHeight = XmlExtensions.GetAttributeValue<int>(imageNode, "height", -1, true);
 
-                //TODO: Make this a abit smart since tile wont set the content names automatically for us
-                //TEMP WORKAROUND FOR TILED SAVING FORMAT
-                Texture2D sourceTexture = Content.Load<Texture2D>(source.Substring(0,source.LastIndexOf('.')));     
+                // TODO: Make this a abit smart since tile wont set the content names automatically for us
+                // TEMP WORKAROUND FOR TILED SAVING FORMAT
+                Texture2D sourceTexture = content.Load<Texture2D>(source.Substring(0,source.LastIndexOf('.')));     
 
-                //PreBuild the tiles from the tileset information
+                // PreBuild the tiles from the tileset information
                 int i = 0;
                 while (true)
                 {
                     int tx = (i * tileWidth) % imageWidth;
                     int ty = tileHeight * ((i * tileWidth) / imageWidth);
 
-                    //if we have exceeded the image height, we are done
+                    //If we have exceeded the image height, we are done
                     if (ty >= imageHeight)
                         break;
 
@@ -168,14 +168,14 @@ namespace GameEngine.Tiled
                     i++;
                 }
 
-                //add any individual properties to the tiles we have created
+                // Add any individual properties to the tiles we have created
                 foreach (XmlNode tileNode in tilesetNode.SelectNodes("tile"))
                 {
                     int tileGid = firstGID + XmlExtensions.GetAttributeValue<int>(tileNode, "id", -1, true);
                     Tile tile = map.Tiles[tileGid];
                     tile.LoadProperties(tileNode);
 
-                    //adjust the draw origin based on the tile property 'DrawOrigin'
+                    // Adjust the draw origin based on the tile property 'DrawOrigin'
                     string[] drawOrigin = tile.GetProperty("DrawOrigin", "0, 1").Split(',');
                     tile.Origin = new Vector2(
                         (float)Convert.ToDouble(drawOrigin[0]),
@@ -184,7 +184,7 @@ namespace GameEngine.Tiled
                 }
             }
 
-            //TILE LAYERS
+            // TILE LAYERS
             foreach (XmlNode layerNode in mapNode.SelectNodes("layer"))
             {
                 int width = XmlExtensions.GetAttributeValue<int>(layerNode, "width", 0);

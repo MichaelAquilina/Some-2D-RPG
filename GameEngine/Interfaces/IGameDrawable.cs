@@ -14,7 +14,7 @@ namespace GameEngine.Interfaces
     {
         Vector2 Origin { get; set; }
 
-        Rectangle GetSourceRectangle(double ElapsedMS);
-        Texture2D GetSourceTexture(double ElapsedMS);
+        Rectangle GetSourceRectangle(double elapsedMS);
+        Texture2D GetSourceTexture(double elapsedMS);
     }
 }

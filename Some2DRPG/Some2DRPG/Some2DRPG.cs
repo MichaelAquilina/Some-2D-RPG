@@ -18,7 +18,7 @@ namespace Some2DRPG
 {
     public class Some2DRPG : Microsoft.Xna.Framework.Game
     {
-        //Constant (Editable) Valuables
+        // Constant (Editable) Valuables.
         const bool DEBUG = true;
 
         const int CIRCLE_POINT_ACCURACY = 36;
@@ -52,12 +52,12 @@ namespace Some2DRPG
 
         LightShader LightShader;
 
-        //Graphic Related Variables
+        // Graphic Related Variables.
         GraphicsDeviceManager Graphics;
         SpriteBatch SpriteBatch;
         SpriteFont DefaultSpriteFont;
 
-        //Game Specific Variablies
+        // Game Specific Variablies.
         Entity FollowEntity;
         Hero CurrentPlayer;
         NPC FemaleNPC;
@@ -98,11 +98,11 @@ namespace Some2DRPG
             base.Initialize();
         }
 
-        private void LoadMapObjects(TiledMap Map, ContentManager Content)
+        private void LoadMapObjects(TiledMap map, ContentManager content)
         {
             Random random = new Random();
 
-            foreach (ObjectLayer layer in Map.ObjectLayers)
+            foreach (ObjectLayer layer in map.ObjectLayers)
             {
                 foreach (MapObject mapObject in layer.Objects)
                 {
@@ -147,14 +147,14 @@ namespace Some2DRPG
                         entity.ScaleY = 1.0f;
                         entity.Visible = true;
 
-                        Tile SourceTile = Map.Tiles[mapObject.Gid];
+                        Tile SourceTile = map.Tiles[mapObject.Gid];
                         GameDrawableInstance instance = entity.Drawables.Add("standard", SourceTile);
                         //entity.Drawables.SetNameProperty("standard", "Color", new Color(255, 255, 255, 200));
 
                         entity.CurrentDrawableState = "standard";
 
-                        //because tileds default draw origin is (0,1) - we need to update the entity positions based 
-                        //on the custom position defined in the SourceTile.Origin property.
+                        // Because tileds default draw origin is (0,1) - we need to update the entity positions based 
+                        // on the custom position defined in the SourceTile.Origin property.
                         entity.Pos.X += (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(0).Width;
                         entity.Pos.Y += (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(0).Height;
 
@@ -193,7 +193,7 @@ namespace Some2DRPG
                 Bat bat = new Bat(px, py);
                 Coin coin = new Coin(px, py, 100, (CoinType) random.Next(3));
 
-                //switch between adding bats and coins to the map
+                // Switch between adding bats and coins to the map.
                 if (i % 2 == 0) Engine.AddEntity(bat);
                 else
                     Engine.AddEntity(coin);
@@ -213,16 +213,16 @@ namespace Some2DRPG
 
         protected override void Update(GameTime gameTime)
         {
-            //F1 = Show/Hide Bounding Boxes
-            //F2 = Show/Hide Debug Info
-            //F3 = Enable/Disable LightShader
-            //F4 = Change Current SamplerState
-            //F5 = Show/Hide Tile Grid
-            //F6 = Show/Hide Quad Tree
-            //F7 = Show Performance Diagnostics
-            //F8 = Show Entity Debug Info
-            //F10 = Toggle Fullscreen Mode
-            //F11 = Show/Hide Player Helmet
+            // F1 = Show/Hide Bounding Boxes
+            // F2 = Show/Hide Debug Info
+            // F3 = Enable/Disable LightShader
+            // F4 = Change Current SamplerState
+            // F5 = Show/Hide Tile Grid
+            // F6 = Show/Hide Quad Tree
+            // F7 = Show Performance Diagnostics
+            // F8 = Show Entity Debug Info
+            // F10 = Toggle Fullscreen Mode
+            // F11 = Show/Hide Player Helmet
 
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -259,11 +259,11 @@ namespace Some2DRPG
                 CurrentPlayer.Drawables.SetGroupProperty("Head", "Visible", helmetVisible);
             }
 
-            //INCREASE ZOOM LEVEL
+            // INCREASE ZOOM LEVEL
             if(KeyboardExtensions.GetKeyDownState(keyboardState, Keys.OemPlus, true))
                 Zoom += 0.1f;
 
-            //DECREASE ZOOM LEVEL
+            // DECREASE ZOOM LEVEL
             if(KeyboardExtensions.GetKeyDownState(keyboardState, Keys.OemMinus, true))
                 Zoom -= 0.1f;
 
@@ -293,7 +293,7 @@ namespace Some2DRPG
 
             Rectangle pxDestRectangle = new Rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            //Draw the World View Port, Centered on the CurrentPlayer Actor
+            // Draw the World View Port, Centered on the CurrentPlayer Actor.
             ViewPortInfo viewPort = Engine.DrawWorldViewPort(
                                             SpriteBatch,
                                             FollowEntity.Pos.X,
@@ -304,12 +304,12 @@ namespace Some2DRPG
                                             CurrentSampler,
                                             DefaultSpriteFont);
 
-            //DRAW DEBUGGING INFORMATION
+            // DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
             {
                 if (showDebugInfo)
                 {
-                    //DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING
+                    // DRAW THE LIGHT MAP OUTPUT TO THE SCREEN FOR DEBUGGING
                     if (LightShader.Enabled)
                     {
                         int lightMapHeight = 100;

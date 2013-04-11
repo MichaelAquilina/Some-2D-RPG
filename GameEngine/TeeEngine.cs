@@ -122,20 +122,20 @@ namespace GameEngine
         /// </summary>
         public DebugInfo DebugInfo { get; private set; }
 
-        List<Entity> _entityCreate = new List<Entity>();                //a list of entities which need to be added
-        List<Entity> _entityTrash = new List<Entity>();                 //a list of named entities that are in need of removal
+        List<Entity> _entityCreate = new List<Entity>();                // A list of entities which need to be added.
+        List<Entity> _entityTrash = new List<Entity>();                 // A list of named entities that are in need of removal.
         
         Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
 
-        //TODO: Might be smarter to create a class for handling these
-        Stopwatch _watch1;              //primary diagnostic watch
-        Stopwatch _watch2;              //secondary diagnostic watch
-        Stopwatch _watch3;              //tertiary diagnostic watch
-        
-        int _entityIdCounter = 0;       //used for automatic assigning of IDs
+        // TODO: Might be smarter to create a class for handling thes.e
+        Stopwatch _watch1;              // Primary diagnostic watch.
+        Stopwatch _watch2;              // Secondary diagnostic watch.
+        Stopwatch _watch3;              // Tertiary diagnostic watch.
+                                           
+        int _entityIdCounter = 0;       // Used for automatic assigning of IDs.
 
         #endregion
 
@@ -213,7 +213,7 @@ namespace GameEngine
             _inputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
             _outputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
 
-            //allow all game shaders to become aware of the change in resolution
+            // Allow all game shaders to become aware of the change in resolution.
             foreach (GameShader shader in GameShaders) shader.SetResolution(pxWidth, pxHeight);
         }
 
@@ -226,7 +226,7 @@ namespace GameEngine
 
         public void AddEntity(string name, Entity entity)
         {
-            //Assign an automatic, unique entity name if none is supplied
+            // Assign an automatic, unique entity name if none is supplied.
             if (name == null) name = string.Format("Entity{0}", _entityIdCounter++);
 
             entity.Name = name;
@@ -248,10 +248,10 @@ namespace GameEngine
         {
             if (_entities.ContainsKey(name))
             {
-                //Deferred removal is important because
-                //we cannot alter the update loops _entities.Values
-                //or else a runtime error will occur if an entity
-                //removes itself or someone else in an Update call
+                // Deferred removal is important because
+                // we cannot alter the update loops _entities.Values
+                // or else a runtime error will occur if an entity
+                // removes itself or someone else in an Update call.
                 _entityTrash.Add(_entities[name]);
                 return true;
             }
@@ -294,7 +294,7 @@ namespace GameEngine
             _watch3.Reset();
             _watch1.Restart();
 
-            //clear previous entity update times
+            // Clear previous entity update times.
             DebugInfo.EntityUpdateTimes.Clear();
 
             foreach (string entityId in _entities.Keys)
@@ -302,7 +302,7 @@ namespace GameEngine
                 Entity entity = _entities[entityId];
                 entity.prevBoundingBox = entity.CurrentBoundingBox;
 
-                //perform any per-entity update logic
+                // Perform any per-entity update logic.
                 _watch2.Restart();
                 {
                     entity.Update(gameTime, this);
@@ -310,10 +310,10 @@ namespace GameEngine
                 }
                 DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
 
-                //reset the IsOnScreen variable before the next drawing operation
+                // Reset the IsOnScreen variable before the next drawing operation.
                 entity.IsOnScreen = false;
 
-                //if the entity has moved, then update his position in the QuadTree
+                // If the entity has moved, then update his position in the QuadTree.
                 _watch3.Restart();
                 {
                     if (entity.CurrentBoundingBox != entity.prevBoundingBox)
@@ -322,7 +322,7 @@ namespace GameEngine
                 _watch3.Stop();
             }
 
-            //REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
+            // REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
             _watch2.Restart();
             foreach (Entity entity in _entityTrash)
             {
@@ -359,11 +359,11 @@ namespace GameEngine
             int actualX = (int) Math.Ceiling(node.pxBounds.X * viewPort.ActualZoom - globalDispX);
             int actualY = (int) Math.Ceiling(node.pxBounds.Y * viewPort.ActualZoom - globalDispY);
 
-            //We need to calculate the 'Actual' width and height otherwise drawing might be innacurate when zoomed
+            // We need to calculate the 'Actual' width and height otherwise drawing might be innacurate when zoomed.
             int actualWidth  = (int) Math.Ceiling(node.pxBounds.Width * viewPort.ActualZoom);
             int actualHeight = (int) Math.Ceiling(node.pxBounds.Height * viewPort.ActualZoom);
 
-            //Only draw leaf nodes which are within the viewport specified
+            // Only draw leaf nodes which are within the viewport specified.
             if (node.Node1 == null 
                 && new Rectangle(actualX, actualY, actualWidth, actualHeight).Intersects(destRectangle))
             {
@@ -394,10 +394,10 @@ namespace GameEngine
                 viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * zoom);
                 viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * zoom);
 
-                //Note about ActualZoom Property:
-                //because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
-                //we need to determine what was the actual level of zoom that was applied to the tiles and use that
-                //this ensures that entities that will be drawn will be placed correctly on the screen
+                // Note about ActualZoom Property:
+                // because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
+                // we need to determine what was the actual level of zoom that was applied to the tiles and use that
+                // this ensures that entities that will be drawn will be placed correctly on the screen.
                 viewPortInfo.ActualZoom = viewPortInfo.pxTileWidth / Map.pxTileWidth;
 
                 viewPortInfo.pxWidth = pxDestRectangle.Width / viewPortInfo.ActualZoom;
@@ -409,7 +409,7 @@ namespace GameEngine
                 viewPortInfo.TileCountX = (int) Math.Ceiling((double)viewPortInfo.pxWidth / Map.pxTileWidth) + 1;
                 viewPortInfo.TileCountY = (int) Math.Ceiling((double)viewPortInfo.pxHeight / Map.pxTileHeight) + 1;
 
-                //Prevent the View from going outisde of the WORLD coordinates
+                // Prevent the View from going outisde of the WORLD coordinates.
                 if (viewPortInfo.pxTopLeftX < 0) viewPortInfo.pxTopLeftX = 0;
                 if (viewPortInfo.pxTopLeftY < 0) viewPortInfo.pxTopLeftY = 0;
 
@@ -418,7 +418,7 @@ namespace GameEngine
                 if (viewPortInfo.pxTopLeftY + viewPortInfo.pxHeight >= Map.pxHeight)
                     viewPortInfo.pxTopLeftY = Map.pxHeight - viewPortInfo.pxHeight;
 
-                //calculate any decimal displacement required (For Positions with decimal points)
+                // Calculate any decimal displacement required (For Positions with decimal points).
                 viewPortInfo.pxDispX = viewPortInfo.pxTopLeftX - ((int)viewPortInfo.pxTopLeftX / Map.pxTileWidth) * Map.pxTileWidth;
                 viewPortInfo.pxDispY = viewPortInfo.pxTopLeftY - ((int)viewPortInfo.pxTopLeftY / Map.pxTileHeight) * Map.pxTileHeight;
 
@@ -430,19 +430,19 @@ namespace GameEngine
                 );
             }
 
-            //RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
+            // RENDER THE GAME WORLD TO THE VIEWPORT RENDER TARGET
             GraphicsDevice.SetRenderTarget(_inputBuffer);
             GraphicsDevice.Clear(Map.Background);
 
-            //DRAW THE WORLD MAP
+            // DRAW THE WORLD MAP
             _watch1.Restart();
 
-            //Deferred Rendering should be fine for rendering tile as long as we draw tile layers one at a time
+            // Deferred Rendering should be fine for rendering tile as long as we draw tile layers one at a time
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, samplerState, null, null);
             {
                 for (int layerIndex = 0; layerIndex < Map.TileLayers.Count; layerIndex++)
                 {
-                    //DRAW EACH LAYER
+                    // DRAW EACH LAYER
                     TileLayer tileLayer = Map.TileLayers[layerIndex];
                     float depth = 1 - (layerIndex / 10000.0f);
 
@@ -462,7 +462,7 @@ namespace GameEngine
                                 (int) viewPortInfo.pxTileHeight
                             );
 
-                            if (tileGid != 0 && tileGid != -1)   //NULL or INVALID Tile Gid is ignored
+                            if (tileGid != 0 && tileGid != -1)   // NULL or INVALID Tile Gid is ignored
                             {
                                 Tile tile = Map.Tiles[tileGid];
 
@@ -477,7 +477,7 @@ namespace GameEngine
                                 );
                             }
 
-                            //DRAW THE TILE LAYER GRID IF ENABLE
+                            // DRAW THE TILE LAYER GRID IF ENABLE
                             if (ShowTileGrid && layerIndex == Map.TileLayers.Count - 1)
                                 spriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                         }
@@ -487,13 +487,13 @@ namespace GameEngine
             spriteBatch.End();
             DebugInfo.TileRenderingTime = _watch1.Elapsed;
 
-            //Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
-            //Each entity should be displaced by the *same amount* based on the pxTopLeftX/Y values
-            //this is to prevent entities 'jittering on the screen' when moving the camera.
+            // Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering
+            // Each entity should be displaced by the *same amount* based on the pxTopLeftX/Y values
+            // this is to prevent entities 'jittering on the screen' when moving the camera.
             float globalDispX = (int) Math.Ceiling(viewPortInfo.pxTopLeftX * viewPortInfo.ActualZoom);
             float globalDispY = (int) Math.Ceiling(viewPortInfo.pxTopLeftY * viewPortInfo.ActualZoom);
 
-            //DRAW VISIBLE REGISTERED ENTITIES
+            // DRAW VISIBLE REGISTERED ENTITIES
             _watch1.Restart();
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, samplerState, null, null);
             {
@@ -518,7 +518,7 @@ namespace GameEngine
                         entity.CurrentBoundingBox.Height * viewPortInfo.ActualZoom
                     );
 
-                    //DRAW ENTITY BOUNDING BOXES IF ENABLED
+                    // DRAW ENTITY BOUNDING BOXES IF ENABLED
                     if (ShowBoundingBoxes)
                     {
                         spriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0.0001f);
@@ -535,15 +535,15 @@ namespace GameEngine
                     {
                         if (!drawable.Visible) continue;
 
-                        //The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
-                        //are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
-                        //already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
+                        // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
+                        // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
+                        // already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
                         Rectangle pxCurrentFrame = drawable.GetSourceRectangle(LastUpdateTime);
 
                         int pxObjectWidth  = (int) Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
                         int pxObjectHeight = (int) Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
 
-                        //Draw the Object based on the current Frame dimensions and the specified Object Width Height values
+                        // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
                         Rectangle objectDestRect = new Rectangle(
                                 (int) Math.Ceiling(pxAbsEntityPos.X),
                                 (int) Math.Ceiling(pxAbsEntityPos.Y),
@@ -564,8 +564,8 @@ namespace GameEngine
                             A = (byte)(drawable.Color.A * entity.Opacity)
                         };
 
-                        //layer depth should depend how far down the object is on the map (Relative to Y)
-                        //Important to also take into account the animation layers for the entity
+                        // Layer depth should depend how far down the object is on the map (Relative to Y).
+                        // Important to also take into account the animation layers for the entity.
                         float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
 
                         spriteBatch.Draw(
@@ -578,7 +578,7 @@ namespace GameEngine
                             drawable.SpriteEffects,
                             layerDepth);
 
-                        //DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
+                        // DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
                         if (ShowEntityDebugInfo)
                         {
                             string message = string.Format(
@@ -605,7 +605,7 @@ namespace GameEngine
             spriteBatch.End();
             DebugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
 
-            //DRAW THE QUAD TREE IF ENABLED
+            // DRAW THE QUAD TREE IF ENABLED
             if (ShowQuadTree)
             {
                 spriteBatch.Begin();
@@ -620,14 +620,14 @@ namespace GameEngine
             }
 
             _watch1.Restart();
-            //APPLY GAME SHADERS TO THE RESULTANT IMAGE
+            // APPLY GAME SHADERS TO THE RESULTANT IMAGE
             for (int i = 0; i < GameShaders.Count; i++)
             {
                 if (GameShaders[i].Enabled)
                 {
                     GameShaders[i].ApplyShader(spriteBatch, viewPortInfo, LastUpdateTime, _inputBuffer, _outputBuffer);
 
-                    //swap buffers after each render
+                    // Swap buffers after each render.
                     _dummyBuffer = _inputBuffer;
                     _inputBuffer = _outputBuffer;
                     _outputBuffer = _dummyBuffer;
@@ -635,7 +635,7 @@ namespace GameEngine
             }
             DebugInfo.TotalGameShaderRenderTime = _watch1.Elapsed;
 
-            //DRAW THE VIEWPORT TO THE STANDARD SCREEN
+            // DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin();
             {

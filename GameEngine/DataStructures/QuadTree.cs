@@ -24,47 +24,47 @@ namespace GameEngine.DataStructures
             this.LatestNodeIndex = 0;
         }
 
-        public void Update(Entity Entity, bool AddOnMissing=true)
+        public void Update(Entity entity, bool addOnMissing=true)
         {
             List<QuadTreeNode> updatedNodes = new List<QuadTreeNode>();
             List<QuadTreeNode> associatedNodes = new List<QuadTreeNode>();
-            Root.GetAssociatedNodes(Entity, Entity.prevBoundingBox, ref associatedNodes);
+            Root.GetAssociatedNodes(entity, entity.prevBoundingBox, ref associatedNodes);
 
-            if (associatedNodes.Count == 0 && AddOnMissing)
-                Add(Entity);
+            if (associatedNodes.Count == 0 && addOnMissing)
+                Add(entity);
             else
             {
                 foreach (QuadTreeNode node in associatedNodes)
                 {
                     bool update = true;
 
-                    //if the one of the updated nodes already covers the current node
-                    //then we dont need to bother repositioning this one
+                    // If the one of the updated nodes already covers the current node
+                    // then we dont need to bother repositioning this one.
                     foreach (QuadTreeNode updatedNode in updatedNodes)
                         if (updatedNode.Contains(node.pxBounds))
                             update = false;
 
-                    if (update) updatedNodes.Add(Reposition(Entity, node));
+                    if (update) updatedNodes.Add(Reposition(entity, node));
                 }
             }
         }
 
-        public void Remove(Entity Entity)
+        public void Remove(Entity entity)
         {
-            Root.Remove(Entity, null);
+            Root.Remove(entity, null);
         }
 
-        public void Add(Entity Entity)
+        public void Add(Entity entity)
         {
-            Root.Add(Entity);
+            Root.Add(entity);
         }
 
-        public void Rebuild(ICollection<Entity> Entities)
+        public void Rebuild(ICollection<Entity> entities)
         {
             this.Root.Reset();
             this.LatestNodeIndex = 0;
 
-            foreach (Entity entity in Entities)
+            foreach (Entity entity in entities)
                 Add(entity);
         }
 
@@ -76,31 +76,31 @@ namespace GameEngine.DataStructures
             return result;
         }
 
-        //reposition the specified Entity in the given Node if it no longer contains it
-        internal QuadTreeNode Reposition(Entity Entity, QuadTreeNode Node)
+        // Reposition the specified Entity in the given Node if it no longer contains it.
+        internal QuadTreeNode Reposition(Entity entity, QuadTreeNode node)
         {
-            //if Node.Parent==null, then its the Root node and we have to do our best to add it
-            if (Node.Parent != null && !Node.Contains(Entity.CurrentBoundingBox))
-                return Reposition(Entity, Node.Parent);
+            // If Node.Parent==null, then its the Root node and we have to do our best to add it
+            if (node.Parent != null && !node.Contains(entity.CurrentBoundingBox))
+                return Reposition(entity, node.Parent);
             else
             {
-                if (!Node.IsLeafNode)
+                if (!node.IsLeafNode)
                 {
-                    Node.Remove(Entity, Entity.prevBoundingBox);
-                    Node.Add(Entity);
+                    node.Remove(entity, entity.prevBoundingBox);
+                    node.Add(entity);
                 }
-                return Node;
+                return node;
             }
         }
 
-        internal QuadTreeNode GetQuadTreeNode(float px, float py, float pxWidth, float pxHeight, QuadTreeNode Parent)
+        internal QuadTreeNode GetQuadTreeNode(float x, float y, float width, float height, QuadTreeNode parentNode)
         {
             QuadTreeNode nodeResult = new QuadTreeNode();
             nodeResult.Reset();
             nodeResult.NodeID = LatestNodeIndex;
-            nodeResult.pxBounds = new FRectangle(px, py, pxWidth, pxHeight);
+            nodeResult.pxBounds = new FRectangle(x, y, width, height);
             nodeResult.QuadTree = this;
-            nodeResult.Parent = Parent;
+            nodeResult.Parent = parentNode;
 
             LatestNodeIndex++;
 

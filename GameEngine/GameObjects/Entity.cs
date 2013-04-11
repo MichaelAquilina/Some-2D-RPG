@@ -8,12 +8,12 @@ using Microsoft.Xna.Framework.Content;
 
 namespace GameEngine.GameObjects
 {
-    //An abstract Entity class that should be inherited by objects which are to be visible within the game world.
-    //Any map objects, NPCs or playable characters should inherit from this class in order to be used by the
-    //game engine.
+    // An abstract Entity class that should be inherited by objects which are to be visible within the game world.
+    // Any map objects, NPCs or playable characters should inherit from this class in order to be used by the
+    // game engine.
     public class Entity : ILoadable
     {
-        //X and Y position on the Map
+        // X and Y position on the Map
         public Vector2 Pos;
 
         public string Name { get; internal set; }                         //Name currently assigned to this Entity in the Engine

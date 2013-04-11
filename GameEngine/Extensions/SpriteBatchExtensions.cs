@@ -9,84 +9,84 @@ namespace GameEngine.Extensions
 {
     public static class SpriteBatchExtensions
     {
-        //TODO, IS THIS REALLLLY NEEDED? THIS SEEMS TO BE DEFAULT BEHAVIOUR IN XNA
-        public static void DrawMultiLineString(SpriteBatch SpriteBatch, SpriteFont SpriteFont, string Message, Vector2 Position, Color Color)
+        // TODO, IS THIS REALLLLY NEEDED? THIS SEEMS TO BE DEFAULT BEHAVIOUR IN XNA.
+        public static void DrawMultiLineString(SpriteBatch spriteBatch, SpriteFont spriteFont, string message, Vector2 position, Color color)
         {
-            string[] messageLines = Message.Split('\n');
+            string[] messageLines = message.Split('\n');
 
             for (int i = 0; i < messageLines.Length; i++)
             {
-                string message = messageLines[i];
+                string line = messageLines[i];
 
-                Vector2 messageMetrics = SpriteFont.MeasureString(message);
+                Vector2 messageMetrics = spriteFont.MeasureString(line);
                 Vector2 messageVector = new Vector2(
-                        Position.X - messageMetrics.X / 2,
-                        Position.Y - messageMetrics.Y * messageLines.Length / 2 + i * messageMetrics.Y
+                        position.X - messageMetrics.X / 2,
+                        position.Y - messageMetrics.Y * messageLines.Length / 2 + i * messageMetrics.Y
                     );
-                SpriteBatch.DrawString(SpriteFont, message, messageVector, Color);
+                spriteBatch.DrawString(spriteFont, line, messageVector, color);
             }
         }
 
-        //NOTE: It is important to avoid initialising a new Texture each time
-        //This is extremely memory intensive and will end up causing a large memory leak
-        //use a cached copy of a texture each time one of the methods below are called
+        // NOTE: It is important to avoid initialising a new Texture each time
+        // This is extremely memory intensive and will end up causing a large memory leak
+        // use a cached copy of a texture each time one of the methods below are called.
         private static Texture2D _rectText;
 
-        public static void DrawCross(SpriteBatch SpriteBatch, Vector2 Center, int Size, Color Background, float layerDepth)
+        public static void DrawCross(SpriteBatch spriteBatch, Vector2 center, int size, Color background, float layerDepth)
         {
             if (_rectText == null)
             {
-                _rectText = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1);
+                _rectText = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
                 _rectText.SetData<Color>(new Color[] { Color.White });
             }
 
-            SpriteBatch.Draw(_rectText,
-                new Rectangle((int) (Center.X - Size / 2), (int) Center.Y, Size, 1),
-                null, Background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
+            spriteBatch.Draw(_rectText,
+                new Rectangle((int) (center.X - size / 2), (int) center.Y, size, 1),
+                null, background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
 
-            SpriteBatch.Draw(_rectText,
-                new Rectangle((int)Center.X, (int) (Center.Y - Size / 2), 1, Size),
-                null, Background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
+            spriteBatch.Draw(_rectText,
+                new Rectangle((int)center.X, (int) (center.Y - size / 2), 1, size),
+                null, background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
         }
 
-        public static void FillRectangle(SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background, float layerDepth)
+        public static void FillRectangle(SpriteBatch spriteBatch, Rectangle destRectangle, Color background, float layerDepth)
         {
             if(_rectText == null)
             {
-                _rectText = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1);
+                _rectText = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
                 _rectText.SetData<Color>(new Color[] {Color.White});
             }
 
-            SpriteBatch.Draw(_rectText, DestRectangle, Background);
+            spriteBatch.Draw(_rectText, destRectangle, background);
         }
 
         /// <summary>
         /// This can probably be vastly improved using vertices and a shader. The current method is extremely ineffecient for 
         /// what its intentional purpose is. (TODO)
         /// </summary>
-        public static void DrawRectangle(this SpriteBatch SpriteBatch, Rectangle DestRectangle, Color Background, float layerDepth)
+        public static void DrawRectangle(this SpriteBatch spriteBatch, Rectangle destRectangle, Color background, float layerDepth)
         {
             if (_rectText == null)
             {
-                _rectText = new Texture2D(SpriteBatch.GraphicsDevice, 1, 1);
+                _rectText = new Texture2D(spriteBatch.GraphicsDevice, 1, 1);
                 _rectText.SetData<Color>(new Color[] { Color.White });
             }
 
-            SpriteBatch.Draw(_rectText, 
-                new Rectangle(DestRectangle.X, DestRectangle.Y, DestRectangle.Width, 1),
-                null, Background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
+            spriteBatch.Draw(_rectText, 
+                new Rectangle(destRectangle.X, destRectangle.Y, destRectangle.Width, 1),
+                null, background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
 
-            SpriteBatch.Draw(_rectText,
-                new Rectangle(DestRectangle.X, DestRectangle.Y, 1, DestRectangle.Height),
-                null, Background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
+            spriteBatch.Draw(_rectText,
+                new Rectangle(destRectangle.X, destRectangle.Y, 1, destRectangle.Height),
+                null, background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
 
-            SpriteBatch.Draw(_rectText,
-                new Rectangle(DestRectangle.X + DestRectangle.Width, DestRectangle.Y, 1, DestRectangle.Height),
-                null, Background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
+            spriteBatch.Draw(_rectText,
+                new Rectangle(destRectangle.X + destRectangle.Width, destRectangle.Y, 1, destRectangle.Height),
+                null, background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
 
-            SpriteBatch.Draw(_rectText,
-                new Rectangle(DestRectangle.X, DestRectangle.Y + DestRectangle.Height, DestRectangle.Width, 1),
-                null, Background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
+            spriteBatch.Draw(_rectText,
+                new Rectangle(destRectangle.X, destRectangle.Y + destRectangle.Height, destRectangle.Width, 1),
+                null, background, 0, Vector2.Zero, SpriteEffects.None, layerDepth);
         }
     }
 }

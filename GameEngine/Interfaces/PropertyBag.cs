@@ -15,19 +15,19 @@ namespace GameEngine.Interfaces
             return HasProperty(Name) ? (T) Convert.ChangeType(_properties[Name], typeof(T)) : Default;
         }
 
-        public string GetProperty(string Name, string Default=null)
+        public string GetProperty(string name, string defaultValue=null)
         {
-            return HasProperty(Name)? _properties[Name] : Default;
+            return HasProperty(name)? _properties[name] : defaultValue;
         }
 
-        public void SetProperty(string Name, string Value)
+        public void SetProperty(string name, string value)
         {
-            _properties[Name] = Value;
+            _properties[name] = value;
         }
 
-        public bool HasProperty(string Name)
+        public bool HasProperty(string name)
         {
-            return _properties.ContainsKey(Name);
+            return _properties.ContainsKey(name);
         }
 
         /// <summary>
@@ -35,10 +35,10 @@ namespace GameEngine.Interfaces
         /// will have its content loaded automatically using this method. If no properties node is
         /// found in the specified node, then the function will do nothing.
         /// </summary>
-        /// <param name="SelectedNode">XmlNode to extract the properties from</param>
-        public void LoadProperties(XmlNode SelectedNode)
+        /// <param name="selectedNode">XmlNode to extract the properties from</param>
+        public void LoadProperties(XmlNode selectedNode)
         {
-            XmlNode propertiesNode = SelectedNode.SelectSingleNode("properties");
+            XmlNode propertiesNode = selectedNode.SelectSingleNode("properties");
 
             if (propertiesNode == null) return;
 

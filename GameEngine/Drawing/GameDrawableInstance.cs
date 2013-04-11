@@ -15,15 +15,15 @@ namespace GameEngine.Drawing
 
         public double StartTimeMS { get; set; }
 
-        //associated state and group when added to a DrawableSet
-        //a GameDrawableInstance should be associated with one and only one DrawableSet
+        // Associated state and group when added to a DrawableSet
+        // a GameDrawableInstance should be associated with one and only one DrawableSet.
         internal string _associatedState = null;
         internal string _associatedGroup = null;
 
-        public GameDrawableInstance(IGameDrawable Drawable)
+        public GameDrawableInstance(IGameDrawable drawable)
         {
             this.StartTimeMS = 0;
-            this.Drawable = Drawable;
+            this.Drawable = drawable;
             this.Visible = true;
             this.Rotation = 0;
             this.Color = Color.White;
@@ -31,19 +31,19 @@ namespace GameEngine.Drawing
             this.Layer = 0;
         }
 
-        public void Reset(GameTime GameTime)
+        public void Reset(GameTime gameTime)
         {
-            StartTimeMS = GameTime.TotalGameTime.TotalMilliseconds;
+            StartTimeMS = gameTime.TotalGameTime.TotalMilliseconds;
         }
 
-        public Rectangle GetSourceRectangle(GameTime GameTime)
+        public Rectangle GetSourceRectangle(GameTime gameTime)
         {
-            return Drawable.GetSourceRectangle(GameTime.TotalGameTime.TotalMilliseconds - StartTimeMS);
+            return Drawable.GetSourceRectangle(gameTime.TotalGameTime.TotalMilliseconds - StartTimeMS);
         }
 
-        public Texture2D GetSourceTexture(GameTime GameTime)
+        public Texture2D GetSourceTexture(GameTime gameTime)
         {
-            return Drawable.GetSourceTexture(GameTime.TotalGameTime.TotalMilliseconds - StartTimeMS);
+            return Drawable.GetSourceTexture(gameTime.TotalGameTime.TotalMilliseconds - StartTimeMS);
         }
 
         public override string ToString()

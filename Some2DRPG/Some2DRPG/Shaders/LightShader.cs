@@ -28,12 +28,12 @@ namespace Some2DRPG.Shaders
 
         public Color AmbientLight { get; set; }
 
-        public LightShader(GraphicsDevice GraphicsDevice, int CirclePointAccuracy)
-            :base(GraphicsDevice)
+        public LightShader(GraphicsDevice graphicsDevice, int circlePointAccuracy)
+            :base(graphicsDevice)
         {
             this.LightSources = new List<ILightSource>();
             this.AmbientLight = Color.White;
-            this.CirclePointAccurracy = CirclePointAccuracy;
+            this.CirclePointAccurracy = circlePointAccuracy;
         }
 
         private VertexPositionColor[] SetUpCircle(float radiusX, float radiusY, Vector3 center, Color color, int points, Vector2? Range)
@@ -80,15 +80,15 @@ namespace Some2DRPG.Shaders
             _lightTarget = null;
         }
 
-        public override void SetResolution(int Width, int Height)
+        public override void SetResolution(int width, int height)
         {
             if (_lightTarget != null) _lightTarget.Dispose();
 
-            _lightTarget = new RenderTarget2D(GraphicsDevice, Width, Height, false, SurfaceFormat.Color, DepthFormat.Depth24);
+            _lightTarget = new RenderTarget2D(GraphicsDevice, width, height, false, SurfaceFormat.Color, DepthFormat.Depth24);
         }
 
         //TODO: HIGHLY UNOPTIMIZED, DO NOT INITIALISE VERTICES EACH ROUND, USE VERTEX BUFFERS AND INDICES
-        public override void ApplyShader(SpriteBatch SpriteBatch, ViewPortInfo ViewPortInfo,  GameTime GameTime, RenderTarget2D InputBuffer, RenderTarget2D OutputBuffer )
+        public override void ApplyShader(SpriteBatch spriteBatch, ViewPortInfo viewPortInfo,  GameTime gameTime, RenderTarget2D inputBuffer, RenderTarget2D outputBuffer )
         {
             GraphicsDevice.SetRenderTarget(_lightTarget);
             GraphicsDevice.Clear(AmbientLight);
@@ -101,19 +101,19 @@ namespace Some2DRPG.Shaders
 
                 if (lightSource.PositionType == LightPositionType.Relative)
                 {
-                    x -= ViewPortInfo.pxTopLeftX;
-                    y -= ViewPortInfo.pxTopLeftY;
+                    x -= viewPortInfo.pxTopLeftX;
+                    y -= viewPortInfo.pxTopLeftY;
                 }
 
-                x *= ViewPortInfo.ActualZoom;
-                y *= ViewPortInfo.ActualZoom;
+                x *= viewPortInfo.ActualZoom;
+                y *= viewPortInfo.ActualZoom;
                 x /= _lightTarget.Width;
                 y /= _lightTarget.Height;
                 x = -1.0f + x * 2;
                 y = 1.0f - y * 2;
 
-                float radiusX = lightSource.RadiusX * ViewPortInfo.ActualZoom;
-                float radiusY = lightSource.RadiusY * ViewPortInfo.ActualZoom;
+                float radiusX = lightSource.RadiusX * viewPortInfo.ActualZoom;
+                float radiusY = lightSource.RadiusY * viewPortInfo.ActualZoom;
 
                 radiusX /= _lightTarget.Width;
                 radiusY /= _lightTarget.Height;
@@ -142,14 +142,14 @@ namespace Some2DRPG.Shaders
                 }
             }
 
-            GraphicsDevice.SetRenderTarget(OutputBuffer);
+            GraphicsDevice.SetRenderTarget(outputBuffer);
             _lightShader.Parameters["LightMap"].SetValue(_lightTarget);
 
-            SpriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _lightShader);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, _lightShader);
             {
-                SpriteBatch.Draw( InputBuffer, InputBuffer.Bounds, Color.White);
+                spriteBatch.Draw( inputBuffer, inputBuffer.Bounds, Color.White);
             }
-            SpriteBatch.End();
+            spriteBatch.End();
         }
     }
 }

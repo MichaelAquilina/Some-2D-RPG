@@ -15,19 +15,19 @@ namespace GameEngine.Drawing
 
         public Vector2 Origin { get; set; }
 
-        public StaticImage(Texture2D SourceTexture, Rectangle SourceRectangle)
+        public StaticImage(Texture2D sourceTexture, Rectangle sourceRectangle)
         {
-            this.SourceTexture = SourceTexture;
-            this.SourceRectangle = SourceRectangle;
+            this.SourceTexture = sourceTexture;
+            this.SourceRectangle = sourceRectangle;
             this.Origin = new Vector2(0, 1);
         }
 
-        public Texture2D GetSourceTexture(double ElapsedMS)
+        public Texture2D GetSourceTexture(double elapsedMS)
         {
             return SourceTexture;
         }
 
-        public Rectangle GetSourceRectangle(double ElapsedMS)
+        public Rectangle GetSourceRectangle(double elapsedMS)
         {
             return SourceRectangle;
         }

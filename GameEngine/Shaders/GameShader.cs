@@ -18,13 +18,13 @@ namespace GameEngine.Shaders
         public bool Enabled { get; set; }
         public GraphicsDevice GraphicsDevice { get; set; }
 
-        public GameShader(GraphicsDevice GraphicsDevice)
+        public GameShader(GraphicsDevice graphicsDevice)
         {
-            this.GraphicsDevice = GraphicsDevice;
+            this.GraphicsDevice = graphicsDevice;
             this.Enabled = true;
         }
 
-        public virtual void LoadContent(ContentManager Content)
+        public virtual void LoadContent(ContentManager content)
         {
             throw new NotImplementedException();
         }
@@ -34,12 +34,12 @@ namespace GameEngine.Shaders
             throw new NotImplementedException();
         }
 
-        public virtual void SetResolution(int Width, int Height)
+        public virtual void SetResolution(int width, int height)
         {
             throw new NotImplementedException();
         }
 
-        public virtual void ApplyShader(SpriteBatch SpriteBatch, ViewPortInfo ViewPortInfo,  GameTime GameTime, RenderTarget2D InputBuffer, RenderTarget2D OutputBuffer )
+        public virtual void ApplyShader(SpriteBatch spriteBatch, ViewPortInfo viewPortInfo,  GameTime gameTime, RenderTarget2D inputBuffer, RenderTarget2D outputBuffer )
         {
             throw new NotImplementedException();            
         }

@@ -23,14 +23,14 @@ namespace ShadowKillGame.GameObjects
         {
         }
 
-        public BasicLightSource(float LightX, float LightY, float RadiusX, float RadiusY, Color LightColor, LightPositionType PositionType=LightPositionType.Relative)
+        public BasicLightSource(float lightX, float lightY, float radiusX, float radiusY, Color lightColor, LightPositionType positionType=LightPositionType.Relative)
         {
-            this.PX = LightX;
-            this.PY = LightY;
-            this.RadiusX = RadiusX;
-            this.RadiusY = RadiusY;
-            this.Color = LightColor;
-            this.PositionType = PositionType;
+            this.PX = lightX;
+            this.PY = lightY;
+            this.RadiusX = radiusX;
+            this.RadiusY = radiusY;
+            this.Color = lightColor;
+            this.PositionType = positionType;
         }
     }
 }

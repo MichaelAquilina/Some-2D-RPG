@@ -37,27 +37,27 @@ namespace Some2DRPG.GameObjects
         public int XP { get; set; }
         public int Coins { get; set; }
 
-        public NPC(int PX, int PY, string BaseRace) :
-            base(PX, PY, 1.0f, 1.0f)
+        public NPC(float x, float y, string baseRace) :
+            base(x, y, 1.0f, 1.0f)
         {
             this.HP = 0;
             this.XP = 0;
             this.Coins = 0;
 
             this.Direction = Direction.Right;
-            this.BaseRace = BaseRace;
+            this.BaseRace = baseRace;
         }
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager content)
         {
-            if (Shoulders != null ) Animation.LoadAnimationXML(Drawables, Shoulders, Content, "Shoulders", 6);
-            if (Head != null) Animation.LoadAnimationXML(Drawables, Head, Content, "Head", 5);
-            if (Hands != null) Animation.LoadAnimationXML(Drawables, Hands, Content, "Hands", 4);
-            if (Feet != null) Animation.LoadAnimationXML(Drawables, Feet, Content, "Feet", 3);
-            if (Torso != null) Animation.LoadAnimationXML(Drawables, Torso, Content, "Torso", 2);
-            if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, Content, "Legs", 1);
-            if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, Content, "Weapon", 7);
-            Animation.LoadAnimationXML(Drawables, BaseRace, Content, "Base", 0);
+            if (Shoulders != null ) Animation.LoadAnimationXML(Drawables, Shoulders, content, "Shoulders", 6);
+            if (Head != null) Animation.LoadAnimationXML(Drawables, Head, content, "Head", 5);
+            if (Hands != null) Animation.LoadAnimationXML(Drawables, Hands, content, "Hands", 4);
+            if (Feet != null) Animation.LoadAnimationXML(Drawables, Feet, content, "Feet", 3);
+            if (Torso != null) Animation.LoadAnimationXML(Drawables, Torso, content, "Torso", 2);
+            if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, content, "Legs", 1);
+            if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, content, "Weapon", 7);
+            Animation.LoadAnimationXML(Drawables, BaseRace, content, "Base", 0);
             Drawables.SetGroupProperty("Weapon", "Color", Color.Red);
 
             CurrentDrawableState = "Walk_Right";

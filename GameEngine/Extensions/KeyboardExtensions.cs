@@ -13,24 +13,24 @@ namespace GameEngine.Extensions
         /// <summary>
         /// TODO: Document this method since it has very specific functionality
         /// </summary>
-        /// <param name="KeyboardState"></param>
-        /// <param name="Key"></param>
-        /// <param name="Lock"></param>
+        /// <param name="keyboardState"></param>
+        /// <param name="key"></param>
+        /// <param name="lockKey"></param>
         /// <returns></returns>
-        public static bool GetKeyDownState(KeyboardState KeyboardState, Keys Key, bool Lock)
+        public static bool GetKeyDownState(KeyboardState keyboardState, Keys key, bool lockKey)
         {
             bool result = false;
 
-            if (KeyboardState.IsKeyDown(Key) && (!Lock || !_lockedKeys.Contains(Key)))
+            if (keyboardState.IsKeyDown(key) && (!lockKey || !_lockedKeys.Contains(key)))
             {
                 result = true;
-                if (Lock) _lockedKeys.Add(Key);
+                if (lockKey) _lockedKeys.Add(key);
             }
             else
                 result = false;
 
-            if (!KeyboardState.IsKeyDown(Key) && Lock)
-                _lockedKeys.Remove(Key);
+            if (!keyboardState.IsKeyDown(key) && lockKey)
+                _lockedKeys.Remove(key);
 
             return result;
         }

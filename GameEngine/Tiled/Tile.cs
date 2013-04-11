@@ -9,10 +9,10 @@ namespace GameEngine.Tiled
     {
         public Texture2D SourceTexture { get; set; }
         public Rectangle SourceRectangle { get; set; }
-        public int TileGid { get; set; }                    //Tile Global Identifier
+        public int TileGid { get; set; }                    // Tile Global Identifier
         public string TileSetName { get; set; }
 
-        //IGameDrawable Properties
+        // IGameDrawable Properties
         public Vector2 Origin { get; set; }
 
         public Tile()
@@ -20,12 +20,12 @@ namespace GameEngine.Tiled
             this.Origin = new Vector2(0, 1);
         }
 
-        public Texture2D GetSourceTexture(double ElapsedMS)
+        public Texture2D GetSourceTexture(double elapsedMS)
         {
             return SourceTexture;
         }
 
-        public Rectangle GetSourceRectangle(double ElapsedMS)
+        public Rectangle GetSourceRectangle(double elapsedMS)
         {
             return SourceRectangle;
         }

@@ -12,7 +12,7 @@ namespace GameEngine.Interfaces
     /// </summary>
     public interface ILoadable
     {
-        void LoadContent(ContentManager Content);
+        void LoadContent(ContentManager content);
 
         void UnloadContent();
     }

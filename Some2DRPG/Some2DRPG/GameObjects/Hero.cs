@@ -24,8 +24,8 @@ namespace Some2DRPG.GameObjects
 
         private List<Entity> prevIntersectingEntities;
 
-        public Hero(int PX, int PY) :
-            base(PX, PY, NPC.MALE_HUMAN)
+        public Hero(float x, float y) :
+            base(x, y, NPC.MALE_HUMAN)
         {
             CollisionDetection = true;
             LightSource = new BasicLightSource();
@@ -35,9 +35,9 @@ namespace Some2DRPG.GameObjects
             LightSource.PositionType = LightPositionType.Relative;
         }
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager content)
         {
-            base.LoadContent(Content);
+            base.LoadContent(content);
         }
 
         //TODO REMOVE

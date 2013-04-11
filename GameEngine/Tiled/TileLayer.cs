@@ -35,11 +35,11 @@ namespace GameEngine.Tiled
 
         internal int[] _tiles;
 
-        public TileLayer(int Width, int Height)
+        public TileLayer(int width, int height)
         {
-            this.txWidth = Width;
-            this.txHeight = Height;
-            _tiles = new int[Width * Height];
+            this.txWidth = width;
+            this.txHeight = height;
+            _tiles = new int[width * height];
         }
 
         public override string ToString()
