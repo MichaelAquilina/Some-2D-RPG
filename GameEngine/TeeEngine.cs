@@ -338,8 +338,10 @@ namespace GameEngine
             {
                 _entities.Add(entity.Name, entity);
 
-                QuadTree.Add(entity);
+                entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
                 entity.prevBoundingBox = entity.CurrentBoundingBox;
+
+                QuadTree.Add(entity);
             }
             DebugInfo.EntityAdditionTime = _watch2.Elapsed;
 
