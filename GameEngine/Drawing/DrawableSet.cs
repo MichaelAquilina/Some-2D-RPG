@@ -58,7 +58,7 @@ namespace GameEngine.Drawing
             instance.Layer = layer;
 
             instance._associatedGroup = group;
-            instance._associatedGroup = state;
+            instance._associatedState = state;
 
             _stateDictionary[state].Add(instance);
             _groupDictionary[group].Add(instance);
