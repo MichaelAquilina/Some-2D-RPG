@@ -5,6 +5,7 @@ using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
+using System.Collections.Generic;
 
 namespace Some2DRPG.GameObjects
 {
@@ -71,7 +72,7 @@ namespace Some2DRPG.GameObjects
                 this.Pos.Y += (float) (Math.Sin(angle) * speed);        // y component.
 
                 // Check to see if coin can be considered collected.
-                if (this.CurrentBoundingBox.Intersects(player.CurrentBoundingBox))
+                if(player.IntersectsWith(CurrentBoundingBox, gameTime, "Shadow"))
                 {
                     CoinSound.Play(0.05f, 0.0f, 0.0f);
                     player.Coins += this.CoinValue;

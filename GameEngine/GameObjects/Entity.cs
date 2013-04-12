@@ -31,6 +31,8 @@ namespace GameEngine.GameObjects
 
         internal FRectangle prevBoundingBox;                              //the previous BoundingBox that was assigned to this Entity
 
+        #region Constructors
+
         public Entity()
         {
             Init();
@@ -52,6 +54,24 @@ namespace GameEngine.GameObjects
             this.Opacity = 1.0f;
             this.Drawables = new DrawableSet();
         }
+
+        #endregion
+
+        #region Virtual Methods
+
+        public virtual void Update(GameTime gameTime, TeeEngine engine)
+        {
+        }
+
+        public virtual void LoadContent(ContentManager content)
+        {
+        }
+
+        public virtual void UnloadContent()
+        {
+        }
+
+        #endregion
 
         /// <summary>
         /// Gets the bounding box for this entity at the specified GameTime and using the specified
@@ -92,17 +112,39 @@ namespace GameEngine.GameObjects
             return new FRectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
-        public virtual void Update(GameTime gameTime, TeeEngine engine)
+        #region Intersection Methods
+
+        public bool IntersectsWith(FRectangle boundingBox, GameTime gameTime, string group = null)
         {
+            return IntersectsWith(CurrentDrawableState, boundingBox, gameTime, group);
         }
 
-        public virtual void LoadContent(ContentManager content)
+        // Checks if the specified boundingBox intersects with this Entity - in the specified state and gameTime. Optionally
+        // only those drawables that are of the specified group are checked for intersection.
+        public bool IntersectsWith(string state, FRectangle boundingBox, GameTime gameTime, string group=null)
         {
+            foreach (GameDrawableInstance instance in Drawables.GetByState(state))
+            {
+                if (group == null || instance._associatedGroup == group)
+                {
+                    Rectangle sourceRectangle = instance.GetSourceRectangle(gameTime);
+
+                    FRectangle absBoundingBox = new FRectangle(
+                        Pos.X + sourceRectangle.X - sourceRectangle.Width * instance.Drawable.Origin.X,
+                        Pos.Y + sourceRectangle.Y - sourceRectangle.Height * instance.Drawable.Origin.Y,
+                        sourceRectangle.Width,
+                        sourceRectangle.Height
+                        );
+
+                    if (boundingBox.Intersects(absBoundingBox))
+                        return true;
+                }
+            }
+
+            return false;
         }
 
-        public virtual void UnloadContent()
-        {
-        }
+        #endregion
 
         public override string ToString()
         {
