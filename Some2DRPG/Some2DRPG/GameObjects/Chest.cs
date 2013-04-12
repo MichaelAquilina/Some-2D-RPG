@@ -21,7 +21,7 @@ namespace Some2DRPG.GameObjects
             Hero player = (Hero) engine.GetEntity("Player");
             KeyboardState keyboardState = Keyboard.GetState();
 
-            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.S, true)
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.S, this, true)
                 && player.IntersectsWith(this.CurrentBoundingBox, gameTime, "Shadow"))
             {
                 if (CurrentDrawableState != "Open")
