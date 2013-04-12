@@ -82,13 +82,13 @@ namespace Some2DRPG
 
             CurrentPlayer = new Hero(32 * 4, 32 * 4);
             CurrentPlayer.CollisionDetection = true;
-            CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
-            CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
-            CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
-            CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
-            CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
-            CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
-            CurrentPlayer.Weapon = NPC.WEAPON_LONGSWORD;
+            //CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
+            //CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
+            //CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
+            //CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
+            //CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
+            //CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
+            //CurrentPlayer.Weapon = NPC.WEAPON_LONGSWORD;
 
             FollowEntity = CurrentPlayer;
 

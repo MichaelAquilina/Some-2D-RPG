@@ -58,7 +58,6 @@ namespace Some2DRPG.GameObjects
             if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, content, 1);
             if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, content, 7);
             Animation.LoadAnimationXML(Drawables, BaseRace, content, 0);
-            Drawables.SetGroupProperty("Weapon", "Color", Color.Red);
 
             CurrentDrawableState = "Walk_Right";
         }

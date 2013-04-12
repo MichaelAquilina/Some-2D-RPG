@@ -109,6 +109,7 @@ namespace GameEngine.Drawing
             {
                 int frameDelay = XmlExtensions.GetAttributeValue<int>(animNode, "FrameDelay", 90);
                 bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);
+                int actualLayer = XmlExtensions.GetAttributeValue<int>(animNode, "Layer", 0);
 
                 string name = XmlExtensions.GetAttributeValue(animNode, "Name");
                 string group = XmlExtensions.GetAttributeValue(animNode, "Group", "");
@@ -139,6 +140,7 @@ namespace GameEngine.Drawing
                 GameDrawableInstance instance = drawableSet.Add(name, animation, group, layer);
                 instance.StartTimeMS = startTimeMS;
                 instance.Offset = new Vector2((float)Convert.ToDouble(offset[0]), (float)Convert.ToDouble(offset[1]));
+                instance.Layer = actualLayer;
             }
         }
 

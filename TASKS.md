@@ -4,8 +4,6 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - fix loading bug which causes entities first Update call to take longer than usual.
-- [] - Refactor code to follow code conventions specified in personal share folder
 - [] - AI for bats. Use A* for path finding techniques
 - [] - better entity integration in map loading
 - [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
