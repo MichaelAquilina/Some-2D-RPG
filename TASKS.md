@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Investigate what is 'slow' in entity updates and updating the bounding box
 - [] - AI for bats. Use A* for path finding techniques
 - [] - better entity integration in map loading
 - [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
