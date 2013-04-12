@@ -227,7 +227,7 @@ namespace GameEngine
         public void AddEntity(string name, Entity entity)
         {
             // Assign an automatic, unique entity name if none is supplied.
-            if (name == null) name = string.Format("Entity{0}", _entityIdCounter++);
+            if (name == null) name = string.Format("{0}{1}", entity.GetType(), _entityIdCounter++);
 
             entity.Name = name;
             entity.LoadContent(Game.Content);
