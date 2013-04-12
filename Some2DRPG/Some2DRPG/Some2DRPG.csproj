@@ -177,6 +177,9 @@
     <None Include="Animations\Monsters\bat.anim">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Animations\Monsters\bat_shadow.anim">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Animations\Objects\fireplace.anim">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

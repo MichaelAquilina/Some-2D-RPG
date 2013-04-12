@@ -3,33 +3,33 @@
 <Animations>
   <Animation Name="Up" Loop="True" SpriteSheet="LPC\Monsters\bat" FrameDelay="150">
     <Frames>
-      <Frame>0 ,0,32,26</Frame>
-      <Frame>32,0,32,26</Frame>
-      <Frame>64,0,32,26</Frame>
+      <Frame>0 ,26, 32, 7</Frame>
+      <Frame>32,26, 32, 7</Frame>
+      <Frame>64,26, 32, 7</Frame>
     </Frames>
   </Animation>
 
   <Animation Name="Left" Loop="True" SpriteSheet="LPC\Monsters\bat" FrameDelay="150">
     <Frames>
-      <Frame>0 ,36,32,26</Frame>
-      <Frame>32,36,32,26</Frame>
-      <Frame>64,36,32,26</Frame>
+      <Frame>0 ,52,32, 7</Frame>
+      <Frame>32,52,32, 7</Frame>
+      <Frame>64,52,32, 7</Frame>
     </Frames>
   </Animation>
 
   <Animation Name="Down" Loop="True" SpriteSheet="LPC\Monsters\bat" FrameDelay="150">
     <Frames>
-      <Frame>0 ,65,32,26</Frame>
-      <Frame>32,65,32,26</Frame>
-      <Frame>64,65,32,26</Frame>
+      <Frame>0 ,90,32, 7</Frame>
+      <Frame>32,90,32, 7</Frame>
+      <Frame>64,90,32, 7</Frame>
     </Frames>
   </Animation>
 
   <Animation Name="Right" Loop="True" SpriteSheet="LPC\Monsters\bat" FrameDelay="150">
     <Frames>
-      <Frame>0 ,96,32,26</Frame>
-      <Frame>32,96,32,26</Frame>
-      <Frame>64,96,32,26</Frame>
+      <Frame>0 ,122,32, 7</Frame>
+      <Frame>32,122,32, 7</Frame>
+      <Frame>64,122,32, 7</Frame>
     </Frames>
   </Animation>
 </Animations>

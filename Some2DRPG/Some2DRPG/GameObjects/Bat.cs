@@ -24,18 +24,28 @@ namespace Some2DRPG.GameObjects
         {
             Pos.X += (float) (Math.Cos(gameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
 
-            //for testing (performance)
+            // For testing (performance).
             engine.QuadTree.GetIntersectingEntites(CurrentBoundingBox);
         }
 
         public override void LoadContent(ContentManager content)
         {
+            double startTimeMS = randomGenerator.NextDouble() * 4000;
+
             Animation.LoadAnimationXML(
                 Drawables, 
                 "Animations/Monsters/bat.anim", 
-                content, "", 0,
-                randomGenerator.NextDouble() * 4000
+                content, "Body", 0,
+                startTimeMS
                 );
+            Animation.LoadAnimationXML(
+                Drawables,
+                "Animations/Monsters/bat_shadow.anim",
+                content, "Shadow", 0,
+                startTimeMS
+                );
+
+            Drawables.SetGroupProperty("Body", "Offset", new Vector2(0, -10));
             CurrentDrawableState = "Down";
         }
     }
