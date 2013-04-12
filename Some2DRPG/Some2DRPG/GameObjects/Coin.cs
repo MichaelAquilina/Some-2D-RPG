@@ -39,10 +39,7 @@ namespace Some2DRPG.GameObjects
         public override void LoadContent(ContentManager content)
         {
             // Load the coin animation.
-            Animation.LoadAnimationXML(this.Drawables, "Animations/Misc/coin.anim", content, "Coin" );
-            Animation.LoadAnimationXML(this.Drawables, "Animations/Misc/coin_shadow.anim", content, "Shadow");
-
-            Drawables.SetGroupProperty("Coin", "Offset", new Vector2(0, -5f));
+            Animation.LoadAnimationXML(this.Drawables, "Animations/Misc/coin.anim", content );
 
             CoinSound = content.Load<SoundEffect>("Sounds/Coins/coin1");
         }

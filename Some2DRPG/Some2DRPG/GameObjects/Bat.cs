@@ -35,17 +35,9 @@ namespace Some2DRPG.GameObjects
             Animation.LoadAnimationXML(
                 Drawables, 
                 "Animations/Monsters/bat.anim", 
-                content, "Body", 0,
-                startTimeMS
-                );
-            Animation.LoadAnimationXML(
-                Drawables,
-                "Animations/Monsters/bat_shadow.anim",
-                content, "Shadow", 0,
-                startTimeMS
+                content, 0, startTimeMS
                 );
 
-            Drawables.SetGroupProperty("Body", "Offset", new Vector2(0, -10));
             CurrentDrawableState = "Down";
         }
     }

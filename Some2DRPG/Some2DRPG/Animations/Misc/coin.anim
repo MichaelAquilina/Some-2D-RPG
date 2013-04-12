@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Animations>
-  <Animation Name="Gold" Loop="True" SpriteSheet="LPC\Misc\coin_gold" FrameDelay="75" Origin="0.5, 1.0">
+  <!-- Gold Coin Animations -->
+  
+  <Animation Name="Gold" Group="Body" Loop="True" SpriteSheet="LPC\Misc\coin_gold" FrameDelay="75" Origin="0.5, 1.0" Offset="0, -5">
     <Frames>
       <Frame>0 , 0, 32, 22</Frame>
       <Frame>32, 0, 32, 22</Frame>
@@ -13,7 +15,21 @@
     </Frames>
   </Animation>
 
-  <Animation Name="Silver" Loop="True" SpriteSheet="LPC\Misc\coin_silver" FrameDelay="75" Origin="0.5, 1.0">
+  <Animation Name="Gold" Group="Shadow" Loop="True" SpriteSheet="LPC\Misc\coin_shadow" FrameDelay="75" Origin="0.5, 1.0">
+    <Frames>
+      <Frame>0 , 0, 32, 7</Frame>
+      <Frame>32, 0, 32, 7</Frame>
+      <Frame>64, 0, 32, 7</Frame>
+      <Frame>96, 0, 32, 7</Frame>
+      <Frame>128, 0, 32, 7</Frame>
+      <Frame>160, 0, 32, 7</Frame>
+      <Frame>192, 0, 32, 7</Frame>
+    </Frames>
+  </Animation>
+  
+  <!-- Silver Coin Animations -->
+
+  <Animation Name="Silver" Group="Body" Loop="True" SpriteSheet="LPC\Misc\coin_silver" FrameDelay="75" Origin="0.5, 1.0" Offset="0, -5">
     <Frames>
       <Frame>0 , 0, 32, 22</Frame>
       <Frame>32, 0, 32, 22</Frame>
@@ -25,7 +41,21 @@
     </Frames>
   </Animation>
 
-  <Animation Name="Copper" Loop="True" SpriteSheet="LPC\Misc\coin_copper" FrameDelay="75" Origin="0.5, 1.0">
+  <Animation Name="Silver" Group="Shadow" Loop="True" SpriteSheet="LPC\Misc\coin_shadow" FrameDelay="75" Origin="0.5, 1.0">
+    <Frames>
+      <Frame>0 , 0, 32, 7</Frame>
+      <Frame>32, 0, 32, 7</Frame>
+      <Frame>64, 0, 32, 7</Frame>
+      <Frame>96, 0, 32, 7</Frame>
+      <Frame>128, 0, 32, 7</Frame>
+      <Frame>160, 0, 32, 7</Frame>
+      <Frame>192, 0, 32, 7</Frame>
+    </Frames>
+  </Animation>
+
+  <!-- Copper Coin Animations -->
+
+  <Animation Name="Copper" Group="Body" Loop="True" SpriteSheet="LPC\Misc\coin_copper" FrameDelay="75" Origin="0.5, 1.0" Offset="0, -5">
     <Frames>
       <Frame>0 , 0, 32, 22</Frame>
       <Frame>32, 0, 32, 22</Frame>
@@ -34,6 +64,18 @@
       <Frame>128, 0, 32, 22</Frame>
       <Frame>160, 0, 32, 22</Frame>
       <Frame>192, 0, 32, 22</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation Name="Copper" Group="Shadow" Loop="True" SpriteSheet="LPC\Misc\coin_shadow" FrameDelay="75" Origin="0.5, 1.0">
+    <Frames>
+      <Frame>0 , 0, 32, 7</Frame>
+      <Frame>32, 0, 32, 7</Frame>
+      <Frame>64, 0, 32, 7</Frame>
+      <Frame>96, 0, 32, 7</Frame>
+      <Frame>128, 0, 32, 7</Frame>
+      <Frame>160, 0, 32, 7</Frame>
+      <Frame>192, 0, 32, 7</Frame>
     </Frames>
   </Animation>
 </Animations>

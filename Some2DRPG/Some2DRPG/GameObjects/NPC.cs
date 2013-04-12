@@ -50,14 +50,14 @@ namespace Some2DRPG.GameObjects
 
         public override void LoadContent(ContentManager content)
         {
-            if (Shoulders != null ) Animation.LoadAnimationXML(Drawables, Shoulders, content, "Shoulders", 6);
-            if (Head != null) Animation.LoadAnimationXML(Drawables, Head, content, "Head", 5);
-            if (Hands != null) Animation.LoadAnimationXML(Drawables, Hands, content, "Hands", 4);
-            if (Feet != null) Animation.LoadAnimationXML(Drawables, Feet, content, "Feet", 3);
-            if (Torso != null) Animation.LoadAnimationXML(Drawables, Torso, content, "Torso", 2);
-            if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, content, "Legs", 1);
-            if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, content, "Weapon", 7);
-            Animation.LoadAnimationXML(Drawables, BaseRace, content, "Base", 0);
+            if (Shoulders != null ) Animation.LoadAnimationXML(Drawables, Shoulders, content, 6);
+            if (Head != null) Animation.LoadAnimationXML(Drawables, Head, content, 5);
+            if (Hands != null) Animation.LoadAnimationXML(Drawables, Hands, content, 4);
+            if (Feet != null) Animation.LoadAnimationXML(Drawables, Feet, content, 3);
+            if (Torso != null) Animation.LoadAnimationXML(Drawables, Torso, content, 2);
+            if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, content, 1);
+            if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, content, 7);
+            Animation.LoadAnimationXML(Drawables, BaseRace, content, 0);
             Drawables.SetGroupProperty("Weapon", "Color", Color.Red);
 
             CurrentDrawableState = "Walk_Right";

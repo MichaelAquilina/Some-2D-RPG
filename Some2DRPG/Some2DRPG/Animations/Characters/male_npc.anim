@@ -1,31 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Animations>
-  <Animation Name="Idle_Up" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
+  <Animation Name="Idle_Up" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
     <Frames>
       <Frame>15, 13, 35, 49</Frame>
     </Frames>
   </Animation>
 
-  <Animation Name="Idle_Left" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90" Origin="0.5, 1.0">
+  <Animation Name="Idle_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90" Origin="0.5, 1.0">
     <Frames>
       <Frame>15, 78, 35, 49</Frame>
     </Frames>
   </Animation>
 
-  <Animation Name="Idle_Down" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
+  <Animation Name="Idle_Down" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
     <Frames>
       <Frame>15, 142, 35, 49</Frame>
     </Frames>
   </Animation>
 
-  <Animation Name="Idle_Right" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
+  <Animation Name="Idle_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
     <Frames>
       <Frame>15, 206, 35, 49</Frame>
     </Frames>
   </Animation>
   
-  <Animation Name="Walk_Up" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
+  <Animation Name="Walk_Up" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
     <Frames>
       <Frame>79 , 13, 35, 49</Frame>
       <Frame>143, 13, 35, 49</Frame>
@@ -37,7 +37,7 @@
       <Frame>527, 13, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Walk_Left" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
+  <Animation Name="Walk_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
     <Frames>
       <Frame>79 , 78, 35, 49</Frame>
       <Frame>143, 78, 35, 49</Frame>
@@ -49,7 +49,7 @@
       <Frame>527, 78, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Walk_Down" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
+  <Animation Name="Walk_Down" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
     <Frames>
       <Frame>79 , 142, 35, 49</Frame>
       <Frame>143, 142, 35, 49</Frame>
@@ -61,7 +61,7 @@
       <Frame>527, 142, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Walk_Right" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
+  <Animation Name="Walk_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90">
     <Frames>
       <Frame>79 , 206, 35, 49</Frame>
       <Frame>143, 206, 35, 49</Frame>
@@ -73,7 +73,7 @@
       <Frame>527, 206, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Up" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.4, 1.0">
+  <Animation Name="Slash_Up" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.4, 1.0">
     <Frames>
       <Frame>79  , 13, 43, 50</Frame>
       <Frame>143 , 13, 43, 50</Frame>
@@ -82,7 +82,7 @@
       <Frame>335 , 13, 43, 50</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Left" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.7, 1.0">
+  <Animation Name="Slash_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.7, 1.0">
     <Frames>
       <Frame>69  , 78, 40, 49</Frame>
       <Frame>133 , 78, 40, 49</Frame>
@@ -91,7 +91,7 @@
       <Frame>325 , 78, 40, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Down" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.4, 1.0">
+  <Animation Name="Slash_Down" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.4, 1.0">
     <Frames>
       <Frame>80 , 142, 42, 49</Frame>
       <Frame>144, 142, 42, 49</Frame>
@@ -100,7 +100,7 @@
       <Frame>336, 142, 42, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Right" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.4, 1.0">
+  <Animation Name="Slash_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.4, 1.0">
     <Frames>
       <Frame>82 , 207, 40, 48</Frame>
       <Frame>146, 207, 40, 48</Frame>

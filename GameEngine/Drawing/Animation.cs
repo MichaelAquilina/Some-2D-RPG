@@ -100,7 +100,7 @@ namespace GameEngine.Drawing
         /// <param name="path">String path to the XML formatted .anim file</param>
         /// <param name="content">Reference to the ContentManager instance being used in the application</param>
         /// <param name="layer">(optional) integer layer value for y ordering on the same DrawableSet.</param>
-        public static void LoadAnimationXML(DrawableSet drawableSet, string path, ContentManager content, string group="", int layer = 0, double startTimeMS=0)
+        public static void LoadAnimationXML(DrawableSet drawableSet, string path, ContentManager content, int layer = 0, double startTimeMS=0)
         {
             XmlDocument document = new XmlDocument();
             document.Load(path);
@@ -111,7 +111,9 @@ namespace GameEngine.Drawing
                 bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);
 
                 string name = XmlExtensions.GetAttributeValue(animNode, "Name");
+                string group = XmlExtensions.GetAttributeValue(animNode, "Group", "");
                 string spriteSheet = XmlExtensions.GetAttributeValue(animNode, "SpriteSheet");
+                string[] offset = XmlExtensions.GetAttributeValue(animNode, "Offset", "0, 0").Split(',');
                 string[] origin = XmlExtensions.GetAttributeValue(animNode, "Origin", "0.5, 1.0").Split(',');
 
                 XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
@@ -136,6 +138,7 @@ namespace GameEngine.Drawing
                 
                 GameDrawableInstance instance = drawableSet.Add(name, animation, group, layer);
                 instance.StartTimeMS = startTimeMS;
+                instance.Offset = new Vector2((float)Convert.ToDouble(offset[0]), (float)Convert.ToDouble(offset[1]));
             }
         }
 
