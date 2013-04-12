@@ -366,7 +366,7 @@ namespace GameEngine
             int actualHeight = (int) Math.Ceiling(node.pxBounds.Height * viewPort.ActualZoom);
 
             // Only draw leaf nodes which are within the viewport specified.
-            if (node.Node1 == null 
+            if (node.ChildNode1 == null 
                 && new Rectangle(actualX, actualY, actualWidth, actualHeight).Intersects(destRectangle))
             {
                 string nodeText = node.NodeID.ToString();
@@ -380,10 +380,10 @@ namespace GameEngine
                 );
             }
 
-            DrawQuadTree(viewPort, spriteBatch, node.Node1, destRectangle, spriteFont, globalDispX, globalDispY);
-            DrawQuadTree(viewPort, spriteBatch, node.Node2, destRectangle, spriteFont, globalDispX, globalDispY);
-            DrawQuadTree(viewPort, spriteBatch, node.Node3, destRectangle, spriteFont, globalDispX, globalDispY);
-            DrawQuadTree(viewPort, spriteBatch, node.Node4, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, spriteBatch, node.ChildNode1, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, spriteBatch, node.ChildNode2, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, spriteBatch, node.ChildNode3, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTree(viewPort, spriteBatch, node.ChildNode4, destRectangle, spriteFont, globalDispX, globalDispY);
         }
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch spriteBatch, float pxCenterX, float pxCenterY, float zoom, Rectangle pxDestRectangle, Color color, SamplerState samplerState, SpriteFont spriteFont=null)

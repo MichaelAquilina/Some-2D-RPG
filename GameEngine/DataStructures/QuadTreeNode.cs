@@ -16,10 +16,10 @@ namespace GameEngine.DataStructures
         public QuadTreeNode Parent { get; internal set; }
 
         // No need for arrays!
-        public QuadTreeNode Node1 { get; internal set; }
-        public QuadTreeNode Node2 { get; internal set; }
-        public QuadTreeNode Node3 { get; internal set; }
-        public QuadTreeNode Node4 { get; internal set; }
+        public QuadTreeNode ChildNode1 { get; internal set; }
+        public QuadTreeNode ChildNode2 { get; internal set; }
+        public QuadTreeNode ChildNode3 { get; internal set; }
+        public QuadTreeNode ChildNode4 { get; internal set; }
 
         public QuadTree QuadTree { get; internal set; }
         public List<Entity> Entities { get; internal set; }
@@ -27,7 +27,7 @@ namespace GameEngine.DataStructures
         public FRectangle pxBounds { get; internal set; }
         public uint NodeID { get; set; }
 
-        public bool IsLeafNode { get { return Node1 == null; } }
+        public bool IsLeafNode { get { return ChildNode1 == null; } }
 
         public QuadTreeNode()
         {
@@ -38,10 +38,10 @@ namespace GameEngine.DataStructures
         public void Reset()
         {
             Entities.Clear();
-            Node1 = null;
-            Node2 = null;
-            Node3 = null;
-            Node4 = null;
+            ChildNode1 = null;
+            ChildNode2 = null;
+            ChildNode3 = null;
+            ChildNode4 = null;
             Parent = null;
         }
 
@@ -51,10 +51,10 @@ namespace GameEngine.DataStructures
                 return Entities.Contains(entity);
             else
             {
-                if (Node1.DebugHasEntity(entity)) return true;
-                if (Node2.DebugHasEntity(entity)) return true;
-                if (Node3.DebugHasEntity(entity)) return true;
-                if (Node4.DebugHasEntity(entity)) return true;
+                if (ChildNode1.DebugHasEntity(entity)) return true;
+                if (ChildNode2.DebugHasEntity(entity)) return true;
+                if (ChildNode3.DebugHasEntity(entity)) return true;
+                if (ChildNode4.DebugHasEntity(entity)) return true;
             }
 
             return false;
@@ -67,10 +67,10 @@ namespace GameEngine.DataStructures
 
             if (!IsLeafNode)
             {
-                if (Node1.DebugHasNode(node)) return true;
-                if (Node2.DebugHasNode(node)) return true;
-                if (Node3.DebugHasNode(node)) return true;
-                if (Node4.DebugHasNode(node)) return true;
+                if (ChildNode1.DebugHasNode(node)) return true;
+                if (ChildNode2.DebugHasNode(node)) return true;
+                if (ChildNode3.DebugHasNode(node)) return true;
+                if (ChildNode4.DebugHasNode(node)) return true;
             }
             
             return false;
@@ -111,25 +111,25 @@ namespace GameEngine.DataStructures
 
             if (IsLeafNode)
             {
-                Node1 = QuadTree.GetQuadTreeNode(
+                ChildNode1 = QuadTree.GetQuadTreeNode(
                     pxBounds.X,
                     pxBounds.Y,
                     pxHalfWidth,
                     pxHalfHeight,
                     this);
-                Node2 = QuadTree.GetQuadTreeNode(
+                ChildNode2 = QuadTree.GetQuadTreeNode(
                     pxBounds.X + pxHalfWidth,
                     pxBounds.Y,
                     pxHalfWidth,
                     pxHalfHeight,
                     this);
-                Node3 = QuadTree.GetQuadTreeNode(
+                ChildNode3 = QuadTree.GetQuadTreeNode(
                     pxBounds.X,
                     pxBounds.Y + pxHalfHeight,
                     pxHalfWidth,
                     pxHalfHeight,
                     this);
-                Node4 = QuadTree.GetQuadTreeNode(
+                ChildNode4 = QuadTree.GetQuadTreeNode(
                     pxBounds.X + pxHalfWidth,
                     pxBounds.Y + pxHalfHeight,
                     pxHalfWidth,
@@ -138,18 +138,18 @@ namespace GameEngine.DataStructures
             }
 
             // Add the entity specified in the function paramaters
-            if (Node1.Intersects(entity.CurrentBoundingBox)) Node1.Add(entity);
-            if (Node2.Intersects(entity.CurrentBoundingBox)) Node2.Add(entity);
-            if (Node3.Intersects(entity.CurrentBoundingBox)) Node3.Add(entity);
-            if (Node4.Intersects(entity.CurrentBoundingBox)) Node4.Add(entity);
+            if (ChildNode1.Intersects(entity.CurrentBoundingBox)) ChildNode1.Add(entity);
+            if (ChildNode2.Intersects(entity.CurrentBoundingBox)) ChildNode2.Add(entity);
+            if (ChildNode3.Intersects(entity.CurrentBoundingBox)) ChildNode3.Add(entity);
+            if (ChildNode4.Intersects(entity.CurrentBoundingBox)) ChildNode4.Add(entity);
 
             // Distrobute any entities found in this current Node
             foreach (Entity entityToAdd in this.Entities)
             {
-                if (Node1.Intersects(entityToAdd.CurrentBoundingBox)) Node1.Add(entityToAdd);
-                if (Node2.Intersects(entityToAdd.CurrentBoundingBox)) Node2.Add(entityToAdd);
-                if (Node3.Intersects(entityToAdd.CurrentBoundingBox)) Node3.Add(entityToAdd);
-                if (Node4.Intersects(entityToAdd.CurrentBoundingBox)) Node4.Add(entityToAdd);
+                if (ChildNode1.Intersects(entityToAdd.CurrentBoundingBox)) ChildNode1.Add(entityToAdd);
+                if (ChildNode2.Intersects(entityToAdd.CurrentBoundingBox)) ChildNode2.Add(entityToAdd);
+                if (ChildNode3.Intersects(entityToAdd.CurrentBoundingBox)) ChildNode3.Add(entityToAdd);
+                if (ChildNode4.Intersects(entityToAdd.CurrentBoundingBox)) ChildNode4.Add(entityToAdd);
             }
 
             Entities.Clear();
@@ -165,10 +165,10 @@ namespace GameEngine.DataStructures
 
             if (entities.Count <= QuadTree.EntityLimit)
             {
-                Node1 = null;
-                Node2 = null;
-                Node3 = null;
-                Node4 = null;
+                ChildNode1 = null;
+                ChildNode2 = null;
+                ChildNode3 = null;
+                ChildNode4 = null;
                 Entities = entities;
 
                 if (Parent!=nodeLimit)
@@ -185,10 +185,10 @@ namespace GameEngine.DataStructures
                 return;
             }
 
-            if (pxBoundingBox == null || Node1.Intersects(pxBoundingBox.Value)) Node1.GetAssociatedNodes(entity, pxBoundingBox, ref result);
-            if (pxBoundingBox == null || Node2.Intersects(pxBoundingBox.Value)) Node2.GetAssociatedNodes(entity, pxBoundingBox, ref result);
-            if (pxBoundingBox == null || Node3.Intersects(pxBoundingBox.Value)) Node3.GetAssociatedNodes(entity, pxBoundingBox, ref result);
-            if (pxBoundingBox == null || Node4.Intersects(pxBoundingBox.Value)) Node4.GetAssociatedNodes(entity, pxBoundingBox, ref result);
+            if (pxBoundingBox == null || ChildNode1.Intersects(pxBoundingBox.Value)) ChildNode1.GetAssociatedNodes(entity, pxBoundingBox, ref result);
+            if (pxBoundingBox == null || ChildNode2.Intersects(pxBoundingBox.Value)) ChildNode2.GetAssociatedNodes(entity, pxBoundingBox, ref result);
+            if (pxBoundingBox == null || ChildNode3.Intersects(pxBoundingBox.Value)) ChildNode3.GetAssociatedNodes(entity, pxBoundingBox, ref result);
+            if (pxBoundingBox == null || ChildNode4.Intersects(pxBoundingBox.Value)) ChildNode4.GetAssociatedNodes(entity, pxBoundingBox, ref result);
         }
 
         internal void GetEntities(FRectangle? pxRegion, ref List<Entity> result)
@@ -203,10 +203,10 @@ namespace GameEngine.DataStructures
             {
                 if (IsLeafNode) return;
 
-                if (pxRegion == null || Node1.Intersects(pxRegion.Value)) Node1.GetEntities(pxRegion, ref result);
-                if (pxRegion == null || Node2.Intersects(pxRegion.Value)) Node2.GetEntities(pxRegion, ref result);
-                if (pxRegion == null || Node3.Intersects(pxRegion.Value)) Node3.GetEntities(pxRegion, ref result);
-                if (pxRegion == null || Node4.Intersects(pxRegion.Value)) Node4.GetEntities(pxRegion, ref result);
+                if (pxRegion == null || ChildNode1.Intersects(pxRegion.Value)) ChildNode1.GetEntities(pxRegion, ref result);
+                if (pxRegion == null || ChildNode2.Intersects(pxRegion.Value)) ChildNode2.GetEntities(pxRegion, ref result);
+                if (pxRegion == null || ChildNode3.Intersects(pxRegion.Value)) ChildNode3.GetEntities(pxRegion, ref result);
+                if (pxRegion == null || ChildNode4.Intersects(pxRegion.Value)) ChildNode4.GetEntities(pxRegion, ref result);
             }
         }
 
