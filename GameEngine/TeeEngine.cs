@@ -314,13 +314,15 @@ namespace GameEngine
                 entity.IsOnScreen = false;
 
                 // If the entity has moved, then update his position in the QuadTree.
-                _watch3.Restart();
+                _watch3.Start();
                 {
                     if (entity.CurrentBoundingBox != entity.prevBoundingBox)
                         QuadTree.Update(entity);
                 }
                 _watch3.Stop();
             }
+
+            DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
 
             // REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
             _watch2.Restart();
@@ -349,7 +351,6 @@ namespace GameEngine
             _entityTrash.Clear();
 
             DebugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
-            DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
         }
 
         #region Drawing Code

@@ -98,6 +98,7 @@ namespace Some2DRPG
             base.Initialize();
         }
 
+        // Loads objects in a tmx map file, created in tiled
         private void LoadMapObjects(TiledMap map, ContentManager content)
         {
             Random random = new Random();

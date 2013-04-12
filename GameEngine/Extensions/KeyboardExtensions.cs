@@ -18,7 +18,7 @@ namespace GameEngine.Extensions
             _lockedKeys[callingObject].Add(value);
         }
 
-        private static bool RemoveFromLockedKeys(object callingObject, Keys value)
+        private static bool Remove(object callingObject, Keys value)
         {
             if (!_lockedKeys.ContainsKey(callingObject))
                 return false;
@@ -49,7 +49,7 @@ namespace GameEngine.Extensions
                 result = false;
 
             if (!keyboardState.IsKeyDown(key) && lockKey)
-                RemoveFromLockedKeys(callingObject, key);
+                Remove(callingObject, key);
 
             return result;
         }
