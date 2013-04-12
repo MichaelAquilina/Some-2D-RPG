@@ -292,10 +292,10 @@ namespace GameEngine
         {
             LastUpdateTime = gameTime;
             _watch3.Reset();
-            _watch1.Restart();
 
             // Clear previous entity update times.
             DebugInfo.EntityUpdateTimes.Clear();
+            DebugInfo.TotalEntityUpdateTime = TimeSpan.FromMilliseconds(0);
 
             foreach (string entityId in _entities.Keys)
             {
@@ -309,6 +309,7 @@ namespace GameEngine
                     entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
                 }
                 DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
+                DebugInfo.TotalEntityUpdateTime += _watch2.Elapsed;
 
                 // Reset the IsOnScreen variable before the next drawing operation.
                 entity.IsOnScreen = false;
@@ -349,8 +350,6 @@ namespace GameEngine
 
             _entityCreate.Clear();
             _entityTrash.Clear();
-
-            DebugInfo.TotalEntityUpdateTime = _watch1.Elapsed;
         }
 
         #region Drawing Code
