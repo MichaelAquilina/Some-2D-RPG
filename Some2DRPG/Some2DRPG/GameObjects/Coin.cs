@@ -47,36 +47,37 @@ namespace Some2DRPG.GameObjects
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            // TODO: Crude optimisation - if !this.IsOnScreen then return
-
-            float COIN_MOVE_SPEED = 5000;
-            float TERMINAL_VELOCITY = 3;
-
-            Hero player = (Hero) engine.GetEntity("Player");
-
-            // Find the distance between the player and this coin.
-            float distanceSquared = Vector2.DistanceSquared(Pos, player.Pos);
-
-            float speed = COIN_MOVE_SPEED / distanceSquared;  // Mangitude of velocity.
-            speed = Math.Min(speed, TERMINAL_VELOCITY);
-
-            if (speed > 0.5)
+            if (IsOnScreen)
             {
-                // Calculate the angle between the player and the coin.
-                double angle = Math.Atan2(
-                    player.Pos.Y - this.Pos.Y, 
-                    player.Pos.X - this.Pos.X
-                    );
+                float COIN_MOVE_SPEED = 5000;
+                float TERMINAL_VELOCITY = 3;
 
-                this.Pos.X += (float) (Math.Cos(angle) * speed);        // x component.
-                this.Pos.Y += (float) (Math.Sin(angle) * speed);        // y component.
+                Hero player = (Hero)engine.GetEntity("Player");
 
-                // Check to see if coin can be considered collected.
-                if(player.IntersectsWith(CurrentBoundingBox, gameTime, "Shadow"))
+                // Find the distance between the player and this coin.
+                float distanceSquared = Vector2.DistanceSquared(Pos, player.Pos);
+
+                float speed = COIN_MOVE_SPEED / distanceSquared;  // Mangitude of velocity.
+                speed = Math.Min(speed, TERMINAL_VELOCITY);
+
+                if (speed > 0.5)
                 {
-                    CoinSound.Play(0.05f, 0.0f, 0.0f);
-                    player.Coins += this.CoinValue;
-                    engine.RemoveEntity(this);
+                    // Calculate the angle between the player and the coin.
+                    double angle = Math.Atan2(
+                        player.Pos.Y - this.Pos.Y,
+                        player.Pos.X - this.Pos.X
+                        );
+
+                    this.Pos.X += (float)(Math.Cos(angle) * speed);        // x component.
+                    this.Pos.Y += (float)(Math.Sin(angle) * speed);        // y component.
+
+                    // Check to see if coin can be considered collected.
+                    if (player.IntersectsWith(CurrentBoundingBox, gameTime, "Shadow"))
+                    {
+                        CoinSound.Play(0.05f, 0.0f, 0.0f);
+                        player.Coins += this.CoinValue;
+                        engine.RemoveEntity(this);
+                    }
                 }
             }
         }
