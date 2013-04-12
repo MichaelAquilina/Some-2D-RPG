@@ -197,7 +197,7 @@ namespace Some2DRPG
       
             Engine.AddEntity("Player", CurrentPlayer);
 
-            for (int i = 0; i < 600; i++)
+            for (int i = 0; i < 100; i++)
             {
                 int px = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxWidth);
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
@@ -235,6 +235,7 @@ namespace Some2DRPG
             // F8 = Show Entity Debug Info
             // F10 = Toggle Fullscreen Mode
             // F11 = Show/Hide Player Helmet
+            // F12 = Disable Player Collision Detection
 
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -274,6 +275,9 @@ namespace Some2DRPG
                 else
                     CurrentPlayer.Drawables.SetGroupProperty("Head", "Offset", new Vector2(0, -40));
             }
+
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F12, this, true))
+                CurrentPlayer.CollisionDetection = !CurrentPlayer.CollisionDetection;
 
             // INCREASE ZOOM LEVEL
             if(KeyboardExtensions.GetKeyDownState(keyboardState, Keys.OemPlus, this, true))
