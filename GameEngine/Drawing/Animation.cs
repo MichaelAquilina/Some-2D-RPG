@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace GameEngine.Drawing
 {
@@ -117,6 +118,9 @@ namespace GameEngine.Drawing
                 string[] offset = XmlExtensions.GetAttributeValue(animNode, "Offset", "0, 0").Split(',');
                 string[] origin = XmlExtensions.GetAttributeValue(animNode, "Origin", "0.5, 1.0").Split(',');
 
+                Vector2 offsetVector = new Vector2((float)Convert.ToDouble(offset[0]), (float)Convert.ToDouble(offset[1]));
+                Vector2 originVector = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
+
                 XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
                 Rectangle[] frames = new Rectangle[frameNodes.Count];
 
@@ -135,12 +139,33 @@ namespace GameEngine.Drawing
                 }
 
                 Animation animation = new Animation(content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
-                animation.Origin = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
-                
-                GameDrawableInstance instance = drawableSet.Add(name, animation, group, layer);
-                instance.StartTimeMS = startTimeMS;
-                instance.Offset = new Vector2((float)Convert.ToDouble(offset[0]), (float)Convert.ToDouble(offset[1]));
-                instance.Layer = actualLayer;
+                animation.Origin = originVector;
+
+                // Allow support for specifying glob patterns in the case of state names.
+                if (name.Contains("*"))
+                {
+                    // Use Glob patterns in favour of regular expressions.
+                    name = Regex.Escape(name).Replace(@"\*", ".*").Replace(@"\?", ".");
+                    Regex regexMatcher = new Regex(name);
+
+                    foreach (string drawableSetState in drawableSet.GetStates())
+                    {
+                        if (regexMatcher.IsMatch(drawableSetState))
+                        {
+                            GameDrawableInstance instance = drawableSet.Add(drawableSetState, animation, group, layer);
+                            instance.StartTimeMS = startTimeMS;
+                            instance.Offset = offsetVector;
+                            instance.Layer = actualLayer;
+                        }
+                    }
+                }
+                else
+                {
+                    GameDrawableInstance instance = drawableSet.Add(name, animation, group, layer);
+                    instance.StartTimeMS = startTimeMS;
+                    instance.Offset = offsetVector;
+                    instance.Layer = actualLayer;
+                }
             }
         }
 

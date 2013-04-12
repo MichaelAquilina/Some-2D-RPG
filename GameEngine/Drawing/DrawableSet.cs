@@ -36,6 +36,16 @@ namespace GameEngine.Drawing
         private Dictionary<string, List<GameDrawableInstance>> _stateDictionary = new Dictionary<string, List<GameDrawableInstance>>();
         private Dictionary<string, List<GameDrawableInstance>> _groupDictionary = new Dictionary<string, List<GameDrawableInstance>>();
 
+        public ICollection<string> GetStates()
+        {
+            return _stateDictionary.Keys;
+        }
+
+        public ICollection<string> GetGroups()
+        {
+            return _groupDictionary.Keys;
+        }
+
         public List<GameDrawableInstance> GetByState(string state)
         {
             return _stateDictionary[state];

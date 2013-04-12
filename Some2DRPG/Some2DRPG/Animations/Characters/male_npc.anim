@@ -13,16 +13,6 @@
     </Frames>
   </Animation>
 
-  <Animation Name="Idle_Up" Group="Shadow" 
-             Loop="False" 
-             SpriteSheet="LPC\Characters\male_shadow" 
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
-    </Frames>
-  </Animation>
-
   <Animation Name="Idle_Left" Group="Body" 
              Loop="True" 
              SpriteSheet="LPC\Characters\male_walkcycle" 
@@ -30,16 +20,6 @@
              FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 78, 35, 49</Frame>
-    </Frames>
-  </Animation>
-
-  <Animation Name="Idle_Left" Group="Shadow" 
-             Loop="False" 
-             SpriteSheet="LPC\Characters\male_shadow" 
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
     </Frames>
   </Animation>
 
@@ -53,16 +33,6 @@
     </Frames>
   </Animation>
 
-  <Animation Name="Idle_Down" Group="Shadow" 
-             Loop="False" 
-             SpriteSheet="LPC\Characters\male_shadow" 
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
-    </Frames>
-  </Animation>
-
   <Animation Name="Idle_Right" Group="Body" 
              Loop="True" 
              SpriteSheet="LPC\Characters\male_walkcycle" 
@@ -70,16 +40,6 @@
              FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 206, 35, 49</Frame>
-    </Frames>
-  </Animation>
-
-  <Animation Name="Idle_Right" Group="Shadow" 
-             Loop="False" 
-             SpriteSheet="LPC\Characters\male_shadow" 
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
     </Frames>
   </Animation>
   
@@ -97,15 +57,6 @@
       <Frame>527, 13, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Walk_Up" Group="Shadow"
-             Loop="False"
-             SpriteSheet="LPC\Characters\male_shadow"
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
-    </Frames>
-  </Animation>
 
   <Animation Name="Walk_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
@@ -117,15 +68,6 @@
       <Frame>399, 78, 35, 49</Frame>
       <Frame>463, 78, 35, 49</Frame>
       <Frame>527, 78, 35, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation Name="Walk_Left" Group="Shadow"
-             Loop="False"
-             SpriteSheet="LPC\Characters\male_shadow"
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
     </Frames>
   </Animation>
 
@@ -141,15 +83,6 @@
       <Frame>527, 142, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Walk_Down" Group="Shadow"
-             Loop="False"
-             SpriteSheet="LPC\Characters\male_shadow"
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
-    </Frames>
-  </Animation>
 
   <Animation Name="Walk_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_walkcycle" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
@@ -161,15 +94,6 @@
       <Frame>399, 206, 35, 49</Frame>
       <Frame>463, 206, 35, 49</Frame>
       <Frame>527, 206, 35, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation Name="Walk_Right" Group="Shadow"
-             Loop="False"
-             SpriteSheet="LPC\Characters\male_shadow"
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
     </Frames>
   </Animation>
   
@@ -184,15 +108,6 @@
       <Frame>335 , 13, 43, 50</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Up" Group="Shadow"
-             Loop="False"
-             SpriteSheet="LPC\Characters\male_shadow"
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
-    </Frames>
-  </Animation>
 
   <Animation Name="Slash_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.7, 0.9">
     <Frames>
@@ -201,15 +116,6 @@
       <Frame>197 , 78, 40, 49</Frame>
       <Frame>261 , 78, 40, 49</Frame>
       <Frame>325 , 78, 40, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation Name="Slash_Left" Group="Shadow"
-             Loop="False"
-             SpriteSheet="LPC\Characters\male_shadow"
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
     </Frames>
   </Animation>
   
@@ -222,15 +128,6 @@
       <Frame>336, 142, 42, 49</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Down" Group="Shadow"
-             Loop="False"
-             SpriteSheet="LPC\Characters\male_shadow"
-             Layer="-1"
-             FrameDelay="90" Origin="0.5, 0.5">
-    <Frames>
-      <Frame>0, 0, 24, 18</Frame>
-    </Frames>
-  </Animation>
   
   <Animation Name="Slash_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\male_slash" FrameDelay="75" Origin="0.4, 0.9">
     <Frames>
@@ -241,7 +138,10 @@
       <Frame>338, 207, 40, 48</Frame>
     </Frames>
   </Animation>
-  <Animation Name="Slash_Right" Group="Shadow"
+  
+  <!-- Shadow -->
+  
+  <Animation Name="*" Group="Shadow"
              Loop="False"
              SpriteSheet="LPC\Characters\male_shadow"
              Layer="-1"
