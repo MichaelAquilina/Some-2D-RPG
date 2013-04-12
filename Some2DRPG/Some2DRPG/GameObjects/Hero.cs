@@ -111,11 +111,11 @@ namespace Some2DRPG.GameObjects
                     Pos.X += MOVEMENT_SPEED * moveSpeedModifier;
                 }
 
-                //Set animation to idle of no movements where made
+                // Set animation to idle of no movements where made.
                 if (moved == false)
                     CurrentDrawableState = "Idle_" + Direction;
 
-                //prevent from going out of range
+                // Prevent from going out of range.
                 if (Pos.X < 0) Pos.X = 0;
                 if (Pos.Y < 0) Pos.Y = 0;
                 if (Pos.X >= Engine.Map.pxWidth - 1) Pos.X = Engine.Map.pxWidth - 1;
@@ -123,7 +123,7 @@ namespace Some2DRPG.GameObjects
 
                 if (CollisionDetection)
                 {
-                    //iterate through each layer and determine if the tile is passable
+                    // Iterate through each layer and determine if the tile is passable.
                     int tileX = (int) Pos.X / Engine.Map.pxTileWidth;
                     int tileY = (int) Pos.Y / Engine.Map.pxTileHeight;
 
@@ -178,14 +178,14 @@ namespace Some2DRPG.GameObjects
                     }
                 }
 
-                //Change the radius of the LightSource overtime using a SINE wave pattern
+                // Change the radius of the LightSource overtime using a SINE wave pattern.
                 LightSource.PX = Pos.X;
                 LightSource.PY = Pos.Y;
                 LightSource.RadiusX = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
                 LightSource.RadiusY = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
 
-                //EXAMPLE OF HOW THE QUAD TREE INTERSECTING ENTITIES FUNCTION CAN WORK
-                //TODO: Add PER PIXEL collision detection to each one of these entities
+                // EXAMPLE OF HOW THE QUAD TREE INTERSECTING ENTITIES FUNCTION CAN WORK
+                // TODO: Add PER PIXEL collision detection to each one of these entities
                 if (prevIntersectingEntities != null)
                     foreach (Entity entity in prevIntersectingEntities)
                         entity.Opacity = 1.0f;
