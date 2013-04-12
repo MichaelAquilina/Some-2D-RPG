@@ -587,7 +587,11 @@
   <object type="Coin" x="1256" y="106" width="13" height="13"/>
   <object type="Coin" x="1326" y="368" width="13" height="13"/>
   <object type="Coin" x="1285" y="368" width="13" height="13"/>
-  <object type="Coin" x="1285" y="332" width="13" height="13"/>
+  <object type="Coin" x="1285" y="332" width="13" height="13">
+   <properties>
+    <property name="CoinType" value="Copper"/>
+   </properties>
+  </object>
   <object type="Coin" x="1305" y="368" width="13" height="13"/>
   <object type="Coin" x="1285" y="349" width="13" height="13"/>
   <object type="Coin" x="1305" y="350" width="13" height="13"/>
@@ -630,6 +634,7 @@
   </object>
   <object type="CoinArea" x="171" y="902" width="68" height="252">
    <properties>
+    <property name="CoinType" value="Silver"/>
     <property name="Density" value="15"/>
    </properties>
   </object>
@@ -640,15 +645,23 @@
   </object>
   <object type="CoinArea" x="910" y="317" width="219" height="316">
    <properties>
+    <property name="CoinType" value="Mixed"/>
     <property name="Density" value="15"/>
    </properties>
   </object>
   <object type="CoinArea" x="967" y="112" width="163" height="199">
    <properties>
+    <property name="CoinType" value="Copper"/>
     <property name="Density" value="15"/>
    </properties>
   </object>
   <object type="Chest" x="291" y="52" width="37" height="36"/>
   <object type="Chest" x="196" y="738" width="37" height="36"/>
+  <object type="CoinArea" x="389" y="131" width="304" height="71">
+   <properties>
+    <property name="CoinType" value="Silver"/>
+    <property name="Density" value="15"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

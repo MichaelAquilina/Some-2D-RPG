@@ -135,10 +135,10 @@ namespace Some2DRPG.GameObjects
                     Tile currentTile = Engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
                     bool impassable = currentTile.HasProperty("Impassable");
 
-                    //CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
-                    //TODO
-                    //to improve structure
-                    //Current very very ineffecient way of checking Entry
+                    // CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
+                    // TODO
+                    // to improve structure
+                    // Current very very ineffecient way of checking Entry
                     string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                     string[] exitPoints = prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -147,20 +147,20 @@ namespace Some2DRPG.GameObjects
                     bool left = prevX < pxTileX;
                     bool right = prevX > pxTileX + pxTileWidth;
 
-                    //ensure entry points
+                    // Ensure entry points.
                     impassable |= top && !ContainsItem(entryPoints, "Top");
                     impassable |= bottom && !ContainsItem(entryPoints, "Bottom");
                     impassable |= left && !ContainsItem(entryPoints, "Left");
                     impassable |= right && !ContainsItem(entryPoints, "Right");
 
-                    //ensure exit points
+                    // Ensure exit points.
                     impassable |= top && !ContainsItem(exitPoints, "Bottom");
                     impassable |= bottom && !ContainsItem(exitPoints, "Top");
                     impassable |= left && !ContainsItem(exitPoints, "Right");
                     impassable |= right && !ContainsItem(exitPoints, "Left");
 
-                    //IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT
-                    //if impassable, adjust X and Y accordingly
+                    // IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT.
+                    // if impassable, adjust X and Y accordingly.
                     float padding = 0.001f;
                     if (impassable)
                     {

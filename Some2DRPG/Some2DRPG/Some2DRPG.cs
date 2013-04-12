@@ -116,6 +116,7 @@ namespace Some2DRPG
                     if (mapObject.Type == "CoinArea")
                     {
                         int density = mapObject.GetProperty<int>("Density", 0);
+                        string coinTypeString = mapObject.GetProperty("CoinType", "Gold");
 
                         int coinx = mapObject.Width / density;
                         int coiny = mapObject.Height / density;
@@ -124,7 +125,13 @@ namespace Some2DRPG
                         {
                             for (int j = 0; j < coiny; j++)
                             {
-                                Coin coin = new Coin(mapObject.X + i * density, mapObject.Y + j * density, 100, CoinType.Gold);
+                                CoinType coinType;
+                                if (coinTypeString == "Mixed")
+                                    coinType = (CoinType)random.Next(3);
+                                else
+                                    coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
+
+                                Coin coin = new Coin(mapObject.X + i * density, mapObject.Y + j * density, 100, coinType);
                                 coin.Visible = true;
 
                                 Engine.AddEntity(coin);
@@ -133,7 +140,10 @@ namespace Some2DRPG
                     }
                     if (mapObject.Type == "Coin")
                     {
-                        Coin coin = new Coin(mapObject.X, mapObject.Y, 100, CoinType.Gold);
+                        string coinTypeString = mapObject.GetProperty("CoinType", "Gold");
+                        CoinType coinType = coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
+
+                        Coin coin = new Coin(mapObject.X, mapObject.Y, 100, coinType);
                         coin.Visible = true;
 
                         Engine.AddEntity(coin);
