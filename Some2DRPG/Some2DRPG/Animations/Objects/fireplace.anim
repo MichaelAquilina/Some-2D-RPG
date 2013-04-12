@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Animations>
-  <Animation Name="Burning" Loop="True" SpriteSheet="LPC\Terrain\NewerCampFire" FrameDelay="150">
+  <Animation State="Burning" Loop="True" SpriteSheet="LPC\Terrain\NewerCampFire" FrameDelay="150">
     <Frames>
       <Frame>14, 0, 35, 63</Frame>
       <Frame>78, 0, 35, 63</Frame>

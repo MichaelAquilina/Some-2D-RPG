@@ -112,7 +112,7 @@ namespace GameEngine.Drawing
                 bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);
                 int actualLayer = XmlExtensions.GetAttributeValue<int>(animNode, "Layer", 0);
 
-                string name = XmlExtensions.GetAttributeValue(animNode, "Name");
+                string state = XmlExtensions.GetAttributeValue(animNode, "State");
                 string group = XmlExtensions.GetAttributeValue(animNode, "Group", "");
                 string spriteSheet = XmlExtensions.GetAttributeValue(animNode, "SpriteSheet");
                 string[] offset = XmlExtensions.GetAttributeValue(animNode, "Offset", "0, 0").Split(',');
@@ -142,11 +142,11 @@ namespace GameEngine.Drawing
                 animation.Origin = originVector;
 
                 // Allow support for specifying glob patterns in the case of state names.
-                if (name.Contains("*"))
+                if (state.Contains("*"))
                 {
                     // Use Glob patterns in favour of regular expressions.
-                    name = Regex.Escape(name).Replace(@"\*", ".*").Replace(@"\?", ".");
-                    Regex regexMatcher = new Regex(name);
+                    state = Regex.Escape(state).Replace(@"\*", ".*").Replace(@"\?", ".");
+                    Regex regexMatcher = new Regex(state);
 
                     foreach (string drawableSetState in drawableSet.GetStates())
                     {
@@ -161,7 +161,7 @@ namespace GameEngine.Drawing
                 }
                 else
                 {
-                    GameDrawableInstance instance = drawableSet.Add(name, animation, group, layer);
+                    GameDrawableInstance instance = drawableSet.Add(state, animation, group, layer);
                     instance.StartTimeMS = startTimeMS;
                     instance.Offset = offsetVector;
                     instance.Layer = actualLayer;
