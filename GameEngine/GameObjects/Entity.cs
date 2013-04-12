@@ -16,20 +16,20 @@ namespace GameEngine.GameObjects
         // X and Y position on the Map
         public Vector2 Pos;
 
-        public string Name { get; internal set; }                         //Name currently assigned to this Entity in the Engine
+        public string Name { get; internal set; }                         // Name currently assigned to this Entity in the Engine.
 
-        public float ScaleX { get; set; }                                 //Amount to scale the Entities X value by (where 1.0=100%)
-        public float ScaleY { get; set; }                                 //Amount ot scale the Entities Y value by (where 1.0=100%)
-
-        public float Opacity { get; set; }                                //Opacity for the Entity. This effect stacks with whats specified in each drawables Color
-        public bool Visible { get; set; }                                 //Hide or Show the entity
-        public bool IsOnScreen { get; internal set; }                     //is the Entity currently on the screen or not
-        public FRectangle CurrentBoundingBox { get; internal set; }       //the last bounding box generated during the TeeEngine update
-
-        public DrawableSet Drawables { get; set; }                        //The set of drawable instances associated with this Entity
-        public string CurrentDrawableState { get; set; }                  //The current Drawables enabled
-
-        internal FRectangle prevBoundingBox;                              //the previous BoundingBox that was assigned to this Entity
+        public float ScaleX { get; set; }                                 // Amount to scale the Entities X value by (where 1.0=100%).
+        public float ScaleY { get; set; }                                 // Amount ot scale the Entities Y value by (where 1.0=100%).
+                                                                             
+        public float Opacity { get; set; }                                // Opacity for the Entity. This effect stacks with whats specified in each drawables Color.
+        public bool Visible { get; set; }                                 // Hide or Show the entity.
+        public bool IsOnScreen { get; internal set; }                     // is the Entity currently on the screen or not.
+        public FRectangle CurrentBoundingBox { get; internal set; }       // the last bounding box generated during the TeeEngine update.
+                                                                             
+        public DrawableSet Drawables { get; set; }                        // The set of drawable instances associated with this Entity.
+        public string CurrentDrawableState { get; set; }                  // The current Drawables enabled.
+                                                                             
+        internal FRectangle prevBoundingBox;                              // The previous BoundingBox that was assigned to this Entity.
 
         #region Constructors
 
