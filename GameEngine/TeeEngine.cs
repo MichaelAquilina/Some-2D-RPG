@@ -294,8 +294,7 @@ namespace GameEngine
             _watch3.Reset();
 
             // Clear previous entity update times.
-            DebugInfo.EntityUpdateTimes.Clear();
-            DebugInfo.TotalEntityUpdateTime = TimeSpan.FromMilliseconds(0);
+            DebugInfo.Reset();
 
             foreach (string entityId in _entities.Keys)
             {
@@ -303,13 +302,15 @@ namespace GameEngine
                 entity.prevBoundingBox = entity.CurrentBoundingBox;
 
                 // Perform any per-entity update logic.
-                _watch2.Restart();
-                {
-                    entity.Update(gameTime, this);
-                    entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
-                }
+                _watch2.Restart(); 
+                entity.Update(gameTime, this);
                 DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
                 DebugInfo.TotalEntityUpdateTime += _watch2.Elapsed;
+
+                // Recalculate the Entities BoundingBox.
+                _watch2.Restart();
+                entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
+                DebugInfo.TotalEntityUpdateBoundingBoxTime += _watch2.Elapsed;
 
                 // Reset the IsOnScreen variable before the next drawing operation.
                 entity.IsOnScreen = false;
@@ -334,7 +335,7 @@ namespace GameEngine
                 entity.Name = null;
                 QuadTree.Remove(entity);
             }
-            DebugInfo.EntityRemovalTime = _watch2.Elapsed;
+            DebugInfo.TotalEntityRemovalTime = _watch2.Elapsed;
 
             _watch2.Restart();
             foreach (Entity entity in _entityCreate)
@@ -346,7 +347,7 @@ namespace GameEngine
 
                 QuadTree.Add(entity);
             }
-            DebugInfo.EntityAdditionTime = _watch2.Elapsed;
+            DebugInfo.TotalEntityAdditionTime = _watch2.Elapsed;
 
             _entityCreate.Clear();
             _entityTrash.Clear();
@@ -388,9 +389,6 @@ namespace GameEngine
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch spriteBatch, float pxCenterX, float pxCenterY, float zoom, Rectangle pxDestRectangle, Color color, SamplerState samplerState, SpriteFont spriteFont=null)
         {
-            DebugInfo.EntityRenderingTimes.Clear();
-            DebugInfo.GameShaderRenderingTimes.Clear();
-
             ViewPortInfo viewPortInfo = new ViewPortInfo();
             {
                 viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * zoom);

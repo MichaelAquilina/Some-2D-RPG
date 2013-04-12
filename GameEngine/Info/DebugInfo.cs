@@ -14,14 +14,14 @@ namespace GameEngine.Info
     {
         public TimeSpan QuadTreeUpdateTime { get; internal set; }
         public TimeSpan TileRenderingTime { get; internal set; }
+
+        public TimeSpan TotalEntityUpdateBoundingBoxTime { get; internal set; }
         public TimeSpan TotalEntityRenderingTime { get; internal set; }
         public TimeSpan TotalEntityUpdateTime { get; internal set; }
         public TimeSpan TotalGameShaderRenderTime { get; internal set; }
 
-        public TimeSpan EntityAdditionTime { get; internal set; }
-        public TimeSpan EntityRemovalTime { get; internal set; }
-
-        public TimeSpan InitialLoadTime { get; internal set; }
+        public TimeSpan TotalEntityAdditionTime { get; internal set; }
+        public TimeSpan TotalEntityRemovalTime { get; internal set; }
 
         public Dictionary<string, TimeSpan> EntityRenderingTimes { get; internal set; }
         public Dictionary<string, TimeSpan> EntityUpdateTimes { get; internal set; }
@@ -32,6 +32,20 @@ namespace GameEngine.Info
             EntityRenderingTimes = new Dictionary<string, TimeSpan>();
             GameShaderRenderingTimes = new Dictionary<string, TimeSpan>();
             EntityUpdateTimes = new Dictionary<string, TimeSpan>();
+        }
+
+        public void Reset()
+        {
+            TotalEntityRenderingTime = TimeSpan.FromMilliseconds(0);
+            TotalEntityUpdateBoundingBoxTime = TimeSpan.FromMilliseconds(0);
+            TotalEntityUpdateTime = TimeSpan.FromMilliseconds(0);
+            TotalGameShaderRenderTime = TimeSpan.FromMilliseconds(0);
+            TotalEntityAdditionTime = TimeSpan.FromMilliseconds(0);
+            TotalEntityRemovalTime = TimeSpan.FromMilliseconds(0);
+
+            EntityRenderingTimes.Clear();
+            EntityUpdateTimes.Clear();
+            GameShaderRenderingTimes.Clear();
         }
 
         /// <summary>
@@ -65,9 +79,9 @@ namespace GameEngine.Info
             builder.AppendLine("Total Entity Rendering Time = " + TotalEntityRenderingTime);
             builder.AppendLine("Total Entity Update Time = " + TotalEntityUpdateTime);
             builder.AppendLine("Total Game Shader Time = " + TotalGameShaderRenderTime);
-            builder.AppendLine("Entity Addition Time = " + EntityAdditionTime);
-            builder.AppendLine("Entity Remval Time = " + EntityRemovalTime);
-            builder.AppendLine("Initial Load Time = " + InitialLoadTime);
+            builder.AppendLine("Total Entity Addition Time = " + TotalEntityAdditionTime);
+            builder.AppendLine("Total Entity Remval Time = " + TotalEntityRemovalTime);
+            builder.AppendLine("Total Entity Update Bounding Box Time = " + TotalEntityUpdateBoundingBoxTime);
 
             return builder.ToString();
         }
