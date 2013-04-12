@@ -50,14 +50,14 @@ namespace Some2DRPG.GameObjects
 
         public override void LoadContent(ContentManager content)
         {
-            if (Shoulders != null ) Animation.LoadAnimationXML(Drawables, Shoulders, content, 6);
-            if (Head != null) Animation.LoadAnimationXML(Drawables, Head, content, 5);
-            if (Hands != null) Animation.LoadAnimationXML(Drawables, Hands, content, 4);
-            if (Feet != null) Animation.LoadAnimationXML(Drawables, Feet, content, 3);
-            if (Torso != null) Animation.LoadAnimationXML(Drawables, Torso, content, 2);
-            if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, content, 1);
-            if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, content, 7);
-            Animation.LoadAnimationXML(Drawables, BaseRace, content, 0);
+            if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, content);
+            if (Shoulders != null) Animation.LoadAnimationXML(Drawables, Shoulders, content);
+            if (Head != null) Animation.LoadAnimationXML(Drawables, Head, content);
+            if (Hands != null) Animation.LoadAnimationXML(Drawables, Hands, content);
+            if (Feet != null) Animation.LoadAnimationXML(Drawables, Feet, content);
+            if (Torso != null) Animation.LoadAnimationXML(Drawables, Torso, content);
+            if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, content);
+            Animation.LoadAnimationXML(Drawables, BaseRace, content);
 
             CurrentDrawableState = "Walk_Right";
         }

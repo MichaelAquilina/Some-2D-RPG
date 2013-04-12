@@ -1,31 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Animations>
-  <Animation State="Idle_Up" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" >
+  <Animation State="Idle_Up" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 13, 35, 49</Frame>
     </Frames>
   </Animation>
 
-  <Animation State="Idle_Left" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" >
+  <Animation State="Idle_Left" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 78, 35, 49</Frame>
     </Frames>
   </Animation>
 
-  <Animation State="Idle_Down" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" >
+  <Animation State="Idle_Down" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 142, 35, 49</Frame>
     </Frames>
   </Animation>
 
-  <Animation State="Idle_Right" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" >
+  <Animation State="Idle_Right" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 206, 35, 49</Frame>
     </Frames>
   </Animation>
   
-  <Animation State="Walk_Up" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" >
+  <Animation State="Walk_Up" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>79 , 13, 35, 49</Frame>
       <Frame>143, 13, 35, 49</Frame>
@@ -37,7 +37,7 @@
       <Frame>527, 13, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation State="Walk_Left" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" >
+  <Animation State="Walk_Left" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>79 , 78, 35, 49</Frame>
       <Frame>143, 78, 35, 49</Frame>
@@ -49,7 +49,7 @@
       <Frame>527, 78, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation State="Walk_Down" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" >
+  <Animation State="Walk_Down" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>79 , 142, 35, 49</Frame>
       <Frame>143, 142, 35, 49</Frame>
@@ -61,7 +61,7 @@
       <Frame>527, 142, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation State="Walk_Right" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" >
+  <Animation State="Walk_Right" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Walkcycle\HANDS_plate_armor_gloves" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>79 , 206, 35, 49</Frame>
       <Frame>143, 206, 35, 49</Frame>
@@ -74,7 +74,7 @@
     </Frames>
   </Animation>
 
-  <Animation State="Slash_Up" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HANDS_plate_armor_gloves" FrameDelay="75" Origin="0.4, 1.0" >
+  <Animation State="Slash_Up" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HANDS_plate_armor_gloves" FrameDelay="75" Origin="0.4, 0.9" >
     <Frames>
       <Frame>79  , 13, 43, 50</Frame>
       <Frame>143 , 13, 43, 50</Frame>
@@ -83,7 +83,7 @@
       <Frame>335 , 13, 43, 50</Frame>
     </Frames>
   </Animation>
-  <Animation State="Slash_Left" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HANDS_plate_armor_gloves" FrameDelay="75" Origin="0.7, 1.0" >
+  <Animation State="Slash_Left" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HANDS_plate_armor_gloves" FrameDelay="75" Origin="0.7, 0.9" >
     <Frames>
       <Frame>69  , 78, 40, 49</Frame>
       <Frame>133 , 78, 40, 49</Frame>
@@ -92,7 +92,7 @@
       <Frame>325 , 78, 40, 49</Frame>
     </Frames>
   </Animation>
-  <Animation State="Slash_Down" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HANDS_plate_armor_gloves" FrameDelay="75" Origin="0.4, 1.0" >
+  <Animation State="Slash_Down" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HANDS_plate_armor_gloves" FrameDelay="75" Origin="0.4, 0.9" >
     <Frames>
       <Frame>80 , 142, 42, 49</Frame>
       <Frame>144, 142, 42, 49</Frame>
@@ -101,7 +101,7 @@
       <Frame>336, 142, 42, 49</Frame>
     </Frames>
   </Animation>
-  <Animation State="Slash_Right" Group="Hands" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HANDS_plate_armor_gloves" FrameDelay="75" Origin="0.4, 1.0" >
+  <Animation State="Slash_Right" Group="Hands" Layer="4" Loop="True" SpriteSheet="LPC\Plate Armor\Slash\HANDS_plate_armor_gloves" FrameDelay="75" Origin="0.4, 0.9" >
     <Frames>
       <Frame>82 , 207, 40, 48</Frame>
       <Frame>146, 207, 40, 48</Frame>

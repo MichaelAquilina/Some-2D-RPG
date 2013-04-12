@@ -43,9 +43,9 @@ namespace Some2DRPG.GameObjects
             }
         }
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager content)
         {
-            Animation.LoadAnimationXML(Drawables, "Animations/Misc/chests.anim", Content);
+            Animation.LoadAnimationXML(Drawables, "Animations/Misc/chests.anim", content);
             CurrentDrawableState = "Closed";
         }
     }

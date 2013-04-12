@@ -100,8 +100,7 @@ namespace GameEngine.Drawing
         /// <param name="drawableSet">DrawableSet object to load the animations into.</param>
         /// <param name="path">String path to the XML formatted .anim file</param>
         /// <param name="content">Reference to the ContentManager instance being used in the application</param>
-        /// <param name="layer">(optional) integer layer value for y ordering on the same DrawableSet.</param>
-        public static void LoadAnimationXML(DrawableSet drawableSet, string path, ContentManager content, int layer = 0, double startTimeMS=0)
+        public static void LoadAnimationXML(DrawableSet drawableSet, string path, ContentManager content, double startTimeMS=0)
         {
             XmlDocument document = new XmlDocument();
             document.Load(path);
@@ -110,7 +109,7 @@ namespace GameEngine.Drawing
             {
                 int frameDelay = XmlExtensions.GetAttributeValue<int>(animNode, "FrameDelay", 90);
                 bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);
-                int actualLayer = XmlExtensions.GetAttributeValue<int>(animNode, "Layer", 0);
+                int layer = XmlExtensions.GetAttributeValue<int>(animNode, "Layer", 0);
 
                 string state = XmlExtensions.GetAttributeValue(animNode, "State");
                 string group = XmlExtensions.GetAttributeValue(animNode, "Group", "");
@@ -155,7 +154,7 @@ namespace GameEngine.Drawing
                             GameDrawableInstance instance = drawableSet.Add(drawableSetState, animation, group, layer);
                             instance.StartTimeMS = startTimeMS;
                             instance.Offset = offsetVector;
-                            instance.Layer = actualLayer;
+                            instance.Layer = layer;
                         }
                     }
                 }
@@ -164,7 +163,7 @@ namespace GameEngine.Drawing
                     GameDrawableInstance instance = drawableSet.Add(state, animation, group, layer);
                     instance.StartTimeMS = startTimeMS;
                     instance.Offset = offsetVector;
-                    instance.Layer = actualLayer;
+                    instance.Layer = layer;
                 }
             }
         }

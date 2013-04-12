@@ -35,7 +35,7 @@ namespace Some2DRPG.GameObjects
             Animation.LoadAnimationXML(
                 Drawables, 
                 "Animations/Monsters/bat.anim", 
-                content, 0, startTimeMS
+                content, startTimeMS
                 );
 
             CurrentDrawableState = "Down";
