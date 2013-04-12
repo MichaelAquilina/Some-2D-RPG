@@ -196,7 +196,7 @@ namespace GameEngine.DataStructures
             if (Entities.Count > 0)
             {
                 foreach (Entity entity in Entities)
-                    if (!result.Contains(entity))
+                    if (!result.Contains(entity))           // TODO: This needs to be removed. It is slow and should not be here
                         result.Add(entity);
             }
             else
