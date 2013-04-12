@@ -38,7 +38,7 @@ namespace Some2DRPG.GameObjects
 
         public override void LoadContent(ContentManager content)
         {
-            //Load the coin animation
+            // Load the coin animation.
             Animation.LoadAnimationXML(this.Drawables, "Animations/Misc/coin.anim", content, "Coin" );
             Animation.LoadAnimationXML(this.Drawables, "Animations/Misc/coin_shadow.anim", content, "Shadow");
 
@@ -54,24 +54,24 @@ namespace Some2DRPG.GameObjects
 
             Hero player = (Hero) engine.GetEntity("Player");
 
-            //find the distance between the player and this coin
+            // Find the distance between the player and this coin.
             float distanceSquared = Vector2.DistanceSquared(Pos, player.Pos);
 
-            float speed = COIN_MOVE_SPEED / distanceSquared;  //mangitude of velocity
+            float speed = COIN_MOVE_SPEED / distanceSquared;  // Mangitude of velocity.
             speed = Math.Min(speed, TERMINAL_VELOCITY);
 
             if (speed > 0.5)
             {
-                //calculate the angle between the player and the coin
+                // Calculate the angle between the player and the coin.
                 double angle = Math.Atan2(
                     player.Pos.Y - this.Pos.Y, 
                     player.Pos.X - this.Pos.X
                     );
 
-                this.Pos.X += (float) (Math.Cos(angle) * speed);        //x component
-                this.Pos.Y += (float) (Math.Sin(angle) * speed);        //y component
+                this.Pos.X += (float) (Math.Cos(angle) * speed);        // x component.
+                this.Pos.Y += (float) (Math.Sin(angle) * speed);        // y component.
 
-                //check to see if coin can be considered collected
+                // Check to see if coin can be considered collected.
                 if (this.CurrentBoundingBox.Intersects(player.CurrentBoundingBox))
                 {
                     CoinSound.Play(0.05f, 0.0f, 0.0f);
