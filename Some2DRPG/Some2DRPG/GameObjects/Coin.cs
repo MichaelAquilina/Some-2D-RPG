@@ -46,6 +46,8 @@ namespace Some2DRPG.GameObjects
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
+            // TODO: Crude optimisation - if !this.IsOnScreen then return
+
             float COIN_MOVE_SPEED = 5000;
             float TERMINAL_VELOCITY = 3;
 
