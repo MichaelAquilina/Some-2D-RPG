@@ -22,10 +22,19 @@ namespace Some2DRPG.GameObjects
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
+            Vector2 prevPos = Pos;
+
             Pos.X += (float) (Math.Cos(gameTime.TotalGameTime.TotalSeconds - _randomModifier*90) * 2);
 
-            // For testing (performance).
-            engine.QuadTree.GetIntersectingEntites(CurrentBoundingBox);
+            // Determine the animation based on the change in position
+            if (prevPos.X < Pos.X)
+                this.CurrentDrawableState = "Right";
+            if (prevPos.X > Pos.X)
+                this.CurrentDrawableState = "Left";
+            if (prevPos.Y < Pos.Y)
+                this.CurrentDrawableState = "Down";
+            if (prevPos.Y > Pos.Y)
+                this.CurrentDrawableState = "Up";
         }
 
         public override void LoadContent(ContentManager content)
