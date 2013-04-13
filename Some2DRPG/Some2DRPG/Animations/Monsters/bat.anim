@@ -21,19 +21,19 @@
   
   <!-- Left Animations -->
 
-  <Animation State="Left" Group="Left" Loop="True" SpriteSheet="LPC\Monsters\bat" FrameDelay="150" Offset="0, -10">
+  <Animation State="Left" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\bat" FrameDelay="150"  Offset="0, -10">
     <Frames>
-      <Frame>0 ,36,32,26</Frame>
-      <Frame>32,36,32,26</Frame>
-      <Frame>64,36,32,26</Frame>
+      <Frame>0 ,33,32,26</Frame>
+      <Frame>32,33,32,26</Frame>
+      <Frame>64,33,32,26</Frame>
     </Frames>
   </Animation>
 
   <Animation State="Left" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\bat" FrameDelay="150">
     <Frames>
-      <Frame>0 ,52,32, 7</Frame>
-      <Frame>32,52,32, 7</Frame>
-      <Frame>64,52,32, 7</Frame>
+      <Frame>0 , 58, 32, 7</Frame>
+      <Frame>32, 58, 32, 7</Frame>
+      <Frame>64, 58, 32, 7</Frame>
     </Frames>
   </Animation>
   

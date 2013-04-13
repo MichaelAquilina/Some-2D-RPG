@@ -38,7 +38,7 @@ namespace Some2DRPG.GameObjects
                 content, startTimeMS
                 );
 
-            CurrentDrawableState = "Down";
+            CurrentDrawableState = "Left";
         }
     }
 }
