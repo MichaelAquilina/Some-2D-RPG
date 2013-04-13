@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Iplement extended IntersetsWith function. IntersectsWith(Entity entity, GameTime gameTime, string thisGroup=null, string entityGroup=null)
 - [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
 - [IP] - AI for bats. Use A* for path finding techniques
 - [] - better entity integration in map loading
