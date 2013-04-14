@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using GameEngine;
+using GameEngine.Drawing;
+using GameEngine.GameObjects;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using Some2DRPG.Shaders;
-using GameEngine;
 using ShadowKillGame.GameObjects;
-using GameEngine.GameObjects;
-using System.Collections.Generic;
-using GameEngine.Drawing;
+using Some2DRPG.Shaders;
 
 namespace Some2DRPG.GameObjects
 {
     public class Hero : NPC
     {
         const int INPUT_DELAY = 0;
-        const float MOVEMENT_SPEED = 2.4f;
+        const float MOVEMENT_SPEED = 2.9f;
         double PrevGameTime = 0;
 
         public bool CollisionDetection { get; set; }
@@ -27,6 +27,9 @@ namespace Some2DRPG.GameObjects
         public Hero(float x, float y) :
             base(x, y, NPC.MALE_HUMAN)
         {
+            HP = 2000;
+            XP = 0;
+
             CollisionDetection = true;
             LightSource = new BasicLightSource();
             LightSource.RadiusX = 32 * 8;
@@ -40,7 +43,7 @@ namespace Some2DRPG.GameObjects
             base.LoadContent(content);
         }
 
-        //TODO REMOVE
+        // TODO REMOVE.
         private bool ContainsItem(string[] array, string item)
         {
             for (int i = 0; i < array.Length; i++)
@@ -63,6 +66,7 @@ namespace Some2DRPG.GameObjects
             {
                 bool moved = false;
 
+                // ATTACK KEY.
                 if (keyboardState.IsKeyDown(Keys.A))
                 {
                     bool reset = !CurrentDrawableState.StartsWith("Slash");
@@ -73,7 +77,7 @@ namespace Some2DRPG.GameObjects
                     if (reset) Drawables.ResetState(CurrentDrawableState, gameTime);
                 }
 
-                //MOVEMENT BASED KEYBOARD EVENTS
+                // MOVEMENT BASED KEYBOARD EVENTS.
                 if (keyboardState.IsKeyDown(Keys.Up))
                 {
                     CurrentDrawableState = "Walk_Up";
@@ -186,17 +190,27 @@ namespace Some2DRPG.GameObjects
 
                 // EXAMPLE OF HOW THE QUAD TREE INTERSECTING ENTITIES FUNCTION CAN WORK
                 // TODO: Add PER PIXEL collision detection to each one of these entities
-                if (prevIntersectingEntities != null)
-                    foreach (Entity entity in prevIntersectingEntities)
-                        entity.Opacity = 1.0f;
+                //if (prevIntersectingEntities != null)
+                //    foreach (Entity entity in prevIntersectingEntities)
+                //        entity.Opacity = 1.0f;
 
                 prevIntersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentBoundingBox);
                 foreach (Entity entity in prevIntersectingEntities)
                 {
-                    if ( entity!= this && 
-                         entity.CurrentBoundingBox.Intersects(CurrentBoundingBox) &&
-                         entity.Pos.Y > this.Pos.Y )
-                        entity.Opacity = 0.8f;
+                    if (entity is Bat)
+                    {
+                        if (CurrentDrawableState.Contains("Slash") &&
+                            entity.IntersectsWith(this.CurrentBoundingBox, gameTime, "Body"))
+                        {
+                            Bat bat = (Bat)entity;
+                            bat.HP -= 10;
+                        }
+                    }
+                    //else
+                    //if ( entity!= this && 
+                    //     entity.CurrentBoundingBox.Intersects(CurrentBoundingBox) &&
+                    //     entity.Pos.Y > this.Pos.Y )
+                    //    entity.Opacity = 0.8f;
                 }
             }  
         }

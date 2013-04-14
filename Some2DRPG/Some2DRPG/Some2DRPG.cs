@@ -197,7 +197,7 @@ namespace Some2DRPG
       
             Engine.AddEntity("Player", CurrentPlayer);
 
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 50; i++)
             {
                 int px = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxWidth);
                 int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
