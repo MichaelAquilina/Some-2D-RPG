@@ -172,7 +172,7 @@ namespace GameEngine.DataStructures
                 Entities = entities;
 
                 if (Parent!=nodeLimit)
-                    Parent.Validate();
+                    Parent.Validate(nodeLimit);
             }
         }
 
