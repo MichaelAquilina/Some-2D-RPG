@@ -4,7 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
-- [Done] - Iplement extended IntersetsWith function. IntersectsWith(Entity entity, GameTime gameTime, string thisGroup=null, string entityGroup=null)
+- [] - Iplement extended IntersetsWith function. IntersectsWith(Entity entity, GameTime gameTime, string thisGroup=null, string entityGroup=null)
 - [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
 - [IP] - AI for bats. Use A* for path finding techniques
 - [] - better entity integration in map loading
@@ -16,7 +16,7 @@ Must Have
 
 - [Done] - The ability to draw and render a 2D top down game world
 - [Done] - an entity framework
-- [Done] - an animation framework
+- [IP] - an animation framework
 - [Done] - a post-rendering shader framework
 - [Done] - the ability to load from tiled maps (prevents from having to develop a map creation application)
 
