@@ -59,6 +59,9 @@ namespace Some2DRPG.GameObjects
                     this._attackHeight.Y += 30.0f / ATTACK_COUNTER_LIMIT;
                     this.Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
 
+                    if (this.IntersectsWith(player, gameTime, "Body", "Body"))
+                        player.HP -= 3;
+
                     if (_attackCounter++ == ATTACK_COUNTER_LIMIT) 
                         _attackStance = AttackStance.NotAttacking;
                 }

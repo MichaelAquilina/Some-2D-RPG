@@ -22,7 +22,7 @@ namespace Some2DRPG.GameObjects
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.S, this, true)
-                && player.IntersectsWith(this.CurrentBoundingBox, gameTime, "Shadow"))
+                && this.IntersectsWith(player, gameTime, null, "Shadow"))
             {
                 if (CurrentDrawableState != "Open")
                 {

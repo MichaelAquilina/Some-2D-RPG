@@ -114,33 +114,67 @@ namespace GameEngine.GameObjects
 
         #region Intersection Methods
 
-        public bool IntersectsWith(FRectangle boundingBox, GameTime gameTime, string group = null)
+        // Helper method that wraps the static IntersectsWith Entity method. Assumes the state to check is the current drawable state.
+        public bool IntersectsWith(Entity targetEntity, GameTime gameTime, string thisGroup=null, string targetEntityGroup=null)
         {
-            return IntersectsWith(CurrentDrawableState, boundingBox, gameTime, group);
+            return Entity.IntersectsWith(
+                this, CurrentDrawableState, thisGroup, 
+                targetEntity, targetEntity.CurrentDrawableState, targetEntityGroup, 
+                gameTime);
         }
 
-        // Checks if the specified boundingBox intersects with this Entity - in the specified state and gameTime. Optionally
-        // only those drawables that are of the specified group are checked for intersection.
-        public bool IntersectsWith(string state, FRectangle boundingBox, GameTime gameTime, string group=null)
+        // Checks if Two Entities are intersecting each other assuming the specified states, gameTime and group filter.
+        // This check is actually rather ineffecient. O(n^2) time complexity. In reality though, we would be smart about
+        // what to compare - hence the group and state filters. The number of comparasins between drawables should be kept
+        // to a minimum in order to maintain performance.
+        public static bool IntersectsWith(
+            Entity entity1, string entity1State, string entity1Group,
+            Entity entity2, string entity2State, string entity2Group, GameTime gameTime)
         {
-            foreach (GameDrawableInstance instance in Drawables.GetByState(state))
-            {
-                if (group == null || instance._associatedGroup == group)
-                {
-                    Rectangle sourceRectangle = instance.GetSourceRectangle(gameTime);
+            List<GameDrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
+            List<GameDrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
 
-                    FRectangle absBoundingBox = new FRectangle(
-                        Pos.X + sourceRectangle.X - sourceRectangle.Width * instance.Drawable.Origin.X,
-                        Pos.Y + sourceRectangle.Y - sourceRectangle.Height * instance.Drawable.Origin.Y,
-                        sourceRectangle.Width,
-                        sourceRectangle.Height
+            foreach (GameDrawableInstance instanceForEntity1 in entity1Instances)
+            {
+                if (entity1Group == null || instanceForEntity1._associatedGroup == entity1Group)
+                {
+                    Rectangle sourceRectangleEntity1 = instanceForEntity1.GetSourceRectangle(gameTime);
+                    
+                    float entity1SourceWidth = sourceRectangleEntity1.Width * entity1.ScaleX;
+                    float entity1SourceHeight = sourceRectangleEntity1.Height * entity1.ScaleY;
+
+                    FRectangle absBoundingRectEntity1 = new FRectangle(
+                        entity1.Pos.X - entity1SourceWidth * instanceForEntity1.Drawable.Origin.X,
+                        entity1.Pos.Y - entity1SourceHeight * instanceForEntity1.Drawable.Origin.Y,
+                        entity1SourceWidth,
+                        entity1SourceHeight
                         );
 
-                    if (boundingBox.Intersects(absBoundingBox))
-                        return true;
+                    foreach (GameDrawableInstance instanceForEntity2 in entity2Instances)
+                    {
+                        if (entity2Group == null || instanceForEntity2._associatedGroup == entity2Group)
+                        {
+                            Rectangle sourceRectangleEntity2 = instanceForEntity2.GetSourceRectangle(gameTime);
+          
+                            float entity2SourceWidth = sourceRectangleEntity2.Width * entity2.ScaleX;
+                            float entity2SourceHeight = sourceRectangleEntity2.Height * entity2.ScaleY;
+
+                            FRectangle absBoundingRectEntity2 = new FRectangle(
+                                entity2.Pos.X - entity2SourceWidth * instanceForEntity2.Drawable.Origin.X,
+                                entity2.Pos.Y - entity2SourceHeight * instanceForEntity2.Drawable.Origin.Y,
+                                entity2SourceWidth,
+                                entity2SourceHeight
+                                );
+
+                            // Check if the two bounding boxes intersect
+                            if (absBoundingRectEntity1.Intersects(absBoundingRectEntity2))
+                                return true;
+                        }
+                    }
                 }
             }
 
+            // No Intersection tests passed.
             return false;
         }
 
