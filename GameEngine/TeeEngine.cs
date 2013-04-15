@@ -88,12 +88,12 @@ namespace GameEngine
         /// <summary>
         /// Width resolution of the TeeEngine buffer in pixels.
         /// </summary>
-        public int pxWidth { get; private set; }
+        public int PixelWidth { get; private set; }
 
         /// <summary>
         /// Height resolution of the TeeEngine buffer in pixels.
         /// </summary>
-        public int pxHeight { get; private set; }
+        public int PixelHeight { get; private set; }
 
         /// <summary>
         /// List of all Entities on screen since the last DrawWorldViewPort call.
@@ -152,7 +152,7 @@ namespace GameEngine
 
         #endregion
 
-        public TeeEngine(Game game, int pxWidth, int pxHeight)
+        public TeeEngine(Game game, int pixelWidth, int pixelHeight)
             :base(game)
         {
             _watch1 = new Stopwatch();
@@ -173,7 +173,7 @@ namespace GameEngine
             DebugInfo = new DebugInfo();
             GameShaders = new List<GameShader>();
 
-            SetResolution(pxWidth, pxHeight);
+            SetResolution(pixelWidth, pixelHeight);
             game.Components.Add(this);
         }
 
@@ -212,10 +212,10 @@ namespace GameEngine
             this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.pxTileWidth, map.pxTileHeight);
         }
 
-        public void SetResolution(int pxWidth, int pxHeight)
+        public void SetResolution(int pixelWidth, int pixelHeight)
         {
-            this.pxWidth = pxWidth;
-            this.pxHeight = pxHeight;
+            this.PixelWidth = pixelWidth;
+            this.PixelHeight = pixelHeight;
 
             if (Map != null)
                 QuadTree = new QuadTree(Map.txWidth, Map.txHeight, Map.pxTileWidth, Map.pxTileHeight);
@@ -226,11 +226,11 @@ namespace GameEngine
             if (_inputBuffer != null)
                 _inputBuffer.Dispose();
 
-            _inputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
-            _outputBuffer = new RenderTarget2D(GraphicsDevice, pxWidth, pxHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
+            _inputBuffer = new RenderTarget2D(GraphicsDevice, pixelWidth, pixelHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
+            _outputBuffer = new RenderTarget2D(GraphicsDevice, pixelWidth, pixelHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
 
             // Allow all game shaders to become aware of the change in resolution.
-            foreach (GameShader shader in GameShaders) shader.SetResolution(pxWidth, pxHeight);
+            foreach (GameShader shader in GameShaders) shader.SetResolution(pixelWidth, pixelHeight);
         }
 
         #region Entity Related Functions
@@ -293,7 +293,7 @@ namespace GameEngine
         {
             GameShaders.Add(shader);
             shader.LoadContent(this.Game.Content);
-            shader.SetResolution(pxWidth, pxHeight);
+            shader.SetResolution(PixelWidth, PixelHeight);
         }
 
         public bool UnregisterGameShader(GameShader shader)
