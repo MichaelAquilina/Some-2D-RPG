@@ -8,12 +8,12 @@ namespace GameEngine.Extensions
 {
     public static class KeyboardExtensions
     {
-        private static Dictionary<object, List<Keys>> _lockedKeys = new Dictionary<object, List<Keys>>();
+        private static Dictionary<object, HashSet<Keys>> _lockedKeys = new Dictionary<object, HashSet<Keys>>();
 
         private static void AddToLockedKeys(object callingObject, Keys value)
         {
             if (!_lockedKeys.ContainsKey(callingObject))
-                _lockedKeys.Add(callingObject, new List<Keys>());
+                _lockedKeys.Add(callingObject, new HashSet<Keys>());
 
             _lockedKeys[callingObject].Add(value);
         }
