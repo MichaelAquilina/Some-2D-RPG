@@ -4,7 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - Change *KeyboardExtensions* class to make use of a Dictionary<string, HashSet<Keys>> which should be much faster and scalable.
+- [] - Change *KeyboardExtensions* class to make use of a Dictionary<<string, HashSet<<Keys>>>> which should be much faster and scalable.
 - [] - Iplement extended IntersetsWith function. IntersectsWith(Entity entity, GameTime gameTime, string thisGroup=null, string entityGroup=null)
 - [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
 - [IP] - AI for bats. Use A* for path finding techniques
