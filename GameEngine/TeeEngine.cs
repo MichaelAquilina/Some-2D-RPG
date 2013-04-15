@@ -50,6 +50,34 @@ namespace GameEngine
 {
     public class TeeEngine : GameComponent
     {
+        public class DrawingOptionsRecord
+        {
+            /// <summary>
+            /// Show Entity debug information when drawing the world view port to the screen.
+            /// </summary>
+            public bool ShowEntityDebugInfo { get; set; }
+
+            /// <summary>
+            /// Shows the QuadTrees bounding boxes when drawing the world viewport.
+            /// </summary>
+            public bool ShowQuadTree { get; set; }
+
+            /// <summary>
+            /// bool value specifying if the tile grid should be shown during render calls.
+            /// </summary>
+            public bool ShowTileGrid { get; set; }
+
+            /// <summary>
+            /// bool value specifying if the bounding boxes for entities should be shown during render calls.
+            /// </summary>
+            public bool ShowBoundingBoxes { get; set; }
+
+            /// <summary>
+            /// bool value specifying if the bounding boxes for each individual drawable component should be shown.
+            /// </summary>
+            public bool ShowDrawableComponents { get; set; }
+        }
+
         #region Properties and Variables
 
         /// <summary>
@@ -88,26 +116,6 @@ namespace GameEngine
         public List<GameShader> GameShaders { get; private set; }
 
         /// <summary>
-        /// Show Entity debug information when drawing the world view port to the screen.
-        /// </summary>
-        public bool ShowEntityDebugInfo { get; set; }
-
-        /// <summary>
-        /// Shows the QuadTrees bounding boxes when drawing the world viewport.
-        /// </summary>
-        public bool ShowQuadTree { get; set; }
-
-        /// <summary>
-        /// bool value specifying if the tile grid should be shown during render calls.
-        /// </summary>
-        public bool ShowTileGrid { get; set; }
-
-        /// <summary>
-        /// bool value specifying if the bounding boxes for entities should be shown during render calls.
-        /// </summary>
-        public bool ShowBoundingBoxes { get; set; }
-
-        /// <summary>
         /// Current QuadTree built during the latest Update call.
         /// </summary>
         public QuadTree QuadTree { get; set; }
@@ -121,6 +129,11 @@ namespace GameEngine
         /// Debug Information that can be accessed by the player.
         /// </summary>
         public DebugInfo DebugInfo { get; private set; }
+
+        /// <summary>
+        /// Class that allows the user to specify the settings for numerous drawing options.
+        /// </summary>
+        public DrawingOptionsRecord DrawingOptions { get; private set; }
 
         List<Entity> _entityCreate = new List<Entity>();                // A list of entities which need to be added.
         List<Entity> _entityTrash = new List<Entity>();                 // A list of named entities that are in need of removal.
@@ -148,10 +161,13 @@ namespace GameEngine
 
             GraphicsDevice = game.GraphicsDevice;
 
-            ShowQuadTree = false;
-            ShowEntityDebugInfo = false;
-            ShowTileGrid = false;
-            ShowBoundingBoxes = false;
+            DrawingOptions = new DrawingOptionsRecord();
+            DrawingOptions.ShowQuadTree = false;
+            DrawingOptions.ShowEntityDebugInfo = false;
+            DrawingOptions.ShowTileGrid = false;
+            DrawingOptions.ShowBoundingBoxes = false;
+            DrawingOptions.ShowDrawableComponents = false;
+
             EntitiesOnScreen = new List<Entity>();
 
             DebugInfo = new DebugInfo();
@@ -478,7 +494,7 @@ namespace GameEngine
                             }
 
                             // DRAW THE TILE LAYER GRID IF ENABLE
-                            if (ShowTileGrid && layerIndex == Map.TileLayers.Count - 1)
+                            if (DrawingOptions.ShowTileGrid && layerIndex == Map.TileLayers.Count - 1)
                                 spriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
                         }
                     }
@@ -519,7 +535,7 @@ namespace GameEngine
                     );
 
                     // DRAW ENTITY BOUNDING BOXES IF ENABLED
-                    if (ShowBoundingBoxes)
+                    if (DrawingOptions.ShowBoundingBoxes)
                     {
                         spriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0.0001f);
                         SpriteBatchExtensions.DrawCross(
@@ -578,8 +594,20 @@ namespace GameEngine
                             drawable.SpriteEffects,
                             layerDepth);
 
+                        // DRAW INDIVIDUAL DRAWABLE COMPONENTS
+                        if (DrawingOptions.ShowDrawableComponents)
+                        {
+                            Rectangle drawableComponentRect = new Rectangle(
+                                (int) Math.Floor(objectDestRect.X - objectDestRect.Width * drawable.Drawable.Origin.X),
+                                (int) Math.Floor(objectDestRect.Y - objectDestRect.Height * drawable.Drawable.Origin.Y),
+                                objectDestRect.Width, objectDestRect.Height);
+
+                            SpriteBatchExtensions.DrawRectangle(
+                                spriteBatch, drawableComponentRect, Color.Blue, 0);
+                        }
+
                         // DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
-                        if (ShowEntityDebugInfo)
+                        if (DrawingOptions.ShowEntityDebugInfo)
                         {
                             string message = string.Format(
                                 "Pos={0}, Lyr={1}\nBB: {2}\nDR: {3}", 
@@ -606,7 +634,7 @@ namespace GameEngine
             DebugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
 
             // DRAW THE QUAD TREE IF ENABLED
-            if (ShowQuadTree)
+            if (DrawingOptions.ShowQuadTree)
             {
                 spriteBatch.Begin();
                 DrawQuadTree(

@@ -188,9 +188,9 @@ namespace Some2DRPG
             LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader(LightShader);
 
-            Engine.ShowEntityDebugInfo = false;
-            Engine.ShowBoundingBoxes = false;
-            Engine.ShowTileGrid = false;
+            Engine.DrawingOptions.ShowEntityDebugInfo = false;
+            Engine.DrawingOptions.ShowBoundingBoxes = false;
+            Engine.DrawingOptions.ShowTileGrid = false;
 
             Random random = new Random();
             LoadMapObjects(Engine.Map, Content);
@@ -240,7 +240,7 @@ namespace Some2DRPG
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F1, this, true))
-                Engine.ShowBoundingBoxes = !Engine.ShowBoundingBoxes;
+                Engine.DrawingOptions.ShowDrawableComponents = !Engine.DrawingOptions.ShowDrawableComponents;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F2, this, true))
                 showDebugInfo = !showDebugInfo;
@@ -252,16 +252,16 @@ namespace Some2DRPG
                 CurrentSampler = SamplerStates[++SamplerIndex % SamplerStates.Length];
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F5, this, true))
-                Engine.ShowTileGrid = !Engine.ShowTileGrid;
+                Engine.DrawingOptions.ShowTileGrid = !Engine.DrawingOptions.ShowTileGrid;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F6, this, true))
-                Engine.ShowQuadTree = !Engine.ShowQuadTree;
+                Engine.DrawingOptions.ShowQuadTree = !Engine.DrawingOptions.ShowQuadTree;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F7, this, true))
                 showDiagnostics = !showDiagnostics;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F8, this, true))
-                Engine.ShowEntityDebugInfo = !Engine.ShowEntityDebugInfo;
+                Engine.DrawingOptions.ShowEntityDebugInfo = !Engine.DrawingOptions.ShowEntityDebugInfo;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F10, this, true))
                 Graphics.ToggleFullScreen();
