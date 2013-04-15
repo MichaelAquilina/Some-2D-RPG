@@ -18,33 +18,6 @@ using Microsoft.Xna.Framework.Graphics;
 /// provides a number of powerful tools and properties to quickly create and design 2D games that rely on tiles as coordinate
 /// systems. The Name Tee Engine came from the idea of a TileEngine, ie a TEngine. I have a personal obsession with Tea, so changing
 /// the name of the engine to TeeEngine embeds a bit of my personality into this project.
-/// 
-/// Using the TeeEngine is very simple:
-/// 
-/// TeeEngine engine = new TeeEngine(Game, 1024, 768);      //1024x768 resolution
-/// engine.LoadMap("some_tiled_map.tmx");
-/// 
-/// engine.Entities.Add(entity1);
-/// ...
-/// 
-/// engine.RegisterGameShader(shader1);
-/// ...
-///
-///In the Context of this Game Engine, the following Coordinate units are used:
-///        PX: Pixels
-///        TX: Tixels (Tile units)
-///The above can be renamed as necessary in the future if need be.
-///
-///any coordinate property should have one of the above units prepended to thei name
-///      -example: txWidth, pxHeight
-///any coordinate functions should follow the same convention:
-///      -example: GetPxBoundingBox()
-///
-///As a General Rule of thumb:
-///     tx + tx = tx
-///     px + px = px
-///     tx * px = px
-///     tx + px = INVALID
 /// </summary>
 namespace GameEngine
 {
@@ -143,7 +116,7 @@ namespace GameEngine
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
 
-        // TODO: Might be smarter to create a class for handling thes.e
+        // TODO: Might be smarter to create a class for handling these.
         Stopwatch _watch1;              // Primary diagnostic watch.
         Stopwatch _watch2;              // Secondary diagnostic watch.
         Stopwatch _watch3;              // Tertiary diagnostic watch.
