@@ -4,12 +4,14 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Change *KeyboardExtensions* class to make use of a Dictionary<string, HashSet<Keys>> which should be much faster and scalable.
 - [] - Iplement extended IntersetsWith function. IntersectsWith(Entity entity, GameTime gameTime, string thisGroup=null, string entityGroup=null)
 - [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
 - [IP] - AI for bats. Use A* for path finding techniques
 - [] - better entity integration in map loading
 - [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [] - Might be smarter to convert floats to integers * 100 for faster performance
+- [] - Give a better look to QuadTree validate code to see if we can reduce the amount of times we remove and add QuadTreeNodes
 
 Must Have
 ---------
