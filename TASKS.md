@@ -18,7 +18,7 @@ Must Have
 
 - [Done] - The ability to draw and render a 2D top down game world
 - [Done] - an entity framework
-- [IP] - an animation framework
+- [Done] - an animation framework
 - [Done] - a post-rendering shader framework
 - [Done] - the ability to load from tiled maps (prevents from having to develop a map creation application)
 
