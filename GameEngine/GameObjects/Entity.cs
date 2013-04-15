@@ -115,11 +115,11 @@ namespace GameEngine.GameObjects
         #region Intersection Methods
 
         // Helper method that wraps the static IntersectsWith Entity method. Assumes the state to check is the current drawable state.
-        public bool IntersectsWith(Entity targetEntity, GameTime gameTime, string thisGroup=null, string targetEntityGroup=null)
+        public static bool IntersectsWith(Entity entity1, string entity1Group, Entity entity2, string entity2Group, GameTime gameTime)
         {
             return Entity.IntersectsWith(
-                this, CurrentDrawableState, thisGroup, 
-                targetEntity, targetEntity.CurrentDrawableState, targetEntityGroup, 
+                entity1, entity1.CurrentDrawableState, entity1Group, 
+                entity2, entity2.CurrentDrawableState, entity2Group, 
                 gameTime);
         }
 

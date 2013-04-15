@@ -200,7 +200,7 @@ namespace Some2DRPG.GameObjects
                     if (entity is Bat)
                     {
                         if (CurrentDrawableState.Contains("Slash") &&
-                            this.IntersectsWith(entity, gameTime, "Weapon", "Body"))
+                            Entity.IntersectsWith(this, "Weapon", entity, "Body", gameTime))
                         {
                             Bat bat = (Bat)entity;
                             bat.HP -= 10;

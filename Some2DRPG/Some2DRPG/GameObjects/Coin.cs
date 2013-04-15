@@ -72,7 +72,7 @@ namespace Some2DRPG.GameObjects
                     this.Pos.Y += (float)(Math.Sin(angle) * speed);        // y component.
 
                     // Check to see if coin can be considered collected.
-                    if (this.IntersectsWith(player, gameTime, "Shadow", "Shadow"))
+                    if (Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
                     {
                         CoinSound.Play(0.05f, 0.0f, 0.0f);
                         player.Coins += this.CoinValue;
