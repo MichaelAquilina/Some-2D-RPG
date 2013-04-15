@@ -138,7 +138,7 @@ namespace GameEngine
         List<Entity> _entityCreate = new List<Entity>();                // A list of entities which need to be added.
         List<Entity> _entityTrash = new List<Entity>();                 // A list of named entities that are in need of removal.
         
-        Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();
+        Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();        // Internal storage structure for entities added to the engine.
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;

@@ -240,7 +240,7 @@ namespace Some2DRPG
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F1, this, true))
-                Engine.DrawingOptions.ShowDrawableComponents = !Engine.DrawingOptions.ShowDrawableComponents;
+                Engine.DrawingOptions.ShowBoundingBoxes = !Engine.DrawingOptions.ShowBoundingBoxes;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F2, this, true))
                 showDebugInfo = !showDebugInfo;
@@ -264,7 +264,7 @@ namespace Some2DRPG
                 Engine.DrawingOptions.ShowEntityDebugInfo = !Engine.DrawingOptions.ShowEntityDebugInfo;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F10, this, true))
-                Graphics.ToggleFullScreen();
+                Engine.DrawingOptions.ShowDrawableComponents = !Engine.DrawingOptions.ShowDrawableComponents;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F11, this, true))
             {
