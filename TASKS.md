@@ -4,10 +4,12 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Add transition capabilities in maps. Example_Map->Cave_Example
+- [] - Bug when adding more tilesets after the custom sized treetop tileset. This is because the tilewidths do not exceed the images width and height perfectly as expected.
 - [Done] - Change *KeyboardExtensions* class to make use of a Dictionary&lt;string, HashSet&lt;Keys&gt;&gt; which should be much faster and scalable.
 - [Done] - Implement extended IntersetsWith function. IntersectsWith(Entity entity, GameTime gameTime, string thisGroup=null, string entityGroup=null)
 - [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
-- [IP] - AI for bats. Use A* for path finding techniques
+- [IP] - AI for bats. Use A* for path finding techniques for ground units. Bats do not really need to make use of A*.
 - [] - better entity integration in map loading
 - [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [] - Might be smarter to convert floats to integers * 100 for faster performance
