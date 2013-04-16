@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Investigate imported tileset support (trx files) so that properties etc can be shared amognst multiple maps.
 - [] - Add transition capabilities in maps. Example_Map->Cave_Example
 - [] - Bug when adding more tilesets after the custom sized treetop tileset. This is because the tilewidths do not exceed the images width and height perfectly as expected.
 - [Done] - Change *KeyboardExtensions* class to make use of a Dictionary&lt;string, HashSet&lt;Keys&gt;&gt; which should be much faster and scalable.
