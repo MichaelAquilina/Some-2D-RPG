@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 using GameEngine;
+using GameEngine.Drawing;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using GameEngine.Info;
@@ -12,8 +14,6 @@ using Microsoft.Xna.Framework.Input;
 using ShadowKillGame.GameObjects;
 using Some2DRPG.GameObjects;
 using Some2DRPG.Shaders;
-using GameEngine.Drawing;
-using System.Collections.Generic;
 
 namespace Some2DRPG
 {
@@ -76,10 +76,7 @@ namespace Some2DRPG
 
         protected override void Initialize()
         {
-            TiledMap tiledmap = TiledMap.LoadTiledXML("Content/example_map.tmx", Content);
-
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
-            Engine.LoadMap(tiledmap);
 
             CurrentPlayer = new Hero(32 * 4, 32 * 4);
             CurrentPlayer.CollisionDetection = true;
@@ -100,6 +97,7 @@ namespace Some2DRPG
         }
 
         // Loads objects in a tmx map file, created in tiled
+        // TODO: Within the engine, some form of callback 'binding' should be allowed rather than parsing information like this
         private void LoadMapObjects(TiledMap map, ContentManager content)
         {
             Random random = new Random();
@@ -108,6 +106,17 @@ namespace Some2DRPG
             {
                 foreach (MapObject mapObject in layer.Objects)
                 {
+                    if (mapObject.Type == "MapTransition")
+                    {
+                        MapTransition mapTransition = new MapTransition(
+                            mapObject.X, mapObject.Y, 
+                            mapObject.Width, mapObject.Height, 
+                            mapObject.GetProperty("Destination")
+                            );
+
+                        Engine.AddEntity(mapObject.Name, mapTransition);
+                    }
+                    else
                     if (mapObject.Type == "Chest")
                     {
                         Chest chest = new Chest(mapObject.X, mapObject.Y);
@@ -151,7 +160,7 @@ namespace Some2DRPG
                         Engine.AddEntity(coin);
                     }
                     else
-                    if (mapObject.Gid != -1)
+                    if (mapObject.Gid != -1)        // Default operation is to check if it has been assigned a tile and use it if needs be.
                     {
                         Entity entity = new Entity();
                         entity.Pos = new Vector2(mapObject.X, mapObject.Y);
@@ -178,6 +187,9 @@ namespace Some2DRPG
 
         protected override void LoadContent()
         {
+            TiledMap tiledmap = TiledMap.ReadTiledXml("Content/example_map.tmx");
+            Engine.LoadMap(tiledmap);
+
             CurrentSampler = SamplerStates[SamplerIndex];
 
             LightShader = new LightShader(this.GraphicsDevice, CIRCLE_POINT_ACCURACY);

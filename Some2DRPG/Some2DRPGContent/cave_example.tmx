@@ -20,8 +20,6 @@
   <tile id="26" terrain="0,,,"/>
   <tile id="27" terrain=",0,,0"/>
   <tile id="28" terrain="0,,0,"/>
-  <tile id="39" terrain=",0,,0"/>
-  <tile id="40" terrain="0,,0,"/>
  </tileset>
  <tileset firstgid="109" name="dirt2" tilewidth="32" tileheight="32">
   <image source="LPC/Terrain/dirt2.png" width="96" height="192"/>
