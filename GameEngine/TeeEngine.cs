@@ -157,31 +157,41 @@ namespace GameEngine
             foreach (ILoadable loadableShader in GameShaders)
                 loadableShader.LoadContent(Content);
 
+            if (Map != null) Map.LoadContent(Content);
+
             //foreach (Entity entity in _entities.Values)
             //    entity.LoadContent(Content);
         }
 
         public void UnloadContent()
         {
-            foreach (Entity entity in _entities.Values)
-                entity.UnloadContent();
+            // TODO: Proper handling of unloading content
 
-            if (_inputBuffer != null)
-                _inputBuffer.Dispose();
+            //foreach (Entity entity in _entities.Values)
+            //    entity.UnloadContent();
 
-            if (_outputBuffer != null)
-                _outputBuffer.Dispose();
+            //if (_inputBuffer != null)
+            //    _inputBuffer.Dispose();
 
-            _inputBuffer = null;
-            _outputBuffer = null;
+            //if (_outputBuffer != null)
+            //    _outputBuffer.Dispose();
 
-            foreach (ILoadable loadableShader in GameShaders)
-                loadableShader.UnloadContent();
+            //_inputBuffer = null;
+            //_outputBuffer = null;
+
+            //if (Map != null) Map.UnloadContent();
+
+            //foreach (ILoadable loadableShader in GameShaders)
+            //    loadableShader.UnloadContent();
         }
 
         public void LoadMap(TiledMap map)
         {
             this.Map = map;
+            this.Map.LoadContent(Game.Content);
+
+            // unload previous map here.
+
             this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.pxTileWidth, map.pxTileHeight);
         }
 
@@ -456,7 +466,7 @@ namespace GameEngine
                                 Tile tile = Map.Tiles[tileGid];
 
                                 spriteBatch.Draw(
-                                    tile.SourceTexture,
+                                    tile.sourceTexture,
                                     pxTileDestRect,
                                     tile.SourceRectangle,
                                     Color.White,

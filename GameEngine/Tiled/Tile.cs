@@ -2,12 +2,15 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using GameEngine.Interfaces;
+using Microsoft.Xna.Framework.Content;
 
 namespace GameEngine.Tiled
 {
-    public class Tile : PropertyBag, IGameDrawable
+    public class Tile : PropertyBag, IGameDrawable, ILoadable
     {
-        public Texture2D SourceTexture { get; set; }
+        internal string sourceTexturePath { get; set; }
+        internal Texture2D sourceTexture { get; set; }
+        
         public Rectangle SourceRectangle { get; set; }
         public int TileGid { get; set; }                    // Tile Global Identifier
         public string TileSetName { get; set; }
@@ -20,9 +23,19 @@ namespace GameEngine.Tiled
             this.Origin = new Vector2(0, 1);
         }
 
+        public void LoadContent(ContentManager content)
+        {
+            sourceTexture = content.Load<Texture2D>(sourceTexturePath);
+        }
+
+        public void UnloadContent()
+        {
+            sourceTexture.Dispose();
+        }
+
         public Texture2D GetSourceTexture(double elapsedMS)
         {
-            return SourceTexture;
+            return sourceTexture;
         }
 
         public Rectangle GetSourceRectangle(double elapsedMS)
