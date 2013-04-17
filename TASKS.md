@@ -4,6 +4,8 @@ Game Engine Tasks
 Todo
 ----
 
+- [IP] - Refactoring of TiledMap namespace to support ILoadable and gracefully transition between Map changes.
+- [] - Add a property to all ILoadable classes 'Loaded' which specifies if the classes LoadContent() method has been called.
 - [] - Should DrawableSet accept non-drawable items like hit-bounding boxes? Maybe it should be more extensible in that regard
 - [] - Investigate imported tileset support (trx files) so that properties etc can be shared amognst multiple maps.
 - [IP] - Add transition capabilities in maps. Example_Map->Cave_Example
