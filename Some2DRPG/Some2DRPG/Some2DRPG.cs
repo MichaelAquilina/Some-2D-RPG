@@ -187,7 +187,7 @@ namespace Some2DRPG
 
         protected override void LoadContent()
         {
-            TiledMap tiledmap = TiledMap.ReadTiledXml("Content/example_map.tmx");
+            TiledMap tiledmap = TiledMap.FromTiledXml("Content/example_map.tmx");
             Engine.LoadMap(tiledmap);
 
             CurrentSampler = SamplerStates[SamplerIndex];

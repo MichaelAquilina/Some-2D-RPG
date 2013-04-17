@@ -55,7 +55,7 @@ namespace Some2DRPG.GameObjects
                 // TODO: add an engine method. PersistEntityInfo() which saves entity information to disk and/or memory.
                 // Data is saved in by name->entity format. This means that you can provided a method to LoadPersistedEntityInfo()
                 // which loads the data as it was previously saved.
-                engine.LoadMap(TiledMap.ReadTiledXml(_targetMapPath));
+                engine.LoadMap(TiledMap.FromTiledXml(_targetMapPath));
             }
         }
     }
