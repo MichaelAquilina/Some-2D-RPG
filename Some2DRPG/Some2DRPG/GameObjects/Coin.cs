@@ -50,7 +50,7 @@ namespace Some2DRPG.GameObjects
             if (IsOnScreen)
             {
                 float COIN_MOVE_SPEED = 5000;
-                float TERMINAL_VELOCITY = 3;
+                float TERMINAL_VELOCITY = 4;
 
                 Hero player = (Hero)engine.GetEntity("Player");
 
