@@ -779,8 +779,8 @@
     <property name="Density" value="15"/>
    </properties>
   </object>
-  <object type="Chest" x="291" y="52" width="37" height="36"/>
-  <object type="Chest" x="196" y="738" width="37" height="36"/>
+  <object name="chest_1" type="Chest" x="291" y="52" width="37" height="36"/>
+  <object name="chest_2" type="Chest" x="196" y="738" width="37" height="36"/>
   <object name="silver_coin_area" type="CoinArea" x="389" y="131" width="304" height="71">
    <properties>
     <property name="CoinType" value="Silver"/>
@@ -793,5 +793,6 @@
    </properties>
   </object>
   <object name="map_transition_test1" type="MapTransition" x="1198" y="638" width="316" height="226"/>
+  <object name="main_entrance" type="Entrance" x="461" y="271"/>
  </objectgroup>
 </map>
