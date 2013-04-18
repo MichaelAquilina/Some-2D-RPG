@@ -7,6 +7,8 @@ namespace GameEngine.Tiled
     {
         public string Name { get; set; }
 
+        public bool Visible { get; set; }
+
         public int txWidth
         {
             get;
@@ -39,6 +41,7 @@ namespace GameEngine.Tiled
         {
             this.txWidth = width;
             this.txHeight = height;
+            this.Visible = true;
             _tiles = new int[width * height];
         }
 

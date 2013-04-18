@@ -421,42 +421,45 @@ namespace GameEngine
                 {
                     // DRAW EACH LAYER
                     TileLayer tileLayer = Map.TileLayers[layerIndex];
-                    float depth = 1 - (layerIndex / 10000.0f);
-
-                    for (int i = 0; i < viewPortInfo.TileCountX; i++)
+                    if (tileLayer.Visible)
                     {
-                        for (int j = 0; j < viewPortInfo.TileCountY; j++)
+                        float depth = 1 - (layerIndex / 10000.0f);
+
+                        for (int i = 0; i < viewPortInfo.TileCountX; i++)
                         {
-                            int tileX = (int)(i + viewPortInfo.pxTopLeftX / Map.pxTileWidth);
-                            int tileY = (int)(j + viewPortInfo.pxTopLeftY / Map.pxTileHeight);
-
-                            int tileGid = tileLayer[tileX, tileY];
-
-                            Rectangle pxTileDestRect = new Rectangle(
-                                (int) Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom),
-                                (int) Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom),
-                                (int) viewPortInfo.pxTileWidth,
-                                (int) viewPortInfo.pxTileHeight
-                            );
-
-                            if (tileGid != 0 && tileGid != -1)   // NULL or INVALID Tile Gid is ignored
+                            for (int j = 0; j < viewPortInfo.TileCountY; j++)
                             {
-                                Tile tile = Map.Tiles[tileGid];
+                                int tileX = (int)(i + viewPortInfo.pxTopLeftX / Map.pxTileWidth);
+                                int tileY = (int)(j + viewPortInfo.pxTopLeftY / Map.pxTileHeight);
 
-                                spriteBatch.Draw(
-                                    tile.sourceTexture,
-                                    pxTileDestRect,
-                                    tile.SourceRectangle,
-                                    Color.White,
-                                    0, Vector2.Zero,
-                                    SpriteEffects.None,
-                                    depth
+                                int tileGid = tileLayer[tileX, tileY];
+
+                                Rectangle pxTileDestRect = new Rectangle(
+                                    (int)Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom),
+                                    (int)Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom),
+                                    (int)viewPortInfo.pxTileWidth,
+                                    (int)viewPortInfo.pxTileHeight
                                 );
-                            }
 
-                            // DRAW THE TILE LAYER GRID IF ENABLE
-                            if (DrawingOptions.ShowTileGrid && layerIndex == Map.TileLayers.Count - 1)
-                                spriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
+                                if (tileGid != 0 && tileGid != -1)   // NULL or INVALID Tile Gid is ignored
+                                {
+                                    Tile tile = Map.Tiles[tileGid];
+
+                                    spriteBatch.Draw(
+                                        tile.sourceTexture,
+                                        pxTileDestRect,
+                                        tile.SourceRectangle,
+                                        Color.White,
+                                        0, Vector2.Zero,
+                                        SpriteEffects.None,
+                                        depth
+                                    );
+                                }
+
+                                // DRAW THE TILE LAYER GRID IF ENABLE
+                                if (DrawingOptions.ShowTileGrid && layerIndex == Map.TileLayers.Count - 1)
+                                    spriteBatch.DrawRectangle(pxTileDestRect, Color.Black, 0);
+                            }
                         }
                     }
                 }
