@@ -12,6 +12,7 @@ using GameEngine.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngine.Options;
 
 /// <summary>
 /// The TeeEngine - the result of my sweat, blood and tears into this project. The TeeEngine is simply a 2D Tile Engine that
@@ -23,34 +24,6 @@ namespace GameEngine
 {
     public class TeeEngine : GameComponent
     {
-        public class DrawingOptionsRecord
-        {
-            /// <summary>
-            /// Show Entity debug information when drawing the world view port to the screen.
-            /// </summary>
-            public bool ShowEntityDebugInfo { get; set; }
-
-            /// <summary>
-            /// Shows the QuadTrees bounding boxes when drawing the world viewport.
-            /// </summary>
-            public bool ShowQuadTree { get; set; }
-
-            /// <summary>
-            /// bool value specifying if the tile grid should be shown during render calls.
-            /// </summary>
-            public bool ShowTileGrid { get; set; }
-
-            /// <summary>
-            /// bool value specifying if the bounding boxes for entities should be shown during render calls.
-            /// </summary>
-            public bool ShowBoundingBoxes { get; set; }
-
-            /// <summary>
-            /// bool value specifying if the bounding boxes for each individual drawable component should be shown.
-            /// </summary>
-            public bool ShowDrawableComponents { get; set; }
-        }
-
         #region Properties and Variables
 
         /// <summary>
@@ -106,7 +79,7 @@ namespace GameEngine
         /// <summary>
         /// Class that allows the user to specify the settings for numerous drawing options.
         /// </summary>
-        public DrawingOptionsRecord DrawingOptions { get; private set; }
+        public DrawingOptions DrawingOptions { get; private set; }
 
         List<Entity> _entityCreate = new List<Entity>();                // A list of entities which need to be added.
         List<Entity> _entityTrash = new List<Entity>();                 // A list of named entities that are in need of removal.
@@ -134,7 +107,7 @@ namespace GameEngine
 
             GraphicsDevice = game.GraphicsDevice;
 
-            DrawingOptions = new DrawingOptionsRecord();
+            DrawingOptions = new DrawingOptions();
             DrawingOptions.ShowQuadTree = false;
             DrawingOptions.ShowEntityDebugInfo = false;
             DrawingOptions.ShowTileGrid = false;
@@ -193,6 +166,11 @@ namespace GameEngine
             // unload previous map here.
 
             this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.pxTileWidth, map.pxTileHeight);
+        }
+
+        public void LoadMap(string mapFilePath)
+        {
+            LoadMap(TiledMap.FromTiledXml(mapFilePath));
         }
 
         public void SetResolution(int pixelWidth, int pixelHeight)
