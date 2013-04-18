@@ -11,14 +11,14 @@ namespace GameEngine.Tiled
 {
     public class TiledMap : PropertyBag, ILoadable
     {
-        public int pxWidth { get { return txWidth * pxTileWidth; } }
-        public int pxHeight { get { return txHeight * pxTileHeight; } }
+        public int pxWidth { get { return txWidth * TileWidth; } }
+        public int pxHeight { get { return txHeight * TileHeight; } }
 
         public int txWidth { get; set; }
         public int txHeight { get; set; }
 
-        public int pxTileWidth { get; set; }
-        public int pxTileHeight { get; set; }
+        public int TileWidth { get; set; }
+        public int TileHeight { get; set; }
 
         public Color Background { get; set; }
 
@@ -72,8 +72,8 @@ namespace GameEngine.Tiled
         public Tile GetPxTopMostTile(float px, float py)
         {
             return GetTxTopMostTile(
-                (int) (px / pxTileWidth), 
-                (int) (py / pxTileHeight)
+                (int) (px / TileWidth), 
+                (int) (py / TileHeight)
             );
         }
 
@@ -90,8 +90,8 @@ namespace GameEngine.Tiled
         public Tile GetPxTile(float px, float py, int layerIndex)
         {
             return GetTxTile(
-                (int)(px / pxTileWidth),
-                (int)(py / pxTileHeight),
+                (int)(px / TileWidth),
+                (int)(py / TileHeight),
                 layerIndex
             );
         }
@@ -111,8 +111,8 @@ namespace GameEngine.Tiled
             TiledMap map = new TiledMap();
             map.txWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "width", -1, true);
             map.txHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "height", -1, true);
-            map.pxTileWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "tilewidth", -1, true);
-            map.pxTileHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "tileheight", -1, true);
+            map.TileWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "tilewidth", -1, true);
+            map.TileHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "tileheight", -1, true);
             map.Background = ColorExtensions.ToColor(
                 XmlExtensions.GetAttributeValue(
                     mapNode, "backgroundcolor", "#000000"
@@ -227,7 +227,7 @@ namespace GameEngine.Tiled
         {
             return string.Format("TiledMap: Dimensions={0}x{1}, TileDimensions={2}x{3}, TileLayers={4}, ObjectLayers={5}",
                 txWidth, txHeight,
-                pxTileWidth, pxTileHeight,
+                TileWidth, TileHeight,
                 TileLayers.Count,
                 ObjectLayers.Count
                 );

@@ -165,7 +165,7 @@ namespace GameEngine
 
             // unload previous map here.
 
-            this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.pxTileWidth, map.pxTileHeight);
+            this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
         }
 
         public void LoadMap(string mapFilePath)
@@ -179,7 +179,7 @@ namespace GameEngine
             this.PixelHeight = pixelHeight;
 
             if (Map != null)
-                QuadTree = new QuadTree(Map.txWidth, Map.txHeight, Map.pxTileWidth, Map.pxTileHeight);
+                QuadTree = new QuadTree(Map.txWidth, Map.txHeight, Map.TileWidth, Map.TileHeight);
 
             if (_outputBuffer != null)
                 _outputBuffer.Dispose();
@@ -368,14 +368,14 @@ namespace GameEngine
         {
             ViewPortInfo viewPortInfo = new ViewPortInfo();
             {
-                viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.pxTileWidth * zoom);
-                viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.pxTileHeight * zoom);
+                viewPortInfo.pxTileWidth  = (int) Math.Ceiling(Map.TileWidth * zoom);
+                viewPortInfo.pxTileHeight = (int) Math.Ceiling(Map.TileHeight * zoom);
 
                 // Note about ActualZoom Property:
                 // because there is a loss of data between to conversion from Map.pxTileWidth * Zoom -> (int)
                 // we need to determine what was the actual level of zoom that was applied to the tiles and use that
                 // this ensures that entities that will be drawn will be placed correctly on the screen.
-                viewPortInfo.ActualZoom = viewPortInfo.pxTileWidth / Map.pxTileWidth;
+                viewPortInfo.ActualZoom = viewPortInfo.pxTileWidth / Map.TileWidth;
 
                 viewPortInfo.pxWidth = pxDestRectangle.Width / viewPortInfo.ActualZoom;
                 viewPortInfo.pxHeight = pxDestRectangle.Height / viewPortInfo.ActualZoom;
@@ -383,8 +383,8 @@ namespace GameEngine
                 viewPortInfo.pxTopLeftX = pxCenterX - viewPortInfo.pxWidth / 2.0f;
                 viewPortInfo.pxTopLeftY = pxCenterY - viewPortInfo.pxHeight / 2.0f;
 
-                viewPortInfo.TileCountX = (int) Math.Ceiling((double)viewPortInfo.pxWidth / Map.pxTileWidth) + 1;
-                viewPortInfo.TileCountY = (int) Math.Ceiling((double)viewPortInfo.pxHeight / Map.pxTileHeight) + 1;
+                viewPortInfo.TileCountX = (int) Math.Ceiling((double)viewPortInfo.pxWidth / Map.TileWidth) + 1;
+                viewPortInfo.TileCountY = (int) Math.Ceiling((double)viewPortInfo.pxHeight / Map.TileHeight) + 1;
 
                 // Prevent the View from going outisde of the WORLD coordinates.
                 if (viewPortInfo.pxTopLeftX < 0) viewPortInfo.pxTopLeftX = 0;
@@ -396,8 +396,8 @@ namespace GameEngine
                     viewPortInfo.pxTopLeftY = Map.pxHeight - viewPortInfo.pxHeight;
 
                 // Calculate any decimal displacement required (For Positions with decimal points).
-                viewPortInfo.pxDispX = viewPortInfo.pxTopLeftX - ((int)viewPortInfo.pxTopLeftX / Map.pxTileWidth) * Map.pxTileWidth;
-                viewPortInfo.pxDispY = viewPortInfo.pxTopLeftY - ((int)viewPortInfo.pxTopLeftY / Map.pxTileHeight) * Map.pxTileHeight;
+                viewPortInfo.pxDispX = viewPortInfo.pxTopLeftX - ((int)viewPortInfo.pxTopLeftX / Map.TileWidth) * Map.TileWidth;
+                viewPortInfo.pxDispY = viewPortInfo.pxTopLeftY - ((int)viewPortInfo.pxTopLeftY / Map.TileHeight) * Map.TileHeight;
 
                 viewPortInfo.pxViewPortBounds = new Rectangle(
                     (int) Math.Ceiling(viewPortInfo.pxTopLeftX),
@@ -429,8 +429,8 @@ namespace GameEngine
                         {
                             for (int j = 0; j < viewPortInfo.TileCountY; j++)
                             {
-                                int tileX = (int)(i + viewPortInfo.pxTopLeftX / Map.pxTileWidth);
-                                int tileY = (int)(j + viewPortInfo.pxTopLeftY / Map.pxTileHeight);
+                                int tileX = (int)(i + viewPortInfo.pxTopLeftX / Map.TileWidth);
+                                int tileY = (int)(j + viewPortInfo.pxTopLeftY / Map.TileHeight);
 
                                 int tileGid = tileLayer[tileX, tileY];
 
