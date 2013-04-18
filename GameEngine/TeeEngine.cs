@@ -24,7 +24,7 @@ namespace GameEngine
 {
     public class TeeEngine : GameComponent
     {
-        #region Delegates and Events
+        #region Delegates
 
         /// <summary>
         ///  Method which will be called whenever an object is found during map loading. Allows converting from generic
@@ -37,7 +37,7 @@ namespace GameEngine
 
         #endregion
 
-        #region Properties and Variables
+        #region Properties
 
         /// <summary>
         /// Graphics Device being used by this Engine to Render.
@@ -94,6 +94,10 @@ namespace GameEngine
         /// </summary>
         public DrawingOptions DrawingOptions { get; private set; }
 
+        #endregion
+
+        #region Internal Members
+
         List<Entity> _entityCreate = new List<Entity>();                // A list of entities which need to be added.
         List<Entity> _entityTrash = new List<Entity>();                 // A list of named entities that are in need of removal.
         
@@ -138,37 +142,12 @@ namespace GameEngine
 
         public void LoadContent()
         {
-            ContentManager Content = this.Game.Content;
-
-            foreach (ILoadable loadableShader in GameShaders)
-                loadableShader.LoadContent(Content);
-
-            if (Map != null) Map.LoadContent(Content);
-
-            //foreach (Entity entity in _entities.Values)
-            //    entity.LoadContent(Content);
+            // TODO.
         }
 
         public void UnloadContent()
         {
-            // TODO: Proper handling of unloading content
-
-            //foreach (Entity entity in _entities.Values)
-            //    entity.UnloadContent();
-
-            //if (_inputBuffer != null)
-            //    _inputBuffer.Dispose();
-
-            //if (_outputBuffer != null)
-            //    _outputBuffer.Dispose();
-
-            //_inputBuffer = null;
-            //_outputBuffer = null;
-
-            //if (Map != null) Map.UnloadContent();
-
-            //foreach (ILoadable loadableShader in GameShaders)
-            //    loadableShader.UnloadContent();
+            // TODO.
         }
 
         public void LoadMap(TiledMap map, LoadEntityHandler callback=null)
@@ -513,6 +492,7 @@ namespace GameEngine
             {
                 EntitiesOnScreen = QuadTree.GetIntersectingEntites(new FRectangle(viewPortInfo.pxViewPortBounds));
 
+                // DRAW EACH ENTITIY THAT IS WITHIN THE SCREENS VIEWPORT
                 foreach (Entity entity in EntitiesOnScreen)
                 {
                     _watch2.Restart();
@@ -520,6 +500,7 @@ namespace GameEngine
                     if (!entity.Visible) continue;
                     entity.IsOnScreen = true;
 
+                    // Determine the absolute position on the screen for entity position and the bounding box.
                     Vector2 pxAbsEntityPos = new Vector2(
                         entity.Pos.X * viewPortInfo.ActualZoom - globalDispX,
                         entity.Pos.Y * viewPortInfo.ActualZoom - globalDispY
@@ -545,6 +526,18 @@ namespace GameEngine
                             13, Color.Black, 0f);
                     }
 
+                    // DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
+                    if (DrawingOptions.ShowEntityDebugInfo)
+                    {
+                        SpriteBatchExtensions.DrawMultiLineString(
+                            spriteBatch,
+                            spriteFont,
+                            entity.GetDebugInfo(),
+                            pxAbsEntityPos,
+                            Color.Red);
+                    }
+
+                    // DRAW EVERY GAMEDRAWABLE INSTANCE CURRENTLY ACTIVE IN THE ENTITIES DRAWABLE SET.
                     foreach (GameDrawableInstance drawable in entity.Drawables.GetByState(entity.CurrentDrawableState))
                     {
                         if (!drawable.Visible) continue;
@@ -582,6 +575,7 @@ namespace GameEngine
                         // Important to also take into account the animation layers for the entity.
                         float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
 
+                        // FINALLY ... DRAW
                         spriteBatch.Draw(
                             drawable.GetSourceTexture(LastUpdateTime),
                             objectDestRect,
@@ -592,7 +586,7 @@ namespace GameEngine
                             drawable.SpriteEffects,
                             layerDepth);
 
-                        // DRAW INDIVIDUAL DRAWABLE COMPONENTS
+                        // DRAW BOUNDING BOXES OF EACH INDIVIDUAL DRAWABLE COMPONENT
                         if (DrawingOptions.ShowDrawableComponents)
                         {
                             Rectangle drawableComponentRect = new Rectangle(
@@ -602,26 +596,6 @@ namespace GameEngine
 
                             SpriteBatchExtensions.DrawRectangle(
                                 spriteBatch, drawableComponentRect, Color.Blue, 0);
-                        }
-
-                        // DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
-                        if (DrawingOptions.ShowEntityDebugInfo)
-                        {
-                            string message = string.Format(
-                                "Pos={0}, Lyr={1}\nBB: {2}\nDR: {3}", 
-                                entity.Pos, layerDepth.ToString("0.000"),
-                                pxAbsBoundingBox.ToString("0.0"), 
-                                objectDestRect);
-
-                            SpriteBatchExtensions.DrawMultiLineString(
-                                spriteBatch,
-                                spriteFont,
-                                message,
-                                new Vector2(
-                                    objectDestRect.X - objectDestRect.Width * drawable.Drawable.Origin.X + objectDestRect.Width / 2, 
-                                    objectDestRect.Y - objectDestRect.Height * drawable.Drawable.Origin.Y + objectDestRect.Height / 2
-                                    ),
-                                Color.Red);
                         }
                     }
 

@@ -181,6 +181,17 @@ namespace GameEngine.GameObjects
 
         #endregion
 
+        /// <summary>
+        /// Overridable method whose result is used to display entity debug information by the TeeEngine in its draw method 
+        /// when 'ShowEntityDebugInfo' is set to true in the DrawingOptions. By Default, the result of this method will be 
+        /// the same as the ToString method.
+        /// </summary>
+        /// <returns>string value which will be used to show entity debugging information during draw calls.</returns>
+        public virtual string GetDebugInfo()
+        {
+            return ToString();
+        }
+
         public override string ToString()
         {
             return string.Format("Entity: Name={0}, Type={1}, Pos={2}, Width={3}, Height={4}", 
