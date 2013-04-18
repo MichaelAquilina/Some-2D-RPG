@@ -16,13 +16,13 @@ namespace Some2DRPG.GameObjects
     // TODO: Document appropriately.
     public class MapTransition : Entity
     {
-        float _width;
-        float _height;
+        int _width;
+        int _height;
         string _targetMapPath;
 
         public MapTransition(
             float x, float y, 
-            float width, float height, 
+            int width, int height, 
             string targetMapPath)
             :base(x,y)
         {
@@ -33,11 +33,9 @@ namespace Some2DRPG.GameObjects
 
         public override void LoadContent(ContentManager content)
         {
-            // TODO: Replace with something more approrpiate than an image!!!!!
-            // VERY, VERY temporary. This is just to provide a bounding area until a better api is added
             StaticImage image = new StaticImage(
                 content.Load<Texture2D>("Misc/Zone"),
-                new Rectangle(0, 0, (int) _width, (int) _height));
+                new Rectangle(0, 0, _width, _height));
             image.Origin = new Vector2(0, 0);
 
             GameDrawableInstance instance = Drawables.Add("Standard", image, "Body", 0);
@@ -53,10 +51,7 @@ namespace Some2DRPG.GameObjects
             if (Entity.IntersectsWith(player, "Shadow", this, "Body", gameTime)
                 && KeyboardExtensions.GetKeyDownState(Keyboard.GetState(), Keys.S, this, true))
             {
-                // TODO: Clear previous entities? Reset Player position? Save entity states from unloaded map?
-                // TODO: add an engine method. PersistEntityInfo() which saves entity information to disk and/or memory.
-                // Data is saved in by name->entity format. This means that you can provided a method to LoadPersistedEntityInfo()
-                // which loads the data as it was previously saved.
+                engine.ClearEntities();
                 engine.LoadMap(_targetMapPath);
             }
         }
