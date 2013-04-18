@@ -59,7 +59,7 @@ namespace GameEngine
         /// <summary>
         /// List of currently registered GameShaders in use by the TeeEngine.
         /// </summary>
-        public List<GameShader> GameShaders { get; private set; }
+        public List<PostGameShader> GameShaders { get; private set; }
 
         /// <summary>
         /// Current QuadTree built during the latest Update call.
@@ -117,7 +117,7 @@ namespace GameEngine
             EntitiesOnScreen = new List<Entity>();
 
             DebugInfo = new DebugInfo();
-            GameShaders = new List<GameShader>();
+            GameShaders = new List<PostGameShader>();
 
             SetResolution(pixelWidth, pixelHeight);
             game.Components.Add(this);
@@ -191,7 +191,7 @@ namespace GameEngine
             _outputBuffer = new RenderTarget2D(GraphicsDevice, pixelWidth, pixelHeight, false, SurfaceFormat.Bgr565, DepthFormat.Depth24Stencil8);
 
             // Allow all game shaders to become aware of the change in resolution.
-            foreach (GameShader shader in GameShaders) shader.SetResolution(pixelWidth, pixelHeight);
+            foreach (PostGameShader shader in GameShaders) shader.SetResolution(pixelWidth, pixelHeight);
         }
 
         #region Entity Related Functions
@@ -245,19 +245,19 @@ namespace GameEngine
 
         #region Shader Related Functions
 
-        public bool IsRegistered(GameShader shader)
+        public bool IsRegistered(PostGameShader shader)
         {
             return GameShaders.Contains(shader);
         }
 
-        public void RegisterGameShader(GameShader shader)
+        public void RegisterGameShader(PostGameShader shader)
         {
             GameShaders.Add(shader);
             shader.LoadContent(this.Game.Content);
             shader.SetResolution(PixelWidth, PixelHeight);
         }
 
-        public bool UnregisterGameShader(GameShader shader)
+        public bool UnregisterGameShader(PostGameShader shader)
         {
             shader.UnloadContent();
             return GameShaders.Remove(shader);

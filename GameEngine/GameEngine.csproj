@@ -115,7 +115,7 @@
     <Compile Include="Tiled\TileLayer.cs" />
     <Compile Include="TeeEngine.cs" />
     <Compile Include="Extensions\KeyboardExtensions.cs" />
-    <Compile Include="Shaders\GameShader.cs" />
+    <Compile Include="Shaders\PostGameShader.cs" />
     <Compile Include="Interfaces\ILoadable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
