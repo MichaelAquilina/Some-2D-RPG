@@ -78,7 +78,7 @@ namespace Some2DRPG
         {
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            CurrentPlayer = new Hero(32 * 4, 32 * 4);
+            CurrentPlayer = new Hero();
             CurrentPlayer.CollisionDetection = true;
             CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
             CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
@@ -106,6 +106,11 @@ namespace Some2DRPG
             {
                 foreach (MapObject mapObject in layer.Objects)
                 {
+                    if (mapObject.Type == "Entrance")
+                    {
+                        CurrentPlayer.Pos = new Vector2(mapObject.X, mapObject.Y);
+                    }
+                    else
                     if (mapObject.Type == "MapTransition")
                     {
                         MapTransition mapTransition = new MapTransition(
@@ -190,6 +195,8 @@ namespace Some2DRPG
             TiledMap tiledmap = TiledMap.FromTiledXml("Content/example_map.tmx");
             Engine.LoadMap(tiledmap);
 
+            LoadMapObjects(Engine.Map, Content);
+
             CurrentSampler = SamplerStates[SamplerIndex];
 
             LightShader = new LightShader(this.GraphicsDevice, CIRCLE_POINT_ACCURACY);
@@ -205,7 +212,6 @@ namespace Some2DRPG
             Engine.DrawingOptions.ShowTileGrid = false;
 
             Random random = new Random();
-            LoadMapObjects(Engine.Map, Content);
       
             Engine.AddEntity("Player", CurrentPlayer);
 
@@ -360,8 +366,8 @@ namespace Some2DRPG
                     double fps = 1000 / gameTime.ElapsedGameTime.TotalMilliseconds;
                     Color fpsColor = (Math.Ceiling(fps) < 60) ? Color.Red : Color.White;
 
-                    float TX = CurrentPlayer.Pos.X / Engine.Map.pxTileWidth;
-                    float TY = CurrentPlayer.Pos.Y / Engine.Map.pxTileHeight;
+                    float TX = CurrentPlayer.Pos.X / Engine.Map.TileWidth;
+                    float TY = CurrentPlayer.Pos.Y / Engine.Map.TileHeight;
 
                     SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.Pos.ToString(), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, TX.ToString("0.0") + "," + TY.ToString("0.0"), GeneratePos(textHeight), Color.White);
