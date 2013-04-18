@@ -793,6 +793,6 @@
    </properties>
   </object>
   <object name="map_transition_test1" type="MapTransition" x="1198" y="638" width="316" height="226"/>
-  <object name="main_entrance" type="Entrance" x="461" y="271"/>
+  <object name="main_entrance" type="Entrance" x="494" y="333"/>
  </objectgroup>
 </map>
