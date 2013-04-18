@@ -107,6 +107,7 @@
     <Compile Include="Interfaces\PropertyBag.cs" />
     <Compile Include="DataStructures\QuadTree.cs" />
     <Compile Include="DataStructures\QuadTreeNode.cs" />
+    <Compile Include="Options\DrawingOptions.cs" />
     <Compile Include="Tiled\Tile.cs" />
     <Compile Include="Tiled\TiledMap.cs" />
     <Compile Include="Tiled\MapObject.cs" />
