@@ -78,18 +78,6 @@ namespace Some2DRPG
         {
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            CurrentPlayer = new Hero();
-            CurrentPlayer.CollisionDetection = true;
-            CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
-            CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
-            CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
-            CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
-            CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
-            CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
-            CurrentPlayer.Weapon = NPC.WEAPON_LONGSWORD;
-
-            FollowEntity = CurrentPlayer;
-
             FemaleNPC = new NPC(15, 9, NPC.FEMALE_HUMAN);
             //FemaleNPC.Legs = NPC.PLATE_ARMOR_LEGS;
 
@@ -98,104 +86,111 @@ namespace Some2DRPG
 
         // Loads objects in a tmx map file, created in tiled
         // TODO: Within the engine, some form of callback 'binding' should be allowed rather than parsing information like this
-        private void LoadMapObjects(TiledMap map, ContentManager content)
+        private void LoadMapObjects(TeeEngine engine, TiledMap map, MapObject mapObject)
         {
             Random random = new Random();
 
-            foreach (ObjectLayer layer in map.ObjectLayers)
+            if (mapObject.Type == "Entrance")
             {
-                foreach (MapObject mapObject in layer.Objects)
+                CurrentPlayer = new Hero();
+                CurrentPlayer.CollisionDetection = true;
+                CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
+                CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
+                CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
+                CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
+                CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
+                CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
+                CurrentPlayer.Weapon = NPC.WEAPON_LONGSWORD;
+
+                FollowEntity = CurrentPlayer;
+
+                CurrentPlayer.Pos = new Vector2(mapObject.X, mapObject.Y);
+
+                engine.AddEntity("Player", CurrentPlayer);
+            }
+            else
+            if (mapObject.Type == "MapTransition")
+            {
+                MapTransition mapTransition = new MapTransition(
+                    mapObject.X, mapObject.Y, 
+                    mapObject.Width, mapObject.Height, 
+                    mapObject.GetProperty("Destination"),
+                    LoadMapObjects
+                    );
+
+                engine.AddEntity(mapObject.Name, mapTransition);
+            }
+            else
+            if (mapObject.Type == "Chest")
+            {
+                Chest chest = new Chest(mapObject.X, mapObject.Y);
+
+                engine.AddEntity(chest);
+            }
+            else
+            if (mapObject.Type == "CoinArea")
+            {
+                int density = mapObject.GetProperty<int>("Density", 0);
+                string coinTypeString = mapObject.GetProperty("CoinType", "Gold");
+
+                int coinx = mapObject.Width / density;
+                int coiny = mapObject.Height / density;
+
+                for (int i = 0; i < coinx; i++)
                 {
-                    if (mapObject.Type == "Entrance")
+                    for (int j = 0; j < coiny; j++)
                     {
-                        CurrentPlayer.Pos = new Vector2(mapObject.X, mapObject.Y);
-                    }
-                    else
-                    if (mapObject.Type == "MapTransition")
-                    {
-                        MapTransition mapTransition = new MapTransition(
-                            mapObject.X, mapObject.Y, 
-                            mapObject.Width, mapObject.Height, 
-                            mapObject.GetProperty("Destination")
-                            );
+                        CoinType coinType;
+                        if (coinTypeString == "Mixed")
+                            coinType = (CoinType)random.Next(3);
+                        else
+                            coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
 
-                        Engine.AddEntity(mapObject.Name, mapTransition);
-                    }
-                    else
-                    if (mapObject.Type == "Chest")
-                    {
-                        Chest chest = new Chest(mapObject.X, mapObject.Y);
-
-                        Engine.AddEntity(chest);
-                    }
-                    else
-                    if (mapObject.Type == "CoinArea")
-                    {
-                        int density = mapObject.GetProperty<int>("Density", 0);
-                        string coinTypeString = mapObject.GetProperty("CoinType", "Gold");
-
-                        int coinx = mapObject.Width / density;
-                        int coiny = mapObject.Height / density;
-
-                        for (int i = 0; i < coinx; i++)
-                        {
-                            for (int j = 0; j < coiny; j++)
-                            {
-                                CoinType coinType;
-                                if (coinTypeString == "Mixed")
-                                    coinType = (CoinType)random.Next(3);
-                                else
-                                    coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
-
-                                Coin coin = new Coin(mapObject.X + i * density, mapObject.Y + j * density, 100, coinType);
-                                coin.Visible = true;
-
-                                Engine.AddEntity(coin);
-                            }
-                        }
-                    }
-                    if (mapObject.Type == "Coin")
-                    {
-                        string coinTypeString = mapObject.GetProperty("CoinType", "Gold");
-                        CoinType coinType = coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
-
-                        Coin coin = new Coin(mapObject.X, mapObject.Y, 100, coinType);
+                        Coin coin = new Coin(mapObject.X + i * density, mapObject.Y + j * density, 100, coinType);
                         coin.Visible = true;
 
-                        Engine.AddEntity(coin);
-                    }
-                    else
-                    if (mapObject.Gid != -1)        // Default operation is to check if it has been assigned a tile and use it if needs be.
-                    {
-                        Entity entity = new Entity();
-                        entity.Pos = new Vector2(mapObject.X, mapObject.Y);
-                        entity.ScaleX = 1.0f;
-                        entity.ScaleY = 1.0f;
-                        entity.Visible = true;
-
-                        Tile SourceTile = map.Tiles[mapObject.Gid];
-                        GameDrawableInstance instance = entity.Drawables.Add("standard", SourceTile);
-                        //entity.Drawables.SetNameProperty("standard", "Color", new Color(255, 255, 255, 200));
-
-                        entity.CurrentDrawableState = "standard";
-
-                        // Because tileds default draw origin is (0,1) - we need to update the entity positions based 
-                        // on the custom position defined in the SourceTile.Origin property.
-                        entity.Pos.X += (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(0).Width;
-                        entity.Pos.Y += (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(0).Height;
-
-                        Engine.AddEntity(mapObject.Name, entity);
+                        engine.AddEntity(coin);
                     }
                 }
+            }
+            if (mapObject.Type == "Coin")
+            {
+                string coinTypeString = mapObject.GetProperty("CoinType", "Gold");
+                CoinType coinType = coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
+
+                Coin coin = new Coin(mapObject.X, mapObject.Y, 100, coinType);
+                coin.Visible = true;
+
+                engine.AddEntity(coin);
+            }
+            else
+            if (mapObject.Gid != -1)        // Default operation is to check if it has been assigned a tile and use it if needs be.
+            {
+                Entity entity = new Entity();
+                entity.Pos = new Vector2(mapObject.X, mapObject.Y);
+                entity.ScaleX = 1.0f;
+                entity.ScaleY = 1.0f;
+                entity.Visible = true;
+
+                Tile SourceTile = map.Tiles[mapObject.Gid];
+                GameDrawableInstance instance = entity.Drawables.Add("standard", SourceTile);
+                //entity.Drawables.SetNameProperty("standard", "Color", new Color(255, 255, 255, 200));
+
+                entity.CurrentDrawableState = "standard";
+
+                // Because tileds default draw origin is (0,1) - we need to update the entity positions based 
+                // on the custom position defined in the SourceTile.Origin property.
+                entity.Pos.X += (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(0).Width;
+                entity.Pos.Y += (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(0).Height;
+
+                engine.AddEntity(mapObject.Name, entity);
             }
         }
 
         protected override void LoadContent()
         {
             TiledMap tiledmap = TiledMap.FromTiledXml("Content/example_map.tmx");
-            Engine.LoadMap(tiledmap);
-
-            LoadMapObjects(Engine.Map, Content);
+            Engine.LoadMap(tiledmap, LoadMapObjects);
 
             CurrentSampler = SamplerStates[SamplerIndex];
 
@@ -213,8 +208,6 @@ namespace Some2DRPG
 
             Random random = new Random();
       
-            Engine.AddEntity("Player", CurrentPlayer);
-
             for (int i = 0; i < 50; i++)
             {
                 int px = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxWidth);

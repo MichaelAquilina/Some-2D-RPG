@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using GameEngine;
 
 namespace Some2DRPG.GameObjects
 {
@@ -19,16 +20,20 @@ namespace Some2DRPG.GameObjects
         int _width;
         int _height;
         string _targetMapPath;
+        TeeEngine.LoadEntityHandler _callback;
 
         public MapTransition(
             float x, float y, 
             int width, int height, 
-            string targetMapPath)
+            string targetMapPath,
+            TeeEngine.LoadEntityHandler callback
+            )
             :base(x,y)
         {
             _width = width;
             _height = height;
             _targetMapPath = targetMapPath;
+            _callback = callback;
         }
 
         public override void LoadContent(ContentManager content)
@@ -49,10 +54,10 @@ namespace Some2DRPG.GameObjects
             Hero player = (Hero)engine.GetEntity("Player");
 
             if (Entity.IntersectsWith(player, "Shadow", this, "Body", gameTime)
-                && KeyboardExtensions.GetKeyDownState(Keyboard.GetState(), Keys.S, this, true))
+                && KeyboardExtensions.GetKeyDownState(Keyboard.GetState(), Keys.S, engine, true))
             {
                 engine.ClearEntities();
-                engine.LoadMap(_targetMapPath);
+                engine.LoadMap(_targetMapPath, _callback);
             }
         }
     }
