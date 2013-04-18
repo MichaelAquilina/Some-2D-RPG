@@ -37,8 +37,18 @@ namespace Some2DRPG.GameObjects
         public int XP { get; set; }
         public int Coins { get; set; }
 
+        public NPC(string baseRace)
+        {
+            Initialise(0, 0, baseRace);
+        }
+
         public NPC(float x, float y, string baseRace) :
             base(x, y, 1.0f, 1.0f)
+        {
+            Initialise(x, y, baseRace);
+        }
+
+        private void Initialise(float x, float y, string baseRace)
         {
             this.HP = 0;
             this.XP = 0;

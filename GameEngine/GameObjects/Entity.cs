@@ -35,23 +35,22 @@ namespace GameEngine.GameObjects
 
         public Entity()
         {
-            Init();
+            Initialise(0, 0, 1, 1, true);
         }
 
         public Entity(float x, float y, float scaleX=1, float scaleY=1, bool visible=true)
         {
+            Initialise(x, y, scaleX, scaleY, visible);
+        }
+
+        private void Initialise(float x, float y, float scaleX, float scaleY, bool visible)
+        {
             this.Pos = new Vector2(x, y);
             this.ScaleX = scaleX;
             this.ScaleY = scaleY;
+            this.Opacity = 1.0f;
             this.Visible = visible;
             this.IsOnScreen = false;
-
-            Init();
-        }
-
-        private void Init()
-        {
-            this.Opacity = 1.0f;
             this.Drawables = new DrawableSet();
         }
 
