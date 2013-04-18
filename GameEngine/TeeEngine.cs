@@ -24,6 +24,12 @@ namespace GameEngine
 {
     public class TeeEngine : GameComponent
     {
+        #region Delegates and Events
+
+        public delegate void LoadEntityHandler(TeeEngine engine, TiledMap map, MapObject mapObject);
+
+        #endregion
+
         #region Properties and Variables
 
         /// <summary>
@@ -158,19 +164,26 @@ namespace GameEngine
             //    loadableShader.UnloadContent();
         }
 
-        public void LoadMap(TiledMap map)
+        public void LoadMap(TiledMap map, LoadEntityHandler callback=null)
         {
             this.Map = map;
             this.Map.LoadContent(Game.Content);
 
             // unload previous map here.
 
+            if (callback != null)
+            {
+                foreach (ObjectLayer objectLayer in map.ObjectLayers)
+                    foreach (MapObject mapObject in objectLayer.Objects)
+                        callback(this, map, mapObject);
+            }
+
             this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
         }
 
-        public void LoadMap(string mapFilePath)
+        public void LoadMap(string mapFilePath, LoadEntityHandler callback=null)
         {
-            LoadMap(TiledMap.FromTiledXml(mapFilePath));
+            LoadMap(TiledMap.FromTiledXml(mapFilePath), callback);
         }
 
         public void SetResolution(int pixelWidth, int pixelHeight)
