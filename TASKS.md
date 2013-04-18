@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
 - [IP] - Refactoring of TiledMap namespace to support ILoadable and gracefully transition between Map changes.
 - [] - Add a property to all ILoadable classes 'Loaded' which specifies if the classes LoadContent() method has been called.
 - [] - Should DrawableSet accept non-drawable items like hit-bounding boxes? Maybe it should be more extensible in that regard
@@ -30,6 +31,7 @@ Must Have
 
 Should Have
 -----------
+- [] - NPC Interaction (scriptable with dialog text)
 - [] - ICollision interface should be implemented and used by the QuadTreeNode to allow extensions to be added.
 - [Done] - the ability to zoom in and out (scale)
 - [Done] - an effecient collision detection engine (QuadTree)
