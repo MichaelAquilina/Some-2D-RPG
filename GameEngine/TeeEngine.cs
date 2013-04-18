@@ -211,6 +211,11 @@ namespace GameEngine
             _entityCreate.Add(entity);
         }
 
+        public ICollection<string> GetEntityNames()
+        {
+            return _entities.Keys;
+        }
+
         public ICollection<Entity> GetEntities()
         {
             return _entities.Values;
@@ -239,6 +244,14 @@ namespace GameEngine
         public bool RemoveEntity(Entity entity)
         {
             return RemoveEntity(entity.Name);
+        }
+
+        public void ClearEntities()
+        {
+            // Clear and then Re-Add all the entities.
+            // We are deferring the deletion of all entities till after the games update loop.
+            _entityTrash.Clear();
+            _entityTrash.AddRange(_entities.Values);
         }
 
         #endregion
