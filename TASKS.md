@@ -4,6 +4,8 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Change SpriteBatchExtension 'DrawMultiLineString' to automatically convert strings to mutltiple lines given some maxline length
+- [] - Create virtual Entity method. ShowDebugInfo (or something like that) that is shown by the TeeEngine when required.
 - [] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
 - [IP] - Refactoring of TiledMap namespace to support ILoadable and gracefully transition between Map changes.
 - [] - Add a property to all ILoadable classes 'Loaded' which specifies if the classes LoadContent() method has been called.
