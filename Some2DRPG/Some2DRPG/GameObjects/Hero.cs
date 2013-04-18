@@ -40,7 +40,6 @@ namespace Some2DRPG.GameObjects
         {
             HP = 2000;
             XP = 0;
-            Visible = true;
 
             CollisionDetection = true;
             LightSource = new BasicLightSource();

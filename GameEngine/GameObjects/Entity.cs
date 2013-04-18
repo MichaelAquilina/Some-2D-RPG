@@ -128,7 +128,9 @@ namespace GameEngine.GameObjects
         // to a minimum in order to maintain performance.
         public static bool IntersectsWith(
             Entity entity1, string entity1State, string entity1Group,
-            Entity entity2, string entity2State, string entity2Group, GameTime gameTime)
+            Entity entity2, string entity2State, string entity2Group, 
+            GameTime gameTime
+            )
         {
             List<GameDrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
             List<GameDrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
