@@ -533,6 +533,8 @@ namespace GameEngine
                             spriteBatch,
                             spriteFont,
                             entity.GetDebugInfo(),
+                            (int) entity.CurrentBoundingBox.Width * 2,
+                            4,
                             pxAbsEntityPos,
                             Color.Red);
                     }

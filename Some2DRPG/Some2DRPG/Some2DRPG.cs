@@ -62,6 +62,7 @@ namespace Some2DRPG
         Entity FollowEntity;
         Hero CurrentPlayer;
         NPC FemaleNPC;
+        Random Random = new Random();
 
         TeeEngine Engine;
 
@@ -84,12 +85,9 @@ namespace Some2DRPG
             base.Initialize();
         }
 
-        // Loads objects in a tmx map file, created in tiled
-        // TODO: Within the engine, some form of callback 'binding' should be allowed rather than parsing information like this
+        // Method to convert MapObjects into Entity objects in the engine.
         private void LoadMapObjects(TeeEngine engine, TiledMap map, MapObject mapObject)
         {
-            Random random = new Random();
-
             if (mapObject.Type == "Entrance")
             {
                 CurrentPlayer = new Hero();
@@ -142,7 +140,7 @@ namespace Some2DRPG
                     {
                         CoinType coinType;
                         if (coinTypeString == "Mixed")
-                            coinType = (CoinType)random.Next(3);
+                            coinType = (CoinType)Random.Next(3);
                         else
                             coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
 
