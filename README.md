@@ -13,6 +13,12 @@ If anyone wishes to contact me about possibly contributing to the project they m
 
 I am mainly in need of artists and sound engineers - however programmers and game designers are also welcome to contribute.
 
+Wiki
+----
+
+I am doing my best to keep the WIKI updated. I am using the WIKI as a place to store documentation related to the code being developed.
+https://github.com/KillaW0lf04/Some-2D-RPG/wiki
+
 
 Development Platform
 --------------------

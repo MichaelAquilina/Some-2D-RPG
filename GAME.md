@@ -1,5 +1,8 @@
 Items Related to Design and Development
 ---------------------------------------
+
+* Collision detection with HashMaps http://gamedev.stackexchange.com/questions/18261/collision-detection-structure
+
 * see texture packer application
 
 * Good JRPGS to look at http://kotaku.com/eleven-indie-jrpgs-on-my-radar-472671723
