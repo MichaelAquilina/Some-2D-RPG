@@ -59,7 +59,7 @@ namespace Some2DRPG.GameObjects
                     this._attackHeight.Y += 30.0f / ATTACK_COUNTER_LIMIT;
                     this.Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
 
-                    if (Entity.IntersectsWith(this, "Body", player, "Body", gameTime))
+                    if (Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
                         player.HP -= 3;
 
                     if (_attackCounter++ == ATTACK_COUNTER_LIMIT) 
