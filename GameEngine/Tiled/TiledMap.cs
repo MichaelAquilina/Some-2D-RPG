@@ -208,11 +208,11 @@ namespace GameEngine.Tiled
                 tileLayer.Name = XmlExtensions.GetAttributeValue(layerNode, "name");
                 tileLayer.LoadProperties(layerNode);
 
-                // TODO: This should technically be moved to user space!
-                // Or else specify this as an 'In-Engine' property that can be set.
+                // SET BUILTIN PROPERTIES
                 tileLayer.Color = ColorExtensions.ToColor(
                     tileLayer.GetProperty<string>("Color", "#ffffff")
                     );
+                tileLayer.Opacity = tileLayer.GetProperty<float>("Opacity", 1.0f);
 
                 XmlNode dataNode = layerNode.SelectSingleNode("data");
                 string[] tokens = dataNode.InnerText.Split(
