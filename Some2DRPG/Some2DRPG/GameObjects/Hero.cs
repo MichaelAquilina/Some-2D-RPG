@@ -24,8 +24,19 @@ namespace Some2DRPG.GameObjects
 
         private List<Entity> prevIntersectingEntities;
 
+        public Hero()
+            :base(NPC.MALE_HUMAN)
+        {
+            Initialise(0, 0);
+        }
+
         public Hero(float x, float y) :
             base(x, y, NPC.MALE_HUMAN)
+        {
+            Initialise(x, y);
+        }
+
+        private void Initialise(float x, float y)
         {
             HP = 2000;
             XP = 0;
@@ -128,13 +139,13 @@ namespace Some2DRPG.GameObjects
                 if (CollisionDetection)
                 {
                     // Iterate through each layer and determine if the tile is passable.
-                    int tileX = (int) Pos.X / Engine.Map.pxTileWidth;
-                    int tileY = (int) Pos.Y / Engine.Map.pxTileHeight;
+                    int tileX = (int) Pos.X / Engine.Map.TileWidth;
+                    int tileY = (int) Pos.Y / Engine.Map.TileHeight;
 
-                    int pxTileX = tileX * Engine.Map.pxTileWidth;
-                    int pxTileY = tileY * Engine.Map.pxTileHeight;
-                    int pxTileWidth = Engine.Map.pxTileWidth;
-                    int pxTileHeight = Engine.Map.pxTileHeight;
+                    int pxTileX = tileX * Engine.Map.TileWidth;
+                    int pxTileY = tileY * Engine.Map.TileHeight;
+                    int pxTileWidth = Engine.Map.TileWidth;
+                    int pxTileHeight = Engine.Map.TileHeight;
 
                     Tile currentTile = Engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
                     bool impassable = currentTile.HasProperty("Impassable");

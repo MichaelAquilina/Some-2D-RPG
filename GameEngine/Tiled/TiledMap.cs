@@ -9,16 +9,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Tiled
 {
-    public class TiledMap : PropertyBag
+    public class TiledMap : PropertyBag, ILoadable
     {
-        public int pxWidth { get { return txWidth * pxTileWidth; } }
-        public int pxHeight { get { return txHeight * pxTileHeight; } }
+        public int pxWidth { get { return txWidth * TileWidth; } }
+        public int pxHeight { get { return txHeight * TileHeight; } }
 
         public int txWidth { get; set; }
         public int txHeight { get; set; }
 
-        public int pxTileWidth { get; set; }
-        public int pxTileHeight { get; set; }
+        public int TileWidth { get; set; }
+        public int TileHeight { get; set; }
 
         public Color Background { get; set; }
 
@@ -31,6 +31,18 @@ namespace GameEngine.Tiled
             ObjectLayers = new List<ObjectLayer>();
             Tiles = new SortedList<int, Tile>();
             TileLayers = new List<TileLayer>();
+        }
+
+        public void LoadContent(ContentManager content)
+        {
+            foreach (Tile tile in Tiles.Values)
+                tile.LoadContent(content);
+        }
+
+        public void UnloadContent()
+        {
+            foreach (Tile tile in Tiles.Values)
+                tile.UnloadContent();
         }
 
         /// <summary>
@@ -60,8 +72,8 @@ namespace GameEngine.Tiled
         public Tile GetPxTopMostTile(float px, float py)
         {
             return GetTxTopMostTile(
-                (int) (px / pxTileWidth), 
-                (int) (py / pxTileHeight)
+                (int) (px / TileWidth), 
+                (int) (py / TileHeight)
             );
         }
 
@@ -78,15 +90,18 @@ namespace GameEngine.Tiled
         public Tile GetPxTile(float px, float py, int layerIndex)
         {
             return GetTxTile(
-                (int)(px / pxTileWidth),
-                (int)(py / pxTileHeight),
+                (int)(px / TileWidth),
+                (int)(py / TileHeight),
                 layerIndex
             );
         }
 
         // TODO: Support for zlib compression of tile data  (Zlib.NET)
         // http://stackoverflow.com/questions/6620655/compression-and-decompression-problem-with-zlib-net
-        public static TiledMap LoadTiledXML(string file, ContentManager content)
+        // Reads and converts and .tmx file to a TiledMap object. Doing so does NOT load appropriate tile textures into memory.
+        // In order for textures to be loaded, the LoadContent(ContentManager) method must be called. This is usually automatically
+        // performed by the TeeEngine when calling its LoadMap(TiledMap) method. However, it may be called independently if needs be.
+        public static TiledMap FromTiledXml(string file)
         {
             XmlDocument document = new XmlDocument();
             document.Load(file);
@@ -96,8 +111,8 @@ namespace GameEngine.Tiled
             TiledMap map = new TiledMap();
             map.txWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "width", -1, true);
             map.txHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "height", -1, true);
-            map.pxTileWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "tilewidth", -1, true);
-            map.pxTileHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "tileheight", -1, true);
+            map.TileWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "tilewidth", -1, true);
+            map.TileHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "tileheight", -1, true);
             map.Background = ColorExtensions.ToColor(
                 XmlExtensions.GetAttributeValue(
                     mapNode, "backgroundcolor", "#000000"
@@ -139,13 +154,12 @@ namespace GameEngine.Tiled
                 int tileWidth = XmlExtensions.GetAttributeValue<int>(tilesetNode, "tilewidth", -1, true);
 
                 XmlNode imageNode = tilesetNode.SelectSingleNode("image");
-                string source = XmlExtensions.GetAttributeValue<string>(imageNode, "source", "", true);
                 int imageWidth = XmlExtensions.GetAttributeValue<int>(imageNode, "width", -1, true);
                 int imageHeight = XmlExtensions.GetAttributeValue<int>(imageNode, "height", -1, true);
-
-                // TODO: Make this a abit smart since tile wont set the content names automatically for us
-                // TEMP WORKAROUND FOR TILED SAVING FORMAT
-                Texture2D sourceTexture = content.Load<Texture2D>(source.Substring(0,source.LastIndexOf('.')));     
+                string sourceTexturePath = XmlExtensions.GetAttributeValue<string>(imageNode, "source", "", true);
+                
+                // TEMPORARY FIX which ignores file extensions so that the content pipeline can use tmx files
+                sourceTexturePath = sourceTexturePath.Substring(0, sourceTexturePath.LastIndexOf('.'));
 
                 // PreBuild the tiles from the tileset information
                 int i = 0;
@@ -159,7 +173,7 @@ namespace GameEngine.Tiled
                         break;
 
                     Tile tile = new Tile();
-                    tile.SourceTexture = sourceTexture;
+                    tile.sourceTexturePath = sourceTexturePath;
                     tile.SourceRectangle = new Rectangle(tx, ty, tileWidth, tileHeight);
                     tile.TileGid = i + firstGID;
                     tile.TileSetName = tilesetName;
@@ -213,7 +227,7 @@ namespace GameEngine.Tiled
         {
             return string.Format("TiledMap: Dimensions={0}x{1}, TileDimensions={2}x{3}, TileLayers={4}, ObjectLayers={5}",
                 txWidth, txHeight,
-                pxTileWidth, pxTileHeight,
+                TileWidth, TileHeight,
                 TileLayers.Count,
                 ObjectLayers.Count
                 );

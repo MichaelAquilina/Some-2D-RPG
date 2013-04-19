@@ -14,7 +14,7 @@ namespace Some2DRPG.Shaders
     public enum LightPositionType { Fixed, Relative };
 
     //Can Probably be extended to allow Custom Shaped Polygons rather than only circles
-    public class LightShader : GameShader
+    public class LightShader : PostGameShader
     {
         private Effect _colorShader;
         private Effect _lightShader;

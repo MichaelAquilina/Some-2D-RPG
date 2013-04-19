@@ -11,14 +11,14 @@ namespace GameEngine.Shaders
     /// <summary>
     /// Abstract Plugin Shader class that can be applied to a TileEngine. The shader provides an easy way to output a RenderTarget based
     /// on some input RenderTarget that would have been rendered by the Engine previously. This allows sequantial application
-    /// of Game Shaders
+    /// of Game Shaders.
     /// </summary>
-    public abstract class GameShader : ILoadable
+    public abstract class PostGameShader : ILoadable
     {
         public bool Enabled { get; set; }
         public GraphicsDevice GraphicsDevice { get; set; }
 
-        public GameShader(GraphicsDevice graphicsDevice)
+        public PostGameShader(GraphicsDevice graphicsDevice)
         {
             this.GraphicsDevice = graphicsDevice;
             this.Enabled = true;

@@ -35,23 +35,22 @@ namespace GameEngine.GameObjects
 
         public Entity()
         {
-            Init();
+            Initialise(0, 0, 1, 1, true);
         }
 
         public Entity(float x, float y, float scaleX=1, float scaleY=1, bool visible=true)
         {
+            Initialise(x, y, scaleX, scaleY, visible);
+        }
+
+        private void Initialise(float x, float y, float scaleX, float scaleY, bool visible)
+        {
             this.Pos = new Vector2(x, y);
             this.ScaleX = scaleX;
             this.ScaleY = scaleY;
+            this.Opacity = 1.0f;
             this.Visible = visible;
             this.IsOnScreen = false;
-
-            Init();
-        }
-
-        private void Init()
-        {
-            this.Opacity = 1.0f;
             this.Drawables = new DrawableSet();
         }
 
@@ -129,7 +128,9 @@ namespace GameEngine.GameObjects
         // to a minimum in order to maintain performance.
         public static bool IntersectsWith(
             Entity entity1, string entity1State, string entity1Group,
-            Entity entity2, string entity2State, string entity2Group, GameTime gameTime)
+            Entity entity2, string entity2State, string entity2Group, 
+            GameTime gameTime
+            )
         {
             List<GameDrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
             List<GameDrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
@@ -179,6 +180,17 @@ namespace GameEngine.GameObjects
         }
 
         #endregion
+
+        /// <summary>
+        /// Overridable method whose result is used to display entity debug information by the TeeEngine in its draw method 
+        /// when 'ShowEntityDebugInfo' is set to true in the DrawingOptions. By Default, the result of this method will be 
+        /// the same as the ToString method.
+        /// </summary>
+        /// <returns>string value which will be used to show entity debugging information during draw calls.</returns>
+        public virtual string GetDebugInfo()
+        {
+            return ToString();
+        }
 
         public override string ToString()
         {

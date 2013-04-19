@@ -17,7 +17,7 @@ Items Related to Design and Development
 * Female Armor variants http://opengameart.org/content/lpc-combat-armor-for-women
 * alternate character (village) http://opengameart.org/content/one-more-lpc-alternate-character
 * magic animation pack http://opengameart.org/content/extended-lpc-magic-pack
-* farming tileset http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
+* farming tileset and other *very cool items* http://opengameart.org/content/lpc-farming-tilesets-magic-animations-and-ui-elements
 * farm animals http://opengameart.org/content/lpc-style-farm-animals
 * lots of cool stuff http://opengameart.org/content/lpc-obok-and-gossip-art-additions-and-modifications
 * anything missed out http://lpc.opengameart.org/static/lpc-style-guide/assets.html

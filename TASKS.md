@@ -4,17 +4,20 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
+- [Done] - Change SpriteBatchExtension 'DrawMultiLineString' to automatically convert strings to mutltiple lines given some maxline length
+- [Done] - Create virtual Entity method. ShowDebugInfo (or something like that) that is shown by the TeeEngine when required.
+- [] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
+- [Done] - Refactoring of TiledMap namespace to support ILoadable and gracefully transition between Map changes.
 - [] - Investigate imported tileset support (trx files) so that properties etc can be shared amognst multiple maps.
-- [] - Add transition capabilities in maps. Example_Map->Cave_Example
+- [Done] - Add transition capabilities in maps. Example_Map->Cave_Example
 - [] - Bug when adding more tilesets after the custom sized treetop tileset. This is because the tilewidths do not exceed the images width and height perfectly as expected.
 - [Done] - Change *KeyboardExtensions* class to make use of a Dictionary&lt;string, HashSet&lt;Keys&gt;&gt; which should be much faster and scalable.
 - [Done] - Implement extended IntersetsWith function. IntersectsWith(Entity entity, GameTime gameTime, string thisGroup=null, string entityGroup=null)
 - [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
 - [IP] - AI for bats. Use A* for path finding techniques for ground units. Bats do not really need to make use of A*.
-- [] - better entity integration in map loading
+- [IP] - better entity integration in map loading
 - [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
-- [] - Might be smarter to convert floats to integers * 100 for faster performance
-- [] - Give a better look to QuadTree validate code to see if we can reduce the amount of times we remove and add QuadTreeNodes
 
 Must Have
 ---------
@@ -27,6 +30,7 @@ Must Have
 
 Should Have
 -----------
+- [] - NPC Interaction (scriptable with dialog text)
 - [] - ICollision interface should be implemented and used by the QuadTreeNode to allow extensions to be added.
 - [Done] - the ability to zoom in and out (scale)
 - [Done] - an effecient collision detection engine (QuadTree)
