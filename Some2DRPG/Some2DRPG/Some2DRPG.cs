@@ -215,10 +215,13 @@ namespace Some2DRPG
                 Coin coin = new Coin(px, py, 100, (CoinType) random.Next(3));
 
                 // Switch between adding bats and coins to the map.
-                if (i % 2 == 0) Engine.AddEntity(bat);
+                if (i % 2 == 0)
+                {
+                    Engine.AddEntity(bat);
+                    //FollowEntity = bat;                
+                }
                 else
                     Engine.AddEntity(coin);
-                //FollowEntity = bat;
             }
 
             Engine.LoadContent();
