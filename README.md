@@ -38,7 +38,7 @@ Some current features found in the Engine include:
 * Input Extension Methods for quicker development (Currently only for the keyboard)
 * Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting). *In its current state, these 
   are technically only post-effect shaders however i plan to support an interface for tile and pre entity shading*
-* Support for loading [Tiled](http://www.mapeditor.org/) map files. (Current no zlib support - however this is planned)
+* Support for loading [Tiled](http://www.mapeditor.org/) map files. This also includes integration support for converting map objects into Entities. 
 * Efficient Collision Detection using a QuadTree implementation (see GIF below)
 * Adjustable viewports of the current Game state, including the ability to Scale.
 * Detailed Diagnostic information about engine performance that will allow easy detection of bottlenecks. (see *DebugInfo*)
