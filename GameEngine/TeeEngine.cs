@@ -435,16 +435,16 @@ namespace GameEngine
                     // DRAW EACH LAYER
                     TileLayer tileLayer = Map.TileLayers[layerIndex];
 
-                    Color layerColor = new Color()
-                    {
-                        R = tileLayer.Color.R,
-                        G = tileLayer.Color.G,
-                        B = tileLayer.Color.B,
-                        A = (byte)(tileLayer.Color.A * tileLayer.Opacity)
-                    };
-
                     if (tileLayer.Visible)
                     {
+                        Color layerColor = new Color()
+                        {
+                            R = tileLayer.Color.R,
+                            G = tileLayer.Color.G,
+                            B = tileLayer.Color.B,
+                            A = (byte)(tileLayer.Color.A * tileLayer.Opacity)
+                        };
+
                         float depth = 1 - (layerIndex / 10000.0f);
 
                         for (int i = 0; i < viewPortInfo.TileCountX; i++)
@@ -457,10 +457,10 @@ namespace GameEngine
                                 int tileGid = tileLayer[tileX, tileY];
 
                                 Rectangle pxTileDestRect = new Rectangle(
-                                    (int)Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom),
-                                    (int)Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom),
-                                    (int)viewPortInfo.pxTileWidth,
-                                    (int)viewPortInfo.pxTileHeight
+                                    (int) Math.Ceiling(i * viewPortInfo.pxTileWidth - viewPortInfo.pxDispX * viewPortInfo.ActualZoom),
+                                    (int) Math.Ceiling(j * viewPortInfo.pxTileHeight - viewPortInfo.pxDispY * viewPortInfo.ActualZoom),
+                                    (int) viewPortInfo.pxTileWidth,
+                                    (int) viewPortInfo.pxTileHeight
                                 );
 
                                 if (tileGid != 0 && tileGid != -1)   // NULL or INVALID Tile Gid is ignored
