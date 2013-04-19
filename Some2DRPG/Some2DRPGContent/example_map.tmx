@@ -823,7 +823,7 @@
     <property name="Density" value="15"/>
    </properties>
   </object>
-  <object name="silver_coin_area2" type="CoinArea" x="171" y="902" width="68" height="252">
+  <object name="silver_coin_area2" type="CoinArea" x="340" y="1819" width="149" height="93">
    <properties>
     <property name="CoinType" value="Silver"/>
     <property name="Density" value="15"/>
@@ -837,12 +837,6 @@
   <object name="mixed_coin_area" type="CoinArea" x="910" y="317" width="219" height="316">
    <properties>
     <property name="CoinType" value="Mixed"/>
-    <property name="Density" value="15"/>
-   </properties>
-  </object>
-  <object name="copper_coin_area" type="CoinArea" x="967" y="112" width="163" height="199">
-   <properties>
-    <property name="CoinType" value="Copper"/>
     <property name="Density" value="15"/>
    </properties>
   </object>
