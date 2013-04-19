@@ -434,6 +434,15 @@ namespace GameEngine
                 {
                     // DRAW EACH LAYER
                     TileLayer tileLayer = Map.TileLayers[layerIndex];
+
+                    Color layerColor = new Color()
+                    {
+                        R = tileLayer.Color.R,
+                        G = tileLayer.Color.G,
+                        B = tileLayer.Color.B,
+                        A = (byte)(tileLayer.Color.A * tileLayer.Opacity)
+                    };
+
                     if (tileLayer.Visible)
                     {
                         float depth = 1 - (layerIndex / 10000.0f);
@@ -462,7 +471,7 @@ namespace GameEngine
                                         tile.sourceTexture,
                                         pxTileDestRect,
                                         tile.SourceRectangle,
-                                        Color.White,
+                                        layerColor,
                                         0, Vector2.Zero,
                                         SpriteEffects.None,
                                         depth

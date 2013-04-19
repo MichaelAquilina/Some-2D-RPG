@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameEngine.Interfaces;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.Tiled
 {
@@ -8,6 +9,10 @@ namespace GameEngine.Tiled
         public string Name { get; set; }
 
         public bool Visible { get; set; }
+
+        public float Opacity { get; set; }
+
+        public Color Color { get; set; }
 
         public int txWidth
         {
@@ -42,6 +47,9 @@ namespace GameEngine.Tiled
             this.txWidth = width;
             this.txHeight = height;
             this.Visible = true;
+            this.Opacity = 1.0f;
+            this.Color = Color.White;
+
             _tiles = new int[width * height];
         }
 
