@@ -86,7 +86,7 @@ namespace Some2DRPG
         }
 
         // Method to convert MapObjects into Entity objects in the engine.
-        private void LoadMapObjects(TeeEngine engine, TiledMap map, MapObject mapObject)
+        private void LoadEntity(TeeEngine engine, TiledMap map, MapObject mapObject)
         {
             if (mapObject.Type == "Entrance")
             {
@@ -113,7 +113,7 @@ namespace Some2DRPG
                     mapObject.X, mapObject.Y, 
                     mapObject.Width, mapObject.Height, 
                     mapObject.GetProperty("Destination"),
-                    LoadMapObjects
+                    LoadEntity
                     );
 
                 engine.AddEntity(mapObject.Name, mapTransition);
@@ -188,7 +188,7 @@ namespace Some2DRPG
         protected override void LoadContent()
         {
             TiledMap tiledmap = TiledMap.FromTiledXml("Content/example_map.tmx");
-            Engine.LoadMap(tiledmap, LoadMapObjects);
+            Engine.LoadMap(tiledmap, LoadEntity);
 
             CurrentSampler = SamplerStates[SamplerIndex];
 
