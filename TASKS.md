@@ -4,22 +4,25 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Remove EntityLoadCallback from LoadMap. Instead, add two events to TeeEngine. MapLoaded event and MapObjectLoaded event. These two events will provide a means for processing accordingly.
+- [] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
 - [] - Improve QuadTree Validate. If a tile isnt contained in a node anymore but STILL interesects it, then no need ot remove it only to re-add it!
-- [Done] - Add support for specifying tile layer 'Color'. For example, the cliff layer could be set to some light gray to give the feeling of distance.
 - [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
-- [Done] - Change SpriteBatchExtension 'DrawMultiLineString' to automatically convert strings to mutltiple lines given some maxline length
-- [Done] - Create virtual Entity method. ShowDebugInfo (or something like that) that is shown by the TeeEngine when required.
 - [] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
-- [Done] - Refactoring of TiledMap namespace to support ILoadable and gracefully transition between Map changes.
 - [] - Investigate imported tileset support (trx files) so that properties etc can be shared amognst multiple maps.
+- [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
+- [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+- [] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm.
+- [Done] - AI for bats. Bats do not really need to make use of A*.
+- [Done] - better entity integration in map loading. Finished with LoadEntityCallback in LoadMap method (?)
 - [Done] - Add transition capabilities in maps. Example_Map->Cave_Example
 - [Done] - Bug when adding more tilesets after the custom sized treetop tileset. This is because the tilewidths do not exceed the images width and height perfectly as expected.
 - [Done] - Change *KeyboardExtensions* class to make use of a Dictionary&lt;string, HashSet&lt;Keys&gt;&gt; which should be much faster and scalable.
 - [Done] - Implement extended IntersetsWith function. IntersectsWith(Entity entity, GameTime gameTime, string thisGroup=null, string entityGroup=null)
-- [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
-- [IP] - AI for bats. Use A* for path finding techniques for ground units. Bats do not really need to make use of A*.
-- [Done] - better entity integration in map loading. Finished with LoadEntityCallback in LoadMap method (?)
-- [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+- [Done] - Refactoring of TiledMap namespace to support ILoadable and gracefully transition between Map changes.
+- [Done] - Change SpriteBatchExtension 'DrawMultiLineString' to automatically convert strings to mutltiple lines given some maxline length
+- [Done] - Create virtual Entity method. ShowDebugInfo (or something like that) that is shown by the TeeEngine when required.
+- [Done] - Add support for specifying tile layer 'Color'. For example, the cliff layer could be set to some light gray to give the feeling of distance.
 
 Must Have
 ---------
@@ -32,6 +35,7 @@ Must Have
 
 Should Have
 -----------
+- [] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
 - [] - NPC Interaction (scriptable with dialog text)
 - [] - ICollision interface should be implemented and used by the QuadTreeNode to allow extensions to be added.
 - [Done] - the ability to zoom in and out (scale)
