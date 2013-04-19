@@ -544,7 +544,10 @@ namespace GameEngine
                             entity.GetDebugInfo(),
                             (int) entity.CurrentBoundingBox.Width * 2,
                             4,
-                            pxAbsEntityPos,
+                            new Vector2(
+                                pxAbsBoundingBox.X + pxAbsBoundingBox.Width/2,
+                                pxAbsBoundingBox.Y + pxAbsBoundingBox.Height/2
+                                ),
                             Color.Purple);
                     }
 

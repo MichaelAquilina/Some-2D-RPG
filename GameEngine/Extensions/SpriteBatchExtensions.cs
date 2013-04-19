@@ -64,7 +64,7 @@ namespace GameEngine.Extensions
                     line,
                     new Vector2(
                         position.X - lineMeasurements.X / 2,
-                        position.Y - (maxHeight + padding * 2) / 2 * (lines.Count - i)
+                        position.Y - (maxHeight + padding * 2) / 2 * (lines.Count/2.0f - i)
                         ),
                     color);
             }
