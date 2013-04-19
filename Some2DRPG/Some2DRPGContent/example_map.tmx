@@ -589,7 +589,7 @@
  </layer>
  <layer name="Cliff Layer" width="60" height="60">
   <properties>
-   <property name="$Color" value="#dddddd"/>
+   <property name="Color" value="#dddddd"/>
   </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,136,137,127,125,125,125,125,125,125,125,125,125,
