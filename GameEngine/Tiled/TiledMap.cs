@@ -161,15 +161,23 @@ namespace GameEngine.Tiled
                 // TEMPORARY FIX which ignores file extensions so that the content pipeline can use tmx files
                 sourceTexturePath = sourceTexturePath.Substring(0, sourceTexturePath.LastIndexOf('.'));
 
-                // PreBuild the tiles from the tileset information
+                // PreBuild the tiles from the tileset information.
                 int i = 0;
                 while (true)
                 {
                     int tx = (i * tileWidth) % imageWidth;
                     int ty = tileHeight * ((i * tileWidth) / imageWidth);
 
-                    //If we have exceeded the image height, we are done
-                    if (ty >= imageHeight)
+                    // This check is performed in the case where image width is not
+                    // an exact multiple of the tile width specified.
+                    if (tx + tileWidth > imageWidth)
+                    {
+                        tx = 0;
+                        ty += tileHeight;
+                    }
+
+                    // If we have exceeded the image height, we are done.
+                    if (ty + tileHeight > imageHeight)
                         break;
 
                     Tile tile = new Tile();
