@@ -5,7 +5,7 @@ Todo
 ----
 
 - [] - Improve QuadTree Validate. If a tile isnt contained in a node anymore but STILL interesects it, then no need ot remove it only to re-add it!
-- [IP] - Add support for specifying tile layer 'Color'. For example, the cliff layer could be set to some light gray to give the feeling of distance.
+- [Done] - Add support for specifying tile layer 'Color'. For example, the cliff layer could be set to some light gray to give the feeling of distance.
 - [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
 - [Done] - Change SpriteBatchExtension 'DrawMultiLineString' to automatically convert strings to mutltiple lines given some maxline length
 - [Done] - Create virtual Entity method. ShowDebugInfo (or something like that) that is shown by the TeeEngine when required.
@@ -13,12 +13,12 @@ Todo
 - [Done] - Refactoring of TiledMap namespace to support ILoadable and gracefully transition between Map changes.
 - [] - Investigate imported tileset support (trx files) so that properties etc can be shared amognst multiple maps.
 - [Done] - Add transition capabilities in maps. Example_Map->Cave_Example
-- [] - Bug when adding more tilesets after the custom sized treetop tileset. This is because the tilewidths do not exceed the images width and height perfectly as expected.
+- [Done] - Bug when adding more tilesets after the custom sized treetop tileset. This is because the tilewidths do not exceed the images width and height perfectly as expected.
 - [Done] - Change *KeyboardExtensions* class to make use of a Dictionary&lt;string, HashSet&lt;Keys&gt;&gt; which should be much faster and scalable.
 - [Done] - Implement extended IntersetsWith function. IntersectsWith(Entity entity, GameTime gameTime, string thisGroup=null, string entityGroup=null)
 - [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
 - [IP] - AI for bats. Use A* for path finding techniques for ground units. Bats do not really need to make use of A*.
-- [IP] - better entity integration in map loading
+- [Done] - better entity integration in map loading. Finished with LoadEntityCallback in LoadMap method (?)
 - [] - Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 
 Must Have
