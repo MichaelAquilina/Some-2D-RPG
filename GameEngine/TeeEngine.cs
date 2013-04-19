@@ -536,7 +536,7 @@ namespace GameEngine
                             (int) entity.CurrentBoundingBox.Width * 2,
                             4,
                             pxAbsEntityPos,
-                            Color.Red);
+                            Color.Purple);
                     }
 
                     // DRAW EVERY GAMEDRAWABLE INSTANCE CURRENTLY ACTIVE IN THE ENTITIES DRAWABLE SET.
