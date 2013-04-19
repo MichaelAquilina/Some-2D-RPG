@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Improve QuadTree Validate. If a tile isnt contained in a node anymore but STILL interesects it, then no need ot remove it only to re-add it!
 - [IP] - Add support for specifying tile layer 'Color'. For example, the cliff layer could be set to some light gray to give the feeling of distance.
 - [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
 - [Done] - Change SpriteBatchExtension 'DrawMultiLineString' to automatically convert strings to mutltiple lines given some maxline length
