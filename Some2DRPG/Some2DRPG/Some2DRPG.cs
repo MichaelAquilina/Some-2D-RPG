@@ -123,7 +123,7 @@ namespace Some2DRPG
             {
                 Chest chest = new Chest(mapObject.X, mapObject.Y);
 
-                engine.AddEntity(chest);
+                engine.AddEntity(mapObject.Name, chest);
             }
             else
             if (mapObject.Type == "CoinArea")
@@ -159,7 +159,7 @@ namespace Some2DRPG
                 Coin coin = new Coin(mapObject.X, mapObject.Y, 100, coinType);
                 coin.Visible = true;
 
-                engine.AddEntity(coin);
+                engine.AddEntity(mapObject.Name, coin);
             }
             else
             if (mapObject.Gid != -1)        // Default operation is to check if it has been assigned a tile and use it if needs be.
