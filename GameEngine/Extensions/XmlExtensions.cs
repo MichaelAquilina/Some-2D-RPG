@@ -8,6 +8,11 @@ namespace GameEngine.Extensions
 {
     public static class XmlExtensions
     {
+        public static bool HasAttribute(XmlNode node, string name)
+        {
+            return node.Attributes[name] != null;
+        }
+
         public static T GetAttributeValue<T>(XmlNode node, string name, T defaultValue, bool throwOnNotFound=false) where T : IConvertible
         {
             if (node.Attributes[name] == null)

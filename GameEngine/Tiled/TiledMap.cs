@@ -103,6 +103,10 @@ namespace GameEngine.Tiled
         // performed by the TeeEngine when calling its LoadMap(TiledMap) method. However, it may be called independently if needs be.
         public static TiledMap FromTiledXml(string file)
         {
+            // Find the working directory of this file so that any external files may use the same path.
+            int dirIndex = file.LastIndexOfAny(new char[] { '/', '\\' });
+            string workingDirectory = (dirIndex > 0)? file.Substring(0, dirIndex) : "";
+
             XmlDocument document = new XmlDocument();
             document.Load(file);
 
@@ -148,12 +152,27 @@ namespace GameEngine.Tiled
             // TILESETS
             foreach (XmlNode tilesetNode in mapNode.SelectNodes("tileset"))
             {
+                XmlNode actualTilesetNode;
                 int firstGID = XmlExtensions.GetAttributeValue<int>(tilesetNode, "firstgid", -1, true);
-                string tilesetName = XmlExtensions.GetAttributeValue(tilesetNode, "name");
-                int tileHeight = XmlExtensions.GetAttributeValue<int>(tilesetNode, "tileheight", -1, true);
-                int tileWidth = XmlExtensions.GetAttributeValue<int>(tilesetNode, "tilewidth", -1, true);
 
-                XmlNode imageNode = tilesetNode.SelectSingleNode("image");
+                // If the tileset comes from an external .tsx file, load the node from that file.
+                if(XmlExtensions.HasAttribute(tilesetNode, "source"))
+                {
+                    XmlDocument tilesetDocument = new XmlDocument();
+                    tilesetDocument.Load(
+                        string.Format("{0}/{1}", 
+                            workingDirectory, XmlExtensions.GetAttributeValue(tilesetNode, "source")));
+
+                    actualTilesetNode = tilesetDocument.SelectSingleNode("tileset");
+                }
+                else
+                    actualTilesetNode = tilesetNode;
+
+                string tilesetName = XmlExtensions.GetAttributeValue(actualTilesetNode, "name");
+                int tileHeight = XmlExtensions.GetAttributeValue<int>(actualTilesetNode, "tileheight", -1, true);
+                int tileWidth = XmlExtensions.GetAttributeValue<int>(actualTilesetNode, "tilewidth", -1, true);
+
+                XmlNode imageNode = actualTilesetNode.SelectSingleNode("image");
                 int imageWidth = XmlExtensions.GetAttributeValue<int>(imageNode, "width", -1, true);
                 int imageHeight = XmlExtensions.GetAttributeValue<int>(imageNode, "height", -1, true);
                 string sourceTexturePath = XmlExtensions.GetAttributeValue<string>(imageNode, "source", "", true);
@@ -191,7 +210,7 @@ namespace GameEngine.Tiled
                 }
 
                 // Add any individual properties to the tiles we have created
-                foreach (XmlNode tileNode in tilesetNode.SelectNodes("tile"))
+                foreach (XmlNode tileNode in actualTilesetNode.SelectNodes("tile"))
                 {
                     int tileGid = firstGID + XmlExtensions.GetAttributeValue<int>(tileNode, "id", -1, true);
                     Tile tile = map.Tiles[tileGid];
