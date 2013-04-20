@@ -26,14 +26,13 @@ namespace GameEngine
     {
         #region Delegates
 
-        /// <summary>
-        ///  Method which will be called whenever an object is found during map loading. Allows converting from generic
-        ///  MapObjects to proper Entities. Each MapObject exposes a dictionary of properties which were found with
-        ///  the Properties method. These properties are stored as key/value pairs in the form of string->string.</summary>
-        /// <param name="engine">TeeEngine object that is performing the load of the map. Use this to add any new entites.</param>
-        /// <param name="map">TiledMap where the MapObject was found. Use this to gather relative information.</param>
-        /// <param name="mapObject">MapObject found which could possibly be converted to an Entity if the user wishes.</param>
-        public delegate void LoadEntityHandler(TeeEngine engine, TiledMap map, MapObject mapObject);
+        public delegate void MapLoadedEventHandler(TeeEngine engine, TiledMap map);
+
+        #endregion
+
+        #region Events
+
+        public event MapLoadedEventHandler MapLoaded;
 
         #endregion
 
@@ -140,6 +139,12 @@ namespace GameEngine
             game.Components.Add(this);
         }
 
+        internal void OnMapLoaded(TiledMap map)
+        {
+            if (MapLoaded != null)
+                MapLoaded(this, map);
+        }
+
         public void LoadContent()
         {
             // TODO.
@@ -150,27 +155,21 @@ namespace GameEngine
             // TODO.
         }
 
-        public void LoadMap(TiledMap map, LoadEntityHandler callback=null)
+        public void LoadMap(TiledMap map)
         {
             this.Map = map;
             this.Map.LoadContent(Game.Content);
 
             // unload previous map here.
 
-            // If a load entity handler is specified, call for each map object found.
-            if (callback != null)
-            {
-                foreach (ObjectLayer objectLayer in map.ObjectLayers)
-                    foreach (MapObject mapObject in objectLayer.Objects)
-                        callback(this, map, mapObject);
-            }
-
             this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
+
+            OnMapLoaded(map);
         }
 
-        public void LoadMap(string mapFilePath, LoadEntityHandler callback=null)
+        public void LoadMap(string mapFilePath)
         {
-            LoadMap(TiledMap.FromTiledXml(mapFilePath), callback);
+            LoadMap(TiledMap.FromTiledXml(mapFilePath));
         }
 
         public void SetResolution(int pixelWidth, int pixelHeight)

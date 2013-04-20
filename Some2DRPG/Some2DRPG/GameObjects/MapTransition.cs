@@ -20,20 +20,16 @@ namespace Some2DRPG.GameObjects
         int _width;
         int _height;
         string _targetMapPath;
-        TeeEngine.LoadEntityHandler _callback;
 
         public MapTransition(
             float x, float y, 
             int width, int height, 
-            string targetMapPath,
-            TeeEngine.LoadEntityHandler callback
-            )
+            string targetMapPath)
             :base(x,y)
         {
             _width = width;
             _height = height;
             _targetMapPath = targetMapPath;
-            _callback = callback;
         }
 
         public override void LoadContent(ContentManager content)
@@ -57,7 +53,7 @@ namespace Some2DRPG.GameObjects
                 && KeyboardExtensions.GetKeyDownState(Keyboard.GetState(), Keys.S, engine, true))
             {
                 engine.ClearEntities();
-                engine.LoadMap(_targetMapPath, _callback);
+                engine.LoadMap(_targetMapPath);
             }
         }
     }
