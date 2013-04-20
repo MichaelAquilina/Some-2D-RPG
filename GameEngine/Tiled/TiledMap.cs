@@ -22,14 +22,14 @@ namespace GameEngine.Tiled
 
         public Color Background { get; set; }
 
-        public SortedList<int, Tile> Tiles { get; set; }        // Provides a means of direct access with Global Indentifiers.
-        public List<TileSet> TileSets { get; set; }             // Individual TileSets loaded. Also contain references to Tiles sorted by their LOCAL id.
-        public List<TileLayer> TileLayers { get; set; }         // Tile Layers present within this map. Each one contains an array of tile global identifiers.
-        public List<ObjectLayer> ObjectLayers { get; set; }     // Layers consisting of TileObjects.
+        public SortedList<int, Tile> Tiles { get; set; }                // Provides a means of direct access with Global Indentifiers.
+        public List<TileSet> TileSets { get; set; }                     // Individual TileSets loaded. Also contain references to Tiles sorted by their LOCAL id.
+        public List<TileLayer> TileLayers { get; set; }                 // Tile Layers present within this map. Each one contains an array of tile global identifiers.
+        public List<TiledObjectLayer> TileObjectLayers { get; set; }     // Layers consisting of TileObjects.
 
         public TiledMap()
         {
-            ObjectLayers = new List<ObjectLayer>();
+            TileObjectLayers = new List<TiledObjectLayer>();
             Tiles = new SortedList<int, Tile>();
             TileSets = new List<TileSet>();
             TileLayers = new List<TileLayer>();
@@ -129,14 +129,14 @@ namespace GameEngine.Tiled
             // OBJECT LAYERS
             foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
             {
-                ObjectLayer mapObjectLayer = new ObjectLayer();
+                TiledObjectLayer mapObjectLayer = new TiledObjectLayer();
                 mapObjectLayer.Width = XmlExtensions.GetAttributeValue<int>(objectLayerNode, "width", 1);
                 mapObjectLayer.Height = XmlExtensions.GetAttributeValue<int>(objectLayerNode, "height", 1);
                 mapObjectLayer.Name = XmlExtensions.GetAttributeValue(objectLayerNode, "name");
 
                 foreach (XmlNode objectNode in objectLayerNode.SelectNodes("object"))
                 {
-                    MapObject mapObject = new MapObject();
+                    TiledObject mapObject = new TiledObject();
                     mapObject.Name = XmlExtensions.GetAttributeValue(objectNode, "name");
                     mapObject.Type = XmlExtensions.GetAttributeValue(objectNode, "type");
                     mapObject.X = XmlExtensions.GetAttributeValue<int>(objectNode, "x", 0);
@@ -149,7 +149,7 @@ namespace GameEngine.Tiled
                     mapObjectLayer.Objects.Add(mapObject);
                 }
 
-                map.ObjectLayers.Add(mapObjectLayer);
+                map.TileObjectLayers.Add(mapObjectLayer);
             }
 
             // TILESETS
@@ -275,7 +275,7 @@ namespace GameEngine.Tiled
                 txWidth, txHeight,
                 TileWidth, TileHeight,
                 TileLayers.Count,
-                ObjectLayers.Count
+                TileObjectLayers.Count
                 );
         }
     }

@@ -89,11 +89,11 @@ namespace Some2DRPG
         // Method to convert MapObjects into Entity objects in the engine.
         private void MapLoader(TeeEngine engine, TiledMap map)
         {
-            foreach(ObjectLayer objectLayer in map.ObjectLayers)
+            foreach(TiledObjectLayer tiledObjectLayer in map.TileObjectLayers)
             {
-                foreach(MapObject mapObject in objectLayer.Objects)
+                foreach(TiledObject tiledObject in tiledObjectLayer.Objects)
                 {
-                    if (mapObject.Type == "Entrance")
+                    if (tiledObject.Type == "Entrance")
                     {
                         CurrentPlayer = new Hero();
                         CurrentPlayer.CollisionDetection = true;
@@ -107,35 +107,35 @@ namespace Some2DRPG
 
                         FollowEntity = CurrentPlayer;
 
-                        CurrentPlayer.Pos = new Vector2(mapObject.X, mapObject.Y);
+                        CurrentPlayer.Pos = new Vector2(tiledObject.X, tiledObject.Y);
 
                         engine.AddEntity("Player", CurrentPlayer);
                     }
                     else
-                    if (mapObject.Type == "MapTransition")
+                    if (tiledObject.Type == "MapTransition")
                     {
                         MapTransition mapTransition = new MapTransition(
-                            mapObject.X, mapObject.Y, 
-                            mapObject.Width, mapObject.Height, 
-                            mapObject.GetProperty("Destination"));
+                            tiledObject.X, tiledObject.Y, 
+                            tiledObject.Width, tiledObject.Height, 
+                            tiledObject.GetProperty("Destination"));
 
-                        engine.AddEntity(mapObject.Name, mapTransition);
+                        engine.AddEntity(tiledObject.Name, mapTransition);
                     }
                     else
-                    if (mapObject.Type == "Chest")
+                    if (tiledObject.Type == "Chest")
                     {
-                        Chest chest = new Chest(mapObject.X, mapObject.Y);
+                        Chest chest = new Chest(tiledObject.X, tiledObject.Y);
 
-                        engine.AddEntity(mapObject.Name, chest);
+                        engine.AddEntity(tiledObject.Name, chest);
                     }
                     else
-                    if (mapObject.Type == "CoinArea")
+                    if (tiledObject.Type == "CoinArea")
                     {
-                        int density = mapObject.GetProperty<int>("Density", 0);
-                        string coinTypeString = mapObject.GetProperty("CoinType", "Gold");
+                        int density = tiledObject.GetProperty<int>("Density", 0);
+                        string coinTypeString = tiledObject.GetProperty("CoinType", "Gold");
 
-                        int coinx = mapObject.Width / density;
-                        int coiny = mapObject.Height / density;
+                        int coinx = tiledObject.Width / density;
+                        int coiny = tiledObject.Height / density;
 
                         for (int i = 0; i < coinx; i++)
                         {
@@ -147,35 +147,34 @@ namespace Some2DRPG
                                 else
                                     coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
 
-                                Coin coin = new Coin(mapObject.X + i * density, mapObject.Y + j * density, 100, coinType);
+                                Coin coin = new Coin(tiledObject.X + i * density, tiledObject.Y + j * density, 100, coinType);
                                 coin.Visible = true;
 
                                 engine.AddEntity(coin);
                             }
                         }
                     }
-                    if (mapObject.Type == "Coin")
+                    if (tiledObject.Type == "Coin")
                     {
-                        string coinTypeString = mapObject.GetProperty("CoinType", "Gold");
+                        string coinTypeString = tiledObject.GetProperty("CoinType", "Gold");
                         CoinType coinType = coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
 
-                        Coin coin = new Coin(mapObject.X, mapObject.Y, 100, coinType);
+                        Coin coin = new Coin(tiledObject.X, tiledObject.Y, 100, coinType);
                         coin.Visible = true;
 
-                        engine.AddEntity(mapObject.Name, coin);
+                        engine.AddEntity(tiledObject.Name, coin);
                     }
                     else
-                    if (mapObject.Gid != -1)        // Default operation is to check if it has been assigned a tile and use it if needs be.
+                    if (tiledObject.Gid != -1)        // Default operation is to check if it has been assigned a tile and use it if needs be.
                     {
                         Entity entity = new Entity();
-                        entity.Pos = new Vector2(mapObject.X, mapObject.Y);
+                        entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
                         entity.ScaleX = 1.0f;
                         entity.ScaleY = 1.0f;
                         entity.Visible = true;
 
-                        Tile SourceTile = map.Tiles[mapObject.Gid];
+                        Tile SourceTile = map.Tiles[tiledObject.Gid];
                         GameDrawableInstance instance = entity.Drawables.Add("standard", SourceTile);
-                        //entity.Drawables.SetNameProperty("standard", "Color", new Color(255, 255, 255, 200));
 
                         entity.CurrentDrawableState = "standard";
 
@@ -184,7 +183,7 @@ namespace Some2DRPG
                         entity.Pos.X += (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(0).Width;
                         entity.Pos.Y += (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(0).Height;
 
-                        engine.AddEntity(mapObject.Name, entity);
+                        engine.AddEntity(tiledObject.Name, entity);
                     }
                 }
             }

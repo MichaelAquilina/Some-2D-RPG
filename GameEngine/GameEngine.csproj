@@ -110,7 +110,7 @@
     <Compile Include="Options\DrawingOptions.cs" />
     <Compile Include="Tiled\Tile.cs" />
     <Compile Include="Tiled\TiledMap.cs" />
-    <Compile Include="Tiled\MapObject.cs" />
+    <Compile Include="Tiled\TiledObject.cs" />
     <Compile Include="Tiled\ObjectLayer.cs" />
     <Compile Include="Tiled\TileLayer.cs" />
     <Compile Include="TeeEngine.cs" />

@@ -3,9 +3,9 @@ using GameEngine.Interfaces;
 
 namespace GameEngine.Tiled
 {
-    public class ObjectLayer : PropertyBag
+    public class TiledObjectLayer : PropertyBag
     {
-        public List<MapObject> Objects { get; set; }
+        public List<TiledObject> Objects { get; set; }
 
         public string Name { get; set; }
 
@@ -13,14 +13,14 @@ namespace GameEngine.Tiled
 
         public int Height { get; set; }
 
-        public ObjectLayer()
+        public TiledObjectLayer()
         {
-            this.Objects = new List<MapObject>();
+            this.Objects = new List<TiledObject>();
         }
 
         public override string ToString()
         {
-            return string.Format("ObjectLayer: Name={0}, Dimensions={1}x{2}", Name, Width, Height);
+            return string.Format("TiledObjectLayer: Name={0}, Dimensions={1}x{2}", Name, Width, Height);
         }
     }
 }

@@ -3,7 +3,7 @@ using GameEngine.Interfaces;
 
 namespace GameEngine.Tiled
 {
-    public class MapObject : PropertyBag
+    public class TiledObject : PropertyBag
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -16,7 +16,7 @@ namespace GameEngine.Tiled
         public string Name { get; set; }
         public string Type { get; set; }
 
-        public MapObject()
+        public TiledObject()
         {
             Gid = -1;
             X = -1;
@@ -25,7 +25,7 @@ namespace GameEngine.Tiled
 
         public override string ToString()
         {
-            return string.Format("MapObject: Name={0}, Type={1}, Pos=({2},{3})",
+            return string.Format("TileObject: Name={0}, Type={1}, Pos=({2},{3})",
                 Name, Type, X, Y);
         }
     }
