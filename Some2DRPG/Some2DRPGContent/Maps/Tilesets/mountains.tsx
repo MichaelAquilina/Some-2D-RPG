@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset name="mountains" tilewidth="32" tileheight="32">
- <image source="LPC/Terrain/mountains.png" width="384" height="288"/>
+ <properties>
+  <property name="Content" value="LPC/Terrain/mountains"/>
+ </properties>
+ <image source="../../LPC/Terrain/mountains.png" width="384" height="288"/>
  <tile id="0">
   <properties>
    <property name="Impassable" value=""/>

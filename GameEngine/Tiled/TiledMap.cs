@@ -22,14 +22,16 @@ namespace GameEngine.Tiled
 
         public Color Background { get; set; }
 
-        public SortedList<int, Tile> Tiles { get; set; }
-        public List<TileLayer> TileLayers { get; set; }
-        public List<ObjectLayer> ObjectLayers { get; set; }
+        public SortedList<int, Tile> Tiles { get; set; }        // Provides a means of direct access with Global Indentifiers.
+        public List<TileSet> TileSets { get; set; }             // Individual TileSets loaded. Also contain references to Tiles sorted by their LOCAL id.
+        public List<TileLayer> TileLayers { get; set; }         // Tile Layers present within this map. Each one contains an array of tile global identifiers.
+        public List<ObjectLayer> ObjectLayers { get; set; }     // Layers consisting of TileObjects.
 
         public TiledMap()
         {
             ObjectLayers = new List<ObjectLayer>();
             Tiles = new SortedList<int, Tile>();
+            TileSets = new List<TileSet>();
             TileLayers = new List<TileLayer>();
         }
 
@@ -122,6 +124,7 @@ namespace GameEngine.Tiled
                     mapNode, "backgroundcolor", "#000000"
                 )
             );
+            map.LoadProperties(mapNode);
 
             // OBJECT LAYERS
             foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
@@ -172,13 +175,20 @@ namespace GameEngine.Tiled
                 int tileHeight = XmlExtensions.GetAttributeValue<int>(actualTilesetNode, "tileheight", -1, true);
                 int tileWidth = XmlExtensions.GetAttributeValue<int>(actualTilesetNode, "tilewidth", -1, true);
 
+                TileSet tileset = new TileSet();
+                tileset.LoadProperties(actualTilesetNode);
+
+                tileset.Name = tilesetName;
+                tileset.TileWidth = tileWidth;
+                tileset.TileHeight = tileHeight;
+                tileset.ContentTexturePath = tileset.GetProperty("Content");    // Content Texture Path for XNA. REQUIRED.
+
+                map.TileSets.Add(tileset);
+
                 XmlNode imageNode = actualTilesetNode.SelectSingleNode("image");
                 int imageWidth = XmlExtensions.GetAttributeValue<int>(imageNode, "width", -1, true);
                 int imageHeight = XmlExtensions.GetAttributeValue<int>(imageNode, "height", -1, true);
                 string sourceTexturePath = XmlExtensions.GetAttributeValue<string>(imageNode, "source", "", true);
-                
-                // TEMPORARY FIX which ignores file extensions so that the content pipeline can use tmx files
-                sourceTexturePath = sourceTexturePath.Substring(0, sourceTexturePath.LastIndexOf('.'));
 
                 // PreBuild the tiles from the tileset information.
                 int i = 0;
@@ -200,12 +210,14 @@ namespace GameEngine.Tiled
                         break;
 
                     Tile tile = new Tile();
-                    tile.sourceTexturePath = sourceTexturePath;
+                    tile.SourceTexturePath = sourceTexturePath;                             // Path to the actual file being referred.
                     tile.SourceRectangle = new Rectangle(tx, ty, tileWidth, tileHeight);
                     tile.TileGid = i + firstGID;
-                    tile.TileSetName = tilesetName;
+                    tile.TileId = i;
+                    tile.TileSet = tileset;
 
                     map.Tiles.Add(tile.TileGid, tile);
+                    tileset.Tiles.Add(i, tile);
                     i++;
                 }
 
@@ -216,6 +228,7 @@ namespace GameEngine.Tiled
                     Tile tile = map.Tiles[tileGid];
                     tile.LoadProperties(tileNode);
 
+                    // BUILT INS
                     // Adjust the draw origin based on the tile property 'DrawOrigin'
                     string[] drawOrigin = tile.GetProperty("DrawOrigin", "0, 1").Split(',');
                     tile.Origin = new Vector2(

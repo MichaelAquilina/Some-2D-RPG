@@ -233,7 +233,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="example_map.tmx">
+    <Content Include="Maps\example_map.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>example_map</Name>
       <SubType>Designer</SubType>
@@ -400,50 +400,50 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cave_example.tmx">
+    <Content Include="Maps\cave_example.tmx">
       <Name>cave_example</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="mountains.tsx">
+    <Content Include="Maps\Tilesets\mountains.tsx">
       <Name>mountains</Name>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="bridges.tsx">
+    <Content Include="Maps\Tilesets\bridges.tsx">
       <Name>bridges</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="buckets.tsx">
+    <Content Include="Maps\Tilesets\buckets.tsx">
       <Name>buckets</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="dirt.tsx">
+    <Content Include="Maps\Tilesets\dirt.tsx">
       <Name>dirt</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="grass.tsx">
+    <Content Include="Maps\Tilesets\grass.tsx">
       <Name>grass</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="rock.tsx">
+    <Content Include="Maps\Tilesets\rock.tsx">
       <Name>rock</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="treetop.tsx">
+    <Content Include="Maps\Tilesets\treetop.tsx">
       <Name>treetop</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="watergrass.tsx">
+    <Content Include="Maps\Tilesets\watergrass.tsx">
       <Name>watergrass</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="dirt2.tsx">
+    <Content Include="Maps\Tilesets\dirt2.tsx">
       <Name>dirt2</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

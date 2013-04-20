@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="60" height="60" tilewidth="32" tileheight="32" backgroundcolor="#000000">
- <properties>
-  <property name="TestProperty" value="sdddd"/>
- </properties>
- <tileset firstgid="1" source="grass.tsx"/>
- <tileset firstgid="19" source="watergrass.tsx"/>
- <tileset firstgid="37" source="buckets.tsx"/>
- <tileset firstgid="43" source="rock.tsx"/>
- <tileset firstgid="45" source="bridges.tsx"/>
- <tileset firstgid="87" source="treetop.tsx"/>
- <tileset firstgid="89" source="dirt.tsx"/>
- <tileset firstgid="107" source="mountains.tsx"/>
+ <tileset firstgid="1" source="Tilesets/grass.tsx"/>
+ <tileset firstgid="19" source="Tilesets/watergrass.tsx"/>
+ <tileset firstgid="37" source="Tilesets/buckets.tsx"/>
+ <tileset firstgid="43" source="Tilesets/rock.tsx"/>
+ <tileset firstgid="45" source="Tilesets/bridges.tsx"/>
+ <tileset firstgid="87" source="Tilesets/treetop.tsx"/>
+ <tileset firstgid="89" source="Tilesets/dirt.tsx"/>
+ <tileset firstgid="107" source="Tilesets/mountains.tsx"/>
  <layer name="Base Layer" width="60" height="60">
   <data encoding="csv">
 16,16,17,28,29,35,36,35,30,18,18,17,17,17,18,16,18,18,16,18,17,18,31,21,35,35,36,29,36,36,29,36,20,33,16,18,16,16,16,18,16,16,18,18,17,16,17,17,16,18,16,18,16,18,16,18,16,18,16,18,
@@ -530,7 +527,7 @@
   </object>
   <object name="Cave_Entrance_1" type="MapTransition" x="1727" y="135" width="63" height="51">
    <properties>
-    <property name="Destination" value="Content/cave_example.tmx"/>
+    <property name="Destination" value="Content/Maps/cave_example.tmx"/>
    </properties>
   </object>
   <object name="map_transition_test1" type="MapTransition" x="1198" y="638" width="316" height="226"/>

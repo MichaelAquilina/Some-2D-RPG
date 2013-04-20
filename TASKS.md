@@ -4,14 +4,11 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - Remove EntityLoadCallback from LoadMap. Instead, add two events to TeeEngine. MapLoaded event and MapObjectLoaded event. These two events will provide a means for processing accordingly.
-- [] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
-- [] - Improve QuadTree Validate. If a tile isnt contained in a node anymore but STILL interesects it, then no need ot remove it only to re-add it!
+- [] - Find a way to place tmx files and tsx files in seperate folders. Problem currently is that they need to reference Content.
 - [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
-- [] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
-- [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm.
+- [Done] - Remove EntityLoadCallback from LoadMap. Instead specify a MapLoaded event in TeeEngine that is called everytime a map is loaded using LoadMap.
 - [Done] - Investigate imported tileset support (trx files) so that properties etc can be shared amognst multiple maps.
 - [Done] - AI for bats. Bats do not really need to make use of A*.
 - [Done] - better entity integration in map loading. Finished with LoadEntityCallback in LoadMap method (?)
@@ -23,6 +20,15 @@ Todo
 - [Done] - Change SpriteBatchExtension 'DrawMultiLineString' to automatically convert strings to mutltiple lines given some maxline length
 - [Done] - Create virtual Entity method. ShowDebugInfo (or something like that) that is shown by the TeeEngine when required.
 - [Done] - Add support for specifying tile layer 'Color'. For example, the cliff layer could be set to some light gray to give the feeling of distance.
+
+QuadTree / HashList stuff
+------------------------
+
+- [] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
+- [] - Improve QuadTree Validate. If a tile isnt contained in a node anymore but STILL interesects it, then no need ot remove it only to re-add it!
+- [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
+- [] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
+
 
 Must Have
 ---------
@@ -56,6 +62,7 @@ Should Have
 Nice to Have
 ------------
 
+- [] - Support for loading Image layers specified in tiled files.
 - [] - zlib compression support in tmx files
 - [] - the ability to pause and resume the state of the world from within the engine itself
 - [] - the ability to run on MonoGame

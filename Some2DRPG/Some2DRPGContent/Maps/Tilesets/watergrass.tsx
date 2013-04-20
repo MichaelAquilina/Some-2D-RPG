@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset name="watergrass" tilewidth="32" tileheight="32">
- <image source="LPC/Terrain/watergrass.png" width="96" height="192"/>
+ <properties>
+  <property name="Content" value="LPC/Terrain/watergrass"/>
+ </properties>
+ <image source="../../LPC/Terrain/watergrass.png" width="96" height="192"/>
  <terraintypes>
   <terrain name="Water" tile="-1"/>
  </terraintypes>

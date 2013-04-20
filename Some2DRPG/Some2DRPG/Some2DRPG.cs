@@ -192,7 +192,7 @@ namespace Some2DRPG
 
         protected override void LoadContent()
         {
-            Engine.LoadMap("Content/example_map.tmx");
+            Engine.LoadMap("Content/Maps/example_map.tmx");
 
             CurrentSampler = SamplerStates[SamplerIndex];
 

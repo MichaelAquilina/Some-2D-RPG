@@ -8,12 +8,13 @@ namespace GameEngine.Tiled
 {
     public class Tile : PropertyBag, IGameDrawable, ILoadable
     {
-        internal string sourceTexturePath { get; set; }
         internal Texture2D sourceTexture { get; set; }
-        
-        public Rectangle SourceRectangle { get; set; }
-        public int TileGid { get; set; }                    // Tile Global Identifier
-        public string TileSetName { get; set; }
+
+        public string SourceTexturePath { get; internal set; }        
+        public Rectangle SourceRectangle { get; internal set; }
+        public int TileGid { get; internal set; }                    // Tile Global Identifier.
+        public int TileId { get; internal set; }                     // Tile Local Indentifier (for within the same tileset).
+        public TileSet TileSet { get; internal set; }                // Associated TileSet.
 
         // IGameDrawable Properties
         public Vector2 Origin { get; set; }
@@ -25,7 +26,7 @@ namespace GameEngine.Tiled
 
         public void LoadContent(ContentManager content)
         {
-            sourceTexture = content.Load<Texture2D>(sourceTexturePath);
+            sourceTexture = content.Load<Texture2D>(TileSet.ContentTexturePath);
         }
 
         public void UnloadContent()
@@ -45,7 +46,7 @@ namespace GameEngine.Tiled
 
         public override string ToString()
         {
-            return string.Format("TileGid: {0}, TileSet: {1}", TileGid, TileSetName);
+            return string.Format("TileGid: {0}, TileSet: {1}", TileGid, TileSet.Name);
         }
     }
 }
