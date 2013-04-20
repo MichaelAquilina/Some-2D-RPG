@@ -111,7 +111,7 @@
     <Compile Include="Tiled\Tile.cs" />
     <Compile Include="Tiled\TiledMap.cs" />
     <Compile Include="Tiled\TiledObject.cs" />
-    <Compile Include="Tiled\ObjectLayer.cs" />
+    <Compile Include="Tiled\TiledObjectLayer.cs" />
     <Compile Include="Tiled\TileLayer.cs" />
     <Compile Include="TeeEngine.cs" />
     <Compile Include="Extensions\KeyboardExtensions.cs" />

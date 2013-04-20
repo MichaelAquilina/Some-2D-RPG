@@ -4,10 +4,10 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - Find a way to place tmx files and tsx files in seperate folders. Problem currently is that they need to reference Content.
 - [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm.
+- [Done] - Find a way to place tmx files and tsx files in seperate folders. Problem currently is that they need to reference Content.
 - [Done] - Remove EntityLoadCallback from LoadMap. Instead specify a MapLoaded event in TeeEngine that is called everytime a map is loaded using LoadMap.
 - [Done] - Investigate imported tileset support (trx files) so that properties etc can be shared amognst multiple maps.
 - [Done] - AI for bats. Bats do not really need to make use of A*.
