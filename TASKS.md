@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [IP] - Create some Model View Controller paradigm for controlling Maps with backend code. Specify some 'Model' class to handle a Map in its Property metadata.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
@@ -43,6 +44,7 @@ Must Have
 
 Should Have
 -----------
+- [] - Ability to run in full screen mode. Currently this does not work as expected.
 - [] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
 - [] - NPC Interaction (scriptable with dialog text)
 - [] - ICollision interface should be implemented and used by the QuadTreeNode to allow extensions to be added.
