@@ -66,6 +66,9 @@ Some Future features that i aim to include:
 * Sound Management
 * Application to quickly specify and design animations from spritesheets
 
+You can get a rough overview of what is currently being developed, to be developed and complete
+from the [TASKS.md files](https://github.com/KillaW0lf04/Some-2D-RPG/master/TASKS.md) in the repository.
+
 Game
 ----
 
