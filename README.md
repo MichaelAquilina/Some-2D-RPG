@@ -19,12 +19,18 @@ Wiki
 I am doing my best to keep the WIKI updated. I am using the WIKI as a place to store documentation related to the code being developed.
 https://github.com/KillaW0lf04/Some-2D-RPG/wiki
 
-
 Development Platform
 --------------------
 I decided to make use of XNA becauase i feel very comfortable using C# as a development language, and still have a lot to learn when it comes to C++.
 Using XNA also allows me to concentrate on the actual game development rather than dealing with lower level programing details and memory concerns. In the future
 i could possibly take this code and try make it run on the cross-platform implementation of XNA - [MonoGame](https://github.com/mono/MonoGame).
+
+Building the Project
+--------------------
+
+In order to build the project, you will need a copy of Visual Studio 2010 and [XNA 4.0 Game Studio](http://www.microsoft.com/en-us/download/details.aspx?id=23714).
+Once the MonoGame project has completed its plans for supporting the Content Pipeline, i will be attempting to port the code to run on MonoGame so that
+it is more available for everyone to run. (I am aware thatnot everyone has a copy of Visual Studio 2010)
 
 Game Engine
 -----------
@@ -90,6 +96,9 @@ rather than the creative design aspects (including sound/music).
 
 Screenshots
 -----------
+
+*Please note that these screenshots are quite old now. I plan to update them as soon as possible to reflect the current
+changes that have been made. In the meanwhile, please go ahead and clone the repository and try it out yourself :)*
 
 <img src="Images/HighEntities.png" width="630" height="350"></img>
 <img src="Images/QuadTree.gif" width="630" height="350"></img>
