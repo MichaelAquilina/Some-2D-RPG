@@ -85,6 +85,29 @@ Currently, any game design that is being done, is purely for testing and expandi
 Once Game Engine development is close to completion i intend to try and perform some actual game design that could demo the 
 capabilities of the engine and allow me to further my understanding.
 
+Controls
+--------
+
+Some basic controls that you can currently use while running the game:
+
+* Arrow Keys: Move
+* A: Attack (please note that this is very work in progress right now)
+* S: Interact with an object (Open a chest or enter another area).
+
+Debugging Tools:
+* F1: Show/Hide Bounding Boxes
+* F2: Show/Hide Debugging Information
+* F3: Enable/Disable Light Shader
+* F4: 
+* F5:
+* F6: Show/Hide Quad Tree
+* F7: Show/Hide performance diagnostic information
+* F8: 
+* F9:
+* F10: Show/Hide Drawable Components
+* F11:
+* F12: Enable/Disable Collision Detection on the main player.
+
 Assets
 ------
 
