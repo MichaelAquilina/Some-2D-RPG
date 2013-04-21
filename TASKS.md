@@ -56,7 +56,7 @@ Should Have
        - example: http://www.gamedev.net/page/resources/_/technical/game-programming/using-lua-with-c-r2275 *LUA*
        - example: http://mail.python.org/pipermail/pythondotnet/2003-November/000037.html *PYTHON*
        - example: http://stackoverflow.com/questions/826398/is-it-possible-to-dynamically-compile-and-execute-c-sharp-code-fragments *C#*
-- [] - Animated tile support
+- [] - Animated tile support. This is currently a bit hard in Tiled, but hopefully [support for specifying animated tiles will come soon](https://github.com/bjorn/tiled/issues/57#issuecomment-16699982)
 - [Done] - Composite drawing support in entities (allowing entities to make use of more than one animation at one go)
 - [Done] - Detailed diagnostic information in terms of performance counters
 - [Done] - the ability to reset animations
