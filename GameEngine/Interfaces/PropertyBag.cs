@@ -10,9 +10,9 @@ namespace GameEngine.Interfaces
     {
         private Dictionary<string, string> _properties = new Dictionary<string, string>();
 
-        public T GetProperty<T>(string Name, T Default)
+        public T GetProperty<T>(string name, T defaultValue)
         {
-            return HasProperty(Name) ? (T) Convert.ChangeType(_properties[Name], typeof(T)) : Default;
+            return HasProperty(name) ? (T) Convert.ChangeType(_properties[name], typeof(T)) : defaultValue;
         }
 
         public string GetProperty(string name, string defaultValue=null)
