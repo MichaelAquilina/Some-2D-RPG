@@ -76,6 +76,7 @@ namespace Some2DRPG.GameObjects
             if (gameTime.TotalGameTime.TotalMilliseconds - PrevGameTime > INPUT_DELAY)
             {
                 bool moved = false;
+                Vector2 movement = Vector2.Zero;
 
                 // ATTACK KEY.
                 if (keyboardState.IsKeyDown(Keys.A))
@@ -96,7 +97,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Pos.Y -= MOVEMENT_SPEED * moveSpeedModifier;
+                    movement.Y--;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
                 {
@@ -105,7 +106,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Pos.Y += MOVEMENT_SPEED * moveSpeedModifier;
+                    movement.Y++;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
                 {
@@ -114,7 +115,7 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Pos.X -= MOVEMENT_SPEED * moveSpeedModifier;
+                    movement.X--;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
                 {
@@ -123,12 +124,19 @@ namespace Some2DRPG.GameObjects
                     moved = true;
 
                     PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
-                    Pos.X += MOVEMENT_SPEED * moveSpeedModifier;
+                    movement.X++;
                 }
 
                 // Set animation to idle of no movements where made.
                 if (moved == false)
                     CurrentDrawableState = "Idle_" + Direction;
+                else
+                {
+                    if (movement.Length() > 1)
+                        movement.Normalize();
+
+                    Pos += movement * MOVEMENT_SPEED * moveSpeedModifier;
+                }
 
                 // Prevent from going out of range.
                 if (Pos.X < 0) Pos.X = 0;
