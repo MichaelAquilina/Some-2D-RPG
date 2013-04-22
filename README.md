@@ -19,6 +19,12 @@ Wiki
 I am doing my best to keep the WIKI updated. I am using the WIKI as a place to store documentation related to the code being developed.
 https://github.com/KillaW0lf04/Some-2D-RPG/wiki
 
+Suggestions and Feedback
+------------------------
+
+If you have any suggestions or feedback that you would like to give regarding this project then feel free to post in the
+'Issues' section of this repository. 
+
 Development Platform
 --------------------
 I decided to make use of XNA becauase i feel very comfortable using C# as a development language, and still have a lot to learn when it comes to C++.
@@ -76,7 +82,7 @@ Future Planning
 ---------------
 
 You can get a rough overview of what is currently being developed, to be developed and complete
-from the [TASKS.md files](https://github.com/KillaW0lf04/Some-2D-RPG/blob/master/TASKS.md) in the repository.
+from the [TASKS.md file](https://github.com/KillaW0lf04/Some-2D-RPG/blob/master/TASKS.md) in the repository.
 
 Game
 ----
@@ -91,21 +97,21 @@ Controls
 Some basic controls that you can currently use while running the game:
 
 * Arrow Keys: Move
-* A: Attack (please note that this is very work in progress right now)
-* S: Interact with an object (Open a chest or enter another area).
+* A: Attack (very WIP at the moment)
+* S: Interact with an object (e.g. Open a chest or enter another area).
 
 Debugging Tools:
-* F1: Show/Hide Bounding Boxes
-* F2: Show/Hide Debugging Information
-* F3: Enable/Disable Light Shader
+* F1: Show/Hide Bounding Boxes.
+* F2: Show/Hide Debugging Information.
+* F3: Enable/Disable Light Shader.
 * F4: 
-* F5:
-* F6: Show/Hide Quad Tree
-* F7: Show/Hide performance diagnostic information
-* F8: 
+* F5: Show/Hide Tile Grid.
+* F6: Show/Hide Quad Tree.
+* F7: Show/Hide performance diagnostic information.
+* F8: Show/Hide Entity Debug Info.
 * F9:
-* F10: Show/Hide Drawable Components
-* F11:
+* F10: Show/Hide Drawable Components.
+* F11: *Test Function*: alter y-offset for Hero's helmet.
 * F12: Enable/Disable Collision Detection on the main player.
 
 Assets
