@@ -525,12 +525,12 @@
     <property name="Density" value="15"/>
    </properties>
   </object>
-  <object name="Cave_Entrance_1" type="MapTransition" x="1727" y="135" width="63" height="51">
+  <object name="Cave_Entrance_1" type="MapZone" x="1727" y="135" width="63" height="51">
    <properties>
     <property name="Destination" value="Content/Maps/cave_example.tmx"/>
    </properties>
   </object>
-  <object name="map_transition_test1" type="MapTransition" x="1198" y="638" width="316" height="226"/>
+  <object name="map_zone_1" type="MapZone" x="1198" y="638" width="316" height="226"/>
   <object name="main_entrance" type="Entrance" x="494" y="333"/>
   <object name="chest_3" type="Chest" x="1571" y="88" width="37" height="36"/>
  </objectgroup>
