@@ -7,8 +7,9 @@ Items Related to Design and Development
 
 * Good JRPGS to look at http://kotaku.com/eleven-indie-jrpgs-on-my-radar-472671723
 
-* Coding guidelines to follow: https://github.com/mono/MonoGame/wiki/Coding-Guidelines
-                                        http://msdn.microsoft.com/en-us/library/ff926074.aspx
+* Coding guidelines to follow: 
+    * https://github.com/mono/MonoGame/wiki/Coding-Guidelines
+    * http://msdn.microsoft.com/en-us/library/ff926074.aspx
                                         
 * Developing unit test cases in C#: http://msdn.microsoft.com/en-us/library/ms182532.aspx
 
