@@ -19,12 +19,24 @@ Wiki
 I am doing my best to keep the WIKI updated. I am using the WIKI as a place to store documentation related to the code being developed.
 https://github.com/KillaW0lf04/Some-2D-RPG/wiki
 
+Suggestions and Feedback
+------------------------
+
+If you have any suggestions or feedback that you would like to give regarding this project then feel free to post in the
+'Issues' section of this repository. 
 
 Development Platform
 --------------------
 I decided to make use of XNA becauase i feel very comfortable using C# as a development language, and still have a lot to learn when it comes to C++.
 Using XNA also allows me to concentrate on the actual game development rather than dealing with lower level programing details and memory concerns. In the future
 i could possibly take this code and try make it run on the cross-platform implementation of XNA - [MonoGame](https://github.com/mono/MonoGame).
+
+Building the Project
+--------------------
+
+In order to build the project, you will need a copy of Visual Studio 2010 and [XNA 4.0 Game Studio](http://www.microsoft.com/en-us/download/details.aspx?id=23714).
+Once the MonoGame project has completed its plans for supporting the Content Pipeline, i will be attempting to port the code to run on MonoGame so that
+it is more available for everyone to run. (I am aware thatnot everyone has a copy of Visual Studio 2010)
 
 Game Engine
 -----------
@@ -66,12 +78,41 @@ Some Future features that i aim to include:
 * Sound Management
 * Application to quickly specify and design animations from spritesheets
 
+Future Planning
+---------------
+
+You can get a rough overview of what is currently being developed, to be developed and complete
+from the [TASKS.md file](https://github.com/KillaW0lf04/Some-2D-RPG/blob/master/TASKS.md) in the repository.
+
 Game
 ----
 
 Currently, any game design that is being done, is purely for testing and expanding upon the requirements of the game engine. 
 Once Game Engine development is close to completion i intend to try and perform some actual game design that could demo the 
 capabilities of the engine and allow me to further my understanding.
+
+Controls
+--------
+
+Some basic controls that you can currently use while running the game:
+
+* Arrow Keys: Move
+* A: Attack (very WIP at the moment)
+* S: Interact with an object (e.g. Open a chest or enter another area).
+
+Debugging Tools:
+* F1: Show/Hide Bounding Boxes.
+* F2: Show/Hide Debugging Information.
+* F3: Enable/Disable Light Shader.
+* F4: 
+* F5: Show/Hide Tile Grid.
+* F6: Show/Hide Quad Tree.
+* F7: Show/Hide performance diagnostic information.
+* F8: Show/Hide Entity Debug Info.
+* F9:
+* F10: Show/Hide Drawable Components.
+* F11: *Test Function*: alter y-offset for Hero's helmet.
+* F12: Enable/Disable Collision Detection on the main player.
 
 Assets
 ------
@@ -84,6 +125,9 @@ rather than the creative design aspects (including sound/music).
 
 Screenshots
 -----------
+
+*Please note that these screenshots are quite old now. I plan to update them as soon as possible to reflect the current
+changes that have been made. In the meanwhile, please go ahead and clone the repository and try it out yourself :)*
 
 <img src="Images/HighEntities.png" width="630" height="350"></img>
 <img src="Images/QuadTree.gif" width="630" height="350"></img>

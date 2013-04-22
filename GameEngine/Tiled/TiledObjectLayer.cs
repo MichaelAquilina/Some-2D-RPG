@@ -5,7 +5,7 @@ namespace GameEngine.Tiled
 {
     public class TiledObjectLayer : PropertyBag
     {
-        public List<TiledObject> Objects { get; set; }
+        public List<TiledObject> TiledObjects { get; set; }
 
         public string Name { get; set; }
 
@@ -15,7 +15,7 @@ namespace GameEngine.Tiled
 
         public TiledObjectLayer()
         {
-            this.Objects = new List<TiledObject>();
+            this.TiledObjects = new List<TiledObject>();
         }
 
         public override string ToString()
