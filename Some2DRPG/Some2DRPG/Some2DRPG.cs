@@ -91,7 +91,7 @@ namespace Some2DRPG
         {
             foreach(TiledObjectLayer tiledObjectLayer in map.TileObjectLayers)
             {
-                foreach(TiledObject tiledObject in tiledObjectLayer.Objects)
+                foreach(TiledObject tiledObject in tiledObjectLayer.TiledObjects)
                 {
                     if (tiledObject.Type == "Entrance")
                     {

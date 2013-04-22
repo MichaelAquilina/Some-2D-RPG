@@ -146,7 +146,7 @@ namespace GameEngine.Tiled
                     mapObject.Gid = XmlExtensions.GetAttributeValue<int>(objectNode, "gid", -1);
                     mapObject.LoadProperties(objectNode);
 
-                    mapObjectLayer.Objects.Add(mapObject);
+                    mapObjectLayer.TiledObjects.Add(mapObject);
                 }
 
                 map.TileObjectLayers.Add(mapObjectLayer);
