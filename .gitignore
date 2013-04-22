@@ -1,6 +1,9 @@
 #Linux Junk Files
 *.*~
 
+#Git orig files
+*.orig
+
 #OS junk files
 [Tt]humbs.db
 *.DS_Store
