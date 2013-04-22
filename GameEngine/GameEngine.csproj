@@ -104,6 +104,7 @@
     <Compile Include="GameObjects\Entity.cs" />
     <Compile Include="Extensions\XmlExtensions.cs" />
     <Compile Include="Interfaces\IGameDrawable.cs" />
+    <Compile Include="Interfaces\MapModel.cs" />
     <Compile Include="Interfaces\PropertyBag.cs" />
     <Compile Include="DataStructures\QuadTree.cs" />
     <Compile Include="DataStructures\QuadTreeNode.cs" />
