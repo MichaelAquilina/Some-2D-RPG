@@ -52,6 +52,7 @@ namespace GameEngine.GameObjects
             this.Visible = visible;
             this.IsOnScreen = false;
             this.Drawables = new DrawableSet();
+            this.CurrentDrawableState = "Standard";
         }
 
         #endregion
