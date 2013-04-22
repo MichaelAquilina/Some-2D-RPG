@@ -98,7 +98,9 @@
     <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="Drawing\GameDrawableInstance.cs" />
     <Compile Include="Drawing\StaticImage.cs" />
+    <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\SpriteBatchExtensions.cs" />
+    <Compile Include="GameObjects\MapZone.cs" />
     <Compile Include="Info\DebugInfo.cs" />
     <Compile Include="Info\ViewPortInfo.cs" />
     <Compile Include="GameObjects\Entity.cs" />
