@@ -11,6 +11,10 @@ namespace Some2DRPG.GameObjects
 {
     public class Chest : Entity
     {
+        public Chest()
+        {
+        }
+
         public Chest(float x, float y)
             :base(x,y)
         {

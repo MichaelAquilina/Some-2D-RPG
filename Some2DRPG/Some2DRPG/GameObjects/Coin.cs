@@ -28,6 +28,11 @@ namespace Some2DRPG.GameObjects
 
         private CoinType _coinType;
 
+        public Coin()
+        {
+            this.CoinType = CoinType.Copper;
+        }
+
         public Coin(float x, float y, int coinValue, CoinType coinType)
             : base(x, y)
         {
