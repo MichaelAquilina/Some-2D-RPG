@@ -9,6 +9,9 @@ namespace GameEngine.Interfaces
     //Provides support for loading property information from Xml Node objects automatically
     public abstract class PropertyBag
     {
+        public ICollection<string> PropertyValues { get { return _properties.Values; } }
+        public ICollection<string> PropertyKeys { get { return _properties.Keys; } }
+
         private Dictionary<string, string> _properties = new Dictionary<string, string>();
 
         public T GetProperty<T>(string name, T defaultValue)
