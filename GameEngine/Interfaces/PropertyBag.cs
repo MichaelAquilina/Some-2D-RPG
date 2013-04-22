@@ -2,6 +2,7 @@
 using System.Xml;
 using System;
 
+// TODO: Place in more appropriate namespace or rename namespace
 namespace GameEngine.Interfaces
 {
     //Represents an Object that allows for meta-data to be stored in a dictionary
