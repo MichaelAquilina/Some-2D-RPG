@@ -1,31 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <Animations>
-  <Animation State="Idle_Up" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90">
+  <!-- Idle Animations -->
+
+  <Animation State="Idle_Up" Group="Body"
+             Loop="True"
+             SpriteSheet="LPC\Characters\female_walkcycle"
+             Layer="0"
+             FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 13, 35, 49</Frame>
     </Frames>
   </Animation>
 
-  <Animation State="Idle_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90">
+  <Animation State="Idle_Left" Group="Body"
+             Loop="True"
+             SpriteSheet="LPC\Characters\female_walkcycle"
+             Layer="0"
+             FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 78, 35, 49</Frame>
     </Frames>
   </Animation>
 
-  <Animation State="Idle_Down" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90">
+  <Animation State="Idle_Down" Group="Body"
+             Loop="True"
+             SpriteSheet="LPC\Characters\female_walkcycle"
+             Layer="0"
+             FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 142, 35, 49</Frame>
     </Frames>
   </Animation>
 
-  <Animation State="Idle_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90">
+  <Animation State="Idle_Right" Group="Body"
+             Loop="True"
+             SpriteSheet="LPC\Characters\female_walkcycle"
+             Layer="0"
+             FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>15, 206, 35, 49</Frame>
     </Frames>
   </Animation>
-  
-  <Animation State="Walk_Up" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90">
+
+  <!--  Walking Animations -->
+
+  <Animation State="Walk_Up" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>79 , 13, 35, 49</Frame>
       <Frame>143, 13, 35, 49</Frame>
@@ -37,7 +57,8 @@
       <Frame>527, 13, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation State="Walk_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90">
+
+  <Animation State="Walk_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>79 , 78, 35, 49</Frame>
       <Frame>143, 78, 35, 49</Frame>
@@ -49,7 +70,8 @@
       <Frame>527, 78, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation State="Walk_Down" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90">
+
+  <Animation State="Walk_Down" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>79 , 142, 35, 49</Frame>
       <Frame>143, 142, 35, 49</Frame>
@@ -61,7 +83,8 @@
       <Frame>527, 142, 35, 49</Frame>
     </Frames>
   </Animation>
-  <Animation State="Walk_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90">
+
+  <Animation State="Walk_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_walkcycle" FrameDelay="90" Origin="0.5, 0.9">
     <Frames>
       <Frame>79 , 206, 35, 49</Frame>
       <Frame>143, 206, 35, 49</Frame>
@@ -73,4 +96,59 @@
       <Frame>527, 206, 35, 49</Frame>
     </Frames>
   </Animation>
+
+  <!-- Slashing Animations -->
+
+  <Animation State="Slash_Up" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_slash" FrameDelay="45" Origin="0.4, 0.9">
+    <Frames>
+      <Frame>79  , 13, 43, 50</Frame>
+      <Frame>143 , 13, 43, 50</Frame>
+      <Frame>207 , 13, 43, 50</Frame>
+      <Frame>271 , 13, 43, 50</Frame>
+      <Frame>335 , 13, 43, 50</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Slash_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_slash" FrameDelay="45" Origin="0.7, 0.9">
+    <Frames>
+      <Frame>69  , 78, 40, 49</Frame>
+      <Frame>133 , 78, 40, 49</Frame>
+      <Frame>197 , 78, 40, 49</Frame>
+      <Frame>261 , 78, 40, 49</Frame>
+      <Frame>325 , 78, 40, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Slash_Down" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_slash" FrameDelay="45" Origin="0.4, 0.9">
+    <Frames>
+      <Frame>80 , 142, 42, 49</Frame>
+      <Frame>144, 142, 42, 49</Frame>
+      <Frame>208, 142, 42, 49</Frame>
+      <Frame>272, 142, 42, 49</Frame>
+      <Frame>336, 142, 42, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Slash_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\female_slash" FrameDelay="45" Origin="0.4, 0.9">
+    <Frames>
+      <Frame>82 , 207, 40, 48</Frame>
+      <Frame>146, 207, 40, 48</Frame>
+      <Frame>210, 207, 40, 48</Frame>
+      <Frame>274, 207, 40, 48</Frame>
+      <Frame>338, 207, 40, 48</Frame>
+    </Frames>
+  </Animation>
+
+  <!-- Shadow -->
+
+  <Animation State="*" Group="Shadow"
+             Loop="False"
+             SpriteSheet="LPC\Characters\female_shadow"
+             Layer="-1"
+             FrameDelay="90" Origin="0.5, 0.5">
+    <Frames>
+      <Frame>0, 0, 24, 18</Frame>
+    </Frames>
+  </Animation>
+
 </Animations>
