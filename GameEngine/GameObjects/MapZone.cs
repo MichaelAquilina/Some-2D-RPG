@@ -15,7 +15,7 @@ using GameEngine;
 
 namespace GameEngine.GameObjects
 {
-    // TODO: Document appropriately.
+    // Repesents an Interactable Zone on the Map that can have a number of Scripted events assigned to it.
     public class MapZone : Entity, ISizedEntity
     {
         public delegate void MapZoneHitEventHandler(MapZone sender, List<Entity> entitiesHit, GameTime gameTime);
