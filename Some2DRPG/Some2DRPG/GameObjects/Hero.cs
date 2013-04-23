@@ -27,7 +27,7 @@ namespace Some2DRPG.GameObjects
         public Hero()
             :base(NPC.MALE_HUMAN)
         {
-            Initialise(0, 0);
+            Construct(0, 0);
 
             CollisionDetection = true;
             Head = NPC.PLATE_ARMOR_HEAD;
@@ -42,10 +42,10 @@ namespace Some2DRPG.GameObjects
         public Hero(float x, float y) :
             base(x, y, NPC.MALE_HUMAN)
         {
-            Initialise(x, y);
+            Construct(x, y);
         }
 
-        private void Initialise(float x, float y)
+        private void Construct(float x, float y)
         {
             HP = 2000;
             XP = 0;

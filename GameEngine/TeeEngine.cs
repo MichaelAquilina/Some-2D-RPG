@@ -413,12 +413,18 @@ namespace GameEngine
             _watch2.Restart();
             foreach (Entity entity in _entityCreate)
             {
-                _entities.Add(entity.Name, entity);
+                // The result of this call determines if the entity will be added or not.
+                if (entity.PreInitialize(gameTime, this))
+                {
+                    _entities.Add(entity.Name, entity);
 
-                entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
-                entity.prevBoundingBox = entity.CurrentBoundingBox;
+                    entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
+                    entity.prevBoundingBox = entity.CurrentBoundingBox;
 
-                QuadTree.Add(entity);
+                    QuadTree.Add(entity);
+                    entity.PostInitialize(gameTime, this);
+                }
+                else entity.Name = null;
             }
             DebugInfo.TotalEntityAdditionTime = _watch2.Elapsed;
 

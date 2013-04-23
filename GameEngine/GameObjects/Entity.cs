@@ -35,15 +35,15 @@ namespace GameEngine.GameObjects
 
         public Entity()
         {
-            Initialise(0, 0, 1, 1, true);
+            Construct(0, 0, 1, 1, true);
         }
 
         public Entity(float x, float y, float scaleX=1, float scaleY=1, bool visible=true)
         {
-            Initialise(x, y, scaleX, scaleY, visible);
+            Construct(x, y, scaleX, scaleY, visible);
         }
 
-        private void Initialise(float x, float y, float scaleX, float scaleY, bool visible)
+        private void Construct(float x, float y, float scaleX, float scaleY, bool visible)
         {
             this.Pos = new Vector2(x, y);
             this.ScaleX = scaleX;
@@ -58,6 +58,19 @@ namespace GameEngine.GameObjects
         #endregion
 
         #region Virtual Methods
+
+        // Called BEFORE the entity is added to the engines entity list.
+        // The result of the PreInitialize method determines if the entity will be added or not.
+        public virtual bool PreInitialize(GameTime gameTime, TeeEngine engine)
+        {
+            return true;
+        }
+
+        // Called AFTER the entity is added to the engines entity list.
+        // The entity will be garuanteed to have a valid CurrentBoundingBox value and have a place in the QuadTree.
+        public virtual void PostInitialize(GameTime gameTime, TeeEngine engine)
+        {
+        }
 
         public virtual void Update(GameTime gameTime, TeeEngine engine)
         {
