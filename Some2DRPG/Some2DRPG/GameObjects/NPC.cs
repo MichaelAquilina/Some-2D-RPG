@@ -37,6 +37,11 @@ namespace Some2DRPG.GameObjects
         public int XP { get; set; }
         public int Coins { get; set; }
 
+        public NPC()
+        {
+            Construct();
+        }
+
         public NPC(string baseRace)
         {
             Construct(0, 0, baseRace);
@@ -48,7 +53,7 @@ namespace Some2DRPG.GameObjects
             Construct(x, y, baseRace);
         }
 
-        private void Construct(float x, float y, string baseRace)
+        private void Construct(float x=0, float y=0, string baseRace=MALE_HUMAN)
         {
             this.HP = 0;
             this.XP = 0;
@@ -69,7 +74,7 @@ namespace Some2DRPG.GameObjects
             if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, content);
             Animation.LoadAnimationXML(Drawables, BaseRace, content);
 
-            CurrentDrawableState = "Walk_Right";
+            CurrentDrawableState = "Idle_Left";
         }
 
         public override void UnloadContent()

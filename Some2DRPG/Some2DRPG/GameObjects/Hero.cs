@@ -141,9 +141,7 @@ namespace Some2DRPG.GameObjects
                     CurrentDrawableState = "Idle_" + Direction;
                 else
                 {
-                    if (movement.Length() > 1)
-                        movement.Normalize();
-
+                    movement.Normalize();
                     Pos += movement * MOVEMENT_SPEED * moveSpeedModifier;
                 }
 
