@@ -92,7 +92,7 @@ namespace GameEngine
         #region Internal Members
 
         List<Entity> _entityCreate = new List<Entity>();                // A list of entities which need to be added.
-        List<Entity> _entityTrash = new List<Entity>();                 // A list of named entities that are in need of removal.
+        List<Entity> _entityDestroy = new List<Entity>();                 // A list of named entities that are in need of removal.
         
         Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();        // Internal storage structure for entities added to the engine.
         RenderTarget2D _inputBuffer;
@@ -312,7 +312,7 @@ namespace GameEngine
                 // we cannot alter the update loops _entities.Values
                 // or else a runtime error will occur if an entity
                 // removes itself or someone else in an Update call.
-                _entityTrash.Add(_entities[name]);
+                _entityDestroy.Add(_entities[name]);
                 return true;
             }
 
@@ -328,8 +328,8 @@ namespace GameEngine
         {
             // Clear and then Re-Add all the entities.
             // We are deferring the deletion of all entities till after the games update loop.
-            _entityTrash.Clear();
-            _entityTrash.AddRange(_entities.Values);
+            _entityDestroy.Clear();
+            _entityDestroy.AddRange(_entities.Values);
         }
 
         #endregion
@@ -400,8 +400,9 @@ namespace GameEngine
 
             // REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
             _watch2.Restart();
-            foreach (Entity entity in _entityTrash)
+            for(int i=0; i<_entityDestroy.Count; i++)
             {
+                Entity entity = _entityDestroy[i];
                 _entities.Remove(entity.Name);
 
                 entity.Name = null;
@@ -411,8 +412,10 @@ namespace GameEngine
 
             // ADD ANY ENTITIES IN THE CREATION LIST
             _watch2.Restart();
-            foreach (Entity entity in _entityCreate)
+            for(int i=0; i<_entityCreate.Count; i++)
             {
+                Entity entity = _entityCreate[i];
+
                 // The result of this call determines if the entity will be added or not.
                 if (entity.PreInitialize(gameTime, this))
                 {
@@ -429,7 +432,7 @@ namespace GameEngine
             DebugInfo.TotalEntityAdditionTime = _watch2.Elapsed;
 
             _entityCreate.Clear();
-            _entityTrash.Clear();
+            _entityDestroy.Clear();
         }
 
         #region Drawing Code
