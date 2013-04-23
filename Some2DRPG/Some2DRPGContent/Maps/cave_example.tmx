@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="Assembly" value="Some2DRPG"/>
+ </properties>
  <tileset firstgid="1" source="Tilesets/mountains.tsx"/>
  <tileset firstgid="109" source="Tilesets/dirt2.tsx"/>
  <layer name="Ground" width="100" height="100">
@@ -315,11 +318,7 @@
 </data>
  </layer>
  <objectgroup name="Object Layer" width="100" height="100">
-  <object name="main_entrance_cave" type="Entrance" x="48" y="205"/>
-  <object type="MapZone" x="4" y="171" width="111" height="66">
-   <properties>
-    <property name="Destination" value="Content/Maps/example_map.tmx"/>
-   </properties>
-  </object>
+  <object type="GameEngine.GameObjects.MapZone" x="4" y="171" width="111" height="66"/>
+  <object name="Player" type="Some2DRPG.GameObjects.Hero" x="56" y="208"/>
  </objectgroup>
 </map>

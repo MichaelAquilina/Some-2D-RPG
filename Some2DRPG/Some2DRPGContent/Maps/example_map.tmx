@@ -493,7 +493,11 @@
   <object type="Some2DRPG.GameObjects.Coin" x="1281" y="418" width="13" height="13"/>
   <object name="chest_1" type="Some2DRPG.GameObjects.Chest" x="291" y="52" width="37" height="36"/>
   <object name="chest_2" type="Some2DRPG.GameObjects.Chest" x="196" y="738" width="37" height="36"/>
-  <object name="Cave_Entrance_1" type="GameEngine.GameObjects.MapZone" x="1727" y="135" width="63" height="51"/>
+  <object name="CaveEntrance" type="GameEngine.GameObjects.MapZone" x="1727" y="135" width="63" height="51">
+   <properties>
+    <property name="$MapZoneHit" value="CaveEntrance_MapZoneHit"/>
+   </properties>
+  </object>
   <object name="LargeMapZone" type="GameEngine.GameObjects.MapZone" x="1198" y="638" width="316" height="226">
    <properties>
     <property name="$MapZoneHit" value="LargeMapZone_MapZoneHit"/>

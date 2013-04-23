@@ -18,7 +18,7 @@ namespace GameEngine.GameObjects
     // Repesents an Interactable Zone on the Map that can have a number of Scripted events assigned to it.
     public class MapZone : Entity, ISizedEntity
     {
-        public delegate void MapZoneHitEventHandler(MapZone sender, List<Entity> entitiesHit, GameTime gameTime);
+        public delegate void MapZoneHitEventHandler(MapZone sender, List<Entity> entitiesHit, TeeEngine engine, GameTime gameTime);
 
         public event MapZoneHitEventHandler MapZoneHit;
 
@@ -32,10 +32,10 @@ namespace GameEngine.GameObjects
         {
         }
 
-        void OnMapZoneHit(List<Entity> entitiesHit, GameTime gameTime)
+        void OnMapZoneHit(List<Entity> entitiesHit, TeeEngine engine, GameTime gameTime)
         {
             if (MapZoneHit != null)
-                MapZoneHit(this, entitiesHit, gameTime);
+                MapZoneHit(this, entitiesHit, engine, gameTime);
         }
 
         public override void LoadContent(ContentManager content)
@@ -55,7 +55,7 @@ namespace GameEngine.GameObjects
         {
             List<Entity> entitiesHit = engine.QuadTree.GetIntersectingEntites(this.CurrentBoundingBox);
             if (entitiesHit.Count > 1)
-                OnMapZoneHit(entitiesHit, gameTime);
+                OnMapZoneHit(entitiesHit, engine, gameTime);
         }
     }
 }

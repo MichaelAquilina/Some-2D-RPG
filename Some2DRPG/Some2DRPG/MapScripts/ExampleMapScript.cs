@@ -8,6 +8,7 @@ using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using GameEngine.GameObjects;
 using GameEngine.Extensions;
+using Microsoft.Xna.Framework.Input;
 
 namespace Some2DRPG.MapScripts
 {
@@ -30,9 +31,19 @@ namespace Some2DRPG.MapScripts
 
         #region Event Handlers
 
-        public void LargeMapZone_MapZoneHit(MapZone sender, List<Entity> entitiesHit, GameTime gameTime)
+        public void LargeMapZone_MapZoneHit(MapZone sender, List<Entity> entitiesHit, TeeEngine engine, GameTime gameTime)
         {
 
+        }
+
+        public void CaveEntrance_MapZoneHit(MapZone sender, List<Entity> entitiesHit, TeeEngine engine, GameTime gameTime)
+        {
+            if( KeyboardExtensions.GetKeyDownState(Keyboard.GetState(), Keys.S, engine, true) && 
+                entitiesHit.Contains(engine.GetEntity("Player")))
+            {
+                engine.ClearEntities();
+                engine.LoadMap("Content/Maps/cave_example.tmx");
+            }
         }
 
         #endregion

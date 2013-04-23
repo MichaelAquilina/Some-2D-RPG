@@ -233,7 +233,9 @@ namespace GameEngine
 
             // Convert TiledObjects into Entity objects.
             ConvertMapObjects(map);
-            this.MapScript.MapLoaded(this, map);
+            
+            if(MapScript != null)
+                MapScript.MapLoaded(this, map);
 
             // unload previous map here.
 
