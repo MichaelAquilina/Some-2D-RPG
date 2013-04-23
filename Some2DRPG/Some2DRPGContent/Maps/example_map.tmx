@@ -507,16 +507,23 @@
   <object name="chest_3" type="Some2DRPG.GameObjects.Chest" x="1571" y="88" width="37" height="36"/>
   <object type="Some2DRPG.GameObjects.CoinArea" x="1052" y="161" width="60" height="337">
    <properties>
-    <property name="CoinPadding" value="15"/>
+    <property name="CoinPadding" value="20"/>
     <property name="CoinType" value="Gold"/>
     <property name="CoinValue" value="50"/>
    </properties>
   </object>
   <object type="Some2DRPG.GameObjects.CoinArea" x="388" y="135" width="308" height="64">
    <properties>
-    <property name="CoinPadding" value="15"/>
+    <property name="CoinPadding" value="20"/>
     <property name="CoinType" value="Silver"/>
     <property name="CoinValue" value="10"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.CoinArea" x="1455" y="1150" width="325" height="253">
+   <properties>
+    <property name="CoinPadding" value="15"/>
+    <property name="CoinType" value="Gold"/>
+    <property name="CoinValue" value="50"/>
    </properties>
   </object>
  </objectgroup>

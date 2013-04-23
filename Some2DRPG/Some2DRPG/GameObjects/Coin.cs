@@ -30,11 +30,16 @@ namespace Some2DRPG.GameObjects
 
         public Coin()
         {
-            this.CoinType = CoinType.Copper;
+            Construct();
         }
 
         public Coin(float x, float y, int coinValue, CoinType coinType)
             : base(x, y)
+        {
+            Construct(coinType, coinValue);
+        }
+
+        void Construct(CoinType coinType=CoinType.Copper, int coinValue=0)
         {
             this.CoinType = coinType;
             this.ScaleX = 0.7f;

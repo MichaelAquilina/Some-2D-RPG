@@ -22,7 +22,7 @@ namespace Some2DRPG.GameObjects
         {
             this.CoinValue = 0;
             this.CoinType = CoinType.Copper;
-            this.CoinPadding = 1;
+            this.CoinPadding = 8;
         }
 
         public override bool PreInitialize(GameTime gameTime, TeeEngine engine)
