@@ -9,9 +9,9 @@ using Microsoft.Xna.Framework;
 using GameEngine.GameObjects;
 using GameEngine.Extensions;
 
-namespace Some2DRPG
+namespace Some2DRPG.MapScripts
 {
-    public class ExampleMapModel : IMapScript
+    public class ExampleMapScript : IMapScript
     {
         public void MapLoaded(TeeEngine engine, TiledMap map)
         {

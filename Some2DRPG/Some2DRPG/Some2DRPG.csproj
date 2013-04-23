@@ -107,7 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ExampleMapModel.cs" />
+    <Compile Include="MapScripts\ExampleMapScript.cs" />
     <Compile Include="GameObjects\BasicLightSource.cs" />
     <Compile Include="GameObjects\Bat.cs" />
     <Compile Include="GameObjects\Chest.cs" />
