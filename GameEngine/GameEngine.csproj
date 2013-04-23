@@ -105,6 +105,7 @@
     <Compile Include="Info\ViewPortInfo.cs" />
     <Compile Include="GameObjects\Entity.cs" />
     <Compile Include="Extensions\XmlExtensions.cs" />
+    <Compile Include="Interfaces\IDimensions.cs" />
     <Compile Include="Interfaces\IGameDrawable.cs" />
     <Compile Include="Interfaces\MapModel.cs" />
     <Compile Include="Interfaces\PropertyBag.cs" />
