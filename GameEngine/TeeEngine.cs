@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Reflection;
 using GameEngine.DataStructures;
 using GameEngine.Drawing;
+using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using GameEngine.Info;
 using GameEngine.Interfaces;
+using GameEngine.Options;
 using GameEngine.Shaders;
 using GameEngine.Tiled;
-using GameEngine.Extensions;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using GameEngine.Options;
 
 /// <summary>
 /// The TeeEngine - the result of my sweat, blood and tears into this project. The TeeEngine is simply a 2D Tile Engine that
@@ -24,18 +24,6 @@ namespace GameEngine
 {
     public class TeeEngine : GameComponent
     {
-        #region Delegates
-
-        public delegate void MapLoadedEventHandler(TeeEngine engine, TiledMap map);
-
-        #endregion
-
-        #region Events
-
-        public event MapLoadedEventHandler MapLoaded;
-
-        #endregion
-
         #region Properties
 
         /// <summary>
@@ -62,6 +50,12 @@ namespace GameEngine
         /// Currently loaded TiledMap.
         /// </summary>
         public TiledMap Map { get; private set; }
+
+        /// <summary>
+        /// Currently loaded MapModel that is associated with the currently loaded TiledMap.
+        /// TODO: Set to private set;
+        /// </summary>
+        public IMapScript MapScript { get; private set; }
 
         /// <summary>
         /// Returns a Collection of all the Entities that have been added to this Engine.
@@ -139,12 +133,6 @@ namespace GameEngine
             game.Components.Add(this);
         }
 
-        internal void OnMapLoaded(TiledMap map)
-        {
-            if (MapLoaded != null)
-                MapLoaded(this, map);
-        }
-
         public void LoadContent()
         {
             // TODO.
@@ -155,16 +143,85 @@ namespace GameEngine
             // TODO.
         }
 
+        // Automatic Conversion of TiledObjects in a .tmx file to TeeEngine Entities using C# Reflection.
+        private void ConvertMapObjects(TiledMap map)
+        {
+            foreach (TiledObjectLayer objectLayer in map.TiledObjectLayers)
+            {
+                foreach (TiledObject tiledObject in objectLayer.TiledObjects)
+                {
+                    Entity entity = null;
+
+                    // Special (Static) Tiled-Object when a Gid is specified.
+                    if (tiledObject.Type == null && tiledObject.Gid != -1)
+                    {
+                        Tile sourceTile = map.Tiles[tiledObject.Gid];
+
+                        entity = new Entity();
+                        entity.Drawables.Add("standard", sourceTile);
+                        entity.CurrentDrawableState = "standard";
+                        entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
+
+                        // Cater for any difference in origin from Tiled's default Draw Origin of (0,1).
+                        entity.Pos.X += (sourceTile.Origin.X - 0.0f) * sourceTile.GetSourceRectangle(0).Width;
+                        entity.Pos.Y += (sourceTile.Origin.Y - 1.0f) * sourceTile.GetSourceRectangle(0).Height;
+                    }
+                    else
+                    {
+                        // Try and load Entity types from both the Assembly specified in MapProperties and within the GameEngine.
+                        Assembly userAssembly = (map.HasProperty("Assembly"))? Assembly.Load(map.GetProperty("Assembly")) : null;
+                        Assembly engineAssembly = Assembly.GetExecutingAssembly();
+
+                        // Try for user Assembly first - allows default Objects to be overriden if absoluately necessary.
+                        object createdObject = null;
+                        if(userAssembly != null )
+                            createdObject = userAssembly.CreateInstance(tiledObject.Type);
+                        
+                        if (createdObject == null)
+                            createdObject = engineAssembly.CreateInstance(tiledObject.Type);
+
+                        // Convert to Entity object and assign values.
+                        entity = (Entity) createdObject;
+                        entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
+
+                        // If the entity implements the ISizedEntity interface, apply Width and Height.
+                        if (entity is ISizedEntity)
+                        {
+                            ((ISizedEntity)entity).Width = tiledObject.Width;
+                            ((ISizedEntity)entity).Height = tiledObject.Height;
+                        }
+
+                        foreach (string propertyKey in tiledObject.PropertyKeys)
+                            ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
+                    }
+
+                    this.AddEntity(tiledObject.Name, entity);
+                }
+            }
+        }
+
         public void LoadMap(TiledMap map)
         {
             this.Map = map;
             this.Map.LoadContent(Game.Content);
 
+            // Load Specified Map Scipt (If Any)
+            if (this.Map.HasProperty("MapScript"))
+            {
+                string assemblyName = map.GetProperty("Assembly");
+                string mapModel = map.GetProperty("MapScript");
+
+                this.MapScript = (IMapScript)Activator.CreateInstance(assemblyName, mapModel).Unwrap();
+            }
+            else this.MapScript = null;
+
+            // Convert TiledObjects into Entity objects.
+            ConvertMapObjects(map);
+            this.MapScript.MapLoaded(this, map);
+
             // unload previous map here.
 
             this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
-
-            OnMapLoaded(map);
         }
 
         public void LoadMap(string mapFilePath)
@@ -280,10 +337,14 @@ namespace GameEngine
         public override void Update(GameTime gameTime)
         {
             LastUpdateTime = gameTime;
-            _watch3.Reset();
+
+            // Allow Map to Perform Update Routine
+            if(MapScript != null)
+                MapScript.Update(this, gameTime);
 
             // Clear previous entity update times.
             DebugInfo.Reset();
+            _watch3.Reset();
 
             foreach (string entityId in _entities.Keys)
             {
@@ -326,6 +387,7 @@ namespace GameEngine
             }
             DebugInfo.TotalEntityRemovalTime = _watch2.Elapsed;
 
+            // ADD ANY ENTITIES IN THE CREATION LIST
             _watch2.Restart();
             foreach (Entity entity in _entityCreate)
             {

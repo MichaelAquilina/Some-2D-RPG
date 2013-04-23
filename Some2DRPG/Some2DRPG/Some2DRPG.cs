@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Input;
 using ShadowKillGame.GameObjects;
 using Some2DRPG.GameObjects;
 using Some2DRPG.Shaders;
+using System.Reflection;
 
 namespace Some2DRPG
 {
@@ -60,11 +61,12 @@ namespace Some2DRPG
 
         // Game Specific Variablies.
         Entity FollowEntity;
-        Hero CurrentPlayer;
         NPC FemaleNPC;
         Random Random = new Random();
 
         TeeEngine Engine;
+
+        Hero CurrentPlayer { get { return (Hero) Engine.GetEntity("Player"); } }
 
         public Some2DRPG()
         {
@@ -78,115 +80,8 @@ namespace Some2DRPG
         protected override void Initialize()
         {
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
-            Engine.MapLoaded += MapLoader;
-
-            FemaleNPC = new NPC(15, 9, NPC.FEMALE_HUMAN);
-            //FemaleNPC.Legs = NPC.PLATE_ARMOR_LEGS;
 
             base.Initialize();
-        }
-
-        // Method to convert MapObjects into Entity objects in the engine.
-        private void MapLoader(TeeEngine engine, TiledMap map)
-        {
-            foreach(TiledObjectLayer tiledObjectLayer in map.TileObjectLayers)
-            {
-                foreach(TiledObject tiledObject in tiledObjectLayer.TiledObjects)
-                {
-                    if (tiledObject.Type == "Entrance")
-                    {
-                        CurrentPlayer = new Hero();
-                        CurrentPlayer.CollisionDetection = true;
-                        CurrentPlayer.Head = NPC.PLATE_ARMOR_HEAD;
-                        CurrentPlayer.Legs = NPC.PLATE_ARMOR_LEGS;
-                        CurrentPlayer.Feet = NPC.PLATE_ARMOR_FEET;
-                        CurrentPlayer.Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
-                        CurrentPlayer.Torso = NPC.PLATE_ARMOR_TORSO;
-                        CurrentPlayer.Hands = NPC.PLATE_ARMOR_HANDS;
-                        CurrentPlayer.Weapon = NPC.WEAPON_LONGSWORD;
-
-                        FollowEntity = CurrentPlayer;
-
-                        CurrentPlayer.Pos = new Vector2(tiledObject.X, tiledObject.Y);
-
-                        engine.AddEntity("Player", CurrentPlayer);
-                    }
-                    else
-                    if (tiledObject.Type == "MapTransition")
-                    {
-                        MapTransition mapTransition = new MapTransition(
-                            tiledObject.X, tiledObject.Y, 
-                            tiledObject.Width, tiledObject.Height, 
-                            tiledObject.GetProperty("Destination"));
-
-                        engine.AddEntity(tiledObject.Name, mapTransition);
-                    }
-                    else
-                    if (tiledObject.Type == "Chest")
-                    {
-                        Chest chest = new Chest(tiledObject.X, tiledObject.Y);
-
-                        engine.AddEntity(tiledObject.Name, chest);
-                    }
-                    else
-                    if (tiledObject.Type == "CoinArea")
-                    {
-                        int density = tiledObject.GetProperty<int>("Density", 0);
-                        string coinTypeString = tiledObject.GetProperty("CoinType", "Gold");
-
-                        int coinx = tiledObject.Width / density;
-                        int coiny = tiledObject.Height / density;
-
-                        for (int i = 0; i < coinx; i++)
-                        {
-                            for (int j = 0; j < coiny; j++)
-                            {
-                                CoinType coinType;
-                                if (coinTypeString == "Mixed")
-                                    coinType = (CoinType)Random.Next(3);
-                                else
-                                    coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
-
-                                Coin coin = new Coin(tiledObject.X + i * density, tiledObject.Y + j * density, 100, coinType);
-                                coin.Visible = true;
-
-                                engine.AddEntity(coin);
-                            }
-                        }
-                    }
-                    if (tiledObject.Type == "Coin")
-                    {
-                        string coinTypeString = tiledObject.GetProperty("CoinType", "Gold");
-                        CoinType coinType = coinType = (CoinType)Enum.Parse(typeof(CoinType), coinTypeString);
-
-                        Coin coin = new Coin(tiledObject.X, tiledObject.Y, 100, coinType);
-                        coin.Visible = true;
-
-                        engine.AddEntity(tiledObject.Name, coin);
-                    }
-                    else
-                    if (tiledObject.Gid != -1)        // Default operation is to check if it has been assigned a tile and use it if needs be.
-                    {
-                        Entity entity = new Entity();
-                        entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
-                        entity.ScaleX = 1.0f;
-                        entity.ScaleY = 1.0f;
-                        entity.Visible = true;
-
-                        Tile SourceTile = map.Tiles[tiledObject.Gid];
-                        GameDrawableInstance instance = entity.Drawables.Add("standard", SourceTile);
-
-                        entity.CurrentDrawableState = "standard";
-
-                        // Because tileds default draw origin is (0,1) - we need to update the entity positions based 
-                        // on the custom position defined in the SourceTile.Origin property.
-                        entity.Pos.X += (SourceTile.Origin.X - 0.0f) * SourceTile.GetSourceRectangle(0).Width;
-                        entity.Pos.Y += (SourceTile.Origin.Y - 1.0f) * SourceTile.GetSourceRectangle(0).Height;
-
-                        engine.AddEntity(tiledObject.Name, entity);
-                    }
-                }
-            }
         }
 
         protected override void LoadContent()
@@ -199,7 +94,7 @@ namespace Some2DRPG
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.Enabled = false;
 
-            LightShader.LightSources.Add(CurrentPlayer.LightSource);
+            //LightShader.LightSources.Add(CurrentPlayer.LightSource);
             LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader(LightShader);
 
@@ -331,8 +226,8 @@ namespace Some2DRPG
             // Draw the World View Port, Centered on the CurrentPlayer Actor.
             ViewPortInfo viewPort = Engine.DrawWorldViewPort(
                                             SpriteBatch,
-                                            FollowEntity.Pos.X,
-                                            FollowEntity.Pos.Y,
+                                            CurrentPlayer.Pos.X,
+                                            CurrentPlayer.Pos.Y,
                                             Zoom,
                                             pxDestRectangle,
                                             Color.White,

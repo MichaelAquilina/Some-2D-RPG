@@ -11,38 +11,26 @@ using GameEngine.Extensions;
 
 namespace Some2DRPG
 {
-    public class ExampleMapModel : MapModel
+    public class ExampleMapModel : IMapScript
     {
-        public override void MapLoaded(TeeEngine engine, TiledMap map)
+        public void MapLoaded(TeeEngine engine, TiledMap map)
         {
             //// TODO.
-            //foreach (TiledObjectLayer layer in map.TileObjectLayers)
-            //{
-            //    foreach (TiledObject tiledObject in layer.TiledObjects)
-            //    {
-            //        Entity entity = (Entity)Activator.CreateInstance(null, tiledObject.Type).Unwrap();
-            //        foreach (string propertyKey in tiledObject.PropertyKeys)
-            //        {
-            //            ReflectionExtensions.SmartSetProperty(
-            //                entity, propertyKey, tiledObject.GetProperty(propertyKey));
-            //        }
-            //    }
-            //}
         }
 
-        public override void Update(TeeEngine engine, GameTime gameTime)
+        public void Update(TeeEngine engine, GameTime gameTime)
         {
             // TODO.
         }
 
-        public override void MapUnloaded(TeeEngine engine, TiledMap map)
+        public void MapUnloaded(TeeEngine engine, TiledMap map)
         {
             // TODO.
         }
 
         #region Event Handlers
 
-        public void LargeMapZone_OnMapZoneHit(MapZone sender, List<Entity> intersectingEntities, TeeEngine engine, GameTime gameTime)
+        public void LargeMapZone_OnMapZoneHit(IMapScript sender, List<Entity> intersectingEntities, TeeEngine engine, GameTime gameTime)
         {
 
         }

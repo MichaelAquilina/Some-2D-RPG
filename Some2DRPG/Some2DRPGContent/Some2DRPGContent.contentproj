@@ -428,6 +428,7 @@
     <Content Include="Maps\Tilesets\grass.tsx">
       <Name>grass</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="Maps\Tilesets\rock.tsx">
       <Name>rock</Name>
