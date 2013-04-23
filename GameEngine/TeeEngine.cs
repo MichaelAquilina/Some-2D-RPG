@@ -192,7 +192,23 @@ namespace GameEngine
                         }
 
                         foreach (string propertyKey in tiledObject.PropertyKeys)
-                            ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
+                        {
+                            // Bind Events.
+                            if(propertyKey.StartsWith("$"))
+                            {
+                                string methodName = tiledObject.GetProperty(propertyKey);
+                                string eventName = propertyKey.Substring(1, propertyKey.Length - 1);
+
+                                MethodInfo methodInfo = MapScript.GetType().GetMethod(methodName);
+                                EventInfo eventInfo = entity.GetType().GetEvent(eventName);
+                                Delegate delegateMethod = Delegate.CreateDelegate(eventInfo.EventHandlerType, MapScript, methodInfo);
+
+                                eventInfo.AddEventHandler(entity, delegateMethod);
+                            }
+                            else
+                                // Bind Properties.
+                                ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
+                        }
                     }
 
                     this.AddEntity(tiledObject.Name, entity);
