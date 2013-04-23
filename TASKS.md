@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Add Initialise(TeeEngine engine) method.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
@@ -57,7 +58,7 @@ Should Have
 - [] - an application to be able to design animations and speficy frames (however try look into alternatives such as texture compressor)
   - try out QT in the case where an application will be designed from scratch
 - [] - an Asset management system for loading and unloading items in and out of memory
-- [] - Map scripting in the form of python, lua or external C#. Need to do research to see which one is the best to use. Make sure to consider **performance**, **ease of use**, **support** and **stability of package**.
+- [Done] - Map scripting in the form of python, lua or external C#. Need to do research to see which one is the best to use. Make sure to consider **performance**, **ease of use**, **support** and **stability of package**.
        - example: http://www.gamedev.net/page/resources/_/technical/game-programming/using-lua-with-c-r2275 *LUA*
        - example: http://mail.python.org/pipermail/pythondotnet/2003-November/000037.html *PYTHON*
        - example: http://stackoverflow.com/questions/826398/is-it-possible-to-dynamically-compile-and-execute-c-sharp-code-fragments *C#*

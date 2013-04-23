@@ -44,11 +44,13 @@ namespace GameEngine.Drawing
             this.Origin = Vector2.Zero;
         }
 
+        // IGameDrawable interface method that returns the SpriteSheet associated with this animation.
         public Texture2D GetSourceTexture(double elapsedMS)
         {
             return SpriteSheet;
         }
 
+        // IGameDrawable interface method that returns the frame within the SpriteSheet that should currently be displayed.
         public Rectangle GetSourceRectangle(double elapsedMS)
         {
             return GetFrame(elapsedMS);
@@ -69,7 +71,7 @@ namespace GameEngine.Drawing
 
         /// <summary>
         /// Specifies whether the Animation has completed. If the Animation is of Looping type, then this
-        /// method will always return a true. For non-looping animations, this method should return a true
+        /// method will always return a false. For non-looping animations, this method should return a true
         /// once it has passed its last frame. The GameTime parameter is required to determine its current
         /// position based on the current GameTime.
         /// </summary>
@@ -77,7 +79,7 @@ namespace GameEngine.Drawing
         /// <returns>bool value specifying whether the animation has finished.</returns>
         public bool IsFinished(double elapsedMS)
         {
-            return Loop || GetFrameIndex(elapsedMS) >= Frames.Length;
+            return !Loop && GetFrameIndex(elapsedMS) >= Frames.Length;
         }
 
         /// <summary>
@@ -139,7 +141,8 @@ namespace GameEngine.Drawing
 
                 Animation animation = new Animation(content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
                 animation.Origin = originVector;
-
+                
+                // TODO: Requires possible revision of code.
                 // Allow support for specifying glob patterns in the case of state names.
                 if (state.Contains("*"))
                 {
