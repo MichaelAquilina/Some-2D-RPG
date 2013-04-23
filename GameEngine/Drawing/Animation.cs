@@ -1,12 +1,11 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Xml;
 using GameEngine.Extensions;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace GameEngine.Drawing
 {
@@ -131,12 +130,12 @@ namespace GameEngine.Drawing
                     if (tokens.Length != 4)
                         throw new FormatException("Expected 4 Values for Frame Definition: X, Y, Width, Height");
 
-                    int X = Convert.ToInt32(tokens[0]);
-                    int Y = Convert.ToInt32(tokens[1]);
+                    int x = Convert.ToInt32(tokens[0]);
+                    int y = Convert.ToInt32(tokens[1]);
                     int width = Convert.ToInt32(tokens[2]);
                     int height = Convert.ToInt32(tokens[3]);
 
-                    frames[i] = new Rectangle(X, Y, width, height);
+                    frames[i] = new Rectangle(x, y, width, height);
                 }
 
                 Animation animation = new Animation(content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
