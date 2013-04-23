@@ -69,7 +69,7 @@ namespace GameEngine.Drawing
 
         /// <summary>
         /// Specifies whether the Animation has completed. If the Animation is of Looping type, then this
-        /// method will always return a true. For non-looping animations, this method should return a true
+        /// method will always return a false. For non-looping animations, this method should return a true
         /// once it has passed its last frame. The GameTime parameter is required to determine its current
         /// position based on the current GameTime.
         /// </summary>
@@ -77,7 +77,7 @@ namespace GameEngine.Drawing
         /// <returns>bool value specifying whether the animation has finished.</returns>
         public bool IsFinished(double elapsedMS)
         {
-            return Loop || GetFrameIndex(elapsedMS) >= Frames.Length;
+            return !Loop && GetFrameIndex(elapsedMS) >= Frames.Length;
         }
 
         /// <summary>
