@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="60" height="60" tilewidth="32" tileheight="32" backgroundcolor="#000000">
+ <properties>
+  <property name="Assembly" value="Some2DRPG"/>
+  <property name="MapScript" value="Some2DRPG.ExampleMapModel"/>
+ </properties>
  <tileset firstgid="1" source="Tilesets/grass.tsx"/>
  <tileset firstgid="19" source="Tilesets/watergrass.tsx"/>
  <tileset firstgid="37" source="Tilesets/buckets.tsx"/>
@@ -332,206 +336,170 @@
 </data>
  </layer>
  <objectgroup color="#ffff00" name="Object Layer 1" width="60" height="60">
-  <object name="fireplace_1" type="Entity" x="447" y="316" width="38" height="41">
+  <object gid="87" x="496" y="296"/>
+  <object gid="87" x="531" y="134"/>
+  <object gid="87" x="322" y="366"/>
+  <object gid="87" x="807" y="460"/>
+  <object gid="87" x="512" y="757"/>
+  <object gid="88" x="568" y="375"/>
+  <object gid="88" x="370" y="102"/>
+  <object gid="88" x="8" y="123"/>
+  <object gid="88" x="238" y="787"/>
+  <object gid="88" x="82" y="489"/>
+  <object gid="87" x="871" y="312"/>
+  <object gid="88" x="410" y="490"/>
+  <object gid="88" x="638" y="304"/>
+  <object gid="88" x="829" y="882"/>
+  <object gid="88" x="298" y="1086"/>
+  <object gid="88" x="162" y="732"/>
+  <object gid="88" x="-13" y="943"/>
+  <object gid="88" x="363" y="1129"/>
+  <object gid="88" x="44" y="1035"/>
+  <object gid="88" x="427" y="1402"/>
+  <object gid="88" x="287" y="1020"/>
+  <object gid="88" x="10" y="1189"/>
+  <object gid="88" x="45" y="1646"/>
+  <object gid="88" x="165" y="1652"/>
+  <object gid="88" x="25" y="1320"/>
+  <object gid="88" x="146" y="1535"/>
+  <object gid="87" x="291" y="916"/>
+  <object gid="87" x="5" y="857"/>
+  <object gid="87" x="18" y="1068"/>
+  <object gid="87" x="411" y="1531"/>
+  <object gid="87" x="323" y="1220"/>
+  <object gid="87" x="501" y="1624"/>
+  <object gid="87" x="411" y="1290"/>
+  <object gid="88" x="72" y="1450"/>
+  <object gid="87" x="114" y="1317"/>
+  <object gid="87" x="39" y="1558"/>
+  <object gid="87" x="383" y="1696"/>
+  <object gid="87" x="1200" y="1300"/>
+  <object gid="87" x="1083" y="1190"/>
+  <object gid="88" x="1084" y="1131"/>
+  <object gid="88" x="1056" y="1277"/>
+  <object gid="87" x="987" y="1106"/>
+  <object gid="87" x="1115" y="1320"/>
+  <object gid="88" x="992" y="1224"/>
+  <object gid="87" x="1217" y="1224"/>
+  <object gid="88" x="1678" y="800"/>
+  <object gid="87" x="1609" y="629"/>
+  <object gid="87" x="1737" y="843"/>
+  <object gid="87" x="1818" y="831"/>
+  <object gid="88" x="1614" y="747"/>
+  <object gid="87" x="1705" y="713"/>
+  <object gid="87" x="1839" y="747"/>
+  <object gid="88" x="1706" y="654"/>
+  <object gid="87" x="1814" y="336"/>
+  <object gid="88" x="1779" y="569"/>
+  <object gid="87" x="1710" y="398"/>
+  <object gid="87" x="1838" y="612"/>
+  <object gid="88" x="1715" y="516"/>
+  <object gid="87" x="1806" y="482"/>
+  <object gid="88" x="1807" y="423"/>
+  <object gid="88" x="144" y="1758"/>
+  <object gid="88" x="505" y="1513"/>
+  <object gid="88" x="472" y="1767"/>
+  <object gid="87" x="208" y="1939"/>
+  <object gid="88" x="648" y="1949"/>
+  <object gid="87" x="554" y="1726"/>
+  <object gid="87" x="554" y="1967"/>
+  <object gid="88" x="570" y="1838"/>
+  <object gid="87" x="93" y="1854"/>
+  <object gid="88" x="109" y="1966"/>
+  <object gid="87" x="40" y="1752"/>
+  <object gid="88" x="11" y="1895"/>
+  <object gid="88" x="-4" y="1443"/>
+  <object gid="88" x="-46" y="1636"/>
+  <object gid="88" x="1134" y="1745"/>
+  <object gid="88" x="1477" y="1871"/>
+  <object gid="87" x="1204" y="1776"/>
+  <object gid="87" x="1536" y="1914"/>
+  <object gid="87" x="1617" y="1902"/>
+  <object gid="88" x="1360" y="1676"/>
+  <object gid="87" x="1103" y="1690"/>
+  <object gid="87" x="1438" y="1668"/>
+  <object gid="88" x="1439" y="1756"/>
+  <object gid="88" x="1303" y="1871"/>
+  <object gid="87" x="1270" y="1587"/>
+  <object gid="87" x="1214" y="1640"/>
+  <object gid="87" x="1269" y="1835"/>
+  <object gid="88" x="1269" y="1700"/>
+  <object gid="87" x="1381" y="1801"/>
+  <object gid="87" x="1401" y="1925"/>
+  <object gid="88" x="1145" y="1587"/>
+  <object gid="88" x="1573" y="1823"/>
+  <object gid="88" x="1004" y="1642"/>
+  <object gid="88" x="1052" y="1578"/>
+  <object gid="88" x="1635" y="1966"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1215" y="70" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1215" y="87" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1215" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1237" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1282" y="68" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1282" y="86" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1282" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1321" y="67" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1321" y="86" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1321" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1302" y="68" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1302" y="107" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1344" y="105" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1344" y="69" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1366" y="105" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1344" y="86" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1387" y="104" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1256" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1326" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1285" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1285" y="332" width="13" height="13">
    <properties>
-    <property name="AnimationSet" value="Animations/Objects/fireplace.anim"/>
-    <property name="CurrentAnimation" value="Burning"/>
-    <property name="Height" value="1.5"/>
-    <property name="Width" value="1.5"/>
+    <property name="CoinType" value="Gold"/>
    </properties>
   </object>
-  <object type="MapObject" gid="87" x="496" y="296"/>
-  <object type="MapObject" gid="87" x="531" y="134"/>
-  <object type="MapObject" gid="87" x="322" y="366"/>
-  <object type="MapObject" gid="87" x="807" y="460"/>
-  <object type="MapObject" gid="87" x="512" y="757"/>
-  <object type="MapObject" gid="88" x="568" y="375"/>
-  <object type="MapObject" gid="88" x="370" y="102"/>
-  <object type="MapObject" gid="88" x="8" y="123"/>
-  <object type="MapObject" gid="88" x="238" y="787"/>
-  <object type="MapObject" gid="88" x="82" y="489"/>
-  <object type="MapObject" gid="87" x="871" y="312"/>
-  <object type="MapObject" gid="88" x="410" y="490"/>
-  <object type="MapObject" gid="88" x="638" y="304"/>
-  <object type="MapObject" gid="88" x="829" y="882"/>
-  <object type="MapObject" gid="88" x="298" y="1086"/>
-  <object type="MapObject" gid="88" x="162" y="732"/>
-  <object type="MapObject" gid="88" x="-13" y="943"/>
-  <object type="MapObject" gid="88" x="363" y="1129"/>
-  <object type="MapObject" gid="88" x="44" y="1035"/>
-  <object type="MapObject" gid="88" x="427" y="1402"/>
-  <object type="MapObject" gid="88" x="287" y="1020"/>
-  <object type="MapObject" gid="88" x="10" y="1189"/>
-  <object type="MapObject" gid="88" x="45" y="1646"/>
-  <object type="MapObject" gid="88" x="165" y="1652"/>
-  <object type="MapObject" gid="88" x="25" y="1320"/>
-  <object type="MapObject" gid="88" x="146" y="1535"/>
-  <object type="MapObject" gid="87" x="291" y="916"/>
-  <object type="MapObject" gid="87" x="5" y="857"/>
-  <object type="MapObject" gid="87" x="18" y="1068"/>
-  <object type="MapObject" gid="87" x="411" y="1531"/>
-  <object type="MapObject" gid="87" x="323" y="1220"/>
-  <object type="MapObject" gid="87" x="501" y="1624"/>
-  <object type="MapObject" gid="87" x="411" y="1290"/>
-  <object type="MapObject" gid="88" x="72" y="1450"/>
-  <object type="MapObject" gid="87" x="114" y="1317"/>
-  <object type="MapObject" gid="87" x="39" y="1558"/>
-  <object type="MapObject" gid="87" x="383" y="1696"/>
-  <object type="MapObject" gid="87" x="1196" y="1308"/>
-  <object type="MapObject" gid="87" x="1083" y="1190"/>
-  <object type="MapObject" gid="88" x="1084" y="1131"/>
-  <object type="MapObject" gid="88" x="1056" y="1277"/>
-  <object type="MapObject" gid="87" x="987" y="1106"/>
-  <object type="MapObject" gid="87" x="1115" y="1320"/>
-  <object type="MapObject" gid="88" x="992" y="1224"/>
-  <object type="MapObject" gid="87" x="1217" y="1224"/>
-  <object type="MapObject" gid="88" x="1678" y="800"/>
-  <object type="MapObject" gid="87" x="1609" y="629"/>
-  <object type="MapObject" gid="87" x="1737" y="843"/>
-  <object type="MapObject" gid="87" x="1818" y="831"/>
-  <object type="MapObject" gid="88" x="1614" y="747"/>
-  <object type="MapObject" gid="87" x="1705" y="713"/>
-  <object type="MapObject" gid="87" x="1839" y="747"/>
-  <object type="MapObject" gid="88" x="1706" y="654"/>
-  <object type="MapObject" gid="87" x="1814" y="336"/>
-  <object type="MapObject" gid="88" x="1779" y="569"/>
-  <object type="MapObject" gid="87" x="1710" y="398"/>
-  <object type="MapObject" gid="87" x="1838" y="612"/>
-  <object type="MapObject" gid="88" x="1715" y="516"/>
-  <object type="MapObject" gid="87" x="1806" y="482"/>
-  <object type="MapObject" gid="88" x="1807" y="423"/>
-  <object type="MapObject" gid="88" x="144" y="1758"/>
-  <object type="MapObject" gid="88" x="505" y="1513"/>
-  <object type="MapObject" gid="88" x="472" y="1767"/>
-  <object type="MapObject" gid="87" x="208" y="1939"/>
-  <object type="MapObject" gid="88" x="648" y="1949"/>
-  <object type="MapObject" gid="87" x="554" y="1726"/>
-  <object type="MapObject" gid="87" x="554" y="1967"/>
-  <object type="MapObject" gid="88" x="570" y="1838"/>
-  <object type="MapObject" gid="87" x="93" y="1854"/>
-  <object type="MapObject" gid="88" x="109" y="1966"/>
-  <object type="MapObject" gid="87" x="40" y="1752"/>
-  <object type="MapObject" gid="88" x="11" y="1895"/>
-  <object type="MapObject" gid="88" x="-4" y="1443"/>
-  <object type="MapObject" gid="88" x="-46" y="1636"/>
-  <object type="MapObject" gid="88" x="1134" y="1745"/>
-  <object type="MapObject" gid="88" x="1477" y="1871"/>
-  <object type="MapObject" gid="87" x="1204" y="1776"/>
-  <object type="MapObject" gid="87" x="1536" y="1914"/>
-  <object type="MapObject" gid="87" x="1617" y="1902"/>
-  <object type="MapObject" gid="88" x="1360" y="1676"/>
-  <object type="MapObject" gid="87" x="1103" y="1690"/>
-  <object type="MapObject" gid="87" x="1438" y="1668"/>
-  <object type="MapObject" gid="88" x="1439" y="1756"/>
-  <object type="MapObject" gid="88" x="1303" y="1871"/>
-  <object type="MapObject" gid="87" x="1270" y="1587"/>
-  <object type="MapObject" gid="87" x="1214" y="1640"/>
-  <object type="MapObject" gid="87" x="1269" y="1835"/>
-  <object type="MapObject" gid="88" x="1269" y="1700"/>
-  <object type="MapObject" gid="87" x="1381" y="1801"/>
-  <object type="MapObject" gid="87" x="1401" y="1925"/>
-  <object type="MapObject" gid="88" x="1145" y="1587"/>
-  <object type="MapObject" gid="88" x="1573" y="1823"/>
-  <object type="MapObject" gid="88" x="1004" y="1642"/>
-  <object type="MapObject" gid="88" x="1052" y="1578"/>
-  <object type="MapObject" gid="88" x="1635" y="1966"/>
-  <object type="Coin" x="1215" y="70" width="13" height="13"/>
-  <object type="Coin" x="1215" y="87" width="13" height="13"/>
-  <object type="Coin" x="1215" y="106" width="13" height="13"/>
-  <object type="Coin" x="1237" y="106" width="13" height="13"/>
-  <object type="Coin" x="1282" y="68" width="13" height="13"/>
-  <object type="Coin" x="1282" y="86" width="13" height="13"/>
-  <object type="Coin" x="1282" y="106" width="13" height="13"/>
-  <object type="Coin" x="1321" y="67" width="13" height="13"/>
-  <object type="Coin" x="1321" y="86" width="13" height="13"/>
-  <object type="Coin" x="1321" y="106" width="13" height="13"/>
-  <object type="Coin" x="1302" y="68" width="13" height="13"/>
-  <object type="Coin" x="1302" y="107" width="13" height="13"/>
-  <object type="Coin" x="1344" y="105" width="13" height="13"/>
-  <object type="Coin" x="1344" y="69" width="13" height="13"/>
-  <object type="Coin" x="1366" y="105" width="13" height="13"/>
-  <object type="Coin" x="1344" y="86" width="13" height="13"/>
-  <object type="Coin" x="1387" y="104" width="13" height="13"/>
-  <object type="Coin" x="1256" y="106" width="13" height="13"/>
-  <object type="Coin" x="1326" y="368" width="13" height="13"/>
-  <object type="Coin" x="1285" y="368" width="13" height="13"/>
-  <object type="Coin" x="1285" y="332" width="13" height="13">
+  <object type="Some2DRPG.GameObjects.Coin" x="1305" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1285" y="349" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1305" y="350" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1305" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1324" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1325" y="350" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1393" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1412" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1413" y="350" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1373" y="349" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1373" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1393" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1414" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1373" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1393" y="350" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1359" y="462" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1339" y="443" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1339" y="462" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1359" y="444" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1398" y="456" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1378" y="437" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1378" y="456" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1398" y="438" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1435" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1415" y="417" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1415" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1435" y="418" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1320" y="454" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1300" y="435" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1300" y="454" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1320" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1281" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1261" y="417" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1261" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Coin" x="1281" y="418" width="13" height="13"/>
+  <object name="chest_1" type="Some2DRPG.GameObjects.Chest" x="291" y="52" width="37" height="36"/>
+  <object name="chest_2" type="Some2DRPG.GameObjects.Chest" x="196" y="738" width="37" height="36"/>
+  <object name="Cave_Entrance_1" type="GameEngine.GameObjects.MapZone" x="1727" y="135" width="63" height="51"/>
+  <object name="LargeMapZone" type="GameEngine.GameObjects.MapZone" x="1198" y="638" width="316" height="226">
    <properties>
-    <property name="CoinType" value="Copper"/>
+    <property name="$MapZoneHit" value="LargeMapZone_MapZoneHit"/>
    </properties>
   </object>
-  <object type="Coin" x="1305" y="368" width="13" height="13"/>
-  <object type="Coin" x="1285" y="349" width="13" height="13"/>
-  <object type="Coin" x="1305" y="350" width="13" height="13"/>
-  <object type="Coin" x="1305" y="332" width="13" height="13"/>
-  <object type="Coin" x="1324" y="332" width="13" height="13"/>
-  <object type="Coin" x="1325" y="350" width="13" height="13"/>
-  <object type="Coin" x="1393" y="368" width="13" height="13"/>
-  <object type="Coin" x="1412" y="332" width="13" height="13"/>
-  <object type="Coin" x="1413" y="350" width="13" height="13"/>
-  <object type="Coin" x="1373" y="349" width="13" height="13"/>
-  <object type="Coin" x="1373" y="332" width="13" height="13"/>
-  <object type="Coin" x="1393" y="332" width="13" height="13"/>
-  <object type="Coin" x="1414" y="368" width="13" height="13"/>
-  <object type="Coin" x="1373" y="368" width="13" height="13"/>
-  <object type="Coin" x="1393" y="350" width="13" height="13"/>
-  <object type="Coin" x="1359" y="462" width="13" height="13"/>
-  <object type="Coin" x="1339" y="443" width="13" height="13"/>
-  <object type="Coin" x="1339" y="462" width="13" height="13"/>
-  <object type="Coin" x="1359" y="444" width="13" height="13"/>
-  <object type="Coin" x="1398" y="456" width="13" height="13"/>
-  <object type="Coin" x="1378" y="437" width="13" height="13"/>
-  <object type="Coin" x="1378" y="456" width="13" height="13"/>
-  <object type="Coin" x="1398" y="438" width="13" height="13"/>
-  <object type="Coin" x="1435" y="436" width="13" height="13"/>
-  <object type="Coin" x="1415" y="417" width="13" height="13"/>
-  <object type="Coin" x="1415" y="436" width="13" height="13"/>
-  <object type="Coin" x="1435" y="418" width="13" height="13"/>
-  <object type="Coin" x="1320" y="454" width="13" height="13"/>
-  <object type="Coin" x="1300" y="435" width="13" height="13"/>
-  <object type="Coin" x="1300" y="454" width="13" height="13"/>
-  <object type="Coin" x="1320" y="436" width="13" height="13"/>
-  <object type="Coin" x="1281" y="436" width="13" height="13"/>
-  <object type="Coin" x="1261" y="417" width="13" height="13"/>
-  <object type="Coin" x="1261" y="436" width="13" height="13"/>
-  <object type="Coin" x="1281" y="418" width="13" height="13"/>
-  <object name="gold_coin_area" type="CoinArea" x="1429" y="930" width="404" height="348">
-   <properties>
-    <property name="Density" value="15"/>
-   </properties>
-  </object>
-  <object name="silver_coin_area2" type="CoinArea" x="340" y="1819" width="149" height="93">
-   <properties>
-    <property name="CoinType" value="Silver"/>
-    <property name="Density" value="15"/>
-   </properties>
-  </object>
-  <object name="gold_coin_area_2" type="CoinArea" x="295" y="1282" width="47" height="452">
-   <properties>
-    <property name="Density" value="15"/>
-   </properties>
-  </object>
-  <object name="mixed_coin_area" type="CoinArea" x="910" y="317" width="219" height="316">
-   <properties>
-    <property name="CoinType" value="Mixed"/>
-    <property name="Density" value="15"/>
-   </properties>
-  </object>
-  <object name="chest_1" type="Chest" x="291" y="52" width="37" height="36"/>
-  <object name="chest_2" type="Chest" x="196" y="738" width="37" height="36"/>
-  <object name="silver_coin_area" type="CoinArea" x="389" y="131" width="304" height="71">
-   <properties>
-    <property name="CoinType" value="Silver"/>
-    <property name="Density" value="15"/>
-   </properties>
-  </object>
-  <object name="Cave_Entrance_1" type="MapTransition" x="1727" y="135" width="63" height="51">
-   <properties>
-    <property name="Destination" value="Content/Maps/cave_example.tmx"/>
-   </properties>
-  </object>
-  <object name="map_transition_test1" type="MapTransition" x="1198" y="638" width="316" height="226"/>
-  <object name="main_entrance" type="Entrance" x="494" y="333"/>
-  <object name="chest_3" type="Chest" x="1571" y="88" width="37" height="36"/>
+  <object name="Player" type="Some2DRPG.GameObjects.Hero" x="494" y="333"/>
+  <object name="chest_3" type="Some2DRPG.GameObjects.Chest" x="1571" y="88" width="37" height="36"/>
  </objectgroup>
 </map>

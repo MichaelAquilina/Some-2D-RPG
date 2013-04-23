@@ -28,6 +28,15 @@ namespace Some2DRPG.GameObjects
             :base(NPC.MALE_HUMAN)
         {
             Initialise(0, 0);
+
+            CollisionDetection = true;
+            Head = NPC.PLATE_ARMOR_HEAD;
+            Legs = NPC.PLATE_ARMOR_LEGS;
+            Feet = NPC.PLATE_ARMOR_FEET;
+            Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
+            Torso = NPC.PLATE_ARMOR_TORSO;
+            Hands = NPC.PLATE_ARMOR_HANDS;
+            Weapon = NPC.WEAPON_LONGSWORD;
         }
 
         public Hero(float x, float y) :

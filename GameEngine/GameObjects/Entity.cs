@@ -52,6 +52,7 @@ namespace GameEngine.GameObjects
             this.Visible = visible;
             this.IsOnScreen = false;
             this.Drawables = new DrawableSet();
+            this.CurrentDrawableState = "Standard";
         }
 
         #endregion
@@ -194,7 +195,7 @@ namespace GameEngine.GameObjects
 
         public override string ToString()
         {
-            return string.Format("Entity: Name={0}, Type={1}, Pos={2}, Width={3}, Height={4}", 
+            return string.Format("Entity: Name={0}, Type={1}, Pos={2}, ScaleX={3}, ScaleY={4}", 
                 Name, GetType(), Pos, ScaleX, ScaleY);
         }
     }

@@ -6,30 +6,36 @@ using GameEngine.Drawing;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using GameEngine.Tiled;
+using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using GameEngine;
 
-namespace Some2DRPG.GameObjects
+namespace GameEngine.GameObjects
 {
     // TODO: Document appropriately.
-    public class MapTransition : Entity
+    public class MapZone : Entity, ISizedEntity
     {
+        public delegate void MapZoneHitEventHandler(MapZone sender, List<Entity> entitiesHit, GameTime gameTime);
+
+        public event MapZoneHitEventHandler MapZoneHit;
+
+        public int Width { get { return _width; } set { _width = value; } }
+        public int Height { get { return _height; } set { _height = value; } }
+
         int _width;
         int _height;
-        string _targetMapPath;
 
-        public MapTransition(
-            float x, float y, 
-            int width, int height, 
-            string targetMapPath)
-            :base(x,y)
+        public MapZone()
         {
-            _width = width;
-            _height = height;
-            _targetMapPath = targetMapPath;
+        }
+
+        void OnMapZoneHit(List<Entity> entitiesHit, GameTime gameTime)
+        {
+            if (MapZoneHit != null)
+                MapZoneHit(this, entitiesHit, gameTime);
         }
 
         public override void LoadContent(ContentManager content)
@@ -45,16 +51,11 @@ namespace Some2DRPG.GameObjects
             CurrentDrawableState = "Standard";
         }
 
-        public override void Update(GameTime gameTime, GameEngine.TeeEngine engine)
+        public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            Hero player = (Hero)engine.GetEntity("Player");
-
-            if (Entity.IntersectsWith(player, "Shadow", this, "Body", gameTime)
-                && KeyboardExtensions.GetKeyDownState(Keyboard.GetState(), Keys.S, engine, true))
-            {
-                engine.ClearEntities();
-                engine.LoadMap(_targetMapPath);
-            }
+            List<Entity> entitiesHit = engine.QuadTree.GetIntersectingEntites(this.CurrentBoundingBox);
+            if (entitiesHit.Count > 1)
+                OnMapZoneHit(entitiesHit, gameTime);
         }
     }
 }

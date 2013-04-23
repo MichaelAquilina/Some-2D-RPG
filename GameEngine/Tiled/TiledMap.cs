@@ -25,11 +25,11 @@ namespace GameEngine.Tiled
         public SortedList<int, Tile> Tiles { get; set; }                // Provides a means of direct access with Global Indentifiers.
         public List<TileSet> TileSets { get; set; }                     // Individual TileSets loaded. Also contain references to Tiles sorted by their LOCAL id.
         public List<TileLayer> TileLayers { get; set; }                 // Tile Layers present within this map. Each one contains an array of tile global identifiers.
-        public List<TiledObjectLayer> TileObjectLayers { get; set; }     // Layers consisting of TileObjects.
+        public List<TiledObjectLayer> TiledObjectLayers { get; set; }     // Layers consisting of TileObjects.
 
         public TiledMap()
         {
-            TileObjectLayers = new List<TiledObjectLayer>();
+            TiledObjectLayers = new List<TiledObjectLayer>();
             Tiles = new SortedList<int, Tile>();
             TileSets = new List<TileSet>();
             TileLayers = new List<TileLayer>();
@@ -149,7 +149,7 @@ namespace GameEngine.Tiled
                     mapObjectLayer.TiledObjects.Add(mapObject);
                 }
 
-                map.TileObjectLayers.Add(mapObjectLayer);
+                map.TiledObjectLayers.Add(mapObjectLayer);
             }
 
             // TILESETS
@@ -275,7 +275,7 @@ namespace GameEngine.Tiled
                 txWidth, txHeight,
                 TileWidth, TileHeight,
                 TileLayers.Count,
-                TileObjectLayers.Count
+                TiledObjectLayers.Count
                 );
         }
     }
