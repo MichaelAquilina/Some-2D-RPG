@@ -52,7 +52,7 @@ namespace GameEngine.GameObjects
             this.Visible = visible;
             this.IsOnScreen = false;
             this.Drawables = new DrawableSet();
-            this.CurrentDrawableState = "Standard";
+            this.CurrentDrawableState = null;
         }
 
         #endregion
@@ -99,7 +99,7 @@ namespace GameEngine.GameObjects
         {
             List<GameDrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
 
-            if (drawables.Count == 0) return new FRectangle(Pos.X, Pos.Y, 0, 0);
+            if (drawables == null || drawables.Count == 0) return new FRectangle(Pos.X, Pos.Y, 0, 0);
 
             float minX = Int32.MaxValue;
             float minY = Int32.MaxValue;

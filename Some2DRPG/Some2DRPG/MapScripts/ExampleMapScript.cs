@@ -16,17 +16,15 @@ namespace Some2DRPG.MapScripts
     {
         public void MapLoaded(TeeEngine engine, TiledMap map)
         {
-            //// TODO.
+            engine.GetPostGameShader("LightShader").Enabled = false;
         }
 
         public void Update(TeeEngine engine, GameTime gameTime)
         {
-            // TODO.
         }
 
         public void MapUnloaded(TeeEngine engine, TiledMap map)
         {
-            // TODO.
         }
 
         #region Event Handlers

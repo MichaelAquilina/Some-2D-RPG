@@ -6,7 +6,6 @@ using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using ShadowKillGame.GameObjects;
 using Some2DRPG.Shaders;
 
 namespace Some2DRPG.GameObjects
@@ -18,7 +17,7 @@ namespace Some2DRPG.GameObjects
 
         public bool CollisionDetection { get; set; }
 
-        public BasicLightSource LightSource { get; set; }
+        public LightSource LightSource { get; set; }
 
         private List<Entity> prevIntersectingEntities;
 
@@ -49,9 +48,9 @@ namespace Some2DRPG.GameObjects
             XP = 0;
 
             CollisionDetection = true;
-            LightSource = new BasicLightSource();
-            LightSource.RadiusX = 32 * 8;
-            LightSource.RadiusY = 32 * 8;
+            LightSource = new LightSource();
+            LightSource.Width = 32 * 8;
+            LightSource.Height = 32 * 8;
             LightSource.Color = Color.White;
             LightSource.PositionType = LightPositionType.Relative;
         }
@@ -201,10 +200,9 @@ namespace Some2DRPG.GameObjects
             }
 
             // Change the radius of the LightSource overtime using a SINE wave pattern.
-            LightSource.PX = Pos.X;
-            LightSource.PY = Pos.Y;
-            LightSource.RadiusX = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
-            LightSource.RadiusY = (float)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
+            LightSource.Pos = this.Pos;
+            LightSource.Width = (int)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
+            LightSource.Height = (int)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
 
             prevIntersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentBoundingBox);
             foreach (Entity entity in prevIntersectingEntities)

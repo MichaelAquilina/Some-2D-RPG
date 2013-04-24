@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.Extensions
 {
@@ -24,7 +25,11 @@ namespace GameEngine.Extensions
             if (targetType.IsEnum)
                 propertyInfo.SetValue(target, Enum.Parse(targetType, value), null);
             else
-                propertyInfo.SetValue(target, Convert.ChangeType(value, targetType), null);
+            {
+                object convertedValue = (targetType == typeof(Color)) ? ColorExtensions.ToColor(value) : Convert.ChangeType(value, targetType);
+
+                propertyInfo.SetValue(target, convertedValue , null);
+            }
         }
 
         public static void SetProperty(object target, string propertyName, object value)

@@ -108,8 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameObjects\CoinArea.cs" />
+    <Compile Include="MapScripts\CaveExampleMapScript.cs" />
     <Compile Include="MapScripts\ExampleMapScript.cs" />
-    <Compile Include="GameObjects\BasicLightSource.cs" />
+    <Compile Include="GameObjects\LightSource.cs" />
     <Compile Include="GameObjects\Bat.cs" />
     <Compile Include="GameObjects\Chest.cs" />
     <Compile Include="GameObjects\Coin.cs" />
@@ -118,7 +119,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Some2DRPG.cs" />
-    <Compile Include="Shaders\ILightSource.cs" />
     <Compile Include="Shaders\LightShader.cs" />
   </ItemGroup>
   <ItemGroup>

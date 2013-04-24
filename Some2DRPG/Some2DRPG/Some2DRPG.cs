@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using ShadowKillGame.GameObjects;
 using Some2DRPG.GameObjects;
 using Some2DRPG.Shaders;
 using System.Reflection;
@@ -86,17 +85,14 @@ namespace Some2DRPG
 
         protected override void LoadContent()
         {
-            Engine.LoadMap("Content/Maps/example_map.tmx");
-
-            CurrentSampler = SamplerStates[SamplerIndex];
-
             LightShader = new LightShader(this.GraphicsDevice, CIRCLE_POINT_ACCURACY);
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.Enabled = false;
-
-            //LightShader.LightSources.Add(CurrentPlayer.LightSource);
-            LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
             Engine.RegisterGameShader("LightShader", LightShader);
+
+            Engine.LoadMap("Content/Maps/example_map.tmx");
+
+            CurrentSampler = SamplerStates[SamplerIndex];
 
             Engine.DrawingOptions.ShowEntityDebugInfo = false;
             Engine.DrawingOptions.ShowBoundingBoxes = false;

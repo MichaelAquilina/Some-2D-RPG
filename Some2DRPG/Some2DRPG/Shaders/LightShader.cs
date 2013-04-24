@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using GameEngine;
+using GameEngine.Drawing;
+using GameEngine.Info;
 using GameEngine.Interfaces;
+using GameEngine.Shaders;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework;
-using GameEngine.Drawing;
-using GameEngine.Shaders;
-using GameEngine;
-using GameEngine.Info;
+using Some2DRPG.GameObjects;
 
 namespace Some2DRPG.Shaders
 {
@@ -20,7 +21,7 @@ namespace Some2DRPG.Shaders
         private Effect _lightShader;
         private RenderTarget2D _lightTarget;
 
-        public List<ILightSource> LightSources { get; private set; }
+        public List<LightSource> LightSources { get; private set; }
 
         public Texture2D LightMap { get { return (Texture2D)_lightTarget; } }
 
@@ -31,7 +32,7 @@ namespace Some2DRPG.Shaders
         public LightShader(GraphicsDevice graphicsDevice, int circlePointAccuracy)
             :base(graphicsDevice)
         {
-            this.LightSources = new List<ILightSource>();
+            this.LightSources = new List<LightSource>();
             this.AmbientLight = Color.White;
             this.CirclePointAccurracy = circlePointAccuracy;
         }
@@ -94,10 +95,10 @@ namespace Some2DRPG.Shaders
             GraphicsDevice.Clear(AmbientLight);
             GraphicsDevice.BlendState = BlendState.Additive;
 
-            foreach (ILightSource lightSource in LightSources)
+            foreach (LightSource lightSource in LightSources)
             {
-                float x = lightSource.PX;
-                float y = lightSource.PY;
+                float x = lightSource.Pos.X;
+                float y = lightSource.Pos.Y;
 
                 if (lightSource.PositionType == LightPositionType.Relative)
                 {
@@ -112,8 +113,8 @@ namespace Some2DRPG.Shaders
                 x = -1.0f + x * 2;
                 y = 1.0f - y * 2;
 
-                float radiusX = lightSource.RadiusX * viewPortInfo.ActualZoom;
-                float radiusY = lightSource.RadiusY * viewPortInfo.ActualZoom;
+                float radiusX = lightSource.Width * viewPortInfo.ActualZoom;
+                float radiusY = lightSource.Height * viewPortInfo.ActualZoom;
 
                 radiusX /= _lightTarget.Width;
                 radiusY /= _lightTarget.Height;

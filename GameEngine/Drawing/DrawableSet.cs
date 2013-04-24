@@ -48,7 +48,7 @@ namespace GameEngine.Drawing
 
         public List<GameDrawableInstance> GetByState(string state)
         {
-            return _stateDictionary[state];
+            return (state==null)? null: _stateDictionary[state];
         }
 
         public List<GameDrawableInstance> GetByGroup(string group)

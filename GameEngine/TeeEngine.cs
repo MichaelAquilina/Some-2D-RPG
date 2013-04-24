@@ -661,64 +661,69 @@ namespace GameEngine
                     }
 
                     // DRAW EVERY GAMEDRAWABLE INSTANCE CURRENTLY ACTIVE IN THE ENTITIES DRAWABLE SET.
-                    foreach (GameDrawableInstance drawable in entity.Drawables.GetByState(entity.CurrentDrawableState))
+                    List<GameDrawableInstance> drawableInstances = entity.Drawables.GetByState(entity.CurrentDrawableState);
+
+                    if (drawableInstances != null)
                     {
-                        if (!drawable.Visible) continue;
+                        foreach (GameDrawableInstance drawable in drawableInstances)
+                        {
+                            if (!drawable.Visible) continue;
 
-                        // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
-                        // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
-                        // already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
-                        Rectangle pxCurrentFrame = drawable.GetSourceRectangle(LastUpdateTime);
+                            // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
+                            // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
+                            // already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
+                            Rectangle pxCurrentFrame = drawable.GetSourceRectangle(LastUpdateTime);
 
-                        int pxObjectWidth  = (int) Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
-                        int pxObjectHeight = (int) Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
+                            int pxObjectWidth = (int)Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
+                            int pxObjectHeight = (int)Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
 
-                        // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
-                        Rectangle objectDestRect = new Rectangle(
-                                (int) Math.Ceiling(pxAbsEntityPos.X) + (int) Math.Ceiling(drawable.Offset.X * viewPortInfo.ActualZoom),
-                                (int) Math.Ceiling(pxAbsEntityPos.Y) + (int) Math.Ceiling(drawable.Offset.Y * viewPortInfo.ActualZoom),
-                                pxObjectWidth,
-                                pxObjectHeight
-                        );
-
-                        Vector2 drawableOrigin = new Vector2(
-                            (float) Math.Ceiling(drawable.Drawable.Origin.X * pxCurrentFrame.Width),
-                            (float) Math.Ceiling(drawable.Drawable.Origin.Y * pxCurrentFrame.Height)
+                            // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
+                            Rectangle objectDestRect = new Rectangle(
+                                    (int)Math.Ceiling(pxAbsEntityPos.X) + (int)Math.Ceiling(drawable.Offset.X * viewPortInfo.ActualZoom),
+                                    (int)Math.Ceiling(pxAbsEntityPos.Y) + (int)Math.Ceiling(drawable.Offset.Y * viewPortInfo.ActualZoom),
+                                    pxObjectWidth,
+                                    pxObjectHeight
                             );
 
-                        Color drawableColor = new Color()
-                        {
-                            R = drawable.Color.R,
-                            G = drawable.Color.G,
-                            B = drawable.Color.B,
-                            A = (byte)(drawable.Color.A * entity.Opacity)
-                        };
+                            Vector2 drawableOrigin = new Vector2(
+                                (float)Math.Ceiling(drawable.Drawable.Origin.X * pxCurrentFrame.Width),
+                                (float)Math.Ceiling(drawable.Drawable.Origin.Y * pxCurrentFrame.Height)
+                                );
 
-                        // Layer depth should depend how far down the object is on the map (Relative to Y).
-                        // Important to also take into account the animation layers for the entity.
-                        float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
+                            Color drawableColor = new Color()
+                            {
+                                R = drawable.Color.R,
+                                G = drawable.Color.G,
+                                B = drawable.Color.B,
+                                A = (byte)(drawable.Color.A * entity.Opacity)
+                            };
 
-                        // FINALLY ... DRAW
-                        spriteBatch.Draw(
-                            drawable.GetSourceTexture(LastUpdateTime),
-                            objectDestRect,
-                            pxCurrentFrame,
-                            drawableColor,
-                            drawable.Rotation,
-                            drawableOrigin,
-                            drawable.SpriteEffects,
-                            layerDepth);
+                            // Layer depth should depend how far down the object is on the map (Relative to Y).
+                            // Important to also take into account the animation layers for the entity.
+                            float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
 
-                        // DRAW BOUNDING BOXES OF EACH INDIVIDUAL DRAWABLE COMPONENT
-                        if (DrawingOptions.ShowDrawableComponents)
-                        {
-                            Rectangle drawableComponentRect = new Rectangle(
-                                (int) Math.Floor(objectDestRect.X - objectDestRect.Width * drawable.Drawable.Origin.X),
-                                (int) Math.Floor(objectDestRect.Y - objectDestRect.Height * drawable.Drawable.Origin.Y),
-                                objectDestRect.Width, objectDestRect.Height);
+                            // FINALLY ... DRAW
+                            spriteBatch.Draw(
+                                drawable.GetSourceTexture(LastUpdateTime),
+                                objectDestRect,
+                                pxCurrentFrame,
+                                drawableColor,
+                                drawable.Rotation,
+                                drawableOrigin,
+                                drawable.SpriteEffects,
+                                layerDepth);
 
-                            SpriteBatchExtensions.DrawRectangle(
-                                spriteBatch, drawableComponentRect, Color.Blue, 0);
+                            // DRAW BOUNDING BOXES OF EACH INDIVIDUAL DRAWABLE COMPONENT
+                            if (DrawingOptions.ShowDrawableComponents)
+                            {
+                                Rectangle drawableComponentRect = new Rectangle(
+                                    (int)Math.Floor(objectDestRect.X - objectDestRect.Width * drawable.Drawable.Origin.X),
+                                    (int)Math.Floor(objectDestRect.Y - objectDestRect.Height * drawable.Drawable.Origin.Y),
+                                    objectDestRect.Width, objectDestRect.Height);
+
+                                SpriteBatchExtensions.DrawRectangle(
+                                    spriteBatch, drawableComponentRect, Color.Blue, 0);
+                            }
                         }
                     }
 

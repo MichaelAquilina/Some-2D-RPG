@@ -2,6 +2,7 @@
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="32" tileheight="32">
  <properties>
   <property name="Assembly" value="Some2DRPG"/>
+  <property name="MapScript" value="Some2DRPG.MapScripts.CaveExampleMapScript"/>
  </properties>
  <tileset firstgid="1" source="Tilesets/mountains.tsx"/>
  <tileset firstgid="109" source="Tilesets/dirt2.tsx"/>
@@ -328,6 +329,18 @@
    <properties>
     <property name="BaseRace" value="Animations/Characters/female_npc.anim"/>
    </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.LightSource" x="-202" y="98" width="449" height="233">
+   <properties>
+    <property name="Color" value="#659CEF"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object type="Some2DRPG.GameObjects.LightSource" x="803" y="205" width="204" height="189">
+   <properties>
+    <property name="Color" value="#00FF00"/>
+   </properties>
+   <ellipse/>
   </object>
  </objectgroup>
 </map>
