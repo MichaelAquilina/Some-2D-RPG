@@ -65,7 +65,7 @@ namespace GameEngine
         /// <summary>
         /// List of currently registered GameShaders in use by the TeeEngine.
         /// </summary>
-        public List<PostGameShader> GameShaders { get; private set; }
+        public ICollection<PostGameShader> GameShaders { get { return _postGameShaders.Values; } }
 
         /// <summary>
         /// Current QuadTree built during the latest Update call.
@@ -91,10 +91,12 @@ namespace GameEngine
 
         #region Internal Members
 
-        List<Entity> _entityCreate = new List<Entity>();                // A list of entities which need to be added.
-        List<Entity> _entityDestroy = new List<Entity>();                 // A list of named entities that are in need of removal.
+        // Entity creation and destroy lists.
+        List<Entity> _entityCreate = new List<Entity>();               
+        List<Entity> _entityDestroy = new List<Entity>();
         
-        Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();        // Internal storage structure for entities added to the engine.
+        Dictionary<string, Entity> _entities = new Dictionary<string, Entity>();        
+        Dictionary<string, PostGameShader> _postGameShaders = new Dictionary<string,PostGameShader>();
         RenderTarget2D _inputBuffer;
         RenderTarget2D _outputBuffer;
         RenderTarget2D _dummyBuffer;
@@ -127,7 +129,6 @@ namespace GameEngine
             EntitiesOnScreen = new List<Entity>();
 
             DebugInfo = new DebugInfo();
-            GameShaders = new List<PostGameShader>();
 
             SetResolution(pixelWidth, pixelHeight);
             game.Components.Add(this);
@@ -336,22 +337,38 @@ namespace GameEngine
 
         #region Shader Related Functions
 
-        public bool IsRegistered(PostGameShader shader)
+        public bool IsRegistered(string shaderName)
         {
-            return GameShaders.Contains(shader);
+            return _postGameShaders.ContainsKey(shaderName);
         }
 
-        public void RegisterGameShader(PostGameShader shader)
+        public bool IsRegistered(PostGameShader shader)
         {
-            GameShaders.Add(shader);
+            return _postGameShaders.ContainsValue(shader);
+        }
+
+        public PostGameShader GetPostGameShader(string shaderName)
+        {
+            return _postGameShaders[shaderName];
+        }
+
+        public void RegisterGameShader(string shaderName, PostGameShader shader)
+        {
+            _postGameShaders.Add(shaderName, shader);
             shader.LoadContent(this.Game.Content);
             shader.SetResolution(PixelWidth, PixelHeight);
         }
 
-        public bool UnregisterGameShader(PostGameShader shader)
+        public bool UnregisterGameShader(string shaderName)
         {
-            shader.UnloadContent();
-            return GameShaders.Remove(shader);
+            if (_postGameShaders.ContainsKey(shaderName))
+            {
+                PostGameShader shader = _postGameShaders[shaderName];
+                shader.UnloadContent();
+
+                return _postGameShaders.Remove(shaderName);
+            }
+            else return false;
         }
 
         #endregion
@@ -727,11 +744,11 @@ namespace GameEngine
 
             _watch1.Restart();
             // APPLY GAME SHADERS TO THE RESULTANT IMAGE
-            for (int i = 0; i < GameShaders.Count; i++)
+            foreach(PostGameShader postGameShader in GameShaders)
             {
-                if (GameShaders[i].Enabled)
+                if (postGameShader.Enabled)
                 {
-                    GameShaders[i].ApplyShader(spriteBatch, viewPortInfo, LastUpdateTime, _inputBuffer, _outputBuffer);
+                    postGameShader.ApplyShader(spriteBatch, viewPortInfo, LastUpdateTime, _inputBuffer, _outputBuffer);
 
                     // Swap buffers after each render.
                     _dummyBuffer = _inputBuffer;

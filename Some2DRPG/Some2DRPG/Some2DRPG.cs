@@ -96,7 +96,7 @@ namespace Some2DRPG
 
             //LightShader.LightSources.Add(CurrentPlayer.LightSource);
             LightShader.LightSources.Add(new BasicLightSource(32, 32, 32 * 29.0f, 32 * 29.0f, Color.CornflowerBlue, LightPositionType.Relative));
-            Engine.RegisterGameShader(LightShader);
+            Engine.RegisterGameShader("LightShader", LightShader);
 
             Engine.DrawingOptions.ShowEntityDebugInfo = false;
             Engine.DrawingOptions.ShowBoundingBoxes = false;
