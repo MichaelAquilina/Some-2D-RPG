@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using GameEngine.Interfaces;
+using GameEngine.GameObjects;
 
 namespace GameEngine.Tiled
 {

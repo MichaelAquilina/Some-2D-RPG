@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Xml;
 using GameEngine.Extensions;
+using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Tiled
 {

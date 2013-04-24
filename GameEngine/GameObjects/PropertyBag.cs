@@ -2,8 +2,7 @@
 using System.Xml;
 using System;
 
-// TODO: Place in more appropriate namespace or rename namespace
-namespace GameEngine.Interfaces
+namespace GameEngine.GameObjects
 {
     //Represents an Object that allows for meta-data to be stored in a dictionary
     //Provides support for loading property information from Xml Node objects automatically

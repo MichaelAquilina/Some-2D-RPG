@@ -108,7 +108,7 @@
     <Compile Include="Interfaces\ISizedEntity.cs" />
     <Compile Include="Interfaces\IGameDrawable.cs" />
     <Compile Include="Interfaces\IMapScript.cs" />
-    <Compile Include="Interfaces\PropertyBag.cs" />
+    <Compile Include="GameObjects\PropertyBag.cs" />
     <Compile Include="DataStructures\QuadTree.cs" />
     <Compile Include="DataStructures\QuadTreeNode.cs" />
     <Compile Include="Options\DrawingOptions.cs" />

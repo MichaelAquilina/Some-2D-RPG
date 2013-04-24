@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using GameEngine.Interfaces;
+﻿using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 
 namespace GameEngine.Tiled
