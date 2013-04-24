@@ -14,6 +14,7 @@ Items Related to Design and Development
 * Developing unit test cases in C#: http://msdn.microsoft.com/en-us/library/ms182532.aspx
 
 ### Art Assets
+* Stone Bridge which can be used http://opengameart.org/content/stone-bridge-tiles-32x32
 * Golden Armor to add http://opengameart.org/content/lpc-full-plate-golden-armor-0
 * Female Armor variants http://opengameart.org/content/lpc-combat-armor-for-women
 * alternate character (village) http://opengameart.org/content/one-more-lpc-alternate-character
