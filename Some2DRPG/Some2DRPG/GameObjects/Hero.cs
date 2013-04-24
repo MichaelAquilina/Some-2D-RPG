@@ -105,7 +105,6 @@ namespace Some2DRPG.GameObjects
                     Direction = Direction.Up;
                     moved = true;
 
-                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     movement.Y--;
                 }
                 if (keyboardState.IsKeyDown(Keys.Down))
@@ -114,7 +113,6 @@ namespace Some2DRPG.GameObjects
                     Direction = Direction.Down;
                     moved = true;
 
-                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     movement.Y++;
                 }
                 if (keyboardState.IsKeyDown(Keys.Left))
@@ -123,7 +121,6 @@ namespace Some2DRPG.GameObjects
                     Direction = Direction.Left;
                     moved = true;
 
-                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     movement.X--;
                 }
                 if (keyboardState.IsKeyDown(Keys.Right))
@@ -132,7 +129,6 @@ namespace Some2DRPG.GameObjects
                     Direction = Direction.Right;
                     moved = true;
 
-                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     movement.X++;
                 }
 
@@ -141,6 +137,7 @@ namespace Some2DRPG.GameObjects
                     CurrentDrawableState = "Idle_" + Direction;
                 else
                 {
+                    PrevGameTime = gameTime.TotalGameTime.TotalMilliseconds;
                     movement.Normalize();
                     Pos += movement * MOVEMENT_SPEED * moveSpeedModifier;
                 }
