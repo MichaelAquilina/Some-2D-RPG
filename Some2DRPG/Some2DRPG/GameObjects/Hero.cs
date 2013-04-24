@@ -56,6 +56,12 @@ namespace Some2DRPG.GameObjects
             LightSource.PositionType = LightPositionType.Relative;
         }
 
+        public override void PostInitialize(GameTime gameTime, TeeEngine engine)
+        {
+            LightShader lightShader = (LightShader) engine.GetPostGameShader("LightShader");
+            lightShader.LightSources.Add(LightSource);
+        }
+
         public override void LoadContent(ContentManager content)
         {
             base.LoadContent(content);
