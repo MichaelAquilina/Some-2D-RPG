@@ -51,6 +51,7 @@ namespace Some2DRPG.GameObjects
             LightSource = new LightSource();
             LightSource.Width = 32 * 8;
             LightSource.Height = 32 * 8;
+            LightSource.Pulse = 0.15f;
             LightSource.Color = Color.White;
             LightSource.PositionType = LightPositionType.Relative;
         }
@@ -201,8 +202,6 @@ namespace Some2DRPG.GameObjects
 
             // Change the radius of the LightSource overtime using a SINE wave pattern.
             LightSource.Pos = this.Pos;
-            LightSource.Width = (int)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
-            LightSource.Height = (int)(32 * (8.0f + 0.5 * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3)));
 
             prevIntersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentBoundingBox);
             foreach (Entity entity in prevIntersectingEntities)

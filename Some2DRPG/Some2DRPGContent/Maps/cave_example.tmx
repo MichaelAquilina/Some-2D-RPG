@@ -339,8 +339,14 @@
   <object type="Some2DRPG.GameObjects.LightSource" x="803" y="205" width="204" height="189">
    <properties>
     <property name="Color" value="#00FF00"/>
+    <property name="Pulse" value="0.2"/>
    </properties>
    <ellipse/>
+  </object>
+  <object type="Some2DRPG.GameObjects.CoinArea" x="1024" y="358" width="72" height="84">
+   <properties>
+    <property name="CoinType" value="Silver"/>
+   </properties>
   </object>
  </objectgroup>
 </map>
