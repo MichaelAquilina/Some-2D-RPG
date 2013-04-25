@@ -6,13 +6,12 @@ Todo
 
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Fix issue where entities outside 0 < x > mapWidth (same for y) are not added to QuadTree. Or replace quadtreeeee
-- [] - Allow specification of Range in LightSource
-- [] - Create PulseLightSource which derives from LightSource. Or allow a specification of a Pulse value in LightSource.
 - [] - Fix bug in Animation class related to 'IsFinshed()'. Make IGameDrawable classes expose some form of GetCurrentState() enumeration.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm.
+- [Done] - Create PulseLightSource which derives from LightSource. Or allow a specification of a Pulse value in LightSource.
 - [Done] - Add Initialise(TeeEngine engine) method.
 - [Done] - Automatic conversion of TiledObjects to Entities by TeeEngine. Started work in LoadEntities in TeeEngine.cs
 - [Done] - Automatic loading of Entities based on the specified Type. Reflection can then set the properties.

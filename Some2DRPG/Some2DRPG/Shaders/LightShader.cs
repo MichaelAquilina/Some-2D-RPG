@@ -116,8 +116,12 @@ namespace Some2DRPG.Shaders
                 float radiusX = lightSource.Width * viewPortInfo.ActualZoom;
                 float radiusY = lightSource.Height * viewPortInfo.ActualZoom;
 
-                radiusX += (float) (lightSource.Pulse * lightSource.Width * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
-                radiusY += (float) (lightSource.Pulse * lightSource.Height * Math.Sin(gameTime.TotalGameTime.TotalSeconds * 3));
+                double pulseValue = Math.Sin(
+                    MathHelper.Pi * 
+                    ((gameTime.TotalGameTime.TotalMilliseconds - lightSource.PulseStartTime) / lightSource.PulseDuration)
+                );
+                radiusX += (float) (lightSource.Pulse * lightSource.Width * pulseValue);
+                radiusY += (float) (lightSource.Pulse * lightSource.Height * pulseValue);
 
                 radiusX /= _lightTarget.Width;
                 radiusY /= _lightTarget.Height;

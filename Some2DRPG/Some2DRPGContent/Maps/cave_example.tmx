@@ -340,6 +340,8 @@
    <properties>
     <property name="Color" value="#00FF00"/>
     <property name="Pulse" value="0.2"/>
+    <property name="PulseDuration" value="2300"/>
+    <property name="PulseStartTime" value="500"/>
    </properties>
    <ellipse/>
   </object>
