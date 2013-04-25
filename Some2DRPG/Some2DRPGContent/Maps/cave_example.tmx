@@ -348,5 +348,19 @@
     <property name="CoinType" value="Silver"/>
    </properties>
   </object>
+  <object type="Some2DRPG.GameObjects.LightSource" x="559" y="165" width="70" height="101">
+   <properties>
+    <property name="Color" value="#FF6600"/>
+    <property name="Pulse" value="0.05"/>
+   </properties>
+   <ellipse/>
+  </object>
+  <object type="Some2DRPG.GameObjects.LightSource" x="370" y="134" width="70" height="110">
+   <properties>
+    <property name="Color" value="#FF6600"/>
+    <property name="Pulse" value="0.05"/>
+   </properties>
+   <ellipse/>
+  </object>
  </objectgroup>
 </map>
