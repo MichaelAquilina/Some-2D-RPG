@@ -526,5 +526,11 @@
     <property name="CoinValue" value="50"/>
    </properties>
   </object>
+  <object name="ChasmEntrance" type="Some2DRPG.GameObjects.MapEntrance" x="1837" y="1726" width="78" height="139">
+   <properties>
+    <property name="Destination" value="Content/Maps/mountains_example.tmx"/>
+    <property name="Target" value="ChasmExit"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

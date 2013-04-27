@@ -203,86 +203,6 @@ namespace GameEngine
             LoadMap(TiledMap.FromTiledXml(mapFilePath), mapLoadedEventArgs);
         }
 
-        // Automatic Conversion of TiledObjects in a .tmx file to TeeEngine Entities using C# Reflection.
-        private void ConvertMapObjects(TiledMap map)
-        {
-            foreach (TiledObjectLayer objectLayer in map.TiledObjectLayers)
-            {
-                foreach (TiledObject tiledObject in objectLayer.TiledObjects)
-                {
-                    Entity entity = null;
-
-                    // Special (Static) Tiled-Object when a Gid is specified.
-                    if (tiledObject.Type == null && tiledObject.Gid != -1)
-                    {
-                        Tile sourceTile = map.Tiles[tiledObject.Gid];
-
-                        entity = new Entity();
-                        entity.Drawables.Add("standard", sourceTile);
-                        entity.CurrentDrawableState = "standard";
-                        entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
-
-                        // Cater for any difference in origin from Tiled's default Draw Origin of (0,1).
-                        entity.Pos.X += (sourceTile.Origin.X - 0.0f) * sourceTile.GetSourceRectangle(0).Width;
-                        entity.Pos.Y += (sourceTile.Origin.Y - 1.0f) * sourceTile.GetSourceRectangle(0).Height;
-                    }
-                    else
-                    {
-                        // Try and load Entity types from both the Assembly specified in MapProperties and within the GameEngine.
-                        Assembly userAssembly = (map.HasProperty("Assembly")) ? Assembly.Load(map.GetProperty("Assembly")) : null;
-                        Assembly engineAssembly = Assembly.GetExecutingAssembly();
-
-                        // Try for user Assembly first - allows default Objects to be overriden if absoluately necessary.
-                        object createdObject = null;
-                        if (userAssembly != null)
-                            createdObject = userAssembly.CreateInstance(tiledObject.Type);
-
-                        if (createdObject == null)
-                            createdObject = engineAssembly.CreateInstance(tiledObject.Type);
-
-                        if (createdObject == null)
-                            throw new ArgumentException(string.Format("'{0}' does not exist in any of the loaded Assemblies", tiledObject.Type));
-
-                        if (createdObject is Entity)
-                        {
-                            // Convert to Entity object and assign values.
-                            entity = (Entity)createdObject;
-                            entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
-
-                            // If the entity implements the ISizedEntity interface, apply Width and Height.
-                            if (entity is ISizedEntity)
-                            {
-                                ((ISizedEntity)entity).Width = tiledObject.Width;
-                                ((ISizedEntity)entity).Height = tiledObject.Height;
-                            }
-
-                            foreach (string propertyKey in tiledObject.PropertyKeys)
-                            {
-                                // Bind Events.
-                                if (propertyKey.StartsWith("$"))
-                                {
-                                    string methodName = tiledObject.GetProperty(propertyKey);
-                                    string eventName = propertyKey.Substring(1, propertyKey.Length - 1);
-
-                                    MethodInfo methodInfo = MapScript.GetType().GetMethod(methodName);
-                                    EventInfo eventInfo = entity.GetType().GetEvent(eventName);
-                                    Delegate delegateMethod = Delegate.CreateDelegate(eventInfo.EventHandlerType, MapScript, methodInfo);
-
-                                    eventInfo.AddEventHandler(entity, delegateMethod);
-                                }
-                                else
-                                    // Bind Properties.
-                                    ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
-                            }
-                        }
-                        else throw new ArgumentException(string.Format("'{0}' is not an Entity object", tiledObject.Type));
-                    }
-
-                    this.AddEntity(tiledObject.Name, entity);
-                }
-            }
-        }
-
         #endregion
 
         #region Entity Related Functions
@@ -396,6 +316,86 @@ namespace GameEngine
             _entityCreate.Clear();
 
             DebugInfo.TotalEntityAdditionTime = _watch2.Elapsed;
+        }
+
+        // Automatic Conversion of TiledObjects in a .tmx file to TeeEngine Entities using C# Reflection.
+        void ConvertMapObjects(TiledMap map)
+        {
+            foreach (TiledObjectLayer objectLayer in map.TiledObjectLayers)
+            {
+                foreach (TiledObject tiledObject in objectLayer.TiledObjects)
+                {
+                    Entity entity = null;
+
+                    // Special (Static) Tiled-Object when a Gid is specified.
+                    if (tiledObject.Type == null && tiledObject.Gid != -1)
+                    {
+                        Tile sourceTile = map.Tiles[tiledObject.Gid];
+
+                        entity = new Entity();
+                        entity.Drawables.Add("standard", sourceTile);
+                        entity.CurrentDrawableState = "standard";
+                        entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
+
+                        // Cater for any difference in origin from Tiled's default Draw Origin of (0,1).
+                        entity.Pos.X += (sourceTile.Origin.X - 0.0f) * sourceTile.GetSourceRectangle(0).Width;
+                        entity.Pos.Y += (sourceTile.Origin.Y - 1.0f) * sourceTile.GetSourceRectangle(0).Height;
+                    }
+                    else
+                    {
+                        // Try and load Entity types from both the Assembly specified in MapProperties and within the GameEngine.
+                        Assembly userAssembly = (map.HasProperty("Assembly")) ? Assembly.Load(map.GetProperty("Assembly")) : null;
+                        Assembly engineAssembly = Assembly.GetExecutingAssembly();
+
+                        // Try for user Assembly first - allows default Objects to be overriden if absoluately necessary.
+                        object createdObject = null;
+                        if (userAssembly != null)
+                            createdObject = userAssembly.CreateInstance(tiledObject.Type);
+
+                        if (createdObject == null)
+                            createdObject = engineAssembly.CreateInstance(tiledObject.Type);
+
+                        if (createdObject == null)
+                            throw new ArgumentException(string.Format("'{0}' does not exist in any of the loaded Assemblies", tiledObject.Type));
+
+                        if (createdObject is Entity)
+                        {
+                            // Convert to Entity object and assign values.
+                            entity = (Entity)createdObject;
+                            entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
+
+                            // If the entity implements the ISizedEntity interface, apply Width and Height.
+                            if (entity is ISizedEntity)
+                            {
+                                ((ISizedEntity)entity).Width = tiledObject.Width;
+                                ((ISizedEntity)entity).Height = tiledObject.Height;
+                            }
+
+                            foreach (string propertyKey in tiledObject.PropertyKeys)
+                            {
+                                // Bind Events.
+                                if (propertyKey.StartsWith("$"))
+                                {
+                                    string methodName = tiledObject.GetProperty(propertyKey);
+                                    string eventName = propertyKey.Substring(1, propertyKey.Length - 1);
+
+                                    MethodInfo methodInfo = MapScript.GetType().GetMethod(methodName);
+                                    EventInfo eventInfo = entity.GetType().GetEvent(eventName);
+                                    Delegate delegateMethod = Delegate.CreateDelegate(eventInfo.EventHandlerType, MapScript, methodInfo);
+
+                                    eventInfo.AddEventHandler(entity, delegateMethod);
+                                }
+                                else
+                                    // Bind Properties.
+                                    ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
+                            }
+                        }
+                        else throw new ArgumentException(string.Format("'{0}' is not an Entity object", tiledObject.Type));
+                    }
+
+                    this.AddEntity(tiledObject.Name, entity);
+                }
+            }
         }
 
         #endregion

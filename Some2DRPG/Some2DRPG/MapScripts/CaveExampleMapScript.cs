@@ -11,30 +11,24 @@ using Some2DRPG.Shaders;
 
 namespace Some2DRPG.MapScripts
 {
-    public class CaveExampleMapScript : IMapScript
+    public class CaveExampleMapScript : Some2DRPGMasterScript
     {
-        public void MapLoaded(TeeEngine engine, TiledMap map, MapEventArgs mapEventArgs)
+        public virtual void MapLoaded(TeeEngine engine, TiledMap map, MapEventArgs mapEventArgs)
         {
             LightShader lightShader = (LightShader)engine.GetPostGameShader("LightShader");
             lightShader.Enabled = true;
 
-            if (mapEventArgs.HasProperty("Target"))
-            {
-                Hero player = new Hero();
-                MapEntrance targetEntrance = (MapEntrance)engine.GetEntity(mapEventArgs.GetProperty("Target"));
-
-                player.Pos = targetEntrance.Pos + new Vector2(targetEntrance.Width, targetEntrance.Height) / 2;
-
-                engine.AddEntity("Player", player);
-            }
+            base.MapLoaded(engine, map, mapEventArgs);
         }
 
-        public void Update(TeeEngine engine, GameTime gameTime)
+        public virtual void Update(TeeEngine engine, GameTime gameTime)
         {
+            base.Update(engine, gameTime);
         }
 
-        public void MapUnloaded(TeeEngine engine, TiledMap map)
+        public virtual void MapUnloaded(TeeEngine engine, TiledMap map)
         {
+            base.MapUnloaded(engine, map);
         }
     }
 }

@@ -29,4 +29,19 @@
    <property name="Impassable" value=""/>
   </properties>
  </tile>
+ <tile id="30">
+  <properties>
+   <property name="Imassable" value=""/>
+  </properties>
+ </tile>
+ <tile id="31">
+  <properties>
+   <property name="Impassable" value=""/>
+  </properties>
+ </tile>
+ <tile id="32">
+  <properties>
+   <property name="Impassable" value=""/>
+  </properties>
+ </tile>
 </tileset>
