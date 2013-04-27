@@ -13,6 +13,17 @@ namespace GameEngine.GameObjects
 
         private Dictionary<string, string> _properties = new Dictionary<string, string>();
 
+        #region Set Methods
+
+        public void SetProperty(string name, string value)
+        {
+            _properties[name] = value;
+        }
+
+        #endregion
+
+        #region Get Methods
+
         public T GetProperty<T>(string name, T defaultValue)
         {
             return HasProperty(name) ? (T) Convert.ChangeType(_properties[name], typeof(T)) : defaultValue;
@@ -23,10 +34,7 @@ namespace GameEngine.GameObjects
             return HasProperty(name)? _properties[name] : defaultValue;
         }
 
-        public void SetProperty(string name, string value)
-        {
-            _properties[name] = value;
-        }
+        #endregion
 
         public bool HasProperty(string name)
         {

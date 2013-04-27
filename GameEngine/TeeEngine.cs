@@ -91,6 +91,10 @@ namespace GameEngine
 
         #region Internal Members
 
+        // Map loading variables.
+        bool _mapLoaded = false;
+        MapEventArgs _mapLoadedEventArgs;
+
         // Entity creation and destroy lists.
         List<Entity> _entityCreate = new List<Entity>();               
         List<Entity> _entityDestroy = new List<Entity>();
@@ -167,7 +171,7 @@ namespace GameEngine
 
         #region Map Loading Methods
 
-        public void LoadMap(TiledMap map)
+        public void LoadMap(TiledMap map, MapEventArgs mapLoadedEventArgs=null)
         {
             this.Map = map;
             this.Map.LoadContent(Game.Content);
@@ -184,18 +188,19 @@ namespace GameEngine
 
             // Convert TiledObjects into Entity objects.
             ConvertMapObjects(map);
-            
-            if(MapScript != null)
-                MapScript.MapLoaded(this, map);
+
+            // Set the mapLoaded flag so that the MapLoaded event can be invoked at a later stage.
+            _mapLoaded = true;
+            _mapLoadedEventArgs = mapLoadedEventArgs;
 
             // unload previous map here.
 
             this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
         }
 
-        public void LoadMap(string mapFilePath)
+        public void LoadMap(string mapFilePath, MapEventArgs mapLoadedEventArgs=null)
         {
-            LoadMap(TiledMap.FromTiledXml(mapFilePath));
+            LoadMap(TiledMap.FromTiledXml(mapFilePath), mapLoadedEventArgs);
         }
 
         // Automatic Conversion of TiledObjects in a .tmx file to TeeEngine Entities using C# Reflection.
@@ -340,6 +345,59 @@ namespace GameEngine
             _entityDestroy.AddRange(_entities.Values);
         }
 
+        // Destorys any pending entities in the Entity Destroy List.
+        void DestroyEntities(GameTime gameTime)
+        {
+            DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
+
+            // REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
+            _watch2.Restart();
+            for (int i = 0; i < _entityDestroy.Count; i++)
+            {
+                Entity entity = _entityDestroy[i];
+
+                if (entity.PreDestroy(gameTime, this))
+                {
+                    _entities.Remove(entity.Name);
+
+                    entity.Name = null;
+                    QuadTree.Remove(entity);
+
+                    entity.PostDestroy(gameTime, this);
+                }
+            }
+            _entityDestroy.Clear();
+
+            DebugInfo.TotalEntityRemovalTime = _watch2.Elapsed;
+        }
+
+        // Creates any pending entities in the Entity Create List.
+        void CreateEntities(GameTime gameTime)
+        {
+            // ADD ANY ENTITIES IN THE CREATION LIST
+            _watch2.Restart();
+            for (int i = 0; i < _entityCreate.Count; i++)
+            {
+                Entity entity = _entityCreate[i];
+
+                // The result of this call determines if the entity will be added or not.
+                if (entity.PreInitialize(gameTime, this))
+                {
+                    _entities.Add(entity.Name, entity);
+
+                    entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
+                    entity.prevBoundingBox = entity.CurrentBoundingBox;
+                    QuadTree.Add(entity);
+
+                    entity.PostInitialize(gameTime, this);
+                }
+                else entity.Name = null;
+            }
+            _entityCreate.Clear();
+
+            DebugInfo.TotalEntityAdditionTime = _watch2.Elapsed;
+        }
+
         #endregion
 
         #region Shader Related Functions
@@ -420,43 +478,21 @@ namespace GameEngine
                 _watch3.Stop();
             }
 
-            DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
+            DestroyEntities(gameTime);
+            CreateEntities(gameTime);
 
-            // REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
-            _watch2.Restart();
-            for(int i=0; i<_entityDestroy.Count; i++)
+            // If the Map Loaded flag has beem set, we need to invoke the MapScripts MapLoaded event hook.
+            if (_mapLoaded)
             {
-                Entity entity = _entityDestroy[i];
-                _entities.Remove(entity.Name);
+                if (MapScript != null)
+                    MapScript.MapLoaded(this, Map, _mapLoadedEventArgs);
 
-                entity.Name = null;
-                QuadTree.Remove(entity);
+                _mapLoadedEventArgs = null;
+                _mapLoaded = false;
+
+                DestroyEntities(gameTime);
+                CreateEntities(gameTime);
             }
-            DebugInfo.TotalEntityRemovalTime = _watch2.Elapsed;
-
-            // ADD ANY ENTITIES IN THE CREATION LIST
-            _watch2.Restart();
-            for(int i=0; i<_entityCreate.Count; i++)
-            {
-                Entity entity = _entityCreate[i];
-
-                // The result of this call determines if the entity will be added or not.
-                if (entity.PreInitialize(gameTime, this))
-                {
-                    _entities.Add(entity.Name, entity);
-
-                    entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
-                    entity.prevBoundingBox = entity.CurrentBoundingBox;
-
-                    QuadTree.Add(entity);
-                    entity.PostInitialize(gameTime, this);
-                }
-                else entity.Name = null;
-            }
-            DebugInfo.TotalEntityAdditionTime = _watch2.Elapsed;
-
-            _entityCreate.Clear();
-            _entityDestroy.Clear();
         }
 
         #region Drawing Code

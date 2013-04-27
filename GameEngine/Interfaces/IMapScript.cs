@@ -6,7 +6,7 @@ namespace GameEngine.Interfaces
 {
     public interface IMapScript
     {
-        void MapLoaded(TeeEngine engine, TiledMap map);
+        void MapLoaded(TeeEngine engine, TiledMap map, MapEventArgs mapEventArgs);
 
         void Update(TeeEngine engine, GameTime gameTime);
 

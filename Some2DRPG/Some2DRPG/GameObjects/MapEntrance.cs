@@ -4,6 +4,7 @@ using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using GameEngine.Tiled;
 
 namespace Some2DRPG.GameObjects
 {
@@ -11,7 +12,8 @@ namespace Some2DRPG.GameObjects
     {
         const Keys ACTIVATE_KEY = Keys.S;
 
-        public string Destination { get; set; }
+        public string Destination { get; set; }     // Destination map in the form of the map file path.
+        public string Target { get; set; }          // Target MapEntrance place the Player on.
 
         public MapEntrance()
         {
@@ -23,8 +25,11 @@ namespace Some2DRPG.GameObjects
             if(KeyboardExtensions.GetKeyDownState(Keyboard.GetState(), ACTIVATE_KEY, engine, true) &&
                entitiesHit.Contains(engine.GetEntity("Player")))
             {
+                MapEventArgs mapArgs = new MapEventArgs();
+                mapArgs.SetProperty("Target", Target);
+
                 engine.ClearEntities();
-                engine.LoadMap(Destination);
+                engine.LoadMap(Destination, mapArgs);
             }
         }
     }

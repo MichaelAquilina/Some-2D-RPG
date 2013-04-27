@@ -58,8 +58,7 @@ namespace Some2DRPG.GameObjects
 
         public override void PostInitialize(GameTime gameTime, TeeEngine engine)
         {
-            LightShader lightShader = (LightShader) engine.GetPostGameShader("LightShader");
-            lightShader.LightSources.Add(LightSource);
+            engine.AddEntity(LightSource);
         }
 
         public override void LoadContent(ContentManager content)

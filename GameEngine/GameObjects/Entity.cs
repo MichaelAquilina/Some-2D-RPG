@@ -72,6 +72,18 @@ namespace GameEngine.GameObjects
         {
         }
 
+        // Called BEFORE the entity has been removed from the engines entity list.
+        // The result of the PreDestroy method determines if the entity will be removed or not.
+        public virtual bool PreDestroy(GameTime gameTime, TeeEngine engine)
+        {
+            return true;
+        }
+
+        // Called AFTER the entity has been removed from the engines entity list.
+        public virtual void PostDestroy(GameTime gameTime, TeeEngine engine)
+        {
+        }
+
         public virtual void Update(GameTime gameTime, TeeEngine engine)
         {
         }

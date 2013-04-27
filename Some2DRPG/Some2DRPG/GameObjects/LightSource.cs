@@ -35,5 +35,11 @@ namespace Some2DRPG.GameObjects
             LightShader lightShader = (LightShader)engine.GetPostGameShader("LightShader");
             lightShader.LightSources.Add(this);
         }
+
+        public override void PostDestroy(GameTime gameTime, GameEngine.TeeEngine engine)
+        {
+            LightShader lightShader = (LightShader)engine.GetPostGameShader("LightShader");
+            lightShader.LightSources.Remove(this);
+        }
     }
 }

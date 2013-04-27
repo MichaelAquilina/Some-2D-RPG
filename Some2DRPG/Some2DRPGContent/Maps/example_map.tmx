@@ -496,6 +496,7 @@
   <object name="CaveEntrance" type="Some2DRPG.GameObjects.MapEntrance" x="1727" y="135" width="63" height="51">
    <properties>
     <property name="Destination" value="Content/Maps/cave_example.tmx"/>
+    <property name="Target" value="CaveExit"/>
    </properties>
   </object>
   <object name="LargeMapZone" type="GameEngine.GameObjects.MapZone" x="1198" y="638" width="316" height="226">
@@ -503,7 +504,6 @@
     <property name="$MapZoneHit" value="LargeMapZone_MapZoneHit"/>
    </properties>
   </object>
-  <object name="Player" type="Some2DRPG.GameObjects.Hero" x="1625" y="218"/>
   <object name="chest_3" type="Some2DRPG.GameObjects.Misc.Chest" x="1571" y="88" width="37" height="36"/>
   <object type="Some2DRPG.GameObjects.Misc.CoinArea" x="1052" y="161" width="60" height="337">
    <properties>
