@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using GameEngine.Drawing;
-using GameEngine.Extensions;
-using GameEngine.GameObjects;
-using GameEngine.Tiled;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using GameEngine;
 
 namespace GameEngine.GameObjects
 {

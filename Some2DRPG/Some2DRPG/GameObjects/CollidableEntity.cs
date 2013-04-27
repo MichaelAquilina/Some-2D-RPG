@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using GameEngine.GameObjects;
-using Microsoft.Xna.Framework;
 using GameEngine;
+using GameEngine.GameObjects;
 using GameEngine.Tiled;
+using Microsoft.Xna.Framework;
 
 namespace Some2DRPG.GameObjects
 {

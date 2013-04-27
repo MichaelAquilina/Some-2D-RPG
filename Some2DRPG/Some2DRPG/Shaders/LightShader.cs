@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using GameEngine;
-using GameEngine.Drawing;
 using GameEngine.Info;
-using GameEngine.Interfaces;
 using GameEngine.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -14,7 +11,7 @@ namespace Some2DRPG.Shaders
 {
     public enum LightPositionType { Fixed, Relative };
 
-    //Can Probably be extended to allow Custom Shaped Polygons rather than only circles
+    // Can Probably be extended to allow Custom Shaped Polygons rather than only circles.
     public class LightShader : PostGameShader
     {
         private Effect _colorShader;
@@ -37,7 +34,7 @@ namespace Some2DRPG.Shaders
             this.CirclePointAccurracy = circlePointAccuracy;
         }
 
-        private VertexPositionColor[] SetUpCircle(float radiusX, float radiusY, Vector3 center, Color color, int points, Vector2? Range)
+        private VertexPositionColor[] SetUpCircle(float radiusX, float radiusY, Vector3 center, Color color, int points, Vector2? range)
         {
             VertexPositionColor[] vertices = new VertexPositionColor[points * 3];
 
@@ -66,10 +63,10 @@ namespace Some2DRPG.Shaders
             return vertices;
         }
 
-        public override void LoadContent(ContentManager Content)
+        public override void LoadContent(ContentManager content)
         {
-            _lightShader = Content.Load<Effect>(@"Shaders\LightShader");
-            _colorShader = Content.Load<Effect>(@"Shaders\ColorShader");
+            _lightShader = content.Load<Effect>(@"Shaders\LightShader");
+            _colorShader = content.Load<Effect>(@"Shaders\ColorShader");
         }
 
         public override void SetResolution(int width, int height)

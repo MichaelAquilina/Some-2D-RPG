@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using GameEngine;
 using GameEngine.Interfaces;
-using GameEngine;
 using GameEngine.Tiled;
-using Some2DRPG.Shaders;
-using Some2DRPG.GameObjects;
 using Microsoft.Xna.Framework;
+using Some2DRPG.GameObjects;
 
 namespace Some2DRPG.MapScripts
 {

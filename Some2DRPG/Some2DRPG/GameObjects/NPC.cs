@@ -1,7 +1,6 @@
-﻿using GameEngine.GameObjects;
-using Microsoft.Xna.Framework.Content;
+﻿using GameEngine.Drawing;
 using Microsoft.Xna.Framework;
-using GameEngine.Drawing;
+using Microsoft.Xna.Framework.Content;
 
 namespace Some2DRPG.GameObjects
 {

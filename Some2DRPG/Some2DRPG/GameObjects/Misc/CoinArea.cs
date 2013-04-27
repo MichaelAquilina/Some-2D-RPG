@@ -2,7 +2,6 @@
 using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
-using System;
 
 namespace Some2DRPG.GameObjects.Misc
 {

@@ -1,7 +1,7 @@
 ﻿using GameEngine.GameObjects;
+using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Some2DRPG.Shaders;
-using GameEngine.Interfaces;
 
 namespace Some2DRPG.GameObjects
 {
