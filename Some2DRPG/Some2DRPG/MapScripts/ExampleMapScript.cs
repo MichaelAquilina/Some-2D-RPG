@@ -31,7 +31,7 @@ namespace Some2DRPG.MapScripts
 
         #region Event Handlers
 
-        public void LargeMapZone_MapZoneHit(MapZone sender, List<Entity> entitiesHit, TeeEngine engine, GameTime gameTime)
+        public void LargeMapZone_MapZoneHit(MapZone sender, Entity entity, TeeEngine engine, GameTime gameTime)
         {
 
         }

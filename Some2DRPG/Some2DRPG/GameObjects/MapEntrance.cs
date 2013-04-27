@@ -20,10 +20,10 @@ namespace Some2DRPG.GameObjects
             this.MapZoneHit += MapEntrance_MapZoneHit;
         }
 
-        void MapEntrance_MapZoneHit(MapZone sender, List<Entity> entitiesHit, TeeEngine engine, GameTime gameTime)
+        void MapEntrance_MapZoneHit(MapZone sender, Entity entity, TeeEngine engine, GameTime gameTime)
         {
             if(KeyboardExtensions.GetKeyDownState(Keyboard.GetState(), ACTIVATE_KEY, engine, true) &&
-               entitiesHit.Contains(engine.GetEntity("Player")))
+               entity == engine.GetEntity("Player"))
             {
                 MapEventArgs mapArgs = new MapEventArgs();
                 mapArgs.SetProperty("Target", Target);

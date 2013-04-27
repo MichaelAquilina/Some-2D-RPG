@@ -161,6 +161,8 @@ namespace GameEngine.GameObjects
             List<GameDrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
             List<GameDrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
 
+            if (entity1Instances == null || entity2Instances == null) return false;
+
             foreach (GameDrawableInstance instanceForEntity1 in entity1Instances)
             {
                 if (entity1Group == null || instanceForEntity1._associatedGroup == entity1Group)

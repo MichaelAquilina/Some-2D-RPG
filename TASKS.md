@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Add ability to add 'meta-properties' to Maps by placing a . in front. Example '.MyRandomProperty'. Which WONT be reflected to the Entity conversion.
 - [] - Fix on Map Zone Hit.
 - [] - Write some unit tests.
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
