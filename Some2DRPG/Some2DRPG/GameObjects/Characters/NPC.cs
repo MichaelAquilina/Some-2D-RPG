@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 
-namespace Some2DRPG.GameObjects
+namespace Some2DRPG.GameObjects.Characters
 {
     public enum Direction { Left, Right, Up, Down };
 

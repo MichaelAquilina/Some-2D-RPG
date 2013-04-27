@@ -4,8 +4,9 @@ using GameEngine.Drawing;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Some2DRPG.GameObjects.Characters;
 
-namespace Some2DRPG.GameObjects
+namespace Some2DRPG.GameObjects.Creatures
 {
     public class Bat : Entity
     {

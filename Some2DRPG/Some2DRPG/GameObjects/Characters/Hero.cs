@@ -6,8 +6,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.Shaders;
+using Some2DRPG.GameObjects.Misc;
 
-namespace Some2DRPG.GameObjects
+namespace Some2DRPG.GameObjects.Characters
 {
     public class Hero : NPC
     {

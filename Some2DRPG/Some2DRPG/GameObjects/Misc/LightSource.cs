@@ -3,7 +3,7 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Some2DRPG.Shaders;
 
-namespace Some2DRPG.GameObjects
+namespace Some2DRPG.GameObjects.Misc
 {
     public class LightSource : Entity, ISizedEntity
     {

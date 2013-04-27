@@ -3,6 +3,7 @@ using GameEngine.Interfaces;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Some2DRPG.GameObjects;
+using Some2DRPG.GameObjects.Characters;
 
 namespace Some2DRPG.MapScripts
 {

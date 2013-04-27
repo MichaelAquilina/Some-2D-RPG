@@ -5,7 +5,7 @@ using GameEngine.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Some2DRPG.GameObjects;
+using Some2DRPG.GameObjects.Misc;
 
 namespace Some2DRPG.Shaders
 {

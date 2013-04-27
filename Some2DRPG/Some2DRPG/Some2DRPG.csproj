@@ -112,12 +112,12 @@
     <Compile Include="GameObjects\Misc\CoinArea.cs" />
     <Compile Include="MapScripts\CaveExampleMapScript.cs" />
     <Compile Include="MapScripts\ExampleMapScript.cs" />
-    <Compile Include="GameObjects\LightSource.cs" />
-    <Compile Include="GameObjects\Bat.cs" />
+    <Compile Include="GameObjects\Misc\LightSource.cs" />
+    <Compile Include="GameObjects\Creatures\Bat.cs" />
     <Compile Include="GameObjects\Misc\Chest.cs" />
     <Compile Include="GameObjects\Misc\Coin.cs" />
-    <Compile Include="GameObjects\Hero.cs" />
-    <Compile Include="GameObjects\NPC.cs" />
+    <Compile Include="GameObjects\Characters\Hero.cs" />
+    <Compile Include="GameObjects\Characters\NPC.cs" />
     <Compile Include="MapScripts\MountainsExampleMapScript.cs" />
     <Compile Include="MapScripts\Some2DRPGMasterScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

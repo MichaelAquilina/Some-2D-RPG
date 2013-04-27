@@ -1,11 +1,12 @@
-﻿using GameEngine;
+﻿using System;
+using GameEngine;
 using GameEngine.Drawing;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using System;
+using Some2DRPG.GameObjects.Characters;
 
 namespace Some2DRPG.GameObjects.Misc
 {

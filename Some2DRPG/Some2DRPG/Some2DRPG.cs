@@ -1,18 +1,15 @@
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using GameEngine;
-using GameEngine.Drawing;
 using GameEngine.Extensions;
-using GameEngine.GameObjects;
 using GameEngine.Info;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using Some2DRPG.GameObjects;
+using Some2DRPG.GameObjects.Characters;
+using Some2DRPG.GameObjects.Creatures;
 using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Shaders;
 
@@ -60,8 +57,6 @@ namespace Some2DRPG
         SpriteFont DefaultSpriteFont;
 
         // Game Specific Variablies.
-        Entity FollowEntity;
-        NPC FemaleNPC;
         Random Random = new Random();
 
         TeeEngine Engine;
