@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Write some unit tests.
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Fix issue where entities outside 0 < x > mapWidth (same for y) are not added to QuadTree. Or replace quadtreeeee
 - [] - Fix bug in Animation class related to 'IsFinshed()'. Make IGameDrawable classes expose some form of GetCurrentState() enumeration.
