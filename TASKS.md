@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Collision detection between entities.
 - [] - Allow specifying of constants in some kind of file which can then be referenced in tiled through some convention such as %SOME_KEY%
 - [] - Write some unit tests.
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
