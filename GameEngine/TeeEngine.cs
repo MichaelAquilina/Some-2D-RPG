@@ -368,6 +368,10 @@ namespace GameEngine
 
                             foreach (string propertyKey in tiledObject.PropertyKeys)
                             {
+                                // Ignore all properties starting with '.'
+                                if (propertyKey.StartsWith("."))
+                                    continue;
+
                                 // Bind Events.
                                 if (propertyKey.StartsWith("$"))
                                 {
