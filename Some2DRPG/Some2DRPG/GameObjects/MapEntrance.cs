@@ -2,9 +2,9 @@
 using GameEngine;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
+using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using GameEngine.Tiled;
 
 namespace Some2DRPG.GameObjects
 {

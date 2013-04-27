@@ -5,7 +5,6 @@ Todo
 ----
 
 - [] - Add ability to add 'meta-properties' to Maps by placing a . in front. Example '.MyRandomProperty'. Which WONT be reflected to the Entity conversion.
-- [] - Fix on Map Zone Hit.
 - [] - Write some unit tests.
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Fix issue where entities outside 0 < x > mapWidth (same for y) are not added to QuadTree. Or replace quadtreeeee
@@ -14,6 +13,7 @@ Todo
 - [] - Restructure and rethink the idea of ILoadable. AssetManager? How are we going to make this work. *Needs loads of planning.*
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm.
+- [Done] - Fix on Map Zone Hit.
 - [Done] - Create PulseLightSource which derives from LightSource. Or allow a specification of a Pulse value in LightSource.
 - [Done] - Add Initialise(TeeEngine engine) method.
 - [Done] - Automatic conversion of TiledObjects to Entities by TeeEngine. Started work in LoadEntities in TeeEngine.cs
