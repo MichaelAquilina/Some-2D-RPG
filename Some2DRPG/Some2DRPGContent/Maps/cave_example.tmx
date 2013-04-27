@@ -319,7 +319,11 @@
 </data>
  </layer>
  <objectgroup name="Object Layer" width="100" height="100">
-  <object type="GameEngine.GameObjects.MapZone" x="4" y="171" width="111" height="66"/>
+  <object name="CaveExit" type="Some2DRPG.GameObjects.MapEntrance" x="4" y="171" width="111" height="66">
+   <properties>
+    <property name="Destination" value="Content/Maps/example_map.tmx"/>
+   </properties>
+  </object>
   <object name="Player" type="Some2DRPG.GameObjects.Hero" x="56" y="208"/>
   <object name="JamieLannister" type="Some2DRPG.GameObjects.NPC" x="966" y="265" width="18" height="16"/>
   <object name="TyrionLannister" type="Some2DRPG.GameObjects.NPC" x="908" y="341" width="18" height="16"/>
