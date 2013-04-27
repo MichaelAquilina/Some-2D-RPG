@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using System;
 
-namespace Some2DRPG.GameObjects
+namespace Some2DRPG.GameObjects.Misc
 {
     public class Chest : Entity
     {

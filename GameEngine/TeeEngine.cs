@@ -235,35 +235,42 @@ namespace GameEngine
                         if (createdObject == null)
                             createdObject = engineAssembly.CreateInstance(tiledObject.Type);
 
-                        // Convert to Entity object and assign values.
-                        entity = (Entity)createdObject;
-                        entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
+                        if (createdObject == null)
+                            throw new ArgumentException(string.Format("'{0}' does not exist in any of the loaded Assemblies", tiledObject.Type));
 
-                        // If the entity implements the ISizedEntity interface, apply Width and Height.
-                        if (entity is ISizedEntity)
+                        if (createdObject is Entity)
                         {
-                            ((ISizedEntity)entity).Width = tiledObject.Width;
-                            ((ISizedEntity)entity).Height = tiledObject.Height;
-                        }
+                            // Convert to Entity object and assign values.
+                            entity = (Entity)createdObject;
+                            entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
 
-                        foreach (string propertyKey in tiledObject.PropertyKeys)
-                        {
-                            // Bind Events.
-                            if (propertyKey.StartsWith("$"))
+                            // If the entity implements the ISizedEntity interface, apply Width and Height.
+                            if (entity is ISizedEntity)
                             {
-                                string methodName = tiledObject.GetProperty(propertyKey);
-                                string eventName = propertyKey.Substring(1, propertyKey.Length - 1);
-
-                                MethodInfo methodInfo = MapScript.GetType().GetMethod(methodName);
-                                EventInfo eventInfo = entity.GetType().GetEvent(eventName);
-                                Delegate delegateMethod = Delegate.CreateDelegate(eventInfo.EventHandlerType, MapScript, methodInfo);
-
-                                eventInfo.AddEventHandler(entity, delegateMethod);
+                                ((ISizedEntity)entity).Width = tiledObject.Width;
+                                ((ISizedEntity)entity).Height = tiledObject.Height;
                             }
-                            else
-                                // Bind Properties.
-                                ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
+
+                            foreach (string propertyKey in tiledObject.PropertyKeys)
+                            {
+                                // Bind Events.
+                                if (propertyKey.StartsWith("$"))
+                                {
+                                    string methodName = tiledObject.GetProperty(propertyKey);
+                                    string eventName = propertyKey.Substring(1, propertyKey.Length - 1);
+
+                                    MethodInfo methodInfo = MapScript.GetType().GetMethod(methodName);
+                                    EventInfo eventInfo = entity.GetType().GetEvent(eventName);
+                                    Delegate delegateMethod = Delegate.CreateDelegate(eventInfo.EventHandlerType, MapScript, methodInfo);
+
+                                    eventInfo.AddEventHandler(entity, delegateMethod);
+                                }
+                                else
+                                    // Bind Properties.
+                                    ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
+                            }
                         }
+                        else throw new ArgumentException(string.Format("'{0}' is not an Entity object", tiledObject.Type));
                     }
 
                     this.AddEntity(tiledObject.Name, entity);

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 using GameEngine;
 using GameEngine.Drawing;
@@ -12,8 +13,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects;
+using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Shaders;
-using System.Reflection;
 
 namespace Some2DRPG
 {

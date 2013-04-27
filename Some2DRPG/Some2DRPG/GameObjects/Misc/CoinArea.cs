@@ -4,7 +4,7 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using System;
 
-namespace Some2DRPG.GameObjects
+namespace Some2DRPG.GameObjects.Misc
 {
     public class CoinArea : Entity, ISizedEntity
     {

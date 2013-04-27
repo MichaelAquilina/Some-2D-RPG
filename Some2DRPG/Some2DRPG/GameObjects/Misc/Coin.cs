@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 
-namespace Some2DRPG.GameObjects
+namespace Some2DRPG.GameObjects.Misc
 {
     public enum CoinType { Gold, Silver, Copper };
 

@@ -345,7 +345,7 @@
    </properties>
    <ellipse/>
   </object>
-  <object type="Some2DRPG.GameObjects.CoinArea" x="1024" y="358" width="72" height="84">
+  <object type="Some2DRPG.GameObjects.Misc.CoinArea" x="1024" y="358" width="72" height="84">
    <properties>
     <property name="CoinType" value="Silver"/>
    </properties>

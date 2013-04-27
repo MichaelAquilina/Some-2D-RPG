@@ -107,13 +107,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GameObjects\CoinArea.cs" />
+    <Compile Include="GameObjects\Misc\CoinArea.cs" />
     <Compile Include="MapScripts\CaveExampleMapScript.cs" />
     <Compile Include="MapScripts\ExampleMapScript.cs" />
     <Compile Include="GameObjects\LightSource.cs" />
     <Compile Include="GameObjects\Bat.cs" />
-    <Compile Include="GameObjects\Chest.cs" />
-    <Compile Include="GameObjects\Coin.cs" />
+    <Compile Include="GameObjects\Misc\Chest.cs" />
+    <Compile Include="GameObjects\Misc\Coin.cs" />
     <Compile Include="GameObjects\Hero.cs" />
     <Compile Include="GameObjects\NPC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

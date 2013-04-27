@@ -431,68 +431,68 @@
   <object gid="88" x="1004" y="1642"/>
   <object gid="88" x="1052" y="1578"/>
   <object gid="88" x="1635" y="1966"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1215" y="70" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1215" y="87" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1215" y="106" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1237" y="106" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1282" y="68" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1282" y="86" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1282" y="106" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1321" y="67" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1321" y="86" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1321" y="106" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1302" y="68" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1302" y="107" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1344" y="105" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1344" y="69" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1366" y="105" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1344" y="86" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1387" y="104" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1256" y="106" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1326" y="368" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1285" y="368" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1285" y="332" width="13" height="13">
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1215" y="70" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1215" y="87" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1215" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1237" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1282" y="68" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1282" y="86" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1282" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1321" y="67" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1321" y="86" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1321" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1302" y="68" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1302" y="107" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1344" y="105" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1344" y="69" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1366" y="105" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1344" y="86" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1387" y="104" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1256" y="106" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1326" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1285" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1285" y="332" width="13" height="13">
    <properties>
     <property name="CoinType" value="Gold"/>
    </properties>
   </object>
-  <object type="Some2DRPG.GameObjects.Coin" x="1305" y="368" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1285" y="349" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1305" y="350" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1305" y="332" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1324" y="332" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1325" y="350" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1393" y="368" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1412" y="332" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1413" y="350" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1373" y="349" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1373" y="332" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1393" y="332" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1414" y="368" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1373" y="368" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1393" y="350" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1359" y="462" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1339" y="443" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1339" y="462" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1359" y="444" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1398" y="456" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1378" y="437" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1378" y="456" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1398" y="438" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1435" y="436" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1415" y="417" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1415" y="436" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1435" y="418" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1320" y="454" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1300" y="435" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1300" y="454" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1320" y="436" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1281" y="436" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1261" y="417" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1261" y="436" width="13" height="13"/>
-  <object type="Some2DRPG.GameObjects.Coin" x="1281" y="418" width="13" height="13"/>
-  <object name="chest_1" type="Some2DRPG.GameObjects.Chest" x="291" y="52" width="37" height="36"/>
-  <object name="chest_2" type="Some2DRPG.GameObjects.Chest" x="196" y="738" width="37" height="36"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1305" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1285" y="349" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1305" y="350" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1305" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1324" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1325" y="350" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1393" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1412" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1413" y="350" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1373" y="349" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1373" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1393" y="332" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1414" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1373" y="368" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1393" y="350" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1359" y="462" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1339" y="443" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1339" y="462" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1359" y="444" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1398" y="456" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1378" y="437" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1378" y="456" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1398" y="438" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1435" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1415" y="417" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1415" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1435" y="418" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1320" y="454" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1300" y="435" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1300" y="454" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1320" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1281" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1261" y="417" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1261" y="436" width="13" height="13"/>
+  <object type="Some2DRPG.GameObjects.Misc.Coin" x="1281" y="418" width="13" height="13"/>
+  <object name="chest_1" type="Some2DRPG.GameObjects.Misc.Chest" x="291" y="52" width="37" height="36"/>
+  <object name="chest_2" type="Some2DRPG.GameObjects.Misc.Chest" x="196" y="738" width="37" height="36"/>
   <object name="CaveEntrance" type="GameEngine.GameObjects.MapZone" x="1727" y="135" width="63" height="51">
    <properties>
     <property name="$MapZoneHit" value="CaveEntrance_MapZoneHit"/>
@@ -504,22 +504,22 @@
    </properties>
   </object>
   <object name="Player" type="Some2DRPG.GameObjects.Hero" x="1120" y="113"/>
-  <object name="chest_3" type="Some2DRPG.GameObjects.Chest" x="1571" y="88" width="37" height="36"/>
-  <object type="Some2DRPG.GameObjects.CoinArea" x="1052" y="161" width="60" height="337">
+  <object name="chest_3" type="Some2DRPG.GameObjects.Misc.Chest" x="1571" y="88" width="37" height="36"/>
+  <object type="Some2DRPG.GameObjects.Misc.CoinArea" x="1052" y="161" width="60" height="337">
    <properties>
     <property name="CoinPadding" value="20"/>
     <property name="CoinType" value="Gold"/>
     <property name="CoinValue" value="50"/>
    </properties>
   </object>
-  <object type="Some2DRPG.GameObjects.CoinArea" x="388" y="135" width="308" height="64">
+  <object type="Some2DRPG.GameObjects.Misc.CoinArea" x="388" y="135" width="308" height="64">
    <properties>
     <property name="CoinPadding" value="20"/>
     <property name="CoinType" value="Silver"/>
     <property name="CoinValue" value="10"/>
    </properties>
   </object>
-  <object type="Some2DRPG.GameObjects.CoinArea" x="1455" y="1150" width="325" height="253">
+  <object type="Some2DRPG.GameObjects.Misc.CoinArea" x="1455" y="1150" width="325" height="253">
    <properties>
     <property name="CoinPadding" value="15"/>
     <property name="CoinType" value="Gold"/>
