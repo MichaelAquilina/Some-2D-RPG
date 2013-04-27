@@ -30,6 +30,7 @@ namespace GameEngine.GameObjects
 
         public MapZone()
         {
+            Visible = false;
         }
 
         void OnMapZoneHit(Entity entity, TeeEngine engine, GameTime gameTime)

@@ -497,12 +497,14 @@
    <properties>
     <property name="Destination" value="Content/Maps/cave_example.tmx"/>
     <property name="Target" value="CaveExit"/>
+    <property name="Visible" value="true"/>
    </properties>
   </object>
   <object name="LargeMapZone" type="GameEngine.GameObjects.MapZone" x="1198" y="638" width="316" height="226">
    <properties>
     <property name="$MapZoneHit" value="LargeMapZone_MapZoneHit"/>
     <property name=".MyRandomProperty" value="LOLCAT"/>
+    <property name="Visible" value="true"/>
    </properties>
   </object>
   <object name="chest_3" type="Some2DRPG.GameObjects.Misc.Chest" x="1571" y="88" width="37" height="36"/>
@@ -531,6 +533,7 @@
    <properties>
     <property name="Destination" value="Content/Maps/mountains_example.tmx"/>
     <property name="Target" value="ChasmExit"/>
+    <property name="Visible" value="true"/>
    </properties>
   </object>
  </objectgroup>

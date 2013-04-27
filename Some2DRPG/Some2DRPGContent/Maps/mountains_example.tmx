@@ -557,6 +557,7 @@
    <properties>
     <property name="Destination" value="Content/Maps/example_map.tmx"/>
     <property name="Target" value="ChasmEntrance"/>
+    <property name="Visible" value="true"/>
    </properties>
   </object>
   <object type="Some2DRPG.GameObjects.Misc.CoinArea" x="301" y="504" width="616" height="20">

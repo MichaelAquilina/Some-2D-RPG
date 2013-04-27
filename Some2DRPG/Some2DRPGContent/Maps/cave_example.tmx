@@ -323,6 +323,7 @@
    <properties>
     <property name="Destination" value="Content/Maps/example_map.tmx"/>
     <property name="Target" value="CaveEntrance"/>
+    <property name="Visible" value="true"/>
    </properties>
   </object>
   <object name="JamieLannister" type="Some2DRPG.GameObjects.NPC" x="966" y="265" width="18" height="16"/>
