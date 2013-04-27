@@ -29,11 +29,6 @@ namespace GameEngine.Shaders
             throw new NotImplementedException();
         }
 
-        public virtual void UnloadContent()
-        {
-            throw new NotImplementedException();
-        }
-
         public virtual void SetResolution(int width, int height)
         {
             throw new NotImplementedException();

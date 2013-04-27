@@ -41,12 +41,6 @@ namespace GameEngine.Tiled
                 tile.LoadContent(content);
         }
 
-        public void UnloadContent()
-        {
-            foreach (Tile tile in Tiles.Values)
-                tile.UnloadContent();
-        }
-
         /// <summary>
         /// Retrieves the Topmost tile at the specified (X,Y) location on the map. By top most, the function
         /// refers to the draw order, i.e. the tile which would be shown on top. The first non-zero tile found

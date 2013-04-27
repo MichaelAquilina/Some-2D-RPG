@@ -164,11 +164,6 @@ namespace GameEngine
             // TODO.
         }
 
-        public void UnloadContent()
-        {
-            // TODO.
-        }
-
         #region Map Loading Methods
 
         public void LoadMap(TiledMap map, MapEventArgs mapLoadedEventArgs=null)
@@ -429,7 +424,6 @@ namespace GameEngine
             if (_postGameShaders.ContainsKey(shaderName))
             {
                 PostGameShader shader = _postGameShaders[shaderName];
-                shader.UnloadContent();
 
                 return _postGameShaders.Remove(shaderName);
             }

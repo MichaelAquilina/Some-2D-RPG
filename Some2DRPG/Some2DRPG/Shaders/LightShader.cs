@@ -72,15 +72,6 @@ namespace Some2DRPG.Shaders
             _colorShader = Content.Load<Effect>(@"Shaders\ColorShader");
         }
 
-        public override void UnloadContent()
-        {
-            if( _lightShader != null ) _lightShader.Dispose();
-            if( _lightTarget != null ) _lightTarget.Dispose();
-
-            _lightShader = null;
-            _lightTarget = null;
-        }
-
         public override void SetResolution(int width, int height)
         {
             if (_lightTarget != null) _lightTarget.Dispose();

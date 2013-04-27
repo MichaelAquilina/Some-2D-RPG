@@ -92,9 +92,6 @@ namespace GameEngine.GameObjects
         {
         }
 
-        public virtual void UnloadContent()
-        {
-        }
 
         #endregion
 

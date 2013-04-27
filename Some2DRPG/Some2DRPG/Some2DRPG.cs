@@ -128,10 +128,6 @@ namespace Some2DRPG
             DefaultSpriteFont = Content.Load<SpriteFont>(@"Fonts\DefaultSpriteFont");
         }
 
-        protected override void UnloadContent()
-        {
-        }
-
         protected override void Update(GameTime gameTime)
         {
             // F1 = Show/Hide Bounding Boxes

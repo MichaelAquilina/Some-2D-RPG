@@ -78,10 +78,5 @@ namespace Some2DRPG.GameObjects
 
             CurrentDrawableState = "Idle_Left";
         }
-
-        public override void UnloadContent()
-        {
-
-        }
     }
 }

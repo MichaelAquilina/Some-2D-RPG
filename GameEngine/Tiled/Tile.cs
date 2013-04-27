@@ -29,11 +29,6 @@ namespace GameEngine.Tiled
             sourceTexture = content.Load<Texture2D>(TileSet.ContentTexturePath);
         }
 
-        public void UnloadContent()
-        {
-            sourceTexture.Dispose();
-        }
-
         public Texture2D GetSourceTexture(double elapsedMS)
         {
             return sourceTexture;
