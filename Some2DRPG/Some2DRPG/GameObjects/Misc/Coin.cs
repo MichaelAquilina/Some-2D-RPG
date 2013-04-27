@@ -11,7 +11,7 @@ namespace Some2DRPG.GameObjects.Misc
 {
     public enum CoinType { Gold, Silver, Copper };
 
-    public class Coin : Entity
+    public class Coin : CollidableEntity
     {
         public int CoinValue { get; set; }
 
@@ -34,13 +34,13 @@ namespace Some2DRPG.GameObjects.Misc
         }
 
         public Coin(float x, float y, int coinValue, CoinType coinType)
-            : base(x, y)
         {
-            Construct(coinType, coinValue);
+            Construct(x, y, coinType, coinValue);
         }
 
-        void Construct(CoinType coinType=CoinType.Copper, int coinValue=0)
+        void Construct(float x=0, float y=0, CoinType coinType=CoinType.Copper, int coinValue=0)
         {
+            this.Pos = new Vector2(x, y);
             this.CoinType = coinType;
             this.ScaleX = 0.7f;
             this.ScaleY = 0.7f;
@@ -90,6 +90,8 @@ namespace Some2DRPG.GameObjects.Misc
                     }
                 }
             }
+
+            base.Update(gameTime, engine);
         }
 
         public override string ToString()

@@ -7,7 +7,7 @@ namespace Some2DRPG.GameObjects
 {
     public enum Direction { Left, Right, Up, Down };
 
-    public class NPC : Entity
+    public class NPC : CollidableEntity
     {
         public const string MALE_HUMAN = @"Animations/Characters/male_npc.anim";
         public const string FEMALE_HUMAN = @"Animations/Characters/female_npc.anim";
@@ -47,8 +47,7 @@ namespace Some2DRPG.GameObjects
             Construct(0, 0, baseRace);
         }
 
-        public NPC(float x, float y, string baseRace) :
-            base(x, y, 1.0f, 1.0f)
+        public NPC(float x, float y, string baseRace)
         {
             Construct(x, y, baseRace);
         }
@@ -58,6 +57,9 @@ namespace Some2DRPG.GameObjects
             this.HP = 0;
             this.XP = 0;
             this.Coins = 0;
+            this.Pos = new Vector2(x, y);
+            this.ScaleX = 1.0f;
+            this.ScaleY = 1.0f;
 
             this.Direction = Direction.Right;
             this.BaseRace = baseRace;

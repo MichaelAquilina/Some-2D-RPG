@@ -31,7 +31,7 @@
  </tile>
  <tile id="30">
   <properties>
-   <property name="Imassable" value=""/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="31">

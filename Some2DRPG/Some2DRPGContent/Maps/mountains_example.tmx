@@ -565,5 +565,11 @@
     <property name="CoinType" value="Gold"/>
    </properties>
   </object>
+  <object type="Some2DRPG.GameObjects.Misc.CoinArea" x="5" y="179" width="116" height="67">
+   <properties>
+    <property name="CoinPadding" value="15"/>
+    <property name="CoinType" value="Silver"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

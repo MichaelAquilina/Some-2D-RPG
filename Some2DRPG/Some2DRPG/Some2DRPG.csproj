@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameObjects\CollidableEntity.cs" />
     <Compile Include="GameObjects\MapEntrance.cs" />
     <Compile Include="GameObjects\Misc\CoinArea.cs" />
     <Compile Include="MapScripts\CaveExampleMapScript.cs" />

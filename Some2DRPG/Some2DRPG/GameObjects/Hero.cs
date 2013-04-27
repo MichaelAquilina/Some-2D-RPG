@@ -66,16 +66,7 @@ namespace Some2DRPG.GameObjects
             base.LoadContent(content);
         }
 
-        // TODO REMOVE.
-        private bool ContainsItem(string[] array, string item)
-        {
-            for (int i = 0; i < array.Length; i++)
-                if (array[i] == item) return true;
-
-            return false;
-        }
-
-        public override void Update(GameTime gameTime, TeeEngine Engine)
+        public override void Update(GameTime gameTime, TeeEngine engine)
         {
             KeyboardState keyboardState = Keyboard.GetState();
 
@@ -83,7 +74,7 @@ namespace Some2DRPG.GameObjects
             float prevX = Pos.X;
             float prevY = Pos.Y;
 
-            Tile prevTile = Engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
+            Tile prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
             float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
             // ATTACK KEY.
@@ -134,89 +125,11 @@ namespace Some2DRPG.GameObjects
                     movement.Normalize();
                     Pos += movement * MOVEMENT_SPEED * moveSpeedModifier;
                 }
+
+                LightSource.Pos = this.Pos;
             }
 
-            // Prevent from going out of range.
-            if (Pos.X < 0) Pos.X = 0;
-            if (Pos.Y < 0) Pos.Y = 0;
-            if (Pos.X >= Engine.Map.pxWidth - 1) Pos.X = Engine.Map.pxWidth - 1;
-            if (Pos.Y >= Engine.Map.pxHeight - 1) Pos.Y = Engine.Map.pxHeight - 1;
-
-            if (CollisionDetection)
-            {
-                // Iterate through each layer and determine if the tile is passable.
-                int tileX = (int) Pos.X / Engine.Map.TileWidth;
-                int tileY = (int) Pos.Y / Engine.Map.TileHeight;
-
-                int pxTileX = tileX * Engine.Map.TileWidth;
-                int pxTileY = tileY * Engine.Map.TileHeight;
-                int pxTileWidth = Engine.Map.TileWidth;
-                int pxTileHeight = Engine.Map.TileHeight;
-
-                Tile currentTile = Engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
-                bool impassable = currentTile.HasProperty("Impassable");
-
-                // CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
-                // TODO
-                // to improve structure
-                // Current very very ineffecient way of checking Entry
-                string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                string[] exitPoints = prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                bool top = prevY < pxTileY;
-                bool bottom = prevY > pxTileY + pxTileHeight;
-                bool left = prevX < pxTileX;
-                bool right = prevX > pxTileX + pxTileWidth;
-
-                // Ensure entry points.
-                impassable |= top && !ContainsItem(entryPoints, "Top");
-                impassable |= bottom && !ContainsItem(entryPoints, "Bottom");
-                impassable |= left && !ContainsItem(entryPoints, "Left");
-                impassable |= right && !ContainsItem(entryPoints, "Right");
-
-                // Ensure exit points.
-                impassable |= top && !ContainsItem(exitPoints, "Bottom");
-                impassable |= bottom && !ContainsItem(exitPoints, "Top");
-                impassable |= left && !ContainsItem(exitPoints, "Right");
-                impassable |= right && !ContainsItem(exitPoints, "Left");
-
-                // IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT.
-                // if impassable, adjust X and Y accordingly.
-                float padding = 0.001f;
-                if (impassable)
-                {
-                    if (prevY <= pxTileY && Pos.Y > pxTileY)
-                        Pos.Y = pxTileY - padding;
-                    else
-                        if (prevY >= pxTileY + pxTileHeight && Pos.Y < pxTileY + pxTileHeight)
-                            Pos.Y = pxTileY + pxTileHeight + padding;
-
-                    if (prevX <= pxTileX && Pos.X > pxTileX)
-                        Pos.X = pxTileX - padding;
-                    else
-                        if (prevX >= pxTileX + pxTileWidth && Pos.X < pxTileX + pxTileWidth)
-                            Pos.X = pxTileX + pxTileWidth + padding;
-                }
-            }
-
-            // Change the radius of the LightSource overtime using a SINE wave pattern.
-            LightSource.Pos = this.Pos;
-
-            prevIntersectingEntities = Engine.QuadTree.GetIntersectingEntites(this.CurrentBoundingBox);
-            foreach (Entity entity in prevIntersectingEntities)
-            {
-                // TODO: Should be more general than just a Bat.
-                // In the future it should be something along the lines of if NPC.IsEnemy()
-                if (entity is Bat)
-                {
-                    if (CurrentDrawableState.Contains("Slash") &&
-                        Entity.IntersectsWith(this, "Weapon", entity, "Body", gameTime))
-                    {
-                        Bat bat = (Bat)entity;
-                        bat.HP -= 10;
-                    }
-                }
-            }
+            base.Update(gameTime, engine);
         }
     }
 }
