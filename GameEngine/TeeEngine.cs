@@ -70,7 +70,7 @@ namespace GameEngine
         /// <summary>
         /// Current Collision Data Structure being used to perform Collision Tests.
         /// </summary>
-        public ICollider Collider { get; set; }
+        public ICollider Collider { get; private set; }
 
         /// <summary>
         /// Last GameTime instance when the TeeEngine was Updated.
