@@ -263,6 +263,11 @@ namespace GameEngine.Tiled
             return map;
         }
 
+        public TileLayer GetLayerByName(string name)
+        {
+            return TileLayers.Find(delegate(TileLayer t) { return t.Name.Equals(name); });
+        }
+
         public override string ToString()
         {
             return string.Format("TiledMap: Dimensions={0}x{1}, TileDimensions={2}x{3}, TileLayers={4}, ObjectLayers={5}",
