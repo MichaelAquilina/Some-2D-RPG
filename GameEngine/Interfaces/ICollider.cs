@@ -19,8 +19,6 @@ namespace GameEngine.Interfaces
 
         void Add(Entity entity);
 
-        void Rebuild(ICollection<Entity> entities);
-
         List<Entity> GetIntersectingEntites(FRectangle pxRegion);
     }
 }
