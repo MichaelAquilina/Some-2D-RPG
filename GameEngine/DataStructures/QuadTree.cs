@@ -27,13 +27,14 @@ namespace GameEngine.DataStructures
             this.LatestNodeIndex = 0;
         }
 
-        public void Update(Entity entity, bool addOnMissing=true)
+        public void Update(Entity entity)
         {
             List<QuadTreeNode> updatedNodes = new List<QuadTreeNode>();
             List<QuadTreeNode> associatedNodes = new List<QuadTreeNode>();
             Root.GetAssociatedNodes(entity, entity.prevBoundingBox, ref associatedNodes);
 
-            if (associatedNodes.Count == 0 && addOnMissing)
+            // Add if Missing.
+            if (associatedNodes.Count == 0)
                 Add(entity);
             else
             {

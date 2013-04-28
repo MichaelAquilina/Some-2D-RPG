@@ -18,6 +18,62 @@ namespace GameEngine.DataStructures
         int _pixelHeight;
         List<Entity>[] _entityHashlists;
 
+        public HashList(int boxWidth, int boxHeight)
+        {
+            this._storageWidth = boxWidth;
+            this._storageHeight = boxHeight;
+        }
+
+        public void Construct(int txWidth, int txHeight, int tileWidth, int tileHeight)
+        {
+            this._pixelWidth = txWidth * tileWidth;
+            this._pixelHeight = txHeight * tileHeight;
+
+            this._boxCountX = (int)Math.Ceiling(((float)_pixelWidth) / _storageWidth);
+            this._boxCountY = (int)Math.Ceiling(((float)_pixelHeight) / _storageHeight);
+
+            _entityHashlists = new List<Entity>[_boxCountX * _boxCountY];
+
+            // Create all the required Lists during construction
+            for (int i = 0; i < _boxCountX; i++)
+            {
+                for (int j = 0; j < _boxCountY; j++)
+                {
+                    int index = j * _boxCountX + i;
+                    _entityHashlists[index] = new List<Entity>();
+                }
+            }
+        }
+
+        public void Update(Entity entity)
+        {
+            Remove(entity.prevBoundingBox, entity);
+            Add(entity.CurrentBoundingBox, entity);
+        }
+
+        public void Add(Entity entity)
+        {
+            Add(entity.CurrentBoundingBox, entity);
+        }
+
+        public void Remove(Entity entity)
+        {
+            Remove(entity.CurrentBoundingBox, entity);
+        }
+
+        public List<Entity> GetIntersectingEntites(FRectangle pxRegion)
+        {
+            List<Entity> result = new List<Entity>();
+            foreach (List<Entity> entities in GetHashList(pxRegion))
+                foreach (Entity entity in entities)
+                    if (!result.Contains(entity))
+                        result.Add(entity);
+
+            return result;
+        }
+
+        #region Internal Methods
+
         internal void Add(FRectangle boundingBox, Entity entity)
         {
             foreach (List<Entity> entityList in GetHashList(boundingBox))
@@ -51,7 +107,7 @@ namespace GameEngine.DataStructures
             int bottomLeftIndex = GetIndex(boundingBox.Left, boundingBox.Bottom);
 
             int width = topRightIndex - topLeftIndex + 1;
-            int height = (bottomLeftIndex - topLeftIndex)/_boxCountY + 1;
+            int height = (bottomLeftIndex - topLeftIndex) / _boxCountY + 1;
 
             for (int i = 0; i < width; i++)
             {
@@ -65,58 +121,6 @@ namespace GameEngine.DataStructures
             return result;
         }
 
-        public HashList(int boxWidth, int boxHeight)
-        {
-            this._storageWidth = boxWidth;
-            this._storageHeight = boxHeight;
-        }
-
-        public void Construct(int txWidth, int txHeight, int tileWidth, int tileHeight)
-        {
-            this._pixelWidth = txWidth * tileWidth;
-            this._pixelHeight = txHeight * tileHeight;
-
-            this._boxCountX = (int)Math.Ceiling(((float)_pixelWidth) / _storageWidth);
-            this._boxCountY = (int)Math.Ceiling(((float)_pixelHeight) / _storageHeight);
-
-            _entityHashlists = new List<Entity>[_boxCountX * _boxCountY];
-
-            // Create all the required Lists during construction
-            for (int i = 0; i < _boxCountX; i++)
-            {
-                for (int j = 0; j < _boxCountY; j++)
-                {
-                    int index = j * _boxCountX + i;
-                    _entityHashlists[index] = new List<Entity>();
-                }
-            }
-        }
-
-        public void Update(Entity entity, bool addOnMissing = true)
-        {
-            Remove(entity.prevBoundingBox, entity);
-            Add(entity.CurrentBoundingBox, entity);
-        }
-
-        public void Add(Entity entity)
-        {
-            Add(entity.CurrentBoundingBox, entity);
-        }
-
-        public void Remove(Entity entity)
-        {
-            Remove(entity.CurrentBoundingBox, entity);
-        }
-
-        public List<Entity> GetIntersectingEntites(FRectangle pxRegion)
-        {
-            List<Entity> result = new List<Entity>();
-            foreach (List<Entity> entities in GetHashList(pxRegion))
-                foreach (Entity entity in entities)
-                    if (!result.Contains(entity))
-                        result.Add(entity);
-
-            return result;
-        }
+        #endregion
     }
 }

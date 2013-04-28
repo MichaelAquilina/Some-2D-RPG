@@ -4,7 +4,9 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Need some form of diagnostic for 'Average' GetIntersectingEntities() time.
 - [] - Collision detection between entities.
+         - Need some form of reserved word to distinguish between drawables and collision zones
 - [] - Allow specifying of constants in some kind of file which can then be referenced in tiled through some convention such as %SOME_KEY%
 - [] - Write some unit tests.
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.

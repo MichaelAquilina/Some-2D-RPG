@@ -13,7 +13,7 @@ namespace GameEngine.Interfaces
     {
         void Construct(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight);
 
-        void Update(Entity entity, bool addOnMissing = true);
+        void Update(Entity entity);
 
         void Remove(Entity entity);
 

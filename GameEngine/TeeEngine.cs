@@ -131,6 +131,8 @@ namespace GameEngine
             DrawingOptions.ShowDrawableComponents = false;
 
             Collider = new HashList(64, 64);
+            //Collider = new QuadTree();
+
             EntitiesOnScreen = new List<Entity>();
 
             DebugInfo = new DebugInfo();
