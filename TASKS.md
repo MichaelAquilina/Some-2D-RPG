@@ -41,7 +41,7 @@ Todo
 QuadTree / HashList stuff
 ------------------------
 
-- [] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
+- [Done] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
 - [] - Improve QuadTree Validate. If a tile isnt contained in a node anymore but STILL interesects it, then no need ot remove it only to re-add it!
 - [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
 - [] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
@@ -61,7 +61,6 @@ Should Have
 - [] - Ability to run in full screen mode. Currently this does not work as expected.
 - [] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
 - [] - NPC Interaction (scriptable with dialog text)
-- [] - ICollision interface should be implemented and used by the QuadTreeNode to allow extensions to be added.
 - [Done] - the ability to zoom in and out (scale)
 - [Done] - an effecient collision detection engine (QuadTree)
 - [] - a per entity / per tile shader framework
