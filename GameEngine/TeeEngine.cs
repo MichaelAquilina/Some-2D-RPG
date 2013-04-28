@@ -130,7 +130,7 @@ namespace GameEngine
             DrawingOptions.ShowBoundingBoxes = false;
             DrawingOptions.ShowDrawableComponents = false;
 
-            Collider = new QuadTree();      // Use the QuadTree data structure for now
+            Collider = new HashList(64, 64);
             EntitiesOnScreen = new List<Entity>();
 
             DebugInfo = new DebugInfo();

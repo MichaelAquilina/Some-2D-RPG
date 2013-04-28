@@ -92,6 +92,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataStructures\HashList.cs" />
     <Compile Include="Drawing\Animation.cs" />
     <Compile Include="Drawing\DrawableSet.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
