@@ -1,7 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameEngine.Drawing;
+using GameEngine.Extensions;
 using GameEngine.GameObjects;
+using GameEngine.Info;
 using GameEngine.Interfaces;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.DataStructures
 {
@@ -80,6 +85,16 @@ namespace GameEngine.DataStructures
             return result;
         }
 
+        public void DrawDebugInfo(
+            ViewPortInfo viewPort,
+            SpriteBatch spriteBatch,
+            Rectangle destRectangle,
+            SpriteFont spriteFont,
+            float globalDispX, float globalDispY)
+        {
+            DrawQuadTreeNode(viewPort, spriteBatch, Root, destRectangle, spriteFont, globalDispX, globalDispY);
+        }
+
         // Reposition the specified Entity in the given Node if it no longer contains it.
         internal QuadTreeNode Reposition(Entity entity, QuadTreeNode node)
         {
@@ -109,6 +124,43 @@ namespace GameEngine.DataStructures
             LatestNodeIndex++;
 
             return nodeResult;
+        }
+
+        internal void DrawQuadTreeNode(ViewPortInfo viewPort,
+            SpriteBatch spriteBatch,
+            QuadTreeNode node,
+            Rectangle destRectangle,
+            SpriteFont spriteFont,
+            float globalDispX, float globalDispY)
+        {
+            if (node == null) return;
+
+            int actualX = (int)Math.Ceiling(node.pxBounds.X * viewPort.ActualZoom - globalDispX);
+            int actualY = (int)Math.Ceiling(node.pxBounds.Y * viewPort.ActualZoom - globalDispY);
+
+            // We need to calculate the 'Actual' width and height otherwise drawing might be innacurate when zoomed.
+            int actualWidth = (int)Math.Ceiling(node.pxBounds.Width * viewPort.ActualZoom);
+            int actualHeight = (int)Math.Ceiling(node.pxBounds.Height * viewPort.ActualZoom);
+
+            // Only draw leaf nodes which are within the viewport specified.
+            if (node.ChildNode1 == null
+                && new Rectangle(actualX, actualY, actualWidth, actualHeight).Intersects(destRectangle))
+            {
+                string nodeText = node.NodeID.ToString();
+
+                SpriteBatchExtensions.DrawRectangle(spriteBatch, new Rectangle(actualX, actualY, actualWidth, actualHeight), Color.Lime, 0);
+                spriteBatch.DrawString(
+                    spriteFont,
+                    nodeText,
+                    new Vector2(actualX + actualWidth / 2.0f, actualY + actualHeight / 2.0f) - spriteFont.MeasureString(nodeText) / 2,
+                    Color.Lime
+                );
+            }
+
+            DrawQuadTreeNode(viewPort, spriteBatch, node.ChildNode1, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTreeNode(viewPort, spriteBatch, node.ChildNode2, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTreeNode(viewPort, spriteBatch, node.ChildNode3, destRectangle, spriteFont, globalDispX, globalDispY);
+            DrawQuadTreeNode(viewPort, spriteBatch, node.ChildNode4, destRectangle, spriteFont, globalDispX, globalDispY);
         }
 
         public override string ToString()

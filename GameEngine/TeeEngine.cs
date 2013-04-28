@@ -130,8 +130,8 @@ namespace GameEngine
             DrawingOptions.ShowBoundingBoxes = false;
             DrawingOptions.ShowDrawableComponents = false;
 
-            Collider = new HashList(64, 64);
-            //Collider = new QuadTree();
+            //Collider = new HashList(64, 64);
+            Collider = new QuadTree();
 
             EntitiesOnScreen = new List<Entity>();
 
@@ -497,38 +497,6 @@ namespace GameEngine
         }
 
         #region Drawing Code
-
-        private void DrawQuadTree(ViewPortInfo viewPort, SpriteBatch spriteBatch, QuadTreeNode node, Rectangle destRectangle, SpriteFont spriteFont, float globalDispX, float globalDispY)
-        {
-            if (node == null) return;
-
-            int actualX = (int) Math.Ceiling(node.pxBounds.X * viewPort.ActualZoom - globalDispX);
-            int actualY = (int) Math.Ceiling(node.pxBounds.Y * viewPort.ActualZoom - globalDispY);
-
-            // We need to calculate the 'Actual' width and height otherwise drawing might be innacurate when zoomed.
-            int actualWidth  = (int) Math.Ceiling(node.pxBounds.Width * viewPort.ActualZoom);
-            int actualHeight = (int) Math.Ceiling(node.pxBounds.Height * viewPort.ActualZoom);
-
-            // Only draw leaf nodes which are within the viewport specified.
-            if (node.ChildNode1 == null 
-                && new Rectangle(actualX, actualY, actualWidth, actualHeight).Intersects(destRectangle))
-            {
-                string nodeText = node.NodeID.ToString();
-
-                spriteBatch.DrawRectangle(new Rectangle(actualX, actualY, actualWidth, actualHeight), Color.Lime, 0);
-                spriteBatch.DrawString(
-                    spriteFont,
-                    nodeText,
-                    new Vector2(actualX + actualWidth / 2.0f, actualY + actualHeight / 2.0f) - spriteFont.MeasureString(nodeText) / 2,
-                    Color.Lime
-                );
-            }
-
-            DrawQuadTree(viewPort, spriteBatch, node.ChildNode1, destRectangle, spriteFont, globalDispX, globalDispY);
-            DrawQuadTree(viewPort, spriteBatch, node.ChildNode2, destRectangle, spriteFont, globalDispX, globalDispY);
-            DrawQuadTree(viewPort, spriteBatch, node.ChildNode3, destRectangle, spriteFont, globalDispX, globalDispY);
-            DrawQuadTree(viewPort, spriteBatch, node.ChildNode4, destRectangle, spriteFont, globalDispX, globalDispY);
-        }
         
         public ViewPortInfo DrawWorldViewPort(SpriteBatch spriteBatch, float pxCenterX, float pxCenterY, float zoom, Rectangle pxDestRectangle, Color color, SamplerState samplerState, SpriteFont spriteFont=null)
         {
@@ -777,20 +745,13 @@ namespace GameEngine
             spriteBatch.End();
             DebugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
 
-            // TODO: Generalise this to DrawColliderDebugInfo
-            //// DRAW THE QUAD TREE IF ENABLED
-            //if (DrawingOptions.ShowQuadTree)
-            //{
-            //    spriteBatch.Begin();
-            //    DrawQuadTree(
-            //        viewPortInfo, 
-            //        spriteBatch, 
-            //        Collider.Root, 
-            //        pxDestRectangle, 
-            //        spriteFont,
-            //        globalDispX, globalDispY);
-            //    spriteBatch.End();
-            //}
+            // DRAW COLLIDER DEBUG INFORMATION IF ENABLED
+            if (DrawingOptions.ShowQuadTree)
+            {
+                spriteBatch.Begin();
+                Collider.DrawDebugInfo(viewPortInfo, spriteBatch, pxDestRectangle, spriteFont, globalDispX, globalDispY);
+                spriteBatch.End();
+            }
 
             _watch1.Restart();
             // APPLY GAME SHADERS TO THE RESULTANT IMAGE
