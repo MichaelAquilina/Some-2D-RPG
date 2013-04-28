@@ -264,7 +264,7 @@ namespace GameEngine
         // Destorys any pending entities in the Entity Destroy List.
         void DestroyEntities(GameTime gameTime)
         {
-            DebugInfo.QuadTreeUpdateTime = _watch3.Elapsed;
+            DebugInfo.ColliderUpdateTime = _watch3.Elapsed;
 
             // REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
             _watch2.Restart();
