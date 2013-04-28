@@ -33,6 +33,7 @@ namespace GameEngine.GameObjects
 
         public override void LoadContent(ContentManager content)
         {
+            // TODO: This should be generic, it should not have access to the Content of the Game.
             StaticImage image = new StaticImage(
                 content.Load<Texture2D>("Misc/Zone"),
                 new Rectangle(0, 0, _width, _height));
@@ -50,7 +51,7 @@ namespace GameEngine.GameObjects
 
             foreach (Entity entity in entitiesHit)
             {
-                if (entity != this && Entity.IntersectsWith(this, null, entity, null, gameTime))
+                if (entity != this && Entity.IntersectsWith(this, null, entity, "Shadow", gameTime))
                     OnMapZoneHit(entity, engine, gameTime);
             }
         }
