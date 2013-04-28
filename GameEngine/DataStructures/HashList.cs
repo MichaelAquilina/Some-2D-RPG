@@ -85,6 +85,21 @@ namespace GameEngine.DataStructures
             SpriteFont spriteFont,
             float globalDispX, float globalDispY)
         {
+            // TODO: This is very ineffecient, can be vastly improved
+            for (int i = 0; i < _boxCountX; i++)
+            {
+                for (int j = 0; j < _boxCountY; j++)
+                {
+                    SpriteBatchExtensions.DrawRectangle(
+                        spriteBatch,
+                        new Rectangle(
+                            (int)(i * BoxWidth * viewPort.ActualZoom - globalDispX),
+                            (int)(j * BoxHeight * viewPort.ActualZoom - globalDispY), 
+                            (int) (BoxWidth * viewPort.ActualZoom), 
+                            (int) (BoxHeight * viewPort.ActualZoom)),
+                        Color.Lime, 0);
+                }
+            }
         }
 
         #region Internal Methods
