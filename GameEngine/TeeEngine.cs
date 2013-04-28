@@ -53,7 +53,6 @@ namespace GameEngine
 
         /// <summary>
         /// Currently loaded MapModel that is associated with the currently loaded TiledMap.
-        /// TODO: Set to private set;
         /// </summary>
         public IMapScript MapScript { get; private set; }
 
@@ -204,6 +203,11 @@ namespace GameEngine
         #endregion
 
         #region Entity Related Functions
+
+        public List<Entity> GetIntersectingEntities(FRectangle region)
+        {
+            return Collider.GetIntersectingEntites(region);
+        }
 
         public void AddEntity(Entity entity)
         {
@@ -495,9 +499,7 @@ namespace GameEngine
                 CreateEntities(gameTime);
             }
         }
-
-        #region Drawing Code
-        
+ 
         public ViewPortInfo DrawWorldViewPort(SpriteBatch spriteBatch, Vector2 center, float zoom, Rectangle destRectangle, Color color, SamplerState samplerState, SpriteFont spriteFont=null)
         {
             ViewPortInfo viewPortInfo = new ViewPortInfo();
@@ -779,7 +781,5 @@ namespace GameEngine
 
             return viewPortInfo;
         }
-
-        #endregion
     }
 }
