@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
-using Microsoft.Xna.Framework;
+using GameEngine.Interfaces;
 
 namespace GameEngine.DataStructures
 {
-    public class QuadTree
+    public class QuadTree : ICollider
     {       
         public QuadTreeNode Root { get; private set; }
         public int EntityLimit { get; private set; }
@@ -15,10 +14,14 @@ namespace GameEngine.DataStructures
 
         public uint LatestNodeIndex { get; private set; }
 
-        public QuadTree(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight, int EntityLimit=1)
+        public QuadTree()
+        {
+        }
+
+        public void Construct(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight)
         {
             Root = GetQuadTreeNode(0, 0, pxTileWidth * txWidth, pxTileHeight * txHeight, null);
-            this.EntityLimit = EntityLimit;
+            this.EntityLimit = 1;
             this.pxTileWidth = pxTileWidth;
             this.pxTileHeight = pxTileHeight;
             this.LatestNodeIndex = 0;

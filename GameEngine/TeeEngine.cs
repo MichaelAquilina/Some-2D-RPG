@@ -68,9 +68,9 @@ namespace GameEngine
         public ICollection<PostGameShader> GameShaders { get { return _postGameShaders.Values; } }
 
         /// <summary>
-        /// Current QuadTree built during the latest Update call.
+        /// Current Collision Data Structure being used to perform Collision Tests.
         /// </summary>
-        public QuadTree QuadTree { get; set; }
+        public ICollider Collider { get; set; }
 
         /// <summary>
         /// Last GameTime instance when the TeeEngine was Updated.
@@ -130,6 +130,7 @@ namespace GameEngine
             DrawingOptions.ShowBoundingBoxes = false;
             DrawingOptions.ShowDrawableComponents = false;
 
+            Collider = new QuadTree();      // Use the QuadTree data structure for now
             EntitiesOnScreen = new List<Entity>();
 
             DebugInfo = new DebugInfo();
@@ -144,7 +145,7 @@ namespace GameEngine
             this.PixelHeight = pixelHeight;
 
             if (Map != null)
-                QuadTree = new QuadTree(Map.txWidth, Map.txHeight, Map.TileWidth, Map.TileHeight);
+                Collider.Construct(Map.txWidth, Map.txHeight, Map.TileWidth, Map.TileHeight);
 
             if (_outputBuffer != null)
                 _outputBuffer.Dispose();
@@ -190,7 +191,7 @@ namespace GameEngine
 
             // unload previous map here.
 
-            this.QuadTree = new QuadTree(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
+            this.Collider.Construct(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
         }
 
         public void LoadMap(string mapFilePath, MapEventArgs mapLoadedEventArgs=null)
@@ -276,7 +277,7 @@ namespace GameEngine
                     _entities.Remove(entity.Name);
 
                     entity.Name = null;
-                    QuadTree.Remove(entity);
+                    Collider.Remove(entity);
 
                     entity.PostDestroy(gameTime, this);
                 }
@@ -302,7 +303,7 @@ namespace GameEngine
 
                     entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
                     entity.prevBoundingBox = entity.CurrentBoundingBox;
-                    QuadTree.Add(entity);
+                    Collider.Add(entity);
 
                     entity.PostInitialize(gameTime, this);
                 }
@@ -471,7 +472,7 @@ namespace GameEngine
                 _watch3.Start();
                 {
                     if (entity.CurrentBoundingBox != entity.prevBoundingBox)
-                        QuadTree.Update(entity);
+                        Collider.Update(entity);
                 }
                 _watch3.Stop();
             }
@@ -649,7 +650,7 @@ namespace GameEngine
             _watch1.Restart();
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, samplerState, null, null);
             {
-                EntitiesOnScreen = QuadTree.GetIntersectingEntites(new FRectangle(viewPortInfo.pxViewPortBounds));
+                EntitiesOnScreen = Collider.GetIntersectingEntites(new FRectangle(viewPortInfo.pxViewPortBounds));
 
                 // DRAW EACH ENTITIY THAT IS WITHIN THE SCREENS VIEWPORT
                 foreach (Entity entity in EntitiesOnScreen)
@@ -774,19 +775,20 @@ namespace GameEngine
             spriteBatch.End();
             DebugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
 
-            // DRAW THE QUAD TREE IF ENABLED
-            if (DrawingOptions.ShowQuadTree)
-            {
-                spriteBatch.Begin();
-                DrawQuadTree(
-                    viewPortInfo, 
-                    spriteBatch, 
-                    QuadTree.Root, 
-                    pxDestRectangle, 
-                    spriteFont,
-                    globalDispX, globalDispY);
-                spriteBatch.End();
-            }
+            // TODO: Generalise this to DrawColliderDebugInfo
+            //// DRAW THE QUAD TREE IF ENABLED
+            //if (DrawingOptions.ShowQuadTree)
+            //{
+            //    spriteBatch.Begin();
+            //    DrawQuadTree(
+            //        viewPortInfo, 
+            //        spriteBatch, 
+            //        Collider.Root, 
+            //        pxDestRectangle, 
+            //        spriteFont,
+            //        globalDispX, globalDispY);
+            //    spriteBatch.End();
+            //}
 
             _watch1.Restart();
             // APPLY GAME SHADERS TO THE RESULTANT IMAGE
