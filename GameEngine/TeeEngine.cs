@@ -498,7 +498,7 @@ namespace GameEngine
 
         #region Drawing Code
         
-        public ViewPortInfo DrawWorldViewPort(SpriteBatch spriteBatch, float pxCenterX, float pxCenterY, float zoom, Rectangle pxDestRectangle, Color color, SamplerState samplerState, SpriteFont spriteFont=null)
+        public ViewPortInfo DrawWorldViewPort(SpriteBatch spriteBatch, Vector2 center, float zoom, Rectangle destRectangle, Color color, SamplerState samplerState, SpriteFont spriteFont=null)
         {
             ViewPortInfo viewPortInfo = new ViewPortInfo();
             {
@@ -511,11 +511,11 @@ namespace GameEngine
                 // this ensures that entities that will be drawn will be placed correctly on the screen.
                 viewPortInfo.ActualZoom = viewPortInfo.pxTileWidth / Map.TileWidth;
 
-                viewPortInfo.pxWidth = pxDestRectangle.Width / viewPortInfo.ActualZoom;
-                viewPortInfo.pxHeight = pxDestRectangle.Height / viewPortInfo.ActualZoom;
+                viewPortInfo.pxWidth = destRectangle.Width / viewPortInfo.ActualZoom;
+                viewPortInfo.pxHeight = destRectangle.Height / viewPortInfo.ActualZoom;
 
-                viewPortInfo.pxTopLeftX = pxCenterX - viewPortInfo.pxWidth / 2.0f;
-                viewPortInfo.pxTopLeftY = pxCenterY - viewPortInfo.pxHeight / 2.0f;
+                viewPortInfo.pxTopLeftX = center.X - viewPortInfo.pxWidth / 2.0f;
+                viewPortInfo.pxTopLeftY = center.Y - viewPortInfo.pxHeight / 2.0f;
 
                 viewPortInfo.TileCountX = (int) Math.Ceiling((double)viewPortInfo.pxWidth / Map.TileWidth) + 1;
                 viewPortInfo.TileCountY = (int) Math.Ceiling((double)viewPortInfo.pxHeight / Map.TileHeight) + 1;
@@ -749,7 +749,7 @@ namespace GameEngine
             if (DrawingOptions.ShowQuadTree)
             {
                 spriteBatch.Begin();
-                Collider.DrawDebugInfo(viewPortInfo, spriteBatch, pxDestRectangle, spriteFont, globalDispX, globalDispY);
+                Collider.DrawDebugInfo(viewPortInfo, spriteBatch, destRectangle, spriteFont, globalDispX, globalDispY);
                 spriteBatch.End();
             }
 
@@ -773,7 +773,7 @@ namespace GameEngine
             GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Begin();
             {
-                spriteBatch.Draw(_inputBuffer, pxDestRectangle, color);
+                spriteBatch.Draw(_inputBuffer, destRectangle, color);
             }
             spriteBatch.End();
 

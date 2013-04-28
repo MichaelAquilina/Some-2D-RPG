@@ -216,8 +216,7 @@ namespace Some2DRPG
             // Draw the World View Port, Centered on the CurrentPlayer Actor.
             ViewPortInfo viewPort = Engine.DrawWorldViewPort(
                                             SpriteBatch,
-                                            Engine.GetEntity("Player").Pos.X,
-                                            Engine.GetEntity("Player").Pos.Y,
+                                            Engine.GetEntity("Player").Pos,
                                             Zoom,
                                             pxDestRectangle,
                                             Color.White,
