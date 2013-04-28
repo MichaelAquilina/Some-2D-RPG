@@ -4,6 +4,9 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Improve HashList DrawDebugInfo drawing code in terms of performance (currently very ineffecient).
+- [] - Add DrawCenteredString method to SpriteBatchExtensions.
+- [] - Continue working on DrawDebugInfo code for HashList. Rectangles should be color coded according to how many entities reside in them. It should also should its index and the count of its entities.
 - [] - Collision detection between entities.
          - Need some form of reserved word to distinguish between drawables and collision zones
 - [] - Allow specifying of constants in some kind of file which can then be referenced in tiled through some convention such as %SOME_KEY%
