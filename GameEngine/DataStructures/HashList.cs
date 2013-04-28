@@ -12,29 +12,31 @@ namespace GameEngine.DataStructures
 {
     public class HashList : ICollider
     {
-        // 1D Array representing the global list of hash lists
-        int _boxWidth;
-        int _boxHeight;
+        public int BoxWidth { get; private set; }
+        public int BoxHeight { get; private set; }
+
+        public int PixelWidth { get; private set; }
+        public int PixelHeight { get; private set; }
+
         int _boxCountX;
         int _boxCountY;
 
-        int _pixelWidth;
-        int _pixelHeight;
+        // 1D Array representing the global list of hash lists
         List<Entity>[] _entityHashlists;
 
         public HashList(int boxWidth, int boxHeight)
         {
-            this._boxWidth = boxWidth;
-            this._boxHeight = boxHeight;
+            this.BoxWidth = boxWidth;
+            this.BoxHeight = boxHeight;
         }
 
         public void Construct(int txWidth, int txHeight, int tileWidth, int tileHeight)
         {
-            this._pixelWidth = txWidth * tileWidth;
-            this._pixelHeight = txHeight * tileHeight;
+            this.PixelWidth = txWidth * tileWidth;
+            this.PixelHeight = txHeight * tileHeight;
 
-            this._boxCountX = (int)Math.Ceiling(((float)_pixelWidth) / _boxWidth);
-            this._boxCountY = (int)Math.Ceiling(((float)_pixelHeight) / _boxHeight);
+            this._boxCountX = (int)Math.Ceiling(((float)PixelWidth) / BoxWidth);
+            this._boxCountY = (int)Math.Ceiling(((float)PixelHeight) / BoxHeight);
 
             _entityHashlists = new List<Entity>[_boxCountX * _boxCountY];
 
@@ -103,11 +105,11 @@ namespace GameEngine.DataStructures
         {
             if (x < 0) x = 0;
             if (y < 0) y = 0;
-            if (x >= _pixelWidth) x = _pixelWidth - 1;
-            if (y >= _pixelHeight) y = _pixelHeight - 1;
+            if (x >= PixelWidth) x = PixelWidth - 1;
+            if (y >= PixelHeight) y = PixelHeight - 1;
 
-            int i = (int)Math.Floor(x / _boxHeight);
-            int j = (int)Math.Floor(y / _boxWidth);
+            int i = (int)Math.Floor(x / BoxHeight);
+            int j = (int)Math.Floor(y / BoxWidth);
 
             return i + j * _boxCountX;
         }
@@ -136,5 +138,12 @@ namespace GameEngine.DataStructures
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format(
+                "HashList: BoxWidth={0}, BoxHeight={1}, PixelWidth={2}, PixelHeight={3}", 
+                BoxWidth, BoxHeight, PixelWidth, PixelHeight);
+        }
     }
 }

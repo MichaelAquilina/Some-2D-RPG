@@ -4,13 +4,11 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - Need some form of diagnostic for 'Average' GetIntersectingEntities() time.
 - [] - Collision detection between entities.
          - Need some form of reserved word to distinguish between drawables and collision zones
 - [] - Allow specifying of constants in some kind of file which can then be referenced in tiled through some convention such as %SOME_KEY%
 - [] - Write some unit tests.
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
-- [] - Fix issue where entities outside 0 < x > mapWidth (same for y) are not added to QuadTree. Or replace quadtreeeee
 - [] - Fix bug in Animation class related to 'IsFinshed()'. Make IGameDrawable classes expose some form of GetCurrentState() enumeration.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
@@ -42,8 +40,6 @@ QuadTree / HashList stuff
 ------------------------
 
 - [Done] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
-- [] - Improve QuadTree Validate. If a tile isnt contained in a node anymore but STILL interesects it, then no need ot remove it only to re-add it!
-- [] - Investigate what is 'slow' in entity updates and updating the bounding box. Is the QuadTree being more ineffecient than effecient?
 - [] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
 
 

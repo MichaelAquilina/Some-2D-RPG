@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Reflection;
 
 namespace GameEngine.Info
 {
@@ -80,7 +78,7 @@ namespace GameEngine.Info
             builder.AppendLine("Total Entity Update Time = " + TotalEntityUpdateTime);
             builder.AppendLine("Total Game Shader Time = " + TotalGameShaderRenderTime);
             builder.AppendLine("Total Entity Addition Time = " + TotalEntityAdditionTime);
-            builder.AppendLine("Total Entity Remval Time = " + TotalEntityRemovalTime);
+            builder.AppendLine("Total Entity Removal Time = " + TotalEntityRemovalTime);
             builder.AppendLine("Total Entity Update Bounding Box Time = " + TotalEntityUpdateBoundingBoxTime);
 
             return builder.ToString();

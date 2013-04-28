@@ -165,7 +165,7 @@ namespace GameEngine.DataStructures
 
         public override string ToString()
         {
-            return string.Format("QuadTree:pxWidth={1}, pxHeight={2}",
+            return string.Format("QuadTree: pxWidth={1}, pxHeight={2}",
                 Root.pxBounds.Width,
                 Root.pxBounds.Height);
         }
