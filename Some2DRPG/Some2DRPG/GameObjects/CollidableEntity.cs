@@ -3,6 +3,7 @@ using GameEngine;
 using GameEngine.GameObjects;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 namespace Some2DRPG.GameObjects
 {
@@ -98,6 +99,9 @@ namespace Some2DRPG.GameObjects
             _prevY = Pos.Y;
 
             _prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
+
+            List<Entity> intersectingEntities = engine.GetIntersectingEntities(CurrentBoundingBox);
+            // TODO: For each collidable entity, perform collision response on their... shadow?
         }
     }
 }
