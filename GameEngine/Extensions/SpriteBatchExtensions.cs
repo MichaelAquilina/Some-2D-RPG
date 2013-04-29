@@ -9,6 +9,13 @@ namespace GameEngine.Extensions
 {
     public static class SpriteBatchExtensions
     {
+        public static void DrawCenteredString(SpriteBatch spriteBatch, SpriteFont spriteFont, string text, Vector2 position, Color color)
+        {
+            Vector2 textMeasurements = spriteFont.MeasureString(text);
+
+            spriteBatch.DrawString(spriteFont, text, position - textMeasurements / 2, color);
+        }
+
         /// <summary>
         /// This method takes a string and automatically attempts to fit the string within the specified max
         /// line length parameter by splitting it into multiple lines when possible. This is done by taking
@@ -20,17 +27,17 @@ namespace GameEngine.Extensions
         /// </summary>
         /// <param name="spriteBatch">SpriteBatch option with which to perform the string draw operation.</param>
         /// <param name="spriteFont">SpriteFont instance which will be used to draw the string.</param>
-        /// <param name="message">string message to draw to the screen and automatically split.</param>
+        /// <param name="text">string message to draw to the screen and automatically split.</param>
         /// <param name="pxMaxLineLength">integer value specifying the ideal max possible length for each line in pixels.</param>
         /// <param name="padding">integer value specifying the amount of padding to use between each line in pixels.</param>
         /// <param name="position">Vector2 position specifying the center of where the string should be drawn.</param>
         /// <param name="color">Color instance specifying the color with which to draw the text.</param>
         public static void DrawMultiLineString(
             SpriteBatch spriteBatch, SpriteFont spriteFont, 
-            string message, int pxMaxLineLength, int padding, 
+            string text, int pxMaxLineLength, int padding, 
             Vector2 position, Color color)
         {
-            string[] wordTokens = message.Split(' ');
+            string[] wordTokens = text.Split(' ');
             StringBuilder builder = new StringBuilder();
             List<string> lines = new List<string>();
             int maxHeight = Int32.MinValue;
