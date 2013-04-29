@@ -36,7 +36,7 @@ namespace GameEngine.DataStructures
         {
             List<QuadTreeNode> updatedNodes = new List<QuadTreeNode>();
             List<QuadTreeNode> associatedNodes = new List<QuadTreeNode>();
-            Root.GetAssociatedNodes(entity, entity.prevBoundingBox, ref associatedNodes);
+            Root.GetAssociatedNodes(entity, entity.PreviousBoundingBox, ref associatedNodes);
 
             // Add if Missing.
             if (associatedNodes.Count == 0)
@@ -105,7 +105,7 @@ namespace GameEngine.DataStructures
             {
                 if (!node.IsLeafNode)
                 {
-                    node.Remove(entity, entity.prevBoundingBox);
+                    node.Remove(entity, entity.PreviousBoundingBox);
                     node.Add(entity);
                 }
                 return node;

@@ -308,7 +308,7 @@ namespace GameEngine
                     _entities.Add(entity.Name, entity);
 
                     entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
-                    entity.prevBoundingBox = entity.CurrentBoundingBox;
+                    entity.PreviousBoundingBox = entity.CurrentBoundingBox;
                     Collider.Add(entity);
 
                     entity.PostInitialize(gameTime, this);
@@ -458,7 +458,7 @@ namespace GameEngine
             foreach (string entityId in _entities.Keys)
             {
                 Entity entity = _entities[entityId];
-                entity.prevBoundingBox = entity.CurrentBoundingBox;
+                entity.PreviousBoundingBox = entity.CurrentBoundingBox;
 
                 // Perform any per-entity update logic.
                 _watch2.Restart(); 
@@ -477,7 +477,7 @@ namespace GameEngine
                 // If the entity has moved, then update his position in the QuadTree.
                 _watch3.Start();
                 {
-                    if (entity.CurrentBoundingBox != entity.prevBoundingBox)
+                    if (entity.CurrentBoundingBox != entity.PreviousBoundingBox)
                         Collider.Update(entity);
                 }
                 _watch3.Stop();

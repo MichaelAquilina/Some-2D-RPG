@@ -59,7 +59,7 @@ namespace GameEngine.DataStructures
 
         public void Update(Entity entity)
         {
-            Remove(entity.prevBoundingBox, entity);
+            Remove(entity.PreviousBoundingBox, entity);
             Add(entity.CurrentBoundingBox, entity);
         }
 

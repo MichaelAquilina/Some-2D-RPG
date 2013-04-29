@@ -28,7 +28,7 @@ namespace GameEngine.GameObjects
         public DrawableSet Drawables { get; set; }                        // The set of drawable instances associated with this Entity.
         public string CurrentDrawableState { get; set; }                  // The current Drawables enabled.
                                                                              
-        internal FRectangle prevBoundingBox;                              // The previous BoundingBox that was assigned to this Entity.
+        internal FRectangle PreviousBoundingBox;                          // The previous BoundingBox that was assigned to this Entity.
 
         #region Constructors
 
