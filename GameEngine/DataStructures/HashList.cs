@@ -13,9 +13,10 @@ namespace GameEngine.DataStructures
     public class HashList : ICollider
     {
         public static Color[] debugColors = new Color[]{
-            Color.White, Color.Lime, Color.CornflowerBlue, 
+            Color.White, Color.GreenYellow, 
+            Color.Lime, Color.Gold, Color.CornflowerBlue, 
             Color.Blue, Color.Purple, Color.Magenta, 
-            Color.DarkMagenta, Color.Red, Color.Black
+            Color.DarkMagenta, Color.DarkOrange, Color.Red, Color.Black
         };
 
         public int BoxWidth { get; private set; }
