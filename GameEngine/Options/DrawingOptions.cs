@@ -10,7 +10,7 @@
         /// <summary>
         /// Shows the QuadTrees bounding boxes when drawing the world viewport.
         /// </summary>
-        public bool ShowQuadTree { get; set; }
+        public bool ShowColliderDebugInfo { get; set; }
 
         /// <summary>
         /// bool value specifying if the tile grid should be shown during render calls.

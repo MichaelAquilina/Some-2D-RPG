@@ -123,7 +123,7 @@ namespace GameEngine
             GraphicsDevice = game.GraphicsDevice;
 
             DrawingOptions = new DrawingOptions();
-            DrawingOptions.ShowQuadTree = false;
+            DrawingOptions.ShowColliderDebugInfo = false;
             DrawingOptions.ShowEntityDebugInfo = false;
             DrawingOptions.ShowTileGrid = false;
             DrawingOptions.ShowBoundingBoxes = false;
@@ -746,15 +746,7 @@ namespace GameEngine
             }
             spriteBatch.End();
             DebugInfo.TotalEntityRenderingTime = _watch1.Elapsed;
-
-            // DRAW COLLIDER DEBUG INFORMATION IF ENABLED
-            if (DrawingOptions.ShowQuadTree)
-            {
-                spriteBatch.Begin();
-                Collider.DrawDebugInfo(viewPortInfo, spriteBatch, destRectangle, spriteFont, globalDispX, globalDispY);
-                spriteBatch.End();
-            }
-
+            
             _watch1.Restart();
             // APPLY GAME SHADERS TO THE RESULTANT IMAGE
             foreach(PostGameShader postGameShader in GameShaders)
@@ -770,6 +762,14 @@ namespace GameEngine
                 }
             }
             DebugInfo.TotalGameShaderRenderTime = _watch1.Elapsed;
+
+            // DRAW COLLIDER DEBUG INFORMATION IF ENABLED
+            if (DrawingOptions.ShowColliderDebugInfo)
+            {
+                spriteBatch.Begin();
+                Collider.DrawDebugInfo(viewPortInfo, spriteBatch, destRectangle, spriteFont, globalDispX, globalDispY);
+                spriteBatch.End();
+            }
 
             // DRAW THE VIEWPORT TO THE STANDARD SCREEN
             GraphicsDevice.SetRenderTarget(null);

@@ -155,7 +155,7 @@ namespace Some2DRPG
                 Engine.DrawingOptions.ShowTileGrid = !Engine.DrawingOptions.ShowTileGrid;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F6, this, true))
-                Engine.DrawingOptions.ShowQuadTree = !Engine.DrawingOptions.ShowQuadTree;
+                Engine.DrawingOptions.ShowColliderDebugInfo = !Engine.DrawingOptions.ShowColliderDebugInfo;
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F7, this, true))
                 showDiagnostics = !showDiagnostics;
