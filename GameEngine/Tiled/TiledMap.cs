@@ -6,6 +6,7 @@ using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using System.IO;
 
 namespace GameEngine.Tiled
 {
@@ -104,168 +105,172 @@ namespace GameEngine.Tiled
         // performed by the TeeEngine when calling its LoadMap(TiledMap) method. However, it may be called independently if needs be.
         public static TiledMap FromTiledXml(string file)
         {
-            // Find the working directory of this file so that any external files may use the same path.
-            int dirIndex = file.LastIndexOfAny(new char[] { '/', '\\' });
-            string workingDirectory = (dirIndex > 0)? file.Substring(0, dirIndex) : "";
-
-            XmlDocument document = new XmlDocument();
-            document.Load(file);
-
-            XmlNode mapNode = document.SelectSingleNode("map");
-
-            TiledMap map = new TiledMap();
-            map.txWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "width", -1, true);
-            map.txHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "height", -1, true);
-            map.TileWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "tilewidth", -1, true);
-            map.TileHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "tileheight", -1, true);
-            map.Background = ColorExtensions.ToColor(
-                XmlExtensions.GetAttributeValue(
-                    mapNode, "backgroundcolor", "#000000"
-                )
-            );
-            map.LoadProperties(mapNode);
-
-            // OBJECT LAYERS
-            foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
+            if (File.Exists(file))
             {
-                TiledObjectLayer mapObjectLayer = new TiledObjectLayer();
-                mapObjectLayer.Width = XmlExtensions.GetAttributeValue<int>(objectLayerNode, "width", 1);
-                mapObjectLayer.Height = XmlExtensions.GetAttributeValue<int>(objectLayerNode, "height", 1);
-                mapObjectLayer.Name = XmlExtensions.GetAttributeValue(objectLayerNode, "name");
+                // Find the working directory of this file so that any external files may use the same path.
+                int dirIndex = file.LastIndexOfAny(new char[] { '/', '\\' });
+                string workingDirectory = (dirIndex > 0) ? file.Substring(0, dirIndex) : "";
 
-                foreach (XmlNode objectNode in objectLayerNode.SelectNodes("object"))
+                XmlDocument document = new XmlDocument();
+                document.Load(file);
+
+                XmlNode mapNode = document.SelectSingleNode("map");
+
+                TiledMap map = new TiledMap();
+                map.txWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "width", -1, true);
+                map.txHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "height", -1, true);
+                map.TileWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "tilewidth", -1, true);
+                map.TileHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "tileheight", -1, true);
+                map.Background = ColorExtensions.ToColor(
+                    XmlExtensions.GetAttributeValue(
+                        mapNode, "backgroundcolor", "#000000"
+                    )
+                );
+                map.LoadProperties(mapNode);
+
+                // OBJECT LAYERS
+                foreach (XmlNode objectLayerNode in mapNode.SelectNodes("objectgroup"))
                 {
-                    TiledObject mapObject = new TiledObject();
-                    mapObject.Name = XmlExtensions.GetAttributeValue(objectNode, "name");
-                    mapObject.Type = XmlExtensions.GetAttributeValue(objectNode, "type");
-                    mapObject.X = XmlExtensions.GetAttributeValue<int>(objectNode, "x", 0);
-                    mapObject.Y = XmlExtensions.GetAttributeValue<int>(objectNode, "y", 0);
-                    mapObject.Width = XmlExtensions.GetAttributeValue<int>(objectNode, "width", 0);
-                    mapObject.Height = XmlExtensions.GetAttributeValue<int>(objectNode, "height", 0);
-                    mapObject.Gid = XmlExtensions.GetAttributeValue<int>(objectNode, "gid", -1);
-                    mapObject.LoadProperties(objectNode);
+                    TiledObjectLayer mapObjectLayer = new TiledObjectLayer();
+                    mapObjectLayer.Width = XmlExtensions.GetAttributeValue<int>(objectLayerNode, "width", 1);
+                    mapObjectLayer.Height = XmlExtensions.GetAttributeValue<int>(objectLayerNode, "height", 1);
+                    mapObjectLayer.Name = XmlExtensions.GetAttributeValue(objectLayerNode, "name");
 
-                    mapObjectLayer.TiledObjects.Add(mapObject);
-                }
-
-                map.TiledObjectLayers.Add(mapObjectLayer);
-            }
-
-            // TILESETS
-            foreach (XmlNode tilesetNode in mapNode.SelectNodes("tileset"))
-            {
-                XmlNode actualTilesetNode;
-                int firstGID = XmlExtensions.GetAttributeValue<int>(tilesetNode, "firstgid", -1, true);
-
-                // If the tileset comes from an external .tsx file, load the node from that file.
-                if(XmlExtensions.HasAttribute(tilesetNode, "source"))
-                {
-                    XmlDocument tilesetDocument = new XmlDocument();
-                    tilesetDocument.Load(
-                        string.Format("{0}/{1}", 
-                            workingDirectory, XmlExtensions.GetAttributeValue(tilesetNode, "source")));
-
-                    actualTilesetNode = tilesetDocument.SelectSingleNode("tileset");
-                }
-                else
-                    actualTilesetNode = tilesetNode;
-
-                string tilesetName = XmlExtensions.GetAttributeValue(actualTilesetNode, "name");
-                int tileHeight = XmlExtensions.GetAttributeValue<int>(actualTilesetNode, "tileheight", -1, true);
-                int tileWidth = XmlExtensions.GetAttributeValue<int>(actualTilesetNode, "tilewidth", -1, true);
-
-                TileSet tileset = new TileSet();
-                tileset.LoadProperties(actualTilesetNode);
-
-                tileset.Name = tilesetName;
-                tileset.TileWidth = tileWidth;
-                tileset.TileHeight = tileHeight;
-                tileset.ContentTexturePath = tileset.GetProperty("Content");    // Content Texture Path for XNA. REQUIRED.
-
-                map.TileSets.Add(tileset);
-
-                XmlNode imageNode = actualTilesetNode.SelectSingleNode("image");
-                int imageWidth = XmlExtensions.GetAttributeValue<int>(imageNode, "width", -1, true);
-                int imageHeight = XmlExtensions.GetAttributeValue<int>(imageNode, "height", -1, true);
-                string sourceTexturePath = XmlExtensions.GetAttributeValue<string>(imageNode, "source", "", true);
-
-                // PreBuild the tiles from the tileset information.
-                int i = 0;
-                while (true)
-                {
-                    int tx = (i * tileWidth) % imageWidth;
-                    int ty = tileHeight * ((i * tileWidth) / imageWidth);
-
-                    // This check is performed in the case where image width is not
-                    // an exact multiple of the tile width specified.
-                    if (tx + tileWidth > imageWidth)
+                    foreach (XmlNode objectNode in objectLayerNode.SelectNodes("object"))
                     {
-                        tx = 0;
-                        ty += tileHeight;
+                        TiledObject mapObject = new TiledObject();
+                        mapObject.Name = XmlExtensions.GetAttributeValue(objectNode, "name");
+                        mapObject.Type = XmlExtensions.GetAttributeValue(objectNode, "type");
+                        mapObject.X = XmlExtensions.GetAttributeValue<int>(objectNode, "x", 0);
+                        mapObject.Y = XmlExtensions.GetAttributeValue<int>(objectNode, "y", 0);
+                        mapObject.Width = XmlExtensions.GetAttributeValue<int>(objectNode, "width", 0);
+                        mapObject.Height = XmlExtensions.GetAttributeValue<int>(objectNode, "height", 0);
+                        mapObject.Gid = XmlExtensions.GetAttributeValue<int>(objectNode, "gid", -1);
+                        mapObject.LoadProperties(objectNode);
+
+                        mapObjectLayer.TiledObjects.Add(mapObject);
                     }
 
-                    // If we have exceeded the image height, we are done.
-                    if (ty + tileHeight > imageHeight)
-                        break;
-
-                    Tile tile = new Tile();
-                    tile.SourceTexturePath = sourceTexturePath;                             // Path to the actual file being referred.
-                    tile.SourceRectangle = new Rectangle(tx, ty, tileWidth, tileHeight);
-                    tile.TileGid = i + firstGID;
-                    tile.TileId = i;
-                    tile.TileSet = tileset;
-
-                    map.Tiles.Add(tile.TileGid, tile);
-                    tileset.Tiles.Add(i, tile);
-                    i++;
+                    map.TiledObjectLayers.Add(mapObjectLayer);
                 }
 
-                // Add any individual properties to the tiles we have created
-                foreach (XmlNode tileNode in actualTilesetNode.SelectNodes("tile"))
+                // TILESETS
+                foreach (XmlNode tilesetNode in mapNode.SelectNodes("tileset"))
                 {
-                    int tileGid = firstGID + XmlExtensions.GetAttributeValue<int>(tileNode, "id", -1, true);
-                    Tile tile = map.Tiles[tileGid];
-                    tile.LoadProperties(tileNode);
+                    XmlNode actualTilesetNode;
+                    int firstGID = XmlExtensions.GetAttributeValue<int>(tilesetNode, "firstgid", -1, true);
 
-                    // BUILT INS
-                    // Adjust the draw origin based on the tile property 'DrawOrigin'
-                    string[] drawOrigin = tile.GetProperty("DrawOrigin", "0, 1").Split(',');
-                    tile.Origin = new Vector2(
-                        (float)Convert.ToDouble(drawOrigin[0]),
-                        (float)Convert.ToDouble(drawOrigin[1])
-                        );
+                    // If the tileset comes from an external .tsx file, load the node from that file.
+                    if (XmlExtensions.HasAttribute(tilesetNode, "source"))
+                    {
+                        XmlDocument tilesetDocument = new XmlDocument();
+                        tilesetDocument.Load(
+                            string.Format("{0}/{1}",
+                                workingDirectory, XmlExtensions.GetAttributeValue(tilesetNode, "source")));
+
+                        actualTilesetNode = tilesetDocument.SelectSingleNode("tileset");
+                    }
+                    else
+                        actualTilesetNode = tilesetNode;
+
+                    string tilesetName = XmlExtensions.GetAttributeValue(actualTilesetNode, "name");
+                    int tileHeight = XmlExtensions.GetAttributeValue<int>(actualTilesetNode, "tileheight", -1, true);
+                    int tileWidth = XmlExtensions.GetAttributeValue<int>(actualTilesetNode, "tilewidth", -1, true);
+
+                    TileSet tileset = new TileSet();
+                    tileset.LoadProperties(actualTilesetNode);
+
+                    tileset.Name = tilesetName;
+                    tileset.TileWidth = tileWidth;
+                    tileset.TileHeight = tileHeight;
+                    tileset.ContentTexturePath = tileset.GetProperty("Content");    // Content Texture Path for XNA. REQUIRED.
+
+                    map.TileSets.Add(tileset);
+
+                    XmlNode imageNode = actualTilesetNode.SelectSingleNode("image");
+                    int imageWidth = XmlExtensions.GetAttributeValue<int>(imageNode, "width", -1, true);
+                    int imageHeight = XmlExtensions.GetAttributeValue<int>(imageNode, "height", -1, true);
+                    string sourceTexturePath = XmlExtensions.GetAttributeValue<string>(imageNode, "source", "", true);
+
+                    // PreBuild the tiles from the tileset information.
+                    int i = 0;
+                    while (true)
+                    {
+                        int tx = (i * tileWidth) % imageWidth;
+                        int ty = tileHeight * ((i * tileWidth) / imageWidth);
+
+                        // This check is performed in the case where image width is not
+                        // an exact multiple of the tile width specified.
+                        if (tx + tileWidth > imageWidth)
+                        {
+                            tx = 0;
+                            ty += tileHeight;
+                        }
+
+                        // If we have exceeded the image height, we are done.
+                        if (ty + tileHeight > imageHeight)
+                            break;
+
+                        Tile tile = new Tile();
+                        tile.SourceTexturePath = sourceTexturePath;                             // Path to the actual file being referred.
+                        tile.SourceRectangle = new Rectangle(tx, ty, tileWidth, tileHeight);
+                        tile.TileGid = i + firstGID;
+                        tile.TileId = i;
+                        tile.TileSet = tileset;
+
+                        map.Tiles.Add(tile.TileGid, tile);
+                        tileset.Tiles.Add(i, tile);
+                        i++;
+                    }
+
+                    // Add any individual properties to the tiles we have created
+                    foreach (XmlNode tileNode in actualTilesetNode.SelectNodes("tile"))
+                    {
+                        int tileGid = firstGID + XmlExtensions.GetAttributeValue<int>(tileNode, "id", -1, true);
+                        Tile tile = map.Tiles[tileGid];
+                        tile.LoadProperties(tileNode);
+
+                        // BUILT INS
+                        // Adjust the draw origin based on the tile property 'DrawOrigin'
+                        string[] drawOrigin = tile.GetProperty("DrawOrigin", "0, 1").Split(',');
+                        tile.Origin = new Vector2(
+                            (float)Convert.ToDouble(drawOrigin[0]),
+                            (float)Convert.ToDouble(drawOrigin[1])
+                            );
+                    }
                 }
-            }
 
-            // TILE LAYERS
-            foreach (XmlNode layerNode in mapNode.SelectNodes("layer"))
-            {
-                int width = XmlExtensions.GetAttributeValue<int>(layerNode, "width", 0);
-                int height = XmlExtensions.GetAttributeValue<int>(layerNode, "height", 0);
+                // TILE LAYERS
+                foreach (XmlNode layerNode in mapNode.SelectNodes("layer"))
+                {
+                    int width = XmlExtensions.GetAttributeValue<int>(layerNode, "width", 0);
+                    int height = XmlExtensions.GetAttributeValue<int>(layerNode, "height", 0);
 
-                TileLayer tileLayer = new TileLayer(width, height);
-                tileLayer.Name = XmlExtensions.GetAttributeValue(layerNode, "name");
-                tileLayer.LoadProperties(layerNode);
+                    TileLayer tileLayer = new TileLayer(width, height);
+                    tileLayer.Name = XmlExtensions.GetAttributeValue(layerNode, "name");
+                    tileLayer.LoadProperties(layerNode);
 
-                // SET BUILTIN PROPERTIES
-                tileLayer.Color = ColorExtensions.ToColor(
-                    tileLayer.GetProperty<string>("Color", "#ffffff")
+                    // SET BUILTIN PROPERTIES
+                    tileLayer.Color = ColorExtensions.ToColor(
+                        tileLayer.GetProperty<string>("Color", "#ffffff")
+                        );
+                    tileLayer.Opacity = tileLayer.GetProperty<float>("Opacity", 1.0f);
+
+                    XmlNode dataNode = layerNode.SelectSingleNode("data");
+                    string[] tokens = dataNode.InnerText.Split(
+                        new char[] { '\n', ',', '\r' },
+                        StringSplitOptions.RemoveEmptyEntries
                     );
-                tileLayer.Opacity = tileLayer.GetProperty<float>("Opacity", 1.0f);
 
-                XmlNode dataNode = layerNode.SelectSingleNode("data");
-                string[] tokens = dataNode.InnerText.Split(
-                    new char[]{'\n',',','\r'}, 
-                    StringSplitOptions.RemoveEmptyEntries
-                );
+                    for (int index = 0; index < tokens.Length; index++)
+                        tileLayer[index] = Convert.ToInt32(tokens[index]);
 
-                for (int index = 0; index < tokens.Length; index++)
-                    tileLayer[index] = Convert.ToInt32(tokens[index]);
+                    map.TileLayers.Add(tileLayer);
+                }
 
-                map.TileLayers.Add(tileLayer);
+                return map;
             }
-
-            return map;
+            else throw new IOException(string.Format("The Map File '{0}' does not exist.", file));
         }
 
         public override string ToString()
