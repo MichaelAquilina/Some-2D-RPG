@@ -19,14 +19,14 @@ namespace GameEngine.DataStructures
 
         public uint LatestNodeIndex { get; private set; }
 
-        public QuadTree()
+        public QuadTree(int entityLimit=1)
         {
+            this.EntityLimit = entityLimit;
         }
 
         public void Construct(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight)
         {
             Root = GetQuadTreeNode(0, 0, pxTileWidth * txWidth, pxTileHeight * txHeight, null);
-            this.EntityLimit = 1;
             this.pxTileWidth = pxTileWidth;
             this.pxTileHeight = pxTileHeight;
             this.LatestNodeIndex = 0;
@@ -146,7 +146,7 @@ namespace GameEngine.DataStructures
             if (node.ChildNode1 == null
                 && new Rectangle(actualX, actualY, actualWidth, actualHeight).Intersects(destRectangle))
             {
-                string nodeText = node.NodeID.ToString();
+                string nodeText = string.Format("{0}\n\r{1}", node.NodeID, node.Entities.Count);
 
                 SpriteBatchExtensions.DrawRectangle(spriteBatch, new Rectangle(actualX, actualY, actualWidth, actualHeight), Color.Lime, 0);
                 spriteBatch.DrawString(
