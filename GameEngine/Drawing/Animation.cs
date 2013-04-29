@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using System.Xml;
 using GameEngine.Extensions;
 using GameEngine.Interfaces;
@@ -17,6 +18,9 @@ namespace GameEngine.Drawing
     public class Animation : IGameDrawable
     {
         internal const int FRAME_DELAY_DEFAULT = 100;
+
+        public static Dictionary<string, List<GameDrawableInstance>> Cache { get; private set; }
+        public static int CacheUses { get; set; }
 
         public Texture2D SpriteSheet { get; set; }
         public Rectangle[] Frames { get; set; }
@@ -101,72 +105,105 @@ namespace GameEngine.Drawing
         /// <param name="drawableSet">DrawableSet object to load the animations into.</param>
         /// <param name="path">String path to the XML formatted .anim file</param>
         /// <param name="content">Reference to the ContentManager instance being used in the application</param>
-        public static void LoadAnimationXML(DrawableSet drawableSet, string path, ContentManager content, double startTimeMS=0)
+        public static void LoadAnimationXML(DrawableSet drawableSet, string path, ContentManager content, double startTimeMS=0, bool forceLoad = false)
         {
-            XmlDocument document = new XmlDocument();
-            document.Load(path);
-
-            foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
+            if (Cache == null)
             {
-                int frameDelay = XmlExtensions.GetAttributeValue<int>(animNode, "FrameDelay", 90);
-                bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);
-                int layer = XmlExtensions.GetAttributeValue<int>(animNode, "Layer", 0);
+                Cache = new Dictionary<string, List<GameDrawableInstance>>();
+                CacheUses = 0;
+            }
 
-                string state = XmlExtensions.GetAttributeValue(animNode, "State");
-                string group = XmlExtensions.GetAttributeValue(animNode, "Group", "");
-                string spriteSheet = XmlExtensions.GetAttributeValue(animNode, "SpriteSheet");
-                string[] offset = XmlExtensions.GetAttributeValue(animNode, "Offset", "0, 0").Split(',');
-                string[] origin = XmlExtensions.GetAttributeValue(animNode, "Origin", "0.5, 1.0").Split(',');
-
-                Vector2 offsetVector = new Vector2((float)Convert.ToDouble(offset[0]), (float)Convert.ToDouble(offset[1]));
-                Vector2 originVector = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
-
-                XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
-                Rectangle[] frames = new Rectangle[frameNodes.Count];
-
-                for (int i = 0; i < frameNodes.Count; i++)
+            // Load Animations from Cache if they were previously loaded
+            // and forceLoad isn't true
+            if (!forceLoad && Cache.ContainsKey(path))
+            {
+                foreach (GameDrawableInstance instance in Cache[path])
                 {
-                    string[] tokens = frameNodes[i].InnerText.Split(',');
-                    if (tokens.Length != 4)
-                        throw new FormatException("Expected 4 Values for Frame Definition: X, Y, Width, Height");
+                    GameDrawableInstance addedInstance = drawableSet.Add(instance._associatedState, instance.Drawable, instance._associatedGroup, instance.Layer);
+                    addedInstance.StartTimeMS = startTimeMS;
+                    addedInstance.Offset = instance.Offset;
+                    addedInstance.Layer = instance.Layer;
 
-                    int x = Convert.ToInt32(tokens[0]);
-                    int y = Convert.ToInt32(tokens[1]);
-                    int width = Convert.ToInt32(tokens[2]);
-                    int height = Convert.ToInt32(tokens[3]);
-
-                    frames[i] = new Rectangle(x, y, width, height);
+                    CacheUses++;
                 }
+            }
+            else
+            {
+                // Load the animation from file
+                List<GameDrawableInstance> animationsToCache = new List<GameDrawableInstance>();
+                XmlDocument document = new XmlDocument();
+                document.Load(path);
 
-                Animation animation = new Animation(content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
-                animation.Origin = originVector;
-                
-                // TODO: Requires possible revision of code.
-                // Allow support for specifying glob patterns in the case of state names.
-                if (state.Contains("*"))
+                foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
                 {
-                    // Use Glob patterns in favour of regular expressions.
-                    state = Regex.Escape(state).Replace(@"\*", ".*").Replace(@"\?", ".");
-                    Regex regexMatcher = new Regex(state);
+                    int frameDelay = XmlExtensions.GetAttributeValue<int>(animNode, "FrameDelay", 90);
+                    bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);
+                    int layer = XmlExtensions.GetAttributeValue<int>(animNode, "Layer", 0);
 
-                    foreach (string drawableSetState in drawableSet.GetStates())
+                    string state = XmlExtensions.GetAttributeValue(animNode, "State");
+                    string group = XmlExtensions.GetAttributeValue(animNode, "Group", "");
+                    string spriteSheet = XmlExtensions.GetAttributeValue(animNode, "SpriteSheet");
+                    string[] offset = XmlExtensions.GetAttributeValue(animNode, "Offset", "0, 0").Split(',');
+                    string[] origin = XmlExtensions.GetAttributeValue(animNode, "Origin", "0.5, 1.0").Split(',');
+
+                    Vector2 offsetVector = new Vector2((float)Convert.ToDouble(offset[0]), (float)Convert.ToDouble(offset[1]));
+                    Vector2 originVector = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
+
+                    XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
+                    Rectangle[] frames = new Rectangle[frameNodes.Count];
+
+                    for (int i = 0; i < frameNodes.Count; i++)
                     {
-                        if (regexMatcher.IsMatch(drawableSetState))
+                        string[] tokens = frameNodes[i].InnerText.Split(',');
+                        if (tokens.Length != 4)
+                            throw new FormatException("Expected 4 Values for Frame Definition: X, Y, Width, Height");
+
+                        int x = Convert.ToInt32(tokens[0]);
+                        int y = Convert.ToInt32(tokens[1]);
+                        int width = Convert.ToInt32(tokens[2]);
+                        int height = Convert.ToInt32(tokens[3]);
+
+                        frames[i] = new Rectangle(x, y, width, height);
+                    }
+
+                    Animation animation = new Animation(content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
+                    animation.Origin = originVector;
+
+                    // TODO: Requires possible revision of code.
+                    // Allow support for specifying glob patterns in the case of state names.
+                    if (state.Contains("*"))
+                    {
+                        // Use Glob patterns in favour of regular expressions.
+                        state = Regex.Escape(state).Replace(@"\*", ".*").Replace(@"\?", ".");
+                        Regex regexMatcher = new Regex(state);
+
+                        foreach (string drawableSetState in drawableSet.GetStates())
                         {
-                            GameDrawableInstance instance = drawableSet.Add(drawableSetState, animation, group, layer);
-                            instance.StartTimeMS = startTimeMS;
-                            instance.Offset = offsetVector;
-                            instance.Layer = layer;
+                            if (regexMatcher.IsMatch(drawableSetState))
+                            {
+                                GameDrawableInstance instance = drawableSet.Add(drawableSetState, animation, group, layer);
+                                instance.StartTimeMS = startTimeMS;
+                                instance.Offset = offsetVector;
+                                instance.Layer = layer;
+
+                                animationsToCache.Add(instance);
+                            }
                         }
                     }
+                    else
+                    {
+                        GameDrawableInstance instance = drawableSet.Add(state, animation, group, layer);
+                        instance.StartTimeMS = startTimeMS;
+                        instance.Offset = offsetVector;
+                        instance.Layer = layer;
+
+                        animationsToCache.Add(instance);
+                    }
                 }
-                else
-                {
-                    GameDrawableInstance instance = drawableSet.Add(state, animation, group, layer);
-                    instance.StartTimeMS = startTimeMS;
-                    instance.Offset = offsetVector;
-                    instance.Layer = layer;
-                }
+
+                // Do this check to ensure an animation that is force loaded doesn't add itself twice
+                if(!Cache.ContainsKey(path))
+                    Cache.Add(path, animationsToCache);
             }
         }
 
