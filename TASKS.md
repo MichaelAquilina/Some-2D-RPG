@@ -4,9 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - Improve HashList DrawDebugInfo drawing code in terms of performance (currently very ineffecient).
-- [] - Add DrawCenteredString method to SpriteBatchExtensions.
-- [] - Continue working on DrawDebugInfo code for HashList. Rectangles should be color coded according to how many entities reside in them. It should also should its index and the count of its entities.
+- [] - Allow for specifying an Entity does not need to be added to the Collider.
 - [] - Collision detection between entities.
          - Need some form of reserved word to distinguish between drawables and collision zones
 - [] - Allow specifying of constants in some kind of file which can then be referenced in tiled through some convention such as %SOME_KEY%
@@ -16,6 +14,9 @@ Todo
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm.
+- [Done] - Improve HashList DrawDebugInfo drawing code in terms of performance (currently very ineffecient).
+- [Done] - Add DrawCenteredString method to SpriteBatchExtensions.
+- [Done] - Continue working on DrawDebugInfo code for HashList. Rectangles should be color coded according to how many entities reside in them. It should also should its index and the count of its entities.
 - [Done] - Add ability to add 'meta-properties' to Maps by placing a . in front. Example '.MyRandomProperty'. Which WONT be reflected to the Entity conversion.
 - [Done] - Fix on Map Zone Hit.
 - [Done] - Create PulseLightSource which derives from LightSource. Or allow a specification of a Pulse value in LightSource.

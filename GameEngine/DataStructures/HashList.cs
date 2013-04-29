@@ -12,6 +12,12 @@ namespace GameEngine.DataStructures
 {
     public class HashList : ICollider
     {
+        public static Color[] debugColors = new Color[]{
+            Color.White, Color.Lime, Color.CornflowerBlue, 
+            Color.Blue, Color.Purple, Color.Magenta, 
+            Color.DarkMagenta, Color.Red, Color.Black
+        };
+
         public int BoxWidth { get; private set; }
         public int BoxHeight { get; private set; }
 
@@ -22,7 +28,7 @@ namespace GameEngine.DataStructures
         int _boxCountY;
 
         // 1D Array representing the global list of hash lists
-        List<Entity>[] _entityHashlists;
+        List<Entity>[] _hashLists;
 
         public HashList(int boxWidth, int boxHeight)
         {
@@ -38,7 +44,7 @@ namespace GameEngine.DataStructures
             this._boxCountX = (int)Math.Ceiling(((float)PixelWidth) / BoxWidth);
             this._boxCountY = (int)Math.Ceiling(((float)PixelHeight) / BoxHeight);
 
-            _entityHashlists = new List<Entity>[_boxCountX * _boxCountY];
+            _hashLists = new List<Entity>[_boxCountX * _boxCountY];
 
             // Create all the required Lists during construction
             for (int i = 0; i < _boxCountX; i++)
@@ -46,7 +52,7 @@ namespace GameEngine.DataStructures
                 for (int j = 0; j < _boxCountY; j++)
                 {
                     int index = j * _boxCountX + i;
-                    _entityHashlists[index] = new List<Entity>();
+                    _hashLists[index] = new List<Entity>();
                 }
             }
         }
@@ -85,19 +91,46 @@ namespace GameEngine.DataStructures
             SpriteFont spriteFont,
             float globalDispX, float globalDispY)
         {
-            // TODO: This is very ineffecient, can be vastly improved
-            for (int i = 0; i < _boxCountX; i++)
+            float actualBoxWidth = BoxWidth * viewPort.ActualZoom;
+            float actualBoxHeight = BoxHeight * viewPort.ActualZoom;
+
+            int startBoxX = (int) (globalDispX / actualBoxWidth);
+            int startBoxY = (int) (globalDispY / actualBoxHeight);
+
+            int viewBoxCountX = (int) Math.Ceiling(destRectangle.Width / actualBoxWidth) + 1;
+            int viewBoxCountY = (int) Math.Ceiling(destRectangle.Height / actualBoxHeight) + 1;
+
+            for (int i = 0; i < viewBoxCountX; i++)
             {
-                for (int j = 0; j < _boxCountY; j++)
+                for (int j = 0; j < viewBoxCountY; j++)
                 {
+                    int I = i + startBoxX;
+                    int J = j + startBoxY;
+
+                    if (I < 0 || J < 0 || I >= _boxCountX || J >= _boxCountY)
+                        continue;
+
+                    int index = I + J * _boxCountX;
+                    int x = (int)(I * BoxWidth * viewPort.ActualZoom - globalDispX);
+                    int y = (int)(J * BoxHeight * viewPort.ActualZoom - globalDispY);
+                    int width = (int) (BoxWidth * viewPort.ActualZoom) - 1;
+                    int height = (int)(BoxHeight * viewPort.ActualZoom) - 1;
+
+                    int entityCount = _hashLists[index].Count;
+                    Color drawColor = debugColors[Math.Min(entityCount, debugColors.Length - 1)];
+
                     SpriteBatchExtensions.DrawRectangle(
                         spriteBatch,
-                        new Rectangle(
-                            (int)(i * BoxWidth * viewPort.ActualZoom - globalDispX),
-                            (int)(j * BoxHeight * viewPort.ActualZoom - globalDispY), 
-                            (int) (BoxWidth * viewPort.ActualZoom), 
-                            (int) (BoxHeight * viewPort.ActualZoom)),
-                        Color.Lime, 0);
+                        new Rectangle(x, y, width, height),
+                       drawColor, 0);
+
+                    SpriteBatchExtensions.DrawCenteredString(
+                        spriteBatch,
+                        spriteFont,
+                        string.Format("{0}\n\r{1}", index, entityCount),
+                        new Vector2(x, y) + new Vector2(width, height)/2,
+                        drawColor);
+                        
                 }
             }
         }
@@ -145,7 +178,7 @@ namespace GameEngine.DataStructures
                 for (int j = 0; j < height; j++)
                 {
                     int index = topLeftIndex + i + j * _boxCountX;
-                    result.Add(_entityHashlists[index]);
+                    result.Add(_hashLists[index]);
                 }
             }
 
