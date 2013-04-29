@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using GameEngine;
 using GameEngine.GameObjects;
-using GameEngine.Interfaces;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
-using Some2DRPG.GameObjects;
+using Some2DRPG.GameObjects.Creatures;
+using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Shaders;
 
 namespace Some2DRPG.MapScripts
@@ -15,6 +15,23 @@ namespace Some2DRPG.MapScripts
         {
             LightShader lightShader = (LightShader)engine.GetPostGameShader("LightShader");
             lightShader.Enabled = false;
+
+            Random random = new Random();
+
+            for (int i = 0; i < 50; i++)
+            {
+                int px = (int)Math.Ceiling(random.NextDouble() * engine.Map.pxWidth);
+                int py = (int)Math.Ceiling(random.NextDouble() * engine.Map.pxHeight);
+
+                Bat bat = new Bat(px, py);
+                Coin coin = new Coin(px, py, 100, (CoinType)random.Next(3));
+
+                // Switch between adding bats and coins to the map.
+                if (i % 2 == 0)
+                    engine.AddEntity(bat);
+                else
+                    engine.AddEntity(coin);
+            }
 
             base.MapLoaded(engine, map, mapEventArgs);
         }

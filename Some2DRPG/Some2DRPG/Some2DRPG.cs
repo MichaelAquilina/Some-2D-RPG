@@ -9,8 +9,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Characters;
-using Some2DRPG.GameObjects.Creatures;
-using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Shaders;
 
 namespace Some2DRPG
@@ -95,26 +93,6 @@ namespace Some2DRPG
             Engine.DrawingOptions.ShowEntityDebugInfo = false;
             Engine.DrawingOptions.ShowBoundingBoxes = false;
             Engine.DrawingOptions.ShowTileGrid = false;
-
-            Random random = new Random();
-      
-            for (int i = 0; i < 50; i++)
-            {
-                int px = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxWidth);
-                int py = (int) Math.Ceiling(random.NextDouble() * Engine.Map.pxHeight);
-
-                Bat bat = new Bat(px, py);
-                Coin coin = new Coin(px, py, 100, (CoinType) random.Next(3));
-
-                // Switch between adding bats and coins to the map.
-                if (i % 2 == 0)
-                {
-                    Engine.AddEntity(bat);
-                    //FollowEntity = bat;                
-                }
-                else
-                    Engine.AddEntity(coin);
-            }
 
             Engine.LoadContent();
 
