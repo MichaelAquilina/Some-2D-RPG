@@ -118,19 +118,25 @@ namespace GameEngine.DataStructures
 
                     int entityCount = _hashLists[index].Count;
                     Color drawColor = debugColors[Math.Min(entityCount, debugColors.Length - 1)];
+                    string debugText = string.Format("{0}\n\r{1}", index, entityCount);
+
+                    Vector2 debugTextMeasurements = spriteFont.MeasureString(debugText);
 
                     SpriteBatchExtensions.DrawRectangle(
                         spriteBatch,
                         new Rectangle(x, y, width, height),
                        drawColor, 0);
 
-                    SpriteBatchExtensions.DrawCenteredString(
-                        spriteBatch,
-                        spriteFont,
-                        string.Format("{0}\n\r{1}", index, entityCount),
-                        new Vector2(x, y) + new Vector2(width, height)/2,
-                        drawColor);
-                        
+                    if (debugTextMeasurements.X < width && 
+                        debugTextMeasurements.Y < height)
+                    {
+                        SpriteBatchExtensions.DrawCenteredString(
+                            spriteBatch,
+                            spriteFont,
+                            debugText,
+                            new Vector2(x, y) + new Vector2(width, height) / 2,
+                            drawColor);
+                    }   
                 }
             }
         }
