@@ -4,6 +4,7 @@ using GameEngine;
 using GameEngine.GameObjects;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
+using System.Diagnostics;
 
 namespace Some2DRPG.GameObjects
 {
@@ -13,14 +14,16 @@ namespace Some2DRPG.GameObjects
         public bool TerrainCollisionEnabled { get; set; }
         public bool EntityCollisionEnabled { get; set; }
 
-        float _prevX = -1;
-        float _prevY = -1;
+        public bool Immovable { get; set; }
+
+        Vector2 _prevPos = Vector2.Zero;
         Tile _prevTile = null;
 
         public CollidableEntity()
         {
             TerrainCollisionEnabled = true;
             EntityCollisionEnabled = true;
+            Immovable = false;
         }
 
         // TODO REMOVE.
@@ -61,10 +64,10 @@ namespace Some2DRPG.GameObjects
                 string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 string[] exitPoints = _prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                bool top = _prevY < pxTileY;
-                bool bottom = _prevY > pxTileY + pxTileHeight;
-                bool left = _prevX < pxTileX;
-                bool right = _prevX > pxTileX + pxTileWidth;
+                bool top = _prevPos.Y < pxTileY;
+                bool bottom = _prevPos.Y > pxTileY + pxTileHeight;
+                bool left = _prevPos.X < pxTileX;
+                bool right = _prevPos.X > pxTileX + pxTileWidth;
 
                 // Ensure entry points.
                 impassable |= top && !ContainsItem(entryPoints, "Top");
@@ -83,23 +86,21 @@ namespace Some2DRPG.GameObjects
                 float padding = 0.001f;
                 if (impassable)
                 {
-                    if (_prevY <= pxTileY && Pos.Y > pxTileY)
+                    if (_prevPos.Y <= pxTileY && Pos.Y > pxTileY)
                         Pos.Y = pxTileY - padding;
                     else
-                        if (_prevY >= pxTileY + pxTileHeight && Pos.Y < pxTileY + pxTileHeight)
+                        if (_prevPos.Y >= pxTileY + pxTileHeight && Pos.Y < pxTileY + pxTileHeight)
                             Pos.Y = pxTileY + pxTileHeight + padding;
 
-                    if (_prevX <= pxTileX && Pos.X > pxTileX)
+                    if (_prevPos.X <= pxTileX && Pos.X > pxTileX)
                         Pos.X = pxTileX - padding;
                     else
-                        if (_prevX >= pxTileX + pxTileWidth && Pos.X < pxTileX + pxTileWidth)
+                        if (_prevPos.X >= pxTileX + pxTileWidth && Pos.X < pxTileX + pxTileWidth)
                             Pos.X = pxTileX + pxTileWidth + padding;
                 }
             }
 
-            _prevX = Pos.X;
-            _prevY = Pos.Y;
-
+            _prevPos = Pos;
             _prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
 
             if (EntityCollisionEnabled)
@@ -107,18 +108,25 @@ namespace Some2DRPG.GameObjects
                 List<Entity> intersectingEntities = engine.GetIntersectingEntities(CurrentBoundingBox);
                 foreach (Entity entity in intersectingEntities)
                 {
-                    if (entity != this && entity is CollidableEntity
-                        && ((CollidableEntity)entity).EntityCollisionEnabled
-                        && Entity.IntersectsWith(this, "Shadow", entity, "Shadow", gameTime))
+                    if (entity != this && entity is CollidableEntity)
                     {
-                        // Naive implementation.
-                        Vector2 difference = entity.Pos - this.Pos;
-                        if (difference.Length() > 0)
-                        {
-                            difference.Normalize();
+                        CollidableEntity collidableEntity = (CollidableEntity)entity;
 
-                            entity.Pos += difference;
-                            this.Pos -= difference;
+                        if (collidableEntity.EntityCollisionEnabled
+                            && Entity.IntersectsWith(this, "Shadow", entity, "Shadow", gameTime))
+                        {
+                            // Naive implementation.
+                            Vector2 difference = entity.Pos - this.Pos;
+                            if (difference.Length() > 0)
+                            {
+                                difference.Normalize();
+
+                                if (!collidableEntity.Immovable)
+                                    collidableEntity.Pos += difference;
+
+                                if (!this.Immovable)
+                                    this.Pos -= difference;
+                            }
                         }
                     }
                 }
