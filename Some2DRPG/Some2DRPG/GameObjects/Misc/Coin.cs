@@ -85,7 +85,7 @@ namespace Some2DRPG.GameObjects.Misc
                     // Check to see if coin can be considered collected.
                     if (Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
                     {
-                        CoinSound.Play(0.05f, 0.0f, 0.0f);
+                        // CoinSound.Play(0.05f, 0.0f, 0.0f);
                         player.Coins += this.CoinValue;
                         engine.RemoveEntity(this);
                     }
