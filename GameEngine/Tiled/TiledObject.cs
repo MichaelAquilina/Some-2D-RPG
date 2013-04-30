@@ -1,4 +1,6 @@
-﻿using GameEngine.GameObjects;
+﻿using System.Collections.Generic;
+using GameEngine.GameObjects;
+using Microsoft.Xna.Framework;
 
 namespace GameEngine.Tiled
 {
@@ -6,6 +8,8 @@ namespace GameEngine.Tiled
     {
         public int X { get; set; }
         public int Y { get; set; }
+
+        public List<Point> Points { get; set; }
 
         public int Width { get; set; }
         public int Height { get; set; }

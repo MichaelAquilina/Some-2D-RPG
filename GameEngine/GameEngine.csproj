@@ -107,6 +107,7 @@
     <Compile Include="GameObjects\Entity.cs" />
     <Compile Include="Extensions\XmlExtensions.cs" />
     <Compile Include="Interfaces\ICollider.cs" />
+    <Compile Include="Interfaces\IPolygonEntity.cs" />
     <Compile Include="Interfaces\ISizedEntity.cs" />
     <Compile Include="Interfaces\IGameDrawable.cs" />
     <Compile Include="Interfaces\IMapScript.cs" />

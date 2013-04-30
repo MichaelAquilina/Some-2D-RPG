@@ -98,6 +98,25 @@ namespace GameEngine.Tiled
             );
         }
 
+        private static List<Point> ConvertToPointsList(string pointData)
+        {
+            if (pointData == null)
+                return null;
+
+            List<Point> points = new List<Point>();
+            string[] tokenArray = pointData.Split(',', ' ');
+
+            for (int i = 0; i < tokenArray.Length; i += 2)
+                points.Add(
+                    new Point(
+                        Convert.ToInt32(tokenArray[i]), 
+                        Convert.ToInt32(tokenArray[i+1])
+                    )
+                );
+
+            return points;
+        }
+
         // TODO: Support for zlib compression of tile data  (Zlib.NET)
         // http://stackoverflow.com/questions/6620655/compression-and-decompression-problem-with-zlib-net
         // Reads and converts and .tmx file to a TiledMap object. Doing so does NOT load appropriate tile textures into memory.
@@ -146,6 +165,11 @@ namespace GameEngine.Tiled
                         mapObject.Width = XmlExtensions.GetAttributeValue<int>(objectNode, "width", 0);
                         mapObject.Height = XmlExtensions.GetAttributeValue<int>(objectNode, "height", 0);
                         mapObject.Gid = XmlExtensions.GetAttributeValue<int>(objectNode, "gid", -1);
+
+                        XmlNode polygonNode = objectNode.SelectSingleNode("polygon");
+                        if (polygonNode != null)
+                            mapObject.Points = ConvertToPointsList(XmlExtensions.GetAttributeValue(polygonNode, "points"));
+
                         mapObject.LoadProperties(objectNode);
 
                         mapObjectLayer.TiledObjects.Add(mapObject);
