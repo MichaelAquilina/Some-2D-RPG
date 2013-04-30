@@ -45,6 +45,7 @@ namespace Some2DRPG.GameObjects.Misc
             this.ScaleX = 0.7f;
             this.ScaleY = 0.7f;
             this.CoinValue = coinValue;
+            this.EntityCollisionEnabled = false;
         }
 
         public override void LoadContent(ContentManager content)

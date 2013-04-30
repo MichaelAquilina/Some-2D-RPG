@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using GameEngine;
 using GameEngine.GameObjects;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
-using System.Collections.Generic;
 
 namespace Some2DRPG.GameObjects
 {
     // Represents an Entity that can collide with the terrain.
     public class CollidableEntity : Entity
     {
-        public bool CollisionDetectionEnabled { get; set; }
+        public bool TerrainCollisionEnabled { get; set; }
+        public bool EntityCollisionEnabled { get; set; }
 
         float _prevX = -1;
         float _prevY = -1;
@@ -18,7 +19,8 @@ namespace Some2DRPG.GameObjects
 
         public CollidableEntity()
         {
-            CollisionDetectionEnabled = true;
+            TerrainCollisionEnabled = true;
+            EntityCollisionEnabled = true;
         }
 
         // TODO REMOVE.
@@ -38,7 +40,7 @@ namespace Some2DRPG.GameObjects
             if (Pos.X >= engine.Map.pxWidth - 1) Pos.X = engine.Map.pxWidth - 1;
             if (Pos.Y >= engine.Map.pxHeight - 1) Pos.Y = engine.Map.pxHeight - 1;
 
-            if (CollisionDetectionEnabled && _prevTile != null)
+            if (TerrainCollisionEnabled && _prevTile != null)
             {
                 // Iterate through each layer and determine if the tile is passable.
                 int tileX = (int)Pos.X / engine.Map.TileWidth;
@@ -100,8 +102,27 @@ namespace Some2DRPG.GameObjects
 
             _prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
 
-            List<Entity> intersectingEntities = engine.GetIntersectingEntities(CurrentBoundingBox);
-            // TODO: For each collidable entity, perform collision response on their... shadow?
+            if (EntityCollisionEnabled)
+            {
+                List<Entity> intersectingEntities = engine.GetIntersectingEntities(CurrentBoundingBox);
+                foreach (Entity entity in intersectingEntities)
+                {
+                    if (entity != this && entity is CollidableEntity
+                        && ((CollidableEntity)entity).EntityCollisionEnabled
+                        && Entity.IntersectsWith(this, "Shadow", entity, "Shadow", gameTime))
+                    {
+                        // Naive implementation.
+                        Vector2 difference = entity.Pos - this.Pos;
+                        if (difference.Length() > 0)
+                        {
+                            difference.Normalize();
+
+                            entity.Pos += difference;
+                            this.Pos -= difference;
+                        }
+                    }
+                }
+            }
         }
     }
 }
