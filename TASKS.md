@@ -4,7 +4,6 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - convert all vector2's being used to hold vectors into a point structure which is what its intended purpose is for.
 - [] - Allow for specifying an Entity does not need to be added to the Collider.
 - [IP] - Collision detection between entities.
          - Need some form of reserved word to distinguish between drawables and collision zones

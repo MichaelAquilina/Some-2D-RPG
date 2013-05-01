@@ -4,7 +4,6 @@ using GameEngine;
 using GameEngine.GameObjects;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
-using System.Diagnostics;
 
 namespace Some2DRPG.GameObjects
 {
@@ -13,6 +12,8 @@ namespace Some2DRPG.GameObjects
     {
         public bool TerrainCollisionEnabled { get; set; }
         public bool EntityCollisionEnabled { get; set; }
+
+        public string CollisionGroup { get; set; }
 
         public bool Immovable { get; set; }
 
@@ -113,9 +114,13 @@ namespace Some2DRPG.GameObjects
                         CollidableEntity collidableEntity = (CollidableEntity)entity;
 
                         if (collidableEntity.EntityCollisionEnabled
-                            && Entity.IntersectsWith(this, "Shadow", entity, "Shadow", gameTime))
+                            && Entity.IntersectsWith(
+                                    this, this.CollisionGroup, 
+                                    collidableEntity, collidableEntity.CollisionGroup, 
+                                    gameTime)
+                            )
                         {
-                            // Naive implementation.
+                            // Naive Collision Response.
                             Vector2 difference = entity.Pos - this.Pos;
                             if (difference.Length() > 0)
                             {
