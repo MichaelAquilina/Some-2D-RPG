@@ -4,7 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 namespace GameEngine.Interfaces
 {
     /// <summary>
-    /// Defines an interface which is required by the TileEngine class to draw items on the screen.
+    /// Defines an interface with which the TeeEngine would be capable of drawing the object to
+    /// the screen.
     /// </summary>
     public interface IGameDrawable
     {
