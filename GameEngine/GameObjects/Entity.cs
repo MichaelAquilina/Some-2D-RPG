@@ -7,28 +7,71 @@ using Microsoft.Xna.Framework.Content;
 
 namespace GameEngine.GameObjects
 {
-    // An abstract Entity class that should be inherited by objects which are to be visible within the game world.
-    // Any map objects, NPCs or playable characters should inherit from this class in order to be used by the
-    // game engine.
+    /// <summary>
+    /// An abstract Entity class that should be inherited by objects which are to be visible within the game world.
+    /// Any map objects, NPCs, particles or playable characters should inherit from this class in order to be used 
+    /// by the game engine.
+    /// </summary>
     public class Entity : ILoadable
     {
-        // X and Y position on the Map
+        #region Properties and Variables
+
+        /// <summary>
+        /// Entities X and Y position on the Map.
+        /// </summary>
         public Vector2 Pos;
 
-        public string Name { get; internal set; }                         // Name currently assigned to this Entity in the Engine.
+        /// <summary>
+        /// Name currently assigned to this Entity in the Engine.
+        /// </summary>
+        public string Name { get; internal set; }                         
 
-        public float ScaleX { get; set; }                                 // Amount to scale the Entities X value by (where 1.0=100%).
-        public float ScaleY { get; set; }                                 // Amount ot scale the Entities Y value by (where 1.0=100%).
-                                                                             
-        public float Opacity { get; set; }                                // Opacity for the Entity. This effect stacks with whats specified in each drawables Color.
-        public bool Visible { get; set; }                                 // Hide or Show the entity.
-        public bool IsOnScreen { get; internal set; }                     // is the Entity currently on the screen or not.
-        public FRectangle CurrentBoundingBox { get; internal set; }       // the last bounding box generated during the TeeEngine update.
-                                                                             
-        public DrawableSet Drawables { get; set; }                        // The set of drawable instances associated with this Entity.
-        public string CurrentDrawableState { get; set; }                  // The current Drawables enabled.
-                                                                             
-        internal FRectangle PreviousBoundingBox;                          // The previous BoundingBox that was assigned to this Entity.
+        /// <summary>
+        /// Amount to scale the Entities X value by (where 1.0=100%).
+        /// </summary>
+        public float ScaleX { get; set; }
+        
+        /// <summary>
+        /// Amount ot scale the Entities Y value by (where 1.0=100%).
+        /// </summary>
+        public float ScaleY { get; set; }                                 
+                                          
+        /// <summary>
+        /// Opacity for the Entity. This effect stacks with whats specified in each drawables Color.
+        /// </summary>
+        public float Opacity { get; set; }
+        
+        /// <summary>
+        /// Hide or Show the entity.
+        /// </summary>
+        public bool Visible { get; set; }
+
+        /// <summary>
+        /// Is the Entity currently on the screen or not.
+        /// </summary>
+        public bool IsOnScreen { get; internal set; }
+
+        /// <summary>
+        /// The last bounding box generated during the TeeEngine update.
+        /// </summary>
+        public FRectangle CurrentBoundingBox { get; internal set; }
+                                                                   
+        /// <summary>
+        /// The set of drawable instances associated with this Entity.
+        /// </summary>
+        public DrawableSet Drawables { get; set; }
+        
+        /// <summary>
+        /// The current Drawables enabled.
+        /// </summary>
+        public string CurrentDrawableState { get; set; }                 
+                            
+        /// <summary>
+        /// The previous BoundingBox that was assigned to this Entity.
+        /// </summary>
+        internal FRectangle PreviousBoundingBox { get; set; }                       
+
+        #endregion
 
         #region Constructors
 
@@ -57,28 +100,39 @@ namespace GameEngine.GameObjects
         #endregion
 
         #region Virtual Methods
-
-        // Called BEFORE the entity is added to the engines entity list.
-        // The result of the PreInitialize method determines if the entity will be added or not.
+        
+        /// <summary>
+        /// Called BEFORE the entity is added to the engines entity list.
+        /// The result of the PreInitialize method determines if the entity will be added or not.
+        /// </summary>
+        /// <returns>bool value determining if the engine instance should add this Entity or not.</returns>
         public virtual bool PreInitialize(GameTime gameTime, TeeEngine engine)
         {
             return true;
         }
 
-        // Called AFTER the entity is added to the engines entity list.
-        // The entity will be garuanteed to have a valid CurrentBoundingBox value and have a place in the QuadTree.
+        
+        /// <summary>
+        /// Called AFTER the entity is added to the engines entity list.
+        /// The entity will be garuanteed to have a valid CurrentBoundingBox value and have a place in the QuadTree.
+        /// </summary>
         public virtual void PostInitialize(GameTime gameTime, TeeEngine engine)
         {
         }
 
-        // Called BEFORE the entity has been removed from the engines entity list.
-        // The result of the PreDestroy method determines if the entity will be removed or not.
+        /// <summary>
+        /// Called BEFORE the entity has been removed from the engines entity list.
+        /// The result of the PreDestroy method determines if the entity will be removed or not.
+        /// </summary>
+        /// <returns>bool value determining if the engine instance should destory this entity or not.</returns>       
         public virtual bool PreDestroy(GameTime gameTime, TeeEngine engine)
         {
             return true;
         }
 
-        // Called AFTER the entity has been removed from the engines entity list.
+        /// <summary>
+        /// Called AFTER the entity has been removed from the engines entity list.
+        /// </summary>
         public virtual void PostDestroy(GameTime gameTime, TeeEngine engine)
         {
         }
@@ -93,6 +147,8 @@ namespace GameEngine.GameObjects
 
 
         #endregion
+
+        #region Public Methods
 
         /// <summary>
         /// Gets the bounding box for this entity at the specified GameTime and using the specified
@@ -133,9 +189,9 @@ namespace GameEngine.GameObjects
             return new FRectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
-        #region Intersection Methods
-
-        // Helper method that wraps the static IntersectsWith Entity method. Assumes the state to check is the current drawable state.
+        /// <summary>
+        /// Helper method that wraps the static IntersectsWith Entity method. Assumes the state to check is the current drawable state.
+        /// </summary>
         public static bool IntersectsWith(Entity entity1, string entity1Group, Entity entity2, string entity2Group, GameTime gameTime)
         {
             return Entity.IntersectsWith(
@@ -144,10 +200,13 @@ namespace GameEngine.GameObjects
                 gameTime);
         }
 
-        // Checks if Two Entities are intersecting each other assuming the specified states, gameTime and group filter.
-        // This check is actually rather ineffecient. O(n^2) time complexity. In reality though, we would be smart about
-        // what to compare - hence the group and state filters. The number of comparasins between drawables should be kept
-        // to a minimum in order to maintain performance.
+        
+        /// <summary>
+        /// Checks if Two Entities are intersecting each other assuming the specified states, gameTime and group filter.
+        /// This check is actually rather ineffecient. O(n^2) time complexity. In reality though, we would be smart about
+        /// what to compare - hence the group and state filters. The number of comparasins between drawables should be kept
+        /// to a minimum in order to maintain performance.
+        /// </summary>
         public static bool IntersectsWith(
             Entity entity1, string entity1State, string entity1Group,
             Entity entity2, string entity2State, string entity2Group, 
