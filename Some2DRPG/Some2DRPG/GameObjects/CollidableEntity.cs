@@ -7,14 +7,25 @@ using Microsoft.Xna.Framework;
 
 namespace Some2DRPG.GameObjects
 {
-    // Represents an Entity that can collide with the terrain.
+    /// <summary>
+    /// Derive from this Entity class rather than Entity if you wish the Entity to be collidable
+    /// with the terrain or with other Entities within the game. It is important that any overriden
+    /// update routines in subclasses make sure to include base.Update() at the end of their call
+    /// to make use of the collision logic available in this class.
+    /// </summary>
     public class CollidableEntity : Entity
     {
+        // The property to search for in Tiles to check if it is considered Impassable.
+        public static string ImpassableTerrainProperty = "Impassable";
+
+        // Boolean flags to enable or disable Terrain Collisions and Entity Collision
         public bool TerrainCollisionEnabled { get; set; }
         public bool EntityCollisionEnabled { get; set; }
 
+        // Name of the group with which to perform intersection checks for this entity.
         public string CollisionGroup { get; set; }
 
+        // Boolean flag specifying if this object should not be movable when performing collision response.
         public bool Immovable { get; set; }
 
         Vector2 _prevPos = Vector2.Zero;
@@ -28,10 +39,10 @@ namespace Some2DRPG.GameObjects
         }
 
         // TODO REMOVE.
-        private bool ContainsItem(string[] array, string item)
+        private bool ContainsItem<T>(T[] array, T item)
         {
             for (int i = 0; i < array.Length; i++)
-                if (array[i] == item) return true;
+                if (array[i].Equals(item)) return true;
 
             return false;
         }
@@ -56,7 +67,7 @@ namespace Some2DRPG.GameObjects
                 int pxTileHeight = engine.Map.TileHeight;
 
                 Tile currentTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
-                bool impassable = currentTile.HasProperty("Impassable");
+                bool impassable = currentTile.HasProperty(ImpassableTerrainProperty);
 
                 // CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
                 // TODO
