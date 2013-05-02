@@ -343,7 +343,7 @@ namespace GameEngine
                         entity.Pos.X += (sourceTile.Origin.X - 0.0f) * sourceTile.GetSourceRectangle(0).Width;
                         entity.Pos.Y += (sourceTile.Origin.Y - 1.0f) * sourceTile.GetSourceRectangle(0).Height;
                     }
-                    else
+                    else if(tiledObject.Type != null)
                     {
                         // Try and load Entity types from both the Assembly specified in MapProperties and within the GameEngine.
                         Assembly userAssembly = (map.HasProperty("Assembly")) ? Assembly.Load(map.GetProperty("Assembly")) : null;
@@ -373,6 +373,9 @@ namespace GameEngine
                                 ((ISizedEntity)entity).Height = tiledObject.Height;
                             }
 
+                            if (entity is IPolygonEntity)
+                                ((IPolygonEntity)entity).Points = tiledObject.Points;
+
                             foreach (string propertyKey in tiledObject.PropertyKeys)
                             {
                                 // Ignore all properties starting with '.'
@@ -399,7 +402,7 @@ namespace GameEngine
                         else throw new ArgumentException(string.Format("'{0}' is not an Entity object", tiledObject.Type));
                     }
 
-                    this.AddEntity(tiledObject.Name, entity);
+                    if(entity != null ) this.AddEntity(tiledObject.Name, entity);
                 }
             }
         }

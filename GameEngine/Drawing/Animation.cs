@@ -156,7 +156,6 @@ namespace GameEngine.Drawing
                             GameDrawableInstance instance = drawableSet.Add(drawableSetState, animation, group, layer);
                             instance.StartTimeMS = startTimeMS;
                             instance.Offset = offsetVector;
-                            instance.Layer = layer;
                         }
                     }
                 }
@@ -165,7 +164,6 @@ namespace GameEngine.Drawing
                     GameDrawableInstance instance = drawableSet.Add(state, animation, group, layer);
                     instance.StartTimeMS = startTimeMS;
                     instance.Offset = offsetVector;
-                    instance.Layer = layer;
                 }
             }
         }

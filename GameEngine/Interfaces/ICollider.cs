@@ -7,8 +7,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Interfaces
 {
-    // Defines a common interface for collision data structures to adhere to. This allows quick swapping of
-    // different collision data structures such as HashLists and QuadTrees.
+    /// <summary>
+    /// Defines an interface for a class that is capable of performing quick collision/intersection
+    /// checks through the use of some data structure. Any custom data structures that wish to be used
+    /// within the engine for collision checks need to inherit from this interface.
+    /// </summary>
     public interface ICollider
     {
         void Construct(int txWidth, int txHeight, int pxTileWidth, int pxTileHeight);

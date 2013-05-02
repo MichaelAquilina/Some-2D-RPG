@@ -19,8 +19,6 @@ namespace Some2DRPG.GameObjects.Characters
 
         public LightSource LightSource { get; set; }
 
-        private List<Entity> prevIntersectingEntities;
-
         public Hero()
             :base(NPC.MALE_HUMAN)
         {

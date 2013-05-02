@@ -59,6 +59,7 @@ namespace Some2DRPG.GameObjects.Characters
             this.Pos = new Vector2(x, y);
             this.ScaleX = 1.0f;
             this.ScaleY = 1.0f;
+            this.CollisionGroup = "Shadow";
 
             this.Direction = Direction.Right;
             this.BaseRace = baseRace;

@@ -85,8 +85,8 @@ namespace Some2DRPG
             Engine.RegisterGameShader("LightShader", LightShader);
 
             MapEventArgs mapArgs = new MapEventArgs();
-            mapArgs.SetProperty("Target", "CaveEntrance");
-            Engine.LoadMap("Content/Maps/example_map.tmx", mapArgs);
+            mapArgs.SetProperty("Target", "CaveExit");
+            Engine.LoadMap("Content/Maps/cave_example.tmx", mapArgs);
 
             CurrentSampler = SamplerStates[SamplerIndex];
 
