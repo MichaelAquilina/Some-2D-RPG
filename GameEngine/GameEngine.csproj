@@ -114,6 +114,9 @@
     <Compile Include="DataStructures\QuadTree.cs" />
     <Compile Include="DataStructures\QuadTreeNode.cs" />
     <Compile Include="Options\DrawingOptions.cs" />
+    <Compile Include="Pathfinding\ANode.cs" />
+    <Compile Include="Pathfinding\AStar.cs" />
+    <Compile Include="Pathfinding\Path.cs" />
     <Compile Include="Tiled\MapEventArgs.cs" />
     <Compile Include="Tiled\Tile.cs" />
     <Compile Include="Tiled\TiledMap.cs" />

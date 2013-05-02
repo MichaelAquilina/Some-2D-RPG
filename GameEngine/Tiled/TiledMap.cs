@@ -7,6 +7,7 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System.IO;
+using GameEngine.Pathfinding;
 
 namespace GameEngine.Tiled
 {
@@ -27,6 +28,8 @@ namespace GameEngine.Tiled
         public List<TileSet> TileSets { get; set; }                     // Individual TileSets loaded. Also contain references to Tiles sorted by their LOCAL id.
         public List<TileLayer> TileLayers { get; set; }                 // Tile Layers present within this map. Each one contains an array of tile global identifiers.
         public List<TiledObjectLayer> TiledObjectLayers { get; set; }     // Layers consisting of TileObjects.
+
+        public ANode[,] Nodes { get; set; }
 
         public TiledMap()
         {
@@ -268,6 +271,41 @@ namespace GameEngine.Tiled
                     map.TileLayers.Add(tileLayer);
                 }
 
+                // SETUP PATHFINDING NODES
+                map.Nodes = new ANode[map.txWidth, map.txHeight];
+                for (int y = 0; y < map.txHeight; y++)
+                {
+                    for (int x = 0; x < map.txWidth; x++)
+                    {
+                        ANode node = new ANode();
+                        node.TX = x;
+                        node.TY = y;
+                        node.Center = new Vector2(map.TileWidth * x + map.TileWidth / 2, map.TileHeight * y + map.TileHeight / 2);
+                        map.Nodes[x, y] = node;
+                    }
+                }
+
+                // SETUP NEIGHBORS
+                for (int y = 0; y < map.txHeight; y++)
+                {
+                    for (int x = 0; x < map.txWidth; x++)
+                    {
+                        // Neighbors (Ortho + Diagonals):
+                        // X X X
+                        // X   X
+                        // X X X
+                        // Starting from upper left, continue clockwise
+                        if (ValidPos(map, x - 1, y - 1))    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y - 1]);
+                        if (ValidPos(map, x, y - 1))        map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y - 1]);
+                        if (ValidPos(map, x + 1, y - 1))    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y - 1]);
+                        if (ValidPos(map, x + 1, y))        map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y]);
+                        if (ValidPos(map, x + 1, y + 1))    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y + 1]);
+                        if (ValidPos(map, x, y + 1))        map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y + 1]);
+                        if (ValidPos(map, x - 1, y + 1))    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y + 1]);
+                        if (ValidPos(map, x - 1, y))        map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y]);
+                    }
+                }
+
                 return map;
             }
             else throw new IOException(string.Format("The Map File '{0}' does not exist.", file));
@@ -281,6 +319,11 @@ namespace GameEngine.Tiled
                 TileLayers.Count,
                 TiledObjectLayers.Count
                 );
+        }
+
+        private static bool ValidPos(TiledMap map, int x, int y)
+        {
+            return (x > 0 && x < map.txWidth && y > 0 && y < map.txHeight);
         }
     }
 }
