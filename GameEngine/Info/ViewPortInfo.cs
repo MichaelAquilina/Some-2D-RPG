@@ -26,12 +26,14 @@ namespace GameEngine.Info
         public float pxTileHeight { get; set; }
 
         /// <summary>
-        /// The x value for the top left corner of the drawn viewport in world coordinates.
+        /// The x value for the top left corner of the drawn viewport in world coordinates. This value is already
+        /// divided by ActualZoom.
         /// </summary>
         public float pxTopLeftX { get; set; } 
 
         /// <summary>
-        /// The y value for the top left corner of the drawn viewport in world coordinates.
+        /// The y value for the top left corner of the drawn viewport in world coordinates. This value is already
+        /// divided by ActualZoom.
         /// </summary>
         public float pxTopLeftY { get; set; }
 
@@ -60,14 +62,16 @@ namespace GameEngine.Info
         /// <summary>
         /// The displacement in X that occurs during drawing because a Tile is being partially shown in the top
         /// left corner of the screen. This value allows for smooth scrolling of the screen when placing Entities.
-        /// The value returned by this property never be more than the TileWidth of a loaded map.
+        /// The value returned by this property never be more than the TileWidth of a loaded map. This Value is already
+        /// divided by ActualZoom.
         /// </summary>
         public float pxDispX { get; set; }
 
         /// <summary>
         /// The displacement in Y that occurs during drawing because a Tile is being partially shown in the top
         /// left corner of the screen. This value allows for smooth scrolling of the screen when placing Entities.
-        /// The value returned by this property never be more than the TileHeight of a loaded map.
+        /// The value returned by this property never be more than the TileHeight of a loaded map. This value is
+        /// already divided by ActualZoom.
         /// </summary>
         public float pxDispY { get; set; }
 
