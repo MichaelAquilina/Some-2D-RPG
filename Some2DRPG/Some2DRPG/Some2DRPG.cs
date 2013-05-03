@@ -228,6 +228,14 @@ namespace Some2DRPG
                     float TX = CurrentPlayer.Pos.X / Engine.Map.TileWidth;
                     float TY = CurrentPlayer.Pos.Y / Engine.Map.TileHeight;
 
+                    this.IsMouseVisible = true;
+                    MouseState mouseState = Mouse.GetState();
+
+                    Vector2 worldCoord = viewPort.GetWorldCoordinates(new Point(mouseState.X, mouseState.Y));
+                    Vector2 tileCoord = worldCoord / (new Vector2(Engine.Map.TileWidth, Engine.Map.TileHeight));;
+                    tileCoord.X = (int) Math.Floor(tileCoord.X);
+                    tileCoord.Y = (int) Math.Floor(tileCoord.Y);
+
                     SpriteBatch.DrawString(DefaultSpriteFont, CurrentPlayer.Pos.ToString(), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, TX.ToString("0.0") + "," + TY.ToString("0.0"), GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Coins=" + CurrentPlayer.Coins, GeneratePos(textHeight), Color.White);
@@ -239,6 +247,8 @@ namespace Some2DRPG
                     SpriteBatch.DrawString(DefaultSpriteFont, "Entities On Screen = " + Engine.EntitiesOnScreen.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Total Entities = " + Engine.Entities.Count, GeneratePos(textHeight), Color.White);
                     SpriteBatch.DrawString(DefaultSpriteFont, "Actual Zoom = " + viewPort.ActualZoom, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Mouse World Coordinates = " + worldCoord, GeneratePos(textHeight), Color.White);
+                    SpriteBatch.DrawString(DefaultSpriteFont, "Mouse Tile Coordinates = " + tileCoord, GeneratePos(textHeight), Color.White);
                 }
 
                 if (showDiagnostics)

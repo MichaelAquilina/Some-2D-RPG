@@ -81,6 +81,19 @@ namespace GameEngine.Info
         /// </summary>
         public float ActualZoom { get; set; }
 
+        /// <summary>
+        /// Returns the translated world coordinates of the specified position on the viewport in pixels. 
+        /// </summary>
+        /// <param name="position">Point value representing the pixel position on viewport.</param>
+        /// <returns>Vector2 coordinate representing the location of the specified position in world coordinates.</returns>
+        public Vector2 GetWorldCoordinates(Point position)
+        {
+            return new Vector2(
+                position.X / ActualZoom + pxTopLeftX,
+                position.Y / ActualZoom + pxTopLeftY
+                );
+        }
+
         public override string ToString()
         {
             return string.Format(
