@@ -197,7 +197,7 @@ namespace GameEngine
 
         public void LoadMap(string mapFilePath, MapEventArgs mapLoadedEventArgs=null)
         {
-            LoadMap(TiledMap.FromTiledXml(mapFilePath), mapLoadedEventArgs);
+            LoadMap(TiledMap.LoadTmxFile(mapFilePath), mapLoadedEventArgs);
         }
 
         #endregion

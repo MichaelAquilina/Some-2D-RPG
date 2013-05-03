@@ -53,7 +53,7 @@ namespace GameEngine.Drawing
 
         public List<GameDrawableInstance> GetByGroup(string group)
         {
-            return _groupDictionary[group];
+            return (group==null)? null: _groupDictionary[group];
         }
 
         public GameDrawableInstance Add(string state, IGameDrawable drawable, string group="", int layer=0)

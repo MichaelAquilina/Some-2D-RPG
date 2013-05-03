@@ -125,7 +125,7 @@ namespace GameEngine.Tiled
         // Reads and converts and .tmx file to a TiledMap object. Doing so does NOT load appropriate tile textures into memory.
         // In order for textures to be loaded, the LoadContent(ContentManager) method must be called. This is usually automatically
         // performed by the TeeEngine when calling its LoadMap(TiledMap) method. However, it may be called independently if needs be.
-        public static TiledMap FromTiledXml(string file)
+        public static TiledMap LoadTmxFile(string file)
         {
             if (File.Exists(file))
             {
