@@ -181,6 +181,8 @@
     <None Include="Animations\Monsters\bat.anim">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Animations\Monsters\bee.anim" />
+    <None Include="Animations\Monsters\combat_dummy.anim" />
     <None Include="Animations\Objects\fireplace.anim">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
