@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using GameEngine.GameObjects;
-using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
 using GameEngine.Drawing;
+using GameEngine.GameObjects;
 
 namespace GameEngine.DataStructures
 {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Xml;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using System.IO;
 
 namespace GameEngine.Tiled
 {
