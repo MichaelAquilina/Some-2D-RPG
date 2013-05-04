@@ -113,7 +113,12 @@ namespace Some2DRPG.GameObjects.Characters
                 }
 
                 if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.T, this, true))
-                    Unequip(ItemType.Vest);
+                {
+                    if (IsEquiped(ItemRepository.GameItems["RobeShirt"]))
+                        Equip(ItemRepository.GameItems["PlateChest"]);
+                    else
+                        Equip(ItemRepository.GameItems["RobeShirt"]);
+                }
 
                 // Set animation to idle of no movements where made.
                 if (movement.Length() == 0)
