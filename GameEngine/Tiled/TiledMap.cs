@@ -7,7 +7,6 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using System.IO;
-using GameEngine.Pathfinding;
 
 namespace GameEngine.Tiled
 {
@@ -28,8 +27,6 @@ namespace GameEngine.Tiled
         public List<TileSet> TileSets { get; set; }                     // Individual TileSets loaded. Also contain references to Tiles sorted by their LOCAL id.
         public List<TileLayer> TileLayers { get; set; }                 // Tile Layers present within this map. Each one contains an array of tile global identifiers.
         public List<TiledObjectLayer> TiledObjectLayers { get; set; }     // Layers consisting of TileObjects.
-
-        public ANode[,] Nodes { get; set; }
 
         public TiledMap()
         {
@@ -295,121 +292,6 @@ namespace GameEngine.Tiled
                     map.TileLayers.Add(tileLayer);
                 }
 
-                // SETUP PATHFINDING NODES
-                map.Nodes = new ANode[map.txWidth, map.txHeight];
-                for (int y = 0; y < map.txHeight; y++)
-                {
-                    for (int x = 0; x < map.txWidth; x++)
-                    {
-                        ANode node = new ANode();
-                        node.TX = x;
-                        node.TY = y;
-                        node.Center = new Vector2(map.TileWidth * x + map.TileWidth / 2, map.TileHeight * y + map.TileHeight / 2);
-                        map.Nodes[x, y] = node;
-                    }
-                }
-
-                // SETUP NEIGHBORS
-                for (int y = 0; y < map.txHeight; y++)
-                {
-                    for (int x = 0; x < map.txWidth; x++)
-                    {
-                        Tile tile = map.GetTxTopMostTile(x, y);
-
-                        // If the tile at this location is impassable don't add any neighbors
-                        if (tile == null || tile.HasProperty("Impassable"))
-                            continue;
-
-                        // Check each entry point to build a list of neighbors
-                        List<string> entryPoints = new List<string>(tile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
-                        bool left, right, up, down = false;
-                       
-                        left = entryPoints.Contains("Left");
-                        right = entryPoints.Contains("Right");
-                        up = entryPoints.Contains("Top");
-                        down = entryPoints.Contains("Bottom");
-
-                        Tile neighbor;
-
-                        // Ortho neighbors
-                        if (left)
-                            if (ValidPos(map, x - 1, y))
-                            {
-                                // Check to see if the neighbor is a valid link
-                                neighbor = map.GetTxTopMostTile(x - 1, y);
-
-                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Right"))
-                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y]);
-                                else
-                                    left = false; // left is not a valid neighbor, this rules out some diagonals
-                            }
-                        if (right)
-                            if (ValidPos(map, x + 1, y))
-                            {
-                                neighbor = map.GetTxTopMostTile(x + 1, y);
-
-                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Left"))
-                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y]);
-                                else
-                                    right = false;
-                            }
-                        if (up)
-                            if (ValidPos(map, x, y - 1))
-                            {
-                                neighbor = map.GetTxTopMostTile(x, y - 1);
-
-                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Bottom"))
-                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y - 1]);
-                                else
-                                    up = false;
-                            }
-                        if (down)
-                            if (ValidPos(map, x, y + 1))
-                            {
-                                neighbor = map.GetTxTopMostTile(x, y + 1);
-
-                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Top"))
-                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y + 1]);
-                                else
-                                    down = false;
-                            }
-
-                        // Diagonal neighbors
-                        if (left && up)
-                            if (ValidPos(map, x - 1, y - 1))
-                            {
-                                neighbor = map.GetTxTopMostTile(x - 1, y - 1);
-
-                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Bottom") && HasEntry(neighbor, "Right"))
-                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y - 1]);
-                            }
-                        if (right && up)
-                            if (ValidPos(map, x + 1, y - 1))
-                            {
-                                neighbor = map.GetTxTopMostTile(x + 1, y - 1);
-
-                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Bottom") && HasEntry(neighbor, "Left"))
-                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y - 1]);
-                            }
-                        if (right && down)
-                            if (ValidPos(map, x + 1, y + 1))
-                            {
-                                neighbor = map.GetTxTopMostTile(x + 1, y + 1);
-
-                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Top") && HasEntry(neighbor, "Left"))
-                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y + 1]);
-                            }
-                        if (left && down)
-                            if (ValidPos(map, x - 1, y + 1))
-                            {
-                                neighbor = map.GetTxTopMostTile(x - 1, y + 1);
-
-                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Top") && HasEntry(neighbor, "Right"))
-                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y + 1]);
-                            }
-                    }
-                }
-
                 return map;
             }
             else throw new IOException(string.Format("The Map File '{0}' does not exist.", file));
@@ -423,16 +305,6 @@ namespace GameEngine.Tiled
                 TileLayers.Count,
                 TiledObjectLayers.Count
                 );
-        }
-
-        private static bool ValidPos(TiledMap map, int x, int y)
-        {
-            return (x > 0 && x < map.txWidth && y > 0 && y < map.txHeight);
-        }
-
-        private static bool HasEntry(Tile tile, string entry)
-        {
-            return new List<string>(tile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)).Contains(entry);
         }
     }
 }
