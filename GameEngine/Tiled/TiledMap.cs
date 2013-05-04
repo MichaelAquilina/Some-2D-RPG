@@ -329,25 +329,84 @@ namespace GameEngine.Tiled
                         up = entryPoints.Contains("Top");
                         down = entryPoints.Contains("Bottom");
 
+                        Tile neighbor;
+
                         // Ortho neighbors
                         if (left)
-                            if (ValidPos(map, x - 1, y)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y]);
+                            if (ValidPos(map, x - 1, y))
+                            {
+                                // Check to see if the neighbor is a valid link
+                                neighbor = map.GetTxTopMostTile(x - 1, y);
+
+                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Right"))
+                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y]);
+                                else
+                                    left = false; // left is not a valid neighbor, this rules out some diagonals
+                            }
                         if (right)
-                            if (ValidPos(map, x + 1, y)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y]);
+                            if (ValidPos(map, x + 1, y))
+                            {
+                                neighbor = map.GetTxTopMostTile(x + 1, y);
+
+                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Left"))
+                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y]);
+                                else
+                                    right = false;
+                            }
                         if (up)
-                            if (ValidPos(map, x, y - 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y - 1]);
+                            if (ValidPos(map, x, y - 1))
+                            {
+                                neighbor = map.GetTxTopMostTile(x, y - 1);
+
+                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Bottom"))
+                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y - 1]);
+                                else
+                                    up = false;
+                            }
                         if (down)
-                            if (ValidPos(map, x, y + 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y + 1]);
+                            if (ValidPos(map, x, y + 1))
+                            {
+                                neighbor = map.GetTxTopMostTile(x, y + 1);
+
+                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Top"))
+                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y + 1]);
+                                else
+                                    down = false;
+                            }
 
                         // Diagonal neighbors
                         if (left && up)
-                            if (ValidPos(map, x - 1, y - 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y - 1]);
+                            if (ValidPos(map, x - 1, y - 1))
+                            {
+                                neighbor = map.GetTxTopMostTile(x - 1, y - 1);
+
+                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Bottom") && HasEntry(neighbor, "Right"))
+                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y - 1]);
+                            }
                         if (right && up)
-                            if (ValidPos(map, x + 1, y - 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y - 1]);
+                            if (ValidPos(map, x + 1, y - 1))
+                            {
+                                neighbor = map.GetTxTopMostTile(x + 1, y - 1);
+
+                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Bottom") && HasEntry(neighbor, "Left"))
+                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y - 1]);
+                            }
                         if (right && down)
-                            if (ValidPos(map, x + 1, y + 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y + 1]);
+                            if (ValidPos(map, x + 1, y + 1))
+                            {
+                                neighbor = map.GetTxTopMostTile(x + 1, y + 1);
+
+                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Top") && HasEntry(neighbor, "Left"))
+                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y + 1]);
+                            }
                         if (left && down)
-                            if (ValidPos(map, x - 1, y + 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y + 1]);
+                            if (ValidPos(map, x - 1, y + 1))
+                            {
+                                neighbor = map.GetTxTopMostTile(x - 1, y + 1);
+
+                                if (!neighbor.HasProperty("Impassable") && HasEntry(neighbor, "Top") && HasEntry(neighbor, "Right"))
+                                    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y + 1]);
+                            }
                     }
                 }
 
@@ -369,6 +428,11 @@ namespace GameEngine.Tiled
         private static bool ValidPos(TiledMap map, int x, int y)
         {
             return (x > 0 && x < map.txWidth && y > 0 && y < map.txHeight);
+        }
+
+        private static bool HasEntry(Tile tile, string entry)
+        {
+            return new List<string>(tile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)).Contains(entry);
         }
     }
 }
