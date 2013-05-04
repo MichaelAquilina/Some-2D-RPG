@@ -314,19 +314,40 @@ namespace GameEngine.Tiled
                 {
                     for (int x = 0; x < map.txWidth; x++)
                     {
-                        // Neighbors (Ortho + Diagonals):
-                        // X X X
-                        // X   X
-                        // X X X
-                        // Starting from upper left, continue clockwise
-                        if (ValidPos(map, x - 1, y - 1))    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y - 1]);
-                        if (ValidPos(map, x, y - 1))        map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y - 1]);
-                        if (ValidPos(map, x + 1, y - 1))    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y - 1]);
-                        if (ValidPos(map, x + 1, y))        map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y]);
-                        if (ValidPos(map, x + 1, y + 1))    map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y + 1]);
-                        if (ValidPos(map, x, y + 1))        map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y + 1]);
-                        if (ValidPos(map, x - 1, y + 1))    map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y + 1]);
-                        if (ValidPos(map, x - 1, y))        map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y]);
+                        Tile tile = map.GetTxTopMostTile(x, y);
+
+                        // If the tile at this location is impassable don't add any neighbors
+                        if (tile == null || tile.HasProperty("Impassable"))
+                            continue;
+
+                        // Check each entry point to build a list of neighbors
+                        List<string> entryPoints = new List<string>(tile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+                        bool left, right, up, down = false;
+                       
+                        left = entryPoints.Contains("Left");
+                        right = entryPoints.Contains("Right");
+                        up = entryPoints.Contains("Top");
+                        down = entryPoints.Contains("Bottom");
+
+                        // Ortho neighbors
+                        if (left)
+                            if (ValidPos(map, x - 1, y)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y]);
+                        if (right)
+                            if (ValidPos(map, x + 1, y)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y]);
+                        if (up)
+                            if (ValidPos(map, x, y - 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y - 1]);
+                        if (down)
+                            if (ValidPos(map, x, y + 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x, y + 1]);
+
+                        // Diagonal neighbors
+                        if (left && up)
+                            if (ValidPos(map, x - 1, y - 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y - 1]);
+                        if (right && up)
+                            if (ValidPos(map, x + 1, y - 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y - 1]);
+                        if (right && down)
+                            if (ValidPos(map, x + 1, y + 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x + 1, y + 1]);
+                        if (left && down)
+                            if (ValidPos(map, x - 1, y + 1)) map.Nodes[x, y].Neighbors.Add(map.Nodes[x - 1, y + 1]);
                     }
                 }
 
