@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Animations>
+  <Animation State="Idle_Up" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Walkcycle\LEGS_robe_skirt" FrameDelay="90" Origin="0.5, 0.9">
+    <Frames>
+      <Frame>15, 13, 35, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Idle_Left" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Walkcycle\LEGS_robe_skirt" FrameDelay="90" Origin="0.5, 0.9">
+    <Frames>
+      <Frame>15, 78, 35, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Idle_Down" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Walkcycle\LEGS_robe_skirt" FrameDelay="90" Origin="0.5, 0.9">
+    <Frames>
+      <Frame>15, 142, 35, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Idle_Right" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Walkcycle\LEGS_robe_skirt" FrameDelay="90" Origin="0.5, 0.9">
+    <Frames>
+      <Frame>15, 206, 35, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Walk_Up" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Walkcycle\LEGS_robe_skirt" FrameDelay="90" Origin="0.5, 0.9">
+    <Frames>
+      <Frame>79 , 13, 35, 49</Frame>
+      <Frame>143, 13, 35, 49</Frame>
+      <Frame>207, 13, 35, 49</Frame>
+      <Frame>271, 13, 35, 49</Frame>
+      <Frame>335, 13, 35, 49</Frame>
+      <Frame>399, 13, 35, 49</Frame>
+      <Frame>463, 13, 35, 49</Frame>
+      <Frame>527, 13, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation State="Walk_Left" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Walkcycle\LEGS_robe_skirt" FrameDelay="90" Origin="0.5, 0.9">
+    <Frames>
+      <Frame>79 , 78, 35, 49</Frame>
+      <Frame>143, 78, 35, 49</Frame>
+      <Frame>207, 78, 35, 49</Frame>
+      <Frame>271, 78, 35, 49</Frame>
+      <Frame>335, 78, 35, 49</Frame>
+      <Frame>399, 78, 35, 49</Frame>
+      <Frame>463, 78, 35, 49</Frame>
+      <Frame>527, 78, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation State="Walk_Down" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Walkcycle\LEGS_robe_skirt" FrameDelay="90" Origin="0.5, 0.9">
+    <Frames>
+      <Frame>79 , 142, 35, 49</Frame>
+      <Frame>143, 142, 35, 49</Frame>
+      <Frame>207, 142, 35, 49</Frame>
+      <Frame>271, 142, 35, 49</Frame>
+      <Frame>335, 142, 35, 49</Frame>
+      <Frame>399, 142, 35, 49</Frame>
+      <Frame>463, 142, 35, 49</Frame>
+      <Frame>527, 142, 35, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation State="Walk_Right" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Walkcycle\LEGS_robe_skirt" FrameDelay="90" Origin="0.5, 0.9">
+    <Frames>
+      <Frame>79 , 206, 35, 49</Frame>
+      <Frame>143, 206, 35, 49</Frame>
+      <Frame>207, 206, 35, 49</Frame>
+      <Frame>271, 206, 35, 49</Frame>
+      <Frame>335, 206, 35, 49</Frame>
+      <Frame>399, 206, 35, 49</Frame>
+      <Frame>463, 206, 35, 49</Frame>
+      <Frame>527, 206, 35, 49</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Slash_Up" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Slash\LEGS_robe_skirt" FrameDelay="45" Origin="0.4, 0.9" >
+    <Frames>
+      <Frame>79  , 13, 43, 50</Frame>
+      <Frame>143 , 13, 43, 50</Frame>
+      <Frame>207 , 13, 43, 50</Frame>
+      <Frame>271 , 13, 43, 50</Frame>
+      <Frame>335 , 13, 43, 50</Frame>
+    </Frames>
+  </Animation>
+  <Animation State="Slash_Left" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Slash\LEGS_robe_skirt" FrameDelay="45" Origin="0.7, 0.9" >
+    <Frames>
+      <Frame>69  , 78, 40, 49</Frame>
+      <Frame>133 , 78, 40, 49</Frame>
+      <Frame>197 , 78, 40, 49</Frame>
+      <Frame>261 , 78, 40, 49</Frame>
+      <Frame>325 , 78, 40, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation State="Slash_Down" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Slash\LEGS_robe_skirt" FrameDelay="45" Origin="0.4, 0.9" >
+    <Frames>
+      <Frame>80 , 142, 42, 49</Frame>
+      <Frame>144, 142, 42, 49</Frame>
+      <Frame>208, 142, 42, 49</Frame>
+      <Frame>272, 142, 42, 49</Frame>
+      <Frame>336, 142, 42, 49</Frame>
+    </Frames>
+  </Animation>
+  <Animation State="Slash_Right" Group="Legs" Layer="2" Loop="True" SpriteSheet="LPC\Robe\Slash\LEGS_robe_skirt" FrameDelay="45" Origin="0.4, 0.9" >
+    <Frames>
+      <Frame>82 , 207, 40, 48</Frame>
+      <Frame>146, 207, 40, 48</Frame>
+      <Frame>210, 207, 40, 48</Frame>
+      <Frame>274, 207, 40, 48</Frame>
+      <Frame>338, 207, 40, 48</Frame>
+    </Frames>
+  </Animation>
+
+  <!-- Death -->
+
+  <Animation State="Hurt" Group="Legs" Layer="3" Loop="False" SpriteSheet="LPC\Robe\Hurt\LEGS_robe_skirt" FrameDelay="75" Origin="0.5,0.9">
+    <Frames>
+      <Frame>0, 0, 64, 64</Frame>
+      <Frame>64,0, 64, 64</Frame>
+      <Frame>128,0, 64, 64</Frame>
+      <Frame>192,0, 64, 64</Frame>
+      <Frame>256,0, 64, 64</Frame>
+      <Frame>320,0, 64, 64</Frame>
+    </Frames>
+  </Animation>
+</Animations>

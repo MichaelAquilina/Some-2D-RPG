@@ -41,5 +41,38 @@
       <Drawable src="Animations/Plate Armor/plate_armor_feet.anim"></Drawable>
     </Drawables>
   </Item>
+
+  <Item Name="PlainShoes" ItemType="Boots" Weight="0.1">
+    <FriendlyName>Shoes</FriendlyName>
+    <Description>A pretty standard pair of normal walking shoes.</Description>
+    <Drawables>
+      <Drawable src="Animations/Robe/robe_feet.anim"></Drawable>
+    </Drawables>
+  </Item>
+
+  <Item Name="RobeHood" ItemType="HeadGear" Weight="0.1" >
+    <FriendlyName>Robe Hood</FriendlyName>
+    <Description></Description>
+    <Drawables>
+      <Drawable src="Animations/Robe/robe_head.anim"></Drawable>
+    </Drawables>
+  </Item>
+
+  <Item Name="RobeShirt" ItemType="Vest" Weight="0.1">
+    <FriendlyName>Robe Shirt</FriendlyName>
+    <Description></Description>
+    <Drawables>
+      <Drawable src="Animations/Robe/robe_torso.anim"></Drawable>
+      <Drawable src="Animations/Robe/robe_belt.anim"></Drawable>
+    </Drawables>
+  </Item>
+
+  <Item Name="RobeSkirt" ItemType="Pants" Weight="0.1">
+    <FriendlyName>Robe Skirt</FriendlyName>
+    <Description></Description>
+    <Drawables>
+      <Drawable src="Animations/Robe/robe_legs.anim"></Drawable>
+    </Drawables>
+  </Item>
   
 </ItemRepository>
