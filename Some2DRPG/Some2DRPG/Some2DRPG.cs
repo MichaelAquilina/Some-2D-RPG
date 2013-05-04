@@ -80,7 +80,7 @@ namespace Some2DRPG
 
         protected override void LoadContent()
         {
-            ItemRepository.LoadItems(Content);
+            ItemRepository.LoadRepositoryXml("Items/ItemRepository.xml", Content);
 
             LightShader = new LightShader(this.GraphicsDevice, CIRCLE_POINT_ACCURACY);
             LightShader.AmbientLight = new Color(30, 15, 15);

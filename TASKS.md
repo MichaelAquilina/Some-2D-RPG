@@ -10,11 +10,9 @@ Todo
 	- [] - Refactoring of the xsd. Animations->Drawables. <DrawableInstance><Animation>...</Animation></DrawableInstance> etc..
 	- [] - Change all .anim file extensions to .draw extensions
 	- [] - Remember that refactoring will break other peoples code so we need some way of transitioning this.
-- [] - Allow for specifying an Entity does not need to be added to the Collider.
+- [] - To Consider. Allow for specifying an Entity does not need to be added to the Collider (Example LightSource does not need to be added).
 - [IP] - Collision detection between entities.
-         - Need some form of reserved word to distinguish between drawables and collision zones
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
-		 - Also, if a coin hits the player, this should not MOVE him.
 		 - Some forms of physics to allow proper reaction would be better.
 - [] - Allow specifying of constants in some kind of file which can then be referenced in tiled through some convention such as %SOME_KEY%
 - [] - Write some unit tests.

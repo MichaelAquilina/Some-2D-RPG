@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<ItemRepository>
+  <Item Name="PlateHelmet" ItemType="HeadGear" Weight="1.5">
+    <FriendlyName>Platemail Helmet</FriendlyName>
+    <Description>A standard Imperial Plate Mail Helmet used by all Imperial Guards in the realm.</Description>
+    <Drawables>
+      <Drawable src="Animations/Plate Armor/plate_armor_head.anim"></Drawable>
+    </Drawables>
+  </Item>
+
+  <Item Name="PlateChest" ItemType="Vest" Weight="12.0">
+    <FriendlyName>Platemail Chest Armor</FriendlyName>
+    <Description>A standard Imperial Plate Mail Chest Armor used by all Imperial Guards in the realm.</Description>
+    <Drawables>
+      <Drawable src="Animations/Plate Armor/plate_armor_torso.anim"></Drawable>
+      <Drawable src="Animations/Plate Armor/plate_armor_shoulders.anim"></Drawable>
+    </Drawables>
+  </Item>
+
+  <Item Name="PlateGloves" ItemType="Gloves" Weight="0.5">
+    <FriendlyName>Platemail Gloves</FriendlyName>
+    <Description>A standard Imperial Plate Mail pair of Gloves used by all Imperial Guards in the realm.</Description>
+    <Drawables>
+      <Drawable src="Animations/Plate Armor/plate_armor_hands.anim"></Drawable>
+    </Drawables>
+  </Item>
+
+  <Item Name="PlatePants" ItemType="Pants" Weight="5.0">
+    <FriendlyName>Platemail Pants</FriendlyName>
+    <Description>A standard Imperial Plate Mail pair of Pants used by all Imperial Guards in the realm.</Description>
+    <Drawables>
+      <Drawable src="Animations/Plate Armor/plate_armor_legs.anim"></Drawable>
+    </Drawables>
+  </Item>
+
+  <Item Name="PlateBoots" ItemType="Boots" Weight="2.5">
+    <FriendlyName>Platemail Boots</FriendlyName>
+    <Description>A standard Imperial Plate Mail pair of Boots used by all Imperial Guards in the realm.</Description>
+    <Drawables>
+      <Drawable src="Animations/Plate Armor/plate_armor_feet.anim"></Drawable>
+    </Drawables>
+  </Item>
+  
+</ItemRepository>

@@ -22,9 +22,9 @@ namespace GameEngine.Extensions
             return (T)Convert.ChangeType(node.Attributes[name].Value, typeof(T));
         }
 
-        public static string GetAttributeValue(XmlNode node, string name, string defaultValue = null)
+        public static string GetAttributeValue(XmlNode node, string name, string defaultValue = null, bool throwOnNotFound=false)
         {
-            return node.Attributes[name] == null ? defaultValue : node.Attributes[name].Value;
+            return GetAttributeValue<string>(node, name, defaultValue, throwOnNotFound);
         }
     }
 }
