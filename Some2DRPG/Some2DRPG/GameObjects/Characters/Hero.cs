@@ -7,6 +7,8 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.Shaders;
 using Some2DRPG.GameObjects.Misc;
+using Some2DRPG.Items;
+using GameEngine.Extensions;
 
 namespace Some2DRPG.GameObjects.Characters
 {
@@ -23,15 +25,6 @@ namespace Some2DRPG.GameObjects.Characters
             :base(NPC.MALE_HUMAN)
         {
             Construct(0, 0);
-
-            CollisionDetection = true;
-            Head = NPC.PLATE_ARMOR_HEAD;
-            Legs = NPC.PLATE_ARMOR_LEGS;
-            Feet = NPC.PLATE_ARMOR_FEET;
-            Shoulders = NPC.PLATE_ARMOR_SHOULDERS;
-            Torso = NPC.PLATE_ARMOR_TORSO;
-            Hands = NPC.PLATE_ARMOR_HANDS;
-            Weapon = NPC.WEAPON_LONGSWORD;
         }
 
         public Hero(float x, float y) :
@@ -52,6 +45,9 @@ namespace Some2DRPG.GameObjects.Characters
             LightSource.Pulse = 0.15f;
             LightSource.Color = Color.White;
             LightSource.PositionType = LightPositionType.Relative;
+
+            Equip(ItemRepository.GameItems["PlateHelmet"]);
+            Equip(ItemRepository.GameItems["PlateChest"]);
         }
 
         public override void PostInitialize(GameTime gameTime, TeeEngine engine)
@@ -114,6 +110,9 @@ namespace Some2DRPG.GameObjects.Characters
 
                     movement.X++;
                 }
+
+                if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.T, this, true))
+                    Unequip(ItemType.Vest);
 
                 // Set animation to idle of no movements where made.
                 if (movement.Length() == 0)

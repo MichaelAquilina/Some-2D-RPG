@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Characters;
 using Some2DRPG.Shaders;
+using Some2DRPG.Items;
 
 namespace Some2DRPG
 {
@@ -79,6 +80,8 @@ namespace Some2DRPG
 
         protected override void LoadContent()
         {
+            ItemRepository.LoadItems(Content);
+
             LightShader = new LightShader(this.GraphicsDevice, CIRCLE_POINT_ACCURACY);
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.Enabled = false;

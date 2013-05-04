@@ -1,6 +1,8 @@
-﻿using GameEngine.Drawing;
+﻿using System.Collections.Generic;
+using GameEngine.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Some2DRPG.Items;
 
 namespace Some2DRPG.GameObjects.Characters
 {
@@ -11,25 +13,11 @@ namespace Some2DRPG.GameObjects.Characters
         public const string MALE_HUMAN = @"Animations/Characters/male_npc.anim";
         public const string FEMALE_HUMAN = @"Animations/Characters/female_npc.anim";
 
-        public const string PLATE_ARMOR_LEGS = @"Animations/Plate Armor/plate_armor_legs.anim";
-        public const string PLATE_ARMOR_TORSO = @"Animations/Plate Armor/plate_armor_torso.anim";
-        public const string PLATE_ARMOR_FEET = @"Animations/Plate Armor/plate_armor_feet.anim";
-        public const string PLATE_ARMOR_HANDS = @"Animations/Plate Armor/plate_armor_hands.anim";
-        public const string PLATE_ARMOR_HEAD = @"Animations/Plate Armor/plate_armor_head.anim";
-        public const string PLATE_ARMOR_SHOULDERS = @"Animations/Plate Armor/plate_armor_shoulders.anim";
-
-        public const string WEAPON_DAGGER = @"Animations/Weapons/dagger.anim";
-        public const string WEAPON_LONGSWORD = @"Animations/Weapons/longsword.anim";
+        public List<Item> Backpack { get; set; }
+        public Dictionary<ItemType, Item> Equiped { get; set; }
 
         public Direction Direction { get; set; }
 
-        public string Weapon { get; set; }
-        public string Head { get; set; }
-        public string Torso { get; set; }
-        public string Feet { get; set; }
-        public string Shoulders { get; set; }
-        public string Legs { get; set; }
-        public string Hands { get; set; }
         public string BaseRace { get; set; }
 
         public int HP { get; set; }
@@ -60,6 +48,8 @@ namespace Some2DRPG.GameObjects.Characters
             this.ScaleX = 1.0f;
             this.ScaleY = 1.0f;
             this.CollisionGroup = "Shadow";
+            this.Backpack = new List<Item>();
+            this.Equiped = new Dictionary<ItemType, Item>();
 
             this.Direction = Direction.Right;
             this.BaseRace = baseRace;
@@ -67,16 +57,42 @@ namespace Some2DRPG.GameObjects.Characters
 
         public override void LoadContent(ContentManager content)
         {
-            if (Weapon != null) Animation.LoadAnimationXML(Drawables, Weapon, content);
-            if (Shoulders != null) Animation.LoadAnimationXML(Drawables, Shoulders, content);
-            if (Head != null) Animation.LoadAnimationXML(Drawables, Head, content);
-            if (Hands != null) Animation.LoadAnimationXML(Drawables, Hands, content);
-            if (Feet != null) Animation.LoadAnimationXML(Drawables, Feet, content);
-            if (Torso != null) Animation.LoadAnimationXML(Drawables, Torso, content);
-            if (Legs != null) Animation.LoadAnimationXML(Drawables, Legs, content);
             Animation.LoadAnimationXML(Drawables, BaseRace, content);
 
             CurrentDrawableState = "Idle_Left";
         }
+
+        #region Equipment Methods
+
+        public void Equip(Item item)
+        {
+            Unequip(item.ItemType);
+
+            Equiped[item.ItemType] = item;
+            Drawables.Copy(item.Drawables);
+        }
+
+        public void Unequip(Item item)
+        {
+            Unequip(item.ItemType);
+        }
+
+        public void Unequip(ItemType itemType)
+        {
+            if( Equiped.ContainsKey(itemType) )
+                Drawables.Remove(Equiped[itemType].Drawables);
+
+            Equiped.Remove(itemType);
+        }
+
+        public bool IsEquiped(Item item)
+        {
+            if (Equiped.ContainsKey(item.ItemType))
+                return Equiped[item.ItemType] == item;
+            else
+                return false;
+        }
+
+        #endregion
     }
 }

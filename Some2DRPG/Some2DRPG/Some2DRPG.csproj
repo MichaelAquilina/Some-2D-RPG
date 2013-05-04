@@ -110,6 +110,8 @@
     <Compile Include="GameObjects\CollidableEntity.cs" />
     <Compile Include="GameObjects\MapEntrance.cs" />
     <Compile Include="GameObjects\Misc\CoinArea.cs" />
+    <Compile Include="Items\Item.cs" />
+    <Compile Include="Items\ItemRepository.cs" />
     <Compile Include="MapScripts\CaveExampleMapScript.cs" />
     <Compile Include="MapScripts\ExampleMapScript.cs" />
     <Compile Include="GameObjects\Misc\LightSource.cs" />

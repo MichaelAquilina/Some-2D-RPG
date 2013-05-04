@@ -33,8 +33,8 @@ namespace GameEngine.Drawing
     /// </summary>
     public class DrawableSet
     {
-        private Dictionary<string, List<GameDrawableInstance>> _stateDictionary = new Dictionary<string, List<GameDrawableInstance>>();
-        private Dictionary<string, List<GameDrawableInstance>> _groupDictionary = new Dictionary<string, List<GameDrawableInstance>>();
+        private Dictionary<string, HashSet<GameDrawableInstance>> _stateDictionary = new Dictionary<string, HashSet<GameDrawableInstance>>();
+        private Dictionary<string, HashSet<GameDrawableInstance>> _groupDictionary = new Dictionary<string, HashSet<GameDrawableInstance>>();
 
         public ICollection<string> GetStates()
         {
@@ -46,12 +46,12 @@ namespace GameEngine.Drawing
             return _groupDictionary.Keys;
         }
 
-        public List<GameDrawableInstance> GetByState(string state)
+        public HashSet<GameDrawableInstance> GetByState(string state)
         {
             return (state==null)? null: _stateDictionary[state];
         }
 
-        public List<GameDrawableInstance> GetByGroup(string group)
+        public HashSet<GameDrawableInstance> GetByGroup(string group)
         {
             return (group==null)? null: _groupDictionary[group];
         }
@@ -59,10 +59,10 @@ namespace GameEngine.Drawing
         public GameDrawableInstance Add(string state, IGameDrawable drawable, string group="", int layer=0)
         {
             if (!_stateDictionary.ContainsKey(state))
-                _stateDictionary.Add(state, new List<GameDrawableInstance>());
+                _stateDictionary.Add(state, new HashSet<GameDrawableInstance>());
 
             if (!_groupDictionary.ContainsKey(group))
-                _groupDictionary.Add(group, new List<GameDrawableInstance>());
+                _groupDictionary.Add(group, new HashSet<GameDrawableInstance>());
 
             GameDrawableInstance instance = new GameDrawableInstance(drawable);
             instance.Layer = layer;
@@ -76,13 +76,61 @@ namespace GameEngine.Drawing
             return instance;
         }
 
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="drawable"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public bool Remove(IGameDrawable drawable, string state)
+        {
+            foreach(GameDrawableInstance instance in _stateDictionary[state])
+                if (instance.Drawable == drawable)
+                    return _stateDictionary[state].Remove(instance);
+
+            return false;
+        }
+
         public bool Remove(GameDrawableInstance gameDrawableInstance)
         {
             bool result = true;
-            result &= _stateDictionary.Remove(gameDrawableInstance._associatedState);
-            result &= _groupDictionary.Remove(gameDrawableInstance._associatedGroup);
+            result &= _stateDictionary[gameDrawableInstance._associatedState].Remove(gameDrawableInstance);
+            result &= _groupDictionary[gameDrawableInstance._associatedGroup].Remove(gameDrawableInstance);
 
             return result;
+        }
+
+        /// <summary>
+        /// TODO: Improve this description.
+        /// Copies all the IGameDrawable's found in the specified drawableSet into new GameDrawableInstances
+        /// within the same States as those find in the specified drawableSet. Acts much like a custom set
+        /// union operator.
+        /// </summary>
+        /// <param name="drawableSet"></param>
+        public void Copy(DrawableSet drawableSet)
+        {
+            foreach (string state in drawableSet.GetStates())
+            {
+                foreach (GameDrawableInstance instance in drawableSet.GetByState(state))
+                {
+                    GameDrawableInstance copiedInstance = Add(state, instance.Drawable, instance._associatedGroup);
+                    copiedInstance.Layer = instance.Layer;
+                    copiedInstance.Offset = instance.Offset;
+                    copiedInstance.Rotation = instance.Rotation;
+                    copiedInstance.Visible = instance.Visible;
+                }
+            }
+        }
+
+        /// <summary>
+        /// TODO
+        /// </summary>
+        /// <param name="drawableSet"></param>
+        public void Remove(DrawableSet drawableSet)
+        {
+            foreach (string state in drawableSet.GetStates())
+                foreach (GameDrawableInstance instance in drawableSet.GetByState(state))
+                    Remove(instance.Drawable, state);
         }
 
         public void ClearAll()

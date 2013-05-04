@@ -1,9 +1,12 @@
 Game Engine Tasks
 =================
 
+Consider replacing DrawableSet inner storage from List to HashSet<T>
+
 Todo
 ----
 
+- [] - LoadAnimationXML should be moved to the DrawableSet class and changed to something like LoadDrawableSetXML().
 - [] - Allow for specifying an Entity does not need to be added to the Collider.
 - [IP] - Collision detection between entities.
          - Need some form of reserved word to distinguish between drawables and collision zones

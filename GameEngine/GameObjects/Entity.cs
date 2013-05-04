@@ -161,7 +161,7 @@ namespace GameEngine.GameObjects
         /// <returns>An FRectangle object specifying the bounding box of this Entity in Pixels.</returns>
         public FRectangle GetPxBoundingBox(GameTime gameTime)
         {
-            List<GameDrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
+            HashSet<GameDrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
 
             if (drawables == null || drawables.Count == 0) return new FRectangle(Pos.X, Pos.Y, 0, 0);
 
@@ -213,8 +213,8 @@ namespace GameEngine.GameObjects
             GameTime gameTime
             )
         {
-            List<GameDrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
-            List<GameDrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
+            HashSet<GameDrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
+            HashSet<GameDrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
 
             if (entity1Instances == null || entity2Instances == null) return false;
 

@@ -333,11 +333,7 @@
    </properties>
   </object>
   <object name="JonSnow" type="Some2DRPG.GameObjects.Characters.NPC" x="828" y="342" width="18" height="16"/>
-  <object name="PodrickPayne" type="Some2DRPG.GameObjects.Characters.NPC" x="889" y="226" width="18" height="16">
-   <properties>
-    <property name="Head" value="Animations/Plate Armor/plate_armor_head.anim"/>
-   </properties>
-  </object>
+  <object name="PodrickPayne" type="Some2DRPG.GameObjects.Characters.NPC" x="889" y="226" width="18" height="16"/>
   <object name="BrienneTheBeauty" type="Some2DRPG.GameObjects.Characters.NPC" x="946" y="285" width="18" height="16">
    <properties>
     <property name="BaseRace" value="Animations/Characters/female_npc.anim"/>
