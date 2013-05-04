@@ -373,5 +373,6 @@
    </properties>
    <ellipse/>
   </object>
+  <object name="FunnyCombatDummy" type="Some2DRPG.GameObjects.Creatures.CombatDummy" x="719" y="302"/>
  </objectgroup>
 </map>

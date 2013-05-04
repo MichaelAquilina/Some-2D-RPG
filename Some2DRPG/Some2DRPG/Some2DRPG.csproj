@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GameObjects\CollidableEntity.cs" />
+    <Compile Include="GameObjects\Creatures\CombatDummy.cs" />
     <Compile Include="GameObjects\MapEntrance.cs" />
     <Compile Include="GameObjects\Misc\CoinArea.cs" />
     <Compile Include="Items\Item.cs" />
@@ -181,8 +182,13 @@
     <None Include="Animations\Monsters\bat.anim">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Monsters\bee.anim" />
-    <None Include="Animations\Monsters\combat_dummy.anim" />
+    <None Include="Animations\Monsters\bee.anim">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Animations\Monsters\combat_dummy.anim">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Animations\Objects\fireplace.anim">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
