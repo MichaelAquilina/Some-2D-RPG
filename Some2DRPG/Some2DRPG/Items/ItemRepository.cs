@@ -42,6 +42,45 @@ namespace Some2DRPG.Items
             Animation.LoadAnimationXML(plateChest.Drawables, "Animations/Plate Armor/plate_armor_shoulders.anim", content);
 
             GameItems.Add(plateChest.Name, plateChest);
+
+            // PLATE GLOVES
+
+            Item plateGloves = new Item();
+            plateGloves.Name = "PlateGloves";
+            plateGloves.FriendlyName = "Platemail Gloves";
+            plateGloves.Description = "A standard Imperial Plate Mail pair of Gloves used by all Imperial Guards in the realm";
+            plateGloves.Weight = 0.5f;
+            plateGloves.ItemType = ItemType.Gloves;
+
+            Animation.LoadAnimationXML(plateGloves.Drawables, "Animations/Plate Armor/plate_armor_hands.anim", content);
+
+            GameItems.Add(plateGloves.Name, plateGloves);
+
+            // PLATE PANTS
+
+            Item platePants = new Item();
+            platePants.Name = "PlatePants";
+            platePants.FriendlyName = "Platemail Pants";
+            platePants.Description = "A standard Imperial Plate Mail pair of Pants used by all Imperial Guards in the realm";
+            platePants.Weight = 5.5f;
+            platePants.ItemType = ItemType.Pants;
+
+            Animation.LoadAnimationXML(platePants.Drawables, "Animations/Plate Armor/plate_armor_legs.anim", content);
+
+            GameItems.Add(platePants.Name, platePants);
+
+            // PLATE BOOTS
+
+            Item plateBoots = new Item();
+            plateBoots.Name = "PlateBoots";
+            plateBoots.FriendlyName = "Platemail Boots";
+            plateBoots.Description = "A standard Imperial Plate Mail pair of Boots used by all Imperial Guards in the realm";
+            plateBoots.Weight = 2.5f;
+            plateBoots.ItemType = ItemType.Boots;
+
+            Animation.LoadAnimationXML(plateBoots.Drawables, "Animations/Plate Armor/plate_armor_feet.anim", content);
+
+            GameItems.Add(plateBoots.Name, plateBoots);
         }
     }
 }
