@@ -7,6 +7,8 @@ namespace GameEngine.Info
     /// <summary>
     /// Class that will contain debug information that can then be accessed by the user in a specific manner within the
     /// TeeEngine. This structure will be updated when necessary within the TeeEngine update logic.
+    /// TODO: Refactor this because its become quite dirty. It should include watches as PART of the class (Rather than
+    /// contained within the TeeEngine class definition).
     /// </summary>
     public class DebugInfo
     {
