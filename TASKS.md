@@ -1,14 +1,15 @@
 Game Engine Tasks
 =================
 
-Consider replacing DrawableSet inner storage from List to HashSet<T>
-
 Todo
 ----
 
-- [] - Make IGameDrawable Files require to provide a XmlToDrawable static method which allows it to be loaded from an xml file.
-- [] - Change all .anim file extensions to .draw extensions
-- [] - LoadAnimationXML should be moved to the DrawableSet class and changed to something like LoadDrawableSetXML().
+- [] - Loading of Items from storage. JSON is probably the nicest format in this case, but XML should also be considered.
+- [] - Refactoring of the way drawables are loaded from .anim files
+	- [] - Make IGameDrawable Files require to provide a XmlToDrawable static method which allows it to be loaded from an xml file.
+	- [] - Refactoring of the xsd. Animations->Drawables. <DrawableInstance><Animation>...</Animation></DrawableInstance> etc..
+	- [] - Change all .anim file extensions to .draw extensions
+	- [] - Remember that refactoring will break other peoples code so we need some way of transitioning this.
 - [] - Allow for specifying an Entity does not need to be added to the Collider.
 - [IP] - Collision detection between entities.
          - Need some form of reserved word to distinguish between drawables and collision zones
@@ -21,7 +22,8 @@ Todo
 - [] - Fix bug in Animation class related to 'IsFinshed()'. Make IGameDrawable classes expose some form of GetCurrentState() enumeration.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
-- [] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm.
+- [] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
+- [Done] - LoadAnimationXML should be moved to the DrawableSet class and changed to something like LoadDrawableSetXML().
 - [Done] - Improve HashList DrawDebugInfo drawing code in terms of performance (currently very ineffecient).
 - [Done] - Add DrawCenteredString method to SpriteBatchExtensions.
 - [Done] - Continue working on DrawDebugInfo code for HashList. Rectangles should be color coded according to how many entities reside in them. It should also should its index and the count of its entities.
@@ -67,7 +69,7 @@ Must Have
 Should Have
 -----------
 - [] - Ability to run in full screen mode. Currently this does not work as expected.
-- [] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
+- [IP] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
 - [] - NPC Interaction (scriptable with dialog text)
 - [Done] - the ability to zoom in and out (scale)
 - [Done] - an effecient collision detection engine (QuadTree)
