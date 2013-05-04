@@ -4,6 +4,8 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Refactoring of DebugInfo. Watches should be contained within DebugInfo and should be stored as a Dictionary rather than using HardCoded properties which can
+       be very unwiedly and hard to mantain.
 - [] - Loading of Items from storage. JSON is probably the nicest format in this case, but XML should also be considered.
 - [] - Refactoring of the way drawables are loaded from .anim files
 	- [] - Make IGameDrawable Files require to provide a XmlToDrawable static method which allows it to be loaded from an xml file.
