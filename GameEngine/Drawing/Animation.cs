@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Text.RegularExpressions;
-using System.Xml;
-using GameEngine.Extensions;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Drawing
@@ -90,82 +86,6 @@ namespace GameEngine.Drawing
         public Rectangle GetFrame(double elapsedMS)
         {
             return Frames[Math.Min(GetFrameIndex(elapsedMS), Frames.Length-1)];
-        }
-
-        /// <summary>
-        /// Loads Animations into a specified DrawableSet object from a specified in an XML formatted .anim file.
-        /// The method requires the string path to the xml file containing the animation data and a reference to the
-        /// ContentManager. An optional Layer value can be specified for the ordering of the animations in the 
-        /// DrawableSet.
-        /// </summary>
-        /// <param name="drawableSet">DrawableSet object to load the animations into.</param>
-        /// <param name="path">String path to the XML formatted .anim file</param>
-        /// <param name="content">Reference to the ContentManager instance being used in the application</param>
-        public static void LoadAnimationXML(DrawableSet drawableSet, string path, ContentManager content, double startTimeMS=0)
-        {
-            XmlDocument document = new XmlDocument();
-            document.Load(path);
-
-            foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
-            {
-                int frameDelay = XmlExtensions.GetAttributeValue<int>(animNode, "FrameDelay", 90);
-                bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);
-                int layer = XmlExtensions.GetAttributeValue<int>(animNode, "Layer", 0);
-
-                string state = XmlExtensions.GetAttributeValue(animNode, "State");
-                string group = XmlExtensions.GetAttributeValue(animNode, "Group", "");
-                string spriteSheet = XmlExtensions.GetAttributeValue(animNode, "SpriteSheet");
-                string[] offset = XmlExtensions.GetAttributeValue(animNode, "Offset", "0, 0").Split(',');
-                string[] origin = XmlExtensions.GetAttributeValue(animNode, "Origin", "0.5, 1.0").Split(',');
-
-                Vector2 offsetVector = new Vector2((float)Convert.ToDouble(offset[0]), (float)Convert.ToDouble(offset[1]));
-                Vector2 originVector = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
-
-                XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
-                Rectangle[] frames = new Rectangle[frameNodes.Count];
-
-                for (int i = 0; i < frameNodes.Count; i++)
-                {
-                    string[] tokens = frameNodes[i].InnerText.Split(',');
-                    if (tokens.Length != 4)
-                        throw new FormatException("Expected 4 Values for Frame Definition: X, Y, Width, Height");
-
-                    int x = Convert.ToInt32(tokens[0]);
-                    int y = Convert.ToInt32(tokens[1]);
-                    int width = Convert.ToInt32(tokens[2]);
-                    int height = Convert.ToInt32(tokens[3]);
-
-                    frames[i] = new Rectangle(x, y, width, height);
-                }
-
-                Animation animation = new Animation(content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
-                animation.Origin = originVector;
-                
-                // TODO: Requires possible revision of code.
-                // Allow support for specifying glob patterns in the case of state names.
-                if (state.Contains("*"))
-                {
-                    // Use Glob patterns in favour of regular expressions.
-                    state = Regex.Escape(state).Replace(@"\*", ".*").Replace(@"\?", ".");
-                    Regex regexMatcher = new Regex(state);
-
-                    foreach (string drawableSetState in drawableSet.GetStates())
-                    {
-                        if (regexMatcher.IsMatch(drawableSetState))
-                        {
-                            GameDrawableInstance instance = drawableSet.Add(drawableSetState, animation, group, layer);
-                            instance.StartTimeMS = startTimeMS;
-                            instance.Offset = offsetVector;
-                        }
-                    }
-                }
-                else
-                {
-                    GameDrawableInstance instance = drawableSet.Add(state, animation, group, layer);
-                    instance.StartTimeMS = startTimeMS;
-                    instance.Offset = offsetVector;
-                }
-            }
         }
 
         public override string ToString()

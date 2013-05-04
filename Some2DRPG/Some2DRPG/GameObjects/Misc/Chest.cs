@@ -50,7 +50,7 @@ namespace Some2DRPG.GameObjects.Misc
 
         public override void LoadContent(ContentManager content)
         {
-            Animation.LoadAnimationXML(Drawables, "Animations/Misc/chests.anim", content);
+            DrawableSet.LoadDrawableSetXml(Drawables, "Animations/Misc/chests.anim", content);
             CurrentDrawableState = "Closed";
         }
     }

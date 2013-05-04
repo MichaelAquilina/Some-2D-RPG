@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using GameEngine.Drawing;
 using Microsoft.Xna.Framework.Content;
 
@@ -25,7 +22,7 @@ namespace Some2DRPG.Items
             plateHelmet.Weight = 1.5f;
             plateHelmet.ItemType = ItemType.HeadGear;
 
-            Animation.LoadAnimationXML(plateHelmet.Drawables, "Animations/Plate Armor/plate_armor_head.anim", content);
+            DrawableSet.LoadDrawableSetXml(plateHelmet.Drawables, "Animations/Plate Armor/plate_armor_head.anim", content);
 
             GameItems.Add(plateHelmet.Name, plateHelmet);
 
@@ -38,8 +35,8 @@ namespace Some2DRPG.Items
             plateChest.Weight = 10.5f;
             plateChest.ItemType = ItemType.Vest;
 
-            Animation.LoadAnimationXML(plateChest.Drawables, "Animations/Plate Armor/plate_armor_torso.anim", content);
-            Animation.LoadAnimationXML(plateChest.Drawables, "Animations/Plate Armor/plate_armor_shoulders.anim", content);
+            DrawableSet.LoadDrawableSetXml(plateChest.Drawables, "Animations/Plate Armor/plate_armor_torso.anim", content);
+            DrawableSet.LoadDrawableSetXml(plateChest.Drawables, "Animations/Plate Armor/plate_armor_shoulders.anim", content);
 
             GameItems.Add(plateChest.Name, plateChest);
 
@@ -52,7 +49,7 @@ namespace Some2DRPG.Items
             plateGloves.Weight = 0.5f;
             plateGloves.ItemType = ItemType.Gloves;
 
-            Animation.LoadAnimationXML(plateGloves.Drawables, "Animations/Plate Armor/plate_armor_hands.anim", content);
+            DrawableSet.LoadDrawableSetXml(plateGloves.Drawables, "Animations/Plate Armor/plate_armor_hands.anim", content);
 
             GameItems.Add(plateGloves.Name, plateGloves);
 
@@ -65,7 +62,7 @@ namespace Some2DRPG.Items
             platePants.Weight = 5.5f;
             platePants.ItemType = ItemType.Pants;
 
-            Animation.LoadAnimationXML(platePants.Drawables, "Animations/Plate Armor/plate_armor_legs.anim", content);
+            DrawableSet.LoadDrawableSetXml(platePants.Drawables, "Animations/Plate Armor/plate_armor_legs.anim", content);
 
             GameItems.Add(platePants.Name, platePants);
 
@@ -78,7 +75,7 @@ namespace Some2DRPG.Items
             plateBoots.Weight = 2.5f;
             plateBoots.ItemType = ItemType.Boots;
 
-            Animation.LoadAnimationXML(plateBoots.Drawables, "Animations/Plate Armor/plate_armor_feet.anim", content);
+            DrawableSet.LoadDrawableSetXml(plateBoots.Drawables, "Animations/Plate Armor/plate_armor_feet.anim", content);
 
             GameItems.Add(plateBoots.Name, plateBoots);
         }

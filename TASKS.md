@@ -6,6 +6,8 @@ Consider replacing DrawableSet inner storage from List to HashSet<T>
 Todo
 ----
 
+- [] - Make IGameDrawable Files require to provide a XmlToDrawable static method which allows it to be loaded from an xml file.
+- [] - Change all .anim file extensions to .draw extensions
 - [] - LoadAnimationXML should be moved to the DrawableSet class and changed to something like LoadDrawableSetXML().
 - [] - Allow for specifying an Entity does not need to be added to the Collider.
 - [IP] - Collision detection between entities.

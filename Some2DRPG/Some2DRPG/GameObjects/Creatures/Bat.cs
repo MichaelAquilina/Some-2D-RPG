@@ -139,7 +139,7 @@ namespace Some2DRPG.GameObjects.Creatures
         {
             double startTimeMS = randomGenerator.NextDouble() * 4000;
 
-            Animation.LoadAnimationXML(
+            DrawableSet.LoadDrawableSetXml(
                 Drawables, 
                 "Animations/Monsters/bat.anim", 
                 content, startTimeMS

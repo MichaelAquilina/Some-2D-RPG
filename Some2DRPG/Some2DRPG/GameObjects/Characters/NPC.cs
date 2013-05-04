@@ -57,7 +57,7 @@ namespace Some2DRPG.GameObjects.Characters
 
         public override void LoadContent(ContentManager content)
         {
-            Animation.LoadAnimationXML(Drawables, BaseRace, content);
+            DrawableSet.LoadDrawableSetXml(Drawables, BaseRace, content);
 
             CurrentDrawableState = "Idle_Left";
         }
