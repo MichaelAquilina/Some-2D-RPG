@@ -69,7 +69,7 @@ namespace Some2DRPG.GameObjects.Characters
             Unequip(item.ItemType);
 
             Equiped[item.ItemType] = item;
-            Drawables.Copy(item.Drawables);
+            Drawables.Union(item.Drawables);
         }
 
         public void Unequip(Item item)
