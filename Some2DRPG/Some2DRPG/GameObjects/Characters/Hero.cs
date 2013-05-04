@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using GameEngine;
-using GameEngine.GameObjects;
+﻿using GameEngine;
+using GameEngine.Extensions;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
-using Some2DRPG.Shaders;
 using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Items;
-using GameEngine.Extensions;
+using Some2DRPG.Shaders;
 
 namespace Some2DRPG.GameObjects.Characters
 {
@@ -50,7 +48,7 @@ namespace Some2DRPG.GameObjects.Characters
             Equip(ItemRepository.GameItems["RobeSkirt"]);
             Equip(ItemRepository.GameItems["PlateGloves"]);
             Equip(ItemRepository.GameItems["RobeShirt"]);
-            Equip(ItemRepository.GameItems["PlainShoes"]);
+            Equip(ItemRepository.GameItems["PlateBoots"]);
         }
 
         public override void PostInitialize(GameTime gameTime, TeeEngine engine)
