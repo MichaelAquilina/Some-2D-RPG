@@ -257,7 +257,7 @@ namespace Some2DRPG
                 if (showDiagnostics)
                 {
                     StringBuilder builder = new StringBuilder();
-                    builder.AppendLine(Engine.DebugInfo.ToString());
+                    builder.AppendLine(Engine.OverallPerformance.ToString());
 
                     //builder.AppendLine("Entity Update Times");
                     //Dictionary<string, TimeSpan> topUpdateTimes = Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityUpdateTimes, 3);

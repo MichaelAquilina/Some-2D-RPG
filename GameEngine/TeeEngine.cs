@@ -79,7 +79,7 @@ namespace GameEngine
         /// <summary>
         /// Debug Information that can be accessed by the player.
         /// </summary>
-        public DebugInfo DebugInfo { get; private set; }
+        public DiagnosticInfo OverallPerformance { get; private set; }
 
         /// <summary>
         /// Class that allows the user to specify the settings for numerous drawing options.
@@ -125,7 +125,7 @@ namespace GameEngine
 
             EntitiesOnScreen = new List<Entity>();
 
-            DebugInfo = new DebugInfo("Overall Game Performance");
+            OverallPerformance = new DiagnosticInfo("Overall Game Performance");
 
             SetResolution(pixelWidth, pixelHeight);
             game.Components.Add(this);
@@ -262,7 +262,7 @@ namespace GameEngine
         void DestroyEntities(GameTime gameTime)
         {
             // REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
-            DebugInfo.RestartTiming("DestroyEntitiesTime");
+            OverallPerformance.RestartTiming("DestroyEntitiesTime");
             for (int i = 0; i < _entityDestroy.Count; i++)
             {
                 Entity entity = _entityDestroy[i];
@@ -279,14 +279,14 @@ namespace GameEngine
             }
             _entityDestroy.Clear();
 
-            DebugInfo.StopTiming("DestroyEntitiesTime");
+            OverallPerformance.StopTiming("DestroyEntitiesTime");
         }
 
         // Creates any pending entities in the Entity Create List.
         void CreateEntities(GameTime gameTime)
         {
             // ADD ANY ENTITIES IN THE CREATION LIST
-            DebugInfo.RestartTiming("CreateEntitiesTime");
+            OverallPerformance.RestartTiming("CreateEntitiesTime");
             for (int i = 0; i < _entityCreate.Count; i++)
             {
                 Entity entity = _entityCreate[i];
@@ -306,7 +306,7 @@ namespace GameEngine
             }
             _entityCreate.Clear();
 
-            DebugInfo.StopTiming("CreateEntitiesTime");
+            OverallPerformance.StopTiming("CreateEntitiesTime");
         }
 
         // Automatic Conversion of TiledObjects in a .tmx file to TeeEngine Entities using C# Reflection.
@@ -443,8 +443,8 @@ namespace GameEngine
             if(MapScript != null)
                 MapScript.Update(this, gameTime);
 
-            DebugInfo.ResetAll();
-            DebugInfo.RestartTiming("TotalEntityUpdateTime");
+            OverallPerformance.ResetAll();
+            OverallPerformance.RestartTiming("TotalEntityUpdateTime");
             
             foreach (string entityId in _entities.Keys)
             {
@@ -466,15 +466,15 @@ namespace GameEngine
                 entity.IsOnScreen = false;
 
                 // If the entity has moved, then update his position in the QuadTree.
-                DebugInfo.StartTiming("ColliderUpdateTime");
+                OverallPerformance.StartTiming("ColliderUpdateTime");
                 {
                     if (entity.CurrentBoundingBox != entity.PreviousBoundingBox)
                         Collider.Update(entity);
                 }
-                DebugInfo.StopTiming("ColliderUpdateTime");
+                OverallPerformance.StopTiming("ColliderUpdateTime");
             }
 
-            DebugInfo.StopTiming("TotalEntityUpdateTime");
+            OverallPerformance.StopTiming("TotalEntityUpdateTime");
 
             DestroyEntities(gameTime);
             CreateEntities(gameTime);
@@ -541,7 +541,7 @@ namespace GameEngine
             GraphicsDevice.Clear(Map.Background);
 
             // DRAW THE WORLD MAP
-            DebugInfo.StartTiming("TileRenderingTime");
+            OverallPerformance.StartTiming("TileRenderingTime");
 
             // Deferred Rendering should be fine for rendering tile as long as we draw tile layers one at a time
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, samplerState, null, null);
@@ -604,7 +604,7 @@ namespace GameEngine
             }
             spriteBatch.End();
 
-            DebugInfo.StopTiming("TileRenderingTime");
+            OverallPerformance.StopTiming("TileRenderingTime");
 
             // Calculate the entity Displacement caused by pxTopLeft at a global scale to prevent jittering.
             // Each entity should be displaced by the *same amount* based on the pxTopLeftX/Y values
@@ -613,7 +613,7 @@ namespace GameEngine
             float globalDispY = (int) Math.Ceiling(viewPortInfo.pxTopLeftY * viewPortInfo.ActualZoom);
 
             // DRAW VISIBLE REGISTERED ENTITIES
-            DebugInfo.RestartTiming("TotalEntityRenderTime");
+            OverallPerformance.RestartTiming("TotalEntityRenderTime");
             spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, samplerState, null, null);
             {
                 EntitiesOnScreen = Collider.GetIntersectingEntites(new FRectangle(viewPortInfo.pxViewPortBounds));
@@ -739,10 +739,10 @@ namespace GameEngine
                 }
             }
             spriteBatch.End();
-            DebugInfo.StopTiming("TotalEntityRenderTime");
+            OverallPerformance.StopTiming("TotalEntityRenderTime");
 
             // APPLY GAME SHADERS TO THE RESULTANT IMAGE
-            DebugInfo.RestartTiming("TotalPostGameShaderRenderTime");
+            OverallPerformance.RestartTiming("TotalPostGameShaderRenderTime");
             foreach(PostGameShader postGameShader in GameShaders)
             {
                 if (postGameShader.Enabled)
@@ -755,7 +755,7 @@ namespace GameEngine
                     _outputBuffer = _dummyBuffer;
                 }
             }
-            DebugInfo.StopTiming("TotalPostGameShaderRenderTime");
+            OverallPerformance.StopTiming("TotalPostGameShaderRenderTime");
 
             // DRAW COLLIDER DEBUG INFORMATION IF ENABLED
             if (DrawingOptions.ShowColliderDebugInfo)

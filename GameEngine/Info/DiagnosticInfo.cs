@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Diagnostics;
 
 namespace GameEngine.Info
@@ -8,13 +7,13 @@ namespace GameEngine.Info
     /// <summary>
     /// Class that allows for diagnsotics times to be stored and timed.
     /// </summary>
-    public class DebugInfo
+    public class DiagnosticInfo
     {
         public string Description { get; set; }
 
         private Dictionary<string, Stopwatch> _diagnostics = new Dictionary<string, Stopwatch>();
 
-        public DebugInfo(string description)
+        public DiagnosticInfo(string description)
         {
             this.Description = description;
         }
