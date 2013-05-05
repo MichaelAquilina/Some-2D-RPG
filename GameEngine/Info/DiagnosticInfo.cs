@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 
 namespace GameEngine.Info
 {
     /// <summary>
-    /// Class that allows for diagnsotics times to be stored and timed.
+    /// Class that allows for diagnostics to be recorded and organised through named values. Provides numerous
+    /// methods that allow for each diagnostic timer to be started, stopped and reset in order to provide complete 
+    /// control.
     /// </summary>
     public class DiagnosticInfo
     {
@@ -66,6 +69,20 @@ namespace GameEngine.Info
                 throw new ArgumentException("The specified diagnostic watch does not exist.");
 
             return _diagnostics[name].Elapsed;
+        }
+
+        public string ShowAll()
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.AppendLine(Description);
+
+            foreach (string key in _diagnostics.Keys)
+            {
+                builder.AppendFormat("{0}: {1}", key, GetTiming(key));
+                builder.AppendLine();
+            }
+
+            return builder.ToString();
         }
 
         public override string ToString()
