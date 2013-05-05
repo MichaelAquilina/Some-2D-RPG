@@ -259,15 +259,15 @@ namespace Some2DRPG
                     StringBuilder builder = new StringBuilder();
                     builder.AppendLine(Engine.DebugInfo.ToString());
 
-                    builder.AppendLine("Entity Update Times");
-                    Dictionary<string, TimeSpan> topUpdateTimes = Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityUpdateTimes, 3);
-                    foreach (string entityId in topUpdateTimes.Keys)
-                        builder.AppendLine(string.Format("'{0}' = {1}", entityId, topUpdateTimes[entityId]));
+                    //builder.AppendLine("Entity Update Times");
+                    //Dictionary<string, TimeSpan> topUpdateTimes = Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityUpdateTimes, 3);
+                    //foreach (string entityId in topUpdateTimes.Keys)
+                    //    builder.AppendLine(string.Format("'{0}' = {1}", entityId, topUpdateTimes[entityId]));
 
-                    builder.AppendLine("Entity Rendering Times");
-                    Dictionary<string, TimeSpan> topRenderTimes = Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityRenderingTimes, 3);
-                    foreach (string entityId in topRenderTimes.Keys)
-                        builder.AppendLine(string.Format("'{0}' = {1}", entityId, topRenderTimes[entityId]));
+                    //builder.AppendLine("Entity Rendering Times");
+                    //Dictionary<string, TimeSpan> topRenderTimes = Engine.DebugInfo.GetTop(Engine.DebugInfo.EntityRenderingTimes, 3);
+                    //foreach (string entityId in topRenderTimes.Keys)
+                    //    builder.AppendLine(string.Format("'{0}' = {1}", entityId, topRenderTimes[entityId]));
 
                     string textOutput = builder.ToString();
                     SpriteBatch.DrawString(DefaultSpriteFont, textOutput, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(textOutput).Y), Color.White);
