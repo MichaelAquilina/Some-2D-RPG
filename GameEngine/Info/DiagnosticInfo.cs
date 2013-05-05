@@ -77,6 +77,11 @@ namespace GameEngine.Info
             return _diagnostics[name].Elapsed;
         }
 
+        public bool RemoveTiming(string name)
+        {
+            return _diagnostics.Remove(name);
+        }
+
         public string ShowTop(int top, bool sort=true)
         {
             List<string> keyList = _diagnostics.Keys.ToList();

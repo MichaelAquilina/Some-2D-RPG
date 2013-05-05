@@ -282,8 +282,11 @@ namespace GameEngine
                 {
                     _entities.Remove(entity.Name);
 
-                    entity.Name = null;
+                    EntityRenderPerformance.RemoveTiming(entity.Name);
+                    EntityUpdatePerformance.RemoveTiming(entity.Name);
                     Collider.Remove(entity);
+
+                    entity.Name = null;
 
                     entity.PostDestroy(gameTime, this);
                 }
@@ -321,7 +324,7 @@ namespace GameEngine
         }
 
         // Automatic Conversion of TiledObjects in a .tmx file to TeeEngine Entities using C# Reflection.
-        void ConvertMapObjects(TiledMap map)
+        private void ConvertMapObjects(TiledMap map)
         {
             foreach (TiledObjectLayer objectLayer in map.TiledObjectLayers)
             {
