@@ -12,6 +12,7 @@ using GameEngine.Shaders;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngine.Pathfinding;
 
 /// <summary>
 /// The TeeEngine - the result of my sweat, blood and tears into this project. The TeeEngine is simply a 2D Tile Engine that
@@ -94,6 +95,11 @@ namespace GameEngine
         /// Class that allows the user to specify the settings for numerous drawing options.
         /// </summary>
         public DrawingOptions DrawingOptions { get; private set; }
+
+        /// <summary>
+        /// Class that allows pathfinding on a loaded TiledMap
+        /// </summary>
+        public AStar Pathfinding { get; private set; }
 
         #endregion
 
@@ -195,6 +201,9 @@ namespace GameEngine
             // unload previous map here.
 
             this.Collider.Construct(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
+
+            // Setup the pathfinding with the new map
+            this.Pathfinding = new AStar(this.Map);
         }
 
         public void LoadMap(string mapFilePath, MapEventArgs mapLoadedEventArgs=null)
