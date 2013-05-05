@@ -495,6 +495,9 @@ namespace GameEngine
             // If the Map Loaded flag has beem set, we need to invoke the MapScripts MapLoaded event hook.
             if (_mapLoaded)
             {
+                EntityRenderPerformance.Clear();
+                EntityUpdatePerformance.Clear();
+
                 if (MapScript != null)
                     MapScript.MapLoaded(this, Map, _mapLoadedEventArgs);
 
