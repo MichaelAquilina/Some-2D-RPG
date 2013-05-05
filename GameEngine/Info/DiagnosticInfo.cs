@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
@@ -19,6 +20,11 @@ namespace GameEngine.Info
         public DiagnosticInfo(string description)
         {
             this.Description = description;
+        }
+
+        public void Clear()
+        {
+            _diagnostics.Clear();
         }
 
         public void ResetAll()
@@ -71,13 +77,17 @@ namespace GameEngine.Info
             return _diagnostics[name].Elapsed;
         }
 
-        public string ShowAll()
+        public string ShowTop(int top, bool sort=true)
         {
-            StringBuilder builder = new StringBuilder();
-            builder.AppendLine(Description);
+            List<string> keyList = _diagnostics.Keys.ToList();
 
-            foreach (string key in _diagnostics.Keys)
+            if(sort) keyList.Sort(CompareWatches);
+
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < top && i < keyList.Count; i++)
             {
+                string key = keyList[i];
+
                 builder.AppendFormat("{0}: {1}", key, GetTiming(key));
                 builder.AppendLine();
             }
@@ -85,9 +95,21 @@ namespace GameEngine.Info
             return builder.ToString();
         }
 
+        public string ShowAll(bool sort=true)
+        {
+            return ShowTop(_diagnostics.Keys.Count, sort);
+        }
+
         public override string ToString()
         {
             return string.Format("DebugInfo: Description={0}, Timers={1}", Description, _diagnostics.Keys.Count);
+        }
+
+        private int CompareWatches(string key1, string key2)
+        {
+            return Convert.ToInt32(
+                _diagnostics[key2].Elapsed.Ticks - _diagnostics[key1].Elapsed.Ticks
+                );
         }
     }
 }

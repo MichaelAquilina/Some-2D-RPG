@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Reflection;
 using GameEngine.DataStructures;
 using GameEngine.Drawing;
@@ -77,9 +76,19 @@ namespace GameEngine
         public GameTime LastUpdateTime { get; private set; }
 
         /// <summary>
-        /// Debug Information that can be accessed by the player.
+        /// Diagnostic Information that records the Overall Engine Performance.
         /// </summary>
         public DiagnosticInfo OverallPerformance { get; private set; }
+
+        /// <summary>
+        /// Diagnostic Information that records the performance of each entity's Update routine.
+        /// </summary>
+        public DiagnosticInfo EntityUpdatePerformance { get; private set; }
+
+        /// <summary>
+        /// Diagnostic Information that records the perofrmance of each entity's Render time.
+        /// </summary>
+        public DiagnosticInfo EntityRenderPerformance { get; private set; }
 
         /// <summary>
         /// Class that allows the user to specify the settings for numerous drawing options.
@@ -126,6 +135,8 @@ namespace GameEngine
             EntitiesOnScreen = new List<Entity>();
 
             OverallPerformance = new DiagnosticInfo("Overall Game Performance");
+            EntityUpdatePerformance = new DiagnosticInfo("Individual Entity Update Performance");
+            EntityRenderPerformance = new DiagnosticInfo("Individual Entity Render Performance");
 
             SetResolution(pixelWidth, pixelHeight);
             game.Components.Add(this);
@@ -440,8 +451,12 @@ namespace GameEngine
             LastUpdateTime = gameTime;
 
             // Allow Map to Perform Update Routine
-            if(MapScript != null)
+            if (MapScript != null)
+            {
+                OverallPerformance.RestartTiming("MapScriptUpdateTime");
                 MapScript.Update(this, gameTime);
+                OverallPerformance.StopTiming("MapScriptUpdateTime");
+            }
 
             OverallPerformance.ResetAll();
             OverallPerformance.RestartTiming("TotalEntityUpdateTime");
@@ -451,16 +466,14 @@ namespace GameEngine
                 Entity entity = _entities[entityId];
                 entity.PreviousBoundingBox = entity.CurrentBoundingBox;
 
-                // Perform any per-entity update logic.
-                //_watch2.Restart(); 
-                entity.Update(gameTime, this);
-                //DebugInfo.EntityUpdateTimes[entityId] = _watch2.Elapsed;
-                //DebugInfo.TotalEntityUpdateTime += _watch2.Elapsed;
+                EntityUpdatePerformance.RestartTiming(entityId);
+                {
+                    entity.Update(gameTime, this);
+                }
+                EntityUpdatePerformance.StopTiming(entityId);
 
                 // Recalculate the Entities BoundingBox.
-                //_watch2.Restart();
                 entity.CurrentBoundingBox = entity.GetPxBoundingBox(gameTime);
-                //DebugInfo.TotalEntityUpdateBoundingBoxTime += _watch2.Elapsed;
 
                 // Reset the IsOnScreen variable before the next drawing operation.
                 entity.IsOnScreen = false;
@@ -621,7 +634,7 @@ namespace GameEngine
                 // DRAW EACH ENTITIY THAT IS WITHIN THE SCREENS VIEWPORT
                 foreach (Entity entity in EntitiesOnScreen)
                 {
-                    //_watch2.Restart();
+                    EntityRenderPerformance.RestartTiming(entity.Name);
 
                     if (!entity.Visible) continue;
                     entity.IsOnScreen = true;
@@ -735,7 +748,7 @@ namespace GameEngine
                         }
                     }
 
-                    //DebugInfo.EntityRenderingTimes[entity.Name] = _watch2.Elapsed;
+                    EntityRenderPerformance.StopTiming(entity.Name);
                 }
             }
             spriteBatch.End();
