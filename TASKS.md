@@ -6,7 +6,6 @@ Todo
 
 - [] - Refactoring of DebugInfo. Watches should be contained within DebugInfo and should be stored as a Dictionary rather than using HardCoded properties which can
        be very unwiedly and hard to mantain.
-- [] - Loading of Items from storage. JSON is probably the nicest format in this case, but XML should also be considered.
 - [] - Refactoring of the way drawables are loaded from .anim files
 	- [] - Make IGameDrawable Files require to provide a XmlToDrawable static method which allows it to be loaded from an xml file.
 	- [] - Refactoring of the xsd. Animations->Drawables. <DrawableInstance><Animation>...</Animation></DrawableInstance> etc..
@@ -22,7 +21,8 @@ Todo
 - [] - Fix bug in Animation class related to 'IsFinshed()'. Make IGameDrawable classes expose some form of GetCurrentState() enumeration.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
-- [] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
+- [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
+- [Done] - Loading of Items from storage. JSON is probably the nicest format in this case, but XML should also be considered.
 - [Done] - LoadAnimationXML should be moved to the DrawableSet class and changed to something like LoadDrawableSetXML().
 - [Done] - Improve HashList DrawDebugInfo drawing code in terms of performance (currently very ineffecient).
 - [Done] - Add DrawCenteredString method to SpriteBatchExtensions.
