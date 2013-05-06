@@ -95,7 +95,7 @@ namespace Some2DRPG.GameObjects.Characters
             Drawables.Union(item.Drawables);
         }
 
-        public void Unequip(string itemName)
+        public void QuickUnequip(string itemName)
         {
             Unequip(ItemRepository.GameItems[itemName]);
         }
@@ -113,7 +113,7 @@ namespace Some2DRPG.GameObjects.Characters
             Equiped.Remove(itemType);
         }
 
-        public bool IsEquiped(string itemName)
+        public bool QuickIsEquiped(string itemName)
         {
             return IsEquiped(ItemRepository.GameItems[itemName]);
         }
