@@ -4,6 +4,8 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Allow Specification of Repeat '1', '2', '3' etc... apart from the standard True or False.
+- [] - Make NPC an abstract class.
 - [] - Provide queuing option in GetKeyboardownState in KeyboardExtensions.
 - [] - Consider removing hard coded nature of group and state in DrawableSet and just allow it to be added as a List of possibles (or a dictionary)
 - [] - Take a look at the standard XNA XML Content importer. Faster load times!
