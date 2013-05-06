@@ -28,7 +28,7 @@
       <Frame>334, 143, 49, 47</Frame>
     </Frames>
   </Animation>
-  <Animation State="Slash_Right" Group="Weapon" Loop="True" Layer="7" SpriteSheet="LPC\Weapons\WEAPON_dagger" FrameDelay="45" Origin="0.34, 0.9">
+  <Animation State="Slash_Right" Group="Weapon" Loop="True" Layer="7" SpriteSheet="LPC\Weapons\WEAPON_dagger" FrameDelay="45" Origin="0.4, 0.9">
     <Frames>
       <Frame>81 , 207, 47, 49</Frame>
       <Frame>145, 207, 47, 49</Frame>
