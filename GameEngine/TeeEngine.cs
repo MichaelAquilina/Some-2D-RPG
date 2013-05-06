@@ -414,14 +414,28 @@ namespace GameEngine
                                     int caretStart = propertyKey.IndexOf('<');
                                     int caretEnd = propertyKey.IndexOf('>');
 
-                                    string methodName = propertyKey.Substring(start, caretEnd - 1);
-                                    string[] methodParams = tiledObject.GetProperty(propertyKey, null).Split(',');
-                                    int methodOrder = Convert.ToInt32(propertyKey.Substring(caretStart + 1, caretEnd - caretStart - 1));
+                                    // Check Method Order.
+                                    int methodOrder;
+                                    string orderStr = propertyKey.Substring(caretStart + 1, caretEnd - caretStart - 1);
+                                    if (!Int32.TryParse(orderStr, out methodOrder))
+                                        throw new ArgumentException(string.Format("Invalid Method order specified: {0}", orderStr));
 
+                                    string methodName = propertyKey.Substring(start, caretStart - 1);
+                                    string[] methodParams = tiledObject.GetProperty(propertyKey, null).Split(',');                                    
                                     MethodInfo methodInfo = entity.GetType().GetMethod(methodName);
+
+                                    // Check Method Existance.
+                                    if (methodInfo == null)
+                                        throw new ArgumentException(string.Format("The Method '{0}' does not exist or is Ambigious", methodName));
 
                                     ParameterInfo[] paramInfo = methodInfo.GetParameters();
                                     object[] parameters = new object[paramInfo.Length];
+
+                                    // Check Invalid Number of Parameters.
+                                    if (paramInfo.Length != methodParams.Length)
+                                        throw new ArgumentException(string.Format(
+                                            "The number of arguments passed is Invalid. Expected {0}, Specified {1}", paramInfo.Length, methodParams.Length)
+                                            );
 
                                     for (int i = 0; i < paramInfo.Length; i++)
                                         parameters[i] = ReflectionExtensions.SmartConvert(methodParams[i], paramInfo[i].ParameterType);
