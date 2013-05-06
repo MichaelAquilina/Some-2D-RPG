@@ -3,10 +3,11 @@ using GameEngine.Drawing;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.Items;
+using GameEngine.GameObjects;
 
 namespace Some2DRPG.GameObjects.Characters
 {
-    public enum Direction { Left, Right, Up, Down };
+    public enum Direction { Left, Up, Right, Down };
 
     public enum AttackStance { NotAttacking, Preparing, Attacking };
 
@@ -69,6 +70,14 @@ namespace Some2DRPG.GameObjects.Characters
 
             CurrentDrawableState = "Idle_Left";
         }
+
+        #region Interaction Methods
+
+        public virtual void Hit(Entity sender, GameTime gameTime)
+        {
+        }
+
+        #endregion
 
         #region Equipment Methods
 

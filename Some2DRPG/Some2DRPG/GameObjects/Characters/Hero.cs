@@ -87,8 +87,8 @@ namespace Some2DRPG.GameObjects.Characters
                     if (this != entity && entity is NPC)
                     {
                         NPC entityNPC = (NPC)entity;
-                        if(entityNPC.Faction != this.Faction )
-                            entityNPC.HP -= 10;
+                        if (entityNPC.Faction != this.Faction)
+                            entityNPC.Hit(this, gameTime);
                     }
                 }
             }

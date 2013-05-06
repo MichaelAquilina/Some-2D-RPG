@@ -41,8 +41,16 @@ namespace Some2DRPG.GameObjects.Creatures
             this.HP = 200;
             this._randomModifier = randomGenerator.NextDouble();
             this.Visible = true;
+            this.EntityCollisionEnabled = false;
+            this.TerrainCollisionEnabled = false;
         }
 
+        public override void Hit(Entity sender, GameTime gameTime)
+        {
+            this.HP -= 10;
+        }
+
+        // TODO: Clean!!!!!!
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
             // Get the Hero player for interaction purposes.
@@ -68,7 +76,7 @@ namespace Some2DRPG.GameObjects.Creatures
                     this.Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
 
                     if (Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
-                        player.HP -= 3;
+                        player.Hit(this, gameTime);
 
                     if (_attackCounter++ == ATTACK_COUNTER_LIMIT)
                         AttackStance = AttackStance.NotAttacking;

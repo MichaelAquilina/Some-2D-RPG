@@ -330,6 +330,7 @@
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="RobeShirt"/>
     <property name="*QuickEquip&lt;2&gt;" value="RobeSkirt"/>
+    <property name="Faction" value="Allies"/>
    </properties>
   </object>
   <object name="TyrionLannister" type="Some2DRPG.GameObjects.Characters.NPC" x="908" y="341" width="18" height="16">
@@ -337,6 +338,7 @@
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;3&gt;" value="PlainShoes"/>
+    <property name="Faction" value="Allies"/>
     <property name="Immovable" value="true"/>
    </properties>
   </object>
@@ -346,6 +348,7 @@
     <property name="*QuickEquip&lt;2&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;3&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;4&gt;" value="PlateGloves"/>
+    <property name="Faction" value="Allies"/>
    </properties>
   </object>
   <object name="PodrickPayne" type="Some2DRPG.GameObjects.Characters.NPC" x="889" y="226" width="18" height="16">
@@ -353,6 +356,7 @@
     <property name="*QuickEquip&lt;2&gt;" value="PlainShoes"/>
     <property name="*QuickEquip&lt;4&gt;" value="RobeSkirt"/>
     <property name="*QuickEquip&lt;6&gt;" value="RobeShirt"/>
+    <property name="Faction" value="Allies"/>
    </properties>
   </object>
   <object name="BrienneTheBeauty" type="Some2DRPG.GameObjects.Characters.NPC" x="946" y="285" width="18" height="16">
