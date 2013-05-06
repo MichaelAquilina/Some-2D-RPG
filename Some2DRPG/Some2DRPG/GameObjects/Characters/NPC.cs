@@ -8,15 +8,22 @@ namespace Some2DRPG.GameObjects.Characters
 {
     public enum Direction { Left, Right, Up, Down };
 
+    public enum AttackStance { NotAttacking, Preparing, Attacking };
+
     public class NPC : CollidableEntity
     {
-        public const string MALE_HUMAN = @"Animations/Characters/male_npc.anim";
-        public const string FEMALE_HUMAN = @"Animations/Characters/female_npc.anim";
+        public static string HUMAN_MALE = @"Animations/Characters/male_npc.anim";
+        public static string HUMAN_FEMALE = @"Animations/Characters/female_npc.anim";
+        public static string CREATURES_BAT = @"Animations/Monsters/bat.anim";
+
+        public string Faction { get; set; }
 
         public List<Item> Backpack { get; set; }
         public Dictionary<ItemType, Item> Equiped { get; set; }
 
         public Direction Direction { get; set; }
+
+        public AttackStance AttackStance { get; set; }
 
         public string BaseRace { get; set; }
 
@@ -26,7 +33,7 @@ namespace Some2DRPG.GameObjects.Characters
 
         public NPC()
         {
-            Construct();
+            Construct(0, 0, NPC.HUMAN_MALE);
         }
 
         public NPC(string baseRace)
@@ -39,7 +46,7 @@ namespace Some2DRPG.GameObjects.Characters
             Construct(x, y, baseRace);
         }
 
-        private void Construct(float x=0, float y=0, string baseRace=MALE_HUMAN)
+        private void Construct(float x, float y, string baseRace)
         {
             this.HP = 0;
             this.XP = 0;
@@ -50,9 +57,10 @@ namespace Some2DRPG.GameObjects.Characters
             this.CollisionGroup = "Shadow";
             this.Backpack = new List<Item>();
             this.Equiped = new Dictionary<ItemType, Item>();
-
-            this.Direction = Direction.Right;
             this.BaseRace = baseRace;
+
+            this.AttackStance = AttackStance.NotAttacking;
+            this.Direction = Direction.Right;
         }
 
         public override void LoadContent(ContentManager content)
@@ -94,5 +102,10 @@ namespace Some2DRPG.GameObjects.Characters
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return string.Format("NPC: Faction={0}, HP={1}, Name={2}", Faction, HP, Name);
+        }
     }
 }

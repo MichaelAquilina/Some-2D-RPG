@@ -8,29 +8,36 @@ using Some2DRPG.GameObjects.Characters;
 
 namespace Some2DRPG.GameObjects.Creatures
 {
-    public class Bat : Entity
+    public class Bat : NPC
     {
-        enum AttackStance { NotAttacking, Preparing, Attacking };
-
         private static Random randomGenerator = new Random();
 
         private const int ATTACK_COUNTER_LIMIT = 40;
         private const double ATTACK_DISTANCE = 40;
         private const double AGRO_DISTANCE = 200;
 
-        public int HP { get; set; }
-
         private int _attackCounter = 0;
-        private AttackStance _attackStance = AttackStance.NotAttacking;
         private Vector2 _attackHeight = Vector2.Zero;    
         private double _attackAngle = 0;
         private double _randomModifier;
         private float _attackSpeed = 5.4f;
         private float _moveSpeed = 1.8f;
 
-        public Bat(float x, float y)
-            :base(x, y)
+        public Bat()
         {
+            Construct(0, 0);
+        }
+
+        public Bat(float x, float y)
+        {
+            Construct(x, y);
+        }
+
+        void Construct(float x, float y)
+        {
+            this.BaseRace = CREATURES_BAT;
+            this.Faction = "Creatures";
+            this.Pos = new Vector2(x, y);
             this.HP = 200;
             this._randomModifier = randomGenerator.NextDouble();
             this.Visible = true;
@@ -53,7 +60,7 @@ namespace Some2DRPG.GameObjects.Creatures
             else
             {
                 // ATTACKING LOGIC.
-                if (_attackStance == AttackStance.Attacking)
+                if (AttackStance == AttackStance.Attacking)
                 {
                     this.Pos.X -= (float) (Math.Cos(_attackAngle) * _attackSpeed);
                     this.Pos.Y -= (float) (Math.Sin(_attackAngle) * _attackSpeed);
@@ -63,11 +70,11 @@ namespace Some2DRPG.GameObjects.Creatures
                     if (Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
                         player.HP -= 3;
 
-                    if (_attackCounter++ == ATTACK_COUNTER_LIMIT) 
-                        _attackStance = AttackStance.NotAttacking;
+                    if (_attackCounter++ == ATTACK_COUNTER_LIMIT)
+                        AttackStance = AttackStance.NotAttacking;
                 }
                 // ATTACK PREPERATION LOGIC.
-                else if (_attackStance == AttackStance.Preparing)
+                else if (AttackStance == AttackStance.Preparing)
                 {
                     _attackHeight.Y -= 2;
 
@@ -78,14 +85,14 @@ namespace Some2DRPG.GameObjects.Creatures
                             this.Pos.Y - player.Pos.Y,
                             this.Pos.X - player.Pos.X
                             );
-                        _attackStance = AttackStance.Attacking;
+                        AttackStance = AttackStance.Attacking;
                         _attackCounter = 0;
                     }
 
                     Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
                 }
                 // NON-ATTACKING LOGIC. PATROL AND APPROACH.
-                else if (_attackStance == AttackStance.NotAttacking)
+                else if (AttackStance == AttackStance.NotAttacking)
                 {
                     double distance = Vector2.Distance(player.Pos, this.Pos);
 
@@ -101,7 +108,7 @@ namespace Some2DRPG.GameObjects.Creatures
                         double moveValue;
                         if (distance < ATTACK_DISTANCE)
                         {
-                            _attackStance = AttackStance.Preparing;
+                            AttackStance = AttackStance.Preparing;
                             moveValue = 0;
                         }
                         else

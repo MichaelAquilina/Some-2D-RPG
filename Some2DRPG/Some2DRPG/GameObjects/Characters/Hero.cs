@@ -7,6 +7,9 @@ using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Items;
 using Some2DRPG.Shaders;
+using GameEngine.GameObjects;
+using System.Collections.Generic;
+using Some2DRPG.GameObjects.Creatures;
 
 namespace Some2DRPG.GameObjects.Characters
 {
@@ -20,13 +23,13 @@ namespace Some2DRPG.GameObjects.Characters
         public LightSource LightSource { get; set; }
 
         public Hero()
-            :base(NPC.MALE_HUMAN)
+            :base(NPC.HUMAN_MALE)
         {
             Construct(0, 0);
         }
 
         public Hero(float x, float y) :
-            base(x, y, NPC.MALE_HUMAN)
+            base(x, y, NPC.HUMAN_MALE)
         {
             Construct(x, y);
         }
@@ -36,6 +39,7 @@ namespace Some2DRPG.GameObjects.Characters
             HP = 2000;
             XP = 0;
 
+            Faction = "Allies";
             CollisionDetection = true;
             LightSource = new LightSource();
             LightSource.Width = 32 * 8;
@@ -76,7 +80,17 @@ namespace Some2DRPG.GameObjects.Characters
             if (CurrentDrawableState.Contains("Slash") 
                 && !Drawables.IsStateFinished(CurrentDrawableState, gameTime))
             {
-                
+                // TODO: Improve, we are retrieving this twice because it is called again in the CollidableEntity loop.
+                List<Entity> intersectingEntities = engine.Collider.GetIntersectingEntites(CurrentBoundingBox);
+                foreach (Entity entity in intersectingEntities)
+                {
+                    if (this != entity && entity is NPC)
+                    {
+                        NPC entityNPC = (NPC)entity;
+                        if(entityNPC.Faction != this.Faction )
+                            entityNPC.HP -= 10;
+                    }
+                }
             }
             else
             {
