@@ -50,6 +50,11 @@ namespace Some2DRPG
 
         LightShader LightShader;
 
+        Texture2D mouseCursor;
+        Texture2D mouseCursorDown;
+        Texture2D mouseCursorFist;
+        Texture2D mouseCursorOpen;
+
         // Graphic Related Variables.
         GraphicsDeviceManager Graphics;
         SpriteBatch SpriteBatch;
@@ -86,6 +91,11 @@ namespace Some2DRPG
             LightShader.AmbientLight = new Color(30, 15, 15);
             LightShader.Enabled = false;
             Engine.RegisterGameShader("LightShader", LightShader);
+
+            mouseCursor = Content.Load<Texture2D>("Misc/Pointers/cursor");
+            mouseCursorDown = Content.Load<Texture2D>("Misc/Pointers/cursor_down");
+            mouseCursorFist = Content.Load<Texture2D>("Misc/Pointers/cursor_fist");
+            mouseCursorOpen = Content.Load<Texture2D>("misc/Pointers/cursor_open");
 
             MapEventArgs mapArgs = new MapEventArgs();
             mapArgs.SetProperty("Target", "CaveExit");
@@ -226,8 +236,22 @@ namespace Some2DRPG
             return new Vector2(0, TextCounter++ * textHeight);
         }
 
+        private Texture2D GetMousePointer(MouseState mouseState)
+        {
+            Texture2D drawPointer;
+
+            if (mouseState.LeftButton == ButtonState.Pressed)
+                drawPointer = mouseCursorDown;
+            else
+                drawPointer = mouseCursor;
+
+            return drawPointer;
+        }
+
         protected override void Draw(GameTime gameTime)
         {
+            MouseState mouseState = Mouse.GetState();
+
             GraphicsDevice.Viewport = new Viewport
             {
                 X = 0,
@@ -281,9 +305,6 @@ namespace Some2DRPG
                     float TX = CurrentPlayer.Pos.X / Engine.Map.TileWidth;
                     float TY = CurrentPlayer.Pos.Y / Engine.Map.TileHeight;
 
-                    this.IsMouseVisible = true;
-                    MouseState mouseState = Mouse.GetState();
-
                     Vector2 worldCoord = viewPort.GetWorldCoordinates(new Point(mouseState.X, mouseState.Y));
                     Vector2 tileCoord = worldCoord / (new Vector2(Engine.Map.TileWidth, Engine.Map.TileHeight));;
                     tileCoord.X = (int) Math.Floor(tileCoord.X);
@@ -316,6 +337,10 @@ namespace Some2DRPG
                     string textOutput = builder.ToString();
                     SpriteBatch.DrawString(DefaultSpriteFont, textOutput, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(textOutput).Y), Color.White);
                 }
+
+                // Draw the Mouse Pointer to the screen based on the current state.
+                Texture2D pointer = GetMousePointer(mouseState);
+                SpriteBatch.Draw(pointer, new Rectangle(mouseState.X, mouseState.Y, pointer.Width, pointer.Height), Color.White);
             }
             SpriteBatch.End();
 
