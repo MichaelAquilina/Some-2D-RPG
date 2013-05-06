@@ -326,9 +326,17 @@
     <property name="Visible" value="true"/>
    </properties>
   </object>
-  <object name="JamieLannister" type="Some2DRPG.GameObjects.Characters.NPC" x="966" y="265" width="18" height="16"/>
+  <object name="JamieLannister" type="Some2DRPG.GameObjects.Characters.NPC" x="966" y="265" width="18" height="16">
+   <properties>
+    <property name="*QuickEquip&lt;1&gt;" value="RobeShirt"/>
+    <property name="*QuickEquip&lt;2&gt;" value="RobeSkirt"/>
+   </properties>
+  </object>
   <object name="TyrionLannister" type="Some2DRPG.GameObjects.Characters.NPC" x="908" y="341" width="18" height="16">
    <properties>
+    <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
+    <property name="*QuickEquip&lt;2&gt;" value="PlatePants"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlainShoes"/>
     <property name="Immovable" value="true"/>
    </properties>
   </object>
@@ -349,6 +357,7 @@
   </object>
   <object name="BrienneTheBeauty" type="Some2DRPG.GameObjects.Characters.NPC" x="946" y="285" width="18" height="16">
    <properties>
+    <property name="*QuickEquip&lt;1&gt;" value="RobeSkirt"/>
     <property name="BaseRace" value="Animations/Characters/female_npc.anim"/>
    </properties>
   </object>
