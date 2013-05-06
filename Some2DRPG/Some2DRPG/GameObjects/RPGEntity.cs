@@ -5,13 +5,13 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.Items;
 
-namespace Some2DRPG.GameObjects.Characters
+namespace Some2DRPG.GameObjects
 {
     public enum Direction { Left, Up, Right, Down };
 
     public enum AttackStance { NotAttacking, Preparing, Attacking };
 
-    public class NPC : CollidableEntity
+    public abstract class RPGEntity : CollidableEntity
     {
         public static string HUMAN_MALE = @"Animations/Characters/male_npc.anim";
         public static string HUMAN_FEMALE = @"Animations/Characters/female_npc.anim";
@@ -33,17 +33,17 @@ namespace Some2DRPG.GameObjects.Characters
         public int XP { get; set; }
         public int Coins { get; set; }
 
-        public NPC()
+        public RPGEntity()
         {
-            Construct(0, 0, NPC.HUMAN_MALE);
+            Construct(0, 0, RPGEntity.HUMAN_MALE);
         }
 
-        public NPC(string baseRace)
+        public RPGEntity(string baseRace)
         {
             Construct(0, 0, baseRace);
         }
 
-        public NPC(float x, float y, string baseRace)
+        public RPGEntity(float x, float y, string baseRace)
         {
             Construct(x, y, baseRace);
         }
@@ -130,7 +130,7 @@ namespace Some2DRPG.GameObjects.Characters
 
         public override string ToString()
         {
-            return string.Format("NPC: Faction={0}, HP={1}, Name={2}", Faction, HP, Name);
+            return string.Format("RPGEntity: Faction={0}, HP={1}, Name={2}", Faction, HP, Name);
         }
     }
 }
