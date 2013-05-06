@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
 - [IP] - Collision detection between entities.
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.

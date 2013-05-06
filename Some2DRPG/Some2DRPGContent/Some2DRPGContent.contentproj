@@ -408,7 +408,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Monsters\bat.png">
+    <Compile Include="LPC\Monsters\Bat\bat.png">
       <Name>bat</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -453,7 +453,7 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Monsters\snake.png">
+    <Compile Include="LPC\Monsters\Snake\snake.png">
       <Name>snake</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
