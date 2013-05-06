@@ -169,10 +169,10 @@ namespace Some2DRPG
             // F3 = Enable/Disable LightShader
             // F4 = Change Current SamplerState
             // F5 = Show/Hide Tile Grid
-            // F6 = Show/Hide Quad Tree
+            // F6 = Show/Hide Collider Debug Info
             // F7 = Show Performance Diagnostics
             // F8 = Show Entity Debug Info
-            // F10 = Toggle Fullscreen Mode
+            // F10 = Show Drawable Components
             // F11 = Show/Hide Player Helmet
             // F12 = Disable Player Collision Detection
 
@@ -271,7 +271,7 @@ namespace Some2DRPG
             // Draw the World View Port, Centered on the CurrentPlayer Actor.
             ViewPortInfo viewPort = Engine.DrawWorldViewPort(
                                             SpriteBatch,
-                                            Engine.GetEntity("Player").Pos,
+                                            CurrentPlayer.Pos,
                                             Zoom,
                                             pxDestRectangle,
                                             Color.White,
