@@ -72,12 +72,22 @@ namespace Some2DRPG.GameObjects.Characters
 
         #region Equipment Methods
 
+        public void Equip(string itemName)
+        {
+            Equip(ItemRepository.GameItems[itemName]);
+        }
+
         public void Equip(Item item)
         {
             Unequip(item.ItemType);
 
             Equiped[item.ItemType] = item;
             Drawables.Union(item.Drawables);
+        }
+
+        public void Unequip(string itemName)
+        {
+            Unequip(ItemRepository.GameItems[itemName]);
         }
 
         public void Unequip(Item item)
@@ -91,6 +101,11 @@ namespace Some2DRPG.GameObjects.Characters
                 Drawables.Remove(Equiped[itemType].Drawables);
 
             Equiped.Remove(itemType);
+        }
+
+        public bool IsEquiped(string itemName)
+        {
+            return IsEquiped(ItemRepository.GameItems[itemName]);
         }
 
         public bool IsEquiped(Item item)

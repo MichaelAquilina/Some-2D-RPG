@@ -48,12 +48,12 @@ namespace Some2DRPG.GameObjects.Characters
             LightSource.Color = Color.White;
             LightSource.PositionType = LightPositionType.Relative;
 
-            Equip(ItemRepository.GameItems["PlateHelmet"]);
-            Equip(ItemRepository.GameItems["RobeSkirt"]);
-            Equip(ItemRepository.GameItems["PlateGloves"]);
-            Equip(ItemRepository.GameItems["RobeShirt"]);
-            Equip(ItemRepository.GameItems["PlateBoots"]);
-            Equip(ItemRepository.GameItems["RustyDagger"]);
+            Equip("PlateHelmet");
+            Equip("RobeSkirt");
+            Equip("PlateGloves");
+            Equip("RobeShirt");
+            Equip("PlateBoots");
+            Equip("RustyDagger");
         }
 
         public override void PostInitialize(GameTime gameTime, TeeEngine engine)
