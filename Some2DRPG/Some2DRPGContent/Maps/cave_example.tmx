@@ -330,6 +330,7 @@
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="RobeShirt"/>
     <property name="*QuickEquip&lt;2&gt;" value="RobeSkirt"/>
+    <property name="*QuickEquip&lt;3&gt;" value="LeatherHat"/>
     <property name="Faction" value="Allies"/>
    </properties>
   </object>

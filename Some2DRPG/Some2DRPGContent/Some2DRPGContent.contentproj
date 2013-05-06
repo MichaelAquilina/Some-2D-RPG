@@ -323,6 +323,66 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="LPC\Leather Armor\Walkcycle\BELT_leather.png">
+      <Name>BELT_leather</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat.png">
+      <Name>HEAD_leather_armor_hat</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Walkcycle\TORSO_leather_armor_bracers.png">
+      <Name>TORSO_leather_armor_bracers</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Walkcycle\TORSO_leather_armor_shirt_white.png">
+      <Name>TORSO_leather_armor_shirt_white</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Walkcycle\TORSO_leather_armor_shoulders.png">
+      <Name>TORSO_leather_armor_shoulders</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Walkcycle\TORSO_leather_armor_torso.png">
+      <Name>TORSO_leather_armor_torso</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Slash\BELT_leather.png">
+      <Name>BELT_leather</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Slash\HEAD_leather_armor_hat.png">
+      <Name>HEAD_leather_armor_hat</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Slash\TORSO_leather_armor_bracers.png">
+      <Name>TORSO_leather_armor_bracers</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Slash\TORSO_leather_armor_shirt_white.png">
+      <Name>TORSO_leather_armor_shirt_white</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Slash\TORSO_leather_armor_shoulders.png">
+      <Name>TORSO_leather_armor_shoulders</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Leather Armor\Slash\TORSO_leather_armor_torso.png">
+      <Name>TORSO_leather_armor_torso</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Maps\example_map.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>example_map</Name>

@@ -82,5 +82,13 @@
       <Drawable src="Animations/Weapons/dagger.anim" />
     </Drawables>
   </Item>
+
+  <Item Name="LeatherHat" ItemType="HeadGear" Weight="0.2" >
+    <FriendlyName>Leather Hat</FriendlyName>
+    <Description></Description>
+    <Drawables>
+      <Drawable src="Animations/Leather Armor/leather_armor_head.anim" />
+    </Drawables>
+  </Item>
   
 </ItemRepository>
