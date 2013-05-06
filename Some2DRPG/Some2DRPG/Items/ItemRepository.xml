@@ -74,5 +74,13 @@
       <Drawable src="Animations/Robe/robe_legs.anim"></Drawable>
     </Drawables>
   </Item>
+
+  <Item Name="RustyDagger" ItemType="Weapon" Weight="0.8" >
+    <FriendlyName>Rusty Dagger</FriendlyName>
+    <Description></Description>
+    <Drawables>
+      <Drawable src="Animations/Weapons/dagger.anim" />
+    </Drawables>
+  </Item>
   
 </ItemRepository>

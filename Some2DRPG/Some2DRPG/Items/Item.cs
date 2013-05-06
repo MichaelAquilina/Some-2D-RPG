@@ -2,7 +2,7 @@
 
 namespace Some2DRPG.Items
 {
-    public enum ItemType { HeadGear, Vest, Gloves, Pants, Boots }
+    public enum ItemType { HeadGear, Vest, Gloves, Pants, Boots, Weapon }
 
     public class Item
     {

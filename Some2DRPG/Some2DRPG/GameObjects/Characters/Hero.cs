@@ -49,6 +49,7 @@ namespace Some2DRPG.GameObjects.Characters
             Equip(ItemRepository.GameItems["PlateGloves"]);
             Equip(ItemRepository.GameItems["RobeShirt"]);
             Equip(ItemRepository.GameItems["PlateBoots"]);
+            Equip(ItemRepository.GameItems["RustyDagger"]);
         }
 
         public override void PostInitialize(GameTime gameTime, TeeEngine engine)
