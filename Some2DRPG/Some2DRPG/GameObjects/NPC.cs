@@ -69,7 +69,7 @@ namespace Some2DRPG.GameObjects
         {
             DrawableSet.LoadDrawableSetXml(Drawables, BaseRace, content);
 
-            CurrentDrawableState = "Idle_Left";
+            CurrentDrawableState = "Idle_" + Direction;
         }
 
         #region Interaction Methods

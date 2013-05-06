@@ -331,6 +331,7 @@
     <property name="*QuickEquip&lt;1&gt;" value="RobeShirt"/>
     <property name="*QuickEquip&lt;2&gt;" value="RobeSkirt"/>
     <property name="*QuickEquip&lt;3&gt;" value="LeatherHat"/>
+    <property name="Direction" value="Up"/>
     <property name="Faction" value="Allies"/>
    </properties>
   </object>
@@ -339,6 +340,7 @@
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;3&gt;" value="PlainShoes"/>
+    <property name="Direction" value="Left"/>
     <property name="Faction" value="Allies"/>
     <property name="Immovable" value="true"/>
    </properties>
@@ -349,6 +351,7 @@
     <property name="*QuickEquip&lt;2&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;3&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;4&gt;" value="PlateGloves"/>
+    <property name="Direction" value="Right"/>
     <property name="Faction" value="Allies"/>
    </properties>
   </object>
@@ -357,6 +360,7 @@
     <property name="*QuickEquip&lt;2&gt;" value="PlainShoes"/>
     <property name="*QuickEquip&lt;4&gt;" value="RobeSkirt"/>
     <property name="*QuickEquip&lt;6&gt;" value="RobeShirt"/>
+    <property name="Direction" value="Down"/>
     <property name="Faction" value="Allies"/>
    </properties>
   </object>
@@ -364,6 +368,7 @@
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="RobeSkirt"/>
     <property name="BaseRace" value="Animations/Characters/female_npc.anim"/>
+    <property name="Direction" value="Down"/>
    </properties>
   </object>
   <object type="Some2DRPG.GameObjects.Misc.LightSource" x="-202" y="98" width="449" height="233">
