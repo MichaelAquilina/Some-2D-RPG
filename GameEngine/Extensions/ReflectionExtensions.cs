@@ -17,16 +17,7 @@ namespace GameEngine.Extensions
         {
             PropertyInfo propertyInfo = target.GetType().GetProperty(propertyName);
 
-            Type targetType = propertyInfo.PropertyType;
-
-            if (targetType.IsEnum)
-                propertyInfo.SetValue(target, Enum.Parse(targetType, value), null);
-            else
-            {
-                object convertedValue = (targetType == typeof(Color)) ? ColorExtensions.ToColor(value) : Convert.ChangeType(value, targetType);
-
-                propertyInfo.SetValue(target, convertedValue , null);
-            }
+            propertyInfo.SetValue(target, SmartConvert(value, propertyInfo.PropertyType), null);
         }
 
         public static void SetProperty(object target, string propertyName, object value)
@@ -34,6 +25,14 @@ namespace GameEngine.Extensions
             PropertyInfo propertyInfo = target.GetType().GetProperty(propertyName);
 
             propertyInfo.SetValue(target, value, null);
+        }
+
+        public static object SmartConvert(string value, Type target)
+        {
+            if (target.IsEnum)
+                return Enum.Parse(target, value);
+            else
+                return (target == typeof(Color)) ? ColorExtensions.ToColor(value) : Convert.ChangeType(value, target);
         }
     }
 }
