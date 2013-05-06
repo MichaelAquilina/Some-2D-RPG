@@ -4,7 +4,6 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - Add ability to run methods in the order specified in the <> in Tiled. Example QuickEquip<2> should be run AFTER QuickEquip<1>
 - [] - Provide queuing option in GetKeyboardownState in KeyboardExtensions.
 - [] - Consider removing hard coded nature of group and state in DrawableSet and just allow it to be added as a List of possibles (or a dictionary)
 - [] - Take a look at the standard XNA XML Content importer. Faster load times!
@@ -24,6 +23,7 @@ Todo
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
+- [Done] - Add ability to run methods in the order specified in the <> in Tiled. Example QuickEquip<2> should be run AFTER QuickEquip<1>
 - [Done] - Refactoring of DebugInfo. Watches should be contained within DebugInfo and should be stored as a Dictionary rather than using HardCoded properties which can be very unwiedly and hard to mantain.
 - [Done] - Loading of Items from storage. JSON is probably the nicest format in this case, but XML should also be considered.
 - [Done] - LoadAnimationXML should be moved to the DrawableSet class and changed to something like LoadDrawableSetXML().

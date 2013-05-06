@@ -15,11 +15,11 @@ namespace GameEngine.Extensions
         {
             if (node.Attributes[name] == null)
                 if (throwOnNotFound)
-                    throw new KeyNotFoundException("The Specified Attribute " + name + " was not Found");
+                    throw new KeyNotFoundException(string.Format("The Specified Attribute '{0}' was not Found", name));
                 else
                     return defaultValue;
 
-            return (T)Convert.ChangeType(node.Attributes[name].Value, typeof(T));
+            return (T) ReflectionExtensions.SmartConvert(node.Attributes[name].Value, typeof(T));
         }
 
         public static string GetAttributeValue(XmlNode node, string name, string defaultValue = null, bool throwOnNotFound=false)
