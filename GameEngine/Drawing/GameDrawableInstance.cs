@@ -33,6 +33,11 @@ namespace GameEngine.Drawing
             this.Offset = Vector2.Zero;
         }
 
+        public bool IsFinished(GameTime gameTime)
+        {
+            return Drawable.IsFinished(gameTime.TotalGameTime.TotalMilliseconds - StartTimeMS);
+        }
+
         public void Reset(GameTime gameTime)
         {
             StartTimeMS = gameTime.TotalGameTime.TotalMilliseconds;

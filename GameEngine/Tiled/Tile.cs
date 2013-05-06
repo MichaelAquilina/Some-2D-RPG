@@ -39,6 +39,11 @@ namespace GameEngine.Tiled
             return SourceRectangle;
         }
 
+        public bool IsFinished(double elapsedMS)
+        {
+            return true;
+        }
+
         public override string ToString()
         {
             return string.Format("TileGid: {0}, TileSet: {1}", TileGid, TileSet.Name);

@@ -173,6 +173,24 @@ namespace GameEngine.Drawing
             _groupDictionary.Clear();
         }
 
+        public bool IsStateFinished(string state, GameTime gameTime)
+        {
+            foreach (GameDrawableInstance instance in _stateDictionary[state])
+                if (!instance.IsFinished(gameTime))
+                    return false;
+
+            return true;
+        }
+
+        public bool IsGroupFinished(string group, GameTime gameTime)
+        {
+            foreach (GameDrawableInstance instance in _groupDictionary[group])
+                if (!instance.IsFinished(gameTime))
+                    return false;
+
+            return true;
+        }
+
         /// <summary>
         /// Asks all IGameDrawables within the specified *state* set to perform a Reset operation.
         /// </summary>

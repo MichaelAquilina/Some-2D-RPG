@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Consider removing hard coded nature of group and state in DrawableSet and just allow it to be added as a List of possibles (or a dictionary)
 - [] - Take a look at the standard XNA XML Content importer. Faster load times!
 - [] - Refactoring of the way drawables are loaded from .anim files
 	- [] - Make IGameDrawable Files require to provide a XmlToDrawable static method which allows it to be loaded from an xml file.

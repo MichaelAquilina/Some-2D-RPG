@@ -13,5 +13,7 @@ namespace GameEngine.Interfaces
 
         Rectangle GetSourceRectangle(double elapsedMS);
         Texture2D GetSourceTexture(double elapsedMS);
+
+        bool IsFinished(double elapsedMS);
     }
 }

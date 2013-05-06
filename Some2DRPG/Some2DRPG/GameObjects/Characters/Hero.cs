@@ -73,56 +73,61 @@ namespace Some2DRPG.GameObjects.Characters
             Tile prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
             float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
-            // ATTACK KEY.
-            if (keyboardState.IsKeyDown(Keys.A))
+            if (CurrentDrawableState.Contains("Slash") 
+                && !Drawables.IsStateFinished(CurrentDrawableState, gameTime))
             {
-                bool reset = !CurrentDrawableState.StartsWith("Slash");
-                CurrentDrawableState = "Slash_" + Direction;
-
-                if (reset) Drawables.ResetState(CurrentDrawableState, gameTime);
+                
             }
             else
             {
-                // MOVEMENT BASED KEYBOARD EVENTS.
-                if (keyboardState.IsKeyDown(Keys.Up))
+                if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.A, engine, true))
                 {
-                    CurrentDrawableState = "Walk_Up";
-                    Direction = Direction.Up;
-
-                    movement.Y--;
+                    CurrentDrawableState = "Slash_" + Direction;
+                    Drawables.ResetState(CurrentDrawableState, gameTime);
                 }
-                if (keyboardState.IsKeyDown(Keys.Down))
-                {
-                    CurrentDrawableState = "Walk_Down";
-                    Direction = Direction.Down;
-
-                    movement.Y++;
-                }
-                if (keyboardState.IsKeyDown(Keys.Left))
-                {
-                    CurrentDrawableState = "Walk_Left";
-                    Direction = Direction.Left;
-
-                    movement.X--;
-                }
-                if (keyboardState.IsKeyDown(Keys.Right))
-                {
-                    CurrentDrawableState = "Walk_Right";
-                    Direction = Direction.Right;
-
-                    movement.X++;
-                }
-
-                // Set animation to idle of no movements where made.
-                if (movement.Length() == 0)
-                    CurrentDrawableState = "Idle_" + Direction;
                 else
                 {
-                    movement.Normalize();
-                    Pos += movement * MOVEMENT_SPEED * moveSpeedModifier;
-                }
+                    // MOVEMENT BASED KEYBOARD EVENTS.
+                    if (keyboardState.IsKeyDown(Keys.Up))
+                    {
+                        CurrentDrawableState = "Walk_Up";
+                        Direction = Direction.Up;
 
-                LightSource.Pos = this.Pos;
+                        movement.Y--;
+                    }
+                    if (keyboardState.IsKeyDown(Keys.Down))
+                    {
+                        CurrentDrawableState = "Walk_Down";
+                        Direction = Direction.Down;
+
+                        movement.Y++;
+                    }
+                    if (keyboardState.IsKeyDown(Keys.Left))
+                    {
+                        CurrentDrawableState = "Walk_Left";
+                        Direction = Direction.Left;
+
+                        movement.X--;
+                    }
+                    if (keyboardState.IsKeyDown(Keys.Right))
+                    {
+                        CurrentDrawableState = "Walk_Right";
+                        Direction = Direction.Right;
+
+                        movement.X++;
+                    }
+
+                    // Set animation to idle of no movements where made.
+                    if (movement.Length() == 0)
+                        CurrentDrawableState = "Idle_" + Direction;
+                    else
+                    {
+                        movement.Normalize();
+                        Pos += movement * MOVEMENT_SPEED * moveSpeedModifier;
+                    }
+
+                    LightSource.Pos = this.Pos;
+                }
             }
 
             base.Update(gameTime, engine);
