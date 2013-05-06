@@ -1,10 +1,10 @@
-﻿using GameEngine.Drawing;
+﻿using System;
+using GameEngine.Drawing;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.GameObjects.Characters;
-using Microsoft.Xna.Framework.Audio;
-using System;
 
 namespace Some2DRPG.GameObjects.Creatures
 {

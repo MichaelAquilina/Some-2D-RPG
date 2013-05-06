@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using GameEngine.Drawing;
+using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.Items;
-using GameEngine.GameObjects;
 
 namespace Some2DRPG.GameObjects.Characters
 {

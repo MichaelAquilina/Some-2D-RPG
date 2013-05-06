@@ -1,15 +1,13 @@
-﻿using GameEngine;
+﻿using System.Collections.Generic;
+using GameEngine;
 using GameEngine.Extensions;
+using GameEngine.GameObjects;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Misc;
-using Some2DRPG.Items;
 using Some2DRPG.Shaders;
-using GameEngine.GameObjects;
-using System.Collections.Generic;
-using Some2DRPG.GameObjects.Creatures;
 
 namespace Some2DRPG.GameObjects.Characters
 {
