@@ -8,11 +8,11 @@ using GameEngine.GameObjects;
 using GameEngine.Info;
 using GameEngine.Interfaces;
 using GameEngine.Options;
+using GameEngine.Pathfinding;
 using GameEngine.Shaders;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using GameEngine.Pathfinding;
 
 /// <summary>
 /// The TeeEngine - the result of my sweat, blood and tears into this project. The TeeEngine is simply a 2D Tile Engine that
@@ -278,7 +278,7 @@ namespace GameEngine
             _entityDestroy.AddRange(_entities.Values);
         }
 
-        // Destorys any pending entities in the Entity Destroy List.
+        // Destroys any pending entities in the Entity Destroy List.
         void DestroyEntities(GameTime gameTime)
         {
             // REMOVE ANY ENTITIES FOUND IN THE ENTITY TRASH
@@ -385,8 +385,12 @@ namespace GameEngine
                                 ((ISizedEntity)entity).Height = tiledObject.Height;
                             }
 
+                            // If the entity implements the IPolygonEntity interface, apply its Points.
                             if (entity is IPolygonEntity)
                                 ((IPolygonEntity)entity).Points = tiledObject.Points;
+
+                            // Method Queue to be invoked once the Entity has been assigned all its Properties.
+                            SortedList<int, KeyValuePair<MethodInfo, object[]>> methodQueue = new SortedList<int, KeyValuePair<MethodInfo, object[]>>();
 
                             foreach (string propertyKey in tiledObject.PropertyKeys)
                             {
@@ -414,6 +418,10 @@ namespace GameEngine
                                     int caretStart = propertyKey.IndexOf('<');
                                     int caretEnd = propertyKey.IndexOf('>');
 
+                                    // Check Format.
+                                    if (caretEnd == -1 || caretStart == -1)
+                                        throw new ArgumentException("A Method order needs to be specified. Example: MyMethod<2>");
+
                                     // Check Method Order.
                                     int methodOrder;
                                     string orderStr = propertyKey.Substring(caretStart + 1, caretEnd - caretStart - 1);
@@ -440,13 +448,22 @@ namespace GameEngine
                                     for (int i = 0; i < paramInfo.Length; i++)
                                         parameters[i] = ReflectionExtensions.SmartConvert(methodParams[i], paramInfo[i].ParameterType);
 
-                                    methodInfo.Invoke(entity, parameters);
+                                    methodQueue.Add(methodOrder, new KeyValuePair<MethodInfo,object[]>(methodInfo, parameters));
                                 }
                                 else
                                     // Bind Properties.
                                     ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
                             }
-                        }
+
+                            // Invoke the methods found in the order specified.
+                            foreach (int index in methodQueue.Keys)
+                            {
+                                MethodInfo methodInfo = methodQueue[index].Key;
+                                object[] parameters = methodQueue[index].Value;
+
+                                methodInfo.Invoke(entity, parameters);
+                            }
+                        }   
                         else throw new ArgumentException(string.Format("'{0}' is not an Entity object", tiledObject.Type));
                     }
 
