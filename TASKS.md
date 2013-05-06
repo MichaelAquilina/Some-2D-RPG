@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Refactoring of the Pathfinding namespace.
 - [] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
 - [IP] - Collision detection between entities.
