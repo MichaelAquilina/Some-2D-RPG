@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Add ability to run methods in the order specified in the <> in Tiled. Example QuickEquip<2> should be run AFTER QuickEquip<1>
 - [] - Provide queuing option in GetKeyboardownState in KeyboardExtensions.
 - [] - Consider removing hard coded nature of group and state in DrawableSet and just allow it to be added as a List of possibles (or a dictionary)
 - [] - Take a look at the standard XNA XML Content importer. Faster load times!

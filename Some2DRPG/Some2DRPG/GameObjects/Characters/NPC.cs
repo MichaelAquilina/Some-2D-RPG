@@ -72,7 +72,7 @@ namespace Some2DRPG.GameObjects.Characters
 
         #region Equipment Methods
 
-        public void Equip(string itemName)
+        public void QuickEquip(string itemName)
         {
             Equip(ItemRepository.GameItems[itemName]);
         }
