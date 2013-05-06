@@ -16,6 +16,7 @@ namespace Some2DRPG.GameObjects.Characters
         public static string HUMAN_MALE = @"Animations/Characters/male_npc.anim";
         public static string HUMAN_FEMALE = @"Animations/Characters/female_npc.anim";
         public static string CREATURES_BAT = @"Animations/Monsters/bat.anim";
+        public static string CREATURES_DUMMY = @"Animations/Monsters/combat_dummy.anim";
 
         public string Faction { get; set; }
 

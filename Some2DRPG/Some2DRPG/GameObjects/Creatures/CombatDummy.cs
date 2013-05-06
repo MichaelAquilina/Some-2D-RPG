@@ -1,5 +1,4 @@
 ﻿using System;
-using GameEngine.Drawing;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -13,8 +12,6 @@ namespace Some2DRPG.GameObjects.Creatures
         Random _randomGenerator;
         SoundEffect[] _hitSounds;
 
-        public const string ANIMATION = @"Animations/Monsters/combat_dummy.anim";
-
         public CombatDummy()
         {
             Construct();
@@ -22,6 +19,7 @@ namespace Some2DRPG.GameObjects.Creatures
 
         void Construct()
         {
+            this.BaseRace = NPC.CREATURES_DUMMY;
             this.Direction = Direction.Right;
             this._randomGenerator = new Random();
         }
@@ -33,9 +31,9 @@ namespace Some2DRPG.GameObjects.Creatures
             _hitSounds[1] = content.Load<SoundEffect>("Sounds/Hit/Hit_14");
             _hitSounds[2] = content.Load<SoundEffect>("Sounds/Hit/Hit_6");
 
-            // Load the animation
-            DrawableSet.LoadDrawableSetXml(Drawables, ANIMATION, content);
             CurrentDrawableState = "Idle_" + Direction;
+
+            base.LoadContent(content);
         }
 
         public override void Hit(Entity sender, GameTime gameTime)
@@ -45,7 +43,7 @@ namespace Some2DRPG.GameObjects.Creatures
                 CurrentDrawableState = "Spin_" + Direction;
                 Drawables.ResetState(CurrentDrawableState, gameTime);
             
-                // Play random Hit Sound
+                // Play random Hit Sound.
                 int index = _randomGenerator.Next(3);
                 _hitSounds[index].Play();
             }
