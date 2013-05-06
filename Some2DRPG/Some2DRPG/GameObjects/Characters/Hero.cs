@@ -44,7 +44,7 @@ namespace Some2DRPG.GameObjects.Characters
             LightSource.Color = Color.White;
             LightSource.PositionType = LightPositionType.Relative;
 
-            Equip(ItemRepository.GameItems["RobeHood"]);
+            Equip(ItemRepository.GameItems["PlateHelmet"]);
             Equip(ItemRepository.GameItems["RobeSkirt"]);
             Equip(ItemRepository.GameItems["PlateGloves"]);
             Equip(ItemRepository.GameItems["RobeShirt"]);
@@ -110,14 +110,6 @@ namespace Some2DRPG.GameObjects.Characters
                     Direction = Direction.Right;
 
                     movement.X++;
-                }
-
-                if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.T, this, true))
-                {
-                    if (IsEquiped(ItemRepository.GameItems["RobeShirt"]))
-                        Equip(ItemRepository.GameItems["PlateChest"]);
-                    else
-                        Equip(ItemRepository.GameItems["RobeShirt"]);
                 }
 
                 // Set animation to idle of no movements where made.

@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Take a look at the standard XNA XML Content importer. Faster load times!
 - [] - Refactoring of the way drawables are loaded from .anim files
 	- [] - Make IGameDrawable Files require to provide a XmlToDrawable static method which allows it to be loaded from an xml file.
 	- [] - Refactoring of the xsd. Animations->Drawables. <DrawableInstance><Animation>...</Animation></DrawableInstance> etc..

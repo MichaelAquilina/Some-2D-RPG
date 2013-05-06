@@ -104,6 +104,54 @@ namespace Some2DRPG
             DefaultSpriteFont = Content.Load<SpriteFont>(@"Fonts\DefaultSpriteFont");
         }
 
+        protected void CheckItemActions(GameTime gameTime, KeyboardState keyboardState)
+        {
+            // Swap HeadGear
+            if(KeyboardExtensions.GetKeyDownState(keyboardState, Keys.D1, this, true))
+            {
+                if(CurrentPlayer.IsEquiped(ItemRepository.GameItems["PlateHelmet"]))
+                    CurrentPlayer.Equip(ItemRepository.GameItems["RobeHood"]);
+                else
+                    CurrentPlayer.Equip(ItemRepository.GameItems["PlateHelmet"]);
+            }
+
+            // Swap Vest
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.D2, this, true))
+            {
+                if (CurrentPlayer.IsEquiped(ItemRepository.GameItems["PlateChest"]))
+                    CurrentPlayer.Equip(ItemRepository.GameItems["RobeShirt"]);
+                else
+                    CurrentPlayer.Equip(ItemRepository.GameItems["PlateChest"]);
+            }
+
+            // Swap Gloves
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.D3, this, true))
+            {
+                if (CurrentPlayer.IsEquiped(ItemRepository.GameItems["PlateGloves"]))
+                    CurrentPlayer.Unequip(ItemRepository.GameItems["PlateGloves"]);
+                else
+                    CurrentPlayer.Equip(ItemRepository.GameItems["PlateGloves"]);
+            }
+
+            // Swap Pants
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.D4, this, true))
+            {
+                if (CurrentPlayer.IsEquiped(ItemRepository.GameItems["PlatePants"]))
+                    CurrentPlayer.Equip(ItemRepository.GameItems["RobeSkirt"]);
+                else
+                    CurrentPlayer.Equip(ItemRepository.GameItems["PlatePants"]);
+            }
+
+            // Swap Boots
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.D5, this, true))
+            {
+                if (CurrentPlayer.IsEquiped(ItemRepository.GameItems["PlateBoots"]))
+                    CurrentPlayer.Equip(ItemRepository.GameItems["PlainShoes"]);
+                else
+                    CurrentPlayer.Equip(ItemRepository.GameItems["PlateBoots"]);
+            }
+        }
+
         protected override void Update(GameTime gameTime)
         {
             // F1 = Show/Hide Bounding Boxes
@@ -119,6 +167,8 @@ namespace Some2DRPG
             // F12 = Disable Player Collision Detection
 
             KeyboardState keyboardState = Keyboard.GetState();
+
+            CheckItemActions(gameTime, keyboardState);
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F1, this, true))
                 Engine.DrawingOptions.ShowBoundingBoxes = !Engine.DrawingOptions.ShowBoundingBoxes;
