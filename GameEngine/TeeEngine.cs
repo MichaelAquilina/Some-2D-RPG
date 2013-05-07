@@ -341,21 +341,8 @@ namespace GameEngine
                 {
                     Entity entity = null;
 
-                    // Special (Static) Tiled-Object when a Gid is specified.
-                    if (tiledObject.Type == null && tiledObject.Gid != -1)
-                    {
-                        Tile sourceTile = map.Tiles[tiledObject.Gid];
-
-                        entity = new StaticEntity();
-                        entity.Drawables.Add("standard", sourceTile);
-                        entity.CurrentDrawableState = "standard";
-                        entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
-
-                        // Cater for any difference in origin from Tiled's default Draw Origin of (0,1).
-                        entity.Pos.X += (sourceTile.Origin.X - 0.0f) * sourceTile.GetSourceRectangle(0).Width;
-                        entity.Pos.Y += (sourceTile.Origin.Y - 1.0f) * sourceTile.GetSourceRectangle(0).Height;
-                    }
-                    else if (tiledObject.Type != null)
+                    // Load the Specified Entity type or use StaticEntity if none is specified.
+                    if (tiledObject.Type != null)
                     {
                         // Try and load Entity types from both the Assembly specified in MapProperties and within the GameEngine.
                         Assembly userAssembly = (map.HasProperty("Assembly")) ? Assembly.Load(map.GetProperty("Assembly")) : null;
@@ -377,8 +364,24 @@ namespace GameEngine
                         else
                             throw new ArgumentException(string.Format("'{0}' is not an Entity object", tiledObject.Type));
                     }
+                    else entity = new StaticEntity();
 
+                    // Set Entity position to tiledObject location.
                     entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
+
+                    // If a Tile is part of the definition, add it to the Entity's DrawableSet.
+                    if (tiledObject.Gid != -1)
+                    {
+                        Tile sourceTile = map.Tiles[tiledObject.Gid];
+
+                        entity.Drawables.Add("standard", sourceTile);
+                        entity.CurrentDrawableState = "standard";
+                        entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
+
+                        // Cater for any difference in origin from Tiled's default Draw Origin of (0,1).
+                        entity.Pos.X += (sourceTile.Origin.X - 0.0f) * sourceTile.GetSourceRectangle(0).Width;
+                        entity.Pos.Y += (sourceTile.Origin.Y - 1.0f) * sourceTile.GetSourceRectangle(0).Height;
+                    }
 
                     // If the entity implements the ISizedEntity interface, apply Width and Height.
                     if (entity is ISizedEntity)
