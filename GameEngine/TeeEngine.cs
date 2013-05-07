@@ -346,7 +346,7 @@ namespace GameEngine
                     {
                         Tile sourceTile = map.Tiles[tiledObject.Gid];
 
-                        entity = new Entity();
+                        entity = new StaticEntity();
                         entity.Drawables.Add("standard", sourceTile);
                         entity.CurrentDrawableState = "standard";
                         entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
@@ -355,7 +355,7 @@ namespace GameEngine
                         entity.Pos.X += (sourceTile.Origin.X - 0.0f) * sourceTile.GetSourceRectangle(0).Width;
                         entity.Pos.Y += (sourceTile.Origin.Y - 1.0f) * sourceTile.GetSourceRectangle(0).Height;
                     }
-                    else if(tiledObject.Type != null)
+                    else if (tiledObject.Type != null)
                     {
                         // Try and load Entity types from both the Assembly specified in MapProperties and within the GameEngine.
                         Assembly userAssembly = (map.HasProperty("Assembly")) ? Assembly.Load(map.GetProperty("Assembly")) : null;
@@ -373,101 +373,100 @@ namespace GameEngine
                             throw new ArgumentException(string.Format("'{0}' does not exist in any of the loaded Assemblies", tiledObject.Type));
 
                         if (createdObject is Entity)
-                        {
-                            // Convert to Entity object and assign values.
                             entity = (Entity)createdObject;
-                            entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
-
-                            // If the entity implements the ISizedEntity interface, apply Width and Height.
-                            if (entity is ISizedEntity)
-                            {
-                                ((ISizedEntity)entity).Width = tiledObject.Width;
-                                ((ISizedEntity)entity).Height = tiledObject.Height;
-                            }
-
-                            // If the entity implements the IPolygonEntity interface, apply its Points.
-                            if (entity is IPolygonEntity)
-                                ((IPolygonEntity)entity).Points = tiledObject.Points;
-
-                            // Method Queue to be invoked once the Entity has been assigned all its Properties.
-                            SortedList<int, KeyValuePair<MethodInfo, object[]>> methodQueue = new SortedList<int, KeyValuePair<MethodInfo, object[]>>();
-
-                            foreach (string propertyKey in tiledObject.PropertyKeys)
-                            {
-                                // Ignore all properties starting with '.'
-                                if (propertyKey.StartsWith("."))
-                                    continue;
-
-                                // Bind Events.
-                                if (propertyKey.StartsWith("$"))
-                                {
-                                    string methodName = tiledObject.GetProperty(propertyKey);
-                                    string eventName = propertyKey.Substring(1, propertyKey.Length - 1);
-
-                                    MethodInfo methodInfo = MapScript.GetType().GetMethod(methodName);
-                                    EventInfo eventInfo = entity.GetType().GetEvent(eventName);
-                                    Delegate delegateMethod = Delegate.CreateDelegate(eventInfo.EventHandlerType, MapScript, methodInfo);
-
-                                    eventInfo.AddEventHandler(entity, delegateMethod);
-                                }
-                                else
-                                // Run a Method.
-                                if(propertyKey.StartsWith("*"))
-                                {
-                                    int start = 1;
-                                    int caretStart = propertyKey.IndexOf('<');
-                                    int caretEnd = propertyKey.IndexOf('>');
-
-                                    // Check Format.
-                                    if (caretEnd == -1 || caretStart == -1)
-                                        throw new ArgumentException("A Method order needs to be specified. Example: MyMethod<2>");
-
-                                    // Check Method Order.
-                                    int methodOrder;
-                                    string orderStr = propertyKey.Substring(caretStart + 1, caretEnd - caretStart - 1);
-                                    if (!Int32.TryParse(orderStr, out methodOrder))
-                                        throw new ArgumentException(string.Format("Invalid Method order specified: {0}", orderStr));
-
-                                    string methodName = propertyKey.Substring(start, caretStart - 1);
-                                    string[] methodParams = tiledObject.GetProperty(propertyKey, null).Split(',');                                    
-                                    MethodInfo methodInfo = entity.GetType().GetMethod(methodName);
-
-                                    // Check Method Existance.
-                                    if (methodInfo == null)
-                                        throw new ArgumentException(string.Format("The Method '{0}' does not exist or is Ambigious", methodName));
-
-                                    ParameterInfo[] paramInfo = methodInfo.GetParameters();
-                                    object[] parameters = new object[paramInfo.Length];
-
-                                    // Check Invalid Number of Parameters.
-                                    if (paramInfo.Length != methodParams.Length)
-                                        throw new ArgumentException(string.Format(
-                                            "The number of arguments passed is Invalid. Expected {0}, Specified {1}", paramInfo.Length, methodParams.Length)
-                                            );
-
-                                    for (int i = 0; i < paramInfo.Length; i++)
-                                        parameters[i] = ReflectionExtensions.SmartConvert(methodParams[i], paramInfo[i].ParameterType);
-
-                                    methodQueue.Add(methodOrder, new KeyValuePair<MethodInfo,object[]>(methodInfo, parameters));
-                                }
-                                else
-                                    // Bind Properties.
-                                    ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
-                            }
-
-                            // Invoke the methods found in the order specified.
-                            foreach (int index in methodQueue.Keys)
-                            {
-                                MethodInfo methodInfo = methodQueue[index].Key;
-                                object[] parameters = methodQueue[index].Value;
-
-                                methodInfo.Invoke(entity, parameters);
-                            }
-                        }   
-                        else throw new ArgumentException(string.Format("'{0}' is not an Entity object", tiledObject.Type));
+                        else
+                            throw new ArgumentException(string.Format("'{0}' is not an Entity object", tiledObject.Type));
                     }
 
-                    if(entity != null ) this.AddEntity(tiledObject.Name, entity);
+                    entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
+
+                    // If the entity implements the ISizedEntity interface, apply Width and Height.
+                    if (entity is ISizedEntity)
+                    {
+                        ((ISizedEntity)entity).Width = tiledObject.Width;
+                        ((ISizedEntity)entity).Height = tiledObject.Height;
+                    }
+
+                    // If the entity implements the IPolygonEntity interface, apply its Points.
+                    if (entity is IPolygonEntity)
+                        ((IPolygonEntity)entity).Points = tiledObject.Points;
+
+                    // Method Queue to be invoked once the Entity has been assigned all its Properties.
+                    SortedList<int, KeyValuePair<MethodInfo, object[]>> methodQueue = new SortedList<int, KeyValuePair<MethodInfo, object[]>>();
+
+                    foreach (string propertyKey in tiledObject.PropertyKeys)
+                    {
+                        // Ignore all properties starting with '.'
+                        if (propertyKey.StartsWith("."))
+                            continue;
+
+                        // Bind Events.
+                        if (propertyKey.StartsWith("$"))
+                        {
+                            string methodName = tiledObject.GetProperty(propertyKey);
+                            string eventName = propertyKey.Substring(1, propertyKey.Length - 1);
+
+                            MethodInfo methodInfo = MapScript.GetType().GetMethod(methodName);
+                            EventInfo eventInfo = entity.GetType().GetEvent(eventName);
+                            Delegate delegateMethod = Delegate.CreateDelegate(eventInfo.EventHandlerType, MapScript, methodInfo);
+
+                            eventInfo.AddEventHandler(entity, delegateMethod);
+                        }
+                        else
+                            // Run a Method.
+                            if (propertyKey.StartsWith("*"))
+                            {
+                                int start = 1;
+                                int caretStart = propertyKey.IndexOf('<');
+                                int caretEnd = propertyKey.IndexOf('>');
+
+                                // Check Format.
+                                if (caretEnd == -1 || caretStart == -1)
+                                    throw new ArgumentException("A Method order needs to be specified. Example: MyMethod<2>");
+
+                                // Check Method Order.
+                                int methodOrder;
+                                string orderStr = propertyKey.Substring(caretStart + 1, caretEnd - caretStart - 1);
+                                if (!Int32.TryParse(orderStr, out methodOrder))
+                                    throw new ArgumentException(string.Format("Invalid Method order specified: {0}", orderStr));
+
+                                string methodName = propertyKey.Substring(start, caretStart - 1);
+                                string[] methodParams = tiledObject.GetProperty(propertyKey, null).Split(',');
+                                MethodInfo methodInfo = entity.GetType().GetMethod(methodName);
+
+                                // Check Method Existance.
+                                if (methodInfo == null)
+                                    throw new ArgumentException(string.Format("The Method '{0}' does not exist or is Ambigious", methodName));
+
+                                ParameterInfo[] paramInfo = methodInfo.GetParameters();
+                                object[] parameters = new object[paramInfo.Length];
+
+                                // Check Invalid Number of Parameters.
+                                if (paramInfo.Length != methodParams.Length)
+                                    throw new ArgumentException(string.Format(
+                                        "The number of arguments passed is Invalid. Expected {0}, Specified {1}", paramInfo.Length, methodParams.Length)
+                                        );
+
+                                for (int i = 0; i < paramInfo.Length; i++)
+                                    parameters[i] = ReflectionExtensions.SmartConvert(methodParams[i], paramInfo[i].ParameterType);
+
+                                methodQueue.Add(methodOrder, new KeyValuePair<MethodInfo, object[]>(methodInfo, parameters));
+                            }
+                            else
+                                // Bind Properties.
+                                ReflectionExtensions.SmartSetProperty(entity, propertyKey, tiledObject.GetProperty(propertyKey));
+                    }
+
+                    // Invoke the methods found in the order specified.
+                    foreach (int index in methodQueue.Keys)
+                    {
+                        MethodInfo methodInfo = methodQueue[index].Key;
+                        object[] parameters = methodQueue[index].Value;
+
+                        methodInfo.Invoke(entity, parameters);
+                    }
+
+                    if (entity != null) this.AddEntity(tiledObject.Name, entity);
                 }
             }
         }

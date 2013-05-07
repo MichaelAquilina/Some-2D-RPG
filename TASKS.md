@@ -4,13 +4,9 @@ Game Engine Tasks
 Todo
 ----
 
-<<<<<<< HEAD
-=======
 - [] - Pull in latest animation changes.
 - [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
 - [] - Refactoring of the Pathfinding namespace.
-- [] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
->>>>>>> d7cfde26e8fb9146c3af9edd2ef76030b124b9af
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
 - [IP] - Collision detection between entities.
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
@@ -18,12 +14,12 @@ Todo
 
 - [] - Change boundingbox back to a Rectangle - the slight loss in data should not be a huge deal and should increase performance by a lot.
 - [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
+			- [] - Take a look at the standard XNA XML Content importer. Faster load times!
 - [] - Refactoring of the Pathfinding namespace.
 - [] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
 - [] - Allow Specification of Repeat '1', '2', '3' etc... apart from the standard True or False.
 - [] - Provide queuing option in GetKeyboardownState in KeyboardExtensions.
 - [] - Consider removing hard coded nature of group and state in DrawableSet and just allow it to be added as a List of possibles (or a dictionary)
-- [] - Take a look at the standard XNA XML Content importer. Faster load times!
 - [] - Refactoring of the way drawables are loaded from .anim files
 	- [] - Make IGameDrawable Files require to provide a XmlToDrawable static method which allows it to be loaded from an xml file.
 	- [] - Refactoring of the xsd. Animations->Drawables. <DrawableInstance><Animation>...</Animation></DrawableInstance> etc..
@@ -36,6 +32,7 @@ Todo
 - [] - Fix bug in Animation class related to 'IsFinshed()'. Make IGameDrawable classes expose some form of GetCurrentState() enumeration.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+- [Done] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
 - [Done] - Add ability to run methods in the order specified in the <> in Tiled. Example QuickEquip<2> should be run AFTER QuickEquip<1>
 - [Done] - Refactoring of DebugInfo. Watches should be contained within DebugInfo and should be stored as a Dictionary rather than using HardCoded properties which can be very unwiedly and hard to mantain.
 - [Done] - Loading of Items from storage. JSON is probably the nicest format in this case, but XML should also be considered.

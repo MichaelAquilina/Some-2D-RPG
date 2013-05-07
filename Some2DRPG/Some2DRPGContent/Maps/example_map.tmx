@@ -11,7 +11,262 @@
  <tileset firstgid="45" source="Tilesets/bridges.tsx"/>
  <tileset firstgid="87" source="Tilesets/treetop.tsx"/>
  <tileset firstgid="89" source="Tilesets/dirt.tsx"/>
- <tileset firstgid="107" source="Tilesets/mountains.tsx"/>
+ <tileset firstgid="107" name="mountains" tilewidth="32" tileheight="32">
+  <properties>
+   <property name="Content" value="LPC/Terrain/mountains"/>
+  </properties>
+  <image source="../LPC/Terrain/mountains.png" width="384" height="288"/>
+  <tile id="0">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="Impasable" value=""/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="Imassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="53">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="55">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="61">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="62">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="73">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="74">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+  <tile id="106">
+   <properties>
+    <property name="Impassable" value=""/>
+   </properties>
+  </tile>
+ </tileset>
  <layer name="Base Layer" width="60" height="60">
   <data encoding="csv">
 16,16,17,28,29,35,36,35,30,18,18,17,17,17,18,16,18,18,16,18,17,18,31,21,35,35,36,29,36,36,29,36,20,33,16,18,16,16,16,18,16,16,18,18,17,16,17,17,16,18,16,18,16,18,16,18,16,18,16,18,
@@ -336,9 +591,17 @@
 </data>
  </layer>
  <objectgroup color="#ffff00" name="Object Layer 1" width="60" height="60">
-  <object gid="87" x="496" y="296"/>
+  <object gid="87" x="496" y="296">
+   <properties>
+    <property name="$UpdateEvent" value="staticObject_UpdateEvent"/>
+   </properties>
+  </object>
   <object gid="87" x="531" y="134"/>
-  <object gid="87" x="322" y="366"/>
+  <object gid="87" x="322" y="366">
+   <properties>
+    <property name="$UpdateEvent" value="staticObject_UpdateEvent"/>
+   </properties>
+  </object>
   <object gid="87" x="807" y="460"/>
   <object gid="87" x="512" y="757"/>
   <object gid="88" x="568" y="375"/>

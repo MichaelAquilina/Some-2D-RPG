@@ -102,6 +102,7 @@
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\SpriteBatchExtensions.cs" />
     <Compile Include="GameObjects\MapZone.cs" />
+    <Compile Include="GameObjects\StaticEntity.cs" />
     <Compile Include="Info\DiagnosticInfo.cs" />
     <Compile Include="Info\ViewPortInfo.cs" />
     <Compile Include="GameObjects\Entity.cs" />

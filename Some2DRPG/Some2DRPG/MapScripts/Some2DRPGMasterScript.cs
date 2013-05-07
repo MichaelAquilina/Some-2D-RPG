@@ -1,4 +1,5 @@
 ﻿using GameEngine;
+using GameEngine.GameObjects;
 using GameEngine.Interfaces;
 using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
@@ -30,5 +31,26 @@ namespace Some2DRPG.MapScripts
         public virtual void MapUnloaded(TeeEngine engine, TiledMap map)
         {
         }
+
+        #region EventHandlers
+
+        public void staticObject_UpdateEvent(Entity caller, GameTime gameTime, TeeEngine engine)
+        {
+            caller.Opacity = 1.0f;
+
+            foreach (Entity entity in engine.Collider.GetIntersectingEntites(caller.CurrentBoundingBox))
+            {
+                if (entity != caller
+                    && entity is NPC
+                    && caller.Pos.Y > entity.Pos.Y
+                    && entity.CurrentBoundingBox.Intersects(caller.CurrentBoundingBox))
+                {
+                    caller.Opacity = 0.5f;
+                    return;
+                }
+            }
+        }
+
+        #endregion
     }
 }
