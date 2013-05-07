@@ -12,7 +12,6 @@ Todo
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
 		 - Some forms of physics to allow proper reaction would be better.
 - [] - Change boundingbox back to a Rectangle - the slight loss in data should not be a huge deal and should increase performance by a lot.
-- [] - Refactoring of the Pathfinding namespace.
 - [] - Allow Specification of Repeat '1', '2', '3' etc... apart from the standard True or False.
 - [] - Provide queuing option in GetKeyboardownState in KeyboardExtensions.
 - [] - Consider removing hard coded nature of group and state in DrawableSet and just allow it to be added as a List of possibles (or a dictionary)
