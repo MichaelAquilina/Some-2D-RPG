@@ -141,7 +141,7 @@
 
   <!-- Thrusting Animations -->
 
-  <Animation State="Thrust_Up" Group="Body" Loop="True" SpriteSheet="LPC\Characters\Thrust\BODY_animation" FrameDelay="75" Origin="0.4, 0.9">
+  <Animation State="Thrust_Up" Group="Body" Loop="True" SpriteSheet="LPC\Characters\Thrust\male_thrust" FrameDelay="75" Origin="0.4, 0.9">
     <Frames>
       <Frame>79  , 13, 43, 50</Frame>
       <Frame>143 , 13, 43, 50</Frame>
@@ -151,7 +151,7 @@
     </Frames>
   </Animation>
 
-  <Animation State="Thrust_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\Thrust\BODY_animation" FrameDelay="75" Origin="0.7, 0.9">
+  <Animation State="Thrust_Left" Group="Body" Loop="True" SpriteSheet="LPC\Characters\Thrust\male_thrust" FrameDelay="75" Origin="0.7, 0.9">
     <Frames>
       <Frame>69  , 78, 40, 49</Frame>
       <Frame>133 , 78, 40, 49</Frame>
@@ -161,7 +161,7 @@
     </Frames>
   </Animation>
 
-  <Animation State="Thrust_Down" Group="Body" Loop="True" SpriteSheet="LPC\Characters\Thrust\BODY_animation" FrameDelay="75" Origin="0.4, 0.9">
+  <Animation State="Thrust_Down" Group="Body" Loop="True" SpriteSheet="LPC\Characters\Thrust\male_thrust" FrameDelay="75" Origin="0.4, 0.9">
     <Frames>
       <Frame>80 , 142, 42, 49</Frame>
       <Frame>144, 142, 42, 49</Frame>
@@ -171,7 +171,7 @@
     </Frames>
   </Animation>
 
-  <Animation State="Thrust_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\Thrust\BODY_animation" FrameDelay="75" Origin="0.4, 0.9">
+  <Animation State="Thrust_Right" Group="Body" Loop="True" SpriteSheet="LPC\Characters\Thrust\male_thrust" FrameDelay="75" Origin="0.4, 0.9">
     <Frames>
       <Frame>82 , 207, 40, 48</Frame>
       <Frame>146, 207, 40, 48</Frame>
