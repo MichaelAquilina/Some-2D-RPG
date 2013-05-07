@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Pull in latest animation changes.
 - [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
 - [] - Refactoring of the Pathfinding namespace.
 - [] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
