@@ -12,7 +12,7 @@ namespace GameEngine.GameObjects
     /// Any map objects, NPCs, particles or playable characters should inherit from this class in order to be used 
     /// by the game engine.
     /// </summary>
-    public class Entity : ILoadable
+    public abstract class Entity : ILoadable
     {
         #region Properties and Variables
 
