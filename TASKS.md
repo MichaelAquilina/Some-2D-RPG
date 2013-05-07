@@ -4,7 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - Pull in latest animation changes.
+- [] - Refactor naming in LPC content.
 - [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
 - [] - Refactoring of the Pathfinding namespace.
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
@@ -12,8 +12,6 @@ Todo
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
 		 - Some forms of physics to allow proper reaction would be better.
 - [] - Change boundingbox back to a Rectangle - the slight loss in data should not be a huge deal and should increase performance by a lot.
-- [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
-			- [] - Take a look at the standard XNA XML Content importer. Faster load times!
 - [] - Refactoring of the Pathfinding namespace.
 - [] - Allow Specification of Repeat '1', '2', '3' etc... apart from the standard True or False.
 - [] - Provide queuing option in GetKeyboardownState in KeyboardExtensions.
@@ -26,9 +24,10 @@ Todo
 - [] - To Consider. Allow for specifying an Entity does not need to be added to the Collider (Example LightSource does not need to be added).
 - [] - Write some unit tests.
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
-- [] - Fix bug in Animation class related to 'IsFinshed()'. Make IGameDrawable classes expose some form of GetCurrentState() enumeration.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+- [Done] - Fix bug in Animation class related to 'IsFinshed()'.
+- [Done] - Pull in latest animation changes.
 - [Done] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
 - [Done] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
 - [Done] - Add ability to run methods in the order specified in the <> in Tiled. Example QuickEquip<2> should be run AFTER QuickEquip<1>

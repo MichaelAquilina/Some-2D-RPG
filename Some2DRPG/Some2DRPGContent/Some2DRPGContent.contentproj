@@ -57,42 +57,42 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LPC\Characters\female_hurt.png">
+    <Compile Include="LPC\Characters\Hurt\female_hurt.png">
       <Name>female_hurt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Characters\female_slash.png">
+    <Compile Include="LPC\Characters\Slash\female_slash.png">
       <Name>female_slash</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Characters\female_spellcast.png">
+    <Compile Include="LPC\Characters\Spellcast\female_spellcast.png">
       <Name>female_spellcast</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Characters\female_walkcycle.png">
+    <Compile Include="LPC\Characters\Walkcycle\female_walkcycle.png">
       <Name>female_walkcycle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Characters\male_hurt.png">
+    <Compile Include="LPC\Characters\Hurt\male_hurt.png">
       <Name>male_hurt</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Characters\male_slash.png">
+    <Compile Include="LPC\Characters\Slash\male_slash.png">
       <Name>male_slash</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Characters\male_spellcast.png">
+    <Compile Include="LPC\Characters\Spellcast\male_spellcast.png">
       <Name>male_spellcast</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Characters\male_walkcycle.png">
+    <Compile Include="LPC\Characters\Walkcycle\male_walkcycle.png">
       <Name>male_walkcycle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -383,12 +383,12 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Characters\skeleton_slash.png">
+    <Compile Include="LPC\Characters\Slash\skeleton_slash.png">
       <Name>skeleton_slash</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="LPC\Characters\skeleton_walkcycle.png">
+    <Compile Include="LPC\Characters\Walkcycle\skeleton_walkcycle.png">
       <Name>skeleton_walkcycle</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
