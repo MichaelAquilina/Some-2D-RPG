@@ -36,7 +36,7 @@ namespace Some2DRPG.GameObjects.Creatures
             base.LoadContent(content);
         }
 
-        public override void Hit(Entity sender, GameTime gameTime)
+        public override void OnHit(Entity sender, GameTime gameTime)
         {
             if (!CurrentDrawableState.Contains("Spin"))
             {

@@ -74,7 +74,21 @@ namespace Some2DRPG.GameObjects
 
         #region Interaction Methods
 
-        public virtual void Hit(Entity sender, GameTime gameTime)
+        /// <summary>
+        /// Method called when the NPC has been hit by some Entity residing within the
+        /// game engine. Override this method in order to perform custom functionality
+        /// during a Hit event.
+        /// </summary>
+        public virtual void OnHit(Entity sender, GameTime gameTime)
+        {
+        }
+
+        /// <summary>
+        /// Method called when the NPC has been interacted with through some medium by
+        /// another Entity object residing within the same engine. Override this method in
+        /// order to allow interactions to occur with this entity.
+        /// </summary>
+        public virtual void OnInteract(Entity sender, GameTime gameTime)
         {
         }
 

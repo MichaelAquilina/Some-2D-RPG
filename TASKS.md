@@ -4,6 +4,13 @@ Game Engine Tasks
 Todo
 ----
 
+<<<<<<< HEAD
+=======
+- [] - Pull in latest animation changes.
+- [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
+- [] - Refactoring of the Pathfinding namespace.
+- [] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
+>>>>>>> d7cfde26e8fb9146c3af9edd2ef76030b124b9af
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
 - [IP] - Collision detection between entities.
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
