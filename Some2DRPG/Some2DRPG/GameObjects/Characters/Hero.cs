@@ -21,13 +21,13 @@ namespace Some2DRPG.GameObjects.Characters
         public LightSource LightSource { get; set; }
 
         public Hero()
-            :base(NPC.HUMAN_MALE)
+            : base(NPC.CREATURES_SKELETON)
         {
             Construct(0, 0);
         }
 
         public Hero(float x, float y) :
-            base(x, y, NPC.HUMAN_MALE)
+            base(x, y, NPC.CREATURES_SKELETON)
         {
             Construct(x, y);
         }
