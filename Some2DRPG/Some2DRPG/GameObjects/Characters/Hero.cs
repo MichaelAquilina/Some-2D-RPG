@@ -75,11 +75,12 @@ namespace Some2DRPG.GameObjects.Characters
             Tile prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
             float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
+            // TODO: Improve, we are retrieving this twice because it is called again in the CollidableEntity loop.
+            List<Entity> intersectingEntities = engine.Collider.GetIntersectingEntites(CurrentBoundingBox);
+
             if (CurrentDrawableState.Contains("Slash") 
                 && !Drawables.IsStateFinished(CurrentDrawableState, gameTime))
             {
-                // TODO: Improve, we are retrieving this twice because it is called again in the CollidableEntity loop.
-                List<Entity> intersectingEntities = engine.Collider.GetIntersectingEntites(CurrentBoundingBox);
                 foreach (Entity entity in intersectingEntities)
                 {
                     if (this != entity && entity is NPC)
@@ -99,6 +100,21 @@ namespace Some2DRPG.GameObjects.Characters
                 }
                 else
                 {
+                    // Interaction
+                    if (keyboardState.IsKeyDown(Keys.S))
+                    {
+                        foreach (Entity entity in intersectingEntities)
+                        {
+                            if (entity != this && entity is NPC)
+                            {
+                                NPC entityNPC = (NPC)entity;
+                                if (entityNPC.Faction == this.Faction)
+                                    entityNPC.OnInteract(this, gameTime);
+                            }
+
+                        }
+                    }
+
                     // MOVEMENT BASED KEYBOARD EVENTS.
                     if (keyboardState.IsKeyDown(Keys.Up))
                     {
