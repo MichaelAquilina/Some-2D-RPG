@@ -20,6 +20,9 @@ namespace Some2DRPG.GameObjects.Characters
 
         public LightSource LightSource { get; set; }
 
+        // List of Entities hit during an attack cycle.
+        List<Entity> _hitEntityList = new List<Entity>();
+
         public Hero()
             : base(NPC.HUMAN_MALE)
         {
@@ -83,16 +86,23 @@ namespace Some2DRPG.GameObjects.Characters
             {
                 foreach (Entity entity in intersectingEntities)
                 {
-                    if (this != entity && entity is NPC)
+                    if (this != entity && entity is NPC && !_hitEntityList.Contains(entity))
                     {
                         NPC entityNPC = (NPC)entity;
                         if (entityNPC.Faction != this.Faction)
+                        {
+                            _hitEntityList.Add(entityNPC);
+
+                            entityNPC.HP -= 10;
                             entityNPC.OnHit(this, gameTime, engine);
+                        }
                     }
                 }
             }
             else
             {
+                _hitEntityList.Clear();
+
                 if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.A, engine, true))
                 {
                     CurrentDrawableState = "Slash_" + Direction;

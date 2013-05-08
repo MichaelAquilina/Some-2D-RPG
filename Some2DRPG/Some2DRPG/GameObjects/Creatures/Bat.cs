@@ -5,6 +5,7 @@ using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.GameObjects.Characters;
+using GameEngine.Extensions;
 
 namespace Some2DRPG.GameObjects.Creatures
 {
@@ -22,7 +23,9 @@ namespace Some2DRPG.GameObjects.Creatures
         private double _randomModifier;
         private float _attackSpeed = 5.4f;
         private float _moveSpeed = 1.8f;
-
+        private Color _hitColor = Color.White;
+        private float _hitPercentage = 1.0f;
+        
         public Bat()
         {
             Construct(0, 0);
@@ -38,7 +41,7 @@ namespace Some2DRPG.GameObjects.Creatures
             this.BaseRace = CREATURES_BAT;
             this.Faction = "Creatures";
             this.Pos = new Vector2(x, y);
-            this.HP = 200;
+            this.HP = 15;
             this._randomModifier = randomGenerator.NextDouble();
             this.Visible = true;
             this.EntityCollisionEnabled = false;
@@ -47,7 +50,11 @@ namespace Some2DRPG.GameObjects.Creatures
 
         public override void OnHit(Entity sender, GameTime gameTime, TeeEngine engine)
         {
-            this.HP -= 10;
+            if (HP > 0)
+            {
+                _hitColor = Color.Red;
+                _hitPercentage = 0.0f;
+            }
         }
 
         // TODO: Clean!!!!!!
@@ -56,6 +63,15 @@ namespace Some2DRPG.GameObjects.Creatures
             // Get the Hero player for interaction purposes.
             Hero player = (Hero)engine.GetEntity("Player");
             Vector2 prevPos = Pos;
+
+            // Needs to be improved
+            if (_hitPercentage != 1.0f)
+            {
+                _hitPercentage += 0.05f;
+                _hitColor = ColorExtensions.Transition(Color.Red, Color.White, _hitPercentage);
+
+                Drawables.SetGroupProperty("Body", "Color", _hitColor);
+            }
 
             // Check if this Bat has died.
             if (HP <= 0)
