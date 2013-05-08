@@ -27,7 +27,7 @@ namespace Some2DRPG.GameObjects.Misc
             PositionType = LightPositionType.Relative;
         }
 
-        public override void PostInitialize(GameTime gameTime, GameEngine.TeeEngine engine)
+        public override void PostCreate(GameTime gameTime, GameEngine.TeeEngine engine)
         {
             // Todo: this should technically NOT be here.
             this.Pos += new Vector2(Width/2.0f, Height/2.0f);

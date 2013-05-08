@@ -24,7 +24,7 @@ namespace Some2DRPG.GameObjects.Misc
             this.CoinPadding = 8;
         }
 
-        public override bool PreInitialize(GameTime gameTime, TeeEngine engine)
+        public override bool PreCreate(GameTime gameTime, TeeEngine engine)
         {
             int coinx = (Width / CoinPadding);
             int coiny = (Height / CoinPadding);

@@ -103,10 +103,10 @@ namespace GameEngine.GameObjects
         
         /// <summary>
         /// Called BEFORE the entity is added to the engines entity list.
-        /// The result of the PreInitialize method determines if the entity will be added or not.
+        /// The result of the PreCreate method determines if the entity will be added or not.
         /// </summary>
         /// <returns>bool value determining if the engine instance should add this Entity or not.</returns>
-        public virtual bool PreInitialize(GameTime gameTime, TeeEngine engine)
+        public virtual bool PreCreate(GameTime gameTime, TeeEngine engine)
         {
             return true;
         }
@@ -116,7 +116,7 @@ namespace GameEngine.GameObjects
         /// Called AFTER the entity is added to the engines entity list.
         /// The entity will be garuanteed to have a valid CurrentBoundingBox value and have a place in the QuadTree.
         /// </summary>
-        public virtual void PostInitialize(GameTime gameTime, TeeEngine engine)
+        public virtual void PostCreate(GameTime gameTime, TeeEngine engine)
         {
         }
 

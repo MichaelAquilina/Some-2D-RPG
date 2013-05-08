@@ -315,7 +315,7 @@ namespace GameEngine
                 Entity entity = _entityCreate[i];
 
                 // The result of this call determines if the entity will be added or not.
-                if (entity.PreInitialize(gameTime, this))
+                if (entity.PreCreate(gameTime, this))
                 {
                     _entities.Add(entity.Name, entity);
 
@@ -323,7 +323,7 @@ namespace GameEngine
                     entity.PreviousBoundingBox = entity.CurrentBoundingBox;
                     Collider.Add(entity);
 
-                    entity.PostInitialize(gameTime, this);
+                    entity.PostCreate(gameTime, this);
                 }
                 else entity.Name = null;
             }

@@ -54,7 +54,7 @@ namespace Some2DRPG.GameObjects.Characters
             QuickEquip("RustyDagger");
         }
 
-        public override void PostInitialize(GameTime gameTime, TeeEngine engine)
+        public override void PostCreate(GameTime gameTime, TeeEngine engine)
         {
             engine.AddEntity(LightSource);
         }

@@ -13,12 +13,12 @@ namespace GameEngine.GameObjects
 
         public event EntityEventHandler UpdateEvent;
         public event EntityEventHandler PostDestroyEvent;
-        public event EntityEventHandler PostInitialiseEvent;
+        public event EntityEventHandler PostCreateEvent;
 
-        public override void PostInitialize(GameTime gameTime, TeeEngine engine)
+        public override void PostCreate(GameTime gameTime, TeeEngine engine)
         {
-            if (PostInitialiseEvent != null)
-                PostInitialiseEvent(this, gameTime, engine);
+            if (PostCreateEvent != null)
+                PostCreateEvent(this, gameTime, engine);
         }
 
         public override void PostDestroy(GameTime gameTime, TeeEngine engine)
