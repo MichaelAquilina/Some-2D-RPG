@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - IGameDrawables should perform Draw operations themselves? (Check Speed). This will allow for things like text to be drawn using TextDrawable class.
 - [] - GUI controls:
         - NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
         - NeoForce: http://neoforce.codeplex.com/
@@ -81,8 +82,8 @@ Must Have
 Should Have
 -----------
 - [] - Ability to run in full screen mode. Currently this does not work as expected.
-- [IP] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
-- [] - NPC Interaction (scriptable with dialog text)
+- [Done] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
+- [IP] - NPC Interaction (scriptable with dialog text)
 - [Done] - the ability to zoom in and out (scale)
 - [Done] - an effecient collision detection engine (QuadTree)
 - [] - a per entity / per tile shader framework
