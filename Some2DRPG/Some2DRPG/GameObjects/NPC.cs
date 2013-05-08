@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using GameEngine;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Items;
 
 namespace Some2DRPG.GameObjects
@@ -80,7 +83,7 @@ namespace Some2DRPG.GameObjects
         /// game engine. Override this method in order to perform custom functionality
         /// during a Hit event.
         /// </summary>
-        public virtual void OnHit(Entity sender, GameTime gameTime)
+        public virtual void OnHit(Entity sender, GameTime gameTime, TeeEngine engine)
         {
         }
 
@@ -89,8 +92,11 @@ namespace Some2DRPG.GameObjects
         /// another Entity object residing within the same engine. Override this method in
         /// order to allow interactions to occur with this entity.
         /// </summary>
-        public virtual void OnInteract(Entity sender, GameTime gameTime)
+        public virtual void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
         {
+            SpeechBubble speech = new SpeechBubble(this, TimeSpan.FromSeconds(10));
+
+            engine.AddEntity(speech);
         }
 
         #endregion

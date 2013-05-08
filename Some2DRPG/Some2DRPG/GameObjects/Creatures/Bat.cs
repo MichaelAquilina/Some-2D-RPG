@@ -45,7 +45,7 @@ namespace Some2DRPG.GameObjects.Creatures
             this.TerrainCollisionEnabled = false;
         }
 
-        public override void OnHit(Entity sender, GameTime gameTime)
+        public override void OnHit(Entity sender, GameTime gameTime, TeeEngine engine)
         {
             this.HP -= 10;
         }
@@ -76,7 +76,7 @@ namespace Some2DRPG.GameObjects.Creatures
                     this.Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
 
                     if (Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
-                        player.OnHit(this, gameTime);
+                        player.OnHit(this, gameTime, engine);
 
                     if (_attackCounter++ == ATTACK_COUNTER_LIMIT)
                         AttackStance = AttackStance.NotAttacking;

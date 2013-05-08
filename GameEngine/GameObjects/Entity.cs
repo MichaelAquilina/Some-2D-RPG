@@ -17,6 +17,11 @@ namespace GameEngine.GameObjects
         #region Properties and Variables
 
         /// <summary>
+        /// boolean flag specifying if this Entity should always be placed on top during draw operations.
+        /// </summary>
+        public bool AlwaysOnTop { get; set; }
+
+        /// <summary>
         /// Entities X and Y position on the Map.
         /// </summary>
         public Vector2 Pos;
@@ -92,6 +97,7 @@ namespace GameEngine.GameObjects
             this.ScaleY = scaleY;
             this.Opacity = 1.0f;
             this.Visible = visible;
+            this.AlwaysOnTop = false;
             this.IsOnScreen = false;
             this.Drawables = new DrawableSet();
             this.CurrentDrawableState = null;

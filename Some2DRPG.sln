@@ -7,10 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Some2DRPGContent", "Some2DR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{A3846010-DA2C-44F2-9B55-856CC643C898}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnimationEditor", "AnimationEditor\AnimationEditor\AnimationEditor.csproj", "{30D482F0-9543-4E07-9BF6-D48FC14E6605}"
-EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "AnimationEditorContent", "AnimationEditor\AnimationEditorContent\AnimationEditorContent.contentproj", "{7E61B910-9DD3-484C-9ED1-2CDA1035E36D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,16 +33,6 @@ Global
 		{A3846010-DA2C-44F2-9B55-856CC643C898}.Release|Any CPU.ActiveCfg = Release|x86
 		{A3846010-DA2C-44F2-9B55-856CC643C898}.Release|x86.ActiveCfg = Release|x86
 		{A3846010-DA2C-44F2-9B55-856CC643C898}.Release|x86.Build.0 = Release|x86
-		{30D482F0-9543-4E07-9BF6-D48FC14E6605}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{30D482F0-9543-4E07-9BF6-D48FC14E6605}.Debug|x86.ActiveCfg = Debug|x86
-		{30D482F0-9543-4E07-9BF6-D48FC14E6605}.Debug|x86.Build.0 = Debug|x86
-		{30D482F0-9543-4E07-9BF6-D48FC14E6605}.Release|Any CPU.ActiveCfg = Release|x86
-		{30D482F0-9543-4E07-9BF6-D48FC14E6605}.Release|x86.ActiveCfg = Release|x86
-		{30D482F0-9543-4E07-9BF6-D48FC14E6605}.Release|x86.Build.0 = Release|x86
-		{7E61B910-9DD3-484C-9ED1-2CDA1035E36D}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{7E61B910-9DD3-484C-9ED1-2CDA1035E36D}.Debug|x86.ActiveCfg = Debug|x86
-		{7E61B910-9DD3-484C-9ED1-2CDA1035E36D}.Release|Any CPU.ActiveCfg = Release|x86
-		{7E61B910-9DD3-484C-9ED1-2CDA1035E36D}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

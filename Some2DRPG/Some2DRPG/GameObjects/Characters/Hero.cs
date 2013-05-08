@@ -87,7 +87,7 @@ namespace Some2DRPG.GameObjects.Characters
                     {
                         NPC entityNPC = (NPC)entity;
                         if (entityNPC.Faction != this.Faction)
-                            entityNPC.OnHit(this, gameTime);
+                            entityNPC.OnHit(this, gameTime, engine);
                     }
                 }
             }
@@ -101,7 +101,7 @@ namespace Some2DRPG.GameObjects.Characters
                 else
                 {
                     // Interaction
-                    if (keyboardState.IsKeyDown(Keys.S))
+                    if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.S, engine, true))
                     {
                         foreach (Entity entity in intersectingEntities)
                         {
@@ -109,7 +109,7 @@ namespace Some2DRPG.GameObjects.Characters
                             {
                                 NPC entityNPC = (NPC)entity;
                                 if (entityNPC.Faction == this.Faction)
-                                    entityNPC.OnInteract(this, gameTime);
+                                    entityNPC.OnInteract(this, gameTime, engine);
                             }
 
                         }

@@ -793,6 +793,8 @@ namespace GameEngine
                             // Important to also take into account the animation layers for the entity.
                             float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
 
+                            if (entity.AlwaysOnTop) layerDepth = 0;
+
                             // FINALLY ... DRAW
                             spriteBatch.Draw(
                                 drawable.GetSourceTexture(LastUpdateTime),

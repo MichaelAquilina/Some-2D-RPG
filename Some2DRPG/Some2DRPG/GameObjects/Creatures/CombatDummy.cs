@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.GameObjects.Characters;
+using GameEngine;
 
 namespace Some2DRPG.GameObjects.Creatures
 {
@@ -36,7 +37,7 @@ namespace Some2DRPG.GameObjects.Creatures
             base.LoadContent(content);
         }
 
-        public override void OnHit(Entity sender, GameTime gameTime)
+        public override void OnHit(Entity sender, GameTime gameTime, TeeEngine engine)
         {
             if (!CurrentDrawableState.Contains("Spin"))
             {
