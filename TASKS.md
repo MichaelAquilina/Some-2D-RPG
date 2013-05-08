@@ -4,6 +4,9 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - GUI controls:
+        - NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
+        - NeoForce: http://neoforce.codeplex.com/
 - [] - Refactor naming in LPC content.
 - [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
 - [] - Refactoring of the Pathfinding namespace.
