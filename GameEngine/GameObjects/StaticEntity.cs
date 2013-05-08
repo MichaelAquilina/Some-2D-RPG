@@ -9,9 +9,23 @@ namespace GameEngine.GameObjects
     /// </summary>
     public class StaticEntity : Entity
     {
-        public delegate void UpdateEventHandler(Entity caller, GameTime gameTime, TeeEngine engine);
+        public delegate void EntityEventHandler(Entity caller, GameTime gameTime, TeeEngine engine);
 
-        public event UpdateEventHandler UpdateEvent;
+        public event EntityEventHandler UpdateEvent;
+        public event EntityEventHandler PostDestroyEvent;
+        public event EntityEventHandler PostInitialiseEvent;
+
+        public override void PostInitialize(GameTime gameTime, TeeEngine engine)
+        {
+            if (PostInitialiseEvent != null)
+                PostInitialiseEvent(this, gameTime, engine);
+        }
+
+        public override void PostDestroy(GameTime gameTime, TeeEngine engine)
+        {
+            if (PostDestroyEvent != null)
+                PostDestroyEvent(this, gameTime, engine);
+        }
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
