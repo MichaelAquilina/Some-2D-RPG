@@ -39,7 +39,7 @@ namespace GameEngine.GameObjects
                 new Rectangle(0, 0, _width, _height));
             image.Origin = new Vector2(0, 0);
 
-            GameDrawableInstance instance = Drawables.Add("Standard", image, "Body");
+            DrawableInstance instance = Drawables.Add("Standard", image, "Body");
             instance.Color = new Color(1.0f, 1.0f, 1.0f, 0.5f);
             instance.Layer = 0;
 

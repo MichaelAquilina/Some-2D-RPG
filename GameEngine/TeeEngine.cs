@@ -373,14 +373,15 @@ namespace GameEngine
                     if (tiledObject.Gid != -1)
                     {
                         Tile sourceTile = map.Tiles[tiledObject.Gid];
+                        StaticImage sourceImage = sourceTile.ToStaticImage();
 
-                        entity.Drawables.Add("standard", sourceTile);
+                        entity.Drawables.Add("standard", sourceImage);
                         entity.CurrentDrawableState = "standard";
                         entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
 
                         // Cater for any difference in origin from Tiled's default Draw Origin of (0,1).
-                        entity.Pos.X += (sourceTile.Origin.X - 0.0f) * sourceTile.GetSourceRectangle(0).Width;
-                        entity.Pos.Y += (sourceTile.Origin.Y - 1.0f) * sourceTile.GetSourceRectangle(0).Height;
+                        entity.Pos.X += (sourceImage.Origin.X - 0.0f) * sourceImage.GetSourceRectangle(0).Width;
+                        entity.Pos.Y += (sourceImage.Origin.Y - 1.0f) * sourceImage.GetSourceRectangle(0).Height;
                     }
 
                     // If the entity implements the ISizedEntity interface, apply Width and Height.
@@ -697,7 +698,7 @@ namespace GameEngine
 
             // DRAW VISIBLE REGISTERED ENTITIES
             OverallPerformance.RestartTiming("TotalEntityRenderTime");
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, samplerState, null, null);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, samplerState, null, null);
             {
                 EntitiesOnScreen = Collider.GetIntersectingEntites(new FRectangle(viewPortInfo.pxViewPortBounds));
 
@@ -725,14 +726,14 @@ namespace GameEngine
                     // DRAW ENTITY BOUNDING BOXES IF ENABLED
                     if (DrawingOptions.ShowBoundingBoxes)
                     {
-                        spriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0.0001f);
+                        spriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 1.0f);
                         SpriteBatchExtensions.DrawCross(
                             spriteBatch,
                             new Vector2(
                                 (int) Math.Ceiling(pxAbsEntityPos.X), 
                                 (int) Math.Ceiling(pxAbsEntityPos.Y)
                             ), 
-                            13, Color.Black, 0f);
+                            13, Color.Black, 1.0f);
                     }
 
                     // DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
@@ -752,59 +753,33 @@ namespace GameEngine
                     }
 
                     // DRAW EVERY GAMEDRAWABLE INSTANCE CURRENTLY ACTIVE IN THE ENTITIES DRAWABLE SET.
-                    HashSet<GameDrawableInstance> drawableInstances = entity.Drawables.GetByState(entity.CurrentDrawableState);
+                    HashSet<DrawableInstance> drawableInstances = entity.Drawables.GetByState(entity.CurrentDrawableState);
 
                     if (drawableInstances != null)
                     {
-                        foreach (GameDrawableInstance drawable in drawableInstances)
+                        foreach (DrawableInstance drawable in drawableInstances)
                         {
                             if (!drawable.Visible) continue;
 
-                            // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
-                            // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
-                            // already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
-                            Rectangle pxCurrentFrame = drawable.GetSourceRectangle(LastUpdateTime);
-
-                            int pxObjectWidth = (int)Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
-                            int pxObjectHeight = (int)Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
-
-                            // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
-                            Rectangle objectDestRect = new Rectangle(
-                                    (int)Math.Ceiling(pxAbsEntityPos.X) + (int)Math.Ceiling(drawable.Offset.X * viewPortInfo.ActualZoom),
-                                    (int)Math.Ceiling(pxAbsEntityPos.Y) + (int)Math.Ceiling(drawable.Offset.Y * viewPortInfo.ActualZoom),
-                                    pxObjectWidth,
-                                    pxObjectHeight
-                            );
-
-                            Vector2 drawableOrigin = new Vector2(
-                                (float)Math.Ceiling(drawable.Drawable.Origin.X * pxCurrentFrame.Width),
-                                (float)Math.Ceiling(drawable.Drawable.Origin.Y * pxCurrentFrame.Height)
-                                );
-
-                            Color drawableColor = new Color()
-                            {
-                                R = drawable.Color.R,
-                                G = drawable.Color.G,
-                                B = drawable.Color.B,
-                                A = (byte)(drawable.Color.A * entity.Opacity)
-                            };
-
                             // Layer depth should depend how far down the object is on the map (Relative to Y).
-                            // Important to also take into account the animation layers for the entity.
-                            float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
+                            float layerDepth = (entity.Pos.Y - viewPortInfo.pxTopLeftY) / Map.pxHeight;
 
-                            if (entity.AlwaysOnTop) layerDepth = 0;
+                            if (layerDepth < 0) layerDepth = 1.0f;
 
-                            // FINALLY ... DRAW
-                            spriteBatch.Draw(
-                                drawable.GetSourceTexture(LastUpdateTime),
-                                objectDestRect,
-                                pxCurrentFrame,
-                                drawableColor,
-                                drawable.Rotation,
-                                drawableOrigin,
-                                drawable.SpriteEffects,
-                                layerDepth);
+                            if (entity.AlwaysOnTop) layerDepth = float.MaxValue;
+
+                            Rectangle objectDestRect = 
+                                drawable.Draw(LastUpdateTime,
+                                    spriteBatch,
+                                    pxAbsEntityPos,
+                                    layerDepth,
+                                    entity.ScaleX,
+                                    entity.ScaleY,
+                                    entity.Opacity,
+                                    Map.pxHeight,
+                                    viewPortInfo,
+                                    DrawingOptions.ShowDrawableComponents
+                                );
 
                             // DRAW BOUNDING BOXES OF EACH INDIVIDUAL DRAWABLE COMPONENT
                             if (DrawingOptions.ShowDrawableComponents)
@@ -815,7 +790,7 @@ namespace GameEngine
                                     objectDestRect.Width, objectDestRect.Height);
 
                                 SpriteBatchExtensions.DrawRectangle(
-                                    spriteBatch, drawableComponentRect, Color.Blue, 0);
+                                    spriteBatch, drawableComponentRect, Color.Blue, 1.0f);
                             }
                         }
                     }

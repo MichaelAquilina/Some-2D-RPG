@@ -167,7 +167,7 @@ namespace GameEngine.GameObjects
         /// <returns>An FRectangle object specifying the bounding box of this Entity in Pixels.</returns>
         public FRectangle GetPxBoundingBox(GameTime gameTime)
         {
-            HashSet<GameDrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
+            HashSet<DrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
 
             if (drawables == null || drawables.Count == 0) return new FRectangle(Pos.X, Pos.Y, 0, 0);
 
@@ -176,20 +176,22 @@ namespace GameEngine.GameObjects
             float maxX = Int32.MinValue;
             float maxY = Int32.MinValue;
 
-            foreach (GameDrawableInstance draw in drawables)
+            foreach (DrawableInstance draw in drawables)
             {
-                Rectangle pxDrawRectangle = draw.GetSourceRectangle(gameTime);
+                int drawableWidth = draw.GetWidth(gameTime);
+                int drawableHeight = draw.GetHeight(gameTime);
+
                 Vector2 drawOrigin = draw.Drawable.Origin;
 
-                float pxWidth  = pxDrawRectangle.Width * this.ScaleX;
-                float pxHeight = pxDrawRectangle.Height * this.ScaleY;
+                float pxWidth = drawableWidth * this.ScaleX;
+                float pxHeight = drawableHeight * this.ScaleY;
                 float pxFrameX = Pos.X + draw.Offset.X + -1 * drawOrigin.X * pxWidth;
                 float pxFrameY = Pos.Y + draw.Offset.Y + -1 * drawOrigin.Y * pxHeight;
 
                 if (pxFrameX < minX) minX = pxFrameX;
                 if (pxFrameY < minY) minY = pxFrameY;
-                if (pxFrameX + pxDrawRectangle.Width > maxX) maxX = pxFrameX + pxWidth;
-                if (pxFrameY + pxDrawRectangle.Height > maxY) maxY = pxFrameY + pxHeight;
+                if (pxFrameX + drawableWidth > maxX) maxX = pxFrameX + pxWidth;
+                if (pxFrameY + drawableHeight > maxY) maxY = pxFrameY + pxHeight;
             }
 
             return new FRectangle(minX, minY, maxX - minX, maxY - minY);
@@ -219,19 +221,17 @@ namespace GameEngine.GameObjects
             GameTime gameTime
             )
         {
-            HashSet<GameDrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
-            HashSet<GameDrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
+            HashSet<DrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
+            HashSet<DrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
 
             if (entity1Instances == null || entity2Instances == null) return false;
 
-            foreach (GameDrawableInstance instanceForEntity1 in entity1Instances)
+            foreach (DrawableInstance instanceForEntity1 in entity1Instances)
             {
                 if (entity1Group == null || instanceForEntity1._associatedGroup == entity1Group)
                 {
-                    Rectangle sourceRectangleEntity1 = instanceForEntity1.GetSourceRectangle(gameTime);
-                    
-                    float entity1SourceWidth = sourceRectangleEntity1.Width * entity1.ScaleX;
-                    float entity1SourceHeight = sourceRectangleEntity1.Height * entity1.ScaleY;
+                    float entity1SourceWidth = instanceForEntity1.GetWidth(gameTime) * entity1.ScaleX;
+                    float entity1SourceHeight = instanceForEntity1.GetHeight(gameTime) * entity1.ScaleY;
 
                     FRectangle absBoundingRectEntity1 = new FRectangle(
                         entity1.Pos.X - entity1SourceWidth * instanceForEntity1.Drawable.Origin.X,
@@ -240,14 +240,12 @@ namespace GameEngine.GameObjects
                         entity1SourceHeight
                         );
 
-                    foreach (GameDrawableInstance instanceForEntity2 in entity2Instances)
+                    foreach (DrawableInstance instanceForEntity2 in entity2Instances)
                     {
                         if (entity2Group == null || instanceForEntity2._associatedGroup == entity2Group)
                         {
-                            Rectangle sourceRectangleEntity2 = instanceForEntity2.GetSourceRectangle(gameTime);
-          
-                            float entity2SourceWidth = sourceRectangleEntity2.Width * entity2.ScaleX;
-                            float entity2SourceHeight = sourceRectangleEntity2.Height * entity2.ScaleY;
+                            float entity2SourceWidth = instanceForEntity2.GetWidth(gameTime) * entity2.ScaleX;
+                            float entity2SourceHeight = instanceForEntity2.GetHeight(gameTime) * entity2.ScaleY;
 
                             FRectangle absBoundingRectEntity2 = new FRectangle(
                                 entity2.Pos.X - entity2SourceWidth * instanceForEntity2.Drawable.Origin.X,

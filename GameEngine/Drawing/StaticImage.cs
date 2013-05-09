@@ -4,12 +4,12 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Drawing
 {
-   public class StaticImage : IGameDrawable
+   public class StaticImage : BitmapDrawable
    {
         public Texture2D SourceTexture { get; set; }
         public Rectangle SourceRectangle { get; set; }
 
-        public Vector2 Origin { get; set; }
+        public override Vector2 Origin { get; set; }
 
         public StaticImage(Texture2D sourceTexture, Rectangle sourceRectangle)
         {
@@ -18,17 +18,17 @@ namespace GameEngine.Drawing
             this.Origin = new Vector2(0, 1);
         }
 
-        public Texture2D GetSourceTexture(double elapsedMS)
+        public override Texture2D GetSourceTexture(double elapsedMS)
         {
             return SourceTexture;
         }
 
-        public Rectangle GetSourceRectangle(double elapsedMS)
+        public override Rectangle GetSourceRectangle(double elapsedMS)
         {
             return SourceRectangle;
         }
 
-        public bool IsFinished(double elaspedMS)
+        public override bool IsFinished(double elaspedMS)
         {
             return true;
         }
