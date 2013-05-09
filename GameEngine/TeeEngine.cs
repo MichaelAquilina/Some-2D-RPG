@@ -698,7 +698,7 @@ namespace GameEngine
 
             // DRAW VISIBLE REGISTERED ENTITIES
             OverallPerformance.RestartTiming("TotalEntityRenderTime");
-            spriteBatch.Begin(SpriteSortMode.BackToFront, BlendState.AlphaBlend, samplerState, null, null);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, samplerState, null, null);
             {
                 EntitiesOnScreen = Collider.GetIntersectingEntites(new FRectangle(viewPortInfo.pxViewPortBounds));
 
@@ -733,7 +733,7 @@ namespace GameEngine
                                 (int) Math.Ceiling(pxAbsEntityPos.X), 
                                 (int) Math.Ceiling(pxAbsEntityPos.Y)
                             ), 
-                            13, Color.Black, 0f);
+                            13, Color.Black, 0);
                     }
 
                     // DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
@@ -762,20 +762,22 @@ namespace GameEngine
                             if (!drawable.Visible) continue;
 
                             // Layer depth should depend how far down the object is on the map (Relative to Y).
-                            // Important to also take into account the animation layers for the entity.
-                            float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
+                            float layerDepth = (entity.Pos.Y - viewPortInfo.pxTopLeftY) / Map.pxHeight;
 
-                            if (entity.AlwaysOnTop) layerDepth = 0;
+                            if (layerDepth < 0) layerDepth = 0;
+
+                            if (entity.AlwaysOnTop) layerDepth = float.MaxValue;
 
                             drawable.Draw(
                                 LastUpdateTime,
                                 spriteBatch,
-                                layerDepth,
                                 pxAbsEntityPos,
+                                layerDepth,
                                 entity.ScaleX,
                                 entity.ScaleY,
-                                viewPortInfo,
                                 entity.Opacity,
+                                Map.pxHeight,
+                                viewPortInfo,
                                 DrawingOptions.ShowDrawableComponents
                                 );
                         }

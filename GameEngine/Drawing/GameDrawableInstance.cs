@@ -62,7 +62,7 @@ namespace GameEngine.Drawing
             StartTimeMS = gameTime.TotalGameTime.TotalMilliseconds;
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, float layerDepth, Vector2 destination, float ScaleX, float ScaleY, ViewPortInfo viewPortInfo, float opacity, bool showDrawableComponents)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 destination, float layerDepth, float ScaleX, float ScaleY, float opacity, float maxY, ViewPortInfo viewPortInfo, bool showDrawableComponents)
         {
             // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
             // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
@@ -94,6 +94,9 @@ namespace GameEngine.Drawing
                 B = Color.B,
                 A = (byte)(Color.A * opacity)
             };
+
+            // Further adjust the layer depth based on this drawables layer value
+            layerDepth += Layer / maxY;
 
             Drawable.Draw(GetElapsedMS(gameTime), spriteBatch, objectDestRect, drawableColor, Rotation, drawableOrigin, SpriteEffects, layerDepth);
 
