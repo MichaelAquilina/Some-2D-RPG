@@ -1,6 +1,10 @@
 ﻿using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using GameEngine.Info;
+using GameEngine.Extensions;
+using System.Diagnostics;
 
 namespace GameEngine.Drawing
 {
@@ -58,9 +62,53 @@ namespace GameEngine.Drawing
             StartTimeMS = gameTime.TotalGameTime.TotalMilliseconds;
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Rectangle destRectangle, float layerDepth, Vector2 origin)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, float layerDepth, Vector2 destination, float ScaleX, float ScaleY, ViewPortInfo viewPortInfo, float opacity, bool showDrawableComponents)
         {
-            Drawable.Draw(GetElapsedMS(gameTime), spriteBatch, destRectangle, Color, Rotation, origin, SpriteEffects, layerDepth);
+            // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
+            // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
+            // already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
+
+            int currentFrameWidth = GetWidth(gameTime);
+            int currentFrameHeight = GetHeight(gameTime);
+
+            int pxObjectWidth = (int)Math.Ceiling(currentFrameWidth * ScaleX * viewPortInfo.ActualZoom);
+            int pxObjectHeight = (int)Math.Ceiling(currentFrameHeight * ScaleY * viewPortInfo.ActualZoom);
+
+            // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
+            Rectangle objectDestRect = new Rectangle(
+                    (int)Math.Ceiling(destination.X) + (int)Math.Ceiling(Offset.X * viewPortInfo.ActualZoom),
+                    (int)Math.Ceiling(destination.Y) + (int)Math.Ceiling(Offset.Y * viewPortInfo.ActualZoom),
+                    pxObjectWidth,
+                    pxObjectHeight
+            );
+
+            Vector2 drawableOrigin = new Vector2(
+                (float)Math.Ceiling(Drawable.Origin.X * currentFrameWidth),
+                (float)Math.Ceiling(Drawable.Origin.Y * currentFrameHeight)
+                );
+
+            Color drawableColor = new Color()
+            {
+                R = Color.R,
+                G = Color.G,
+                B = Color.B,
+                A = (byte)(Color.A * opacity)
+            };
+
+            Drawable.Draw(GetElapsedMS(gameTime), spriteBatch, objectDestRect, drawableColor, Rotation, drawableOrigin, SpriteEffects, layerDepth);
+
+            // DRAW BOUNDING BOXES OF EACH INDIVIDUAL DRAWABLE COMPONENT
+            // TODO: Should this be here??
+            if (showDrawableComponents)
+            {
+                Rectangle drawableComponentRect = new Rectangle(
+                    (int)Math.Floor(objectDestRect.X - objectDestRect.Width * Drawable.Origin.X),
+                    (int)Math.Floor(objectDestRect.Y - objectDestRect.Height * Drawable.Origin.Y),
+                    objectDestRect.Width, objectDestRect.Height);
+
+                SpriteBatchExtensions.DrawRectangle(
+                    spriteBatch, drawableComponentRect, Color.Blue, 0);
+            }
         }
 
         public override string ToString()

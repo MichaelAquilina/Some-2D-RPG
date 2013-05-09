@@ -761,56 +761,23 @@ namespace GameEngine
                         {
                             if (!drawable.Visible) continue;
 
-                            // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
-                            // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
-                            // already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
-
-                            int currentFrameWidth = drawable.GetWidth(LastUpdateTime);
-                            int currentFrameHeight = drawable.GetHeight(LastUpdateTime);
-
-                            int pxObjectWidth = (int)Math.Ceiling(currentFrameWidth * entity.ScaleX * viewPortInfo.ActualZoom);
-                            int pxObjectHeight = (int)Math.Ceiling(currentFrameHeight * entity.ScaleY * viewPortInfo.ActualZoom);
-
-                            // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
-                            Rectangle objectDestRect = new Rectangle(
-                                    (int)Math.Ceiling(pxAbsEntityPos.X) + (int)Math.Ceiling(drawable.Offset.X * viewPortInfo.ActualZoom),
-                                    (int)Math.Ceiling(pxAbsEntityPos.Y) + (int)Math.Ceiling(drawable.Offset.Y * viewPortInfo.ActualZoom),
-                                    pxObjectWidth,
-                                    pxObjectHeight
-                            );
-
-                            Vector2 drawableOrigin = new Vector2(
-                                (float)Math.Ceiling(drawable.Drawable.Origin.X * currentFrameWidth),
-                                (float)Math.Ceiling(drawable.Drawable.Origin.Y * currentFrameHeight)
-                                );
-
-                            Color drawableColor = new Color()
-                            {
-                                R = drawable.Color.R,
-                                G = drawable.Color.G,
-                                B = drawable.Color.B,
-                                A = (byte)(drawable.Color.A * entity.Opacity)
-                            };
-
                             // Layer depth should depend how far down the object is on the map (Relative to Y).
                             // Important to also take into account the animation layers for the entity.
                             float layerDepth = Math.Min(0.99f, 1 / (entity.Pos.Y + ((float)drawable.Layer / Map.pxHeight)));
 
                             if (entity.AlwaysOnTop) layerDepth = 0;
 
-                            drawable.Draw(LastUpdateTime, spriteBatch, objectDestRect, layerDepth, drawableOrigin);
-
-                            // DRAW BOUNDING BOXES OF EACH INDIVIDUAL DRAWABLE COMPONENT
-                            if (DrawingOptions.ShowDrawableComponents)
-                            {
-                                Rectangle drawableComponentRect = new Rectangle(
-                                    (int)Math.Floor(objectDestRect.X - objectDestRect.Width * drawable.Drawable.Origin.X),
-                                    (int)Math.Floor(objectDestRect.Y - objectDestRect.Height * drawable.Drawable.Origin.Y),
-                                    objectDestRect.Width, objectDestRect.Height);
-
-                                SpriteBatchExtensions.DrawRectangle(
-                                    spriteBatch, drawableComponentRect, Color.Blue, 0);
-                            }
+                            drawable.Draw(
+                                LastUpdateTime,
+                                spriteBatch,
+                                layerDepth,
+                                pxAbsEntityPos,
+                                entity.ScaleX,
+                                entity.ScaleY,
+                                viewPortInfo,
+                                entity.Opacity,
+                                DrawingOptions.ShowDrawableComponents
+                                );
                         }
                     }
 
