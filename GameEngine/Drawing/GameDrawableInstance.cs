@@ -53,11 +53,6 @@ namespace GameEngine.Drawing
             return Drawable.GetSourceRectangle(GetElapsedMS(gameTime));
         }
 
-        public Texture2D GetSourceTexture(GameTime gameTime)
-        {
-            return Drawable.GetSourceTexture(GetElapsedMS(gameTime));
-        }
-
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Rectangle destRectangle, float layerDepth, Vector2 origin)
         {
             Drawable.Draw(GetElapsedMS(gameTime), spriteBatch, destRectangle, Color, Rotation, origin, SpriteEffects, layerDepth);
