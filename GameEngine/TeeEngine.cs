@@ -753,11 +753,11 @@ namespace GameEngine
                     }
 
                     // DRAW EVERY GAMEDRAWABLE INSTANCE CURRENTLY ACTIVE IN THE ENTITIES DRAWABLE SET.
-                    HashSet<GameDrawableInstance> drawableInstances = entity.Drawables.GetByState(entity.CurrentDrawableState);
+                    HashSet<DrawableInstance> drawableInstances = entity.Drawables.GetByState(entity.CurrentDrawableState);
 
                     if (drawableInstances != null)
                     {
-                        foreach (GameDrawableInstance drawable in drawableInstances)
+                        foreach (DrawableInstance drawable in drawableInstances)
                         {
                             if (!drawable.Visible) continue;
 

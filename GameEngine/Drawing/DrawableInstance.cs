@@ -1,14 +1,12 @@
-﻿using GameEngine.Interfaces;
+﻿using System;
+using GameEngine.Info;
+using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
-using GameEngine.Info;
-using GameEngine.Extensions;
-using System.Diagnostics;
 
 namespace GameEngine.Drawing
 {
-    public class GameDrawableInstance
+    public class DrawableInstance
     {
         public IGameDrawable Drawable { get; set; }
         public bool Visible { get; set; }
@@ -21,11 +19,11 @@ namespace GameEngine.Drawing
         public double StartTimeMS { get; set; }
 
         // Associated state and group when added to a DrawableSet.
-        // a GameDrawableInstance should be associated with one and only one DrawableSet.
+        // a DrawableInstance should be associated with one and only one DrawableSet.
         internal string _associatedState = null;
         internal string _associatedGroup = null;
 
-        public GameDrawableInstance(IGameDrawable drawable)
+        public DrawableInstance(IGameDrawable drawable)
         {
             this.StartTimeMS = 0;
             this.Drawable = drawable;
@@ -105,7 +103,7 @@ namespace GameEngine.Drawing
 
         public override string ToString()
         {
-            return string.Format("GameDrawableInstance: Visible={0}, Layer={1}, Color={2}, Rotation={3}",
+            return string.Format("DrawableInstance: Visible={0}, Layer={1}, Color={2}, Rotation={3}",
                 Visible, Layer, Color, Rotation);
         }
     }

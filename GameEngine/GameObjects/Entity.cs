@@ -167,7 +167,7 @@ namespace GameEngine.GameObjects
         /// <returns>An FRectangle object specifying the bounding box of this Entity in Pixels.</returns>
         public FRectangle GetPxBoundingBox(GameTime gameTime)
         {
-            HashSet<GameDrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
+            HashSet<DrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
 
             if (drawables == null || drawables.Count == 0) return new FRectangle(Pos.X, Pos.Y, 0, 0);
 
@@ -176,7 +176,7 @@ namespace GameEngine.GameObjects
             float maxX = Int32.MinValue;
             float maxY = Int32.MinValue;
 
-            foreach (GameDrawableInstance draw in drawables)
+            foreach (DrawableInstance draw in drawables)
             {
                 int drawableWidth = draw.GetWidth(gameTime);
                 int drawableHeight = draw.GetHeight(gameTime);
@@ -221,12 +221,12 @@ namespace GameEngine.GameObjects
             GameTime gameTime
             )
         {
-            HashSet<GameDrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
-            HashSet<GameDrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
+            HashSet<DrawableInstance> entity1Instances = entity1.Drawables.GetByState(entity1State);
+            HashSet<DrawableInstance> entity2Instances = entity2.Drawables.GetByState(entity2State);
 
             if (entity1Instances == null || entity2Instances == null) return false;
 
-            foreach (GameDrawableInstance instanceForEntity1 in entity1Instances)
+            foreach (DrawableInstance instanceForEntity1 in entity1Instances)
             {
                 if (entity1Group == null || instanceForEntity1._associatedGroup == entity1Group)
                 {
@@ -240,7 +240,7 @@ namespace GameEngine.GameObjects
                         entity1SourceHeight
                         );
 
-                    foreach (GameDrawableInstance instanceForEntity2 in entity2Instances)
+                    foreach (DrawableInstance instanceForEntity2 in entity2Instances)
                     {
                         if (entity2Group == null || instanceForEntity2._associatedGroup == entity2Group)
                         {
