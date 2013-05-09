@@ -726,14 +726,14 @@ namespace GameEngine
                     // DRAW ENTITY BOUNDING BOXES IF ENABLED
                     if (DrawingOptions.ShowBoundingBoxes)
                     {
-                        spriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 0.0001f);
+                        spriteBatch.DrawRectangle(pxAbsBoundingBox.ToRectangle(), Color.Red, 1.0f);
                         SpriteBatchExtensions.DrawCross(
                             spriteBatch,
                             new Vector2(
                                 (int) Math.Ceiling(pxAbsEntityPos.X), 
                                 (int) Math.Ceiling(pxAbsEntityPos.Y)
                             ), 
-                            13, Color.Black, 0);
+                            13, Color.Black, 1.0f);
                     }
 
                     // DRAW ENTITY DETAILS IF ENABLED (ENTITY DEBUG INFO)
@@ -764,22 +764,34 @@ namespace GameEngine
                             // Layer depth should depend how far down the object is on the map (Relative to Y).
                             float layerDepth = (entity.Pos.Y - viewPortInfo.pxTopLeftY) / Map.pxHeight;
 
-                            if (layerDepth < 0) layerDepth = 0;
+                            if (layerDepth < 0) layerDepth = 1.0f;
 
                             if (entity.AlwaysOnTop) layerDepth = float.MaxValue;
 
-                            drawable.Draw(
-                                LastUpdateTime,
-                                spriteBatch,
-                                pxAbsEntityPos,
-                                layerDepth,
-                                entity.ScaleX,
-                                entity.ScaleY,
-                                entity.Opacity,
-                                Map.pxHeight,
-                                viewPortInfo,
-                                DrawingOptions.ShowDrawableComponents
+                            Rectangle objectDestRect = 
+                                drawable.Draw(LastUpdateTime,
+                                    spriteBatch,
+                                    pxAbsEntityPos,
+                                    layerDepth,
+                                    entity.ScaleX,
+                                    entity.ScaleY,
+                                    entity.Opacity,
+                                    Map.pxHeight,
+                                    viewPortInfo,
+                                    DrawingOptions.ShowDrawableComponents
                                 );
+
+                            // DRAW BOUNDING BOXES OF EACH INDIVIDUAL DRAWABLE COMPONENT
+                            if (DrawingOptions.ShowDrawableComponents)
+                            {
+                                Rectangle drawableComponentRect = new Rectangle(
+                                    (int)Math.Floor(objectDestRect.X - objectDestRect.Width * drawable.Drawable.Origin.X),
+                                    (int)Math.Floor(objectDestRect.Y - objectDestRect.Height * drawable.Drawable.Origin.Y),
+                                    objectDestRect.Width, objectDestRect.Height);
+
+                                SpriteBatchExtensions.DrawRectangle(
+                                    spriteBatch, drawableComponentRect, Color.Blue, 1.0f);
+                            }
                         }
                     }
 
