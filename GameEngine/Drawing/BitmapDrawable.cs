@@ -42,12 +42,15 @@ namespace GameEngine.Drawing
         }
 
         public void Draw(
-            double elapsedMS, SpriteBatch spriteBatch, 
-            Rectangle destRectangle, Color color, 
-            float rotation, Vector2 origin, 
+            SpriteBatch spriteBatch,
+            Rectangle destRectangle, 
+            Color color, 
+            float rotation, 
+            Vector2 origin, 
             SpriteEffects spriteEffects, 
-            float layerDepth
-            )
+            float layerDepth,
+            double elapsedMS
+        )
         {
             spriteBatch.Draw(
                 GetSourceTexture(elapsedMS),
