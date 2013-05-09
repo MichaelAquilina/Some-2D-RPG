@@ -33,6 +33,16 @@ namespace GameEngine.Drawing
             this.Offset = Vector2.Zero;
         }
 
+        public int GetWidth(GameTime gameTime)
+        {
+            return Drawable.GetWidth(GetElapsedMS(gameTime));
+        }
+        
+        public int GetHeight(GameTime gameTime)
+        {
+            return Drawable.GetHeight(GetElapsedMS(gameTime));
+        }
+
         public double GetElapsedMS(GameTime gameTime)
         {
             return gameTime.TotalGameTime.TotalMilliseconds - StartTimeMS;
@@ -46,11 +56,6 @@ namespace GameEngine.Drawing
         public void Reset(GameTime gameTime)
         {
             StartTimeMS = gameTime.TotalGameTime.TotalMilliseconds;
-        }
-
-        public Rectangle GetSourceRectangle(GameTime gameTime)
-        {
-            return Drawable.GetSourceRectangle(GetElapsedMS(gameTime));
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Rectangle destRectangle, float layerDepth, Vector2 origin)

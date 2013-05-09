@@ -12,7 +12,9 @@ namespace GameEngine.Interfaces
     {
         Vector2 Origin { get; set; }
 
-        Rectangle GetSourceRectangle(double elapsedMS);
+        int GetWidth(double elapsedMS);
+
+        int GetHeight(double elapsedMS);
 
         bool IsFinished(double elapsedMS);
 

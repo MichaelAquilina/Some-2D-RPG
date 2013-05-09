@@ -16,6 +16,16 @@ namespace GameEngine.Drawing
             set { throw new NotImplementedException(); }
         }
 
+        public int GetWidth(double elapsedMS)
+        {
+            return GetSourceRectangle(elapsedMS).Width;
+        }
+
+        public int GetHeight(double elapsedMS)
+        {
+            return GetSourceRectangle(elapsedMS).Height;
+        }
+
         public virtual Rectangle GetSourceRectangle(double elapsedMS)
         {
             throw new NotImplementedException();

@@ -764,10 +764,12 @@ namespace GameEngine
                             // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
                             // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
                             // already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
-                            Rectangle pxCurrentFrame = drawable.GetSourceRectangle(LastUpdateTime);
 
-                            int pxObjectWidth = (int)Math.Ceiling(pxCurrentFrame.Width * entity.ScaleX * viewPortInfo.ActualZoom);
-                            int pxObjectHeight = (int)Math.Ceiling(pxCurrentFrame.Height * entity.ScaleY * viewPortInfo.ActualZoom);
+                            int currentFrameWidth = drawable.GetWidth(LastUpdateTime);
+                            int currentFrameHeight = drawable.GetHeight(LastUpdateTime);
+
+                            int pxObjectWidth = (int)Math.Ceiling(currentFrameWidth * entity.ScaleX * viewPortInfo.ActualZoom);
+                            int pxObjectHeight = (int)Math.Ceiling(currentFrameHeight * entity.ScaleY * viewPortInfo.ActualZoom);
 
                             // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
                             Rectangle objectDestRect = new Rectangle(
@@ -778,8 +780,8 @@ namespace GameEngine
                             );
 
                             Vector2 drawableOrigin = new Vector2(
-                                (float)Math.Ceiling(drawable.Drawable.Origin.X * pxCurrentFrame.Width),
-                                (float)Math.Ceiling(drawable.Drawable.Origin.Y * pxCurrentFrame.Height)
+                                (float)Math.Ceiling(drawable.Drawable.Origin.X * currentFrameWidth),
+                                (float)Math.Ceiling(drawable.Drawable.Origin.Y * currentFrameHeight)
                                 );
 
                             Color drawableColor = new Color()
