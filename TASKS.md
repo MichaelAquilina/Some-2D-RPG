@@ -4,7 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - IGameDrawables should perform Draw operations themselves? (Check Speed). This will allow for things like text to be drawn using TextDrawable class.
+- [IP] - IGameDrawables should perform Draw operations themselves? (Check Speed). This will allow for things like text to be drawn using TextDrawable class.
 - [] - GUI controls:
         - NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
         - NeoForce: http://neoforce.codeplex.com/
