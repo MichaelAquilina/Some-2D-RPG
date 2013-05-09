@@ -33,9 +33,14 @@ namespace GameEngine.Drawing
             this.Offset = Vector2.Zero;
         }
 
+        public double GetElapsedMS(GameTime gameTime)
+        {
+            return gameTime.TotalGameTime.TotalMilliseconds - StartTimeMS;
+        }
+
         public bool IsFinished(GameTime gameTime)
         {
-            return Drawable.IsFinished(gameTime.TotalGameTime.TotalMilliseconds - StartTimeMS);
+            return Drawable.IsFinished(GetElapsedMS(gameTime));
         }
 
         public void Reset(GameTime gameTime)
@@ -45,12 +50,17 @@ namespace GameEngine.Drawing
 
         public Rectangle GetSourceRectangle(GameTime gameTime)
         {
-            return Drawable.GetSourceRectangle(gameTime.TotalGameTime.TotalMilliseconds - StartTimeMS);
+            return Drawable.GetSourceRectangle(GetElapsedMS(gameTime));
         }
 
         public Texture2D GetSourceTexture(GameTime gameTime)
         {
-            return Drawable.GetSourceTexture(gameTime.TotalGameTime.TotalMilliseconds - StartTimeMS);
+            return Drawable.GetSourceTexture(GetElapsedMS(gameTime));
+        }
+
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch, Rectangle destRectangle, float layerDepth, Vector2 origin)
+        {
+            Drawable.Draw(GetElapsedMS(gameTime), spriteBatch, destRectangle, Color, Rotation, origin, SpriteEffects, layerDepth);
         }
 
         public override string ToString()

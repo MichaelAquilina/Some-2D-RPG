@@ -373,14 +373,15 @@ namespace GameEngine
                     if (tiledObject.Gid != -1)
                     {
                         Tile sourceTile = map.Tiles[tiledObject.Gid];
+                        StaticImage sourceImage = sourceTile.ToStaticImage();
 
-                        entity.Drawables.Add("standard", sourceTile);
+                        entity.Drawables.Add("standard", sourceImage);
                         entity.CurrentDrawableState = "standard";
                         entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
 
                         // Cater for any difference in origin from Tiled's default Draw Origin of (0,1).
-                        entity.Pos.X += (sourceTile.Origin.X - 0.0f) * sourceTile.GetSourceRectangle(0).Width;
-                        entity.Pos.Y += (sourceTile.Origin.Y - 1.0f) * sourceTile.GetSourceRectangle(0).Height;
+                        entity.Pos.X += (sourceImage.Origin.X - 0.0f) * sourceImage.GetSourceRectangle(0).Width;
+                        entity.Pos.Y += (sourceImage.Origin.Y - 1.0f) * sourceImage.GetSourceRectangle(0).Height;
                     }
 
                     // If the entity implements the ISizedEntity interface, apply Width and Height.
@@ -795,16 +796,7 @@ namespace GameEngine
 
                             if (entity.AlwaysOnTop) layerDepth = 0;
 
-                            // FINALLY ... DRAW
-                            spriteBatch.Draw(
-                                drawable.GetSourceTexture(LastUpdateTime),
-                                objectDestRect,
-                                pxCurrentFrame,
-                                drawableColor,
-                                drawable.Rotation,
-                                drawableOrigin,
-                                drawable.SpriteEffects,
-                                layerDepth);
+                            drawable.Draw(LastUpdateTime, spriteBatch, objectDestRect, layerDepth, drawableOrigin);
 
                             // DRAW BOUNDING BOXES OF EACH INDIVIDUAL DRAWABLE COMPONENT
                             if (DrawingOptions.ShowDrawableComponents)
