@@ -764,9 +764,7 @@ namespace GameEngine
                             // Layer depth should depend how far down the object is on the map (Relative to Y).
                             float layerDepth = (entity.Pos.Y - viewPortInfo.pxTopLeftY) / Map.pxHeight;
 
-                            if (layerDepth < 0) layerDepth = 1.0f;
-
-                            if (entity.AlwaysOnTop) layerDepth = float.MaxValue;
+                            if (entity.AlwaysOnTop) layerDepth = 1.0f;
 
                             Rectangle objectDestRect = 
                                 drawable.Draw(LastUpdateTime,

@@ -96,6 +96,9 @@ namespace GameEngine.Drawing
             // Further adjust the layer depth based on this drawables layer value
             layerDepth += Layer / maxY;
 
+            if (layerDepth > 1) layerDepth = 1;
+            if (layerDepth < 0) layerDepth = 0;
+
             Drawable.Draw(spriteBatch, objectDestRect, drawableColor, Rotation, drawableOrigin, SpriteEffects, layerDepth, GetElapsedMS(gameTime));
 
             return objectDestRect;
