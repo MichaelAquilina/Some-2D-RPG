@@ -380,8 +380,9 @@ namespace GameEngine
                         entity.Pos = new Vector2(tiledObject.X, tiledObject.Y);
 
                         // Cater for any difference in origin from Tiled's default Draw Origin of (0,1).
-                        entity.Pos.X += (sourceImage.Origin.X - 0.0f) * sourceImage.GetSourceRectangle(0).Width;
-                        entity.Pos.Y += (sourceImage.Origin.Y - 1.0f) * sourceImage.GetSourceRectangle(0).Height;
+                        // Safe to assume SourceRectangle has a value for StaticImages.
+                        entity.Pos.X += (sourceImage.Origin.X - 0.0f) * sourceImage.GetSourceRectangle(0).Value.Width;
+                        entity.Pos.Y += (sourceImage.Origin.Y - 1.0f) * sourceImage.GetSourceRectangle(0).Value.Height;
                     }
 
                     // If the entity implements the ISizedEntity interface, apply Width and Height.

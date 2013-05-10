@@ -18,8 +18,6 @@ namespace GameEngine.Drawing
         public Rectangle[] Frames { get; set; }
         public int FrameDelay { get; set; }
         public bool Loop { get; set; }
-        
-        public override Vector2 Origin { get; set; }
 
         /// <summary>
         /// Initialises an Animation object specifies a SpriteSheet to us and the individual frame locations
@@ -47,7 +45,7 @@ namespace GameEngine.Drawing
         }
 
         // IGameDrawable interface method that returns the frame within the SpriteSheet that should currently be displayed.
-        public override Rectangle GetSourceRectangle(double elapsedMS)
+        public override Rectangle? GetSourceRectangle(double elapsedMS)
         {
             return GetFrame(elapsedMS);
         }

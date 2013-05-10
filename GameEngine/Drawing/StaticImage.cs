@@ -7,11 +7,9 @@ namespace GameEngine.Drawing
    public class StaticImage : BitmapDrawable
    {
         public Texture2D SourceTexture { get; set; }
-        public Rectangle SourceRectangle { get; set; }
+        public Rectangle? SourceRectangle { get; set; }
 
-        public override Vector2 Origin { get; set; }
-
-        public StaticImage(Texture2D sourceTexture, Rectangle sourceRectangle)
+        public StaticImage(Texture2D sourceTexture, Rectangle? sourceRectangle)
         {
             this.SourceTexture = sourceTexture;
             this.SourceRectangle = sourceRectangle;
@@ -23,7 +21,7 @@ namespace GameEngine.Drawing
             return SourceTexture;
         }
 
-        public override Rectangle GetSourceRectangle(double elapsedMS)
+        public override Rectangle? GetSourceRectangle(double elapsedMS)
         {
             return SourceRectangle;
         }
