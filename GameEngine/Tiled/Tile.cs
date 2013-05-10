@@ -3,10 +3,11 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngine.Drawing;
 
 namespace GameEngine.Tiled
 {
-    public class Tile : PropertyBag, IGameDrawable, ILoadable
+    public class Tile : PropertyBag, ILoadable
     {
         internal Texture2D sourceTexture { get; set; }
 
@@ -17,7 +18,7 @@ namespace GameEngine.Tiled
         public TileSet TileSet { get; internal set; }                // Associated TileSet.
 
         // IGameDrawable Properties
-        public Vector2 Origin { get; set; }
+        public virtual Vector2 Origin { get; set; }
 
         public Tile()
         {
@@ -29,20 +30,11 @@ namespace GameEngine.Tiled
             sourceTexture = content.Load<Texture2D>(TileSet.ContentTexturePath);
         }
 
-        public Texture2D GetSourceTexture(double elapsedMS)
+        public StaticImage ToStaticImage()
         {
-            return sourceTexture;
+            return new StaticImage(sourceTexture, SourceRectangle) { Origin = this.Origin };
         }
 
-        public Rectangle GetSourceRectangle(double elapsedMS)
-        {
-            return SourceRectangle;
-        }
-
-        public bool IsFinished(double elapsedMS)
-        {
-            return true;
-        }
 
         public override string ToString()
         {

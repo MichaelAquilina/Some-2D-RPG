@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using GameEngine.Info;
 
 namespace GameEngine.Interfaces
 {
@@ -11,9 +12,21 @@ namespace GameEngine.Interfaces
     {
         Vector2 Origin { get; set; }
 
-        Rectangle GetSourceRectangle(double elapsedMS);
-        Texture2D GetSourceTexture(double elapsedMS);
+        int GetWidth(double elapsedMS);
+
+        int GetHeight(double elapsedMS);
 
         bool IsFinished(double elapsedMS);
+
+        void Draw(
+            SpriteBatch spriteBatch, 
+            Rectangle destRectangle, 
+            Color color,
+            float rotation, 
+            Vector2 origin,
+            SpriteEffects spriteEffects,
+            float layerDepth,
+            double elapsedMS
+            );
     }
 }

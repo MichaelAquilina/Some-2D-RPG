@@ -10,7 +10,7 @@ namespace GameEngine.Drawing
     /// specification of other meta properties such as the Delay between frames, whether the animation should loop
     /// and what methods to provide information about current frame information based on the Game Time.
     /// </summary>
-    public class Animation : IGameDrawable
+    public class Animation : BitmapDrawable
     {
         internal const int FRAME_DELAY_DEFAULT = 100;
 
@@ -18,7 +18,8 @@ namespace GameEngine.Drawing
         public Rectangle[] Frames { get; set; }
         public int FrameDelay { get; set; }
         public bool Loop { get; set; }
-        public Vector2 Origin { get; set; }
+        
+        public override Vector2 Origin { get; set; }
 
         /// <summary>
         /// Initialises an Animation object specifies a SpriteSheet to us and the individual frame locations
@@ -40,13 +41,13 @@ namespace GameEngine.Drawing
         }
 
         // IGameDrawable interface method that returns the SpriteSheet associated with this animation.
-        public Texture2D GetSourceTexture(double elapsedMS)
+        public override Texture2D GetSourceTexture(double elapsedMS)
         {
             return SpriteSheet;
         }
 
         // IGameDrawable interface method that returns the frame within the SpriteSheet that should currently be displayed.
-        public Rectangle GetSourceRectangle(double elapsedMS)
+        public override Rectangle GetSourceRectangle(double elapsedMS)
         {
             return GetFrame(elapsedMS);
         }
@@ -72,7 +73,7 @@ namespace GameEngine.Drawing
         /// </summary>
         /// <param name="GameTime">GameTime object specifying the current Game Time.</param>
         /// <returns>bool value specifying whether the animation has finished.</returns>
-        public bool IsFinished(double elapsedMS)
+        public override bool IsFinished(double elapsedMS)
         {
             return Loop || GetFrameIndex(elapsedMS) >= Frames.Length;
         }
