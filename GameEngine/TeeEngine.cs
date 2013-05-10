@@ -771,7 +771,8 @@ namespace GameEngine
                             float layerDepth = (entity.Pos.Y - viewPortInfo.pxTopLeftY) / Map.pxHeight;
 
                             // Except in the case where the Entity is set to AlwaysOnTop...
-                            if (entity.AlwaysOnTop) layerDepth = 1.0f;
+                            // Dont use 1.0f to prevent conflicting with drawing of boundingbox etc...
+                            if (entity.AlwaysOnTop) layerDepth = 0.99f;
 
                             // Draw the currently selected DrawableInstance.
                             Rectangle objectDestRect = 
