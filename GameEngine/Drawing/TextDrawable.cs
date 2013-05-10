@@ -14,14 +14,18 @@ namespace GameEngine.Drawing
             Origin = Vector2.Zero;
         }
 
-        public int GetWidth(double elapsedMS)
+        public virtual int GetWidth(double elapsedMS)
         {
-            throw new NotImplementedException();
+            SpriteFont spriteFont = GetSpriteFont(elapsedMS);
+
+            return (int) Math.Ceiling(spriteFont.MeasureString(GetText(elapsedMS)).X);
         }
 
-        public int GetHeight(double elapsedMS)
+        public virtual int GetHeight(double elapsedMS)
         {
-            throw new NotImplementedException();
+            SpriteFont spriteFont = GetSpriteFont(elapsedMS);
+
+            return (int) Math.Ceiling(spriteFont.MeasureString(GetText(elapsedMS)).Y);
         }
 
         public virtual SpriteFont GetSpriteFont(double elapsedMS)
@@ -41,7 +45,7 @@ namespace GameEngine.Drawing
 
         public void Draw(SpriteBatch spriteBatch, Rectangle destRectangle, Color color, float rotation, Vector2 origin, SpriteEffects spriteEffects, float layerDepth, double elapsedMS)
         {
-            float scale = destRectangle.Height / GetHeight(elapsedMS);
+            float scale = ((float) destRectangle.Height) / GetHeight(elapsedMS);
 
             spriteBatch.DrawString(
                 GetSpriteFont(elapsedMS),

@@ -21,14 +21,14 @@ namespace GameEngine.Drawing
             Origin = Vector2.Zero;
         }
 
-        public int GetWidth(double elapsedMS)
+        public virtual int GetWidth(double elapsedMS)
         {
             Rectangle? sourceRectangle = GetSourceRectangle(elapsedMS);
 
             return (sourceRectangle.HasValue) ? sourceRectangle.Value.Width : GetSourceTexture(elapsedMS).Width;
         }
 
-        public int GetHeight(double elapsedMS)
+        public virtual int GetHeight(double elapsedMS)
         {
             Rectangle? sourceRectangle = GetSourceRectangle(elapsedMS);
 
