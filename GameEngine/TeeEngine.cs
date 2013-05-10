@@ -711,6 +711,11 @@ namespace GameEngine
                     if (!entity.Visible) continue;
                     entity.IsOnScreen = true;
 
+                    // NOTE about pxAbsEntityPos Calculation:
+                    // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
+                    // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
+                    // already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
+
                     // Determine the absolute position on the screen for entity position and the bounding box.
                     Vector2 pxAbsEntityPos = new Vector2(
                         entity.Pos.X * viewPortInfo.ActualZoom - globalDispX,
@@ -765,8 +770,10 @@ namespace GameEngine
                             // Layer depth should depend how far down the object is on the map (Relative to Y).
                             float layerDepth = (entity.Pos.Y - viewPortInfo.pxTopLeftY) / Map.pxHeight;
 
+                            // Except in the case where the Entity is set to AlwaysOnTop...
                             if (entity.AlwaysOnTop) layerDepth = 1.0f;
 
+                            // Draw the currently selected DrawableInstance.
                             Rectangle objectDestRect = 
                                 drawable.Draw(LastUpdateTime,
                                     spriteBatch,
@@ -776,8 +783,7 @@ namespace GameEngine
                                     entity.ScaleY,
                                     entity.Opacity,
                                     Map.pxHeight,
-                                    viewPortInfo,
-                                    DrawingOptions.ShowDrawableComponents
+                                    viewPortInfo
                                 );
 
                             // DRAW BOUNDING BOXES OF EACH INDIVIDUAL DRAWABLE COMPONENT

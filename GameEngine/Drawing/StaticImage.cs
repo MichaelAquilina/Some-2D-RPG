@@ -26,11 +26,6 @@ namespace GameEngine.Drawing
             return SourceRectangle;
         }
 
-        public override bool IsFinished(double elaspedMS)
-        {
-            return true;
-        }
-
         public override string ToString()
         {
             return string.Format("StaticImage: SourceTexture={0}, DrawOrigin={1}",

@@ -60,32 +60,28 @@ namespace GameEngine.Drawing
             StartTimeMS = gameTime.TotalGameTime.TotalMilliseconds;
         }
 
-        public Rectangle Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 destination, float layerDepth, float ScaleX, float ScaleY, float opacity, float maxY, ViewPortInfo viewPortInfo, bool showDrawableComponents)
+        public Rectangle Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 destination, float layerDepth, float ScaleX, float ScaleY, float opacity, float maxY, ViewPortInfo viewPortInfo)
         {
-            // The relative position of the object should always be (X,Y) - (globalDispX, globalDispY). globalDispX and globalDispY
-            // are based on viewPortInfo.TopLeftX and viewPortInfo.TopLeftY. viewPortInfo.TopLeftX and viewPortInfo.TopLeftY have 
-            // already been corrected in terms of the bounds of the WORLD map coordinates. This allows for panning at the edges.
+            int width = GetWidth(gameTime);
+            int height = GetHeight(gameTime);
 
-            int currentFrameWidth = GetWidth(gameTime);
-            int currentFrameHeight = GetHeight(gameTime);
-
-            int pxObjectWidth = (int)Math.Ceiling(currentFrameWidth * ScaleX * viewPortInfo.ActualZoom);
-            int pxObjectHeight = (int)Math.Ceiling(currentFrameHeight * ScaleY * viewPortInfo.ActualZoom);
+            int targetWidth = (int)Math.Ceiling(width * ScaleX * viewPortInfo.ActualZoom);
+            int targetHeight = (int)Math.Ceiling(height * ScaleY * viewPortInfo.ActualZoom);
 
             // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
             Rectangle objectDestRect = new Rectangle(
                     (int)Math.Ceiling(destination.X) + (int)Math.Ceiling(Offset.X * viewPortInfo.ActualZoom),
                     (int)Math.Ceiling(destination.Y) + (int)Math.Ceiling(Offset.Y * viewPortInfo.ActualZoom),
-                    pxObjectWidth,
-                    pxObjectHeight
+                    targetWidth,
+                    targetHeight
             );
 
-            Vector2 drawableOrigin = new Vector2(
-                (float)Math.Ceiling(Drawable.Origin.X * currentFrameWidth),
-                (float)Math.Ceiling(Drawable.Origin.Y * currentFrameHeight)
+            Vector2 targetOrigin = new Vector2(
+                (float)Math.Ceiling(Drawable.Origin.X * width),
+                (float)Math.Ceiling(Drawable.Origin.Y * height)
                 );
 
-            Color drawableColor = new Color()
+            Color targetColor = new Color()
             {
                 R = Color.R,
                 G = Color.G,
@@ -99,7 +95,7 @@ namespace GameEngine.Drawing
             if (layerDepth > 1) layerDepth = 1;
             if (layerDepth < 0) layerDepth = 0;
 
-            Drawable.Draw(spriteBatch, objectDestRect, drawableColor, Rotation, drawableOrigin, SpriteEffects, layerDepth, GetElapsedMS(gameTime));
+            Drawable.Draw(spriteBatch, objectDestRect, targetColor, Rotation, targetOrigin, SpriteEffects, layerDepth, GetElapsedMS(gameTime));
 
             return objectDestRect;
         }

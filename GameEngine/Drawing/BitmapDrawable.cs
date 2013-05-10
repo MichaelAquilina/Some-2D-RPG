@@ -58,6 +58,11 @@ namespace GameEngine.Drawing
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// BitmapDrawable provides a default out-of-the-box value - however
+        /// it is overridable in the case where the value changes with the
+        /// specified parameter.
+        /// </summary>
         public virtual bool IsFinished(double elapsedMS)
         {
             return true;
