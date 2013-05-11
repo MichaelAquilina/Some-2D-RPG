@@ -107,6 +107,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameObjects\Characters\NPC.cs" />
     <Compile Include="GameObjects\CollidableEntity.cs" />
     <Compile Include="GameObjects\Creatures\CombatDummy.cs" />
     <Compile Include="GameObjects\MapEntrance.cs" />

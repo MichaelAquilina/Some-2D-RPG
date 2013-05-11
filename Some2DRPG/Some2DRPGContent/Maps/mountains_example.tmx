@@ -607,7 +607,7 @@
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="91" y="830"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="44" y="878"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="185" y="822"/>
-  <object name="TrainingGuard" type="Some2DRPG.GameObjects.RPGEntity" x="257" y="292">
+  <object name="TrainingGuard" type="Some2DRPG.GameObjects.Characters.NPC" x="257" y="292">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
