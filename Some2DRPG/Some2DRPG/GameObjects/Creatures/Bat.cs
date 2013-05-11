@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using GameEngine;
 using GameEngine.Drawing;
+using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.GameObjects.Characters;
-using GameEngine.Extensions;
 
 namespace Some2DRPG.GameObjects.Creatures
 {
@@ -25,6 +26,8 @@ namespace Some2DRPG.GameObjects.Creatures
         private float _moveSpeed = 1.8f;
         private Color _hitColor = Color.White;
         private float _hitPercentage = 1.0f;
+
+        private List<Entity> _hitEntities = new List<Entity>();
         
         public Bat()
         {
@@ -93,11 +96,18 @@ namespace Some2DRPG.GameObjects.Creatures
                     this._attackHeight.Y += 30.0f / ATTACK_COUNTER_LIMIT;
                     this.Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
 
-                    if (Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
+                    if (!_hitEntities.Contains(player) && 
+                        Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
+                    {
+                        _hitEntities.Add(player);
                         player.OnHit(this, 4, gameTime, engine);
+                    }
 
                     if (_attackCounter++ == ATTACK_COUNTER_LIMIT)
+                    {
+                        _hitEntities.Clear();
                         AttackStance = AttackStance.NotAttacking;
+                    }
                 }
                 // ATTACK PREPERATION LOGIC.
                 else if (AttackStance == AttackStance.Preparing)
