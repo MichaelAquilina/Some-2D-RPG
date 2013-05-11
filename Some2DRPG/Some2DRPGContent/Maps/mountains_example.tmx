@@ -619,5 +619,6 @@
     <property name="Immovable" value="True"/>
    </properties>
   </object>
+  <object type="Some2DRPG.GameObjects.Misc.Chest" x="239" y="107"/>
  </objectgroup>
 </map>

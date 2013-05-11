@@ -7,11 +7,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Characters;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Some2DRPG.GameObjects.Misc
 {
     public class Chest : Entity
     {
+        SoundEffect[] _openSfx;
+
         public Chest()
         {
         }
@@ -33,6 +36,8 @@ namespace Some2DRPG.GameObjects.Misc
                 {
                     Random random = new Random();
 
+                    _openSfx[random.Next(1)].Play();
+
                     CurrentDrawableState = "Open";
                     Drawables.ResetState("Open", gameTime);
 
@@ -52,6 +57,10 @@ namespace Some2DRPG.GameObjects.Misc
         {
             DrawableSet.LoadDrawableSetXml(Drawables, "Animations/Misc/chests.anim", content);
             CurrentDrawableState = "Closed";
+
+            _openSfx = new SoundEffect[2];
+            _openSfx[0] = content.Load<SoundEffect>("Sounds/Metallic/metal_button_press1");
+            _openSfx[1] = content.Load<SoundEffect>("Sounds/Metallic/metal_button_press2");
         }
     }
 }
