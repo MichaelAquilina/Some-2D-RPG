@@ -115,7 +115,9 @@ namespace Some2DRPG.GameObjects.Characters
                     {
                         foreach (Entity entity in intersectingEntities)
                         {
-                            if (entity != this && entity is NPC)
+                            if (entity != this 
+                                && entity is NPC
+                                && Entity.IntersectsWith(this, null, entity, null, gameTime))
                             {
                                 NPC entityNPC = (NPC)entity;
                                 if (entityNPC.Faction == this.Faction)

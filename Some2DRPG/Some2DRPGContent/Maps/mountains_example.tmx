@@ -579,5 +579,30 @@
   <object gid="188" x="1139" y="103"/>
   <object gid="188" x="-10" y="1038"/>
   <object type="Some2DRPG.GameObjects.Creatures.CombatDummy" x="220" y="292"/>
+  <object name="BridgeGuard1" type="Some2DRPG.GameObjects.NPC" x="252" y="442">
+   <properties>
+    <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Allies"/>
+    <property name="Immovable" value="True"/>
+   </properties>
+  </object>
+  <object name="BridgeGuard2" type="Some2DRPG.GameObjects.NPC" x="253" y="533">
+   <properties>
+    <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Allies"/>
+    <property name="Immovable" value="True"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="129" y="865"/>
  </objectgroup>
 </map>
