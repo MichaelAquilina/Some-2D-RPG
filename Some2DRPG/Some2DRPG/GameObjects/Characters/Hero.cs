@@ -93,8 +93,7 @@ namespace Some2DRPG.GameObjects.Characters
                         {
                             _hitEntityList.Add(entityNPC);
 
-                            entityNPC.HP -= 10;
-                            entityNPC.OnHit(this, gameTime, engine);
+                            entityNPC.OnHit(this, 10, gameTime, engine);
                         }
                     }
                 }

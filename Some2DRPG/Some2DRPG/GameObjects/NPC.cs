@@ -82,8 +82,15 @@ namespace Some2DRPG.GameObjects
         /// game engine. Override this method in order to perform custom functionality
         /// during a Hit event.
         /// </summary>
-        public virtual void OnHit(Entity sender, GameTime gameTime, TeeEngine engine)
+        public virtual void OnHit(Entity sender, int damageDealt, GameTime gameTime, TeeEngine engine)
         {
+            HP -= damageDealt;
+
+            BattleText text = new BattleText(damageDealt.ToString(), Color.Red);
+            text.Pos = Pos;
+            text.Pos.Y -= CurrentBoundingBox.Height;
+
+            engine.AddEntity(text);
         }
 
         /// <summary>
