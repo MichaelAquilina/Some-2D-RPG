@@ -16,22 +16,34 @@ namespace Some2DRPG.GameObjects.Misc
 
         public TimeSpan CreateTime { get; internal set; }
 
+        public string Text { get; private set; }
+
+        RegionText _textBox;
+        StaticImage _backgroundImage;
+
         public SpeechBubble()
         {
-            Construct(null);
+            Construct(null, "");
         }
 
-        public SpeechBubble(Entity owner)
+        public SpeechBubble(Entity owner, string text)
         {
-            Construct(owner);
+            Construct(owner, text);
         }
 
-        void Construct(Entity owner)
+        void Construct(Entity owner, string text)
         {
             this.Owner = owner;
             this.Pos = CalculatePosition();
+            this.Text = text;
 
             this.AlwaysOnTop = true;
+        }
+
+        public void SetText(string text)
+        {
+            this.Text = text;
+            _textBox.SetText(text, _backgroundImage.ImageWidth - 4, 34);
         }
 
         public override void PostCreate(GameTime gameTime, TeeEngine engine)
@@ -43,19 +55,19 @@ namespace Some2DRPG.GameObjects.Misc
         public override void LoadContent(ContentManager content)
         {
             Texture2D speechText = content.Load<Texture2D>("Misc/speech-bubble");
-            StaticImage bubbleImage = new StaticImage(speechText, null);
-            bubbleImage.Origin = bubbleImage.CalculateOrigin(24, 47);
+            StaticImage _backgroundImage = new StaticImage(speechText, null);
+            _backgroundImage.Origin = _backgroundImage.CalculateOrigin(24, 47);
 
-            RegionText textBox = new RegionText(
+            RegionText _textBox = new RegionText(
                 content.Load<SpriteFont>("Fonts/SpeechFont"), 
-                "Hello there Adventurer! Fancy some Ale?",
-                speechText.Width - 4,
+                Text,
+                _backgroundImage.ImageWidth - 4,
                 34
                 );
-            textBox.TextDuration = 3000;
+            _textBox.TextDuration = 3000;
 
-            DrawableInstance bubbleInstance = Drawables.Add("standard", bubbleImage);
-            DrawableInstance textInstance = Drawables.Add("standard", textBox);
+            DrawableInstance bubbleInstance = Drawables.Add("standard", _backgroundImage);
+            DrawableInstance textInstance = Drawables.Add("standard", _textBox);
 
             bubbleInstance.Layer = 0;
             textInstance.Layer = 1;

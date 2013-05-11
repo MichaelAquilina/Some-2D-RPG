@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GameEngine;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
@@ -94,7 +93,7 @@ namespace Some2DRPG.GameObjects
         /// </summary>
         public virtual void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
         {
-            SpeechBubble speech = new SpeechBubble(this);
+            SpeechBubble speech = new SpeechBubble(this, "Hello there Adventurer! Whats you're name?");
 
             engine.AddEntity(speech);
         }
