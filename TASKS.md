@@ -4,7 +4,6 @@ Game Engine Tasks
 Todo
 ----
 
-- [IP] - IGameDrawables should perform Draw operations themselves? (Check Speed). This will allow for things like text to be drawn using TextDrawable class.
 - [] - GUI controls:
         - NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
         - NeoForce: http://neoforce.codeplex.com/
@@ -30,6 +29,7 @@ Todo
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
 - [Done] - Fix bug in Animation class related to 'IsFinshed()'.
+- [Done] - IGameDrawables should perform Draw operations themselves? (Check Speed). This will allow for things like text to be drawn using TextDrawable class.
 - [Done] - Pull in latest animation changes.
 - [Done] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
 - [Done] - Things like trees should be a special StaticEntity. StaticEntities should be allowed to specify Update routines within the designated MapScript.
