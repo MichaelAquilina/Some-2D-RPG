@@ -74,7 +74,7 @@ namespace GameEngine.DataStructures
             Remove(entity.CurrentBoundingBox, entity);
         }
 
-        public List<Entity> GetIntersectingEntites(FRectangle pxRegion)
+        public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
         {
             List<Entity> result = new List<Entity>();
             foreach (List<Entity> entities in GetHashList(pxRegion))
@@ -144,13 +144,13 @@ namespace GameEngine.DataStructures
 
         #region Internal Methods
 
-        internal void Add(FRectangle boundingBox, Entity entity)
+        internal void Add(Rectangle boundingBox, Entity entity)
         {
             foreach (List<Entity> entityList in GetHashList(boundingBox))
                 entityList.Add(entity);
         }
 
-        internal void Remove(FRectangle boundingBox, Entity entity)
+        internal void Remove(Rectangle boundingBox, Entity entity)
         {
             foreach (List<Entity> entityList in GetHashList(boundingBox))
                 entityList.Remove(entity);
@@ -169,7 +169,7 @@ namespace GameEngine.DataStructures
             return i + j * _boxCountX;
         }
 
-        internal List<List<Entity>> GetHashList(FRectangle boundingBox)
+        internal List<List<Entity>> GetHashList(Rectangle boundingBox)
         {
             List<List<Entity>> result = new List<List<Entity>>();
 

@@ -4,6 +4,10 @@ Game Engine Tasks
 Todo
 ----
 
+- [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
+- [IP] - Collision detection between entities.
+		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
+		 - Some forms of physics to allow proper reaction would be better.
 - [] - Move NPC Hit Code/Hero Hit code to RPGEntity since the mechanics behind it should be the same for all RPGEntities on the map.
      - need some way to abstract the concept of IsAttacking, IsReadyFromAttacking etc..
 - [] - GUI controls:
@@ -12,11 +16,6 @@ Todo
 - [] - Refactor naming in LPC content.
 - [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
 - [] - Refactoring of the Pathfinding namespace.
-- [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
-- [IP] - Collision detection between entities.
-		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
-		 - Some forms of physics to allow proper reaction would be better.
-- [] - Change boundingbox back to a Rectangle - the slight loss in data should not be a huge deal and should increase performance by a lot.
 - [] - Allow Specification of Repeat '1', '2', '3' etc... apart from the standard True or False.
 - [] - Provide queuing option in GetKeyboardownState in KeyboardExtensions.
 - [] - Consider removing hard coded nature of group and state in DrawableSet and just allow it to be added as a List of possibles (or a dictionary)
@@ -30,6 +29,7 @@ Todo
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+- [Done] - Change boundingbox back to a Rectangle - the slight loss in data should not be a huge deal and should increase performance by a lot.
 - [Done] - Fix bug in Animation class related to 'IsFinshed()'.
 - [Done] - IGameDrawables should perform Draw operations themselves? (Check Speed). This will allow for things like text to be drawn using TextDrawable class.
 - [Done] - Pull in latest animation changes.
@@ -69,7 +69,7 @@ QuadTree / HashList stuff
 ------------------------
 
 - [Done] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
-- [] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
+- [Done] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
 
 
 Must Have

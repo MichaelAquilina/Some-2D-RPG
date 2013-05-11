@@ -14,7 +14,7 @@ using Some2DRPG.Items;
 
 namespace Some2DRPG
 {
-    public class Some2DRPG : Microsoft.Xna.Framework.Game
+    public class Some2DRPG : Game
     {
         // Constant (Editable) Valuables.
         const bool DEBUG = true;

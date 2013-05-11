@@ -59,7 +59,7 @@ namespace GameEngine.GameObjects
         /// <summary>
         /// The last bounding box generated during the TeeEngine update.
         /// </summary>
-        public FRectangle CurrentBoundingBox { get; internal set; }
+        public Rectangle CurrentBoundingBox { get; internal set; }
                                                                    
         /// <summary>
         /// The set of drawable instances associated with this Entity.
@@ -74,7 +74,7 @@ namespace GameEngine.GameObjects
         /// <summary>
         /// The previous BoundingBox that was assigned to this Entity.
         /// </summary>
-        internal FRectangle PreviousBoundingBox { get; set; }                       
+        internal Rectangle PreviousBoundingBox { get; set; }                       
 
         #endregion
 
@@ -165,16 +165,16 @@ namespace GameEngine.GameObjects
         /// </summary>
         /// <param name="gameTime">The Current GameTime.</param>
         /// <returns>An FRectangle object specifying the bounding box of this Entity in Pixels.</returns>
-        public FRectangle GetPxBoundingBox(GameTime gameTime)
+        public Rectangle GetPxBoundingBox(GameTime gameTime)
         {
             HashSet<DrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
 
-            if (drawables == null || drawables.Count == 0) return new FRectangle(Pos.X, Pos.Y, 0, 0);
+            if (drawables == null || drawables.Count == 0) return new Rectangle((int)Pos.X, (int)Pos.Y, 0, 0);
 
-            float minX = Int32.MaxValue;
-            float minY = Int32.MaxValue;
-            float maxX = Int32.MinValue;
-            float maxY = Int32.MinValue;
+            int minX = Int32.MaxValue;
+            int minY = Int32.MaxValue;
+            int maxX = Int32.MinValue;
+            int maxY = Int32.MinValue;
 
             foreach (DrawableInstance draw in drawables)
             {
@@ -183,10 +183,10 @@ namespace GameEngine.GameObjects
 
                 Vector2 drawOrigin = draw.Drawable.Origin;
 
-                float pxWidth = drawableWidth * this.ScaleX;
-                float pxHeight = drawableHeight * this.ScaleY;
-                float pxFrameX = Pos.X + draw.Offset.X + -1 * drawOrigin.X * pxWidth;
-                float pxFrameY = Pos.Y + draw.Offset.Y + -1 * drawOrigin.Y * pxHeight;
+                int pxWidth  = (int) Math.Ceiling(drawableWidth * this.ScaleX);
+                int pxHeight = (int) Math.Ceiling(drawableHeight * this.ScaleY);
+                int pxFrameX = (int) Math.Floor(Pos.X + draw.Offset.X + -1 * drawOrigin.X * pxWidth);
+                int pxFrameY = (int) Math.Floor(Pos.Y + draw.Offset.Y + -1 * drawOrigin.Y * pxHeight);
 
                 if (pxFrameX < minX) minX = pxFrameX;
                 if (pxFrameY < minY) minY = pxFrameY;
@@ -194,7 +194,7 @@ namespace GameEngine.GameObjects
                 if (pxFrameY + drawableHeight > maxY) maxY = pxFrameY + pxHeight;
             }
 
-            return new FRectangle(minX, minY, maxX - minX, maxY - minY);
+            return new Rectangle(minX, minY, maxX - minX, maxY - minY);
         }
 
         /// <summary>

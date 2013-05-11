@@ -77,7 +77,7 @@ namespace GameEngine.DataStructures
                 Add(entity);
         }
 
-        public List<Entity> GetIntersectingEntites(FRectangle pxRegion)
+        public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
         {
             List<Entity> result = new List<Entity>();
             Root.GetEntities(pxRegion, ref result);
@@ -112,12 +112,12 @@ namespace GameEngine.DataStructures
             }
         }
 
-        internal QuadTreeNode GetQuadTreeNode(float x, float y, float width, float height, QuadTreeNode parentNode)
+        internal QuadTreeNode GetQuadTreeNode(int x, int y, int width, int height, QuadTreeNode parentNode)
         {
             QuadTreeNode nodeResult = new QuadTreeNode();
             nodeResult.Reset();
             nodeResult.NodeID = LatestNodeIndex;
-            nodeResult.pxBounds = new FRectangle(x, y, width, height);
+            nodeResult.pxBounds = new Rectangle(x, y, width, height);
             nodeResult.QuadTree = this;
             nodeResult.Parent = parentNode;
 
