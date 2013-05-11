@@ -96,6 +96,7 @@
     <Compile Include="Drawing\Bitmap\Animation.cs" />
     <Compile Include="Drawing\Bitmap\BitmapDrawable.cs" />
     <Compile Include="Drawing\DrawableSet.cs" />
+    <Compile Include="Drawing\Text\PlainText.cs" />
     <Compile Include="Drawing\Text\TextDrawable.cs" />
     <Compile Include="Drawing\Text\RegionText.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
