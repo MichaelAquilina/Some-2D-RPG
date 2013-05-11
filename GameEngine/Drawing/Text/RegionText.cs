@@ -102,5 +102,13 @@ namespace GameEngine.Drawing.Text
 
             if (builder.Length > 0) _processedText.Add(builder.ToString());
         }
+
+        public override string ToString()
+        {
+            return string.Format(
+                "RegionText: Text={0}, TextDuration={1}, Width={2}, Height={3}, SpriteFont={4}",
+                Text, TextDuration, Width, Height, SpriteFont
+                );
+        }
     }
 }
