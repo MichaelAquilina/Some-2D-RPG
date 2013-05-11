@@ -8,7 +8,7 @@ using GameEngine;
 
 namespace Some2DRPG.GameObjects.Creatures
 {
-    public class CombatDummy : NPC
+    public class CombatDummy : RPGEntity
     {
         Random _randomGenerator;
         SoundEffect[] _hitSounds;
@@ -20,7 +20,7 @@ namespace Some2DRPG.GameObjects.Creatures
 
         void Construct()
         {
-            this.BaseRace = NPC.CREATURES_DUMMY;
+            this.BaseRace = RPGEntity.CREATURES_DUMMY;
             this.Direction = Direction.Right;
             this._randomGenerator = new Random();
         }

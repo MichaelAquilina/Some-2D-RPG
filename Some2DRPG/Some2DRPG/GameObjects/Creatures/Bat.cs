@@ -10,7 +10,7 @@ using Some2DRPG.GameObjects.Characters;
 
 namespace Some2DRPG.GameObjects.Creatures
 {
-    public class Bat : NPC
+    public class Bat : RPGEntity
     {
         private static Random randomGenerator = new Random();
 

@@ -11,7 +11,7 @@ using Some2DRPG.Shaders;
 
 namespace Some2DRPG.GameObjects.Characters
 {
-    public class Hero : NPC
+    public class Hero : RPGEntity
     {
         const int INPUT_DELAY = 0;
         const float MOVEMENT_SPEED = 2.9f;
@@ -24,13 +24,13 @@ namespace Some2DRPG.GameObjects.Characters
         List<Entity> _hitEntityList = new List<Entity>();
 
         public Hero()
-            : base(NPC.HUMAN_MALE)
+            : base(RPGEntity.HUMAN_MALE)
         {
             Construct(0, 0);
         }
 
         public Hero(float x, float y) :
-            base(x, y, NPC.HUMAN_MALE)
+            base(x, y, RPGEntity.HUMAN_MALE)
         {
             Construct(x, y);
         }
@@ -86,14 +86,14 @@ namespace Some2DRPG.GameObjects.Characters
             {
                 foreach (Entity entity in intersectingEntities)
                 {
-                    if (this != entity && entity is NPC && !_hitEntityList.Contains(entity))
+                    if (this != entity && entity is RPGEntity && !_hitEntityList.Contains(entity))
                     {
-                        NPC entityNPC = (NPC)entity;
-                        if (entityNPC.Faction != this.Faction)
+                        RPGEntity rpgEntity = (RPGEntity)entity;
+                        if (rpgEntity.Faction != this.Faction)
                         {
-                            _hitEntityList.Add(entityNPC);
+                            _hitEntityList.Add(rpgEntity);
 
-                            entityNPC.OnHit(this, 10, gameTime, engine);
+                            rpgEntity.OnHit(this, 10, gameTime, engine);
                         }
                     }
                 }
@@ -115,12 +115,12 @@ namespace Some2DRPG.GameObjects.Characters
                         foreach (Entity entity in intersectingEntities)
                         {
                             if (entity != this 
-                                && entity is NPC
+                                && entity is RPGEntity
                                 && Entity.IntersectsWith(this, null, entity, null, gameTime))
                             {
-                                NPC entityNPC = (NPC)entity;
-                                if (entityNPC.Faction == this.Faction)
-                                    entityNPC.OnInteract(this, gameTime, engine);
+                                RPGEntity rpgEntity = (RPGEntity)entity;
+                                if (rpgEntity.Faction == this.Faction)
+                                    rpgEntity.OnInteract(this, gameTime, engine);
                             }
 
                         }

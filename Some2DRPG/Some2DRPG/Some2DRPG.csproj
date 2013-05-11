@@ -122,7 +122,7 @@
     <Compile Include="GameObjects\Misc\Chest.cs" />
     <Compile Include="GameObjects\Misc\Coin.cs" />
     <Compile Include="GameObjects\Characters\Hero.cs" />
-    <Compile Include="GameObjects\NPC.cs" />
+    <Compile Include="GameObjects\RPGEntity.cs" />
     <Compile Include="MapScripts\MountainsExampleMapScript.cs" />
     <Compile Include="MapScripts\Some2DRPGMasterScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

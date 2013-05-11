@@ -41,7 +41,7 @@ namespace Some2DRPG.MapScripts
             foreach (Entity entity in engine.Collider.GetIntersectingEntites(caller.CurrentBoundingBox))
             {
                 if (entity != caller
-                    && entity is NPC
+                    && entity is RPGEntity
                     && caller.Pos.Y > entity.Pos.Y
                     && entity.CurrentBoundingBox.Intersects(caller.CurrentBoundingBox))
                 {

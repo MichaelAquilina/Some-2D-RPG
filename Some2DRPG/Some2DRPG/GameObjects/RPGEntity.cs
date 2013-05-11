@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
+using GameEngine;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Items;
 
 namespace Some2DRPG.GameObjects
@@ -11,12 +13,13 @@ namespace Some2DRPG.GameObjects
 
     public enum AttackStance { NotAttacking, Preparing, Attacking };
 
-    public abstract class RPGEntity : CollidableEntity
+    public class RPGEntity : CollidableEntity
     {
         public static string HUMAN_MALE = @"Animations/Characters/male_npc.anim";
         public static string HUMAN_FEMALE = @"Animations/Characters/female_npc.anim";
         public static string CREATURES_BAT = @"Animations/Monsters/bat.anim";
         public static string CREATURES_DUMMY = @"Animations/Monsters/combat_dummy.anim";
+        public static string CREATURES_SKELETON = @"Animations/Monsters/skeleton.anim";
 
         public string Faction { get; set; }
 
@@ -69,13 +72,37 @@ namespace Some2DRPG.GameObjects
         {
             DrawableSet.LoadDrawableSetXml(Drawables, BaseRace, content);
 
-            CurrentDrawableState = "Idle_Left";
+            CurrentDrawableState = "Idle_" + Direction;
         }
 
         #region Interaction Methods
 
-        public virtual void Hit(Entity sender, GameTime gameTime)
+        /// <summary>
+        /// Method called when the RPG Entity has been hit by some Entity residing within the
+        /// game engine. Override this method in order to perform custom functionality
+        /// during a Hit event.
+        /// </summary>
+        public virtual void OnHit(Entity sender, int damageDealt, GameTime gameTime, TeeEngine engine)
         {
+            HP -= damageDealt;
+
+            BattleText text = new BattleText(damageDealt.ToString(), Color.Red);
+            text.Pos = Pos;
+            text.Pos.Y -= CurrentBoundingBox.Height;
+
+            engine.AddEntity(text);
+        }
+
+        /// <summary>
+        /// Method called when the RPG Entity has been interacted with through some medium by
+        /// another Entity object residing within the same engine. Override this method in
+        /// order to allow interactions to occur with this entity.
+        /// </summary>
+        public virtual void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
+        {
+            SpeechBubble speech = new SpeechBubble(this, "Hello there Adventurer! Whats you're name?");
+
+            engine.AddEntity(speech);
         }
 
         #endregion
