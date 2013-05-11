@@ -110,6 +110,7 @@
     <Compile Include="GameObjects\CollidableEntity.cs" />
     <Compile Include="GameObjects\Creatures\CombatDummy.cs" />
     <Compile Include="GameObjects\MapEntrance.cs" />
+    <Compile Include="GameObjects\Misc\BattleText.cs" />
     <Compile Include="GameObjects\Misc\CoinArea.cs" />
     <Compile Include="GameObjects\Misc\SpeechBubble.cs" />
     <Compile Include="Items\Item.cs" />
