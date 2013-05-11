@@ -14,6 +14,9 @@ Items Related to Design and Development
 * Developing unit test cases in C#: http://msdn.microsoft.com/en-us/library/ms182532.aspx
 
 ### Art Assets
+* Wooden Damage: http://opengameart.org/content/35-wooden-crackshitsdestructions
+* Hits/Punches: http://opengameart.org/content/37-hitspunches
+* Menu music: http://opengameart.org/content/menu-music
 * Budda Item: http://opengameart.org/content/buddha-statues-16x16
 * Stone Bridge which can be used http://opengameart.org/content/stone-bridge-tiles-32x32
 * More Bridges: http://opengameart.org/content/lpc-style-wood-bridges-and-steel-flooring
