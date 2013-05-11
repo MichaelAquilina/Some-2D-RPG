@@ -3,7 +3,7 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameEngine.Drawing
+namespace GameEngine.Drawing.Text
 {
     public abstract class TextDrawable : IGameDrawable
     {

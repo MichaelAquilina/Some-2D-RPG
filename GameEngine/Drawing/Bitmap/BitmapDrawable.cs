@@ -3,7 +3,7 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameEngine.Drawing
+namespace GameEngine.Drawing.Bitmap
 {
     /// <summary>
     /// Represents a GameDrawable Item that renders some form of bitmap Texture to the screen.

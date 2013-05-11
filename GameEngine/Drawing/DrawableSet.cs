@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Xml;
+using GameEngine.Drawing.Bitmap;
 using GameEngine.Extensions;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;

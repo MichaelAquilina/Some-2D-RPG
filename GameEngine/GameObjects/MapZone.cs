@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using GameEngine.Drawing;
+using GameEngine.Drawing.Bitmap;
 using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;

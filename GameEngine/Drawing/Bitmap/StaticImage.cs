@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameEngine.Drawing
+namespace GameEngine.Drawing.Bitmap
 {
    public class StaticImage : BitmapDrawable
    {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using GameEngine.DataStructures;
 using GameEngine.Drawing;
+using GameEngine.Drawing.Bitmap;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using GameEngine.Info;

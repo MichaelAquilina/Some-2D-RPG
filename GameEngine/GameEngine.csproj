@@ -93,15 +93,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataStructures\HashList.cs" />
-    <Compile Include="Drawing\Animation.cs" />
-    <Compile Include="Drawing\BitmapDrawable.cs" />
+    <Compile Include="Drawing\Bitmap\Animation.cs" />
+    <Compile Include="Drawing\Bitmap\BitmapDrawable.cs" />
     <Compile Include="Drawing\DrawableSet.cs" />
-    <Compile Include="Drawing\TextDrawable.cs" />
-    <Compile Include="Drawing\RegionText.cs" />
+    <Compile Include="Drawing\Text\TextDrawable.cs" />
+    <Compile Include="Drawing\Text\RegionText.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="Drawing\DrawableInstance.cs" />
-    <Compile Include="Drawing\StaticImage.cs" />
+    <Compile Include="Drawing\Bitmap\StaticImage.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\SpriteBatchExtensions.cs" />
     <Compile Include="GameObjects\MapZone.cs" />

@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
-namespace GameEngine.Drawing
+namespace GameEngine.Drawing.Text
 {
     public class RegionText : TextDrawable
     {

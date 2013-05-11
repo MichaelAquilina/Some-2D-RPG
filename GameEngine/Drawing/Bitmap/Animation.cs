@@ -3,7 +3,7 @@ using GameEngine.Interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace GameEngine.Drawing
+namespace GameEngine.Drawing.Bitmap
 {
     /// <summary>
     /// Animation class that allows the user to specify metrics about animation frames from a spritesheet. Also allows
