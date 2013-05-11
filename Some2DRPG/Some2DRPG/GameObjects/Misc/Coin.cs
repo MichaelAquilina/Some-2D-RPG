@@ -15,7 +15,7 @@ namespace Some2DRPG.GameObjects.Misc
     {
         public int CoinValue { get; set; }
 
-        public SoundEffect CoinSound { get; set; }
+        SoundEffect[] _coinSfx;
 
         public CoinType CoinType {
             get { return _coinType; }
@@ -53,7 +53,16 @@ namespace Some2DRPG.GameObjects.Misc
             // Load the coin animation.
             DrawableSet.LoadDrawableSetXml(this.Drawables, "Animations/Misc/coin.anim", content );
 
-            CoinSound = content.Load<SoundEffect>("Sounds/Coins/coin1");
+            _coinSfx = new SoundEffect[9];
+            _coinSfx[0] = content.Load<SoundEffect>("Sounds/Coins/coin1");
+            _coinSfx[1] = content.Load<SoundEffect>("Sounds/Coins/coin2");
+            _coinSfx[2] = content.Load<SoundEffect>("Sounds/Coins/coin3");
+            _coinSfx[3] = content.Load<SoundEffect>("Sounds/Coins/coin4");
+            _coinSfx[4] = content.Load<SoundEffect>("Sounds/Coins/coin5");
+            _coinSfx[5] = content.Load<SoundEffect>("Sounds/Coins/coin6");
+            _coinSfx[6] = content.Load<SoundEffect>("Sounds/Coins/coin7");
+            _coinSfx[7] = content.Load<SoundEffect>("Sounds/Coins/coin8");
+            _coinSfx[8] = content.Load<SoundEffect>("Sounds/Coins/coin9");
         }
 
         public override void Update(GameTime gameTime, TeeEngine engine)
@@ -85,7 +94,9 @@ namespace Some2DRPG.GameObjects.Misc
                     // Check to see if coin can be considered collected.
                     if (Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
                     {
-                        // CoinSound.Play(0.05f, 0.0f, 0.0f);
+                        Random random = new Random();
+
+                        _coinSfx[random.Next(_coinSfx.Length)].Play(0.5f, 0.0f, 0.0f);
                         player.Coins += this.CoinValue;
                         engine.RemoveEntity(this);
                     }
