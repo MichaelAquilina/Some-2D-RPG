@@ -603,6 +603,9 @@
     <property name="Immovable" value="True"/>
    </properties>
   </object>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="129" y="865"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="120" y="880"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="91" y="830"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="44" y="878"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="185" y="822"/>
  </objectgroup>
 </map>
