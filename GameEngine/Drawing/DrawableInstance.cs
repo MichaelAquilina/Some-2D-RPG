@@ -15,6 +15,8 @@ namespace GameEngine.Drawing
         public SpriteEffects SpriteEffects { get; set; }
         public int Layer { get; set; }
         public Vector2 Offset { get; set; }
+        public float ScaleX { get; set; }
+        public float ScaleY { get; set; }
 
         public double StartTimeMS { get; set; }
 
@@ -33,6 +35,8 @@ namespace GameEngine.Drawing
             this.SpriteEffects = SpriteEffects.None;
             this.Layer = 0;
             this.Offset = Vector2.Zero;
+            this.ScaleX = 1.0f;
+            this.ScaleY = 1.0f;
         }
 
         public int GetWidth(GameTime gameTime)
@@ -60,13 +64,13 @@ namespace GameEngine.Drawing
             StartTimeMS = gameTime.TotalGameTime.TotalMilliseconds;
         }
 
-        public Rectangle Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 destination, float layerDepth, float ScaleX, float ScaleY, float opacity, float maxY, ViewPortInfo viewPortInfo)
+        public Rectangle Draw(GameTime gameTime, SpriteBatch spriteBatch, Vector2 destination, float layerDepth, float entityScaleX, float entityScaleY, float opacity, float maxY, ViewPortInfo viewPortInfo)
         {
             int width = GetWidth(gameTime);
             int height = GetHeight(gameTime);
 
-            int targetWidth = (int)Math.Ceiling(width * ScaleX * viewPortInfo.ActualZoom);
-            int targetHeight = (int)Math.Ceiling(height * ScaleY * viewPortInfo.ActualZoom);
+            int targetWidth = (int)Math.Ceiling(width * entityScaleX * viewPortInfo.ActualZoom * this.ScaleX);
+            int targetHeight = (int)Math.Ceiling(height * entityScaleY * viewPortInfo.ActualZoom * this.ScaleY);
 
             // Draw the Object based on the current Frame dimensions and the specified Object Width Height values.
             Rectangle objectDestRect = new Rectangle(
