@@ -53,12 +53,12 @@ namespace Some2DRPG.GameObjects.Creatures
 
         public override void OnHit(Entity sender, int damageDealt, GameTime gameTime, TeeEngine engine)
         {
-            base.OnHit(sender, damageDealt, gameTime, engine);
-
             if (HP > 0)
             {
                 _hitColor = Color.Red;
                 _hitPercentage = 0.0f;
+
+                base.OnHit(sender, damageDealt, gameTime, engine);
             }
         }
 

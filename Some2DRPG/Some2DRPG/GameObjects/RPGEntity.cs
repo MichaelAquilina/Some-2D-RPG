@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Items;
+using System;
 
 namespace Some2DRPG.GameObjects
 {
@@ -15,6 +16,8 @@ namespace Some2DRPG.GameObjects
 
     public class RPGEntity : CollidableEntity
     {
+        public static Random RPGRandomGenerator = new Random();
+
         public static string HUMAN_MALE = @"Animations/Characters/male_npc.anim";
         public static string HUMAN_FEMALE = @"Animations/Characters/female_npc.anim";
         public static string CREATURES_BAT = @"Animations/Monsters/bat.anim";
@@ -32,9 +35,27 @@ namespace Some2DRPG.GameObjects
 
         public string BaseRace { get; set; }
 
+        #region Attributes
+
         public int HP { get; set; }
+        public int MP { get; set; }
         public int XP { get; set; }
         public int Coins { get; set; }
+
+        #endregion
+
+        #region Skill Attributes
+
+        public int Strength { get; set; }
+        public int Constitution { get; set; }
+        public int Dexterity { get; set; }
+        public int Intelligence { get; set; }
+        public int Wisdom { get; set; }
+        public int Charisma { get; set; }
+        public int Luck { get; set; }
+        public int Perception { get; set; }
+
+        #endregion
 
         public RPGEntity()
         {
@@ -84,16 +105,13 @@ namespace Some2DRPG.GameObjects
         /// </summary>
         public virtual void OnHit(Entity sender, int damageDealt, GameTime gameTime, TeeEngine engine)
         {
-            if (HP > 0)
-            {
-                HP -= damageDealt;
+            HP -= damageDealt;
 
-                BattleText text = new BattleText(damageDealt.ToString(), Color.Red);
-                text.Pos = Pos;
-                text.Pos.Y -= CurrentBoundingBox.Height;
+            BattleText text = new BattleText(damageDealt.ToString(), Color.Red);
+            text.Pos = Pos;
+            text.Pos.Y -= CurrentBoundingBox.Height;
 
-                engine.AddEntity(text);
-            }
+            engine.AddEntity(text);
         }
 
         /// <summary>
@@ -157,6 +175,15 @@ namespace Some2DRPG.GameObjects
         }
 
         #endregion
+
+        /// <summary>
+        /// Performs a "Roll" to see how much Damage this Entity will do based on the engines calculation
+        /// of damage using factors such as strength, weapon damage and some elements of randomness.
+        /// </summary>
+        public int RollForDamage()
+        {
+            return Strength + Strength * RPGEntity.RPGRandomGenerator.Next(6) / 6;
+        }
 
         public override string ToString()
         {

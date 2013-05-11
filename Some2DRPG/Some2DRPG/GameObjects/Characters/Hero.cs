@@ -39,6 +39,7 @@ namespace Some2DRPG.GameObjects.Characters
         {
             HP = 2000;
             XP = 0;
+            Strength = 10;
 
             Faction = "Allies";
             CollisionDetection = true;
@@ -93,7 +94,7 @@ namespace Some2DRPG.GameObjects.Characters
                         {
                             _hitEntityList.Add(rpgEntity);
 
-                            rpgEntity.OnHit(this, 10, gameTime, engine);
+                            rpgEntity.OnHit(this, RollForDamage(), gameTime, engine);
                         }
                     }
                 }

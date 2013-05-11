@@ -47,6 +47,8 @@ namespace Some2DRPG.GameObjects.Creatures
                 // Play random Hit Sound.
                 int index = _randomGenerator.Next(3);
                 _hitSounds[index].Play();
+
+                base.OnHit(sender, damageDealt, gameTime, engine);
             }
         }
 
