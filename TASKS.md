@@ -4,6 +4,8 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Move NPC Hit Code/Hero Hit code to RPGEntity since the mechanics behind it should be the same for all RPGEntities on the map.
+     - need some way to abstract the concept of IsAttacking, IsReadyFromAttacking etc..
 - [] - GUI controls:
         - NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
         - NeoForce: http://neoforce.codeplex.com/
