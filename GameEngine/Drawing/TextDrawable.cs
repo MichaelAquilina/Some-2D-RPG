@@ -38,9 +38,9 @@ namespace GameEngine.Drawing
             throw new NotImplementedException();
         }
 
-        public bool IsFinished(double elapsedMS)
+        public virtual bool IsFinished(double elapsedMS)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         public void Draw(SpriteBatch spriteBatch, Rectangle destRectangle, Color color, float rotation, Vector2 origin, SpriteEffects spriteEffects, float layerDepth, double elapsedMS)

@@ -97,7 +97,7 @@
     <Compile Include="Drawing\BitmapDrawable.cs" />
     <Compile Include="Drawing\DrawableSet.cs" />
     <Compile Include="Drawing\TextDrawable.cs" />
-    <Compile Include="Drawing\TimedText.cs" />
+    <Compile Include="Drawing\RegionText.cs" />
     <Compile Include="Extensions\ColorExtensions.cs" />
     <Compile Include="Drawing\FRectangle.cs" />
     <Compile Include="Drawing\DrawableInstance.cs" />

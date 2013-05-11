@@ -94,7 +94,7 @@ namespace Some2DRPG.GameObjects
         /// </summary>
         public virtual void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
         {
-            SpeechBubble speech = new SpeechBubble(this, TimeSpan.FromSeconds(10));
+            SpeechBubble speech = new SpeechBubble(this);
 
             engine.AddEntity(speech);
         }

@@ -14,50 +14,67 @@ namespace Some2DRPG.GameObjects.Misc
 
         public TimeSpan CreateTime { get; internal set; }
 
-        public TimeSpan LifeTime { get; set; }
-
         public SpeechBubble()
         {
-            Construct(null, TimeSpan.FromSeconds(6));
+            Construct(null);
         }
 
-        public SpeechBubble(Entity owner, TimeSpan lifeTime)
+        public SpeechBubble(Entity owner)
         {
-            Construct(owner, lifeTime);
+            Construct(owner);
         }
 
-        void Construct(Entity owner, TimeSpan lifeTime)
+        void Construct(Entity owner)
         {
             this.Owner = owner;
-            this.Pos = new Vector2(owner.CurrentBoundingBox.Left, owner.CurrentBoundingBox.Top);
+            this.Pos = CalculatePosition();
 
-            this.LifeTime = lifeTime;
             this.AlwaysOnTop = true;
-            this.ScaleX = 0.5f;
-            this.ScaleY = 0.5f;
         }
 
         public override void PostCreate(GameTime gameTime, TeeEngine engine)
         {
             CreateTime = gameTime.TotalGameTime;
+            Drawables.ResetState("standard", gameTime);
         }
 
         public override void LoadContent(ContentManager content)
         {
             Texture2D speechText = content.Load<Texture2D>("Misc/speech-bubble");
-            StaticImage bubbleImage = new StaticImage(speechText, speechText.Bounds);
-            Drawables.Add("standard", bubbleImage);
+            StaticImage bubbleImage = new StaticImage(speechText, null);
+            bubbleImage.Origin = bubbleImage.CalculateOrigin(24, 47);
+
+            RegionText textBox = new RegionText(
+                content.Load<SpriteFont>("Fonts/SpeechFont"), 
+                "Hello there Adventurer! Fancy some Ale?",
+                speechText.Width - 4,
+                34
+                );
+            textBox.TextDuration = 3000;
+
+            DrawableInstance bubbleInstance = Drawables.Add("standard", bubbleImage);
+            DrawableInstance textInstance = Drawables.Add("standard", textBox);
+
+            bubbleInstance.Layer = 0;
+            textInstance.Layer = 1;
+            textInstance.Color = Color.Black;
+            textInstance.Offset = new Vector2(-20, -1 * speechText.Height + 2);
 
             CurrentDrawableState = "standard";
         }
 
+        public Vector2 CalculatePosition()
+        {
+            return new Vector2(Owner.CurrentBoundingBox.Left + (Owner.CurrentBoundingBox.Width / 2.0f), Owner.CurrentBoundingBox.Top - 5);
+        }
+
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            if (gameTime.TotalGameTime >= CreateTime + LifeTime)
+            if (Drawables.IsStateFinished("standard", gameTime))
                 engine.RemoveEntity(this);
 
             if(Owner != null)
-                this.Pos = new Vector2(Owner.CurrentBoundingBox.Left, Owner.CurrentBoundingBox.Top);
+                this.Pos = CalculatePosition();
         }
     }
 }

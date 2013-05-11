@@ -605,7 +605,7 @@
     <property name="Immovable" value="true"/>
    </properties>
   </object>
-  <object name="JonSnow" type="Some2DRPG.GameObjects.NPC" x="828" y="342" width="18" height="16">
+  <object name="JonSnow" type="Some2DRPG.GameObjects.NPC" x="267" y="191" width="18" height="16">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlateChest"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlatePants"/>

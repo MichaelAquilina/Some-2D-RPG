@@ -26,6 +26,11 @@ namespace GameEngine.Drawing
             return SourceRectangle;
         }
 
+        public Vector2 CalculateOrigin(int x, int y)
+        {
+            return new Vector2(((float)x) / SourceTexture.Width, ((float)y) / SourceTexture.Height);
+        }
+
         public override string ToString()
         {
             return string.Format("StaticImage: SourceTexture={0}, DrawOrigin={1}",
