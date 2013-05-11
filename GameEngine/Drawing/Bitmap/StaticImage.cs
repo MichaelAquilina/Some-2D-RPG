@@ -9,6 +9,9 @@ namespace GameEngine.Drawing.Bitmap
         public Texture2D SourceTexture { get; set; }
         public Rectangle? SourceRectangle { get; set; }
 
+        public int ImageWidth { get { return SourceTexture.Width; } }
+        public int ImageHeight { get { return SourceTexture.Height; } } 
+
         public StaticImage(Texture2D sourceTexture, Rectangle? sourceRectangle)
         {
             this.SourceTexture = sourceTexture;
