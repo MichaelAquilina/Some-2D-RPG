@@ -266,6 +266,7 @@ namespace GameEngine.Drawing
             {
                 int frameDelay = XmlExtensions.GetAttributeValue<int>(animNode, "FrameDelay", 90);
                 bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);
+                bool visible = XmlExtensions.GetAttributeValue<bool>(animNode, "Visible", true);
                 int layer = XmlExtensions.GetAttributeValue<int>(animNode, "Layer", 0);
 
                 string state = XmlExtensions.GetAttributeValue(animNode, "State");
@@ -313,6 +314,7 @@ namespace GameEngine.Drawing
                             instance.StartTimeMS = startTimeMS;
                             instance.Layer = layer;
                             instance.Offset = offsetVector;
+                            instance.Visible = visible;
                         }
                     }
                 }
@@ -322,6 +324,7 @@ namespace GameEngine.Drawing
                     instance.StartTimeMS = startTimeMS;
                     instance.Layer = layer;
                     instance.Offset = offsetVector;
+                    instance.Visible = visible;
                 }
             }
         }
