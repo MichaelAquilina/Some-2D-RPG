@@ -22,6 +22,8 @@ namespace Some2DRPG.GameObjects.Creatures
         {
             this.BaseRace = RPGEntity.CREATURES_DUMMY;
             this.Direction = Direction.Right;
+            this.CollisionGroup = "collision";
+            this.Immovable = true;
             this._randomGenerator = new Random();
         }
 

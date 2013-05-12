@@ -11,17 +11,25 @@ using Microsoft.Xna.Framework.Audio;
 
 namespace Some2DRPG.GameObjects.Misc
 {
-    public class Chest : Entity
+    public class Chest : CollidableEntity
     {
         SoundEffect[] _openSfx;
 
         public Chest()
         {
+            Construct(0, 0);
         }
 
         public Chest(float x, float y)
-            :base(x,y)
         {
+            Construct(x, y);
+        }
+
+        void Construct(float x, float y)
+        {
+            this.Pos = new Vector2(x, y);
+            this.CollisionGroup = "collision";
+            this.Immovable = true;
         }
 
         public override void Update(GameTime gameTime, TeeEngine engine)

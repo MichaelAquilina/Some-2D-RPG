@@ -3,7 +3,13 @@
 <Animations>
   <!-- Up Animations -->
 
-  <Animation State="Idle_Up" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Dummy\BODY_animation" FrameDelay="150" Origin="0.5, 0.9">
+  <Animation State="Idle_Up" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Dummy\BODY_animation" FrameDelay="150" Origin="0.5, 1.0">
+    <Frames>
+      <Frame>256,0,64,64</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Idle_Up" Group="collision" Loop="True" SpriteSheet="LPC\Monsters\Dummy\COLLISION_animation" FrameDelay="150" Origin="0.5, 1.0" Layer="2">
     <Frames>
       <Frame>256,0,64,64</Frame>
     </Frames>
@@ -11,7 +17,13 @@
 
   <!-- Left Animations -->
 
-  <Animation State="Idle_Left" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Dummy\BODY_animation" FrameDelay="150" Origin="0.5, 0.9">
+  <Animation State="Idle_Left" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Dummy\BODY_animation" FrameDelay="150" Origin="0.5, 1.0">
+    <Frames>
+      <Frame>128, 0,64,64</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Idle_Left" Group="collision" Loop="True" SpriteSheet="LPC\Monsters\Dummy\COLLISION_animation" FrameDelay="150" Origin="0.5, 1.0" Layer="2">
     <Frames>
       <Frame>128, 0,64,64</Frame>
     </Frames>
@@ -19,15 +31,28 @@
 
   <!-- Down Animations -->
 
-  <Animation State="Idle_Down" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Dummy\BODY_animation" FrameDelay="150" Origin="0.5, 0.9">
+  <Animation State="Idle_Down" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Dummy\BODY_animation" FrameDelay="150" Origin="0.5, 1.0">
     <Frames>
-      <Frame>0 , 0,64,64</Frame>
+      <Frame>0 , 0, 64, 64</Frame>
     </Frames>
   </Animation>
-  
+
+  <Animation State="Idle_Down" Group="collision" Loop="True" SpriteSheet="LPC\Monsters\Dummy\COLLISION_animation" FrameDelay="150" Origin="0.5, 1.0" Layer="2">
+    <Frames>
+      <Frame>0 , 0, 64, 64</Frame>
+    </Frames>
+  </Animation>
+
+
   <!-- Right Animations -->
 
-  <Animation State="Idle_Right" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Dummy\BODY_animation" FrameDelay="150" Origin="0.5, 0.9">
+  <Animation State="Idle_Right" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Dummy\BODY_animation" FrameDelay="150" Origin="0.5, 1.0">
+    <Frames>
+      <Frame>384, 0,64,64</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Idle_Right" Group="collision" Loop="True" SpriteSheet="LPC\Monsters\Dummy\COLLISION_animation" FrameDelay="150" Origin="0.5, 1.0" Layer="2">
     <Frames>
       <Frame>384, 0,64,64</Frame>
     </Frames>
@@ -35,7 +60,8 @@
   
   <!-- Spin Animation -->
 
-  <Animation State="Spin_Right" Group="Body" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\BODY_animation" FrameDelay="110" Origin="0.5, 0.9">
+  <!-- TODO: Specify Loop twice or something along those lines -->
+  <Animation State="Spin_Right" Group="Body" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\BODY_animation" FrameDelay="110" Origin="0.5, 1.0">
     <Frames>
       <Frame>384,0,64,64</Frame>
       <Frame>448,0,64,64</Frame>
@@ -51,7 +77,23 @@
     </Frames>
   </Animation>
 
-  <Animation State="Spin_Down" Group="Body" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\BODY_animation" FrameDelay="110" Origin="0.5, 0.9">
+  <Animation State="Spin_Right" Group="shadow" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\COLLISION_animation" FrameDelay="110" Origin="0.5, 1.0" Layer="2">
+    <Frames>
+      <Frame>384,0,64,64</Frame>
+      <Frame>448,0,64,64</Frame>
+      <Frame>0,0,64,64</Frame>
+      <Frame>64,0,64,64</Frame>
+      <Frame>128,0,64,64</Frame>
+      <Frame>192,0,64,64</Frame>
+      <Frame>256,0,64,64</Frame>
+      <Frame>320,0,64,64</Frame>
+      <Frame>384,0,64,64</Frame>
+      <Frame>448,0,64,64</Frame>
+      <Frame>0,0,64,64</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Spin_Down" Group="Body" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\BODY_animation" FrameDelay="110" Origin="0.5, 1.0">
     <Frames>
       <Frame>0,0,64,64</Frame>
       <Frame>64,0,64,64</Frame>
@@ -67,7 +109,23 @@
     </Frames>
   </Animation>
 
-  <Animation State="Spin_Left" Group="Body" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\BODY_animation" FrameDelay="110" Origin="0.5, 0.9">
+  <Animation State="Spin_Down" Group="collision" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\COLLISION_animation" FrameDelay="110" Origin="0.5, 1.0" Layer="2">
+    <Frames>
+      <Frame>0,0,64,64</Frame>
+      <Frame>64,0,64,64</Frame>
+      <Frame>128,0,64,64</Frame>
+      <Frame>192,0,64,64</Frame>
+      <Frame>256,0,64,64</Frame>
+      <Frame>320,0,64,64</Frame>
+      <Frame>384,0,64,64</Frame>
+      <Frame>448,0,64,64</Frame>
+      <Frame>0,0,64,64</Frame>
+      <Frame>64,0,64,64</Frame>
+      <Frame>128,0,64,64</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Spin_Left" Group="Body" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\BODY_animation" FrameDelay="110" Origin="0.5, 1.0">
     <Frames>
       <Frame>128,0,64,64</Frame>
       <Frame>192,0,64,64</Frame>
@@ -83,7 +141,39 @@
     </Frames>
   </Animation>
 
-  <Animation State="Spin_Up" Group="Body" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\BODY_animation" FrameDelay="110" Origin="0.5, 0.9">
+  <Animation State="Spin_Left" Group="collision" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\COLLISION_animation" FrameDelay="110" Origin="0.5, 1.0" Layer="2">
+    <Frames>
+      <Frame>128,0,64,64</Frame>
+      <Frame>192,0,64,64</Frame>
+      <Frame>256,0,64,64</Frame>
+      <Frame>320,0,64,64</Frame>
+      <Frame>384,0,64,64</Frame>
+      <Frame>448,0,64,64</Frame>
+      <Frame>0,0,64,64</Frame>
+      <Frame>64,0,64,64</Frame>
+      <Frame>128,0,64,64</Frame>
+      <Frame>192,0,64,64</Frame>
+      <Frame>256,0,64,64</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Spin_Up" Group="Body" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\BODY_animation" FrameDelay="110" Origin="0.5, 1.0">
+    <Frames>
+      <Frame>256,0,64,64</Frame>
+      <Frame>320,0,64,64</Frame>
+      <Frame>384,0,64,64</Frame>
+      <Frame>448,0,64,64</Frame>
+      <Frame>0,0,64,64</Frame>
+      <Frame>64,0,64,64</Frame>
+      <Frame>128,0,64,64</Frame>
+      <Frame>192,0,64,64</Frame>
+      <Frame>256,0,64,64</Frame>
+      <Frame>320,0,64,64</Frame>
+      <Frame>384,0,64,64</Frame>
+    </Frames>
+  </Animation>
+
+  <Animation State="Spin_Up" Group="collision" Loop="False" SpriteSheet ="LPC\Monsters\Dummy\COLLISION_animation" FrameDelay="110" Origin="0.5, 1.0" Layer="2">
     <Frames>
       <Frame>256,0,64,64</Frame>
       <Frame>320,0,64,64</Frame>
