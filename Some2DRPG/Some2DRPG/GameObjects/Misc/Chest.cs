@@ -4,10 +4,10 @@ using GameEngine.Drawing;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Characters;
-using Microsoft.Xna.Framework.Audio;
 
 namespace Some2DRPG.GameObjects.Misc
 {
@@ -38,7 +38,7 @@ namespace Some2DRPG.GameObjects.Misc
             KeyboardState keyboardState = Keyboard.GetState();
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.S, this, true)
-                && Entity.IntersectsWith(this, null, player, "Shadow", gameTime))
+                && Entity.IntersectsWith(this, "interaction", player, "Shadow", gameTime))
             {
                 if (CurrentDrawableState != "Open")
                 {

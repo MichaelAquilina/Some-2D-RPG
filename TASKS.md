@@ -29,6 +29,7 @@ Todo
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+- [Done] - Specify Interaction Region for the chest (in front of it).
 - [Done] - Change boundingbox back to a Rectangle - the slight loss in data should not be a huge deal and should increase performance by a lot.
 - [Done] - Fix bug in Animation class related to 'IsFinshed()'.
 - [Done] - IGameDrawables should perform Draw operations themselves? (Check Speed). This will allow for things like text to be drawn using TextDrawable class.
