@@ -122,15 +122,3 @@ Assets that were made for the [Liberated Pixel Cup](http://lpc.opengameart.org/)
 I may attempt to design/draw some pixel art myself in the future, but i have decided to currently focus on development 
 rather than the creative design aspects (including sound/music).
 
-Screenshots
------------
-
-*Please note that these screenshots are quite old now. I plan to update them as soon as possible to reflect the current
-changes that have been made. In the meanwhile, please go ahead and clone the repository and try it out yourself :)*
-
-<img src="Images/HighEntities.png" width="630" height="350"></img>
-<img src="Images/QuadTree.gif" width="630" height="350"></img>
-<img src="Images/GameProgress3.png" width="630" height="350"></img>
-<img src="Images/GameProgress2.png" width="630" height="350"></img>
-<img src="Images/GameProgress.png" width="630" height="350"></img>
-
