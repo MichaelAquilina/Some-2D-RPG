@@ -579,7 +579,7 @@
   <object gid="188" x="1139" y="103"/>
   <object gid="188" x="-10" y="1038"/>
   <object type="Some2DRPG.GameObjects.Creatures.CombatDummy" x="220" y="292"/>
-  <object name="BridgeGuard1" type="Some2DRPG.GameObjects.Characters.NPC" x="252" y="442">
+  <object name="BridgeGuard1" type="Some2DRPG.GameObjects.Characters.NPC" x="218" y="327">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
@@ -602,9 +602,9 @@
     <property name="Immovable" value="True"/>
    </properties>
   </object>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="183" y="247"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="109" y="358"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="151" y="463"/>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="256" y="285"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="228" y="421"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="120" y="431"/>
   <object name="TrainingGuard" type="Some2DRPG.GameObjects.Characters.NPC" x="116" y="560">
    <properties>

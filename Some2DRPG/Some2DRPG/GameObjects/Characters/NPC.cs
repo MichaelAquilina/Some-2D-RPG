@@ -22,11 +22,6 @@ namespace Some2DRPG.GameObjects.Characters
             this.Strength = 5;
         }
 
-        public void Attack(RPGEntity entity)
-        {
-            _target = entity;
-        }
-
         public bool IsAttacking(GameTime gameTime)
         {
             return CurrentDrawableState.Contains("Slash");
@@ -54,39 +49,56 @@ namespace Some2DRPG.GameObjects.Characters
         {
             if (_target != null && _target.HP <= 0) _target = null;
 
-            if (_target == null)
+            Rectangle agroRegion = new Rectangle(
+                (int)Math.Floor(Pos.X - _agroDistance),
+                (int)Math.Floor(Pos.Y - _agroDistance),
+                _agroDistance * 2,
+                _agroDistance * 2
+                );
+
+            // DETECT NEARBY ENTITIES AND PERFORM APPROPRAITE ACTIONS.
+            List<RPGEntity> nearbyEntities = engine.Collider.GetIntersectingEntites<RPGEntity>(agroRegion);
+            float currDistance = float.MaxValue;
+            int maxPriority = Int32.MinValue;
+
+            foreach (RPGEntity entity in nearbyEntities)
             {
-                Rectangle agroRegion = new Rectangle(
-                    (int)Math.Floor(Pos.X - _agroDistance),
-                    (int)Math.Floor(Pos.Y - _agroDistance),
-                    _agroDistance * 2,
-                    _agroDistance * 2
-                    );
-
-                // DETECT NEARBY ENTITIES AND PERFORM APPROPRAITE ACTIONS.
-                List<RPGEntity> nearbyEntities = engine.Collider.GetIntersectingEntites<RPGEntity>(agroRegion);
-                float minDistance = float.MaxValue;
-
-                foreach (RPGEntity entity in nearbyEntities)
+                if (entity.Faction != this.Faction)
                 {
-                    if (entity.Faction != this.Faction)
+                    float distance = Vector2.Distance(entity.Pos, Pos);
+
+                    if (entity.AttackPriority > maxPriority)
                     {
-                        float distance = Vector2.Distance(entity.Pos, Pos);
-                        if (distance < minDistance)
+                        currDistance = distance;
+                        maxPriority = entity.AttackPriority;
+                        _target = entity;
+                    }
+
+                    // Resolve equal priorities based on distance.
+                    if (entity.AttackPriority == maxPriority)
+                    {
+                        if (distance < currDistance)
                         {
-                            minDistance = distance;
-                            Attack(entity);
+                            currDistance = distance;
+                            _target = entity;
                         }
                     }
                 }
             }
-            else
+            
+            // If the NPC has been assigned a target.
+            if(_target != null)
             {
                 float distance = Vector2.Distance(_target.Pos, Pos);
-                if (distance > _attackDistance)
-                    Approach(_target.Pos);
+                if (distance > _agroDistance)
+                    _target = null;
                 else
-                    OnAttack(gameTime);
+                {
+                    if (distance > _attackDistance)
+                        Approach(_target.Pos);
+                    else
+                        OnAttack(gameTime);
+                }
             }
         }
 

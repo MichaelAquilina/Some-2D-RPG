@@ -41,6 +41,7 @@ namespace Some2DRPG.GameObjects.Creatures
 
         void Construct(float x, float y)
         {
+            this.AttackPriority = 3;
             this.BaseRace = CREATURES_BAT;
             this.Faction = "Creatures";
             this.Pos = new Vector2(x, y);
