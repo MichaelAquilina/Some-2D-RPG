@@ -59,7 +59,7 @@ namespace Some2DRPG.GameObjects.Characters
                 );
 
             // DETECT NEARBY ENTITIES AND PERFORM APPROPRAITE ACTIONS.
-            List<RPGEntity> nearbyEntities = engine.Collider.GetIntersectingEntites<RPGEntity>(agroRegion);
+            List<RPGEntity> nearbyEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(agroRegion);
             float currDistance = float.MaxValue;
             int maxPriority = Int32.MinValue;
 
@@ -111,7 +111,7 @@ namespace Some2DRPG.GameObjects.Characters
             // CHECK IF ANY ATTACK HITS WHERE MADE.
             if (IsAttacking(gameTime))
             {
-                List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntites<RPGEntity>(CurrentBoundingBox);
+                List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
                 foreach (RPGEntity entity in intersectingEntities)
                 {
                     if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)

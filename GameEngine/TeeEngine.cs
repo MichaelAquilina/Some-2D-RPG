@@ -218,7 +218,7 @@ namespace GameEngine
 
         public List<T> GetIntersectingEntities<T>(Rectangle region) where T :Entity
         {
-            return Collider.GetIntersectingEntites<T>(region);
+            return Collider.GetIntersectingEntities<T>(region);
         }
 
         public void AddEntity(Entity entity)
@@ -702,7 +702,7 @@ namespace GameEngine
             OverallPerformance.RestartTiming("TotalEntityRenderTime");
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, samplerState, null, null);
             {
-                EntitiesOnScreen = Collider.GetIntersectingEntites<Entity>(viewPortInfo.pxViewPortBounds);
+                EntitiesOnScreen = Collider.GetIntersectingEntities<Entity>(viewPortInfo.pxViewPortBounds);
 
                 // DRAW EACH ENTITIY THAT IS WITHIN THE SCREENS VIEWPORT
                 foreach (Entity entity in EntitiesOnScreen)

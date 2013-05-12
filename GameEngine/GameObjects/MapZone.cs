@@ -49,7 +49,7 @@ namespace GameEngine.GameObjects
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            List<Entity> entitiesHit = engine.Collider.GetIntersectingEntites<Entity>(this.CurrentBoundingBox);
+            List<Entity> entitiesHit = engine.Collider.GetIntersectingEntities<Entity>(this.CurrentBoundingBox);
 
             foreach (Entity entity in entitiesHit)
             {
