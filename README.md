@@ -47,11 +47,11 @@ The engine in development currently provides an interface to create top down 2D 
 Some current features found in the Engine include:
 * Composite Animation Support (Including loading from XML files)
 * Entity framework for Players, NPCs, Monsters, objects etc..
-* Input Extension Methods for quicker development (Currently only for the keyboard)
+* Extension Methods for quicker development (Parsing XML, Smart Reflection, Keyboard locking etc..)
 * Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting). *In its current state, these 
   are technically only post-effect shaders however i plan to support an interface for tile and pre entity shading*
-* Support for loading [Tiled](http://www.mapeditor.org/) map files. This also includes integration support for converting map objects into Entities. 
-* Efficient Collision Detection using a QuadTree implementation (see GIF below)
+* Large support for loading [Tiled](http://www.mapeditor.org/) map files. This also includes integration support for converting map objects into Entities. 
+* Efficient Collision Detection using a HashList OR QuadTree implementation. Ability to use your own data structure instead is also an option using the interface provided.
 * Adjustable viewports of the current Game state, including the ability to Scale.
 * Detailed Diagnostic information about engine performance that will allow easy detection of bottlenecks. (see *DebugInfo*)
     * Per Entity Render Time
@@ -63,18 +63,17 @@ Some current features found in the Engine include:
     * Total Game Shader Render Time
     * QuadTree Update Time
 * The ability to Zoom at any specified level when drawing the game world in a viewport
+* Ability to extend and create new Drawables using the Drawable framework provided.
 
 Some other features present outside the engine
 * 2D Light Shader
 * Customize character appearance (Hair, Gender, Armour, Weapon etc..)
 
 Some Future features that i aim to include:
-* Automatic Asset management (Loading/Unloading content when switching between maps and levels)
 * Animated Tiles
-* AI framework for Entities (Possibly pre-built Pathfinding techniques)
+* AI framework for Entities (Possibly pre-built Pathfinding techniques) (IN PROGRESS)
 * Inheritence in Animation files to reduce redundancy
 * Pause/Resume functionality
-* Map Scripts
 * Sound Management
 * Application to quickly specify and design animations from spritesheets
 
@@ -106,7 +105,7 @@ Debugging Tools:
 * F3: Enable/Disable Light Shader.
 * F4: 
 * F5: Show/Hide Tile Grid.
-* F6: Show/Hide Quad Tree.
+* F6: Show/Hide Collider.
 * F7: Show/Hide performance diagnostic information.
 * F8: Show/Hide Entity Debug Info.
 * F9:
