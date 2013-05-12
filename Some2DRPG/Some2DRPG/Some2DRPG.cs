@@ -332,7 +332,10 @@ namespace Some2DRPG
                     builder.AppendLine(Engine.OverallPerformance.ShowAll(false));
 
                     builder.AppendLine(Engine.EntityUpdatePerformance.Description);
-                    builder.AppendLine(Engine.EntityUpdatePerformance.ShowTop(5));
+                    builder.AppendLine(Engine.EntityUpdatePerformance.ShowTop(3));
+
+                    builder.AppendLine(Engine.UserPerformance.Description);
+                    builder.AppendLine(Engine.UserPerformance.ShowTop(3));
 
                     string textOutput = builder.ToString();
                     SpriteBatch.DrawString(DefaultSpriteFont, textOutput, new Vector2(0, WINDOW_HEIGHT - DefaultSpriteFont.MeasureString(textOutput).Y), Color.White);

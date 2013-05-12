@@ -106,40 +106,46 @@ namespace Some2DRPG.GameObjects.Characters
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
+            engine.UserPerformance.RestartTiming(string.Format("{0}-AI", Name));
             AggressiveAI(gameTime, engine);            
+            engine.UserPerformance.StopTiming(string.Format("{0}-AI", Name));
 
-            // CHECK IF ANY ATTACK HITS WHERE MADE.
+            // TODO: THis should ALL be moved to RPGEntity
             if (IsAttacking(gameTime))
             {
-                List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
-                foreach (RPGEntity entity in intersectingEntities)
+                // Attack Complete Check.
+                if (Drawables.IsStateFinished(CurrentDrawableState, gameTime))
                 {
-                    if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)
+                    CurrentDrawableState = "Idle_" + Direction;
+                    _hitEntityList.Clear();
+                }
+                else
+                {
+                    List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
+                    foreach (RPGEntity entity in intersectingEntities)
                     {
-                        _hitEntityList.Add(entity);
-                        entity.OnHit(this, RollForDamage(), gameTime, engine);
+                        if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)
+                        {
+                            _hitEntityList.Add(entity);
+                            entity.OnHit(this, RollForDamage(), gameTime, engine);
+                        }
                     }
                 }
             }
-
-            // UPDATE CURRENT STATE OF NPC.
-            if (IsAttacking(gameTime) && Drawables.IsStateFinished(CurrentDrawableState, gameTime))
+            else
             {
-                CurrentDrawableState = "Idle_" + Direction;
-                _hitEntityList.Clear();
-            }
+                if (prevPos != Pos)
+                {
+                    Vector2 difference = Pos - prevPos;
+                    if (Math.Abs(difference.X) > Math.Abs(difference.Y))
+                        Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
+                    else
+                        Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
 
-            if (prevPos != Pos)
-            {
-                Vector2 difference = Pos - prevPos;
-                if (Math.Abs(difference.X) > Math.Abs(difference.Y))
-                    Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
-                else
-                    Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
-
-                CurrentDrawableState = "Walk_" + Direction;
+                    CurrentDrawableState = "Walk_" + Direction;
+                }
+                else CurrentDrawableState = "Idle_" + Direction;
             }
-            else if(!IsAttacking(gameTime)) CurrentDrawableState = "Idle_" + Direction;
 
             base.Update(gameTime, engine);
         }

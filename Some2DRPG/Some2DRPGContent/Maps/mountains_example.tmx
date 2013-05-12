@@ -601,10 +601,10 @@
     <property name="Faction" value="Allies"/>
    </properties>
   </object>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="109" y="358"/>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="151" y="463"/>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="228" y="421"/>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="120" y="431"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="41" y="849"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="74" y="886"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="179" y="829"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="121" y="867"/>
   <object name="TrainingGuard" type="Some2DRPG.GameObjects.Characters.NPC" x="116" y="560">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>

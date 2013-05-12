@@ -93,6 +93,12 @@ namespace GameEngine
         public DiagnosticInfo EntityRenderPerformance { get; private set; }
 
         /// <summary>
+        /// Diagnostic Information that can be set by the User to test and inform the engine
+        /// how long certain portions of their code are taking.
+        /// </summary>
+        public DiagnosticInfo UserPerformance { get; private set; }
+
+        /// <summary>
         /// Class that allows the user to specify the settings for numerous drawing options.
         /// </summary>
         public DrawingOptions DrawingOptions { get; private set; }
@@ -144,6 +150,7 @@ namespace GameEngine
             OverallPerformance = new DiagnosticInfo("Overall Game Performance");
             EntityUpdatePerformance = new DiagnosticInfo("Individual Entity Update Performance");
             EntityRenderPerformance = new DiagnosticInfo("Individual Entity Render Performance");
+            UserPerformance = new DiagnosticInfo("User Performance");
 
             SetResolution(pixelWidth, pixelHeight);
             game.Components.Add(this);
