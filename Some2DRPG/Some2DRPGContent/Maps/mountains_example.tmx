@@ -590,7 +590,7 @@
     <property name="Faction" value="Allies"/>
    </properties>
   </object>
-  <object name="BridgeGuard2" type="Some2DRPG.GameObjects.RPGEntity" x="253" y="533">
+  <object name="BridgeGuard2" type="Some2DRPG.GameObjects.Characters.NPC" x="253" y="533">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
@@ -599,7 +599,6 @@
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Allies"/>
-    <property name="Immovable" value="True"/>
    </properties>
   </object>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="109" y="358"/>
