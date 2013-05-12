@@ -35,6 +35,13 @@ namespace Some2DRPG.GameObjects
 
         public string BaseRace { get; set; }
 
+        /// <summary>
+        /// The priority givent to attack this entity by other rivalling
+        /// RPG Entities. The higher the value assigned, the more likely
+        /// this Entity will be attacked first.
+        /// </summary>
+        public int AttackPriority { get; set; } 
+
         #region Attributes
 
         public int HP { get; set; }
