@@ -97,7 +97,17 @@ namespace Some2DRPG.GameObjects.Characters
                     if (distance > _attackDistance)
                         Approach(_target.Pos);
                     else
+                    {
                         OnAttack(gameTime);
+
+                        Vector2 difference = _target.Pos - Pos;
+                        difference.Normalize();
+
+                        if (Math.Abs(difference.X) > Math.Abs(difference.Y))
+                            Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
+                        else
+                            Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
+                    }
                 }
             }
         }
