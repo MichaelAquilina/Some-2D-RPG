@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Hero movement code (and a lot others) should be based on RPGEntity code. Move code from Hero and NPC to RPGEntity.
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
 - [IP] - Collision detection between entities.
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
@@ -11,8 +12,9 @@ Todo
 - [] - Move NPC Hit Code/Hero Hit code to RPGEntity since the mechanics behind it should be the same for all RPGEntities on the map.
      - need some way to abstract the concept of IsAttacking, IsReadyFromAttacking etc..
 - [] - GUI controls:
-        - NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
-        - NeoForce: http://neoforce.codeplex.com/
+		- Take a look at behindcurtain3 ui code.
+		- NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
+		- NeoForce: http://neoforce.codeplex.com/
 - [] - Refactor naming in LPC content.
 - [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
 - [] - Refactoring of the Pathfinding namespace.

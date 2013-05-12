@@ -78,7 +78,7 @@ namespace Some2DRPG.GameObjects.Characters
             float prevY = Pos.Y;
 
             Tile prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
-            float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
+            float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);   // TODO: This should be moved to CollidableEntity.
 
             // TODO: Improve, we are retrieving this twice because it is called again in the CollidableEntity loop.
             List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
@@ -124,6 +124,7 @@ namespace Some2DRPG.GameObjects.Characters
                     }
 
                     // MOVEMENT BASED KEYBOARD EVENTS.
+                    // TODO: These should be approach functions.
                     if (keyboardState.IsKeyDown(Keys.Up))
                     {
                         CurrentDrawableState = "Walk_Up";

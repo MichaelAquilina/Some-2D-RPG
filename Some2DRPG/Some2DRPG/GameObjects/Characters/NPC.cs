@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using GameEngine;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
-using GameEngine.Pathfinding;
 
 namespace Some2DRPG.GameObjects.Characters
 {
@@ -58,7 +57,7 @@ namespace Some2DRPG.GameObjects.Characters
                 _agroDistance * 2
                 );
 
-            // DETECT NEARBY ENTITIES AND PERFORM APPROPRAITE ACTIONS.
+            // DETECT NEARBY ENTITIES AND DETERMINE A TARGET.
             List<RPGEntity> nearbyEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(agroRegion);
             float currDistance = float.MaxValue;
             int maxPriority = Int32.MinValue;

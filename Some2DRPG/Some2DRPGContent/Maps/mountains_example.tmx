@@ -603,7 +603,7 @@
   </object>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="41" y="849"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="74" y="886"/>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="179" y="829"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="162" y="462"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="121" y="867"/>
   <object name="TrainingGuard" type="Some2DRPG.GameObjects.Characters.NPC" x="116" y="560">
    <properties>
