@@ -42,7 +42,7 @@ namespace Some2DRPG.GameObjects.Characters
             Strength = 10;
             AttackPriority = 5;
 
-            Faction = "Bandits";
+            Faction = "Allies";
             CollisionDetection = true;
             LightSource = new LightSource();
             LightSource.Width = 32 * 8;

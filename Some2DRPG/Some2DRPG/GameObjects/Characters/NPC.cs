@@ -10,6 +10,8 @@ namespace Some2DRPG.GameObjects.Characters
     // Could possibly be renamed to AiRpgEntity if is generic enough.
     public class NPC : RPGEntity
     {
+        double _lastAttack = 0;
+        double _attackDelay = 1500;
         float _moveSpeed = 1.2f;
         float _attackDistance = 40f;
         int _agroDistance = 200;
@@ -29,8 +31,10 @@ namespace Some2DRPG.GameObjects.Characters
 
         public void OnAttack(GameTime gameTime)
         {
-            if(!IsAttacking(gameTime))
+            if(!IsAttacking(gameTime) && gameTime.TotalGameTime.TotalMilliseconds - _lastAttack > _attackDelay)
             {
+                _lastAttack = gameTime.TotalGameTime.TotalMilliseconds;
+
                 CurrentDrawableState = "Slash_" + Direction;
                 Drawables.ResetState(CurrentDrawableState, gameTime);
             }
@@ -47,8 +51,6 @@ namespace Some2DRPG.GameObjects.Characters
 
         public void AggressiveAI(GameTime gameTime, TeeEngine engine)
         {
-            if (_target != null && _target.HP <= 0) _target = null;
-
             Rectangle agroRegion = new Rectangle(
                 (int)Math.Floor(Pos.X - _agroDistance),
                 (int)Math.Floor(Pos.Y - _agroDistance),
@@ -63,25 +65,16 @@ namespace Some2DRPG.GameObjects.Characters
 
             foreach (RPGEntity entity in nearbyEntities)
             {
-                if (entity.Faction != this.Faction)
+                if (entity.Faction != this.Faction && entity.HP > 0)
                 {
                     float distance = Vector2.Distance(entity.Pos, Pos);
 
-                    if (entity.AttackPriority > maxPriority)
+                    if (entity.AttackPriority > maxPriority ||
+                        (entity.AttackPriority == maxPriority && distance < currDistance))
                     {
                         currDistance = distance;
                         maxPriority = entity.AttackPriority;
                         _target = entity;
-                    }
-
-                    // Resolve equal priorities based on distance.
-                    if (entity.AttackPriority == maxPriority)
-                    {
-                        if (distance < currDistance)
-                        {
-                            currDistance = distance;
-                            _target = entity;
-                        }
                     }
                 }
             }
@@ -90,7 +83,7 @@ namespace Some2DRPG.GameObjects.Characters
             if(_target != null)
             {
                 float distance = Vector2.Distance(_target.Pos, Pos);
-                if (distance > _agroDistance)
+                if (distance > _agroDistance || _target.HP <=0 )
                     _target = null;
                 else
                 {
@@ -101,7 +94,6 @@ namespace Some2DRPG.GameObjects.Characters
                         OnAttack(gameTime);
 
                         Vector2 difference = _target.Pos - Pos;
-                        difference.Normalize();
 
                         if (Math.Abs(difference.X) > Math.Abs(difference.Y))
                             Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
@@ -147,6 +139,7 @@ namespace Some2DRPG.GameObjects.Characters
 
                 CurrentDrawableState = "Walk_" + Direction;
             }
+            else if(!IsAttacking(gameTime)) CurrentDrawableState = "Idle_" + Direction;
 
             base.Update(gameTime, engine);
         }
