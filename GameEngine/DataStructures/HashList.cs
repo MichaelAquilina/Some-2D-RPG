@@ -74,13 +74,17 @@ namespace GameEngine.DataStructures
             Remove(entity.CurrentBoundingBox, entity);
         }
 
-        public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
+        public List<T> GetIntersectingEntites<T>(Rectangle pxRegion) where T : Entity
         {
-            List<Entity> result = new List<Entity>();
+            List<T> result = new List<T>();
             foreach (List<Entity> entities in GetHashList(pxRegion))
                 foreach (Entity entity in entities)
-                    if (!result.Contains(entity))
-                        result.Add(entity);
+                    if (entity is T)
+                    {
+                        T subEntity = (T)entity;
+                        if(!result.Contains(subEntity))
+                            result.Add(subEntity);
+                    }
 
             return result;
         }

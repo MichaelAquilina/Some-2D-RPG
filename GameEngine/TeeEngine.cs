@@ -216,9 +216,9 @@ namespace GameEngine
 
         #region Entity Related Functions
 
-        public List<Entity> GetIntersectingEntities(Rectangle region)
+        public List<T> GetIntersectingEntities<T>(Rectangle region) where T :Entity
         {
-            return Collider.GetIntersectingEntites(region);
+            return Collider.GetIntersectingEntites<T>(region);
         }
 
         public void AddEntity(Entity entity)
@@ -702,7 +702,7 @@ namespace GameEngine
             OverallPerformance.RestartTiming("TotalEntityRenderTime");
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, samplerState, null, null);
             {
-                EntitiesOnScreen = Collider.GetIntersectingEntites(viewPortInfo.pxViewPortBounds);
+                EntitiesOnScreen = Collider.GetIntersectingEntites<Entity>(viewPortInfo.pxViewPortBounds);
 
                 // DRAW EACH ENTITIY THAT IS WITHIN THE SCREENS VIEWPORT
                 foreach (Entity entity in EntitiesOnScreen)

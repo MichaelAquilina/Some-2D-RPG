@@ -20,6 +20,7 @@ namespace Some2DRPG.GameObjects.Creatures
 
         void Construct()
         {
+            this.HP = 2000;
             this.BaseRace = RPGEntity.CREATURES_DUMMY;
             this.Direction = Direction.Right;
             this.CollisionGroup = "collision";

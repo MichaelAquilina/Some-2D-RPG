@@ -80,22 +80,17 @@ namespace Some2DRPG.GameObjects.Characters
             float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);
 
             // TODO: Improve, we are retrieving this twice because it is called again in the CollidableEntity loop.
-            List<Entity> intersectingEntities = engine.Collider.GetIntersectingEntites(CurrentBoundingBox);
+            List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntites<RPGEntity>(CurrentBoundingBox);
 
             if (CurrentDrawableState.Contains("Slash") 
                 && !Drawables.IsStateFinished(CurrentDrawableState, gameTime))
             {
-                foreach (Entity entity in intersectingEntities)
+                foreach (RPGEntity entity in intersectingEntities)
                 {
-                    if (this != entity && entity is RPGEntity && !_hitEntityList.Contains(entity))
+                    if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)
                     {
-                        RPGEntity rpgEntity = (RPGEntity)entity;
-                        if (rpgEntity.Faction != this.Faction)
-                        {
-                            _hitEntityList.Add(rpgEntity);
-
-                            rpgEntity.OnHit(this, RollForDamage(), gameTime, engine);
-                        }
+                        _hitEntityList.Add(entity);
+                        entity.OnHit(this, RollForDamage(), gameTime, engine);
                     }
                 }
             }

@@ -38,10 +38,9 @@ namespace Some2DRPG.MapScripts
         {
             caller.Opacity = 1.0f;
 
-            foreach (Entity entity in engine.Collider.GetIntersectingEntites(caller.CurrentBoundingBox))
+            foreach (RPGEntity entity in engine.Collider.GetIntersectingEntites<RPGEntity>(caller.CurrentBoundingBox))
             {
                 if (entity != caller
-                    && entity is RPGEntity
                     && caller.Pos.Y > entity.Pos.Y
                     && entity.CurrentBoundingBox.Intersects(caller.CurrentBoundingBox))
                 {

@@ -191,22 +191,26 @@ namespace GameEngine.DataStructures
             if (pxBoundingBox == null || ChildNode4.Intersects(pxBoundingBox.Value)) ChildNode4.GetAssociatedNodes(entity, pxBoundingBox, ref result);
         }
 
-        internal void GetEntities(Rectangle? pxRegion, ref List<Entity> result)
+        internal void GetEntities<T>(Rectangle? pxRegion, ref List<T> result) where T : Entity
         {
             if (Entities.Count > 0)
             {
                 foreach (Entity entity in Entities)
-                    if (!result.Contains(entity))           // TODO: This needs to be removed. It is slow and should not be here
-                        result.Add(entity);
+                    if (entity is T)
+                    {
+                        T subEntity = (T)entity;
+                        if(!result.Contains(subEntity))           // TODO: This needs to be removed. It is slow and should not be here
+                            result.Add(subEntity);
+                    }
             }
             else
             {
                 if (IsLeafNode) return;
 
-                if (pxRegion == null || ChildNode1.Intersects(pxRegion.Value)) ChildNode1.GetEntities(pxRegion, ref result);
-                if (pxRegion == null || ChildNode2.Intersects(pxRegion.Value)) ChildNode2.GetEntities(pxRegion, ref result);
-                if (pxRegion == null || ChildNode3.Intersects(pxRegion.Value)) ChildNode3.GetEntities(pxRegion, ref result);
-                if (pxRegion == null || ChildNode4.Intersects(pxRegion.Value)) ChildNode4.GetEntities(pxRegion, ref result);
+                if (pxRegion == null || ChildNode1.Intersects(pxRegion.Value)) ChildNode1.GetEntities<T>(pxRegion, ref result);
+                if (pxRegion == null || ChildNode2.Intersects(pxRegion.Value)) ChildNode2.GetEntities<T>(pxRegion, ref result);
+                if (pxRegion == null || ChildNode3.Intersects(pxRegion.Value)) ChildNode3.GetEntities<T>(pxRegion, ref result);
+                if (pxRegion == null || ChildNode4.Intersects(pxRegion.Value)) ChildNode4.GetEntities<T>(pxRegion, ref result);
             }
         }
 

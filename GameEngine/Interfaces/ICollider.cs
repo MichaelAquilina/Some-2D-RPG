@@ -22,7 +22,7 @@ namespace GameEngine.Interfaces
 
         void Add(Entity entity);
 
-        List<Entity> GetIntersectingEntites(Rectangle pxRegion);
+        List<T> GetIntersectingEntites<T>(Rectangle pxRegion) where T : Entity;
 
         // TODO: This signature can be simplified.
         void DrawDebugInfo(ViewPortInfo viewPort,

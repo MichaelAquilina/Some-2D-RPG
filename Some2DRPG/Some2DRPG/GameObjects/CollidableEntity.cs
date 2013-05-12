@@ -18,6 +18,8 @@ namespace Some2DRPG.GameObjects
         // The property to search for in Tiles to check if it is considered Impassable.
         public static string ImpassableTerrainProperty = "Impassable";
 
+        public List<CollidableEntity> IntersectingEntities { get; internal set; }
+
         // Boolean flags to enable or disable Terrain Collisions and Entity Collision
         public bool TerrainCollisionEnabled { get; set; }
         public bool EntityCollisionEnabled { get; set; }
@@ -28,7 +30,7 @@ namespace Some2DRPG.GameObjects
         // Boolean flag specifying if this object should not be movable when performing collision response.
         public bool Immovable { get; set; }
 
-        Vector2 _prevPos = Vector2.Zero;
+        public Vector2 prevPos = Vector2.Zero;
         Tile _prevTile = null;
 
         public CollidableEntity()
@@ -76,10 +78,10 @@ namespace Some2DRPG.GameObjects
                 string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 string[] exitPoints = _prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                bool top = _prevPos.Y < pxTileY;
-                bool bottom = _prevPos.Y > pxTileY + pxTileHeight;
-                bool left = _prevPos.X < pxTileX;
-                bool right = _prevPos.X > pxTileX + pxTileWidth;
+                bool top = prevPos.Y < pxTileY;
+                bool bottom = prevPos.Y > pxTileY + pxTileHeight;
+                bool left = prevPos.X < pxTileX;
+                bool right = prevPos.X > pxTileX + pxTileWidth;
 
                 // Ensure entry points.
                 impassable |= top && !ContainsItem(entryPoints, "Top");
@@ -98,51 +100,47 @@ namespace Some2DRPG.GameObjects
                 float padding = 0.001f;
                 if (impassable)
                 {
-                    if (_prevPos.Y <= pxTileY && Pos.Y > pxTileY)
+                    if (prevPos.Y <= pxTileY && Pos.Y > pxTileY)
                         Pos.Y = pxTileY - padding;
                     else
-                        if (_prevPos.Y >= pxTileY + pxTileHeight && Pos.Y < pxTileY + pxTileHeight)
+                        if (prevPos.Y >= pxTileY + pxTileHeight && Pos.Y < pxTileY + pxTileHeight)
                             Pos.Y = pxTileY + pxTileHeight + padding;
 
-                    if (_prevPos.X <= pxTileX && Pos.X > pxTileX)
+                    if (prevPos.X <= pxTileX && Pos.X > pxTileX)
                         Pos.X = pxTileX - padding;
                     else
-                        if (_prevPos.X >= pxTileX + pxTileWidth && Pos.X < pxTileX + pxTileWidth)
+                        if (prevPos.X >= pxTileX + pxTileWidth && Pos.X < pxTileX + pxTileWidth)
                             Pos.X = pxTileX + pxTileWidth + padding;
                 }
             }
 
-            _prevPos = Pos;
+            prevPos = Pos;
             _prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
 
             if (EntityCollisionEnabled)
             {
-                List<Entity> intersectingEntities = engine.GetIntersectingEntities(CurrentBoundingBox);
-                foreach (Entity entity in intersectingEntities)
+                IntersectingEntities = engine.GetIntersectingEntities<CollidableEntity>(CurrentBoundingBox);
+                foreach (CollidableEntity entity in IntersectingEntities)
                 {
-                    if (entity != this && entity is CollidableEntity)
+                    if (entity != this
+                        && entity.EntityCollisionEnabled
+                        && Entity.IntersectsWith(
+                                this, this.CollisionGroup, 
+                                entity, entity.CollisionGroup, 
+                                gameTime)
+                        )
                     {
-                        CollidableEntity collidableEntity = (CollidableEntity)entity;
-
-                        if (collidableEntity.EntityCollisionEnabled
-                            && Entity.IntersectsWith(
-                                    this, this.CollisionGroup, 
-                                    collidableEntity, collidableEntity.CollisionGroup, 
-                                    gameTime)
-                            )
+                        // Naive Collision Response.
+                        Vector2 difference = entity.Pos - this.Pos;
+                        if (difference.Length() > 0)
                         {
-                            // Naive Collision Response.
-                            Vector2 difference = entity.Pos - this.Pos;
-                            if (difference.Length() > 0)
-                            {
-                                difference.Normalize();
+                            difference.Normalize();
 
-                                if (!collidableEntity.Immovable)
-                                    collidableEntity.Pos += difference;
+                            if (!entity.Immovable)
+                                entity.Pos += difference;
 
-                                if (!this.Immovable)
-                                    this.Pos -= difference;
-                            }
+                            if (!this.Immovable)
+                                this.Pos -= difference;
                         }
                     }
                 }

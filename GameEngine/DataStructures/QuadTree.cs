@@ -77,10 +77,10 @@ namespace GameEngine.DataStructures
                 Add(entity);
         }
 
-        public List<Entity> GetIntersectingEntites(Rectangle pxRegion)
+        public List<T> GetIntersectingEntites<T>(Rectangle pxRegion) where T : Entity
         {
-            List<Entity> result = new List<Entity>();
-            Root.GetEntities(pxRegion, ref result);
+            List<T> result = new List<T>();
+            Root.GetEntities<T>(pxRegion, ref result);
 
             return result;
         }
