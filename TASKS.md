@@ -8,8 +8,6 @@ Todo
 - [IP] - Collision detection between entities.
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
 		 - Some forms of physics to allow proper reaction would be better.
-- [] - Move NPC Hit Code/Hero Hit code to RPGEntity since the mechanics behind it should be the same for all RPGEntities on the map.
-     - need some way to abstract the concept of IsAttacking, IsReadyFromAttacking etc..
 - [] - GUI controls:
 		- Take a look at behindcurtain3 ui code.
 		- NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
@@ -25,7 +23,6 @@ Todo
 	- [] - Refactoring of the xsd. Animations->Drawables. <DrawableInstance><Animation>...</Animation></DrawableInstance> etc..
 	- [] - Change all .anim file extensions to .draw extensions
 	- [] - Remember that refactoring will break other peoples code so we need some way of transitioning this.
-- [] - To Consider. Allow for specifying an Entity does not need to be added to the Collider (Example LightSource does not need to be added).
 - [] - Write some unit tests.
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.

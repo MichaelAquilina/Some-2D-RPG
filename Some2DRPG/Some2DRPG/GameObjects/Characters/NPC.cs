@@ -10,34 +10,28 @@ namespace Some2DRPG.GameObjects.Characters
     // Could possibly be renamed to AiRpgEntity if is generic enough.
     public class NPC : RPGEntity
     {
-        float _moveSpeed = 1.2f;
-        float _attackDistance = 40f;
-        int _agroDistance = 200;
-        RPGEntity _target;
         double _attackDelay = 1500;
         double _lastAttack = 0;
+
+        float _attackDistance = 40f;
+        float _agroDistance = 200;
+        RPGEntity _target;
 
         public NPC()
         {
             this.Strength = 5;
+            this.CollisionGroup = "Shadow";
         }
 
-        public void Approach(Vector2 target)
-        {
-            Vector2 difference = target - this.Pos;
-            difference.Normalize();
-
-            this.Pos.X += _moveSpeed * difference.X;
-            this.Pos.Y += _moveSpeed * difference.Y;
-        }
+        #region AI Methods
 
         public void AggressiveAI(GameTime gameTime, TeeEngine engine)
         {
             Rectangle agroRegion = new Rectangle(
                 (int)Math.Floor(Pos.X - _agroDistance),
                 (int)Math.Floor(Pos.Y - _agroDistance),
-                _agroDistance * 2,
-                _agroDistance * 2
+                (int)Math.Ceiling(_agroDistance * 2),
+                (int)Math.Ceiling(_agroDistance * 2)
                 );
 
             // DETECT NEARBY ENTITIES AND DETERMINE A TARGET.
@@ -64,7 +58,7 @@ namespace Some2DRPG.GameObjects.Characters
             }
             
             // If the NPC has been assigned a target.
-            if(_target != null)
+            if(_target != null && !IsAttacking(gameTime))
             {
                 float distance = Vector2.Distance(_target.Pos, Pos);
                 if (distance > _agroDistance || _target.HP <=0 )
@@ -88,6 +82,15 @@ namespace Some2DRPG.GameObjects.Characters
             }
         }
 
+        #endregion
+
+        #region Interaction Methods
+
+        public override bool IsFinishedAttacking(GameTime gameTime)
+        {
+            return Drawables.IsStateFinished(CurrentDrawableState, gameTime);
+        }
+
         public override bool IsAttacking(GameTime gameTime)
         {
             return CurrentDrawableState.Contains("Slash");
@@ -109,12 +112,22 @@ namespace Some2DRPG.GameObjects.Characters
             SpeechBubble speech = new SpeechBubble(this, "Hello there Adventurer! Whats you're name?");
 
             engine.AddEntity(speech);
+
+            Vector2 distance = this.Pos - sender.Pos;
+            if (distance.X > distance.Y)
+                Direction = (distance.X > 0) ? Direction.Left : Direction.Right;
+            else
+                Direction = (distance.Y > 0) ? Direction.Up : Direction.Down;
         }
+
+        #endregion
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
             engine.UserPerformance.RestartTiming(string.Format("{0}-AI", Name));
+
             AggressiveAI(gameTime, engine);            
+            
             engine.UserPerformance.StopTiming(string.Format("{0}-AI", Name));
 
             base.Update(gameTime, engine);
