@@ -45,6 +45,7 @@ namespace Some2DRPG.GameObjects
         #region Private/Internal members
 
         List<Entity> _hitEntityList = new List<Entity>();
+        float _moveSpeed = 1.2f;
 
         #endregion
 
@@ -93,7 +94,7 @@ namespace Some2DRPG.GameObjects
             this.Pos = new Vector2(x, y);
             this.ScaleX = 1.0f;
             this.ScaleY = 1.0f;
-            this.CollisionGroup = "Shadow";
+            this.CollisionGroup = null;
             this.Backpack = new List<Item>();
             this.Equiped = new Dictionary<ItemType, Item>();
             this.BaseRace = baseRace;
@@ -109,6 +110,19 @@ namespace Some2DRPG.GameObjects
             CurrentDrawableState = "Idle_" + Direction;
         }
 
+        #region Helper Methods
+
+        public void Approach(Vector2 target)
+        {
+            Vector2 difference = target - this.Pos;
+            difference.Normalize();
+
+            this.Pos.X += _moveSpeed * difference.X;
+            this.Pos.Y += _moveSpeed * difference.Y;
+        }
+
+        #endregion
+
         #region Interaction Methods
 
         public virtual bool IsAttacking(GameTime gameTime)
@@ -117,6 +131,21 @@ namespace Some2DRPG.GameObjects
         }
 
         public virtual void OnAttack(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual bool IsFinishedAttacking(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Method called when the RPG Entity has been interacted with through some medium by
+        /// another Entity object residing within the same engine. Override this method in
+        /// order to allow interactions to occur with this entity.
+        /// </summary>
+        public virtual void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
         {
             throw new NotImplementedException();
         }
@@ -135,16 +164,6 @@ namespace Some2DRPG.GameObjects
             text.Pos.Y -= CurrentBoundingBox.Height;
 
             engine.AddEntity(text);
-        }
-
-        /// <summary>
-        /// Method called when the RPG Entity has been interacted with through some medium by
-        /// another Entity object residing within the same engine. Override this method in
-        /// order to allow interactions to occur with this entity.
-        /// </summary>
-        public virtual void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
-        {
-            // Implement this in the subclass.
         }
 
         #endregion
@@ -199,11 +218,9 @@ namespace Some2DRPG.GameObjects
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            // TODO: THis should ALL be moved to RPGEntity
             if (IsAttacking(gameTime))
             {
-                // Attack Complete Check.
-                if (Drawables.IsStateFinished(CurrentDrawableState, gameTime))
+                if (IsFinishedAttacking(gameTime))
                 {
                     CurrentDrawableState = "Idle_" + Direction;
                     _hitEntityList.Clear();

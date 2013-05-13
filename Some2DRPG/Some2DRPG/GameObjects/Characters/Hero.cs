@@ -42,6 +42,7 @@ namespace Some2DRPG.GameObjects.Characters
             AttackPriority = 5;
 
             Faction = "Allies";
+            CollisionGroup = "Shadow";
             CollisionDetection = true;
             LightSource = new LightSource();
             LightSource.Width = 32 * 8;
@@ -82,6 +83,11 @@ namespace Some2DRPG.GameObjects.Characters
                 }
 
             }
+        }
+
+        public override bool IsFinishedAttacking(GameTime gameTime)
+        {
+            return Drawables.IsStateFinished(CurrentDrawableState, gameTime);
         }
 
         public override bool IsAttacking(GameTime gameTime)
