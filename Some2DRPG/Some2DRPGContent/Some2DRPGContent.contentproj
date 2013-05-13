@@ -653,6 +653,7 @@
     <Content Include="Maps\cave_example.tmx">
       <Name>cave_example</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
   <ItemGroup>

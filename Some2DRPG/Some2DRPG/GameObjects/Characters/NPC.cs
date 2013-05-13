@@ -9,34 +9,16 @@ namespace Some2DRPG.GameObjects.Characters
     // Could possibly be renamed to AiRpgEntity if is generic enough.
     public class NPC : RPGEntity
     {
-        double _lastAttack = 0;
-        double _attackDelay = 1500;
         float _moveSpeed = 1.2f;
         float _attackDistance = 40f;
         int _agroDistance = 200;
         RPGEntity _target;
-
-        List<Entity> _hitEntityList = new List<Entity>();
+        double _attackDelay = 1500;
+        double _lastAttack = 0;
 
         public NPC()
         {
             this.Strength = 5;
-        }
-
-        public bool IsAttacking(GameTime gameTime)
-        {
-            return CurrentDrawableState.Contains("Slash");
-        }
-
-        public void OnAttack(GameTime gameTime)
-        {
-            if(!IsAttacking(gameTime) && gameTime.TotalGameTime.TotalMilliseconds - _lastAttack > _attackDelay)
-            {
-                _lastAttack = gameTime.TotalGameTime.TotalMilliseconds;
-
-                CurrentDrawableState = "Slash_" + Direction;
-                Drawables.ResetState(CurrentDrawableState, gameTime);
-            }
         }
 
         public void Approach(Vector2 target)
@@ -105,48 +87,27 @@ namespace Some2DRPG.GameObjects.Characters
             }
         }
 
+        public override bool IsAttacking(GameTime gameTime)
+        {
+            return CurrentDrawableState.Contains("Slash");
+        }
+
+        public override void OnAttack(GameTime gameTime)
+        {
+            if (!IsAttacking(gameTime) && gameTime.TotalGameTime.TotalMilliseconds - _lastAttack > _attackDelay)
+            {
+                _lastAttack = gameTime.TotalGameTime.TotalMilliseconds;
+
+                CurrentDrawableState = "Slash_" + Direction;
+                Drawables.ResetState(CurrentDrawableState, gameTime);
+            }
+        }
+
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
             engine.UserPerformance.RestartTiming(string.Format("{0}-AI", Name));
             AggressiveAI(gameTime, engine);            
             engine.UserPerformance.StopTiming(string.Format("{0}-AI", Name));
-
-            // TODO: THis should ALL be moved to RPGEntity
-            if (IsAttacking(gameTime))
-            {
-                // Attack Complete Check.
-                if (Drawables.IsStateFinished(CurrentDrawableState, gameTime))
-                {
-                    CurrentDrawableState = "Idle_" + Direction;
-                    _hitEntityList.Clear();
-                }
-                else
-                {
-                    List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
-                    foreach (RPGEntity entity in intersectingEntities)
-                    {
-                        if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)
-                        {
-                            _hitEntityList.Add(entity);
-                            entity.OnHit(this, RollForDamage(), gameTime, engine);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (prevPos != Pos)
-                {
-                    Vector2 difference = Pos - prevPos;
-                    if (Math.Abs(difference.X) > Math.Abs(difference.Y))
-                        Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
-                    else
-                        Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
-
-                    CurrentDrawableState = "Walk_" + Direction;
-                }
-                else CurrentDrawableState = "Idle_" + Direction;
-            }
 
             base.Update(gameTime, engine);
         }

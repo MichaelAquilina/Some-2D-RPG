@@ -4,7 +4,6 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - Hero movement code (and a lot others) should be based on RPGEntity code. Move code from Hero and NPC to RPGEntity.
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
 - [IP] - Collision detection between entities.
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
@@ -31,6 +30,7 @@ Todo
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+- [Done] - Hero movement code (and a lot others) should be based on RPGEntity code. Move code from Hero and NPC to RPGEntity.
 - [Done] - Specify Interaction Region for the chest (in front of it).
 - [Done] - Change boundingbox back to a Rectangle - the slight loss in data should not be a huge deal and should increase performance by a lot.
 - [Done] - Fix bug in Animation class related to 'IsFinshed()'.

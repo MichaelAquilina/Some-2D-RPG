@@ -2,7 +2,6 @@
 using GameEngine;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
-using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
@@ -69,105 +68,77 @@ namespace Some2DRPG.GameObjects.Characters
             base.LoadContent(content);
         }
 
+        public void PerformInteraction(GameTime gameTime, TeeEngine engine)
+        {
+            foreach (CollidableEntity entity in IntersectingEntities)
+            {
+                if (entity != this
+                    && entity is RPGEntity
+                    && Entity.IntersectsWith(this, null, entity, null, gameTime))
+                {
+                    RPGEntity rpgEntity = (RPGEntity)entity;
+                    if (rpgEntity.Faction == this.Faction)
+                        rpgEntity.OnInteract(this, gameTime, engine);
+                }
+
+            }
+        }
+
+        public override bool IsAttacking(GameTime gameTime)
+        {
+            return CurrentDrawableState.Contains("Slash");
+        }
+
+        public override void OnAttack(GameTime gameTime)
+        {
+            if (!IsAttacking(gameTime))
+            {
+                CurrentDrawableState = "Slash_" + Direction;
+                Drawables.ResetState(CurrentDrawableState, gameTime);
+            }
+        }
+
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
             KeyboardState keyboardState = Keyboard.GetState();
-
             Vector2 movement = Vector2.Zero;
-            float prevX = Pos.X;
-            float prevY = Pos.Y;
 
-            Tile prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
-            float moveSpeedModifier = prevTile.GetProperty<float>("MoveSpeed", 1.0f);   // TODO: This should be moved to CollidableEntity.
-
-            // TODO: Improve, we are retrieving this twice because it is called again in the CollidableEntity loop.
-            List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
-
-            if (CurrentDrawableState.Contains("Slash") 
-                && !Drawables.IsStateFinished(CurrentDrawableState, gameTime))
+            if(!IsAttacking(gameTime))
             {
-                foreach (RPGEntity entity in intersectingEntities)
-                {
-                    if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)
-                    {
-                        _hitEntityList.Add(entity);
-                        entity.OnHit(this, RollForDamage(), gameTime, engine);
-                    }
-                }
-            }
-            else
-            {
-                _hitEntityList.Clear();
-
+                // PERFORM ATTACK MOVE.
                 if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.A, engine, true))
-                {
-                    CurrentDrawableState = "Slash_" + Direction;
-                    Drawables.ResetState(CurrentDrawableState, gameTime);
-                }
+                    OnAttack(gameTime);
                 else
                 {
-                    // Interaction
+                    // PERFORM INTERACTION
                     if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.S, engine, true))
-                    {
-                        foreach (Entity entity in intersectingEntities)
-                        {
-                            if (entity != this 
-                                && entity is RPGEntity
-                                && Entity.IntersectsWith(this, null, entity, null, gameTime))
-                            {
-                                RPGEntity rpgEntity = (RPGEntity)entity;
-                                if (rpgEntity.Faction == this.Faction)
-                                    rpgEntity.OnInteract(this, gameTime, engine);
-                            }
-
-                        }
-                    }
+                        PerformInteraction(gameTime, engine);    
 
                     // MOVEMENT BASED KEYBOARD EVENTS.
-                    // TODO: These should be approach functions.
-                    if (keyboardState.IsKeyDown(Keys.Up))
-                    {
-                        CurrentDrawableState = "Walk_Up";
-                        Direction = Direction.Up;
-
+                    if (keyboardState.IsKeyDown(Keys.Up)) 
                         movement.Y--;
-                    }
+
                     if (keyboardState.IsKeyDown(Keys.Down))
-                    {
-                        CurrentDrawableState = "Walk_Down";
-                        Direction = Direction.Down;
-
                         movement.Y++;
-                    }
+                    
                     if (keyboardState.IsKeyDown(Keys.Left))
-                    {
-                        CurrentDrawableState = "Walk_Left";
-                        Direction = Direction.Left;
-
                         movement.X--;
-                    }
+                    
                     if (keyboardState.IsKeyDown(Keys.Right))
-                    {
-                        CurrentDrawableState = "Walk_Right";
-                        Direction = Direction.Right;
-
                         movement.X++;
-                    }
 
-                    // Set animation to idle of no movements where made.
-                    if (movement.Length() == 0)
-                        CurrentDrawableState = "Idle_" + Direction;
-                    else
+                    if (movement.Length() > 0)
                     {
                         movement.Normalize();
-                        Pos += movement * MOVEMENT_SPEED * moveSpeedModifier;
+                        Pos += movement * MOVEMENT_SPEED;
                     }
-
-                    LightSource.Pos = this.Pos;
                 }
             }
 
             base.Update(gameTime, engine);
+
+            // Update Light Source based on latest position.
+            LightSource.Pos = this.Pos;
         }
     }
 }

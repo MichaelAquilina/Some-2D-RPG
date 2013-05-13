@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameEngine;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
@@ -6,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Items;
-using System;
 
 namespace Some2DRPG.GameObjects
 {
@@ -40,7 +40,13 @@ namespace Some2DRPG.GameObjects
         /// RPG Entities. The higher the value assigned, the more likely
         /// this Entity will be attacked first.
         /// </summary>
-        public int AttackPriority { get; set; } 
+        public int AttackPriority { get; set; }
+
+        #region Private/Internal members
+
+        List<Entity> _hitEntityList = new List<Entity>();
+
+        #endregion
 
         #region Attributes
 
@@ -104,6 +110,16 @@ namespace Some2DRPG.GameObjects
         }
 
         #region Interaction Methods
+
+        public virtual bool IsAttacking(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual void OnAttack(GameTime gameTime)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Method called when the RPG Entity has been hit by some Entity residing within the
@@ -182,6 +198,48 @@ namespace Some2DRPG.GameObjects
         }
 
         #endregion
+
+        public override void Update(GameTime gameTime, TeeEngine engine)
+        {
+            // TODO: THis should ALL be moved to RPGEntity
+            if (IsAttacking(gameTime))
+            {
+                // Attack Complete Check.
+                if (Drawables.IsStateFinished(CurrentDrawableState, gameTime))
+                {
+                    CurrentDrawableState = "Idle_" + Direction;
+                    _hitEntityList.Clear();
+                }
+                else
+                {
+                    List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
+                    foreach (RPGEntity entity in intersectingEntities)
+                    {
+                        if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)
+                        {
+                            _hitEntityList.Add(entity);
+                            entity.OnHit(this, RollForDamage(), gameTime, engine);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (prevPos != Pos)
+                {
+                    Vector2 difference = Pos - prevPos;
+                    if (Math.Abs(difference.X) > Math.Abs(difference.Y))
+                        Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
+                    else
+                        Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
+
+                    CurrentDrawableState = "Walk_" + Direction;
+                }
+                else CurrentDrawableState = "Idle_" + Direction;
+            }
+            
+            base.Update(gameTime, engine);
+        }
 
         /// <summary>
         /// Performs a "Roll" to see how much Damage this Entity will do based on the engines calculation
