@@ -53,6 +53,8 @@ namespace Some2DRPG.GameObjects.Creatures
                 _hitSounds[index].Play();
 
                 base.OnHit(sender, damageDealt, gameTime, engine);
+
+                this.HP = 2000;
             }
         }
 
