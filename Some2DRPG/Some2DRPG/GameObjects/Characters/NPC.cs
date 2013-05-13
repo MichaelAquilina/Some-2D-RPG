@@ -68,8 +68,10 @@ namespace Some2DRPG.GameObjects.Characters
                 {
                     float distance = Vector2.Distance(entity.Pos, Pos);
 
-                    if (entity.AttackPriority > maxPriority ||
+                    if ( distance <= _agroDistance &&
+                        (entity.AttackPriority > maxPriority ||
                         (entity.AttackPriority == maxPriority && distance < currDistance))
+                        )
                     {
                         currDistance = distance;
                         maxPriority = entity.AttackPriority;
