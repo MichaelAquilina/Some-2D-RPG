@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using GameEngine;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
+using Some2DRPG.GameObjects.Misc;
 
 namespace Some2DRPG.GameObjects.Characters
 {
@@ -101,6 +102,13 @@ namespace Some2DRPG.GameObjects.Characters
                 CurrentDrawableState = "Slash_" + Direction;
                 Drawables.ResetState(CurrentDrawableState, gameTime);
             }
+        }
+
+        public override void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
+        {
+            SpeechBubble speech = new SpeechBubble(this, "Hello there Adventurer! Whats you're name?");
+
+            engine.AddEntity(speech);
         }
 
         public override void Update(GameTime gameTime, TeeEngine engine)
