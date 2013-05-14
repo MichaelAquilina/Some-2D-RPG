@@ -44,8 +44,8 @@ namespace Some2DRPG.GameObjects
 
         #region Private/Internal members
 
-        List<Entity> _hitEntityList = new List<Entity>();
-        float _moveSpeed = 1.2f;
+        protected List<Entity> _hitEntityList = new List<Entity>();
+        protected float _moveSpeed = 1.2f;
 
         #endregion
 

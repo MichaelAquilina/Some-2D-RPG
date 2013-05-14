@@ -15,19 +15,17 @@ namespace Some2DRPG.GameObjects.Creatures
         private static Random randomGenerator = new Random();
 
         private const int ATTACK_COUNTER_LIMIT = 40;
-        private const double ATTACK_DISTANCE = 40;
-        private const double AGRO_DISTANCE = 200;
+        private const double _attackDistance = 40;
+        private const double _agroDistance = 200;
 
+        private RPGEntity _target = null;
         private int _attackCounter = 0;
         private Vector2 _attackHeight = Vector2.Zero;    
         private double _attackAngle = 0;
         private double _randomModifier;
         private float _attackSpeed = 5.4f;
-        private float _moveSpeed = 1.8f;
         private Color _hitColor = Color.White;
         private float _hitPercentage = 1.0f;
-
-        private List<Entity> _hitEntities = new List<Entity>();
         
         public Bat()
         {
@@ -41,12 +39,14 @@ namespace Some2DRPG.GameObjects.Creatures
 
         void Construct(float x, float y)
         {
+            this.Strength = 4;
             this.AttackPriority = 3;
             this.BaseRace = CREATURES_BAT;
             this.Faction = "Creatures";
             this.Pos = new Vector2(x, y);
             this.HP = 15;
             this._randomModifier = randomGenerator.NextDouble();
+            this._moveSpeed = 1.8f;
             this.Visible = true;
             this.EntityCollisionEnabled = false;
             this.TerrainCollisionEnabled = false;
@@ -72,33 +72,42 @@ namespace Some2DRPG.GameObjects.Creatures
 
         public override bool IsFinishedAttacking(GameTime gameTime)
         {
-            return AttackStance != AttackStance.Attacking;
+            return AttackStance == AttackStance.NotAttacking;
         }
 
         public void AggressiveBatAI(GameTime gameTime, TeeEngine engine)
         {
-            // Get the Hero player for interaction purposes.
-            Hero player = (Hero)engine.GetEntity("Player");
-            Vector2 prevPos = Pos;
+            Rectangle agroRegion = new Rectangle(
+                (int)Math.Floor(Pos.X - _agroDistance),
+                (int)Math.Floor(Pos.Y - _agroDistance),
+                (int)Math.Ceiling(_agroDistance * 2),
+                (int)Math.Ceiling(_agroDistance * 2)
+                );
 
-            // Needs to be improved
-            if (_hitPercentage != 1.0f)
+            // DETECT NEARBY ENTITIES AND DETERMINE A TARGET.
+            List<RPGEntity> nearbyEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(agroRegion);
+            float currDistance = float.MaxValue;
+            int maxPriority = Int32.MinValue;
+
+            foreach (RPGEntity entity in nearbyEntities)
             {
-                _hitPercentage += 0.05f;
-                _hitColor = ColorExtensions.Transition(Color.Red, Color.White, _hitPercentage);
+                if (entity.Faction != this.Faction && entity.HP > 0)
+                {
+                    float distance = Vector2.Distance(entity.Pos, Pos);
 
-                Drawables.SetGroupProperty("Body", "Color", _hitColor);
+                    if (distance <= _agroDistance &&
+                        (entity.AttackPriority > maxPriority ||
+                        (entity.AttackPriority == maxPriority && distance < currDistance))
+                        )
+                    {
+                        currDistance = distance;
+                        maxPriority = entity.AttackPriority;
+                        _target = entity;
+                    }
+                }
             }
 
-            // Check if this Bat has died.
-            if (HP <= 0)
-            {
-                this.Opacity -= 0.02f;
-                this.Drawables.ResetState(CurrentDrawableState, gameTime);
-                if (this.Opacity < 0)
-                    engine.RemoveEntity(this);
-            }
-            else
+            if (_target != null)
             {
                 // ATTACKING LOGIC.
                 if (AttackStance == AttackStance.Attacking)
@@ -108,16 +117,9 @@ namespace Some2DRPG.GameObjects.Creatures
                     this._attackHeight.Y += 30.0f / ATTACK_COUNTER_LIMIT;
                     this.Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
 
-                    if (!_hitEntities.Contains(player) &&
-                        Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
-                    {
-                        _hitEntities.Add(player);
-                        player.OnHit(this, 4, gameTime, engine);
-                    }
-
                     if (_attackCounter++ == ATTACK_COUNTER_LIMIT)
                     {
-                        _hitEntities.Clear();
+                        _hitEntityList.Clear();
                         AttackStance = AttackStance.NotAttacking;
                     }
                 }
@@ -130,8 +132,8 @@ namespace Some2DRPG.GameObjects.Creatures
                     {
                         _attackHeight.Y = -40;
                         _attackAngle = Math.Atan2(
-                            this.Pos.Y - player.Pos.Y,
-                            this.Pos.X - player.Pos.X
+                            this.Pos.Y - _target.Pos.Y,
+                            this.Pos.X - _target.Pos.X
                             );
                         AttackStance = AttackStance.Attacking;
                         _attackCounter = 0;
@@ -142,43 +144,36 @@ namespace Some2DRPG.GameObjects.Creatures
                 // NON-ATTACKING LOGIC. PATROL AND APPROACH.
                 else if (AttackStance == AttackStance.NotAttacking)
                 {
-                    double distance = Vector2.Distance(player.Pos, this.Pos);
+                    double distance = Vector2.Distance(_target.Pos, this.Pos);
 
-                    if (distance < AGRO_DISTANCE)
-                    {
-                        // Move towards the player for an attack move.
-                        double angle = Math.Atan2(
-                            player.Pos.Y - this.Pos.Y,
-                            player.Pos.X - this.Pos.X
-                            );
-
-                        // Approach Function.
-                        double moveValue;
-                        if (distance < ATTACK_DISTANCE)
-                        {
-                            AttackStance = AttackStance.Preparing;
-                            moveValue = 0;
-                        }
-                        else
-                            moveValue = _moveSpeed;
-
-                        Pos.X += (float)(Math.Cos(angle) * moveValue);
-                        Pos.Y += (float)(Math.Sin(angle) * moveValue);
-                    }
+                    if (distance < _attackDistance)
+                        Approach(_target.Pos);
                     else
-                    {
-                        // Perform a standard patrol action.
-                        Pos.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalSeconds - _randomModifier * 90) * 2);
-                    }
+                        AttackStance = AttackStance.Preparing;
                 }
+            }
+            else
+            {
+                // Perform a standard patrol action.
+                Pos.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalSeconds - _randomModifier * 90) * 2);
             }
         }
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            AggressiveBatAI(gameTime, engine);
+            if (this.HP > 0)
+            {
+                AggressiveBatAI(gameTime, engine);
 
-            base.Update(gameTime, engine);
+                base.Update(gameTime, engine);
+            }
+            else
+            {
+                this.Opacity -= 0.02f;
+                this.Drawables.ResetState(CurrentDrawableState, gameTime);
+                if (this.Opacity < 0)
+                    engine.RemoveEntity(this);
+            }
         }
 
         public override void LoadContent(ContentManager content)

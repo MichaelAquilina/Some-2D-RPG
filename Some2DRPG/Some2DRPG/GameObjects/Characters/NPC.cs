@@ -19,6 +19,8 @@ namespace Some2DRPG.GameObjects.Characters
 
         public NPC()
         {
+            this.AttackPriority = 6;
+            this.HP = 200;
             this.Strength = 5;
             this.CollisionGroup = "Shadow";
             this.MovePrefix = "Walk";
@@ -126,13 +128,16 @@ namespace Some2DRPG.GameObjects.Characters
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            engine.UserPerformance.RestartTiming(string.Format("{0}-AI", Name));
+            if (this.HP > 0)
+            {
+                AggressiveAI(gameTime, engine);
 
-            AggressiveAI(gameTime, engine);            
-            
-            engine.UserPerformance.StopTiming(string.Format("{0}-AI", Name));
-
-            base.Update(gameTime, engine);
+                base.Update(gameTime, engine);
+            }
+            else
+            {
+                // DIE.
+            }
         }
     }
 }
