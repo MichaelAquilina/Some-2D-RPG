@@ -50,6 +50,8 @@ namespace Some2DRPG.GameObjects.Creatures
             this.Visible = true;
             this.EntityCollisionEnabled = false;
             this.TerrainCollisionEnabled = false;
+            this.IdlePrefix = "Fly";
+            this.MovePrefix = "Fly";
         }
 
         public override void OnHit(Entity sender, int damageDealt, GameTime gameTime, TeeEngine engine)
@@ -63,8 +65,17 @@ namespace Some2DRPG.GameObjects.Creatures
             }
         }
 
-        // TODO: Clean!!!!!!
-        public override void Update(GameTime gameTime, TeeEngine engine)
+        public override bool IsAttacking(GameTime gameTime)
+        {
+            return AttackStance == AttackStance.Attacking;
+        }
+
+        public override bool IsFinishedAttacking(GameTime gameTime)
+        {
+            return AttackStance != AttackStance.Attacking;
+        }
+
+        public void AggressiveBatAI(GameTime gameTime, TeeEngine engine)
         {
             // Get the Hero player for interaction purposes.
             Hero player = (Hero)engine.GetEntity("Player");
@@ -84,7 +95,7 @@ namespace Some2DRPG.GameObjects.Creatures
             {
                 this.Opacity -= 0.02f;
                 this.Drawables.ResetState(CurrentDrawableState, gameTime);
-                if (this.Opacity < 0) 
+                if (this.Opacity < 0)
                     engine.RemoveEntity(this);
             }
             else
@@ -92,12 +103,12 @@ namespace Some2DRPG.GameObjects.Creatures
                 // ATTACKING LOGIC.
                 if (AttackStance == AttackStance.Attacking)
                 {
-                    this.Pos.X -= (float) (Math.Cos(_attackAngle) * _attackSpeed);
-                    this.Pos.Y -= (float) (Math.Sin(_attackAngle) * _attackSpeed);
+                    this.Pos.X -= (float)(Math.Cos(_attackAngle) * _attackSpeed);
+                    this.Pos.Y -= (float)(Math.Sin(_attackAngle) * _attackSpeed);
                     this._attackHeight.Y += 30.0f / ATTACK_COUNTER_LIMIT;
                     this.Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
 
-                    if (!_hitEntities.Contains(player) && 
+                    if (!_hitEntities.Contains(player) &&
                         Entity.IntersectsWith(this, "Shadow", player, "Shadow", gameTime))
                     {
                         _hitEntities.Add(player);
@@ -160,23 +171,14 @@ namespace Some2DRPG.GameObjects.Creatures
                         Pos.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalSeconds - _randomModifier * 90) * 2);
                     }
                 }
-
-                // Determine the animation based on the change in position.
-                if (Math.Abs(prevPos.X - Pos.X) > Math.Abs(prevPos.Y - Pos.Y))
-                {
-                    if (prevPos.X < Pos.X)
-                        this.CurrentDrawableState = "Right";
-                    if (prevPos.X > Pos.X)
-                        this.CurrentDrawableState = "Left";
-                }
-                else
-                {
-                    if (prevPos.Y < Pos.Y)
-                        this.CurrentDrawableState = "Down";
-                    if (prevPos.Y > Pos.Y)
-                        this.CurrentDrawableState = "Up";
-                }
             }
+        }
+
+        public override void Update(GameTime gameTime, TeeEngine engine)
+        {
+            AggressiveBatAI(gameTime, engine);
+
+            base.Update(gameTime, engine);
         }
 
         public override void LoadContent(ContentManager content)
@@ -189,7 +191,7 @@ namespace Some2DRPG.GameObjects.Creatures
                 content, startTimeMS
                 );
 
-            CurrentDrawableState = "Left";
+            CurrentDrawableState = "Fly_Left";
         }
     }
 }

@@ -44,6 +44,8 @@ namespace Some2DRPG.GameObjects.Characters
             Faction = "Allies";
             CollisionGroup = "Shadow";
             CollisionDetection = true;
+            IdlePrefix = "Idle";
+            MovePrefix = "Walk";
             LightSource = new LightSource();
             LightSource.Width = 32 * 8;
             LightSource.Height = 32 * 8;

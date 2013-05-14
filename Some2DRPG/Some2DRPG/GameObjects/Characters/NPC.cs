@@ -21,6 +21,8 @@ namespace Some2DRPG.GameObjects.Characters
         {
             this.Strength = 5;
             this.CollisionGroup = "Shadow";
+            this.MovePrefix = "Walk";
+            this.IdlePrefix = "Idle";
         }
 
         #region AI Methods

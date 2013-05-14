@@ -3,7 +3,7 @@
 <Animations>
   <!-- Up Animations -->
   
-  <Animation State="Up" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150" Offset="0, -10">
+  <Animation State="Fly_Up" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150" Offset="0, -10">
     <Frames>
       <Frame>0 ,0,32,26</Frame>
       <Frame>32,0,32,26</Frame>
@@ -11,7 +11,7 @@
     </Frames>
   </Animation>
 
-  <Animation State="Up" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150">
+  <Animation State="Fly_Up" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150">
     <Frames>
       <Frame>0 ,26, 32, 7</Frame>
       <Frame>32,26, 32, 7</Frame>
@@ -21,7 +21,7 @@
   
   <!-- Left Animations -->
 
-  <Animation State="Left" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150"  Offset="0, -10">
+  <Animation State="Fly_Left" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150"  Offset="0, -10">
     <Frames>
       <Frame>0 ,33,32,26</Frame>
       <Frame>32,33,32,26</Frame>
@@ -29,7 +29,7 @@
     </Frames>
   </Animation>
 
-  <Animation State="Left" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150">
+  <Animation State="Fly_Left" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150">
     <Frames>
       <Frame>0 , 58, 32, 7</Frame>
       <Frame>32, 58, 32, 7</Frame>
@@ -39,7 +39,7 @@
   
   <!-- Down Animations -->
 
-  <Animation State="Down" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150" Offset="0, -10">
+  <Animation State="Fly_Down" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150" Offset="0, -10">
     <Frames>
       <Frame>0 ,65,32,26</Frame>
       <Frame>32,65,32,26</Frame>
@@ -47,7 +47,7 @@
     </Frames>
   </Animation>
 
-  <Animation State="Down" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150">
+  <Animation State="Fly_Down" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150">
     <Frames>
       <Frame>0 ,90,32, 7</Frame>
       <Frame>32,90,32, 7</Frame>
@@ -57,7 +57,7 @@
   
   <!-- Right Animations -->
 
-  <Animation State="Right" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150" Offset="0, -10">
+  <Animation State="Fly_Right" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150" Offset="0, -10">
     <Frames>
       <Frame>0 ,96,32,26</Frame>
       <Frame>32,96,32,26</Frame>
@@ -65,7 +65,7 @@
     </Frames>
   </Animation>
 
-  <Animation State="Right" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150">
+  <Animation State="Fly_Right" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\Bat\bat" FrameDelay="150">
     <Frames>
       <Frame>0 ,122,32, 7</Frame>
       <Frame>32,122,32, 7</Frame>

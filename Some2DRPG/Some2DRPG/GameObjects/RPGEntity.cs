@@ -71,6 +71,9 @@ namespace Some2DRPG.GameObjects
 
         #endregion
 
+        public string MovePrefix { get; set; }
+        public string IdlePrefix { get; set; }
+
         public RPGEntity()
         {
             Construct(0, 0, RPGEntity.HUMAN_MALE);
@@ -222,7 +225,7 @@ namespace Some2DRPG.GameObjects
             {
                 if (IsFinishedAttacking(gameTime))
                 {
-                    CurrentDrawableState = "Idle_" + Direction;
+                    CurrentDrawableState = IdlePrefix + "_" + Direction;
                     _hitEntityList.Clear();
                 }
                 else
@@ -248,9 +251,9 @@ namespace Some2DRPG.GameObjects
                     else
                         Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
 
-                    CurrentDrawableState = "Walk_" + Direction;
+                    CurrentDrawableState = MovePrefix + "_" + Direction;
                 }
-                else CurrentDrawableState = "Idle_" + Direction;
+                else CurrentDrawableState = IdlePrefix + "_" + Direction;
             }
             
             base.Update(gameTime, engine);
