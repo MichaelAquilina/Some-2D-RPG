@@ -16,8 +16,8 @@ namespace Some2DRPG.GameObjects.Creatures
 
         private const int ATTACK_COUNTER_LIMIT = 40;
         private const double _attackDistance = 40;
-        private const double _agroDistance = 200;
 
+        private float _agroDistance = 200;
         private RPGEntity _target = null;
         private int _attackCounter = 0;
         private Vector2 _attackHeight = Vector2.Zero;    
@@ -77,35 +77,7 @@ namespace Some2DRPG.GameObjects.Creatures
 
         public void AggressiveBatAI(GameTime gameTime, TeeEngine engine)
         {
-            Rectangle agroRegion = new Rectangle(
-                (int)Math.Floor(Pos.X - _agroDistance),
-                (int)Math.Floor(Pos.Y - _agroDistance),
-                (int)Math.Ceiling(_agroDistance * 2),
-                (int)Math.Ceiling(_agroDistance * 2)
-                );
-
-            // DETECT NEARBY ENTITIES AND DETERMINE A TARGET.
-            List<RPGEntity> nearbyEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(agroRegion);
-            float currDistance = float.MaxValue;
-            int maxPriority = Int32.MinValue;
-
-            foreach (RPGEntity entity in nearbyEntities)
-            {
-                if (entity.Faction != this.Faction && entity.HP > 0)
-                {
-                    float distance = Vector2.Distance(entity.Pos, Pos);
-
-                    if (distance <= _agroDistance &&
-                        (entity.AttackPriority > maxPriority ||
-                        (entity.AttackPriority == maxPriority && distance < currDistance))
-                        )
-                    {
-                        currDistance = distance;
-                        maxPriority = entity.AttackPriority;
-                        _target = entity;
-                    }
-                }
-            }
+            _target = GetHighestPriorityTarget(gameTime, engine, _agroDistance);
 
             if (_target != null)
             {

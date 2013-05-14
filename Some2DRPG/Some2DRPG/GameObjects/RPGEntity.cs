@@ -115,6 +115,42 @@ namespace Some2DRPG.GameObjects
 
         #region Helper Methods
 
+        public RPGEntity GetHighestPriorityTarget(GameTime gameTime, TeeEngine engine, float distance)
+        {
+            Rectangle agroRegion = new Rectangle(
+                (int)Math.Floor(Pos.X - distance),
+                (int)Math.Floor(Pos.Y - distance),
+                (int)Math.Ceiling(distance * 2),
+                (int)Math.Ceiling(distance * 2)
+                );
+
+            // DETECT NEARBY ENTITIES AND DETERMINE A TARGET.
+            List<RPGEntity> nearbyEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(agroRegion);
+            float currDistance = float.MaxValue;
+            int maxPriority = Int32.MinValue;
+            RPGEntity resultTarget = null;
+
+            foreach (RPGEntity entity in nearbyEntities)
+            {
+                if (entity.Faction != this.Faction && entity.HP > 0)
+                {
+                    float entityDistance = Vector2.Distance(entity.Pos, Pos);
+
+                    if (entityDistance <= distance &&
+                        (entity.AttackPriority > maxPriority ||
+                        (entity.AttackPriority == maxPriority && distance < currDistance))
+                        )
+                    {
+                        currDistance = distance;
+                        maxPriority = entity.AttackPriority;
+                        resultTarget = entity;
+                    }
+                }
+            }
+
+            return resultTarget;
+        }
+
         public void Approach(Vector2 target)
         {
             Vector2 difference = target - this.Pos;

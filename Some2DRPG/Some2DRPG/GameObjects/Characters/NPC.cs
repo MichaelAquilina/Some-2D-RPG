@@ -31,35 +31,7 @@ namespace Some2DRPG.GameObjects.Characters
 
         public void AggressiveAI(GameTime gameTime, TeeEngine engine)
         {
-            Rectangle agroRegion = new Rectangle(
-                (int)Math.Floor(Pos.X - _agroDistance),
-                (int)Math.Floor(Pos.Y - _agroDistance),
-                (int)Math.Ceiling(_agroDistance * 2),
-                (int)Math.Ceiling(_agroDistance * 2)
-                );
-
-            // DETECT NEARBY ENTITIES AND DETERMINE A TARGET.
-            List<RPGEntity> nearbyEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(agroRegion);
-            float currDistance = float.MaxValue;
-            int maxPriority = Int32.MinValue;
-
-            foreach (RPGEntity entity in nearbyEntities)
-            {
-                if (entity.Faction != this.Faction && entity.HP > 0)
-                {
-                    float distance = Vector2.Distance(entity.Pos, Pos);
-
-                    if ( distance <= _agroDistance &&
-                        (entity.AttackPriority > maxPriority ||
-                        (entity.AttackPriority == maxPriority && distance < currDistance))
-                        )
-                    {
-                        currDistance = distance;
-                        maxPriority = entity.AttackPriority;
-                        _target = entity;
-                    }
-                }
-            }
+            _target = GetHighestPriorityTarget(gameTime, engine, _agroDistance);
             
             // If the NPC has been assigned a target.
             if(_target != null && !IsAttacking(gameTime))
