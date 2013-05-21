@@ -212,6 +212,23 @@ namespace Some2DRPG.GameObjects
             throw new NotImplementedException();
         }
 
+        public virtual void OnIdle(GameTime gameTime, TeeEngine engine)
+        {
+            CurrentDrawableState = IdlePrefix + "_" + Direction;
+        }
+
+        public virtual void OnMove(GameTime gameTime, TeeEngine engine)
+        {
+            Vector2 difference = Pos - prevPos;
+            if (Math.Abs(difference.X) > Math.Abs(difference.Y))
+                Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
+            else
+                Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
+
+            CurrentDrawableState = MovePrefix + "_" + Direction;
+            
+        }
+
         /// <summary>
         /// Method called when the RPG Entity has been hit by some Entity residing within the
         /// game engine. Override this method in order to perform custom functionality
@@ -280,41 +297,24 @@ namespace Some2DRPG.GameObjects
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            // TODO: This code is way too specific to NPC requirements. Bats do not face their target
-            // while attacking for example - it is specific to NPC.
             if (IsAttacking(gameTime))
             {
                 if (IsFinishedAttacking(gameTime))
                 {
                     CurrentDrawableState = IdlePrefix + "_" + Direction;
-                    _hitEntityList.Clear();
+                    ClearHitList();
                 }
                 else
                 {
-                    List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
-                    foreach (RPGEntity entity in intersectingEntities)
-                    {
-                        if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)
-                        {
-                            _hitEntityList.Add(entity);
-                            entity.OnHit(this, RollForDamage(), gameTime, engine);
-                        }
-                    }
+                    PerformHitCheck(gameTime, engine);
                 }
             }
             else
             {
                 if (prevPos != Pos)
-                {
-                    Vector2 difference = Pos - prevPos;
-                    if (Math.Abs(difference.X) > Math.Abs(difference.Y))
-                        Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
-                    else
-                        Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
-
-                    CurrentDrawableState = MovePrefix + "_" + Direction;
-                }
-                else CurrentDrawableState = IdlePrefix + "_" + Direction;
+                    OnMove(gameTime, engine);
+                else
+                    OnIdle(gameTime, engine);
             }
             
             base.Update(gameTime, engine);
