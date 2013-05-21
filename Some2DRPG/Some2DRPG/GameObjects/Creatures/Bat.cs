@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using GameEngine;
 using GameEngine.Drawing;
-using GameEngine.Extensions;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
-using Some2DRPG.GameObjects.Characters;
 
 namespace Some2DRPG.GameObjects.Creatures
 {
@@ -67,7 +64,7 @@ namespace Some2DRPG.GameObjects.Creatures
 
         public override bool IsAttacking(GameTime gameTime)
         {
-            return AttackStance == AttackStance.Attacking;
+            return AttackStance == AttackStance.Attacking || AttackStance == AttackStance.Preparing;
         }
 
         public override bool IsFinishedAttacking(GameTime gameTime)
@@ -79,6 +76,7 @@ namespace Some2DRPG.GameObjects.Creatures
         {
             _target = GetHighestPriorityTarget(gameTime, engine, _agroDistance);
 
+            // TODO: REDO
             if (_target != null)
             {
                 // ATTACKING LOGIC.

@@ -115,6 +115,29 @@ namespace Some2DRPG.GameObjects
 
         #region Helper Methods
 
+        public void ClearHitList()
+        {
+            _hitEntityList.Clear();
+        }
+
+        public bool PerformHitCheck(GameTime gameTime, TeeEngine engine)
+        {
+            bool hitFlag = false;
+
+            List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
+            foreach (RPGEntity entity in intersectingEntities)
+            {
+                if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)
+                {
+                    hitFlag = true;
+                    _hitEntityList.Add(entity);
+                    entity.OnHit(this, RollForDamage(), gameTime, engine);
+                }
+            }
+
+            return hitFlag;
+        }
+
         public RPGEntity GetHighestPriorityTarget(GameTime gameTime, TeeEngine engine, float distance)
         {
             Rectangle agroRegion = new Rectangle(
@@ -257,6 +280,8 @@ namespace Some2DRPG.GameObjects
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
+            // TODO: This code is way too specific to NPC requirements. Bats do not face their target
+            // while attacking for example - it is specific to NPC.
             if (IsAttacking(gameTime))
             {
                 if (IsFinishedAttacking(gameTime))
