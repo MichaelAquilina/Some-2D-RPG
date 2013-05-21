@@ -64,56 +64,63 @@ namespace Some2DRPG.GameObjects.Creatures
         {
             _target = GetHighestPriorityTarget(gameTime, engine, _agroDistance);
 
-            // TODO: REDO
-            if (_target != null)
+            if (CurrentState == EntityStates.Idle)
             {
-                // ATTACKING LOGIC.
-                if (CurrentState == EntityStates.Attacking)
+                if (_target != null) CurrentState = EntityStates.Alert;
+
+                Pos.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalSeconds - _randomModifier * 90) * 2);
+            }
+            else if (CurrentState == EntityStates.Alert)
+            {
+                if (_target == null) CurrentState = EntityStates.Idle;
+                else
                 {
-                    this.Pos.X -= (float)(Math.Cos(_attackAngle) * _attackSpeed);
-                    this.Pos.Y -= (float)(Math.Sin(_attackAngle) * _attackSpeed);
-                    this._attackHeight.Y += 30.0f / ATTACK_COUNTER_LIMIT;
-                    this.Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
-
-                    if (_attackCounter++ == ATTACK_COUNTER_LIMIT)
-                    {
-                        _hitEntityList.Clear();
-                        CurrentState = EntityStates.Alert;
-                    }
-                }
-                // ATTACK PREPERATION LOGIC.
-                else if (CurrentState == EntityStates.PrepareAttack)
-                {
-                    _attackHeight.Y -= 2;
-
-                    if (_attackHeight.Y < -40)
-                    {
-                        _attackHeight.Y = -40;
-                        _attackAngle = Math.Atan2(
-                            this.Pos.Y - _target.Pos.Y,
-                            this.Pos.X - _target.Pos.X
-                            );
-                        CurrentState = EntityStates.Attacking;
-                        _attackCounter = 0;
-                    }
-
-                    Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
-                }
-                // NON-ATTACKING LOGIC. PATROL AND APPROACH.
-                else if (CurrentState == EntityStates.Alert)
-                {
-                    double distance = Vector2.Distance(_target.Pos, this.Pos);
-
-                    if (distance < _attackDistance)
-                        Approach(_target.Pos);
-                    else
+                    if (Vector2.Distance(this.Pos, _target.Pos) < _attackDistance)
                         CurrentState = EntityStates.PrepareAttack;
+                    else 
+                        Approach(_target.Pos);
                 }
             }
-            else
+            else if (CurrentState == EntityStates.PrepareAttack)
             {
-                // Perform a standard patrol action.
-                Pos.X += (float)(Math.Cos(gameTime.TotalGameTime.TotalSeconds - _randomModifier * 90) * 2);
+                _attackHeight.Y -= 2;
+
+                if (_attackHeight.Y < -40)
+                {
+                    _attackHeight.Y = -40;
+                    _attackAngle = Math.Atan2(
+                        this.Pos.Y - _target.Pos.Y,
+                        this.Pos.X - _target.Pos.X
+                        );
+                    CurrentState = EntityStates.Attacking;
+                    ClearHitList();
+                    _attackCounter = 0;
+                }
+
+                Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
+            }
+            else if (CurrentState == EntityStates.Attacking)
+            {
+                this.Pos.X -= (float)(Math.Cos(_attackAngle) * _attackSpeed);
+                this.Pos.Y -= (float)(Math.Sin(_attackAngle) * _attackSpeed);
+                this._attackHeight.Y += 30.0f / ATTACK_COUNTER_LIMIT;
+                this.Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
+
+                PerformHitCheck(gameTime, engine);
+
+                if (_attackCounter++ == ATTACK_COUNTER_LIMIT)
+                    CurrentState = EntityStates.Alert;
+            }
+
+            if (prevPos != Pos)
+            {
+                Vector2 difference = Pos - prevPos;
+                if (Math.Abs(difference.X) > Math.Abs(difference.Y))
+                    Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
+                else
+                    Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
+
+                CurrentDrawableState = "Fly_" + Direction;
             }
         }
 

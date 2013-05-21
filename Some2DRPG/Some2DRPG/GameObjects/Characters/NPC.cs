@@ -41,7 +41,7 @@ namespace Some2DRPG.GameObjects.Characters
                 Direction = (distance.Y > 0) ? Direction.Up : Direction.Down;
         }
 
-        public override void Update(GameTime gameTime, TeeEngine engine)
+        private void AggressiveNpcAI(GameTime gameTime, TeeEngine engine)
         {
             _target = GetHighestPriorityTarget(gameTime, engine, _agroDistance);
 
@@ -93,8 +93,20 @@ namespace Some2DRPG.GameObjects.Characters
                 }
                 else CurrentDrawableState = "Idle_" + Direction;
             }
+        }
 
-            base.Update(gameTime, engine);
+        public override void Update(GameTime gameTime, TeeEngine engine)
+        {
+            if (HP > 0)
+            {
+                AggressiveNpcAI(gameTime, engine);
+                base.Update(gameTime, engine);
+            }
+            else
+            {
+                // DIE...
+            }
+
         }
     }
 }
