@@ -71,6 +71,12 @@ namespace Some2DRPG.GameObjects.Characters
                         }
                     }
                     else Approach(_target.Pos);
+
+                    Vector2 difference = this.Pos - _target.Pos;
+                    if (Math.Abs(difference.X) > Math.Abs(difference.Y))
+                        Direction = (difference.X > 0) ? Direction.Left : Direction.Right;
+                    else
+                        Direction = (difference.Y > 0) ? Direction.Up : Direction.Down;
                 }
             }
             else if (CurrentState == EntityStates.Attacking)
