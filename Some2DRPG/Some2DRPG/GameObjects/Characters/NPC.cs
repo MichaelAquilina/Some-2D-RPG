@@ -23,7 +23,8 @@ namespace Some2DRPG.GameObjects.Characters
         {
             this.CurrentState = EntityStates.Idle;
             this.AttackPriority = 6;
-            this.HP = 50;
+            this.MaxHP = 50;
+            this.HP = this.MaxHP;
             this.Strength = 5;
             this.CollisionGroup = "Shadow";
             this.Interact += NPC_Interact;

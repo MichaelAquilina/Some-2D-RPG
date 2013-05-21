@@ -42,7 +42,8 @@ namespace Some2DRPG.GameObjects.Creatures
             this.BaseRace = CREATURES_BAT;
             this.Faction = "Creatures";
             this.Pos = new Vector2(x, y);
-            this.HP = 15;
+            this.MaxHP = 15;
+            this.HP = this.MaxHP;
             this._randomModifier = randomGenerator.NextDouble();
             this._moveSpeed = 1.8f;
             this.EntityCollisionEnabled = false;

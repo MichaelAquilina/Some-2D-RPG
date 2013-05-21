@@ -56,7 +56,9 @@ namespace Some2DRPG.GameObjects
 
         #region Attributes
 
+        public int MaxHP { get; set; }
         public int HP { get; set; }
+        public int MaxMP { get; set; }
         public int MP { get; set; }
         public int XP { get; set; }
         public int Coins { get; set; }
@@ -93,7 +95,8 @@ namespace Some2DRPG.GameObjects
 
         private void Construct(float x, float y, string baseRace)
         {
-            this.HP = 0;
+            this.MP = MaxMP;
+            this.HP = MaxHP;
             this.XP = 0;
             this.Coins = 0;
             this.Pos = new Vector2(x, y);

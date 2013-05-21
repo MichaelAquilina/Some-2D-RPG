@@ -20,7 +20,9 @@ namespace Some2DRPG.GameObjects.Creatures
 
         void Construct()
         {
-            this.HP = 2000;
+            this.MaxHP = 2000;
+            this.HP = this.MaxHP;
+
             this.BaseRace = RPGEntity.CREATURES_DUMMY;
             this.Direction = Direction.Right;
             this.CollisionGroup = "collision";
@@ -55,7 +57,7 @@ namespace Some2DRPG.GameObjects.Creatures
             int index = _randomGenerator.Next(3);
             _hitSounds[index].Play();
 
-            this.HP = 2000;
+            this.HP = this.MaxHP;
         }
 
         public override void Update(GameTime gameTime, GameEngine.TeeEngine engine)

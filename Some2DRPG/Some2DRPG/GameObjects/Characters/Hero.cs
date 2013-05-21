@@ -32,7 +32,9 @@ namespace Some2DRPG.GameObjects.Characters
 
         private void Construct(float x, float y)
         {
-            HP = 2000;
+            MaxHP = 2000;
+            HP = MaxHP;
+
             XP = 0;
             Strength = 10;
             AttackPriority = 5;
