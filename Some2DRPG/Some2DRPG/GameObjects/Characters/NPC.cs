@@ -7,6 +7,7 @@ using Some2DRPG.GameObjects.Misc;
 
 namespace Some2DRPG.GameObjects.Characters
 {
+
     // Could possibly be renamed to AiRpgEntity if is generic enough.
     public class NPC : RPGEntity
     {
@@ -19,6 +20,7 @@ namespace Some2DRPG.GameObjects.Characters
 
         public NPC()
         {
+            this.CurrentState = EntityStates.Idle;
             this.AttackPriority = 6;
             this.HP = 200;
             this.Strength = 5;
@@ -27,61 +29,7 @@ namespace Some2DRPG.GameObjects.Characters
             this.IdlePrefix = "Idle";
         }
 
-        #region AI Methods
-
-        public void AggressiveAI(GameTime gameTime, TeeEngine engine)
-        {
-            _target = GetHighestPriorityTarget(gameTime, engine, _agroDistance);
-            
-            // If the NPC has been assigned a target.
-            if(_target != null && !IsAttacking(gameTime))
-            {
-                float distance = Vector2.Distance(_target.Pos, Pos);
-                if (distance > _agroDistance || _target.HP <=0 )
-                    _target = null;
-                else
-                {
-                    if (distance > _attackDistance)
-                        Approach(_target.Pos);
-                    else
-                    {
-                        OnAttack(gameTime);
-
-                        Vector2 difference = _target.Pos - Pos;
-
-                        if (Math.Abs(difference.X) > Math.Abs(difference.Y))
-                            Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
-                        else
-                            Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
-                    }
-                }
-            }
-        }
-
-        #endregion
-
         #region Interaction Methods
-
-        public override bool IsFinishedAttacking(GameTime gameTime)
-        {
-            return Drawables.IsStateFinished(CurrentDrawableState, gameTime);
-        }
-
-        public override bool IsAttacking(GameTime gameTime)
-        {
-            return CurrentDrawableState.Contains("Slash");
-        }
-
-        public override void OnAttack(GameTime gameTime)
-        {
-            if (!IsAttacking(gameTime) && gameTime.TotalGameTime.TotalMilliseconds - _lastAttack > _attackDelay)
-            {
-                _lastAttack = gameTime.TotalGameTime.TotalMilliseconds;
-
-                CurrentDrawableState = "Slash_" + Direction;
-                Drawables.ResetState(CurrentDrawableState, gameTime);
-            }
-        }
 
         public override void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
         {
@@ -100,16 +48,57 @@ namespace Some2DRPG.GameObjects.Characters
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
-            if (this.HP > 0)
-            {
-                AggressiveAI(gameTime, engine);
+            _target = GetHighestPriorityTarget(gameTime, engine, _agroDistance);
 
-                base.Update(gameTime, engine);
-            }
-            else
+            if (CurrentState == EntityStates.Idle)
             {
-                // DIE.
+                if (_target != null) CurrentState = EntityStates.Alert;
             }
+            else if (CurrentState == EntityStates.Alert)
+            {
+                if (_target == null) CurrentState = EntityStates.Idle;
+                else
+                {
+                    Approach(_target.Pos);
+
+                    if (Vector2.Distance(this.Pos, _target.Pos) < _attackDistance)
+                    {
+                        if (gameTime.TotalGameTime.TotalMilliseconds - _lastAttack > 1000)
+                        {
+                            _lastAttack = gameTime.TotalGameTime.TotalMilliseconds;
+
+                            CurrentDrawableState = "Slash_" + Direction;
+                            CurrentState = EntityStates.Attacking;
+
+                            ClearHitList();
+                            Drawables.ResetState(CurrentDrawableState, gameTime);
+                        }
+                    }
+                }
+            }
+            else if (CurrentState == EntityStates.Attacking)
+            {
+                PerformHitCheck(gameTime, engine);
+                if (Drawables.IsStateFinished(CurrentDrawableState, gameTime))
+                    CurrentState = EntityStates.Alert;
+            }
+
+            if (CurrentState == EntityStates.Alert || CurrentState == EntityStates.Idle)
+            {
+                if (prevPos != Pos)
+                {
+                    Vector2 difference = Pos - prevPos;
+                    if (Math.Abs(difference.X) > Math.Abs(difference.Y))
+                        Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
+                    else
+                        Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
+
+                    CurrentDrawableState = "Walk_" + Direction;
+                }
+                else CurrentDrawableState = "Idle_" + Direction;
+            }
+
+            base.Update(gameTime, engine);
         }
     }
 }

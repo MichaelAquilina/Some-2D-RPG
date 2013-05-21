@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Shaders;
+using System;
 
 namespace Some2DRPG.GameObjects.Characters
 {
@@ -92,46 +93,46 @@ namespace Some2DRPG.GameObjects.Characters
             return Drawables.IsStateFinished(CurrentDrawableState, gameTime);
         }
 
-        public override bool IsAttacking(GameTime gameTime)
-        {
-            return CurrentDrawableState.Contains("Slash");
-        }
-
-        public override void OnAttack(GameTime gameTime)
-        {
-            if (!IsAttacking(gameTime))
-            {
-                CurrentDrawableState = "Slash_" + Direction;
-                Drawables.ResetState(CurrentDrawableState, gameTime);
-            }
-        }
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
             KeyboardState keyboardState = Keyboard.GetState();
             Vector2 movement = Vector2.Zero;
 
-            if(!IsAttacking(gameTime))
+            if (CurrentState == EntityStates.Attacking)
+            {
+                if (Drawables.IsStateFinished(CurrentDrawableState, gameTime))
+                    CurrentState = EntityStates.Alert;
+                else
+                    PerformHitCheck(gameTime, engine);
+            }
+            else
             {
                 // PERFORM ATTACK MOVE.
                 if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.A, engine, true))
-                    OnAttack(gameTime);
+                {
+                    CurrentState = EntityStates.Attacking;
+                    CurrentDrawableState = "Slash_" + Direction;
+                    ClearHitList();
+
+                    Drawables.ResetState(CurrentDrawableState, gameTime);
+                }
                 else
                 {
                     // PERFORM INTERACTION
                     if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.S, engine, true))
-                        PerformInteraction(gameTime, engine);    
+                        PerformInteraction(gameTime, engine);
 
                     // MOVEMENT BASED KEYBOARD EVENTS.
-                    if (keyboardState.IsKeyDown(Keys.Up)) 
+                    if (keyboardState.IsKeyDown(Keys.Up))
                         movement.Y--;
 
                     if (keyboardState.IsKeyDown(Keys.Down))
                         movement.Y++;
-                    
+
                     if (keyboardState.IsKeyDown(Keys.Left))
                         movement.X--;
-                    
+
                     if (keyboardState.IsKeyDown(Keys.Right))
                         movement.X++;
 
@@ -139,7 +140,16 @@ namespace Some2DRPG.GameObjects.Characters
                     {
                         movement.Normalize();
                         Pos += movement * MOVEMENT_SPEED;
+
+                        Vector2 difference = Pos - prevPos;
+                        if (Math.Abs(difference.X) > Math.Abs(difference.Y))
+                            Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
+                        else
+                            Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
+
+                        CurrentDrawableState = "Walk_" + Direction;
                     }
+                    else CurrentDrawableState = "Idle_" + Direction;
                 }
             }
 

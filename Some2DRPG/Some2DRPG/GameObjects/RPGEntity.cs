@@ -14,6 +14,8 @@ namespace Some2DRPG.GameObjects
 
     public enum AttackStance { NotAttacking, Preparing, Attacking };
 
+    public enum EntityStates { Idle, Alert, PrepareAttack, Attacking }
+
     public class RPGEntity : CollidableEntity
     {
         public static Random RPGRandomGenerator = new Random();
@@ -32,6 +34,8 @@ namespace Some2DRPG.GameObjects
         public Direction Direction { get; set; }
 
         public AttackStance AttackStance { get; set; }
+
+        public EntityStates CurrentState { get; set; }
 
         public string BaseRace { get; set; }
 
@@ -294,31 +298,6 @@ namespace Some2DRPG.GameObjects
         }
 
         #endregion
-
-        public override void Update(GameTime gameTime, TeeEngine engine)
-        {
-            if (IsAttacking(gameTime))
-            {
-                if (IsFinishedAttacking(gameTime))
-                {
-                    CurrentDrawableState = IdlePrefix + "_" + Direction;
-                    ClearHitList();
-                }
-                else
-                {
-                    PerformHitCheck(gameTime, engine);
-                }
-            }
-            else
-            {
-                if (prevPos != Pos)
-                    OnMove(gameTime, engine);
-                else
-                    OnIdle(gameTime, engine);
-            }
-            
-            base.Update(gameTime, engine);
-        }
 
         /// <summary>
         /// Performs a "Roll" to see how much Damage this Entity will do based on the engines calculation
