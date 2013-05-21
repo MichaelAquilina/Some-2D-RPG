@@ -113,7 +113,7 @@
 
   <!-- Death -->
 
-  <Animation State="Hurt" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Robe\Hurt\HEAD_robe_hood" FrameDelay="75" Origin="0.5,0.9">
+  <Animation State="Death" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Robe\Hurt\HEAD_robe_hood" FrameDelay="75" Origin="0.5,0.9">
     <Frames>
       <Frame>0, 0, 64, 64</Frame>
       <Frame>64,0, 64, 64</Frame>

@@ -180,6 +180,17 @@
       <Frame>338, 207, 40, 48</Frame>
     </Frames>
   </Animation>
+
+  <Animation State="Death" Group="Body" Layer="0" Loop="False" SpriteSheet="LPC\Characters\Hurt\male_hurt" FrameDelay="75" Origin="0.5,0.9">
+    <Frames>
+      <Frame>0, 0, 64, 64</Frame>
+      <Frame>64,0, 64, 64</Frame>
+      <Frame>128,0, 64, 64</Frame>
+      <Frame>192,0, 64, 64</Frame>
+      <Frame>256,0, 64, 64</Frame>
+      <Frame>320,0, 64, 64</Frame>
+    </Frames>
+  </Animation>
   
   <!-- Shadow -->
   

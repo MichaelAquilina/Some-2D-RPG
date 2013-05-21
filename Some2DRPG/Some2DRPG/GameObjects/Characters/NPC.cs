@@ -14,6 +14,7 @@ namespace Some2DRPG.GameObjects.Characters
         double _attackDelay = 1500;
         double _lastAttack = 0;
 
+        bool _startedDeathAnim = false;
         float _attackDistance = 40f;
         float _agroDistance = 200;
         RPGEntity _target;
@@ -22,7 +23,7 @@ namespace Some2DRPG.GameObjects.Characters
         {
             this.CurrentState = EntityStates.Idle;
             this.AttackPriority = 6;
-            this.HP = 200;
+            this.HP = 50;
             this.Strength = 5;
             this.CollisionGroup = "Shadow";
             this.Interacted += new RPGEntityEventHandler(NPC_Interacted);
@@ -104,7 +105,12 @@ namespace Some2DRPG.GameObjects.Characters
             }
             else
             {
-                // DIE...
+                if (!_startedDeathAnim)
+                {
+                    _startedDeathAnim = true;
+                    CurrentDrawableState = "Death";
+                    Drawables.ResetState(CurrentDrawableState, gameTime);
+                }
             }
 
         }

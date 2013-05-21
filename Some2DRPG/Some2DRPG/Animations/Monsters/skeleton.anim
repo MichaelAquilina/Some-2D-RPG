@@ -153,7 +153,7 @@
   
   <!-- Death -->
 
-  <Animation State="Hurt" Group="Body" Layer="0" Loop="False" SpriteSheet="LPC\Characters\Hurt\BODY_skeleton" FrameDelay="75" Origin="0.5,0.9">
+  <Animation State="Death" Group="Body" Layer="0" Loop="False" SpriteSheet="LPC\Characters\Hurt\BODY_skeleton" FrameDelay="75" Origin="0.5,0.9">
     <Frames>
       <Frame>0, 0, 64, 64</Frame>
       <Frame>64,0, 64, 64</Frame>
