@@ -122,7 +122,7 @@ namespace Some2DRPG.GameObjects
         /// </summary>
         public int RollForDamage()
         {
-            return Strength + Strength * RPGEntity.RPGRandomGenerator.Next(6) / 6;
+            return Strength + Strength * RPGEntity.RPGRandomGenerator.Next(6) / 10;
         }
 
         public void ClearHitList()
