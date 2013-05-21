@@ -4,6 +4,8 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Skeleton warrior creature.
+- [] - Bow and arrow animation / attack move.
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
 - [IP] - Collision detection between entities.
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
