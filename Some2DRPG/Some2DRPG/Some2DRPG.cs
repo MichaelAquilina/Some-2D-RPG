@@ -11,6 +11,8 @@ using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Characters;
 using Some2DRPG.Shaders;
 using Some2DRPG.Items;
+using Some2DRPG.GameObjects;
+using GameEngine.Pathfinding;
 
 namespace Some2DRPG
 {
@@ -66,6 +68,7 @@ namespace Some2DRPG
         TeeEngine Engine;
 
         Hero CurrentPlayer { get { return (Hero) Engine.GetEntity("Player"); } }
+        Path CurrentPath;
 
         public Some2DRPG()
         {
@@ -98,7 +101,7 @@ namespace Some2DRPG
             mouseCursorOpen = Content.Load<Texture2D>("misc/Pointers/cursor_open");
 
             MapEventArgs mapArgs = new MapEventArgs();
-            mapArgs.SetProperty("Target", "ChasmExit");
+            mapArgs.SetProperty("Target", "ExtraExit");
             Engine.LoadMap("Content/Maps/mountains_example.tmx", mapArgs);
 
             CurrentSampler = SamplerStates[SamplerIndex];
@@ -176,6 +179,7 @@ namespace Some2DRPG
             // F11 = Show/Hide Player Helmet
             // F12 = Disable Player Collision Detection
 
+            MouseState mouseState = Mouse.GetState();
             KeyboardState keyboardState = Keyboard.GetState();
 
             CheckItemActions(gameTime, keyboardState);
@@ -248,6 +252,27 @@ namespace Some2DRPG
             return drawPointer;
         }
 
+        private void FollowPath(RPGEntity entity, Path path)
+        {
+            if (path.NodeList.Count == 0)
+            {
+                entity.Approach(path.End);
+                if (entity.Pos == path.End) CurrentPath = null;
+            }
+            else
+            {
+                while (Engine.Map.TxToPx(path.NodeList[0].Pos) == entity.Pos)
+                {
+                    path.NodeList.RemoveAt(0);
+
+                    if (path.NodeList.Count == 0)
+                        return;
+                }
+
+                entity.Approach(Engine.Map.TxToPx(path.NodeList[0].Pos));
+            }
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             MouseState mouseState = Mouse.GetState();
@@ -277,6 +302,13 @@ namespace Some2DRPG
                                             Color.White,
                                             CurrentSampler,
                                             DefaultSpriteFont);
+
+            if(mouseState.RightButton == ButtonState.Pressed)
+            {
+                CurrentPath = Engine.Pathfinding.GeneratePath(CurrentPlayer.Pos, viewPort.GetWorldCoordinates(new Point(mouseState.X, mouseState.Y)), Engine);
+            }
+
+            if (CurrentPath != null) FollowPath(CurrentPlayer, CurrentPath);
 
             // DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();

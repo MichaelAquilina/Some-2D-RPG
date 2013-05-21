@@ -79,6 +79,11 @@ namespace GameEngine.Tiled
             );
         }
 
+        public Tile GetPxTopMostTile(Vector2 pos)
+        {
+            return GetPxTopMostTile(pos.X, pos.Y);
+        }
+
         // Get the specified tile from the specified layer index using tx coordinates
         public Tile GetTxTile(int tx, int ty, int layerIndex)
         {
@@ -96,6 +101,26 @@ namespace GameEngine.Tiled
                 (int)(py / TileHeight),
                 layerIndex
             );
+        }
+
+        /// <summary>
+        /// Converts the specfied global world (px) coordinates into its relevant tile coordinate.
+        /// </summary>
+        public Vector2 PxToTx(Vector2 position)
+        {
+            return new Vector2(
+                (int) Math.Floor(position.X / TileWidth), 
+                (int) Math.Floor(position.Y / TileHeight)
+                );
+        }
+
+        /// <summary>
+        /// Converts the specified tile (tx) coordinates into global world (px) coordinates. The result
+        /// returned will be situated at the very center fo the specified tile coordinate.
+        /// </summary>
+        public Vector2 TxToPx(Vector2 position)
+        {
+            return position * new Vector2(TileWidth, TileHeight) + new Vector2(TileWidth/2, TileHeight/2);
         }
 
         private static List<Point> ConvertToPointsList(string pointData)

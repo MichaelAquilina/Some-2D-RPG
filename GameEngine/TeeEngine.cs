@@ -210,8 +210,7 @@ namespace GameEngine
 
             this.Collider.Construct(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
 
-            // Setup the pathfinding with the new map
-            this.Pathfinding = new AStar(this.Map);
+            Pathfinding = new AStar();
         }
 
         public void LoadMap(string mapFilePath, MapEventArgs mapLoadedEventArgs=null)

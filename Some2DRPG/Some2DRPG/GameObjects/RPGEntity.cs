@@ -189,8 +189,19 @@ namespace Some2DRPG.GameObjects
             Vector2 difference = target - this.Pos;
             difference.Normalize();
 
+            Vector2 prevPos = this.Pos;
             this.Pos.X += _moveSpeed * difference.X;
             this.Pos.Y += _moveSpeed * difference.Y;
+
+            if (prevPos.X < target.X && Pos.X > target.X) 
+                Pos.X = target.X;
+            if (prevPos.X > target.X && Pos.X < target.X) 
+                Pos.X = target.X;
+
+            if (prevPos.Y < target.Y && Pos.Y > target.Y) 
+                Pos.Y = target.Y;
+            if (prevPos.Y > target.Y && Pos.Y < target.Y) 
+                Pos.Y = target.Y;
         }
 
         #endregion

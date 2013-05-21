@@ -249,6 +249,11 @@
    <property name="Impassable" value=""/>
   </properties>
  </tile>
+ <tile id="94">
+  <properties>
+   <property name="Impassable" value=""/>
+  </properties>
+ </tile>
  <tile id="106">
   <properties>
    <property name="Impassable" value=""/>
