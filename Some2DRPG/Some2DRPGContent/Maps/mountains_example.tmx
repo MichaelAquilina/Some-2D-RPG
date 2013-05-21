@@ -467,10 +467,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,157,158,158,158,158,158,158,158,158,158,158,158,158,158,158,158,158,158,158,159,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,163,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,164,165,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,113,113,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,113,113,113,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,113,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,113,113,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -593,26 +593,7 @@
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="259" y="438"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="162" y="462"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="235" y="676"/>
-  <object name="TrainingGuard" type="Some2DRPG.GameObjects.Characters.NPC" x="139" y="683">
-   <properties>
-    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
-    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
-    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
-    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
-    <property name="Direction" value="Left"/>
-    <property name="Faction" value="Allies"/>
-   </properties>
-  </object>
   <object type="Some2DRPG.GameObjects.Misc.Chest" x="239" y="107"/>
-  <object type="Some2DRPG.GameObjects.Characters.NPC" x="72" y="413">
-   <properties>
-    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
-    <property name="*QuickEquip&lt;5&gt;" value="RobeSkirt"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
-    <property name="Direction" value="Left"/>
-    <property name="Faction" value="Creatures"/>
-   </properties>
-  </object>
   <object type="Some2DRPG.GameObjects.Characters.NPC" x="257" y="562">
    <properties>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
@@ -640,6 +621,83 @@
     <property name="Destination" value="Content/Maps/example_map.tmx"/>
     <property name="Target" value="ChasmEntrance"/>
     <property name="Visible" value="true"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="1196" y="626">
+   <properties>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Creatures"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="1106" y="407">
+   <properties>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Creatures"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="1331" y="756">
+   <properties>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Creatures"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="1308" y="347">
+   <properties>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Creatures"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="255" y="386">
+   <properties>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;5&gt;" value="RobeSkirt"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Creatures"/>
+   </properties>
+  </object>
+  <object name="BridgeGuard2" type="Some2DRPG.GameObjects.Characters.NPC" x="538" y="490">
+   <properties>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Allies"/>
+   </properties>
+  </object>
+  <object name="BridgeGuard3" type="Some2DRPG.GameObjects.Characters.NPC" x="79" y="605">
+   <properties>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Allies"/>
    </properties>
   </object>
  </objectgroup>

@@ -5,6 +5,7 @@ using GameEngine.Tiled;
 
 namespace GameEngine.Pathfinding
 {
+    // TODO: Allow setting of IsValid from external Games.
     public class AStar
     {
         public Path GeneratePath(Vector2 pxStart, Vector2 pxEnd, TeeEngine engine)

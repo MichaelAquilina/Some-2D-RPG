@@ -84,21 +84,25 @@ namespace Some2DRPG.GameObjects.Creatures
             }
             else if (CurrentState == EntityStates.PrepareAttack)
             {
-                _attackHeight.Y -= 2;
-
-                if (_attackHeight.Y < -40)
+                if (_target == null) CurrentState = EntityStates.Alert;
+                else
                 {
-                    _attackHeight.Y = -40;
-                    _attackAngle = Math.Atan2(
-                        this.Pos.Y - _target.Pos.Y,
-                        this.Pos.X - _target.Pos.X
-                        );
-                    CurrentState = EntityStates.Attacking;
-                    ClearHitList();
-                    _attackCounter = 0;
-                }
+                    _attackHeight.Y -= 2;
 
-                Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
+                    if (_attackHeight.Y < -40)
+                    {
+                        _attackHeight.Y = -40;
+                        _attackAngle = Math.Atan2(
+                            this.Pos.Y - _target.Pos.Y,
+                            this.Pos.X - _target.Pos.X
+                            );
+                        CurrentState = EntityStates.Attacking;
+                        ClearHitList();
+                        _attackCounter = 0;
+                    }
+
+                    Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
+                }
             }
             else if (CurrentState == EntityStates.Attacking)
             {
