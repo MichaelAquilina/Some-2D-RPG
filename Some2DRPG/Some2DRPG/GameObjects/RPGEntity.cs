@@ -213,13 +213,16 @@ namespace Some2DRPG.GameObjects
         /// </summary>
         public void OnHit(Entity invoker, int damageDealt, GameTime gameTime, TeeEngine engine)
         {
-            HP -= damageDealt;
+            if (HP > 0)
+            {
+                HP -= damageDealt;
 
-            BattleText text = new BattleText(damageDealt.ToString(), Color.Red);
-            text.Pos = Pos;
-            text.Pos.Y -= CurrentBoundingBox.Height;
+                BattleText text = new BattleText(damageDealt.ToString(), Color.Red);
+                text.Pos = Pos;
+                text.Pos.Y -= CurrentBoundingBox.Height;
 
-            engine.AddEntity(text);
+                engine.AddEntity(text);
+            }
 
             if (Hit != null)
                 Hit(this, invoker, gameTime, engine);

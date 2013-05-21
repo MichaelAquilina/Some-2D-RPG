@@ -590,10 +590,10 @@
     <property name="Faction" value="Allies"/>
    </properties>
   </object>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="41" y="849"/>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="74" y="886"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="196" y="585"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="259" y="438"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="162" y="462"/>
-  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="121" y="867"/>
+  <object type="Some2DRPG.GameObjects.Creatures.Bat" x="235" y="676"/>
   <object name="TrainingGuard" type="Some2DRPG.GameObjects.Characters.NPC" x="116" y="560">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
@@ -606,7 +606,29 @@
    </properties>
   </object>
   <object type="Some2DRPG.GameObjects.Misc.Chest" x="239" y="107"/>
-  <object type="Some2DRPG.GameObjects.Characters.NPC" x="155" y="835">
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="72" y="413">
+   <properties>
+    <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Creatures"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="215" y="517">
+   <properties>
+    <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Creatures"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="80" y="506">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
