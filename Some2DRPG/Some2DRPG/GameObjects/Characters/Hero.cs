@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using GameEngine;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
@@ -14,7 +13,6 @@ namespace Some2DRPG.GameObjects.Characters
     public class Hero : RPGEntity
     {
         const int INPUT_DELAY = 0;
-        const float MOVEMENT_SPEED = 2.9f;
 
         public LightSource LightSource { get; set; }
 
@@ -32,6 +30,8 @@ namespace Some2DRPG.GameObjects.Characters
 
         private void Construct(float x, float y)
         {
+            _moveSpeed = 2.0f;
+
             MaxHP = 2000;
             HP = MaxHP;
 
@@ -127,8 +127,11 @@ namespace Some2DRPG.GameObjects.Characters
                     if (movement.Length() > 0)
                     {
                         movement.Normalize();
-                        Pos += movement * MOVEMENT_SPEED;
+                        Pos += movement * _moveSpeed;
+                    }
 
+                    if (prevPos != Pos)
+                    {
                         Vector2 difference = Pos - prevPos;
                         if (Math.Abs(difference.X) > Math.Abs(difference.Y))
                             Direction = (difference.X > 0) ? Direction.Right : Direction.Left;

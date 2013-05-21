@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Items;
+using GameEngine.Pathfinding;
 
 namespace Some2DRPG.GameObjects
 {
@@ -202,6 +203,27 @@ namespace Some2DRPG.GameObjects
                 Pos.Y = target.Y;
             if (prevPos.Y > target.Y && Pos.Y < target.Y) 
                 Pos.Y = target.Y;
+        }
+
+        public void FollowPath(Path path, TeeEngine engine)
+        {
+            if (Pos == path.End)
+                return;
+
+            if (path.NodeList.Count == 0)
+                Approach(path.End);
+            else
+            {
+                while (engine.Map.TxToPx(path.NodeList[0].Pos) == Pos)
+                {
+                    path.NodeList.RemoveAt(0);
+
+                    if (path.NodeList.Count == 0)
+                        return;
+                }
+
+                Approach(engine.Map.TxToPx(path.NodeList[0].Pos));
+            }
         }
 
         #endregion

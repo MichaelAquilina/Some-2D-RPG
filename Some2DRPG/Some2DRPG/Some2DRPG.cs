@@ -101,7 +101,7 @@ namespace Some2DRPG
             mouseCursorOpen = Content.Load<Texture2D>("misc/Pointers/cursor_open");
 
             MapEventArgs mapArgs = new MapEventArgs();
-            mapArgs.SetProperty("Target", "ExtraExit");
+            mapArgs.SetProperty("Target", "ChasmExit");
             Engine.LoadMap("Content/Maps/mountains_example.tmx", mapArgs);
 
             CurrentSampler = SamplerStates[SamplerIndex];
@@ -252,27 +252,6 @@ namespace Some2DRPG
             return drawPointer;
         }
 
-        private void FollowPath(RPGEntity entity, Path path)
-        {
-            if (path.NodeList.Count == 0)
-            {
-                entity.Approach(path.End);
-                if (entity.Pos == path.End) CurrentPath = null;
-            }
-            else
-            {
-                while (Engine.Map.TxToPx(path.NodeList[0].Pos) == entity.Pos)
-                {
-                    path.NodeList.RemoveAt(0);
-
-                    if (path.NodeList.Count == 0)
-                        return;
-                }
-
-                entity.Approach(Engine.Map.TxToPx(path.NodeList[0].Pos));
-            }
-        }
-
         protected override void Draw(GameTime gameTime)
         {
             MouseState mouseState = Mouse.GetState();
@@ -303,13 +282,6 @@ namespace Some2DRPG
                                             CurrentSampler,
                                             DefaultSpriteFont);
 
-            if(mouseState.RightButton == ButtonState.Pressed)
-            {
-                CurrentPath = Engine.Pathfinding.GeneratePath(CurrentPlayer.Pos, viewPort.GetWorldCoordinates(new Point(mouseState.X, mouseState.Y)), Engine);
-            }
-
-            if (CurrentPath != null) FollowPath(CurrentPlayer, CurrentPath);
-
             // DRAW DEBUGGING INFORMATION
             SpriteBatch.Begin();
             {
@@ -319,7 +291,7 @@ namespace Some2DRPG
                     if (LightShader.Enabled)
                     {
                         int lightMapHeight = 100;
-                        int lightMapWidth = (int)Math.Ceiling(100 * ((float)LightShader.LightMap.Width / LightShader.LightMap.Height));
+                        int lightMapWidth = (int) Math.Ceiling(100 * ((float)LightShader.LightMap.Width / LightShader.LightMap.Height));
 
                         SpriteBatch.Draw(
                             LightShader.LightMap,
