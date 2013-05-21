@@ -581,7 +581,6 @@
   <object type="Some2DRPG.GameObjects.Creatures.CombatDummy" x="220" y="292"/>
   <object name="BridgeGuard1" type="Some2DRPG.GameObjects.Characters.NPC" x="218" y="327">
    <properties>
-    <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
     <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
@@ -594,9 +593,8 @@
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="259" y="438"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="162" y="462"/>
   <object type="Some2DRPG.GameObjects.Creatures.Bat" x="235" y="676"/>
-  <object name="TrainingGuard" type="Some2DRPG.GameObjects.Characters.NPC" x="116" y="560">
+  <object name="TrainingGuard" type="Some2DRPG.GameObjects.Characters.NPC" x="139" y="683">
    <properties>
-    <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
     <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
@@ -608,33 +606,31 @@
   <object type="Some2DRPG.GameObjects.Misc.Chest" x="239" y="107"/>
   <object type="Some2DRPG.GameObjects.Characters.NPC" x="72" y="413">
    <properties>
-    <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
-    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
-    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
-    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="*QuickEquip&lt;5&gt;" value="RobeSkirt"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
   </object>
-  <object type="Some2DRPG.GameObjects.Characters.NPC" x="215" y="517">
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="257" y="562">
    <properties>
-    <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
     <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
   </object>
-  <object type="Some2DRPG.GameObjects.Characters.NPC" x="80" y="506">
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="396" y="493">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
-    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
-    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
