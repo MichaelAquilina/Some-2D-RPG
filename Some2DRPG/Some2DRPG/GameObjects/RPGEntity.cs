@@ -115,6 +115,15 @@ namespace Some2DRPG.GameObjects
 
         #region Helper Methods
 
+        /// <summary>
+        /// Performs a "Roll" to see how much Damage this Entity will do based on the engines calculation
+        /// of damage using factors such as strength, weapon damage and some elements of randomness.
+        /// </summary>
+        public int RollForDamage()
+        {
+            return Strength + Strength * RPGEntity.RPGRandomGenerator.Next(6) / 6;
+        }
+
         public void ClearHitList()
         {
             _hitEntityList.Clear();
@@ -187,21 +196,6 @@ namespace Some2DRPG.GameObjects
 
         #region Interaction Methods
 
-        public virtual bool IsAttacking(GameTime gameTime)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual void OnAttack(GameTime gameTime)
-        {
-            throw new NotImplementedException();
-        }
-
-        public virtual bool IsFinishedAttacking(GameTime gameTime)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// Method called when the RPG Entity has been interacted with through some medium by
         /// another Entity object residing within the same engine. Override this method in
@@ -210,23 +204,6 @@ namespace Some2DRPG.GameObjects
         public virtual void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
         {
             throw new NotImplementedException();
-        }
-
-        public virtual void OnIdle(GameTime gameTime, TeeEngine engine)
-        {
-            CurrentDrawableState = IdlePrefix + "_" + Direction;
-        }
-
-        public virtual void OnMove(GameTime gameTime, TeeEngine engine)
-        {
-            Vector2 difference = Pos - prevPos;
-            if (Math.Abs(difference.X) > Math.Abs(difference.Y))
-                Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
-            else
-                Direction = (difference.Y > 0) ? Direction.Down : Direction.Up;
-
-            CurrentDrawableState = MovePrefix + "_" + Direction;
-            
         }
 
         /// <summary>
@@ -294,15 +271,6 @@ namespace Some2DRPG.GameObjects
         }
 
         #endregion
-
-        /// <summary>
-        /// Performs a "Roll" to see how much Damage this Entity will do based on the engines calculation
-        /// of damage using factors such as strength, weapon damage and some elements of randomness.
-        /// </summary>
-        public int RollForDamage()
-        {
-            return Strength + Strength * RPGEntity.RPGRandomGenerator.Next(6) / 6;
-        }
 
         public override string ToString()
         {

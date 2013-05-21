@@ -88,12 +88,6 @@ namespace Some2DRPG.GameObjects.Characters
             }
         }
 
-        public override bool IsFinishedAttacking(GameTime gameTime)
-        {
-            return Drawables.IsStateFinished(CurrentDrawableState, gameTime);
-        }
-
-
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
             KeyboardState keyboardState = Keyboard.GetState();
