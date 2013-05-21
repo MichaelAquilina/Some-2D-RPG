@@ -47,15 +47,15 @@ namespace Some2DRPG.GameObjects.Creatures
             {
                 CurrentDrawableState = "Spin_" + Direction;
                 Drawables.ResetState(CurrentDrawableState, gameTime);
-            
-                // Play random Hit Sound.
-                int index = _randomGenerator.Next(3);
-                _hitSounds[index].Play();
-
-                base.OnHit(sender, damageDealt, gameTime, engine);
-
-                this.HP = 2000;
             }
+
+            // Play random Hit Sound.
+            int index = _randomGenerator.Next(3);
+            _hitSounds[index].Play();
+
+            base.OnHit(sender, damageDealt, gameTime, engine);
+
+            this.HP = 2000;
         }
 
         public override void Update(GameTime gameTime, GameEngine.TeeEngine engine)
