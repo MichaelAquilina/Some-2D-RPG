@@ -62,16 +62,6 @@ namespace Some2DRPG.GameObjects.Creatures
             }
         }
 
-        public override bool IsAttacking(GameTime gameTime)
-        {
-            return AttackStance == AttackStance.Attacking || AttackStance == AttackStance.Preparing;
-        }
-
-        public override bool IsFinishedAttacking(GameTime gameTime)
-        {
-            return AttackStance == AttackStance.NotAttacking;
-        }
-
         public void AggressiveBatAI(GameTime gameTime, TeeEngine engine)
         {
             _target = GetHighestPriorityTarget(gameTime, engine, _agroDistance);
@@ -80,7 +70,7 @@ namespace Some2DRPG.GameObjects.Creatures
             if (_target != null)
             {
                 // ATTACKING LOGIC.
-                if (AttackStance == AttackStance.Attacking)
+                if (CurrentState == EntityStates.Attacking)
                 {
                     this.Pos.X -= (float)(Math.Cos(_attackAngle) * _attackSpeed);
                     this.Pos.Y -= (float)(Math.Sin(_attackAngle) * _attackSpeed);
@@ -90,11 +80,11 @@ namespace Some2DRPG.GameObjects.Creatures
                     if (_attackCounter++ == ATTACK_COUNTER_LIMIT)
                     {
                         _hitEntityList.Clear();
-                        AttackStance = AttackStance.NotAttacking;
+                        CurrentState = EntityStates.Alert;
                     }
                 }
                 // ATTACK PREPERATION LOGIC.
-                else if (AttackStance == AttackStance.Preparing)
+                else if (CurrentState == EntityStates.PrepareAttack)
                 {
                     _attackHeight.Y -= 2;
 
@@ -105,21 +95,21 @@ namespace Some2DRPG.GameObjects.Creatures
                             this.Pos.Y - _target.Pos.Y,
                             this.Pos.X - _target.Pos.X
                             );
-                        AttackStance = AttackStance.Attacking;
+                        CurrentState = EntityStates.Attacking;
                         _attackCounter = 0;
                     }
 
                     Drawables.SetGroupProperty("Body", "Offset", _attackHeight);
                 }
                 // NON-ATTACKING LOGIC. PATROL AND APPROACH.
-                else if (AttackStance == AttackStance.NotAttacking)
+                else if (CurrentState == EntityStates.Alert)
                 {
                     double distance = Vector2.Distance(_target.Pos, this.Pos);
 
                     if (distance < _attackDistance)
                         Approach(_target.Pos);
                     else
-                        AttackStance = AttackStance.Preparing;
+                        CurrentState = EntityStates.PrepareAttack;
                 }
             }
             else

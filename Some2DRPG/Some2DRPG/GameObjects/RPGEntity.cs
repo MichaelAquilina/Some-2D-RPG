@@ -12,8 +12,6 @@ namespace Some2DRPG.GameObjects
 {
     public enum Direction { Left, Up, Right, Down };
 
-    public enum AttackStance { NotAttacking, Preparing, Attacking };
-
     public enum EntityStates { Idle, Alert, PrepareAttack, Attacking }
 
     public class RPGEntity : CollidableEntity
@@ -32,8 +30,6 @@ namespace Some2DRPG.GameObjects
         public Dictionary<ItemType, Item> Equiped { get; set; }
 
         public Direction Direction { get; set; }
-
-        public AttackStance AttackStance { get; set; }
 
         public EntityStates CurrentState { get; set; }
 
@@ -106,7 +102,7 @@ namespace Some2DRPG.GameObjects
             this.Equiped = new Dictionary<ItemType, Item>();
             this.BaseRace = baseRace;
 
-            this.AttackStance = AttackStance.NotAttacking;
+            this.CurrentState = EntityStates.Alert;
             this.Direction = Direction.Right;
         }
 
