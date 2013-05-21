@@ -4,6 +4,7 @@ using GameEngine.Drawing;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
+using GameEngine.Extensions;
 
 namespace Some2DRPG.GameObjects.Creatures
 {
@@ -44,7 +45,6 @@ namespace Some2DRPG.GameObjects.Creatures
             this.HP = 15;
             this._randomModifier = randomGenerator.NextDouble();
             this._moveSpeed = 1.8f;
-            this.Visible = true;
             this.EntityCollisionEnabled = false;
             this.TerrainCollisionEnabled = false;
             this.CurrentState = EntityStates.Idle;
@@ -128,6 +128,13 @@ namespace Some2DRPG.GameObjects.Creatures
         {
             if (this.HP > 0)
             {
+                if (_hitColor != Color.White)
+                {
+                    _hitPercentage += 0.06f;
+                    _hitColor = ColorExtensions.Transition(Color.Red, Color.White, _hitPercentage, false);
+                    Drawables.SetGroupProperty("Body", "Color", _hitColor);
+                }
+
                 AggressiveBatAI(gameTime, engine);
 
                 base.Update(gameTime, engine);
