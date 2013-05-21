@@ -218,7 +218,7 @@ namespace Some2DRPG
             }
 
             if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.F12, this, true))
-                CurrentPlayer.CollisionDetection = !CurrentPlayer.CollisionDetection;
+                CurrentPlayer.TerrainCollisionEnabled = !CurrentPlayer.TerrainCollisionEnabled;
 
             // INCREASE ZOOM LEVEL
             if(KeyboardExtensions.GetKeyDownState(keyboardState, Keys.OemPlus, this, true))

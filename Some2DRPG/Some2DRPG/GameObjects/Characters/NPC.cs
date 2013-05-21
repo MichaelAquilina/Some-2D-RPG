@@ -25,26 +25,21 @@ namespace Some2DRPG.GameObjects.Characters
             this.HP = 200;
             this.Strength = 5;
             this.CollisionGroup = "Shadow";
-            this.MovePrefix = "Walk";
-            this.IdlePrefix = "Idle";
+            this.Interacted += new RPGEntityEventHandler(NPC_Interacted);
         }
 
-        #region Interaction Methods
-
-        public override void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
+        private void NPC_Interacted(RPGEntity sender, Entity invoker, GameTime gameTime, TeeEngine engine)
         {
             SpeechBubble speech = new SpeechBubble(this, "Hello there Adventurer! Whats you're name?");
 
             engine.AddEntity(speech);
 
-            Vector2 distance = this.Pos - sender.Pos;
+            Vector2 distance = this.Pos - invoker.Pos;
             if (distance.X > distance.Y)
                 Direction = (distance.X > 0) ? Direction.Left : Direction.Right;
             else
                 Direction = (distance.Y > 0) ? Direction.Up : Direction.Down;
         }
-
-        #endregion
 
         public override void Update(GameTime gameTime, TeeEngine engine)
         {
@@ -59,11 +54,10 @@ namespace Some2DRPG.GameObjects.Characters
                 if (_target == null) CurrentState = EntityStates.Idle;
                 else
                 {
-                    Approach(_target.Pos);
-
                     if (Vector2.Distance(this.Pos, _target.Pos) < _attackDistance)
                     {
-                        if (gameTime.TotalGameTime.TotalMilliseconds - _lastAttack > 1000)
+                        // Only Attack during specific delayed intervals.
+                        if (gameTime.TotalGameTime.TotalMilliseconds - _lastAttack > _attackDelay)
                         {
                             _lastAttack = gameTime.TotalGameTime.TotalMilliseconds;
 
@@ -74,6 +68,7 @@ namespace Some2DRPG.GameObjects.Characters
                             Drawables.ResetState(CurrentDrawableState, gameTime);
                         }
                     }
+                    else Approach(_target.Pos);
                 }
             }
             else if (CurrentState == EntityStates.Attacking)
@@ -83,6 +78,7 @@ namespace Some2DRPG.GameObjects.Characters
                     CurrentState = EntityStates.Alert;
             }
 
+            // Update Idle or Walking animations.
             if (CurrentState == EntityStates.Alert || CurrentState == EntityStates.Idle)
             {
                 if (prevPos != Pos)

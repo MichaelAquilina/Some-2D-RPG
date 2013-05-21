@@ -47,18 +47,16 @@ namespace Some2DRPG.GameObjects.Creatures
             this.Visible = true;
             this.EntityCollisionEnabled = false;
             this.TerrainCollisionEnabled = false;
-            this.IdlePrefix = "Fly";
-            this.MovePrefix = "Fly";
+            this.CurrentState = EntityStates.Alert;
+            this.Hit += new RPGEntityEventHandler(Bat_Hit);
         }
 
-        public override void OnHit(Entity sender, int damageDealt, GameTime gameTime, TeeEngine engine)
+        private void Bat_Hit(RPGEntity sender, Entity invoker, GameTime gameTime, TeeEngine engine)
         {
             if (HP > 0)
             {
                 _hitColor = Color.Red;
                 _hitPercentage = 0.0f;
-
-                base.OnHit(sender, damageDealt, gameTime, engine);
             }
         }
 

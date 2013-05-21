@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using GameEngine;
 using GameEngine.Extensions;
 using GameEngine.GameObjects;
@@ -7,7 +8,6 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Shaders;
-using System;
 
 namespace Some2DRPG.GameObjects.Characters
 {
@@ -16,12 +16,7 @@ namespace Some2DRPG.GameObjects.Characters
         const int INPUT_DELAY = 0;
         const float MOVEMENT_SPEED = 2.9f;
 
-        public bool CollisionDetection { get; set; }
-
         public LightSource LightSource { get; set; }
-
-        // List of Entities hit during an attack cycle.
-        List<Entity> _hitEntityList = new List<Entity>();
 
         public Hero()
             : base(RPGEntity.HUMAN_MALE)
@@ -44,9 +39,6 @@ namespace Some2DRPG.GameObjects.Characters
 
             Faction = "Allies";
             CollisionGroup = "Shadow";
-            CollisionDetection = true;
-            IdlePrefix = "Idle";
-            MovePrefix = "Walk";
             LightSource = new LightSource();
             LightSource.Width = 32 * 8;
             LightSource.Height = 32 * 8;

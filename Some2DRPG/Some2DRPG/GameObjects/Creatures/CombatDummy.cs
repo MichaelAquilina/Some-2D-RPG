@@ -27,6 +27,7 @@ namespace Some2DRPG.GameObjects.Creatures
             this.Immovable = true;
             this.AttackPriority = 1;
             this._randomGenerator = new Random();
+            this.Hit += new RPGEntityEventHandler(CombatDummy_Hit);
         }
 
         public override void LoadContent(ContentManager content)
@@ -41,7 +42,8 @@ namespace Some2DRPG.GameObjects.Creatures
             base.LoadContent(content);
         }
 
-        public override void OnHit(Entity sender, int damageDealt, GameTime gameTime, TeeEngine engine)
+
+        private void CombatDummy_Hit(RPGEntity sender, Entity invoker, GameTime gameTime, TeeEngine engine)
         {
             if (!CurrentDrawableState.Contains("Spin"))
             {
@@ -52,8 +54,6 @@ namespace Some2DRPG.GameObjects.Creatures
             // Play random Hit Sound.
             int index = _randomGenerator.Next(3);
             _hitSounds[index].Play();
-
-            base.OnHit(sender, damageDealt, gameTime, engine);
 
             this.HP = 2000;
         }

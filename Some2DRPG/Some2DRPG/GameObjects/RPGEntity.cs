@@ -16,6 +16,8 @@ namespace Some2DRPG.GameObjects
 
     public class RPGEntity : CollidableEntity
     {
+        public delegate void RPGEntityEventHandler(RPGEntity sender, Entity invoker, GameTime gameTime, TeeEngine engine);
+
         public static Random RPGRandomGenerator = new Random();
 
         public static string HUMAN_MALE = @"Animations/Characters/male_npc.anim";
@@ -23,6 +25,9 @@ namespace Some2DRPG.GameObjects
         public static string CREATURES_BAT = @"Animations/Monsters/bat.anim";
         public static string CREATURES_DUMMY = @"Animations/Monsters/combat_dummy.anim";
         public static string CREATURES_SKELETON = @"Animations/Monsters/skeleton.anim";
+
+        public event RPGEntityEventHandler Hit;
+        public event RPGEntityEventHandler Interacted;
 
         public string Faction { get; set; }
 
@@ -71,9 +76,6 @@ namespace Some2DRPG.GameObjects
 
         #endregion
 
-        public string MovePrefix { get; set; }
-        public string IdlePrefix { get; set; }
-
         public RPGEntity()
         {
             Construct(0, 0, RPGEntity.HUMAN_MALE);
@@ -101,16 +103,12 @@ namespace Some2DRPG.GameObjects
             this.Backpack = new List<Item>();
             this.Equiped = new Dictionary<ItemType, Item>();
             this.BaseRace = baseRace;
-
-            this.CurrentState = EntityStates.Alert;
             this.Direction = Direction.Right;
         }
 
         public override void LoadContent(ContentManager content)
         {
             DrawableSet.LoadDrawableSetXml(Drawables, BaseRace, content);
-
-            CurrentDrawableState = "Idle_" + Direction;
         }
 
         #region Helper Methods
@@ -198,20 +196,19 @@ namespace Some2DRPG.GameObjects
 
         /// <summary>
         /// Method called when the RPG Entity has been interacted with through some medium by
-        /// another Entity object residing within the same engine. Override this method in
-        /// order to allow interactions to occur with this entity.
+        /// another Entity object residing within the same engine.
         /// </summary>
-        public virtual void OnInteract(Entity sender, GameTime gameTime, TeeEngine engine)
+        public void OnInteract(Entity invoker, GameTime gameTime, TeeEngine engine)
         {
-            throw new NotImplementedException();
+            if (Interacted != null)
+                Interacted(this, invoker, gameTime, engine);
         }
 
         /// <summary>
         /// Method called when the RPG Entity has been hit by some Entity residing within the
-        /// game engine. Override this method in order to perform custom functionality
-        /// during a Hit event.
+        /// game engine.
         /// </summary>
-        public virtual void OnHit(Entity sender, int damageDealt, GameTime gameTime, TeeEngine engine)
+        public void OnHit(Entity invoker, int damageDealt, GameTime gameTime, TeeEngine engine)
         {
             HP -= damageDealt;
 
@@ -220,6 +217,9 @@ namespace Some2DRPG.GameObjects
             text.Pos.Y -= CurrentBoundingBox.Height;
 
             engine.AddEntity(text);
+
+            if (Hit != null)
+                Hit(this, invoker, gameTime, engine);
         }
 
         #endregion
