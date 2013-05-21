@@ -220,6 +220,7 @@ namespace Some2DRPG.GameObjects
                 BattleText text = new BattleText(damageDealt.ToString(), Color.Red);
                 text.Pos = Pos;
                 text.Pos.Y -= CurrentBoundingBox.Height;
+                text.AlwaysOnTop = true;
 
                 engine.AddEntity(text);
             }
