@@ -26,10 +26,10 @@ namespace Some2DRPG.GameObjects.Characters
             this.HP = 50;
             this.Strength = 5;
             this.CollisionGroup = "Shadow";
-            this.Interacted += new RPGEntityEventHandler(NPC_Interacted);
+            this.Interact += NPC_Interact;
         }
 
-        private void NPC_Interacted(RPGEntity sender, Entity invoker, GameTime gameTime, TeeEngine engine)
+        private void NPC_Interact(RPGEntity sender, Entity invoker, GameTime gameTime, TeeEngine engine)
         {
             SpeechBubble speech = new SpeechBubble(this, "Hello there Adventurer! Whats you're name?");
 
@@ -105,6 +105,8 @@ namespace Some2DRPG.GameObjects.Characters
             }
             else
             {
+                this.Immovable = true;
+
                 if (!_startedDeathAnim)
                 {
                     _startedDeathAnim = true;

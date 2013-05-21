@@ -27,7 +27,7 @@ namespace Some2DRPG.GameObjects
         public static string CREATURES_SKELETON = @"Animations/Monsters/skeleton.anim";
 
         public event RPGEntityEventHandler Hit;
-        public event RPGEntityEventHandler Interacted;
+        public event RPGEntityEventHandler Interact;
 
         public string Faction { get; set; }
 
@@ -200,8 +200,8 @@ namespace Some2DRPG.GameObjects
         /// </summary>
         public void OnInteract(Entity invoker, GameTime gameTime, TeeEngine engine)
         {
-            if (Interacted != null)
-                Interacted(this, invoker, gameTime, engine);
+            if (Interact != null)
+                Interact(this, invoker, gameTime, engine);
         }
 
         /// <summary>

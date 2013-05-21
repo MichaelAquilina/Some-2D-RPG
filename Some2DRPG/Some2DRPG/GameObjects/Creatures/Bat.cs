@@ -47,8 +47,8 @@ namespace Some2DRPG.GameObjects.Creatures
             this.Visible = true;
             this.EntityCollisionEnabled = false;
             this.TerrainCollisionEnabled = false;
-            this.CurrentState = EntityStates.Alert;
-            this.Hit += new RPGEntityEventHandler(Bat_Hit);
+            this.CurrentState = EntityStates.Idle;
+            this.Hit += Bat_Hit;
         }
 
         private void Bat_Hit(RPGEntity sender, Entity invoker, GameTime gameTime, TeeEngine engine)
