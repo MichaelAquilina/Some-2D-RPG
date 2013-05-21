@@ -4,6 +4,7 @@ using GameEngine;
 using GameEngine.GameObjects;
 using Microsoft.Xna.Framework;
 using Some2DRPG.GameObjects.Misc;
+using GameEngine.Pathfinding;
 
 namespace Some2DRPG.GameObjects.Characters
 {
@@ -70,7 +71,11 @@ namespace Some2DRPG.GameObjects.Characters
                             Drawables.ResetState(CurrentDrawableState, gameTime);
                         }
                     }
-                    else Approach(_target.Pos);
+                    else
+                    {
+                        Path path = engine.Pathfinding.GeneratePath(this.Pos, _target.Pos, engine);
+                        FollowPath(path, engine);
+                    }
 
                     Vector2 difference = this.Pos - _target.Pos;
                     if (Math.Abs(difference.X) > Math.Abs(difference.Y))

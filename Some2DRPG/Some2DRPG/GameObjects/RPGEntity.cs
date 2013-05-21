@@ -210,19 +210,17 @@ namespace Some2DRPG.GameObjects
             if (Pos == path.End)
                 return;
 
-            if (path.NodeList.Count == 0)
-                Approach(path.End);
-            else
+            bool found = false;
+            foreach(ANode node in path.NodeList)
             {
-                while (engine.Map.TxToPx(path.NodeList[0].Pos) == Pos)
+                if (found)
                 {
-                    path.NodeList.RemoveAt(0);
-
-                    if (path.NodeList.Count == 0)
-                        return;
+                    Approach(engine.Map.TxToPx(node.Pos));
+                    return;
                 }
-
-                Approach(engine.Map.TxToPx(path.NodeList[0].Pos));
+                else
+                    if (engine.Map.PxToTx(this.Pos) == node.Pos)
+                        found = true;
             }
         }
 

@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Refactoring of PathFinding code (small nauinces).
 - [] - Skeleton warrior creature.
 - [] - Bow and arrow animation / attack move.
 - [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
