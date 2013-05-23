@@ -108,8 +108,8 @@ namespace Some2DRPG
             mouseCursorOpen = Content.Load<Texture2D>("misc/Pointers/cursor_open");
 
             MapEventArgs mapArgs = new MapEventArgs();
-            mapArgs.SetProperty("Target", "Bedroom");
-            Engine.LoadMap("Content/Maps/inside_example.tmx", mapArgs);
+            mapArgs.SetProperty("Target", "ChasmExit");
+            Engine.LoadMap("Content/Maps/mountains_example.tmx", mapArgs);
 
             CurrentSampler = SamplerStates[SamplerIndex];
 

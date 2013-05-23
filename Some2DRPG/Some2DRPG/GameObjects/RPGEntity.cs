@@ -172,10 +172,10 @@ namespace Some2DRPG.GameObjects
 
                     if (entityDistance <= distance &&
                         (entity.AttackPriority > maxPriority ||
-                        (entity.AttackPriority == maxPriority && distance < currDistance))
+                        (entity.AttackPriority == maxPriority && entityDistance < currDistance))
                         )
                     {
-                        currDistance = distance;
+                        currDistance = entityDistance;
                         maxPriority = entity.AttackPriority;
                         resultTarget = entity;
                     }
