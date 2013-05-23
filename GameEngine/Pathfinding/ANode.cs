@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 
 namespace GameEngine.Pathfinding
 {
@@ -11,14 +7,14 @@ namespace GameEngine.Pathfinding
         public const int DIAGONAL_COST = 14;
         public const int NORMAL_COST = 10;
 
-        public Vector2 Pos { get; set; }
+        public Vector2 TxPos { get; set; }
         public ANode Parent { get; private set; }
 
         public int Length { get; internal set; }
 
-        public ANode(Vector2 pos, ANode parent)
+        public ANode(Vector2 txPos, ANode parent)
         {
-            this.Pos = pos;
+            this.TxPos = txPos;
             this.Parent = parent;
 
             SetParent(parent);
@@ -29,23 +25,15 @@ namespace GameEngine.Pathfinding
             if (parent == null)
                 Length = 0;
             else
-                if (parent.Pos.X != Pos.X && parent.Pos.Y != Pos.Y)
+                if (parent.TxPos.X != TxPos.X && parent.TxPos.Y != TxPos.Y)
                     Length = parent.Length + DIAGONAL_COST;
                 else
                     Length = parent.Length + NORMAL_COST;
         }
 
-        public override bool Equals(object obj)
-        {
-            if (obj is ANode)
-                return ((ANode)obj).Pos == this.Pos;
-            
-            return false;
-        }
-
         public override string ToString()
         {
-            return string.Format("ANode: Pos={0}, Parent={1}, Length={2}", Pos, Parent.Pos, Length);
+            return string.Format("ANode: TxPos={0}, Parent={1}, Length={2}", TxPos, Parent.TxPos, Length);
         }
     }
 }

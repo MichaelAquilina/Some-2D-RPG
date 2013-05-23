@@ -145,6 +145,8 @@ namespace GameEngine
             Collider = new HashList(16, 16);     // 16x16 is very fast but can be very memory intensive.
             //Collider = new QuadTree();
 
+            Pathfinding = new AStar();
+
             EntitiesOnScreen = new List<Entity>();
 
             OverallPerformance = new DiagnosticInfo("Overall Game Performance");
@@ -209,8 +211,6 @@ namespace GameEngine
             // unload previous map here.
 
             this.Collider.Construct(map.txWidth, map.txHeight, map.TileWidth, map.TileHeight);
-
-            Pathfinding = new AStar();
         }
 
         public void LoadMap(string mapFilePath, MapEventArgs mapLoadedEventArgs=null)

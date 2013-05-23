@@ -4,10 +4,9 @@ Game Engine Tasks
 Todo
 ----
 
-- [] - Refactoring of PathFinding code (small nauinces). External IsValid Specification for tiles in pathfinding.
 - [] - Skeleton warrior creature.
 - [] - Bow and arrow animation / attack move.
-- [IP] - Add some new monsters to the map, maybe something that walks - in which case start implemeting A* algorithm. Check repository used by behindcurtain.
+- [IP] - Add some new monsters to the map.
 - [IP] - Collision detection between entities.
 		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
 		 - Some forms of physics to allow proper reaction would be better.
@@ -17,7 +16,6 @@ Todo
 		- NeoForce: http://neoforce.codeplex.com/
 - [] - Refactor naming in LPC content.
 - [] - Implement Content Importer, Processor and Writer for: animation files, tileset files and tiled map files. (Supposed to be much faster).
-- [] - Refactoring of the Pathfinding namespace.
 - [] - Allow Specification of Repeat '1', '2', '3' etc... apart from the standard True or False.
 - [] - Provide queuing option in GetKeyboardownState in KeyboardExtensions.
 - [] - Consider removing hard coded nature of group and state in DrawableSet and just allow it to be added as a List of possibles (or a dictionary)
@@ -30,6 +28,7 @@ Todo
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+- [Done] - Refactoring of PathFinding code (small nauinces). External IsValid Specification for tiles in pathfinding.
 - [Done] - State based AI
 - [Done] - Hero movement code (and a lot others) should be based on RPGEntity code. Move code from Hero and NPC to RPGEntity.
 - [Done] - Specify Interaction Region for the chest (in front of it).

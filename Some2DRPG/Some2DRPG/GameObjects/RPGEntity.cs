@@ -207,7 +207,7 @@ namespace Some2DRPG.GameObjects
 
         public void FollowPath(Path path, TeeEngine engine)
         {
-            if (Pos == path.End)
+            if (Pos == path.PxEnd)
                 return;
 
             bool found = false;
@@ -215,11 +215,11 @@ namespace Some2DRPG.GameObjects
             {
                 if (found)
                 {
-                    Approach(engine.Map.TxToPx(node.Pos));
+                    Approach(engine.Map.TxToPx(node.TxPos));
                     return;
                 }
                 else
-                    if (engine.Map.PxToTx(this.Pos) == node.Pos)
+                    if (engine.Map.PxToTx(this.Pos) == node.TxPos)
                         found = true;
             }
         }

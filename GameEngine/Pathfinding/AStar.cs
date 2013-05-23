@@ -1,36 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using GameEngine.Tiled;
 
 namespace GameEngine.Pathfinding
 {
-    // TODO: Allow setting of IsValid from external Games.
     public class AStar
     {
+        private Dictionary<Vector2, ANode> _openList = new Dictionary<Vector2, ANode>();
+        private Dictionary<Vector2, ANode> _closedList = new Dictionary<Vector2, ANode>();
+
+        public delegate bool NodeValidationHandler(Vector2 txPos, TeeEngine engine);
+
+        public NodeValidationHandler Validator { get; set; }
+
+        /// <summary>
+        /// Uses the AStar algorithm to generate a Path from pxStart to pxEnd of valid ANodes to pass through.
+        /// What is considered to be a valid ANode is determined by the current delegate method assigned to
+        /// the instance's Validator property. The method will return an empty path if the location is impossible
+        /// to reach from the specified start location.
+        /// </summary>
+        /// <returns>Path object containing a path to the specified end location.</returns>
         public Path GeneratePath(Vector2 pxStart, Vector2 pxEnd, TeeEngine engine)
         {
-            Dictionary<Vector2, ANode> openList = new Dictionary<Vector2, ANode>();
-            Dictionary<Vector2, ANode> closedList = new Dictionary<Vector2, ANode>();
+            // Prevent from creating a dictionary each time this method is called.
+            _openList.Clear();
+            _closedList.Clear();
 
             Vector2 TXEND = engine.Map.PxToTx(pxEnd);
             Vector2 TXSTART = engine.Map.PxToTx(pxStart);
 
-            if(!IsValid(engine.Map.GetTxTopMostTile((int)TXEND.X, (int)TXEND.Y))) return new Path();
-            if(!IsValid(engine.Map.GetTxTopMostTile((int)TXSTART.X, (int)TXSTART.Y))) return new Path();
+            if(!OnValidate(TXEND, engine)) return new Path();
+            if(!OnValidate(TXSTART, engine)) return new Path();
 
-            openList.Add(TXEND, new ANode(TXEND, null));
+            // Working backwards allows us to follow the parent path.
+            _openList.Add(TXEND, new ANode(TXEND, null));
 
-            while (openList.Count > 0)
+            while (_openList.Count > 0)
             {
                 int min = Int32.MaxValue;
                 ANode selectedNode = null;
 
                 // Select the most promising node from the open list.
-                foreach (ANode node in openList.Values)
+                foreach (ANode node in _openList.Values)
                 {
                     int G = node.Length;
-                    int H = (int) Math.Ceiling(Vector2.Distance(node.Pos, TXSTART)) * 10;
+                    int H = (int) Math.Ceiling(Vector2.Distance(node.TxPos, TXSTART)) * 10;
                     int length = G + H;
                     if (length < min)
                     {
@@ -39,30 +53,31 @@ namespace GameEngine.Pathfinding
                     }
                 }
 
-                openList.Remove(selectedNode.Pos);
-                closedList.Add(selectedNode.Pos, selectedNode);
+                _openList.Remove(selectedNode.TxPos);
+                _closedList.Add(selectedNode.TxPos, selectedNode);
 
-                if (selectedNode.Pos == TXSTART)
+                if (selectedNode.TxPos == TXSTART)
                     return new Path(selectedNode, pxStart, pxEnd);
 
+                // Iterate through the node's neighbors.
                 for (int i = -1; i < 2; i++)
                 {
                     for (int j = -1; j < 2; j++)
                     {
                         if (i == 0 && j == 0) continue;
 
-                        ANode node = new ANode(selectedNode.Pos + new Vector2(i, j), selectedNode);
-                        Tile tile = engine.Map.GetTxTopMostTile((int)node.Pos.X, (int)node.Pos.Y);
+                        ANode node = new ANode(selectedNode.TxPos + new Vector2(i, j), selectedNode);
 
-                        if (IsValid(tile) && !closedList.ContainsKey(node.Pos))
+                        // If a validator has been supplied, use it to check if the current node is valid.
+                        if (OnValidate(node.TxPos, engine) && !_closedList.ContainsKey(node.TxPos))
                         {
-                            if (openList.ContainsKey(node.Pos))
+                            if (_openList.ContainsKey(node.TxPos))
                             {
-                                if (openList[node.Pos].Length > node.Length)
-                                    openList[node.Pos].SetParent(node.Parent);
+                                if (_openList[node.TxPos].Length > node.Length)
+                                    _openList[node.TxPos].SetParent(node.Parent);
                             }
                             else
-                                openList.Add(node.Pos, node);
+                                _openList.Add(node.TxPos, node);
                         }
                     }
                 }
@@ -71,10 +86,12 @@ namespace GameEngine.Pathfinding
             return null;
         }
 
-        // TODO: Checking if a tile is impassble should be placed in the user space.
-        private bool IsValid(Tile tile)
+        private bool OnValidate(Vector2 txPos, TeeEngine engine)
         {
-            return (tile != null && !tile.HasProperty("Impassable"));
+            if (Validator != null)
+                return Validator(txPos, engine);
+            else
+                return true;
         }
     }
 }
