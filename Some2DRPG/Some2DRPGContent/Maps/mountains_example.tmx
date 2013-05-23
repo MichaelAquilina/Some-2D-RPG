@@ -573,9 +573,9 @@
     <property name="CoinType" value="Silver"/>
    </properties>
   </object>
-  <object gid="188" x="1071" y="223"/>
-  <object gid="188" x="1069" y="701"/>
-  <object gid="188" x="1171" y="420"/>
+  <object gid="188" x="949" y="292"/>
+  <object gid="188" x="940" y="825"/>
+  <object gid="188" x="1129" y="391"/>
   <object gid="188" x="1139" y="103"/>
   <object gid="188" x="-10" y="1038"/>
   <object type="Some2DRPG.GameObjects.Creatures.CombatDummy" x="220" y="292"/>
@@ -764,6 +764,16 @@
     <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="251" y="799">
+   <properties>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Allies"/>
    </properties>
   </object>
  </objectgroup>
