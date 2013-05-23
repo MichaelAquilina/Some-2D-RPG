@@ -4,6 +4,9 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Add Trim funciton to .anim files. This will automatically trim out excess pixels from the frame
+          - this will provide optimal effeciency during runtime.
+		  - In the future this will all be performed at compile time due to porting loading code to the content pipeline.
 - [] - Skeleton warrior creature.
 - [] - Bow and arrow animation / attack move.
 - [IP] - Add some new monsters to the map.
