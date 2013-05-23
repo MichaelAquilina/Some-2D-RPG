@@ -117,7 +117,8 @@ namespace Some2DRPG.GameObjects.Characters
             }
             else
             {
-                this.Immovable = true;
+                this.EntityCollisionEnabled = false;
+                this.TerrainCollisionEnabled = false;
 
                 if (!_startedDeathAnim)
                 {
