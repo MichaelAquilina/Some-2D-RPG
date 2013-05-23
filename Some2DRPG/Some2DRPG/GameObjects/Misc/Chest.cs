@@ -54,6 +54,7 @@ namespace Some2DRPG.GameObjects.Misc
                         Coin coin = new Coin(this.Pos.X, this.Pos.Y, 100, (CoinType)random.Next(3));
                         coin.Pos.X += (float) ((random.NextDouble() - 0.5) * 100);
                         coin.Pos.Y += (float) ((random.NextDouble() - 0.5) * 100);
+                        coin.TerrainCollisionEnabled = false;       // Prevent from getting stuck in sorrounding walls.
 
                         engine.AddEntity(coin);
                     }
