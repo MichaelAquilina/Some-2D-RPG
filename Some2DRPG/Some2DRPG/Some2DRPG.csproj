@@ -124,6 +124,7 @@
     <Compile Include="GameObjects\Misc\Coin.cs" />
     <Compile Include="GameObjects\Characters\Hero.cs" />
     <Compile Include="GameObjects\RPGEntity.cs" />
+    <Compile Include="MapScripts\InsideExampleMapScript.cs" />
     <Compile Include="MapScripts\MountainsExampleMapScript.cs" />
     <Compile Include="MapScripts\Some2DRPGMasterScript.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
