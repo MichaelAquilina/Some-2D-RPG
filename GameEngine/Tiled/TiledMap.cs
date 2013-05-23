@@ -42,7 +42,12 @@ namespace GameEngine.Tiled
                 tile.LoadContent(content);
         }
 
-        public TileLayer GetLayerByName(string name)
+        public TiledObjectLayer GetObjectLayerByName(string name)
+        {
+            return TiledObjectLayers.Find(delegate(TiledObjectLayer t) { return t.Name.Equals(name); });
+        }
+
+        public TileLayer GetTileLayerByName(string name)
         {
             return TileLayers.Find(delegate(TileLayer t) { return t.Name.Equals(name); });
         }
