@@ -205,6 +205,7 @@ namespace Some2DRPG.GameObjects
                 Pos.Y = target.Y;
         }
 
+        //TODO: Could do with some refactoring.
         public void FollowPath(Path path, TeeEngine engine)
         {
             if (Pos == path.PxEnd)

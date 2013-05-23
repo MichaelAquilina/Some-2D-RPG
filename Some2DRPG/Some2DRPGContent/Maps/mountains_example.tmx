@@ -700,5 +700,15 @@
     <property name="Faction" value="Allies"/>
    </properties>
   </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="107" y="704">
+   <properties>
+    <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
+    <property name="*QuickEquip&lt;3&gt;" value="PlateGloves"/>
+    <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
+    <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
+    <property name="Direction" value="Left"/>
+    <property name="Faction" value="Allies"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

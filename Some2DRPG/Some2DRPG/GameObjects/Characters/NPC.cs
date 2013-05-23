@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using GameEngine;
 using GameEngine.GameObjects;
+using GameEngine.Pathfinding;
 using Microsoft.Xna.Framework;
 using Some2DRPG.GameObjects.Misc;
-using GameEngine.Pathfinding;
 
 namespace Some2DRPG.GameObjects.Characters
 {
-
     // Could possibly be renamed to AiRpgEntity if is generic enough.
     public class NPC : RPGEntity
     {
-        double _attackDelay = 1500;
+        double _randomDelay = 0;
+        double _attackDelay = 800;
         double _lastAttack = 0;
 
         bool _startedDeathAnim = false;
@@ -29,6 +28,7 @@ namespace Some2DRPG.GameObjects.Characters
             this.Strength = 5;
             this.CollisionGroup = "Shadow";
             this.Interact += NPC_Interact;
+            this._randomDelay = RPGRandomGenerator.Next(1000);
         }
 
         private void NPC_Interact(RPGEntity sender, Entity invoker, GameTime gameTime, TeeEngine engine)
@@ -60,9 +60,10 @@ namespace Some2DRPG.GameObjects.Characters
                     if (Vector2.Distance(this.Pos, _target.Pos) < _attackDistance)
                     {
                         // Only Attack during specific delayed intervals.
-                        if (gameTime.TotalGameTime.TotalMilliseconds - _lastAttack > _attackDelay)
+                        if (gameTime.TotalGameTime.TotalMilliseconds - _lastAttack > _attackDelay + _randomDelay)
                         {
                             _lastAttack = gameTime.TotalGameTime.TotalMilliseconds;
+                            _randomDelay = RPGRandomGenerator.Next(1000);
 
                             CurrentDrawableState = "Slash_" + Direction;
                             CurrentState = EntityStates.Attacking;
