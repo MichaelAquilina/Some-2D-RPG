@@ -100,8 +100,8 @@ namespace Some2DRPG
             mouseCursorOpen = Content.Load<Texture2D>("misc/Pointers/cursor_open");
 
             MapEventArgs mapArgs = new MapEventArgs();
-            mapArgs.SetProperty("Target", "ChasmExit");
-            Engine.LoadMap("Content/Maps/mountains_example.tmx", mapArgs);
+            mapArgs.SetProperty("Target", "Entrance");
+            Engine.LoadMap("Content/Maps/sandbox.tmx", mapArgs);
 
             CurrentSampler = SamplerStates[SamplerIndex];
 

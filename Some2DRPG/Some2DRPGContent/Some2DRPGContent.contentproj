@@ -864,6 +864,12 @@
   <ItemGroup>
     <Folder Include="LPC\Leather Armor\Hurt\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Maps\sandbox.tmx">
+      <Name>sandbox</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

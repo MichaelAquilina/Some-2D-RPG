@@ -60,6 +60,8 @@ namespace Some2DRPG.GameObjects.Misc
                     }
                 }
             }
+
+            base.Update(gameTime, engine);
         }
 
         public override void LoadContent(ContentManager content)

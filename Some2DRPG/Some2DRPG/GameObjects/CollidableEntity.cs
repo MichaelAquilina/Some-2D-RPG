@@ -90,6 +90,55 @@ namespace Some2DRPG.GameObjects
 
             CurrentPxCollisionBoundingBox = GetPxBoundingBox(gameTime, CollisionGroup);
 
+            if (EntityCollisionEnabled)
+            {
+                Vector2 move = Pos - PrevPos;
+
+                IntersectingEntities = engine.GetIntersectingEntities<CollidableEntity>(CurrentBoundingBox);
+                foreach (CollidableEntity entity in IntersectingEntities)
+                {
+                    if (entity != this
+                        && entity.EntityCollisionEnabled
+                        && Entity.IntersectsWith(
+                                this, this.CollisionGroup,
+                                entity, entity.CollisionGroup,
+                                gameTime)
+                        )
+                    {
+                        // Naive Collision Response.
+                        Vector2 difference = entity.Pos - this.Pos;
+                        if (difference.Length() > 0)
+                        {
+                            difference.Normalize();
+
+                            Rectangle intersection = Rectangle.Intersect(
+                                entity.CurrentPxCollisionBoundingBox,
+                                this.CurrentPxCollisionBoundingBox
+                                );
+
+                            if (move.X > 0)
+                            {
+                                this.Pos.X -= intersection.Width;
+                            }
+                            if (move.X < 0)
+                            {
+                                this.Pos.X += intersection.Width;
+                            }
+
+                            if (move.Y > 0)
+                            {
+                                this.Pos.Y -= intersection.Height;
+                            }
+
+                            if (move.Y < 0)
+                            {
+                                this.Pos.Y += intersection.Height;
+                            }
+                        }
+                    }
+                }
+            }
+
             if (TerrainCollisionEnabled && _prevTile != null)
             {
                 int tileX = (int)Pos.X / engine.Map.TileWidth;
@@ -149,34 +198,7 @@ namespace Some2DRPG.GameObjects
             PrevPos = Pos;
             _prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
 
-            if (EntityCollisionEnabled)
-            {
-                IntersectingEntities = engine.GetIntersectingEntities<CollidableEntity>(CurrentBoundingBox);
-                foreach (CollidableEntity entity in IntersectingEntities)
-                {
-                    if (entity != this
-                        && entity.EntityCollisionEnabled
-                        && Entity.IntersectsWith(
-                                this, this.CollisionGroup, 
-                                entity, entity.CollisionGroup, 
-                                gameTime)
-                        )
-                    {
-                        // Naive Collision Response.
-                        Vector2 difference = entity.Pos - this.Pos;
-                        if (difference.Length() > 0)
-                        {
-                            difference.Normalize();
-
-                            if (!entity.Immovable)
-                                entity.Pos += difference;
-
-                            if (!this.Immovable)
-                                this.Pos -= difference;
-                        }
-                    }
-                }
-            }
+           
         }
     }
 }
