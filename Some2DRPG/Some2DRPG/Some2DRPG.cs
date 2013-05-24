@@ -78,17 +78,9 @@ namespace Some2DRPG
             Graphics.PreferredBackBufferWidth = WINDOW_WIDTH;
         }
 
-        private bool PathfindingValidator(Vector2 txPos, TeeEngine engine)
-        {
-            Tile tile = engine.Map.GetTxTopMostTile((int)txPos.X, (int)txPos.Y);
-
-            return tile != null && !tile.HasProperty("Impassable");
-        }
-
         protected override void Initialize()
         {
             Engine = new TeeEngine(this, WINDOW_WIDTH, WINDOW_HEIGHT);
-            Engine.Pathfinding.Validator = PathfindingValidator;
 
             base.Initialize();
         }

@@ -2,6 +2,7 @@
 using GameEngine;
 using GameEngine.GameObjects;
 using GameEngine.Pathfinding;
+using GameEngine.Tiled;
 using Microsoft.Xna.Framework;
 using Some2DRPG.GameObjects.Misc;
 
@@ -44,6 +45,13 @@ namespace Some2DRPG.GameObjects.Characters
                 Direction = (distance.Y > 0) ? Direction.Up : Direction.Down;
         }
 
+        private bool PathfindingValidator(Vector2 txPos, TeeEngine engine, GameTime gameTime)
+        {
+            Tile tile = engine.Map.GetTxTopMostTile((int)txPos.X, (int)txPos.Y);
+
+            return tile != null && !tile.HasProperty("Impassable");
+        }
+
         private void AggressiveNpcAI(GameTime gameTime, TeeEngine engine)
         {
             _target = GetHighestPriorityTarget(gameTime, engine, _agroDistance);
@@ -74,7 +82,7 @@ namespace Some2DRPG.GameObjects.Characters
                     }
                     else
                     {
-                        Path path = engine.Pathfinding.GeneratePath(this.Pos, _target.Pos, engine);
+                        Path path = engine.Pathfinding.GeneratePath(this.Pos, _target.Pos, engine, gameTime, PathfindingValidator);
                         FollowPath(path, engine);
                     }
 

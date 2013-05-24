@@ -208,6 +208,34 @@ namespace GameEngine.GameObjects
                 gameTime);
         }
 
+        public static bool IntersectsWith(Entity entity, string entityState, string entityGroup, FRectangle bounds, GameTime gameTime)
+        {
+            HashSet<DrawableInstance> entityInstances = entity.Drawables.GetByState(entityState);
+
+            if (entityInstances == null) return false;
+
+            foreach (DrawableInstance instance in entityInstances)
+            {
+                if (entityGroup == null || instance._associatedGroup == entityGroup)
+                {
+                    float entitySourceWidth = instance.GetWidth(gameTime) * entity.ScaleX;
+                    float entitySourceHeight = instance.GetHeight(gameTime) * entity.ScaleY;
+
+                    FRectangle absBoundingBox = new FRectangle(
+                        entity.Pos.X - entitySourceWidth * instance.Drawable.Origin.X,
+                        entity.Pos.Y - entitySourceHeight * instance.Drawable.Origin.Y,
+                        entitySourceWidth,
+                        entitySourceHeight
+                        );
+
+                    if (bounds.Intersects(absBoundingBox))
+                        return true;
+                }
+            }
+
+            // No intersection tests passed.
+            return false;
+        }
         
         /// <summary>
         /// Checks if Two Entities are intersecting each other assuming the specified states, gameTime and group filter.
