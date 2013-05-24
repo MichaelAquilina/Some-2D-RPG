@@ -14,6 +14,7 @@ Items Related to Design and Development
 * Developing unit test cases in C#: http://msdn.microsoft.com/en-us/library/ms182532.aspx
 
 ### Art Assets
+* Very important asset repository on github: https://github.com/makrohn/Universal-LPC-spritesheet
 * Wooden Damage: http://opengameart.org/content/35-wooden-crackshitsdestructions
 * Hits/Punches: http://opengameart.org/content/37-hitspunches
 * Menu music: http://opengameart.org/content/menu-music
