@@ -15,23 +15,54 @@ namespace Some2DRPG.GameObjects
     /// </summary>
     public class CollidableEntity : Entity
     {
-        // The property to search for in Tiles to check if it is considered Impassable.
+        #region Properties and Members
+
+        /// <summary>
+        /// The property to search for in Tiles to check if it is considered Impassable.
+        /// </summary>
         public static string ImpassableTerrainProperty = "Impassable";
 
+        /// <summary>
+        /// List of CollidableEntity objects currently intersecting this CollidableEntity.
+        /// </summary>
         public List<CollidableEntity> IntersectingEntities { get; internal set; }
 
-        // Boolean flags to enable or disable Terrain Collisions and Entity Collision
+        /// <summary>
+        /// Boolean flag to enable or disable Terrain Collision response. Enabled by default.
+        /// </summary>
         public bool TerrainCollisionEnabled { get; set; }
+        
+        /// <summary>
+        /// Boolean flag to enable or disable Entity Collision response. Enabled by default.
+        /// </summary>
         public bool EntityCollisionEnabled { get; set; }
 
-        // Name of the group with which to perform intersection checks for this entity.
+        /// <summary>
+        /// String name of the drawable group that will act as the collision group for calculations.
+        /// </summary>
         public string CollisionGroup { get; set; }
 
-        // Boolean flag specifying if this object should not be movable when performing collision response.
+        /// <summary>
+        /// Similiar to the Entity 'CurrentPxBoundingBox' property, except it only caters for collision items.
+        /// </summary>
+        public Rectangle CurrentPxCollisionBoundingBox { get; internal set; }
+
+        /// <summary>
+        /// Boolean flag specifying if this object should not be movable when performing collision response.
+        /// </summary>
         public bool Immovable { get; set; }
 
-        public Vector2 prevPos = Vector2.Zero;
-        Tile _prevTile = null;
+        /// <summary>
+        /// The previous position of this Entity before it moved in the current Update routine.
+        /// </summary>
+        public Vector2 PrevPos = Vector2.Zero;
+
+        /// <summary>
+        /// The previous tile this CollidableEntity was one before the current Update routine.
+        /// </summary>
+        private Tile _prevTile = null;
+
+        #endregion
 
         public CollidableEntity()
         {
@@ -57,9 +88,10 @@ namespace Some2DRPG.GameObjects
             if (Pos.X >= engine.Map.pxWidth - 1) Pos.X = engine.Map.pxWidth - 1;
             if (Pos.Y >= engine.Map.pxHeight - 1) Pos.Y = engine.Map.pxHeight - 1;
 
+            CurrentPxCollisionBoundingBox = GetPxBoundingBox(gameTime, CollisionGroup);
+
             if (TerrainCollisionEnabled && _prevTile != null)
             {
-                // Iterate through each layer and determine if the tile is passable.
                 int tileX = (int)Pos.X / engine.Map.TileWidth;
                 int tileY = (int)Pos.Y / engine.Map.TileHeight;
 
@@ -78,10 +110,10 @@ namespace Some2DRPG.GameObjects
                 string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 string[] exitPoints = _prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                bool top = prevPos.Y < pxTileY;
-                bool bottom = prevPos.Y > pxTileY + pxTileHeight;
-                bool left = prevPos.X < pxTileX;
-                bool right = prevPos.X > pxTileX + pxTileWidth;
+                bool top = PrevPos.Y < pxTileY;
+                bool bottom = PrevPos.Y > pxTileY + pxTileHeight;
+                bool left = PrevPos.X < pxTileX;
+                bool right = PrevPos.X > pxTileX + pxTileWidth;
 
                 // Ensure entry points.
                 impassable |= top && !ContainsItem(entryPoints, "Top");
@@ -100,21 +132,21 @@ namespace Some2DRPG.GameObjects
                 float padding = 0.001f;
                 if (impassable)
                 {
-                    if (prevPos.Y <= pxTileY && Pos.Y > pxTileY)
+                    if (PrevPos.Y <= pxTileY && Pos.Y > pxTileY)
                         Pos.Y = pxTileY - padding;
                     else
-                        if (prevPos.Y >= pxTileY + pxTileHeight && Pos.Y < pxTileY + pxTileHeight)
+                        if (PrevPos.Y >= pxTileY + pxTileHeight && Pos.Y < pxTileY + pxTileHeight)
                             Pos.Y = pxTileY + pxTileHeight + padding;
 
-                    if (prevPos.X <= pxTileX && Pos.X > pxTileX)
+                    if (PrevPos.X <= pxTileX && Pos.X > pxTileX)
                         Pos.X = pxTileX - padding;
                     else
-                        if (prevPos.X >= pxTileX + pxTileWidth && Pos.X < pxTileX + pxTileWidth)
+                        if (PrevPos.X >= pxTileX + pxTileWidth && Pos.X < pxTileX + pxTileWidth)
                             Pos.X = pxTileX + pxTileWidth + padding;
                 }
             }
 
-            prevPos = Pos;
+            PrevPos = Pos;
             _prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
 
             if (EntityCollisionEnabled)

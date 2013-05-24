@@ -103,9 +103,9 @@ namespace Some2DRPG.GameObjects.Characters
             // Update Idle or Walking animations.
             if (CurrentState == EntityStates.Alert || CurrentState == EntityStates.Idle)
             {
-                if (prevPos != Pos)
+                if (PrevPos != Pos)
                 {
-                    Vector2 difference = Pos - prevPos;
+                    Vector2 difference = Pos - PrevPos;
                     if (Math.Abs(difference.X) > Math.Abs(difference.Y))
                         Direction = (difference.X > 0) ? Direction.Right : Direction.Left;
                     else
