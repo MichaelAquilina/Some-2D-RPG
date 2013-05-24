@@ -163,9 +163,23 @@ namespace GameEngine.GameObjects
         /// Drawables. If no drawables are found in the entity, then a rectangle with 0 width and 0 height
         /// will be returned.
         /// </summary>
-        /// <param name="gameTime">The Current GameTime.</param>
-        /// <returns>An FRectangle object specifying the bounding box of this Entity in Pixels.</returns>
         public Rectangle GetPxBoundingBox(GameTime gameTime)
+        {
+            return GetPxBoundingBox(gameTime, null);
+        }
+
+        /// <summary>
+        /// Gets the bounding box for this entity at the specified GameTime and using the specified
+        /// Tile Width and Height (In Pixels). The result of this method will be returned in pixel units
+        /// and will change from one GameTime instance to another depending on the contents of the entities
+        /// Drawables. If no drawables are found in the entity, then a rectangle with 0 width and 0 height
+        /// will be returned. An optional group parameter may be passed to only calculate the bounding area
+        /// for a specific group of drawable objects. Passing null to group will test for all groups.
+        /// </summary>
+        /// <param name="gameTime">The Current GameTime.</param>
+        /// <param name="group">Optional string value that specifies the groups to include in BB calculations.</param>
+        /// <returns>An FRectangle object specifying the bounding box of this Entity in Pixels.</returns>
+        public Rectangle GetPxBoundingBox(GameTime gameTime, string group)
         {
             HashSet<DrawableInstance> drawables = Drawables.GetByState(CurrentDrawableState);
 
@@ -178,20 +192,23 @@ namespace GameEngine.GameObjects
 
             foreach (DrawableInstance draw in drawables)
             {
-                int drawableWidth = draw.GetWidth(gameTime);
-                int drawableHeight = draw.GetHeight(gameTime);
+                if (group == null || draw._associatedGroup == group)
+                {
+                    int drawableWidth = draw.GetWidth(gameTime);
+                    int drawableHeight = draw.GetHeight(gameTime);
 
-                Vector2 drawOrigin = draw.Drawable.Origin;
+                    Vector2 drawOrigin = draw.Drawable.Origin;
 
-                int pxWidth  = (int) Math.Ceiling(drawableWidth * this.ScaleX);
-                int pxHeight = (int) Math.Ceiling(drawableHeight * this.ScaleY);
-                int pxFrameX = (int) Math.Floor(Pos.X + draw.Offset.X + -1 * drawOrigin.X * pxWidth);
-                int pxFrameY = (int) Math.Floor(Pos.Y + draw.Offset.Y + -1 * drawOrigin.Y * pxHeight);
+                    int pxWidth = (int)Math.Ceiling(drawableWidth * this.ScaleX);
+                    int pxHeight = (int)Math.Ceiling(drawableHeight * this.ScaleY);
+                    int pxFrameX = (int)Math.Floor(Pos.X + draw.Offset.X + -1 * drawOrigin.X * pxWidth);
+                    int pxFrameY = (int)Math.Floor(Pos.Y + draw.Offset.Y + -1 * drawOrigin.Y * pxHeight);
 
-                if (pxFrameX < minX) minX = pxFrameX;
-                if (pxFrameY < minY) minY = pxFrameY;
-                if (pxFrameX + drawableWidth > maxX) maxX = pxFrameX + pxWidth;
-                if (pxFrameY + drawableHeight > maxY) maxY = pxFrameY + pxHeight;
+                    if (pxFrameX < minX) minX = pxFrameX;
+                    if (pxFrameY < minY) minY = pxFrameY;
+                    if (pxFrameX + drawableWidth > maxX) maxX = pxFrameX + pxWidth;
+                    if (pxFrameY + drawableHeight > maxY) maxY = pxFrameY + pxHeight;
+                }
             }
 
             return new Rectangle(minX, minY, maxX - minX, maxY - minY);

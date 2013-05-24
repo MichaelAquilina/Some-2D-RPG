@@ -13,8 +13,7 @@ Todo
 - [] - Bow and arrow animation / attack move.
 - [IP] - Add some new monsters to the map.
 - [IP] - Collision detection between entities.
-		 - The current works relatively well but some form of optimizations need to be performed to reduce CPU usage.
-		 - Some forms of physics to allow proper reaction would be better.
+		 - Use Rectangle.Intersect method to determine correction for immovable entities.
 - [] - GUI controls:
 		- Take a look at behindcurtain3 ui code.
 		- NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
