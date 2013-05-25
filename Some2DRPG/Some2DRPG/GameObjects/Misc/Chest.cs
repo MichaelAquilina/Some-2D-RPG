@@ -30,6 +30,7 @@ namespace Some2DRPG.GameObjects.Misc
             this.Pos = new Vector2(x, y);
             this.CollisionGroup = "collision";
             this.Immovable = true;
+            this.TerrainCollisionEnabled = false;
         }
 
         public override void Update(GameTime gameTime, TeeEngine engine)

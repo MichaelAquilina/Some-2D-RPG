@@ -58,19 +58,19 @@ namespace Some2DRPG.GameObjects
         public Vector2 PrevPos = Vector2.Zero;
 
         /// <summary>
-        /// The previous tile this CollidableEntity was one before the current Update routine.
+        /// The previous Collision Bounding Box that was available before movent in an Update routine.
         /// </summary>
-        private Tile _prevTile = null;
         private Rectangle PrevPxCollisionBoundingBox;
 
         #endregion
 
         public CollidableEntity()
         {
+            Immovable = false;
             TerrainCollisionEnabled = true;
             EntityCollisionEnabled = true;
-            Immovable = false;
-            PrevPxCollisionBoundingBox = new Rectangle(0, 0, 0, 0);
+            PrevPxCollisionBoundingBox = Rectangle.Empty;
+            CurrentPxCollisionBoundingBox = Rectangle.Empty;
         }
 
         // TODO REMOVE.
@@ -80,6 +80,37 @@ namespace Some2DRPG.GameObjects
                 if (array[i].Equals(item)) return true;
 
             return false;
+        }
+
+        private Vector2 CollisionResponse(Rectangle prevBoundingBox1, Rectangle boundingBox1, Rectangle boundingBox2)
+        {
+            // Determine the area of intersection.
+            Rectangle intersection = Rectangle.Intersect(boundingBox1, boundingBox2);
+            Vector2 result = new Vector2();
+
+            if (prevBoundingBox1.Right <= boundingBox2.Left &&
+                boundingBox1.Right >= boundingBox2.Left)
+            {
+                result.X -= intersection.Width;
+            }
+            else if (prevBoundingBox1.Left >= boundingBox2.Right &&
+                boundingBox1.Left <= boundingBox2.Right)
+            {
+                result.X += intersection.Width;
+            }
+
+            if (prevBoundingBox1.Bottom <= boundingBox2.Top &&
+                boundingBox1.Bottom >= boundingBox2.Top)
+            {
+                result.Y -= intersection.Height;
+            }
+            else if (prevBoundingBox1.Top >= boundingBox2.Bottom &&
+                boundingBox1.Top <= boundingBox2.Bottom)
+            {
+                result.Y += intersection.Height;
+            }
+
+            return result;
         }
 
         public override void Update(GameTime gameTime, TeeEngine engine)
@@ -102,37 +133,13 @@ namespace Some2DRPG.GameObjects
                         && entity.EntityCollisionEnabled
                         && entity.CurrentPxCollisionBoundingBox.Intersects(this.CurrentPxCollisionBoundingBox))
                     {
-                        // Determine the area of intersection.
-                        Rectangle intersection = Rectangle.Intersect(
-                            entity.CurrentPxCollisionBoundingBox,
-                            this.CurrentPxCollisionBoundingBox
-                            );
+                        Vector2 response = CollisionResponse(
+                            PrevPxCollisionBoundingBox, 
+                            CurrentPxCollisionBoundingBox, 
+                            entity.CurrentPxCollisionBoundingBox);
 
-                        if (PrevPxCollisionBoundingBox.Right <= entity.CurrentPxCollisionBoundingBox.Left &&
-                            CurrentPxCollisionBoundingBox.Right >= entity.CurrentPxCollisionBoundingBox.Left)
-                        {
-                            this.Pos.X -= intersection.Width;
-                            if (!entity.Immovable) entity.Pos.X += intersection.Width;
-                        }
-                        else if (PrevPxCollisionBoundingBox.Left >= entity.CurrentPxCollisionBoundingBox.Right &&
-                            CurrentPxCollisionBoundingBox.Left <= entity.CurrentPxCollisionBoundingBox.Right)
-                        {
-                            this.Pos.X += intersection.Width;
-                            if (!entity.Immovable) entity.Pos.X -= intersection.Width;
-                        }
-
-                        if (PrevPxCollisionBoundingBox.Bottom <= entity.CurrentPxCollisionBoundingBox.Top &&
-                            CurrentPxCollisionBoundingBox.Bottom >= entity.CurrentPxCollisionBoundingBox.Top)
-                        {
-                            this.Pos.Y -= intersection.Height;
-                            if (!entity.Immovable) entity.Pos.Y += intersection.Height;
-                        }
-                        else if (PrevPxCollisionBoundingBox.Top >= entity.CurrentPxCollisionBoundingBox.Bottom &&
-                            CurrentPxCollisionBoundingBox.Top <= entity.CurrentPxCollisionBoundingBox.Bottom)
-                        {
-                            this.Pos.Y += intersection.Height;
-                            if (!entity.Immovable) entity.Pos.Y -= intersection.Height;
-                        }
+                        this.Pos += response;
+                        if (!entity.Immovable) entity.Pos -= response;
 
                         // Recalculate any changes made during the collision response process.
                         CurrentPxCollisionBoundingBox = GetPxBoundingBox(gameTime, CollisionGroup);
@@ -140,64 +147,38 @@ namespace Some2DRPG.GameObjects
                 }
             }
 
-            if (TerrainCollisionEnabled && _prevTile != null)
+            if (TerrainCollisionEnabled)
             {
-                int tileX = (int)Pos.X / engine.Map.TileWidth;
-                int tileY = (int)Pos.Y / engine.Map.TileHeight;
+                int Top = CurrentPxCollisionBoundingBox.Top / engine.Map.TileHeight;
+                int Bottom = CurrentPxCollisionBoundingBox.Bottom / engine.Map.TileHeight;
+                int Left = CurrentPxCollisionBoundingBox.Left / engine.Map.TileWidth;
+                int Right = CurrentPxCollisionBoundingBox.Right / engine.Map.TileWidth;
 
-                int pxTileX = tileX * engine.Map.TileWidth;
-                int pxTileY = tileY * engine.Map.TileHeight;
-                int pxTileWidth = engine.Map.TileWidth;
-                int pxTileHeight = engine.Map.TileHeight;
-
-                Tile currentTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
-                bool impassable = currentTile.HasProperty(ImpassableTerrainProperty);
-
-                // CORRECT ENTRY AND EXIT MOVEMENT BASED ON TILE PROPERTIES
-                // TODO
-                // to improve structure
-                // Current very very ineffecient way of checking Entry
-                string[] entryPoints = currentTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                string[] exitPoints = _prevTile.GetProperty("Entry", "Top Bottom Left Right").Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-
-                bool top = PrevPos.Y < pxTileY;
-                bool bottom = PrevPos.Y > pxTileY + pxTileHeight;
-                bool left = PrevPos.X < pxTileX;
-                bool right = PrevPos.X > pxTileX + pxTileWidth;
-
-                // Ensure entry points.
-                impassable |= top && !ContainsItem(entryPoints, "Top");
-                impassable |= bottom && !ContainsItem(entryPoints, "Bottom");
-                impassable |= left && !ContainsItem(entryPoints, "Left");
-                impassable |= right && !ContainsItem(entryPoints, "Right");
-
-                // Ensure exit points.
-                impassable |= top && !ContainsItem(exitPoints, "Bottom");
-                impassable |= bottom && !ContainsItem(exitPoints, "Top");
-                impassable |= left && !ContainsItem(exitPoints, "Right");
-                impassable |= right && !ContainsItem(exitPoints, "Left");
-
-                // IF THE MOVEMENT WAS DEEMED IMPASSABLE, CORRECT IT.
-                // if impassable, adjust X and Y accordingly.
-                float padding = 0.001f;
-                if (impassable)
+                for (int i = Left; i <= Right; i++)
                 {
-                    if (PrevPos.Y <= pxTileY && Pos.Y > pxTileY)
-                        Pos.Y = pxTileY - padding;
-                    else
-                        if (PrevPos.Y >= pxTileY + pxTileHeight && Pos.Y < pxTileY + pxTileHeight)
-                            Pos.Y = pxTileY + pxTileHeight + padding;
+                    for (int j = Top; j <= Bottom; j++)
+                    {
+                        Tile currTile = engine.Map.GetTxTopMostTile(i, j);
+                        Rectangle currBounds = new Rectangle(
+                            i * engine.Map.TileWidth,
+                            j * engine.Map.TileHeight,
+                            engine.Map.TileWidth,
+                            engine.Map.TileHeight);
 
-                    if (PrevPos.X <= pxTileX && Pos.X > pxTileX)
-                        Pos.X = pxTileX - padding;
-                    else
-                        if (PrevPos.X >= pxTileX + pxTileWidth && Pos.X < pxTileX + pxTileWidth)
-                            Pos.X = pxTileX + pxTileWidth + padding;
+                        if (currTile.HasProperty(ImpassableTerrainProperty))
+                        {
+                            Vector2 response = CollisionResponse(
+                                PrevPxCollisionBoundingBox,
+                                CurrentPxCollisionBoundingBox,
+                                currBounds);
+
+                            this.Pos += response;
+                            CurrentPxCollisionBoundingBox = GetPxBoundingBox(gameTime, CollisionGroup);
+                        }
+                    }
                 }
             }
-
             PrevPos = Pos;
-            _prevTile = engine.Map.GetPxTopMostTile(Pos.X, Pos.Y);
         }
     }
 }

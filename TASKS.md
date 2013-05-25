@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Support for impassable directions in the new collision response for tiles.
 - [] - Support for avoiding collidable entities in Astar.
 - [] - Support for directions in Astar algorithm (Top, Bottom, Left, Right)
 - [] - Add Trim funciton to .anim files. This will automatically trim out excess pixels from the frame
