@@ -97,11 +97,11 @@ namespace Some2DRPG
             mouseCursor = Content.Load<Texture2D>("Misc/Pointers/cursor");
             mouseCursorDown = Content.Load<Texture2D>("Misc/Pointers/cursor_down");
             mouseCursorFist = Content.Load<Texture2D>("Misc/Pointers/cursor_fist");
-            mouseCursorOpen = Content.Load<Texture2D>("misc/Pointers/cursor_open");
+            mouseCursorOpen = Content.Load<Texture2D>("Misc/Pointers/cursor_open");
 
             MapEventArgs mapArgs = new MapEventArgs();
-            mapArgs.SetProperty("Target", "Entrance");
-            Engine.LoadMap("Content/Maps/sandbox.tmx", mapArgs);
+            mapArgs.SetProperty("Target", "ChasmExit");
+            Engine.LoadMap("Content/Maps/mountains_example.tmx", mapArgs);
 
             CurrentSampler = SamplerStates[SamplerIndex];
 
