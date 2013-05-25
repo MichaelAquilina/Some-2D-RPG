@@ -12,8 +12,6 @@ Todo
 - [] - Skeleton warrior creature.
 - [] - Bow and arrow animation / attack move.
 - [IP] - Add some new monsters to the map.
-- [IP] - Collision detection between entities.
-		 - Use Rectangle.Intersect method to determine correction for immovable entities.
 - [] - GUI controls:
 		- Take a look at behindcurtain3 ui code.
 		- NuclexFramework: http://nuclexframework.codeplex.com/wikipage?title=Nuclex.UserInterface&referringTitle=Home
@@ -32,6 +30,7 @@ Todo
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+- [Done] - Collision detection between entities.
 - [Done] - Refactoring of PathFinding code (small nauinces). External IsValid Specification for tiles in pathfinding.
 - [Done] - State based AI
 - [Done] - Hero movement code (and a lot others) should be based on RPGEntity code. Move code from Hero and NPC to RPGEntity.
