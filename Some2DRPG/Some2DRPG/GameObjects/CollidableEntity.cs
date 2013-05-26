@@ -154,19 +154,41 @@ namespace Some2DRPG.GameObjects
                 int Left = CurrentPxCollisionBoundingBox.Left / engine.Map.TileWidth;
                 int Right = CurrentPxCollisionBoundingBox.Right / engine.Map.TileWidth;
 
+                // Iterate through all intersecting tiles.
                 for (int i = Left; i <= Right; i++)
                 {
                     for (int j = Top; j <= Bottom; j++)
                     {
                         Tile currTile = engine.Map.GetTxTopMostTile(i, j);
-                        Rectangle currBounds = new Rectangle(
-                            i * engine.Map.TileWidth,
-                            j * engine.Map.TileHeight,
-                            engine.Map.TileWidth,
-                            engine.Map.TileHeight);
 
-                        if (currTile.HasProperty(ImpassableTerrainProperty))
+                        if (currTile != null && currTile.HasProperty(ImpassableTerrainProperty))
                         {
+                            string bounds = currTile.GetProperty(ImpassableTerrainProperty);
+                            float x1 = 0.0f;
+                            float y1 = 0.0f;
+                            float x2 = 1.0f;
+                            float y2 = 1.0f;
+                            
+                            if (bounds != string.Empty)
+                            {
+                                string[] boundTokens = bounds.Split(',');
+                                if (boundTokens.Length != 4)
+                                    throw new ArgumentException("Unexpected Format in Impassable Property");
+                                
+                                x1 = (float)Convert.ToDouble(boundTokens[0]);
+                                y1 = (float)Convert.ToDouble(boundTokens[1]);
+                                x2 = (float)Convert.ToDouble(boundTokens[2]);
+                                y2 = (float)Convert.ToDouble(boundTokens[3]);
+                            }
+
+                            // Determine the tile bounds based on the calculated data.
+                            Rectangle currBounds = new Rectangle(
+                                (int)Math.Ceiling(i * engine.Map.TileWidth + x1 * engine.Map.TileWidth),
+                                (int)Math.Ceiling(j * engine.Map.TileHeight + y1 * engine.Map.TileHeight),
+                                (int) Math.Ceiling(x2 * engine.Map.TileWidth),
+                                (int) Math.Ceiling(y2 * engine.Map.TileHeight)
+                            );
+
                             Vector2 response = CollisionResponse(
                                 PrevPxCollisionBoundingBox,
                                 CurrentPxCollisionBoundingBox,
