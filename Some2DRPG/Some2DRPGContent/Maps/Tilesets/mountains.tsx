@@ -6,17 +6,17 @@
  <image source="../../LPC/Terrain/mountains.png" width="384" height="288"/>
  <tile id="0">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0.5, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="1">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0.5, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="2">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0.5, 0,5, 1.0"/>
   </properties>
  </tile>
  <tile id="3">
@@ -31,32 +31,37 @@
  </tile>
  <tile id="5">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0.5, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="6">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0.5, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="7">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0.5, 0.5, 1.0"/>
   </properties>
  </tile>
  <tile id="8">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 0.5, 0.5"/>
   </properties>
  </tile>
  <tile id="9">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0, 1, 0.5"/>
+  </properties>
+ </tile>
+ <tile id="11">
+  <properties>
+   <property name="Impassable" value="0.5, 0, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="12">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="13">
@@ -66,7 +71,7 @@
  </tile>
  <tile id="14">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 0.5, 1.0"/>
   </properties>
  </tile>
  <tile id="15">
@@ -81,27 +86,32 @@
  </tile>
  <tile id="17">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="19">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 0.5, 1.0"/>
   </properties>
  </tile>
  <tile id="20">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0.5, 0.5, 1.0"/>
   </properties>
  </tile>
  <tile id="21">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0.5, 1.0, 1.0"/>
+  </properties>
+ </tile>
+ <tile id="23">
+  <properties>
+   <property name="Impassable" value="0.5, 0, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="24">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="25">
@@ -111,7 +121,7 @@
  </tile>
  <tile id="26">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 0.5, 1.0"/>
   </properties>
  </tile>
  <tile id="27">
@@ -126,7 +136,7 @@
  </tile>
  <tile id="29">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="30">
@@ -136,7 +146,7 @@
  </tile>
  <tile id="31">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 0.5, 1.0"/>
   </properties>
  </tile>
  <tile id="32">
@@ -151,7 +161,7 @@
  </tile>
  <tile id="36">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="37">
@@ -161,7 +171,7 @@
  </tile>
  <tile id="38">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 0.5, 1.0"/>
   </properties>
  </tile>
  <tile id="39">
@@ -176,7 +186,7 @@
  </tile>
  <tile id="41">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0, 1.0, 1.0"/>
   </properties>
  </tile>
  <tile id="42">
@@ -186,7 +196,7 @@
  </tile>
  <tile id="43">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 0.5, 1.0"/>
   </properties>
  </tile>
  <tile id="44">
@@ -201,32 +211,32 @@
  </tile>
  <tile id="48">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0, 1.0, 0.5"/>
   </properties>
  </tile>
  <tile id="49">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 1.0, 0.5"/>
   </properties>
  </tile>
  <tile id="50">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 0.5, 0.5"/>
   </properties>
  </tile>
  <tile id="53">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0.5, 0, 1.0, 0.5"/>
   </properties>
  </tile>
  <tile id="54">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 1.0, 0.5"/>
   </properties>
  </tile>
  <tile id="55">
   <properties>
-   <property name="Impassable" value=""/>
+   <property name="Impassable" value="0, 0, 0.5, 0.5"/>
   </properties>
  </tile>
  <tile id="61">
