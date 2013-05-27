@@ -23,6 +23,8 @@ namespace Some2DRPG.GameObjects.Creatures
             this.MaxHP = 2000;
             this.HP = this.MaxHP;
 
+            this.EntityCollisionEnabled = true;
+            this.TerrainCollisionEnabled = false;
             this.BaseRace = RPGEntity.CREATURES_DUMMY;
             this.Direction = Direction.Right;
             this.CollisionGroup = "collision";
