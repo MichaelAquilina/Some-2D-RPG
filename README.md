@@ -46,6 +46,7 @@ The engine in development currently provides an interface to create top down 2D 
 
 Some current features found in the Engine include:
 * Composite Animation Support (Including loading from XML files)
+* Inbuilt pathfinding support using the A-star algorithm.
 * Entity framework for Players, NPCs, Monsters, objects etc..
 * Extension Methods for quicker development (Parsing XML, Smart Reflection, Keyboard locking etc..)
 * Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting). *In its current state, these 
