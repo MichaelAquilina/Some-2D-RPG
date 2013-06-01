@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Text;
 using GameEngine;
 using GameEngine.Extensions;
@@ -9,10 +8,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Some2DRPG.GameObjects.Characters;
-using Some2DRPG.Shaders;
 using Some2DRPG.Items;
-using Some2DRPG.GameObjects;
-using GameEngine.Pathfinding;
+using Some2DRPG.Shaders;
 
 namespace Some2DRPG
 {
@@ -100,8 +97,8 @@ namespace Some2DRPG
             mouseCursorOpen = Content.Load<Texture2D>("Misc/Pointers/cursor_open");
 
             MapEventArgs mapArgs = new MapEventArgs();
-            mapArgs.SetProperty("Target", "Bedroom");
-            Engine.LoadMap("Content/Maps/inside_example.tmx", mapArgs);
+            mapArgs.SetProperty("Target", "ChasmExit");
+            Engine.LoadMap("Content/Maps/mountains_example.tmx", mapArgs);
 
             CurrentSampler = SamplerStates[SamplerIndex];
 
