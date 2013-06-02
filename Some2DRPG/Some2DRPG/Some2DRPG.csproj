@@ -255,6 +255,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <None Include="Animations\Weapons\saber.draw">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Animations\Weapons\staff.draw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

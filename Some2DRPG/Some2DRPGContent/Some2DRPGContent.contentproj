@@ -148,13 +148,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LPC\Weapons\sabre_sheet.png">
-      <Name>sabre_sheet</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="LPC\Terrain\buckets.png">
       <Name>buckets</Name>
       <Importer>TextureImporter</Importer>
@@ -550,6 +543,11 @@
     </Compile>
     <Compile Include="LPC\Weapons\longsword_male.png">
       <Name>longsword_male</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="LPC\Weapons\saber_male.png">
+      <Name>saber_male</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
