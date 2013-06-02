@@ -35,6 +35,9 @@ namespace Some2DRPG
 
         float Zoom = 1.6f;
 
+        string[] WeaponNames = new string[] { "RustyDagger", "Rapier", "Saber", "Longsword", "Mace" };
+
+        int WeaponCounter = 1;
         int TextCounter = 0;
         int SamplerIndex = 0;
         SamplerState CurrentSampler;
@@ -158,6 +161,12 @@ namespace Some2DRPG
                     CurrentPlayer.Equip(ItemRepository.GameItems["PlainShoes"]);
                 else
                     CurrentPlayer.Equip(ItemRepository.GameItems["PlateBoots"]);
+            }
+
+            if (KeyboardExtensions.GetKeyDownState(keyboardState, Keys.D9, this, true))
+            {
+                int index = WeaponCounter++ % WeaponNames.Length;
+                CurrentPlayer.QuickEquip(WeaponNames[index]);
             }
         }
 
