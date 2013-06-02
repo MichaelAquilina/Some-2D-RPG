@@ -133,6 +133,9 @@
     <Compile Include="Shaders\LightShader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Animations\Weapons\mace.draw">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Animations\Weapons\rapier.draw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -556,6 +556,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="LPC\Weapons\mace_male.png">
+      <Name>mace_male</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="Maps\example_map.tmx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Name>example_map</Name>
@@ -628,11 +633,6 @@
     </Compile>
     <Compile Include="LPC\Monsters\Snake\snake.png">
       <Name>snake</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="LPC\Weapons\WEAPON_longsword.png">
-      <Name>WEAPON_longsword</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

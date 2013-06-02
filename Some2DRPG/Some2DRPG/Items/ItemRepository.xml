@@ -107,6 +107,14 @@
     </Drawables>
   </Item>
 
+  <Item Name="Mace" ItemType="Weapon" Weight="2.0" >
+    <FriendlyName>Sabre</FriendlyName>
+    <Description></Description>
+    <Drawables>
+      <Drawable src="Animations/Weapons/mace.draw" />
+    </Drawables>
+  </Item>
+
   <Item Name="LeatherHat" ItemType="HeadGear" Weight="0.2" >
     <FriendlyName>Leather Hat</FriendlyName>
     <Description></Description>
