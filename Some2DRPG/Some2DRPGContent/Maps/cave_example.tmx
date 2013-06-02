@@ -627,7 +627,7 @@
   <object name="BrienneTheBeauty" type="Some2DRPG.GameObjects.Characters.NPC" x="946" y="285" width="18" height="16">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="RobeSkirt"/>
-    <property name="BaseRace" value="Animations/Characters/female_npc.anim"/>
+    <property name="BaseRace" value="Animations/Characters/female_npc.draw"/>
     <property name="Direction" value="Down"/>
     <property name="Faction" value="Allies"/>
    </properties>

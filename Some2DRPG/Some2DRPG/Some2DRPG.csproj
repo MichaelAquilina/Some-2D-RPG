@@ -178,7 +178,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Animations\Monsters\skeleton.anim">
+    <None Include="Animations\Monsters\skeleton.draw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Animations\Leather Armor\leather_armor_head.draw">
@@ -192,13 +192,13 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Monsters\bat.anim">
+    <None Include="Animations\Monsters\bat.draw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Monsters\bee.anim">
+    <None Include="Animations\Monsters\bee.draw">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Animations\Monsters\combat_dummy.anim">
+    <None Include="Animations\Monsters\combat_dummy.draw">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

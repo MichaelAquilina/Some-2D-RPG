@@ -646,7 +646,7 @@
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
@@ -656,7 +656,7 @@
     <property name="*QuickEquip&lt;1&gt;" value="PlateHelmet"/>
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
@@ -675,7 +675,7 @@
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
@@ -687,7 +687,7 @@
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
@@ -699,7 +699,7 @@
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
@@ -711,7 +711,7 @@
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
@@ -720,7 +720,7 @@
    <properties>
     <property name="*QuickEquip&lt;2&gt;" value="PlateChest"/>
     <property name="*QuickEquip&lt;5&gt;" value="RobeSkirt"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
@@ -762,7 +762,7 @@
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
@@ -794,7 +794,7 @@
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
@@ -806,7 +806,7 @@
     <property name="*QuickEquip&lt;4&gt;" value="PlateBoots"/>
     <property name="*QuickEquip&lt;5&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;6&gt;" value="RustyDagger"/>
-    <property name="BaseRace" value="Animations/Monsters/skeleton.anim"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Direction" value="Left"/>
     <property name="Faction" value="Creatures"/>
    </properties>
