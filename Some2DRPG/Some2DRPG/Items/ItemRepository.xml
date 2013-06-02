@@ -91,7 +91,7 @@
     </Drawables>
   </Item>
 
-  <Item Name="Sabre" ItemType="Weapon" Weight="2.0" >
+  <Item Name="Saber" ItemType="Weapon" Weight="2.0" >
     <FriendlyName>Sabre</FriendlyName>
     <Description></Description>
     <Drawables>
