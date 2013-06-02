@@ -1,13 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<Animations>
-  <Animation State="Burning" Loop="True" SpriteSheet="LPC\Terrain\NewerCampFire" FrameDelay="150">
-    <Frames>
-      <Frame>14, 0, 35, 63</Frame>
-      <Frame>78, 0, 35, 63</Frame>
-      <Frame>142, 0, 35, 63</Frame>
-      <Frame>206, 0, 35, 63</Frame>
-      <Frame>270, 0, 35, 63</Frame>
-    </Frames>
-  </Animation>
-</Animations>
+<DrawableSet>
+  <States>
+    <State>Burning</State>
+  </States>
+  
+  <Animations>
+    <Animation State="Burning" Loop="True" SpriteSheet="LPC\Terrain\NewerCampFire" FrameDelay="150">
+      <Frames>
+        <Frame>14, 0, 35, 63</Frame>
+        <Frame>78, 0, 35, 63</Frame>
+        <Frame>142, 0, 35, 63</Frame>
+        <Frame>206, 0, 35, 63</Frame>
+        <Frame>270, 0, 35, 63</Frame>
+      </Frames>
+    </Animation>
+  </Animations>
+</DrawableSet>

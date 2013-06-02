@@ -1,81 +1,88 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<Animations>
-  <!-- Gold Coin Animations -->
-  
-  <Animation State="Gold" Group="Body" Loop="True" SpriteSheet="LPC\Misc\coin_gold" FrameDelay="75" Origin="0.5, 1.0" Offset="0, -5">
-    <Frames>
-      <Frame>0 , 0, 32, 22</Frame>
-      <Frame>32, 0, 32, 22</Frame>
-      <Frame>64, 0, 32, 22</Frame>
-      <Frame>96, 0, 32, 22</Frame>
-      <Frame>128, 0, 32, 22</Frame>
-      <Frame>160, 0, 32, 22</Frame>
-      <Frame>192, 0, 32, 22</Frame>
-    </Frames>
-  </Animation>
+<DrawableSet>
+  <States>
+    <State>Gold</State>
+    <State>Silver</State>
+    <State>Copper</State>
+  </States>
+  <Animations>
+    <!-- Gold Coin Animations -->
 
-  <Animation State="Gold" Group="Shadow" Loop="True" SpriteSheet="LPC\Misc\coin_shadow" FrameDelay="75" Origin="0.5, 1.0">
-    <Frames>
-      <Frame>0 , 0, 32, 7</Frame>
-      <Frame>32, 0, 32, 7</Frame>
-      <Frame>64, 0, 32, 7</Frame>
-      <Frame>96, 0, 32, 7</Frame>
-      <Frame>128, 0, 32, 7</Frame>
-      <Frame>160, 0, 32, 7</Frame>
-      <Frame>192, 0, 32, 7</Frame>
-    </Frames>
-  </Animation>
-  
-  <!-- Silver Coin Animations -->
+    <Animation State="Gold" Group="Body" Loop="True" SpriteSheet="LPC\Misc\coin_gold" FrameDelay="75" Origin="0.5, 1.0" Offset="0, -5">
+      <Frames>
+        <Frame>0 , 0, 32, 22</Frame>
+        <Frame>32, 0, 32, 22</Frame>
+        <Frame>64, 0, 32, 22</Frame>
+        <Frame>96, 0, 32, 22</Frame>
+        <Frame>128, 0, 32, 22</Frame>
+        <Frame>160, 0, 32, 22</Frame>
+        <Frame>192, 0, 32, 22</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Silver" Group="Body" Loop="True" SpriteSheet="LPC\Misc\coin_silver" FrameDelay="75" Origin="0.5, 1.0" Offset="0, -5">
-    <Frames>
-      <Frame>0 , 0, 32, 22</Frame>
-      <Frame>32, 0, 32, 22</Frame>
-      <Frame>64, 0, 32, 22</Frame>
-      <Frame>96, 0, 32, 22</Frame>
-      <Frame>128, 0, 32, 22</Frame>
-      <Frame>160, 0, 32, 22</Frame>
-      <Frame>192, 0, 32, 22</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Gold" Group="Shadow" Loop="True" SpriteSheet="LPC\Misc\coin_shadow" FrameDelay="75" Origin="0.5, 1.0">
+      <Frames>
+        <Frame>0 , 0, 32, 7</Frame>
+        <Frame>32, 0, 32, 7</Frame>
+        <Frame>64, 0, 32, 7</Frame>
+        <Frame>96, 0, 32, 7</Frame>
+        <Frame>128, 0, 32, 7</Frame>
+        <Frame>160, 0, 32, 7</Frame>
+        <Frame>192, 0, 32, 7</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Silver" Group="Shadow" Loop="True" SpriteSheet="LPC\Misc\coin_shadow" FrameDelay="75" Origin="0.5, 1.0">
-    <Frames>
-      <Frame>0 , 0, 32, 7</Frame>
-      <Frame>32, 0, 32, 7</Frame>
-      <Frame>64, 0, 32, 7</Frame>
-      <Frame>96, 0, 32, 7</Frame>
-      <Frame>128, 0, 32, 7</Frame>
-      <Frame>160, 0, 32, 7</Frame>
-      <Frame>192, 0, 32, 7</Frame>
-    </Frames>
-  </Animation>
+    <!-- Silver Coin Animations -->
 
-  <!-- Copper Coin Animations -->
+    <Animation State="Silver" Group="Body" Loop="True" SpriteSheet="LPC\Misc\coin_silver" FrameDelay="75" Origin="0.5, 1.0" Offset="0, -5">
+      <Frames>
+        <Frame>0 , 0, 32, 22</Frame>
+        <Frame>32, 0, 32, 22</Frame>
+        <Frame>64, 0, 32, 22</Frame>
+        <Frame>96, 0, 32, 22</Frame>
+        <Frame>128, 0, 32, 22</Frame>
+        <Frame>160, 0, 32, 22</Frame>
+        <Frame>192, 0, 32, 22</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Copper" Group="Body" Loop="True" SpriteSheet="LPC\Misc\coin_copper" FrameDelay="75" Origin="0.5, 1.0" Offset="0, -5">
-    <Frames>
-      <Frame>0 , 0, 32, 22</Frame>
-      <Frame>32, 0, 32, 22</Frame>
-      <Frame>64, 0, 32, 22</Frame>
-      <Frame>96, 0, 32, 22</Frame>
-      <Frame>128, 0, 32, 22</Frame>
-      <Frame>160, 0, 32, 22</Frame>
-      <Frame>192, 0, 32, 22</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Silver" Group="Shadow" Loop="True" SpriteSheet="LPC\Misc\coin_shadow" FrameDelay="75" Origin="0.5, 1.0">
+      <Frames>
+        <Frame>0 , 0, 32, 7</Frame>
+        <Frame>32, 0, 32, 7</Frame>
+        <Frame>64, 0, 32, 7</Frame>
+        <Frame>96, 0, 32, 7</Frame>
+        <Frame>128, 0, 32, 7</Frame>
+        <Frame>160, 0, 32, 7</Frame>
+        <Frame>192, 0, 32, 7</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Copper" Group="Shadow" Loop="True" SpriteSheet="LPC\Misc\coin_shadow" FrameDelay="75" Origin="0.5, 1.0">
-    <Frames>
-      <Frame>0 , 0, 32, 7</Frame>
-      <Frame>32, 0, 32, 7</Frame>
-      <Frame>64, 0, 32, 7</Frame>
-      <Frame>96, 0, 32, 7</Frame>
-      <Frame>128, 0, 32, 7</Frame>
-      <Frame>160, 0, 32, 7</Frame>
-      <Frame>192, 0, 32, 7</Frame>
-    </Frames>
-  </Animation>
-</Animations>
+    <!-- Copper Coin Animations -->
+
+    <Animation State="Copper" Group="Body" Loop="True" SpriteSheet="LPC\Misc\coin_copper" FrameDelay="75" Origin="0.5, 1.0" Offset="0, -5">
+      <Frames>
+        <Frame>0 , 0, 32, 22</Frame>
+        <Frame>32, 0, 32, 22</Frame>
+        <Frame>64, 0, 32, 22</Frame>
+        <Frame>96, 0, 32, 22</Frame>
+        <Frame>128, 0, 32, 22</Frame>
+        <Frame>160, 0, 32, 22</Frame>
+        <Frame>192, 0, 32, 22</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Copper" Group="Shadow" Loop="True" SpriteSheet="LPC\Misc\coin_shadow" FrameDelay="75" Origin="0.5, 1.0">
+      <Frames>
+        <Frame>0 , 0, 32, 7</Frame>
+        <Frame>32, 0, 32, 7</Frame>
+        <Frame>64, 0, 32, 7</Frame>
+        <Frame>96, 0, 32, 7</Frame>
+        <Frame>128, 0, 32, 7</Frame>
+        <Frame>160, 0, 32, 7</Frame>
+        <Frame>192, 0, 32, 7</Frame>
+      </Frames>
+    </Animation>
+  </Animations>
+</DrawableSet>

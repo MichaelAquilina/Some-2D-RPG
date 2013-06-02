@@ -1,113 +1,138 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<Animations>
-  <Animation State="Idle_Up" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
-    <Frames>
-      <Frame>15, 10, 38, 49</Frame>
-    </Frames>
-  </Animation>
+<DrawableSet>
+  <States>
+    <State>Idle_Up</State>
+    <State>Idle_Left</State>
+    <State>Idle_Down</State>
+    <State>Idle_Right</State>
 
-  <Animation State="Idle_Left" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
-    <Frames>
-      <Frame>15, 75, 38, 49</Frame>
-    </Frames>
-  </Animation>
+    <State>Walk_Up</State>
+    <State>Walk_Left</State>
+    <State>Walk_Down</State>
+    <State>Walk_Right</State>
 
-  <Animation State="Idle_Down" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
-    <Frames>
-      <Frame>15, 139, 38, 49</Frame>
-    </Frames>
-  </Animation>
+    <State>Slash_Up</State>
+    <State>Slash_Left</State>
+    <State>Slash_Down</State>
+    <State>Slash_Right</State>
 
-  <Animation State="Idle_Right" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
-    <Frames>
-      <Frame>15, 203, 38, 49</Frame>
-    </Frames>
-  </Animation>
-  
-  <Animation State="Walk_Up" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
-    <Frames>
-      <Frame>79 , 10, 38, 49</Frame>
-      <Frame>143, 10, 38, 49</Frame>
-      <Frame>207, 10, 38, 49</Frame>
-      <Frame>271, 10, 38, 49</Frame>
-      <Frame>335, 10, 38, 49</Frame>
-      <Frame>399, 10, 38, 49</Frame>
-      <Frame>463, 10, 38, 49</Frame>
-      <Frame>527, 10, 38, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation State="Walk_Left" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Origin="0.5, 0.9">
-    <Frames>
-      <Frame>79 , 75, 38, 49</Frame>
-      <Frame>143, 75, 38, 49</Frame>
-      <Frame>207, 75, 38, 49</Frame>
-      <Frame>271, 75, 38, 49</Frame>
-      <Frame>335, 75, 38, 49</Frame>
-      <Frame>399, 75, 38, 49</Frame>
-      <Frame>463, 75, 38, 49</Frame>
-      <Frame>527, 75, 38, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation State="Walk_Down" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Origin="0.5, 0.9">
-    <Frames>
-      <Frame>79 , 139, 38, 49</Frame>
-      <Frame>143, 139, 38, 49</Frame>
-      <Frame>207, 139, 38, 49</Frame>
-      <Frame>271, 139, 38, 49</Frame>
-      <Frame>335, 139, 38, 49</Frame>
-      <Frame>399, 139, 38, 49</Frame>
-      <Frame>463, 139, 38, 49</Frame>
-      <Frame>527, 139, 38, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation State="Walk_Right" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Origin="0.5, 0.9">
-    <Frames>
-      <Frame>79 , 203, 38, 49</Frame>
-      <Frame>143, 203, 38, 49</Frame>
-      <Frame>207, 203, 38, 49</Frame>
-      <Frame>271, 203, 38, 49</Frame>
-      <Frame>335, 203, 38, 49</Frame>
-      <Frame>399, 203, 38, 49</Frame>
-      <Frame>463, 203, 38, 49</Frame>
-      <Frame>527, 203, 38, 49</Frame>
-    </Frames>
-  </Animation>
+    <State>Slash_Oversize_Up</State>
+    <State>Slash_Oversize_Left</State>
+    <State>Slash_Oversize_Down</State>
+    <State>Slash_Oversize_Right</State>
 
-  <Animation State="Slash_Up" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Leather Armor\Slash\HEAD_leather_armor_hat" FrameDelay="45" Origin="0.4, 0.9" >
-    <Frames>
-      <Frame>79  , 10, 46, 50</Frame>
-      <Frame>143 , 10, 46, 50</Frame>
-      <Frame>207 , 10, 46, 50</Frame>
-      <Frame>271 , 10, 46, 50</Frame>
-      <Frame>335 , 10, 46, 50</Frame>
-    </Frames>
-  </Animation>
-  <Animation State="Slash_Left" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Leather Armor\Slash\HEAD_leather_armor_hat" FrameDelay="45" Origin="0.7, 0.9" >
-    <Frames>
-      <Frame>69  , 75, 43, 49</Frame>
-      <Frame>133 , 75, 43, 49</Frame>
-      <Frame>197 , 75, 43, 49</Frame>
-      <Frame>261 , 75, 43, 49</Frame>
-      <Frame>325 , 75, 43, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation State="Slash_Down" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Leather Armor\Slash\HEAD_leather_armor_hat" FrameDelay="45" Origin="0.4, 0.9" >
-    <Frames>
-      <Frame>80 , 139, 45, 49</Frame>
-      <Frame>144, 139, 45, 49</Frame>
-      <Frame>208, 139, 45, 49</Frame>
-      <Frame>272, 139, 45, 49</Frame>
-      <Frame>336, 139, 45, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation State="Slash_Right" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Leather Armor\Slash\HEAD_leather_armor_hat" FrameDelay="45" Origin="0.4, 0.9" >
-    <Frames>
-      <Frame>82 , 204, 43, 48</Frame>
-      <Frame>146, 204, 43, 48</Frame>
-      <Frame>210, 204, 43, 48</Frame>
-      <Frame>274, 204, 43, 48</Frame>
-      <Frame>338, 204, 43, 48</Frame>
-    </Frames>
-  </Animation>
-</Animations>
+    <State>Death</State>
+  </States>
+  <Animations>
+    <Animation State="Idle_Up" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
+      <Frames>
+        <Frame>15, 10, 38, 49</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Idle_Left" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
+      <Frames>
+        <Frame>15, 75, 38, 49</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Idle_Down" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
+      <Frames>
+        <Frame>15, 139, 38, 49</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Idle_Right" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
+      <Frames>
+        <Frame>15, 203, 38, 49</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Walk_Up" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Offset="0,-3" Origin="0.5, 0.9">
+      <Frames>
+        <Frame>79 , 10, 38, 49</Frame>
+        <Frame>143, 10, 38, 49</Frame>
+        <Frame>207, 10, 38, 49</Frame>
+        <Frame>271, 10, 38, 49</Frame>
+        <Frame>335, 10, 38, 49</Frame>
+        <Frame>399, 10, 38, 49</Frame>
+        <Frame>463, 10, 38, 49</Frame>
+        <Frame>527, 10, 38, 49</Frame>
+      </Frames>
+    </Animation>
+    <Animation State="Walk_Left" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Origin="0.5, 0.9">
+      <Frames>
+        <Frame>79 , 75, 38, 49</Frame>
+        <Frame>143, 75, 38, 49</Frame>
+        <Frame>207, 75, 38, 49</Frame>
+        <Frame>271, 75, 38, 49</Frame>
+        <Frame>335, 75, 38, 49</Frame>
+        <Frame>399, 75, 38, 49</Frame>
+        <Frame>463, 75, 38, 49</Frame>
+        <Frame>527, 75, 38, 49</Frame>
+      </Frames>
+    </Animation>
+    <Animation State="Walk_Down" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Origin="0.5, 0.9">
+      <Frames>
+        <Frame>79 , 139, 38, 49</Frame>
+        <Frame>143, 139, 38, 49</Frame>
+        <Frame>207, 139, 38, 49</Frame>
+        <Frame>271, 139, 38, 49</Frame>
+        <Frame>335, 139, 38, 49</Frame>
+        <Frame>399, 139, 38, 49</Frame>
+        <Frame>463, 139, 38, 49</Frame>
+        <Frame>527, 139, 38, 49</Frame>
+      </Frames>
+    </Animation>
+    <Animation State="Walk_Right" Group="Head" Layer="5" Loop="True" SpriteSheet="LPC\Leather Armor\Walkcycle\HEAD_leather_armor_hat" FrameDelay="90" Origin="0.5, 0.9">
+      <Frames>
+        <Frame>79 , 203, 38, 49</Frame>
+        <Frame>143, 203, 38, 49</Frame>
+        <Frame>207, 203, 38, 49</Frame>
+        <Frame>271, 203, 38, 49</Frame>
+        <Frame>335, 203, 38, 49</Frame>
+        <Frame>399, 203, 38, 49</Frame>
+        <Frame>463, 203, 38, 49</Frame>
+        <Frame>527, 203, 38, 49</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Slash_Up" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Leather Armor\Slash\HEAD_leather_armor_hat" FrameDelay="45" Origin="0.4, 0.9" >
+      <Frames>
+        <Frame>79  , 10, 46, 50</Frame>
+        <Frame>143 , 10, 46, 50</Frame>
+        <Frame>207 , 10, 46, 50</Frame>
+        <Frame>271 , 10, 46, 50</Frame>
+        <Frame>335 , 10, 46, 50</Frame>
+      </Frames>
+    </Animation>
+    <Animation State="Slash_Left" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Leather Armor\Slash\HEAD_leather_armor_hat" FrameDelay="45" Origin="0.7, 0.9" >
+      <Frames>
+        <Frame>69  , 75, 43, 49</Frame>
+        <Frame>133 , 75, 43, 49</Frame>
+        <Frame>197 , 75, 43, 49</Frame>
+        <Frame>261 , 75, 43, 49</Frame>
+        <Frame>325 , 75, 43, 49</Frame>
+      </Frames>
+    </Animation>
+    <Animation State="Slash_Down" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Leather Armor\Slash\HEAD_leather_armor_hat" FrameDelay="45" Origin="0.4, 0.9" >
+      <Frames>
+        <Frame>80 , 139, 45, 49</Frame>
+        <Frame>144, 139, 45, 49</Frame>
+        <Frame>208, 139, 45, 49</Frame>
+        <Frame>272, 139, 45, 49</Frame>
+        <Frame>336, 139, 45, 49</Frame>
+      </Frames>
+    </Animation>
+    <Animation State="Slash_Right" Group="Head" Layer="5" Loop="False" SpriteSheet="LPC\Leather Armor\Slash\HEAD_leather_armor_hat" FrameDelay="45" Origin="0.4, 0.9" >
+      <Frames>
+        <Frame>82 , 204, 43, 48</Frame>
+        <Frame>146, 204, 43, 48</Frame>
+        <Frame>210, 204, 43, 48</Frame>
+        <Frame>274, 204, 43, 48</Frame>
+        <Frame>338, 204, 43, 48</Frame>
+      </Frames>
+    </Animation>
+  </Animations>
+</DrawableSet>

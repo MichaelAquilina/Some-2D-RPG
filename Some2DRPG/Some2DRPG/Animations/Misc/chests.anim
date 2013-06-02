@@ -1,37 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<Animations>
-  <Animation State="Closed" Group="Body" Loop="False" SpriteSheet="LPC\Misc\chests" FrameDelay="75" Origin="0.5, 1.0">
-    <Frames>
-      <Frame>32 , 0, 32, 32</Frame>
-    </Frames>
-  </Animation>
+<DrawableSet>
+  <States>
+    <State>Closed</State>
+    <State>Open</State>
+  </States>
+  <Animations>
+    <Animation State="Closed" Group="Body" Loop="False" SpriteSheet="LPC\Misc\chests" FrameDelay="75" Origin="0.5, 1.0">
+      <Frames>
+        <Frame>32 , 0, 32, 32</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Closed" Group="interaction" Loop="False" Visible="False" SpriteSheet="LPC\Misc\INTERACTION_chests" FrameDelay="75" Origin="0.5, 0" Layer="2">
-    <Frames>
-      <Frame>32, 32, 32, 16</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Closed" Group="interaction" Loop="False" Visible="False" SpriteSheet="LPC\Misc\INTERACTION_chests" FrameDelay="75" Origin="0.5, 0" Layer="2">
+      <Frames>
+        <Frame>32, 32, 32, 16</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Closed" Group="collision" Loop="False" Visible="False" SpriteSheet="LPC\Misc\COLLISION_chests" FrameDelay="75" Origin="0.5, 1.0" Layer="2">
-    <Frames>
-      <Frame>32, 8, 32, 24</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Closed" Group="collision" Loop="False" Visible="False" SpriteSheet="LPC\Misc\COLLISION_chests" FrameDelay="75" Origin="0.5, 1.0" Layer="2">
+      <Frames>
+        <Frame>32, 8, 32, 24</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Open" Group="Body" Loop="False" SpriteSheet="LPC\Misc\chests" FrameDelay="75" Origin="0.5, 1.0">
-    <Frames>
-      <Frame>32, 0, 32, 32</Frame>
-      <Frame>32, 32, 32, 32</Frame>
-      <Frame>32, 64, 32, 32</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Open" Group="Body" Loop="False" SpriteSheet="LPC\Misc\chests" FrameDelay="75" Origin="0.5, 1.0">
+      <Frames>
+        <Frame>32, 0, 32, 32</Frame>
+        <Frame>32, 32, 32, 32</Frame>
+        <Frame>32, 64, 32, 32</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Open" Group="collision" Loop="False" Visible="False" SpriteSheet="LPC\Misc\COLLISION_chests" FrameDelay="75" Origin="0.5, 1.0" Layer="2">
-    <Frames>
-      <Frame>32, 8 , 32, 24</Frame>
-      <Frame>32, 40, 32, 24</Frame>
-      <Frame>32, 72, 32, 24</Frame>
-    </Frames>
-  </Animation>
-</Animations>
+    <Animation State="Open" Group="collision" Loop="False" Visible="False" SpriteSheet="LPC\Misc\COLLISION_chests" FrameDelay="75" Origin="0.5, 1.0" Layer="2">
+      <Frames>
+        <Frame>32, 8 , 32, 24</Frame>
+        <Frame>32, 40, 32, 24</Frame>
+        <Frame>32, 72, 32, 24</Frame>
+      </Frames>
+    </Animation>
+  </Animations>
+</DrawableSet>

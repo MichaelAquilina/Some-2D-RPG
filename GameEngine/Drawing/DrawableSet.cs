@@ -42,6 +42,36 @@ namespace GameEngine.Drawing
         private Dictionary<string, HashSet<DrawableInstance>> _stateDictionary = new Dictionary<string, HashSet<DrawableInstance>>();
         private Dictionary<string, HashSet<DrawableInstance>> _groupDictionary = new Dictionary<string, HashSet<DrawableInstance>>();
 
+        public bool AddGroup(string group)
+        {
+            if (!_groupDictionary.ContainsKey(group))
+            {
+                _groupDictionary.Add(group, new HashSet<DrawableInstance>());
+                return true;
+            }
+            else return false;
+        }
+
+        public bool RemoveGroup(string group)
+        {
+            return _groupDictionary.Remove(group);
+        }
+
+        public bool AddState(string state)
+        {
+            if (!_stateDictionary.ContainsKey(state))
+            {
+                _stateDictionary.Add(state, new HashSet<DrawableInstance>());
+                return true;
+            }
+            else return false;
+        }
+
+        public bool RemoveState(string state)
+        {
+            return _stateDictionary.Remove(state);
+        }
+
         /// <summary>
         /// Returns a collection of all *states* found within this DrawableSet.
         /// </summary>
@@ -86,10 +116,10 @@ namespace GameEngine.Drawing
         public DrawableInstance Add(string state, IGameDrawable drawable, string group="")
         {
             if (!_stateDictionary.ContainsKey(state))
-                _stateDictionary.Add(state, new HashSet<DrawableInstance>());
+                AddState(state);
 
             if (!_groupDictionary.ContainsKey(group))
-                _groupDictionary.Add(group, new HashSet<DrawableInstance>());
+                AddGroup(group);
 
             DrawableInstance instance = new DrawableInstance(drawable);
 
@@ -262,7 +292,11 @@ namespace GameEngine.Drawing
             XmlDocument document = new XmlDocument();
             document.Load(path);
 
-            foreach (XmlNode animNode in document.SelectNodes("Animations/Animation"))
+            // Initialize all declared states.
+            foreach (XmlNode stateNode in document.SelectNodes("DrawableSet/States/State"))
+                drawableSet.AddState(stateNode.InnerText);
+
+            foreach (XmlNode animNode in document.SelectNodes("DrawableSet/Animations/Animation"))
             {
                 int frameDelay = XmlExtensions.GetAttributeValue<int>(animNode, "FrameDelay", 90);
                 bool loop = XmlExtensions.GetAttributeValue<bool>(animNode, "Loop", true);

@@ -1,75 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<Animations>
-  <!-- Up Animations -->
+<DrawableSet>
+  <States>
+    <State>Up</State>
+    <State>Left</State>
+    <State>Down</State>
+    <State>Right</State>
+  </States>
+  <Animations>
+    <!-- Up Animations -->
 
-  <Animation State="Up" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150" Offset="0, -10">
-    <Frames>
-      <Frame>0 ,0,32,26</Frame>
-      <Frame>32,0,32,26</Frame>
-      <Frame>64,0,32,26</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Up" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150" Offset="0, -10">
+      <Frames>
+        <Frame>0 ,0,32,26</Frame>
+        <Frame>32,0,32,26</Frame>
+        <Frame>64,0,32,26</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Up" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150">
-    <Frames>
-      <Frame>0 ,26, 32, 7</Frame>
-      <Frame>32,26, 32, 7</Frame>
-      <Frame>64,26, 32, 7</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Up" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150">
+      <Frames>
+        <Frame>0 ,26, 32, 7</Frame>
+        <Frame>32,26, 32, 7</Frame>
+        <Frame>64,26, 32, 7</Frame>
+      </Frames>
+    </Animation>
 
-  <!-- Left Animations -->
+    <!-- Left Animations -->
 
-  <Animation State="Left" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150"  Offset="0, -10">
-    <Frames>
-      <Frame>0 ,33,32,26</Frame>
-      <Frame>32,33,32,26</Frame>
-      <Frame>64,33,32,26</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Left" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150"  Offset="0, -10">
+      <Frames>
+        <Frame>0 ,33,32,26</Frame>
+        <Frame>32,33,32,26</Frame>
+        <Frame>64,33,32,26</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Left" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150">
-    <Frames>
-      <Frame>0 , 58, 32, 7</Frame>
-      <Frame>32, 58, 32, 7</Frame>
-      <Frame>64, 58, 32, 7</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Left" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150">
+      <Frames>
+        <Frame>0 , 58, 32, 7</Frame>
+        <Frame>32, 58, 32, 7</Frame>
+        <Frame>64, 58, 32, 7</Frame>
+      </Frames>
+    </Animation>
 
-  <!-- Down Animations -->
+    <!-- Down Animations -->
 
-  <Animation State="Down" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150" Offset="0, -10">
-    <Frames>
-      <Frame>0 ,65,32,26</Frame>
-      <Frame>32,65,32,26</Frame>
-      <Frame>64,65,32,26</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Down" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150" Offset="0, -10">
+      <Frames>
+        <Frame>0 ,65,32,26</Frame>
+        <Frame>32,65,32,26</Frame>
+        <Frame>64,65,32,26</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Down" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150">
-    <Frames>
-      <Frame>0 ,90,32, 7</Frame>
-      <Frame>32,90,32, 7</Frame>
-      <Frame>64,90,32, 7</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Down" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150">
+      <Frames>
+        <Frame>0 ,90,32, 7</Frame>
+        <Frame>32,90,32, 7</Frame>
+        <Frame>64,90,32, 7</Frame>
+      </Frames>
+    </Animation>
 
-  <!-- Right Animations -->
+    <!-- Right Animations -->
 
-  <Animation State="Right" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150" Offset="0, -10">
-    <Frames>
-      <Frame>0 ,96,32,26</Frame>
-      <Frame>32,96,32,26</Frame>
-      <Frame>64,96,32,26</Frame>
-    </Frames>
-  </Animation>
+    <Animation State="Right" Group="Body" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150" Offset="0, -10">
+      <Frames>
+        <Frame>0 ,96,32,26</Frame>
+        <Frame>32,96,32,26</Frame>
+        <Frame>64,96,32,26</Frame>
+      </Frames>
+    </Animation>
 
-  <Animation State="Right" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150">
-    <Frames>
-      <Frame>0 ,122,32, 7</Frame>
-      <Frame>32,122,32, 7</Frame>
-      <Frame>64,122,32, 7</Frame>
-    </Frames>
-  </Animation>
-</Animations>
+    <Animation State="Right" Group="Shadow" Loop="True" SpriteSheet="LPC\Monsters\bee" FrameDelay="150">
+      <Frames>
+        <Frame>0 ,122,32, 7</Frame>
+        <Frame>32,122,32, 7</Frame>
+        <Frame>64,122,32, 7</Frame>
+      </Frames>
+    </Animation>
+  </Animations>
+</DrawableSet>

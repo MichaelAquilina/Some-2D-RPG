@@ -1,40 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
-<Animations>
-  <Animation State="Slash_Up" Group="Weapon" Loop="True" Layer="7" SpriteSheet="LPC\Weapons\WEAPON_longsword" FrameDelay="45" Origin="0.4, 0.9">
-    <Frames>
-      <Frame>79  , 13, 43, 50</Frame>
-      <Frame>143 , 13, 43, 50</Frame>
-      <Frame>207 , 13, 43, 50</Frame>
-      <Frame>271 , 13, 43, 50</Frame>
-      <Frame>335 , 13, 43, 50</Frame>
-    </Frames>
-  </Animation>
-  <Animation State="Slash_Left" Group="Weapon" Loop="True" Layer="7" SpriteSheet="LPC\Weapons\WEAPON_longsword" FrameDelay="45" Origin="0.7, 0.9">
-    <Frames>
-      <Frame>64  , 78, 47, 49</Frame>
-      <Frame>128 , 78, 47, 49</Frame>
-      <Frame>192 , 78, 47, 49</Frame>
-      <Frame>256 , 78, 47, 49</Frame>
-      <Frame>320 , 78, 47, 49</Frame>
-    </Frames>
-  </Animation>
-  <Animation State="Slash_Down" Group="Weapon" Loop="True" Layer="7" SpriteSheet="LPC\Weapons\WEAPON_longsword" FrameDelay="45" Origin="0.35, 0.9">
-    <Frames>
-      <Frame>78 , 143, 53, 48</Frame>
-      <Frame>142, 143, 53, 48</Frame>
-      <Frame>206, 143, 53, 48</Frame>
-      <Frame>270, 143, 53, 48</Frame>
-      <Frame>334, 143, 53, 48</Frame>
-    </Frames>
-  </Animation>
-  <Animation State="Slash_Right" Group="Weapon" Loop="True" Layer="7" SpriteSheet="LPC\Weapons\WEAPON_longsword" FrameDelay="45" Origin="0.34, 0.9">
-    <Frames>
-      <Frame>81 , 207, 47, 49</Frame>
-      <Frame>145, 207, 47, 49</Frame>
-      <Frame>209, 207, 47, 49</Frame>
-      <Frame>273, 207, 47, 49</Frame>
-      <Frame>337, 207, 47, 49</Frame>
-    </Frames>
-  </Animation>
-</Animations>
+<DrawableSet>
+  <States>
+    <State>Slash_Oversize_Up</State>
+    <State>Slash_Oversize_Left</State>
+    <State>Slash_Oversize_Down</State>
+    <State>Slash_Oversize_Right</State>
+  </States>
+  <Animations>
+    <!-- Slashing (Oversize) Animations -->
+
+    <Animation State="Slash_Oversize_Up" Group="Body" Loop="False" SpriteSheet="LPC\Weapons/longsword_male" FrameDelay="45" Origin="0.405, 0.9">
+      <Frames>
+        <Frame>244, 59, 108, 71</Frame>
+        <Frame>436, 59, 108, 71</Frame>
+        <Frame>628, 59, 108, 71</Frame>
+        <Frame>820, 59, 108, 71</Frame>
+        <Frame>1012, 59, 108, 71</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Slash_Oversize_Left" Group="Body" Loop="False" SpriteSheet="LPC\Weapons/longsword_male" FrameDelay="45" Origin="0.7, 0.9">
+      <Frames>
+        <Frame>69  , 78, 40, 49</Frame>
+        <Frame>133 , 78, 40, 49</Frame>
+        <Frame>197 , 78, 40, 49</Frame>
+        <Frame>261 , 78, 40, 49</Frame>
+        <Frame>325 , 78, 40, 49</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Slash_Oversize_Down" Group="Body" Loop="False" SpriteSheet="LPC\Weapons/longsword_male" FrameDelay="45" Origin="0.4, 0.9">
+      <Frames>
+        <Frame>80 , 142, 42, 49</Frame>
+        <Frame>144, 142, 42, 49</Frame>
+        <Frame>208, 142, 42, 49</Frame>
+        <Frame>272, 142, 42, 49</Frame>
+        <Frame>336, 142, 42, 49</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Slash_Oversize_Right" Group="Body" Loop="False" SpriteSheet="LPC\Weapons/longsword_male" FrameDelay="45" Origin="0.4, 0.9">
+      <Frames>
+        <Frame>82 , 207, 40, 48</Frame>
+        <Frame>146, 207, 40, 48</Frame>
+        <Frame>210, 207, 40, 48</Frame>
+        <Frame>274, 207, 40, 48</Frame>
+        <Frame>338, 207, 40, 48</Frame>
+      </Frames>
+    </Animation>
+  </Animations>
+</DrawableSet>
