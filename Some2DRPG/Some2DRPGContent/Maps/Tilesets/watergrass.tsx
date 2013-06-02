@@ -14,12 +14,12 @@
  </tile>
  <tile id="1" terrain="0,0,0,">
   <properties>
-   <property name="Impassable" value="TR, TL, BL"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="2" terrain="0,0,,0">
   <properties>
-   <property name="Impassable" value="TR, TL, BL"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="3">
@@ -29,32 +29,32 @@
  </tile>
  <tile id="4" terrain="0,,0,0">
   <properties>
-   <property name="Impassable" value="TL, BL, BR"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="5" terrain=",0,0,0">
   <properties>
-   <property name="Impassable" value="TR, BR, BL"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="6" terrain=",,,0">
   <properties>
-   <property name="Impassable" value="BR"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="7" terrain=",,0,0">
   <properties>
-   <property name="Impassable" value="BR, BL"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="8" terrain=",,0,">
   <properties>
-   <property name="Impassable" value="BR"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="9" terrain=",0,,0">
   <properties>
-   <property name="Impassable" value="TR, BR"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="10" terrain="0,0,0,0">
@@ -64,22 +64,22 @@
  </tile>
  <tile id="11" terrain="0,,0,">
   <properties>
-   <property name="Impassable" value="TL, BL"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="12" terrain=",0,,">
   <properties>
-   <property name="Impassable" value="TR"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="13" terrain="0,0,,">
   <properties>
-   <property name="Impassable" value="TR, TL"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="14" terrain="0,,,">
   <properties>
-   <property name="Impassable" value="TL"/>
+   <property name="Impassable" value=""/>
   </properties>
  </tile>
  <tile id="15">
