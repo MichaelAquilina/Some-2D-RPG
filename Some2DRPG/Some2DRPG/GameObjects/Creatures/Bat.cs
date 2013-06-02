@@ -159,7 +159,7 @@ namespace Some2DRPG.GameObjects.Creatures
 
             DrawableSet.LoadDrawableSetXml(
                 Drawables, 
-                "Animations/Monsters/bat.anim", 
+                "Animations/Monsters/bat.draw", 
                 content, startTimeMS
                 );
 

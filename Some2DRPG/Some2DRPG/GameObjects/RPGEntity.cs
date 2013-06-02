@@ -21,11 +21,11 @@ namespace Some2DRPG.GameObjects
 
         public static Random RPGRandomGenerator = new Random();
 
-        public static string HUMAN_MALE = @"Animations/Characters/male_npc.anim";
-        public static string HUMAN_FEMALE = @"Animations/Characters/female_npc.anim";
-        public static string CREATURES_BAT = @"Animations/Monsters/bat.anim";
-        public static string CREATURES_DUMMY = @"Animations/Monsters/combat_dummy.anim";
-        public static string CREATURES_SKELETON = @"Animations/Monsters/skeleton.anim";
+        public static string HUMAN_MALE = @"Animations/Characters/male_npc.draw";
+        public static string HUMAN_FEMALE = @"Animations/Characters/female_npc.draw";
+        public static string CREATURES_BAT = @"Animations/Monsters/bat.draw";
+        public static string CREATURES_DUMMY = @"Animations/Monsters/combat_dummy.draw";
+        public static string CREATURES_SKELETON = @"Animations/Monsters/skeleton.draw";
 
         public event RPGEntityEventHandler Hit;
         public event RPGEntityEventHandler Interact;

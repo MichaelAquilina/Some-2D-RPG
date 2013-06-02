@@ -67,7 +67,7 @@ namespace Some2DRPG.GameObjects.Misc
 
         public override void LoadContent(ContentManager content)
         {
-            DrawableSet.LoadDrawableSetXml(Drawables, "Animations/Misc/chests.anim", content);
+            DrawableSet.LoadDrawableSetXml(Drawables, "Animations/Misc/chests.draw", content);
             CurrentDrawableState = "Closed";
 
             _openSfx = new SoundEffect[2];

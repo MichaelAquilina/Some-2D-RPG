@@ -5,7 +5,7 @@
     <FriendlyName>Platemail Helmet</FriendlyName>
     <Description>A standard Imperial Plate Mail Helmet used by all Imperial Guards in the realm.</Description>
     <Drawables>
-      <Drawable src="Animations/Plate Armor/plate_armor_head.anim"></Drawable>
+      <Drawable src="Animations/Plate Armor/plate_armor_head.draw"></Drawable>
     </Drawables>
   </Item>
 
@@ -13,8 +13,8 @@
     <FriendlyName>Platemail Chest Armor</FriendlyName>
     <Description>A standard Imperial Plate Mail Chest Armor used by all Imperial Guards in the realm.</Description>
     <Drawables>
-      <Drawable src="Animations/Plate Armor/plate_armor_torso.anim"></Drawable>
-      <Drawable src="Animations/Plate Armor/plate_armor_shoulders.anim"></Drawable>
+      <Drawable src="Animations/Plate Armor/plate_armor_torso.draw"></Drawable>
+      <Drawable src="Animations/Plate Armor/plate_armor_shoulders.draw"></Drawable>
     </Drawables>
   </Item>
 
@@ -22,7 +22,7 @@
     <FriendlyName>Platemail Gloves</FriendlyName>
     <Description>A standard Imperial Plate Mail pair of Gloves used by all Imperial Guards in the realm.</Description>
     <Drawables>
-      <Drawable src="Animations/Plate Armor/plate_armor_hands.anim"></Drawable>
+      <Drawable src="Animations/Plate Armor/plate_armor_hands.draw"></Drawable>
     </Drawables>
   </Item>
 
@@ -30,7 +30,7 @@
     <FriendlyName>Platemail Pants</FriendlyName>
     <Description>A standard Imperial Plate Mail pair of Pants used by all Imperial Guards in the realm.</Description>
     <Drawables>
-      <Drawable src="Animations/Plate Armor/plate_armor_legs.anim"></Drawable>
+      <Drawable src="Animations/Plate Armor/plate_armor_legs.draw"></Drawable>
     </Drawables>
   </Item>
 
@@ -38,7 +38,7 @@
     <FriendlyName>Platemail Boots</FriendlyName>
     <Description>A standard Imperial Plate Mail pair of Boots used by all Imperial Guards in the realm.</Description>
     <Drawables>
-      <Drawable src="Animations/Plate Armor/plate_armor_feet.anim"></Drawable>
+      <Drawable src="Animations/Plate Armor/plate_armor_feet.draw"></Drawable>
     </Drawables>
   </Item>
 
@@ -46,7 +46,7 @@
     <FriendlyName>Shoes</FriendlyName>
     <Description>A pretty standard pair of normal walking shoes.</Description>
     <Drawables>
-      <Drawable src="Animations/Robe/robe_feet.anim"></Drawable>
+      <Drawable src="Animations/Robe/robe_feet.draw"></Drawable>
     </Drawables>
   </Item>
 
@@ -54,7 +54,7 @@
     <FriendlyName>Robe Hood</FriendlyName>
     <Description></Description>
     <Drawables>
-      <Drawable src="Animations/Robe/robe_head.anim"></Drawable>
+      <Drawable src="Animations/Robe/robe_head.draw"></Drawable>
     </Drawables>
   </Item>
 
@@ -62,8 +62,8 @@
     <FriendlyName>Robe Shirt</FriendlyName>
     <Description></Description>
     <Drawables>
-      <Drawable src="Animations/Robe/robe_torso.anim"></Drawable>
-      <Drawable src="Animations/Robe/robe_belt.anim"></Drawable>
+      <Drawable src="Animations/Robe/robe_torso.draw"></Drawable>
+      <Drawable src="Animations/Robe/robe_belt.draw"></Drawable>
     </Drawables>
   </Item>
 
@@ -71,7 +71,7 @@
     <FriendlyName>Robe Skirt</FriendlyName>
     <Description></Description>
     <Drawables>
-      <Drawable src="Animations/Robe/robe_legs.anim"></Drawable>
+      <Drawable src="Animations/Robe/robe_legs.draw"></Drawable>
     </Drawables>
   </Item>
 
@@ -79,7 +79,7 @@
     <FriendlyName>Rusty Dagger</FriendlyName>
     <Description></Description>
     <Drawables>
-      <Drawable src="Animations/Weapons/dagger.anim" />
+      <Drawable src="Animations/Weapons/dagger.draw" />
     </Drawables>
   </Item>
 
@@ -87,7 +87,7 @@
     <FriendlyName>Longsword</FriendlyName>
     <Description></Description>
     <Drawables>
-      <Drawable src="Animations/Weapons/longsword.anim" />
+      <Drawable src="Animations/Weapons/longsword.draw" />
     </Drawables>
   </Item>
 
@@ -95,7 +95,7 @@
     <FriendlyName>Leather Hat</FriendlyName>
     <Description></Description>
     <Drawables>
-      <Drawable src="Animations/Leather Armor/leather_armor_head.anim" />
+      <Drawable src="Animations/Leather Armor/leather_armor_head.draw" />
     </Drawables>
   </Item>
   
