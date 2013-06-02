@@ -133,6 +133,9 @@
     <Compile Include="Shaders\LightShader.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Animations\Weapons\rapier.draw">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
     <Content Include="Items\ItemRepository.xml">

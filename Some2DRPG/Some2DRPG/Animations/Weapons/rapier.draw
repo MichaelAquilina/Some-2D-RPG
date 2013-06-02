@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<DrawableSet>
+  <States>
+    <State>Slash_Up</State>
+    <State>Slash_Left</State>
+    <State>Slash_Down</State>
+    <State>Slash_Right</State>
+  </States>
+  <Animations>
+    <!-- Slashing (Oversize) Animations -->
+
+    <Animation State="Slash_Up" Group="Body" Loop="False" SpriteSheet="LPC\Weapons\rapier_male" FrameDelay="45" Origin="0.405, 0.9" Layer="7">
+      <Frames>
+        <Frame>244, 59, 108, 71</Frame>
+        <Frame>436, 59, 108, 71</Frame>
+        <Frame>628, 59, 108, 71</Frame>
+        <Frame>820, 59, 108, 71</Frame>
+        <Frame>1012, 59, 108, 71</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Slash_Left" Group="Body" Loop="False" SpriteSheet="LPC\Weapons\rapier_male" FrameDelay="45" Origin="0.68, 0.9" Layer="7">
+      <Frames>
+        <Frame>206, 259, 121, 61</Frame>
+        <Frame>398, 259, 121, 61</Frame>
+        <Frame>591, 259, 121, 61</Frame>
+        <Frame>782, 259, 121, 61</Frame>
+        <Frame>974, 259, 121, 61</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Slash_Down" Group="Body" Loop="False" SpriteSheet="LPC\Weapons\rapier_male" FrameDelay="45" Origin="0.43, 0.65" Layer="7">
+      <Frames>
+        <Frame>240 , 461, 112, 69</Frame>
+        <Frame>432, 461, 112, 69</Frame>
+        <Frame>624, 461, 112, 69</Frame>
+        <Frame>816, 461, 112, 69</Frame>
+        <Frame>1008, 461, 112, 69</Frame>
+      </Frames>
+    </Animation>
+
+    <Animation State="Slash_Right" Group="Body" Loop="False" SpriteSheet="LPC\Weapons\rapier_male" FrameDelay="45" Origin="0.3, 0.9" Layer="7">
+      <Frames>
+        <Frame>254, 649, 117, 54</Frame>
+        <Frame>447, 649, 117, 54</Frame>
+        <Frame>639, 649, 117, 54</Frame>
+        <Frame>831, 649, 117, 54</Frame>
+        <Frame>1023, 649, 117, 54</Frame>
+      </Frames>
+    </Animation>
+  </Animations>
+</DrawableSet>

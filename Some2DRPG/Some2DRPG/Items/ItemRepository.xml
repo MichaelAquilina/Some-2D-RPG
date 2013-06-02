@@ -99,6 +99,14 @@
     </Drawables>
   </Item>
 
+  <Item Name="Rapier" ItemType="Weapon" Weight="2.0" >
+    <FriendlyName>Sabre</FriendlyName>
+    <Description></Description>
+    <Drawables>
+      <Drawable src="Animations/Weapons/rapier.draw" />
+    </Drawables>
+  </Item>
+
   <Item Name="LeatherHat" ItemType="HeadGear" Weight="0.2" >
     <FriendlyName>Leather Hat</FriendlyName>
     <Description></Description>

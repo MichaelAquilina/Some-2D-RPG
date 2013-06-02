@@ -53,7 +53,7 @@ namespace Some2DRPG.GameObjects.Characters
             QuickEquip("PlateGloves");
             QuickEquip("PlateChest");
             QuickEquip("PlateBoots");
-            QuickEquip("Sabre");
+            QuickEquip("Rapier");
         }
 
         public override void PostCreate(GameTime gameTime, TeeEngine engine)
