@@ -21,11 +21,6 @@
     <State>Thrust_Left</State>
     <State>Thrust_Down</State>
     <State>Thrust_Right</State>
-    
-    <State>Slash_Oversize_Up</State>
-    <State>Slash_Oversize_Left</State>
-    <State>Slash_Oversize_Down</State>
-    <State>Slash_Oversize_Right</State>
 
     <State>Death</State>
   </States>

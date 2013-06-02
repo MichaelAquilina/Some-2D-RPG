@@ -49,11 +49,11 @@ namespace Some2DRPG.GameObjects.Characters
             LightSource.PositionType = LightPositionType.Relative;
 
             QuickEquip("PlateHelmet");
-            QuickEquip("RobeSkirt");
+            QuickEquip("PlatePants");
             QuickEquip("PlateGloves");
-            QuickEquip("RobeShirt");
+            QuickEquip("PlateChest");
             QuickEquip("PlateBoots");
-            QuickEquip("RustyDagger");
+            QuickEquip("Longsword");
         }
 
         public override void PostCreate(GameTime gameTime, TeeEngine engine)

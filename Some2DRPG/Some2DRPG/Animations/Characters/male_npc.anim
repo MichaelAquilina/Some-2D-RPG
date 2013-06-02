@@ -22,11 +22,6 @@
     <State>Thrust_Down</State>
     <State>Thrust_Right</State>
 
-    <State>Slash_Oversize_Up</State>
-    <State>Slash_Oversize_Left</State>
-    <State>Slash_Oversize_Down</State>
-    <State>Slash_Oversize_Right</State>
-
     <State>Death</State>
   </States>
   <Animations>
@@ -128,7 +123,7 @@
 
     <!-- Slashing Animations -->
 
-    <Animation State="Slash_*Up" Group="Body" Loop="False" SpriteSheet="LPC\Characters\Slash\male_slash" FrameDelay="45" Origin="0.4, 0.9">
+    <Animation State="Slash_Up" Group="Body" Loop="False" SpriteSheet="LPC\Characters\Slash\male_slash" FrameDelay="45" Origin="0.4, 0.9">
       <Frames>
         <Frame>79  , 13, 43, 50</Frame>
         <Frame>143 , 13, 43, 50</Frame>
@@ -138,7 +133,7 @@
       </Frames>
     </Animation>
 
-    <Animation State="Slash_*Left" Group="Body" Loop="False" SpriteSheet="LPC\Characters\Slash\male_slash" FrameDelay="45" Origin="0.7, 0.9">
+    <Animation State="Slash_Left" Group="Body" Loop="False" SpriteSheet="LPC\Characters\Slash\male_slash" FrameDelay="45" Origin="0.7, 0.9">
       <Frames>
         <Frame>69  , 78, 40, 49</Frame>
         <Frame>133 , 78, 40, 49</Frame>
@@ -148,7 +143,7 @@
       </Frames>
     </Animation>
 
-    <Animation State="Slash_*Down" Group="Body" Loop="False" SpriteSheet="LPC\Characters\Slash\male_slash" FrameDelay="45" Origin="0.4, 0.9">
+    <Animation State="Slash_Down" Group="Body" Loop="False" SpriteSheet="LPC\Characters\Slash\male_slash" FrameDelay="45" Origin="0.4, 0.9">
       <Frames>
         <Frame>80 , 142, 42, 49</Frame>
         <Frame>144, 142, 42, 49</Frame>
@@ -158,7 +153,7 @@
       </Frames>
     </Animation>
 
-    <Animation State="Slash_*Right" Group="Body" Loop="False" SpriteSheet="LPC\Characters\Slash\male_slash" FrameDelay="45" Origin="0.4, 0.9">
+    <Animation State="Slash_Right" Group="Body" Loop="False" SpriteSheet="LPC\Characters\Slash\male_slash" FrameDelay="45" Origin="0.4, 0.9">
       <Frames>
         <Frame>82 , 207, 40, 48</Frame>
         <Frame>146, 207, 40, 48</Frame>

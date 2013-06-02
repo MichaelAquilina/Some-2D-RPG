@@ -17,11 +17,6 @@
     <State>Slash_Down</State>
     <State>Slash_Right</State>
 
-    <State>Slash_Oversize_Up</State>
-    <State>Slash_Oversize_Left</State>
-    <State>Slash_Oversize_Down</State>
-    <State>Slash_Oversize_Right</State>
-
     <State>Death</State>
   </States>
   <Animations>

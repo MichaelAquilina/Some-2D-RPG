@@ -17,11 +17,6 @@
     <State>Slash_Down</State>
     <State>Slash_Right</State>
 
-    <State>Slash_Oversize_Up</State>
-    <State>Slash_Oversize_Left</State>
-    <State>Slash_Oversize_Down</State>
-    <State>Slash_Oversize_Right</State>
-
     <State>Death</State>
   </States>
 
@@ -100,7 +95,7 @@
       </Frames>
     </Animation>
 
-    <Animation State="Slash_*Up" Group="Torso" Layer="3" Loop="False" SpriteSheet="LPC\Plate Armor\Slash\TORSO_plate_armor_torso" FrameDelay="45" Origin="0.4, 0.9" >
+    <Animation State="Slash_Up" Group="Torso" Layer="3" Loop="False" SpriteSheet="LPC\Plate Armor\Slash\TORSO_plate_armor_torso" FrameDelay="45" Origin="0.4, 0.9" >
       <Frames>
         <Frame>79  , 13, 43, 50</Frame>
         <Frame>143 , 13, 43, 50</Frame>
@@ -109,7 +104,7 @@
         <Frame>335 , 13, 43, 50</Frame>
       </Frames>
     </Animation>
-    <Animation State="Slash_*Left" Group="Torso" Layer="3" Loop="False" SpriteSheet="LPC\Plate Armor\Slash\TORSO_plate_armor_torso" FrameDelay="45" Origin="0.7, 0.9" >
+    <Animation State="Slash_Left" Group="Torso" Layer="3" Loop="False" SpriteSheet="LPC\Plate Armor\Slash\TORSO_plate_armor_torso" FrameDelay="45" Origin="0.7, 0.9" >
       <Frames>
         <Frame>69  , 78, 40, 49</Frame>
         <Frame>133 , 78, 40, 49</Frame>
@@ -118,7 +113,7 @@
         <Frame>325 , 78, 40, 49</Frame>
       </Frames>
     </Animation>
-    <Animation State="Slash_*Down" Group="Torso" Layer="3" Loop="False" SpriteSheet="LPC\Plate Armor\Slash\TORSO_plate_armor_torso" FrameDelay="45" Origin="0.4, 0.9" >
+    <Animation State="Slash_Down" Group="Torso" Layer="3" Loop="False" SpriteSheet="LPC\Plate Armor\Slash\TORSO_plate_armor_torso" FrameDelay="45" Origin="0.4, 0.9" >
       <Frames>
         <Frame>80 , 142, 42, 49</Frame>
         <Frame>144, 142, 42, 49</Frame>
@@ -127,7 +122,7 @@
         <Frame>336, 142, 42, 49</Frame>
       </Frames>
     </Animation>
-    <Animation State="Slash_*Right" Group="Torso" Layer="3" Loop="False" SpriteSheet="LPC\Plate Armor\Slash\TORSO_plate_armor_torso" FrameDelay="45" Origin="0.4, 0.9" >
+    <Animation State="Slash_Right" Group="Torso" Layer="3" Loop="False" SpriteSheet="LPC\Plate Armor\Slash\TORSO_plate_armor_torso" FrameDelay="45" Origin="0.4, 0.9" >
       <Frames>
         <Frame>82 , 207, 40, 48</Frame>
         <Frame>146, 207, 40, 48</Frame>
