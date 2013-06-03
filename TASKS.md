@@ -4,6 +4,7 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Download the daily build of Tiled to improve map editing.
 - [] - Support for impassable directions in the new collision response for tiles.
 - [] - Support for avoiding collidable entities in Astar.
 - [] - Support for directions in Astar algorithm (Top, Bottom, Left, Right)
