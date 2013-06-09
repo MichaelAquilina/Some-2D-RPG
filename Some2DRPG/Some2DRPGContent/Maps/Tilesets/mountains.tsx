@@ -16,7 +16,7 @@
  </tile>
  <tile id="2">
   <properties>
-   <property name="Impassable" value="0, 0.5, 0,5, 1.0"/>
+   <property name="Impassable" value="0, 0.5, 0.5, 1.0"/>
   </properties>
  </tile>
  <tile id="3">
