@@ -14,6 +14,7 @@ Items Related to Design and Development
 * Developing unit test cases in C#: http://msdn.microsoft.com/en-us/library/ms182532.aspx
 
 ### Art Assets
+* more tilesets to look at: http://opengameart.org/content/lpc-cnilsson
 * Sprite sheet generator: http://gaurav0.koding.com/Universal-LPC-Spritesheet-Character-Generator/
 * Very important asset repository on github: https://github.com/makrohn/Universal-LPC-spritesheet
 * Wooden Damage: http://opengameart.org/content/35-wooden-crackshitsdestructions

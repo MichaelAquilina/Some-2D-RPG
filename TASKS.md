@@ -25,7 +25,6 @@ Todo
 	- [] - Make IGameDrawable Files require to provide a XmlToDrawable static method which allows it to be loaded from an xml file.
 	- [Done] - Refactoring of the xsd. Animations->Drawables. <DrawableInstance><Animation>...</Animation></DrawableInstance> etc..
 	- [Done] - Change all .anim file extensions to .draw extension.
-- [] - Write some unit tests.
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
@@ -89,6 +88,7 @@ Must Have
 
 Should Have
 -----------
+- [] - Unit test suite to ensure that future changes do not break core functionality.
 - [] - Ability to run in full screen mode. Currently this does not work as expected.
 - [Done] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
 - [IP] - NPC Interaction (scriptable with dialog text)
