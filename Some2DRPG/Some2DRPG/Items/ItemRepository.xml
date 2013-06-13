@@ -1,146 +1,176 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <ItemRepository>
-  <Item Name="PlateHelmet" ItemType="HeadGear" Weight="1.5">
+  <Item Name="PlateHelmet" Class="Some2DRPG.Items.Armor" Weight="1.5">
     <FriendlyName>Platemail Helmet</FriendlyName>
     <Description>A standard Imperial Plate Mail Helmet used by all Imperial Guards in the realm.</Description>
     <Drawables>
       <Drawable src="Animations/Plate Armor/plate_armor_head.draw"></Drawable>
     </Drawables>
+    <Properties>
+      <ArmorSlot>HeadGear</ArmorSlot>
+    </Properties>
   </Item>
 
-  <Item Name="PlateChest" ItemType="Vest" Weight="12.0">
+  <Item Name="PlateChest" Class="Some2DRPG.Items.Armor" Weight="12.0">
     <FriendlyName>Platemail Chest Armor</FriendlyName>
     <Description>A standard Imperial Plate Mail Chest Armor used by all Imperial Guards in the realm.</Description>
     <Drawables>
       <Drawable src="Animations/Plate Armor/plate_armor_torso.draw"></Drawable>
       <Drawable src="Animations/Plate Armor/plate_armor_shoulders.draw"></Drawable>
     </Drawables>
+    <Properties>
+      <ArmorSlot>Vest</ArmorSlot>
+    </Properties>
   </Item>
 
-  <Item Name="PlateGloves" ItemType="Gloves" Weight="0.5">
+  <Item Name="PlateGloves" Class="Some2DRPG.Items.Armor" Weight="0.5">
     <FriendlyName>Platemail Gloves</FriendlyName>
     <Description>A standard Imperial Plate Mail pair of Gloves used by all Imperial Guards in the realm.</Description>
     <Drawables>
       <Drawable src="Animations/Plate Armor/plate_armor_hands.draw"></Drawable>
     </Drawables>
+    <Properties>
+      <ArmorSlot>Gloves</ArmorSlot>
+    </Properties>
   </Item>
 
-  <Item Name="PlatePants" ItemType="Pants" Weight="5.0">
+  <Item Name="PlatePants" Class="Some2DRPG.Items.Armor" Weight="5.0">
     <FriendlyName>Platemail Pants</FriendlyName>
     <Description>A standard Imperial Plate Mail pair of Pants used by all Imperial Guards in the realm.</Description>
     <Drawables>
       <Drawable src="Animations/Plate Armor/plate_armor_legs.draw"></Drawable>
     </Drawables>
+    <Properties>
+      <ArmorSlot>Pants</ArmorSlot>
+    </Properties>
   </Item>
 
-  <Item Name="PlateBoots" ItemType="Boots" Weight="2.5">
+  <Item Name="PlateBoots" Class="Some2DRPG.Items.Armor" Weight="2.5">
     <FriendlyName>Platemail Boots</FriendlyName>
     <Description>A standard Imperial Plate Mail pair of Boots used by all Imperial Guards in the realm.</Description>
     <Drawables>
       <Drawable src="Animations/Plate Armor/plate_armor_feet.draw"></Drawable>
     </Drawables>
+    <Properties>
+      <ArmorSlot>Boots</ArmorSlot>
+    </Properties>
   </Item>
 
-  <Item Name="PlainShoes" ItemType="Boots" Weight="0.1">
+  <Item Name="PlainShoes" Class="Some2DRPG.Items.Armor" Weight="0.1">
     <FriendlyName>Shoes</FriendlyName>
     <Description>A pretty standard pair of normal walking shoes.</Description>
     <Drawables>
       <Drawable src="Animations/Robe/robe_feet.draw"></Drawable>
     </Drawables>
+    <Properties>
+      <ArmorSlot>Boots</ArmorSlot>
+    </Properties>
   </Item>
 
-  <Item Name="RobeHood" ItemType="HeadGear" Weight="0.1" >
+  <Item Name="RobeHood" Class="Some2DRPG.Items.Armor" Weight="0.1" >
     <FriendlyName>Robe Hood</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Robe/robe_head.draw"></Drawable>
     </Drawables>
+    <Properties>
+      <ArmorSlot>HeadGear</ArmorSlot>
+    </Properties>
   </Item>
 
-  <Item Name="RobeShirt" ItemType="Vest" Weight="0.1">
+  <Item Name="RobeShirt" Class="Some2DRPG.Items.Armor" Weight="0.1">
     <FriendlyName>Robe Shirt</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Robe/robe_torso.draw"></Drawable>
       <Drawable src="Animations/Robe/robe_belt.draw"></Drawable>
     </Drawables>
+    <Properties>
+      <ArmorSlot>Vest</ArmorSlot>
+    </Properties>
   </Item>
 
-  <Item Name="RobeSkirt" ItemType="Pants" Weight="0.1">
+  <Item Name="RobeSkirt" Class="Some2DRPG.Items.Armor" Weight="0.1">
     <FriendlyName>Robe Skirt</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Robe/robe_legs.draw"></Drawable>
     </Drawables>
+    <Properties>
+      <ArmorSlot>Pants</ArmorSlot>
+    </Properties>
   </Item>
 
-  <Item Name="RustyDagger" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="0.8" >
+  <Item Name="RustyDagger" Class="Some2DRPG.Items.Weapon" Weight="0.8" >
     <FriendlyName>Rusty Dagger</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/dagger.draw" />
     </Drawables>
-    <Attributes>
+    <Properties>
       <Damage>3</Damage>
       <DamageType>Slashing</DamageType>
-    </Attributes>
+    </Properties>
   </Item>
 
-  <Item Name="Longsword" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
+  <Item Name="Longsword" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
     <FriendlyName>Longsword</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/longsword.draw" />
     </Drawables>
-    <Attributes>
+    <Properties>
       <Damage>6</Damage>
       <DamageType>Slashing</DamageType>
-    </Attributes>
+    </Properties>
   </Item>
 
-  <Item Name="Saber" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
+  <Item Name="Saber" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
     <FriendlyName>Sabre</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/saber.draw" />
     </Drawables>
-    <Attributes>
-      <Damage>6</Damage>
+    <Properties>
+      <Damage>8</Damage>
       <DamageType>Slashing</DamageType>
-    </Attributes>
+    </Properties>
   </Item>
 
-  <Item Name="Rapier" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
+  <Item Name="Rapier" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
     <FriendlyName>Sabre</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/rapier.draw" />
     </Drawables>
-    <Attributes>
-      <Damage>4</Damage>
+    <Properties>
+      <Damage>5</Damage>
       <DamageType>Slashing</DamageType>
-    </Attributes>
+    </Properties>
   </Item>
 
-  <Item Name="Mace" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
+  <Item Name="Mace" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
     <FriendlyName>Mace</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/mace.draw" />
     </Drawables>
-    <Attributes>
-      <Damage>8</Damage>
+    <Properties>
+      <Damage>10</Damage>
       <DamageType>Blunt</DamageType>
-    </Attributes>
+    </Properties>
   </Item>
 
-  <Item Name="LeatherHat" ItemType="HeadGear" Weight="0.2" >
+  <Item Name="LeatherHat" Class="Some2DRPG.Items.Armor" Weight="0.2" >
     <FriendlyName>Leather Hat</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Leather Armor/leather_armor_head.draw" />
     </Drawables>
+    <Properties>
+      <ArmorSlot>HeadGear</ArmorSlot>
+    </Properties>
   </Item>
   
 </ItemRepository>

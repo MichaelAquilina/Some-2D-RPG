@@ -33,7 +33,10 @@ namespace Some2DRPG.GameObjects
         public string Faction { get; set; }
 
         public List<Item> Backpack { get; set; }
-        public Dictionary<ItemType, Item> Equiped { get; set; }
+
+        public Weapon EquipedWeapon { get; set; }
+
+        public Dictionary<ArmorSlot, Item> Equiped { get; set; }
 
         public Direction Direction { get; set; }
 
@@ -105,7 +108,7 @@ namespace Some2DRPG.GameObjects
             this.ScaleY = 1.0f;
             this.CollisionGroup = null;
             this.Backpack = new List<Item>();
-            this.Equiped = new Dictionary<ItemType, Item>();
+            this.Equiped = new Dictionary<ArmorSlot, Item>();
             this.BaseRace = baseRace;
             this.Direction = Direction.Right;
         }
@@ -123,7 +126,9 @@ namespace Some2DRPG.GameObjects
         /// </summary>
         public int RollForDamage()
         {
-            return Strength + Strength * RPGEntity.RPGRandomGenerator.Next(6) / 10;
+            int baseDamage = EquipedWeapon == null ? Strength : Strength + EquipedWeapon.Damage;
+
+            return baseDamage + baseDamage * RPGEntity.RPGRandomGenerator.Next(6) / 10;
         }
 
         public void ClearHitList()
@@ -265,48 +270,62 @@ namespace Some2DRPG.GameObjects
 
         #region Equipment Methods
 
-        public void QuickEquip(string itemName)
+        public Item GetEquiped(ArmorSlot itemSlot)
         {
-            Equip(ItemRepository.GameItems[itemName]);
-        }
-
-        public void Equip(Item item)
-        {
-            Unequip(item.ItemType);
-
-            Equiped[item.ItemType] = item;
-            Drawables.Union(item.Drawables);
-        }
-
-        public void QuickUnequip(string itemName)
-        {
-            Unequip(ItemRepository.GameItems[itemName]);
-        }
-
-        public void Unequip(Item item)
-        {
-            Unequip(item.ItemType);
-        }
-
-        public void Unequip(ItemType itemType)
-        {
-            if( Equiped.ContainsKey(itemType) )
-                Drawables.Remove(Equiped[itemType].Drawables);
-
-            Equiped.Remove(itemType);
-        }
-
-        public bool QuickIsEquiped(string itemName)
-        {
-            return IsEquiped(ItemRepository.GameItems[itemName]);
+            if (Equiped.ContainsKey(itemSlot))
+                return Equiped[itemSlot];
+            else
+                return null;
         }
 
         public bool IsEquiped(Item item)
         {
-            if (Equiped.ContainsKey(item.ItemType))
-                return Equiped[item.ItemType] == item;
+            if (item is Weapon)
+                return EquipedWeapon == item;
             else
-                return false;
+            {
+                Armor armor = item as Armor;
+                return Equiped.ContainsKey(armor.ArmorSlot) && Equiped[armor.ArmorSlot] == item;
+            }
+        }
+
+        public void Equip(Item item)
+        {
+            if (item is Weapon)
+            {
+                Unequip(EquipedWeapon);
+                EquipedWeapon = item as Weapon;
+            }
+            else
+            {
+                Armor armor = item as Armor;
+
+                Unequip(GetEquiped(armor.ArmorSlot));
+                Equiped[armor.ArmorSlot] = item;
+            }
+
+            Drawables.Union(item.Drawables);
+        }
+
+        public void Unequip(Item item)
+        {
+            if (item is Weapon && EquipedWeapon == item)
+            {
+                EquipedWeapon = null;
+                Drawables.Remove(item.Drawables);
+            }
+            else
+            {
+                Armor armor = item as Armor;
+
+                if (item is Item && Equiped.ContainsKey(armor.ArmorSlot))
+                    Drawables.Remove(item.Drawables);
+            }
+        }
+
+        public void QuickEquip(string itemName)
+        {
+            Equip(ItemRepository.GameItems[itemName]);
         }
 
         #endregion

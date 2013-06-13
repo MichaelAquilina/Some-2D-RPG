@@ -2,7 +2,6 @@
 
 namespace Some2DRPG.Items
 {
-    public enum ItemType { HeadGear, Vest, Gloves, Pants, Boots, Weapon }
 
     public class Item
     {
@@ -10,8 +9,6 @@ namespace Some2DRPG.Items
         public string FriendlyName { get; set; }
         public string Description { get; set; }
         public float Weight { get; set; }
-
-        public ItemType ItemType { get; set; }
 
         public DrawableSet Drawables { get; set; }
 
