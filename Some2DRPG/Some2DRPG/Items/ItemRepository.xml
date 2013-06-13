@@ -75,44 +75,64 @@
     </Drawables>
   </Item>
 
-  <Item Name="RustyDagger" ItemType="Weapon" Weight="0.8" >
+  <Item Name="RustyDagger" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="0.8" >
     <FriendlyName>Rusty Dagger</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/dagger.draw" />
     </Drawables>
+    <Attributes>
+      <Damage>3</Damage>
+      <DamageType>Slashing</DamageType>
+    </Attributes>
   </Item>
 
-  <Item Name="Longsword" ItemType="Weapon" Weight="2.0" >
+  <Item Name="Longsword" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
     <FriendlyName>Longsword</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/longsword.draw" />
     </Drawables>
+    <Attributes>
+      <Damage>6</Damage>
+      <DamageType>Slashing</DamageType>
+    </Attributes>
   </Item>
 
-  <Item Name="Saber" ItemType="Weapon" Weight="2.0" >
+  <Item Name="Saber" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
     <FriendlyName>Sabre</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/saber.draw" />
     </Drawables>
+    <Attributes>
+      <Damage>6</Damage>
+      <DamageType>Slashing</DamageType>
+    </Attributes>
   </Item>
 
-  <Item Name="Rapier" ItemType="Weapon" Weight="2.0" >
+  <Item Name="Rapier" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
     <FriendlyName>Sabre</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/rapier.draw" />
     </Drawables>
+    <Attributes>
+      <Damage>4</Damage>
+      <DamageType>Slashing</DamageType>
+    </Attributes>
   </Item>
 
-  <Item Name="Mace" ItemType="Weapon" Weight="2.0" >
-    <FriendlyName>Sabre</FriendlyName>
+  <Item Name="Mace" ItemType="Weapon" Class="Some2DRPG.Items.Weapon" Weight="2.0" >
+    <FriendlyName>Mace</FriendlyName>
     <Description></Description>
     <Drawables>
       <Drawable src="Animations/Weapons/mace.draw" />
     </Drawables>
+    <Attributes>
+      <Damage>8</Damage>
+      <DamageType>Blunt</DamageType>
+    </Attributes>
   </Item>
 
   <Item Name="LeatherHat" ItemType="HeadGear" Weight="0.2" >
