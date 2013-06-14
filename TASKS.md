@@ -4,8 +4,9 @@ Game Engine Tasks
 Todo
 ----
 
+- [] - Allow diagonals, but not allow in the case wherea a corner could prevent movement.
 - [] - Support for impassable directions in the new collision response for tiles.
-- [] - Support for avoiding collidable entities in Astar.
+- [] - Support for avoiding collidable entities in Astar. Use some approximation heuristic.
 - [] - Support for directions in Astar algorithm (Top, Bottom, Left, Right)
 - [] - Add Trim funciton to .anim files. This will automatically trim out excess pixels from the frame
           - this will provide optimal effeciency during runtime.
@@ -28,6 +29,50 @@ Todo
 - [] - Allow overriding of some Entity value DefaultOrigin which allows the automatic loader to determine how much displacement to apply.
 - [] - Develop an animation creator/editor so that it doesnt have to be manually specified. Probably best to create this in a seperate repository. Either use QT in order to learn it or some form of WPF.
 - [] - (Bug) Entities at certain zoom levels show pixels from outside their source frame (example Bat and Tree2)
+
+
+Must Have
+---------
+
+- [Done] - The ability to draw and render a 2D top down game world
+- [Done] - an entity framework
+- [Done] - an animation framework
+- [Done] - a post-rendering shader framework
+- [Done] - the ability to load from tiled maps (prevents from having to develop a map creation application)
+
+Should Have
+-----------
+- [] - Unit test suite to ensure that future changes do not break core functionality.
+- [] - Ability to run in full screen mode. Currently this does not work as expected.
+- [Done] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
+- [IP] - NPC Interaction (scriptable with dialog text)
+- [Done] - the ability to zoom in and out (scale)
+- [Done] - an effecient collision detection engine (QuadTree)
+- [] - a per entity / per tile shader framework
+- [] - an application to be able to design animations and speficy frames (however try look into alternatives such as texture compressor)
+  - try out QT in the case where an application will be designed from scratch
+- [Done] - Map scripting in the form of python, lua or external C#. Need to do research to see which one is the best to use. Make sure to consider **performance**, **ease of use**, **support** and **stability of package**.
+       - example: http://www.gamedev.net/page/resources/_/technical/game-programming/using-lua-with-c-r2275 *LUA*
+       - example: http://mail.python.org/pipermail/pythondotnet/2003-November/000037.html *PYTHON*
+       - example: http://stackoverflow.com/questions/826398/is-it-possible-to-dynamically-compile-and-execute-c-sharp-code-fragments *C#*
+- [] - Animated tile support. This is currently a bit hard in Tiled, but hopefully [support for specifying animated tiles will come soon](https://github.com/bjorn/tiled/issues/57#issuecomment-16699982)
+- [Done] - Composite drawing support in entities (allowing entities to make use of more than one animation at one go)
+- [Done] - Detailed diagnostic information in terms of performance counters
+- [Done] - the ability to reset animations
+
+Nice to Have
+------------
+
+- [] - Support for loading Image layers specified in tiled files.
+- [] - zlib compression support in tmx files
+- [] - the ability to pause and resume the state of the world from within the engine itself
+- [] - the ability to run on MonoGame
+
+
+Done
+----
+- [Done] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
+- [Done] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
 - [Done] - Download the daily build of Tiled to improve map editing.
 - [Done] - Collision detection between entities.
 - [Done] - Refactoring of PathFinding code (small nauinces). External IsValid Specification for tiles in pathfinding.
@@ -69,47 +114,3 @@ Todo
 - [Done] - Change SpriteBatchExtension 'DrawMultiLineString' to automatically convert strings to mutltiple lines given some maxline length
 - [Done] - Create virtual Entity method. ShowDebugInfo (or something like that) that is shown by the TeeEngine when required.
 - [Done] - Add support for specifying tile layer 'Color'. For example, the cliff layer could be set to some light gray to give the feeling of distance.
-
-QuadTree / HashList stuff
-------------------------
-
-- [Done] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
-- [Done] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
-
-
-Must Have
----------
-
-- [Done] - The ability to draw and render a 2D top down game world
-- [Done] - an entity framework
-- [Done] - an animation framework
-- [Done] - a post-rendering shader framework
-- [Done] - the ability to load from tiled maps (prevents from having to develop a map creation application)
-
-Should Have
------------
-- [] - Unit test suite to ensure that future changes do not break core functionality.
-- [] - Ability to run in full screen mode. Currently this does not work as expected.
-- [Done] - The ability to allow the player to change between various armor sets, weapons, hair styles, gender etc... just like an RPG.
-- [IP] - NPC Interaction (scriptable with dialog text)
-- [Done] - the ability to zoom in and out (scale)
-- [Done] - an effecient collision detection engine (QuadTree)
-- [] - a per entity / per tile shader framework
-- [] - an application to be able to design animations and speficy frames (however try look into alternatives such as texture compressor)
-  - try out QT in the case where an application will be designed from scratch
-- [Done] - Map scripting in the form of python, lua or external C#. Need to do research to see which one is the best to use. Make sure to consider **performance**, **ease of use**, **support** and **stability of package**.
-       - example: http://www.gamedev.net/page/resources/_/technical/game-programming/using-lua-with-c-r2275 *LUA*
-       - example: http://mail.python.org/pipermail/pythondotnet/2003-November/000037.html *PYTHON*
-       - example: http://stackoverflow.com/questions/826398/is-it-possible-to-dynamically-compile-and-execute-c-sharp-code-fragments *C#*
-- [] - Animated tile support. This is currently a bit hard in Tiled, but hopefully [support for specifying animated tiles will come soon](https://github.com/bjorn/tiled/issues/57#issuecomment-16699982)
-- [Done] - Composite drawing support in entities (allowing entities to make use of more than one animation at one go)
-- [Done] - Detailed diagnostic information in terms of performance counters
-- [Done] - the ability to reset animations
-
-Nice to Have
-------------
-
-- [] - Support for loading Image layers specified in tiled files.
-- [] - zlib compression support in tmx files
-- [] - the ability to pause and resume the state of the world from within the engine itself
-- [] - the ability to run on MonoGame
