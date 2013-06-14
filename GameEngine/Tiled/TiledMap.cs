@@ -128,6 +128,7 @@ namespace GameEngine.Tiled
             return position * new Vector2(TileWidth, TileHeight) + new Vector2(TileWidth/2, TileHeight/2);
         }
 
+        // TODO: Document this.
         private static List<Point> ConvertToPointsList(string pointData)
         {
             if (pointData == null)
