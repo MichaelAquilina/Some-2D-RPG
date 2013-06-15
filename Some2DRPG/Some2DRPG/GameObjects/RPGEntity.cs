@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using GameEngine;
 using GameEngine.Drawing;
 using GameEngine.GameObjects;
+using GameEngine.Pathfinding;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Some2DRPG.GameObjects.Misc;
 using Some2DRPG.Items;
-using GameEngine.Pathfinding;
 
 namespace Some2DRPG.GameObjects
 {
@@ -43,6 +43,8 @@ namespace Some2DRPG.GameObjects
         public EntityStates CurrentState { get; set; }
 
         public string BaseRace { get; set; }
+
+        public string HitboxGroup { get; set; }
 
         /// <summary>
         /// The priority givent to attack this entity by other rivalling
@@ -99,6 +101,7 @@ namespace Some2DRPG.GameObjects
 
         private void Construct(float x, float y, string baseRace)
         {
+            this.HitboxGroup = "HitBox";
             this.MP = MaxMP;
             this.HP = MaxHP;
             this.XP = 0;
@@ -140,7 +143,8 @@ namespace Some2DRPG.GameObjects
         {
             bool hitFlag = false;
 
-            List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(CurrentBoundingBox);
+            // TODO: Replace null group with DamageBox group when ready.
+            List<RPGEntity> intersectingEntities = engine.Collider.GetIntersectingEntities<RPGEntity>(GetPxBoundingBox(gameTime, null));
             foreach (RPGEntity entity in intersectingEntities)
             {
                 if (this != entity && !_hitEntityList.Contains(entity) && entity.Faction != this.Faction)

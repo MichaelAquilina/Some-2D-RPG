@@ -3,8 +3,7 @@ Game Engine Tasks
 
 Todo
 ----
-
-- [] - Allow diagonals, but not allow in the case wherea a corner could prevent movement.
+- [] - Proper hit detection with weapons and bodies.
 - [] - Support for impassable directions in the new collision response for tiles.
 - [] - Support for avoiding collidable entities in Astar. Use some approximation heuristic.
 - [] - Support for directions in Astar algorithm (Top, Bottom, Left, Right)
@@ -71,6 +70,7 @@ Nice to Have
 
 Done
 ----
+- [Done] - Allow diagonals, but not allow in the case wherea a corner could prevent movement.
 - [Done] - Create branch for trying out a HashList implementation which could possibly be superior and less buggy than the current QuadTree implementation.
 - [Done] - Consider converting BoundingBox back to normal Rectangle and making the QuadTree using those instead. Faster.
 - [Done] - Download the daily build of Tiled to improve map editing.
