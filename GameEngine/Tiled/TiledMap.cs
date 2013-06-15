@@ -21,6 +21,9 @@ namespace GameEngine.Tiled
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
 
+        // The length of a tiles diagonal in pixels.
+        public double TileDiagonalLength { get; private set; }
+
         public Color Background { get; set; }
 
         public SortedList<int, Tile> Tiles { get; set; }                // Provides a means of direct access with Global Indentifiers.
@@ -171,6 +174,8 @@ namespace GameEngine.Tiled
                 map.txHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "height", -1, true);
                 map.TileWidth = XmlExtensions.GetAttributeValue<int>(mapNode, "tilewidth", -1, true);
                 map.TileHeight = XmlExtensions.GetAttributeValue<int>(mapNode, "tileheight", -1, true);
+                map.TileDiagonalLength = Math.Sqrt(Math.Pow(map.TileWidth, 2) + Math.Pow(map.TileHeight, 2));
+
                 map.Background = ColorExtensions.ToColor(
                     XmlExtensions.GetAttributeValue(
                         mapNode, "backgroundcolor", "#000000"

@@ -225,7 +225,9 @@ namespace Some2DRPG.GameObjects
                 // Found the current location on the Path.
                 if (txPos == currentNode.TxPos)
                 {
-                    if(Vector2.Distance(engine.Map.TxToPx(nextNode.TxPos), this.Pos) <= engine.Map.TileWidth)
+                    double checkDistance = (currentNode.IsDiagonalNeighbor(nextNode))? engine.Map.TileDiagonalLength : engine.Map.TileWidth;
+
+                    if( Vector2.Distance(engine.Map.TxToPx(nextNode.TxPos), this.Pos) <= checkDistance)
                         Approach(engine.Map.TxToPx(nextNode.TxPos));
                     else
                         Approach(engine.Map.TxToPx(currentNode.TxPos));

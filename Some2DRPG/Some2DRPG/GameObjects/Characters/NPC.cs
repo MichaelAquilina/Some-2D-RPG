@@ -17,7 +17,7 @@ namespace Some2DRPG.GameObjects.Characters
 
         bool _startedDeathAnim = false;
         float _attackDistance = 40f;
-        float _agroDistance = 200;
+        float _agroDistance = 350;
         RPGEntity _target;
 
         public NPC()
@@ -50,14 +50,19 @@ namespace Some2DRPG.GameObjects.Characters
             Tile tile = engine.Map.GetTxTopMostTile((int)target.TxPos.X, (int)target.TxPos.Y);
 
             // Diagonal to the current tile
+            bool diagonalResult = true;
+
             if (current != null && Vector2.Distance(current.TxPos, target.TxPos) > 1 )
             {
-                Tile diagonal1;
-                Tile diagonal2;
+                Tile diagonal1 = engine.Map.GetTxTopMostTile((int)target.TxPos.X, (int)current.TxPos.Y);
+                Tile diagonal2 = engine.Map.GetTxTopMostTile((int)current.TxPos.X, (int)target.TxPos.Y);
 
-                return false;
+                diagonalResult = 
+                    diagonal1 != null && diagonal2 != null &&
+                    !diagonal1.HasProperty("Impassable") && !diagonal2.HasProperty("Impassable");
             }
-            else return tile != null && !tile.HasProperty("Impassable");
+
+            return tile != null && !tile.HasProperty("Impassable") && diagonalResult;
         }
 
         private void AggressiveNpcAI(GameTime gameTime, TeeEngine engine)
