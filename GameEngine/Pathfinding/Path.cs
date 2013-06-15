@@ -9,6 +9,8 @@ namespace GameEngine.Pathfinding
         public Vector2 PxStart { get; internal set; }
         public Vector2 PxEnd { get; internal set; }
 
+        public int Length { get { return NodeList.Count; } }
+
         public Path()
         {
             NodeList = new List<ANode>();

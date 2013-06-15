@@ -9,7 +9,7 @@ namespace GameEngine.Pathfinding
         private Dictionary<Vector2, ANode> _openList = new Dictionary<Vector2, ANode>();
         private Dictionary<Vector2, ANode> _closedList = new Dictionary<Vector2, ANode>();
 
-        public delegate bool NodeValidationHandler(Vector2 txPos, TeeEngine engine, GameTime gameTime);
+        public delegate bool NodeValidationHandler(ANode current, ANode target, TeeEngine engine, GameTime gameTime);
 
         /// <summary>
         /// Uses the AStar algorithm to generate a Path from pxStart to pxEnd of valid ANodes to pass through.
@@ -27,8 +27,8 @@ namespace GameEngine.Pathfinding
             Vector2 TXEND = engine.Map.PxToTx(pxEnd);
             Vector2 TXSTART = engine.Map.PxToTx(pxStart);
 
-            if(validator == null || !validator(TXEND, engine, gameTime)) return new Path();
-            if(validator == null || !validator(TXSTART, engine, gameTime)) return new Path();
+            if(validator == null || !validator(null, new ANode(TXEND), engine, gameTime)) return new Path();
+            if(validator == null || !validator(null, new ANode(TXSTART), engine, gameTime)) return new Path();
 
             // Working backwards allows us to follow the parent path.
             _openList.Add(TXEND, new ANode(TXEND, null));
@@ -67,7 +67,7 @@ namespace GameEngine.Pathfinding
                         ANode node = new ANode(selectedNode.TxPos + new Vector2(i, j), selectedNode);
 
                         // If a validator has been supplied, use it to check if the current node is valid.
-                        if ((validator == null || validator(node.TxPos, engine, gameTime)) && !_closedList.ContainsKey(node.TxPos))
+                        if ((validator == null || validator(selectedNode, node, engine, gameTime)) && !_closedList.ContainsKey(node.TxPos))
                         {
                             if (_openList.ContainsKey(node.TxPos))
                             {
