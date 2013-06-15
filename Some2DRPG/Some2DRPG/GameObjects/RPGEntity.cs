@@ -210,23 +210,28 @@ namespace Some2DRPG.GameObjects
                 Pos.Y = target.Y;
         }
 
-        //TODO: Could do with some refactoring.
         public void FollowPath(Path path, TeeEngine engine)
         {
             if (Pos == path.PxEnd)
                 return;
 
-            bool found = false;
-            foreach(ANode node in path.NodeList)
+            Vector2 txPos = engine.Map.PxToTx(this.Pos);
+
+            for (int i = 0; i < path.Length - 1; i++)
             {
-                if (found)
+                ANode currentNode = path.NodeList[i];
+                ANode nextNode = path.NodeList[i+1];
+
+                // Found the current location on the Path.
+                if (txPos == currentNode.TxPos)
                 {
-                    Approach(engine.Map.TxToPx(node.TxPos));
+                    if(Vector2.Distance(engine.Map.TxToPx(nextNode.TxPos), this.Pos) <= engine.Map.TileWidth)
+                        Approach(engine.Map.TxToPx(nextNode.TxPos));
+                    else
+                        Approach(engine.Map.TxToPx(currentNode.TxPos));
+
                     return;
                 }
-                else
-                    if (engine.Map.PxToTx(this.Pos) == node.TxPos)
-                        found = true;
             }
         }
 
