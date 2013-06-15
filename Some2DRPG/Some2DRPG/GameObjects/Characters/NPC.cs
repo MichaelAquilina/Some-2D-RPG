@@ -45,11 +45,19 @@ namespace Some2DRPG.GameObjects.Characters
                 Direction = (distance.Y > 0) ? Direction.Up : Direction.Down;
         }
 
-        private bool PathfindingValidator(Vector2 txPos, TeeEngine engine, GameTime gameTime)
+        private bool PathfindingValidator(ANode current, ANode target, TeeEngine engine, GameTime gameTime)
         {
-            Tile tile = engine.Map.GetTxTopMostTile((int)txPos.X, (int)txPos.Y);
+            Tile tile = engine.Map.GetTxTopMostTile((int)target.TxPos.X, (int)target.TxPos.Y);
 
-            return tile != null && !tile.HasProperty("Impassable");
+            // Diagonal to the current tile
+            if (current != null && Vector2.Distance(current.TxPos, target.TxPos) > 1 )
+            {
+                Tile diagonal1;
+                Tile diagonal2;
+
+                return false;
+            }
+            else return tile != null && !tile.HasProperty("Impassable");
         }
 
         private void AggressiveNpcAI(GameTime gameTime, TeeEngine engine)
