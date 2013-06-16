@@ -158,6 +158,16 @@
       </Frames>
     </Animation>
 
+    <Animation State="*" Group="HitBox"
+               Loop="False"
+               SpriteSheet="LPC\Characters\male_hitbox"
+               Layer="99"
+               FrameDelay="90" Origin="0.5, 0.9" Offset="-1, 0">
+      <Frames>
+        <Frame>20, 14, 24, 47</Frame>
+      </Frames>
+    </Animation>
+
     <!-- Shadow -->
 
     <Animation State="*" Group="Shadow"
