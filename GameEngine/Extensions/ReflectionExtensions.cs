@@ -37,7 +37,7 @@ namespace GameEngine.Extensions
                     return ColorExtensions.ToColor(value);
                 else if (target == typeof(Vector2))
                 {
-                    string[] tokens = value.Split(new char[]{'.'}, StringSplitOptions.RemoveEmptyEntries);
+                    string[] tokens = value.Split(new char[]{','}, StringSplitOptions.RemoveEmptyEntries);
                     if (tokens.Length != 2)
                         throw new InvalidCastException(string.Format("Cannot convert '{}' to Vector2", value));
                     else
