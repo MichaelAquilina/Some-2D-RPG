@@ -316,7 +316,6 @@
     <property name="Faction" value="Allies"/>
    </properties>
   </object>
-  <object x="285" y="179"/>
   <object type="Some2DRPG.GameObjects.Characters.NPC" x="436" y="188">
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlatePants"/>
@@ -328,6 +327,14 @@
    <properties>
     <property name="*QuickEquip&lt;1&gt;" value="PlatePants"/>
     <property name="*QuickEquip&lt;2&gt;" value="Longsword"/>
+    <property name="Faction" value="Creatures"/>
+   </properties>
+  </object>
+  <object type="Some2DRPG.GameObjects.Characters.NPC" x="397" y="285">
+   <properties>
+    <property name="*QuickEquip&lt;1&gt;" value="PlatePants"/>
+    <property name="*QuickEquip&lt;2&gt;" value="Longsword"/>
+    <property name="BaseRace" value="Animations/Monsters/skeleton.draw"/>
     <property name="Faction" value="Creatures"/>
    </properties>
   </object>
