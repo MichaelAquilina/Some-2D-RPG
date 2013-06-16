@@ -21,7 +21,7 @@ namespace GameEngine.Tiled
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
 
-        public int TileArea { get { return TileWidth * TileHeight } }
+        public int TileArea { get { return TileWidth * TileHeight; } }
 
         // The diagonal length of a tile in pixels.
         public double TileDiagonalLength { get; private set; }
