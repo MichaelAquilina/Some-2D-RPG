@@ -231,7 +231,7 @@ namespace Some2DRPG.GameObjects
                 {
                     double checkDistance = (currentNode.IsDiagonalNeighbor(nextNode))? engine.Map.TileDiagonalLength : engine.Map.TileWidth;
 
-                    if( Vector2.Distance(engine.Map.TxToPx(nextNode.TxPos), this.Pos) <= checkDistance)
+                    if( Vector2.Distance(engine.Map.TxToPx(nextNode.TxPos), this.Pos) <= checkDistance + 1)
                         Approach(engine.Map.TxToPx(nextNode.TxPos));
                     else
                         Approach(engine.Map.TxToPx(currentNode.TxPos));
