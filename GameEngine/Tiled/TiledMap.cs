@@ -21,14 +21,16 @@ namespace GameEngine.Tiled
         public int TileWidth { get; set; }
         public int TileHeight { get; set; }
 
-        // The length of a tiles diagonal in pixels.
+        public int TileArea { get { return TileWidth * TileHeight } }
+
+        // The diagonal length of a tile in pixels.
         public double TileDiagonalLength { get; private set; }
 
         public Color Background { get; set; }
 
-        public SortedList<int, Tile> Tiles { get; set; }                // Provides a means of direct access with Global Indentifiers.
-        public List<TileSet> TileSets { get; set; }                     // Individual TileSets loaded. Also contain references to Tiles sorted by their LOCAL id.
-        public List<TileLayer> TileLayers { get; set; }                 // Tile Layers present within this map. Each one contains an array of tile global identifiers.
+        public SortedList<int, Tile> Tiles { get; set; }                  // Provides a means of direct access with Global Indentifiers.
+        public List<TileSet> TileSets { get; set; }                       // Individual TileSets loaded. Also contain references to Tiles sorted by their LOCAL id.
+        public List<TileLayer> TileLayers { get; set; }                   // Tile Layers present within this map. Each one contains an array of tile global identifiers.
         public List<TiledObjectLayer> TiledObjectLayers { get; set; }     // Layers consisting of TileObjects.
 
         public TiledMap()
@@ -112,6 +114,18 @@ namespace GameEngine.Tiled
         }
 
         /// <summary>
+        /// Returns the rectangular bounds for the tile at the specified coordinate. The
+        /// coordinate passed should in tile coordinates (TX) rather than map pixel 
+        /// coordinates (PX).
+        /// </summary>
+        public Rectangle GetTileBounds(Vector2 txPos)
+        {
+            Vector2 pxPos = TxToPx(txPos, false);
+
+            return new Rectangle((int)pxPos.X, (int)pxPos.Y, TileWidth, TileHeight);
+        }
+
+        /// <summary>
         /// Converts the specfied global world (px) coordinates into its relevant tile coordinate.
         /// </summary>
         public Vector2 PxToTx(Vector2 position)
@@ -124,11 +138,15 @@ namespace GameEngine.Tiled
 
         /// <summary>
         /// Converts the specified tile (tx) coordinates into global world (px) coordinates. The result
-        /// returned will be situated at the very center fo the specified tile coordinate.
+        /// returned will be situated at the very center for the specified tile coordinate if the center
+        /// parameter is specified as true.
         /// </summary>
-        public Vector2 TxToPx(Vector2 position)
+        public Vector2 TxToPx(Vector2 position, bool center=true)
         {
-            return position * new Vector2(TileWidth, TileHeight) + new Vector2(TileWidth/2, TileHeight/2);
+            if (center)
+                return position * new Vector2(TileWidth, TileHeight) + new Vector2(TileWidth / 2, TileHeight / 2);
+            else
+                return position * new Vector2(TileWidth, TileHeight);
         }
 
         // TODO: Document this.
