@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace GameEngine.Drawing
 {
+    public enum OriginType { Relative, Absolute } 
+
     /// <summary>
     /// A DrawableSet is a collection of IGameDrawable instances (each called a DrawableInstance), organised in a first-tier
     /// group of STATES. Whenever a STATE (e.g. Running, Walking) is given to a DrawableSet, it will return a list of all the DrawableInstances
@@ -306,11 +308,10 @@ namespace GameEngine.Drawing
                 string state = XmlExtensions.GetAttributeValue(animNode, "State");
                 string group = XmlExtensions.GetAttributeValue(animNode, "Group", "");
                 string spriteSheet = XmlExtensions.GetAttributeValue(animNode, "SpriteSheet");
-                string[] offset = XmlExtensions.GetAttributeValue(animNode, "Offset", "0, 0").Split(',');
-                string[] origin = XmlExtensions.GetAttributeValue(animNode, "Origin", "0.5, 1.0").Split(',');
+                OriginType originType = XmlExtensions.GetAttributeValue<OriginType>(animNode, "OriginType", OriginType.Relative);
 
-                Vector2 offsetVector = new Vector2((float)Convert.ToDouble(offset[0]), (float)Convert.ToDouble(offset[1]));
-                Vector2 originVector = new Vector2((float)Convert.ToDouble(origin[0]), (float)Convert.ToDouble(origin[1]));
+                Vector2 offset = XmlExtensions.GetAttributeValue<Vector2>(animNode, "Offset", Vector2.Zero);
+                Vector2 origin = XmlExtensions.GetAttributeValue<Vector2>(animNode, "Origin", new Vector2(0.5f, 1.0f));
 
                 XmlNodeList frameNodes = animNode.SelectNodes("Frames/Frame");
                 Rectangle[] frames = new Rectangle[frameNodes.Count];
@@ -330,7 +331,7 @@ namespace GameEngine.Drawing
                 }
 
                 Animation animation = new Animation(content.Load<Texture2D>(spriteSheet), frames, frameDelay, loop);
-                animation.Origin = originVector;
+                animation.Origin = origin;
 
                 // TODO: Requires possible revision of code.
                 // Allow support for specifying glob patterns in the case of state names.
@@ -347,7 +348,7 @@ namespace GameEngine.Drawing
                             DrawableInstance instance = drawableSet.Add(drawableSetState, animation, group);
                             instance.StartTimeMS = startTimeMS;
                             instance.Layer = layer;
-                            instance.Offset = offsetVector;
+                            instance.Offset = offset;
                             instance.Visible = visible;
                         }
                     }
@@ -357,7 +358,7 @@ namespace GameEngine.Drawing
                     DrawableInstance instance = drawableSet.Add(state, animation, group);
                     instance.StartTimeMS = startTimeMS;
                     instance.Layer = layer;
-                    instance.Offset = offsetVector;
+                    instance.Offset = offset;
                     instance.Visible = visible;
                 }
             }
