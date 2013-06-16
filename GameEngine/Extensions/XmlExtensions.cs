@@ -11,7 +11,7 @@ namespace GameEngine.Extensions
             return node.Attributes[name] != null;
         }
 
-        public static T GetAttributeValue<T>(XmlNode node, string name, T defaultValue, bool throwOnNotFound=false) where T : IConvertible
+        public static T GetAttributeValue<T>(XmlNode node, string name, T defaultValue, bool throwOnNotFound=false)
         {
             if (node.Attributes[name] == null)
                 if (throwOnNotFound)

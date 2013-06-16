@@ -32,7 +32,19 @@ namespace GameEngine.Extensions
             if (target.IsEnum)
                 return Enum.Parse(target, value);
             else
-                return (target == typeof(Color)) ? ColorExtensions.ToColor(value) : Convert.ChangeType(value, target);
+            {
+                if (target == typeof(Color))
+                    return ColorExtensions.ToColor(value);
+                else if (target == typeof(Vector2))
+                {
+                    string[] tokens = value.Split(new char[]{'.'}, StringSplitOptions.RemoveEmptyEntries);
+                    if (tokens.Length != 2)
+                        throw new InvalidCastException(string.Format("Cannot convert '{}' to Vector2", value));
+                    else
+                        return new Vector2((float)Convert.ToDouble(tokens[0]), (float)Convert.ToDouble(tokens[1]));
+                }
+                else return Convert.ChangeType(value, target);
+            }
         }
     }
 }
