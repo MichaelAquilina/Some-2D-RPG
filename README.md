@@ -1,7 +1,7 @@
 Game Development
 ================
 
-This GIT hub project is my way of getting familiar with game development techniques used in many modern day games. I chose 
+This Github project is my way of getting familiar with game development techniques used in many modern day games. I chose 
 to first focus on 2D development since this would provide me with a nice starting point, all the while being
 able to make use of more advanced techniques like shaders. I also have a personal love for retro 2D games like the older
 final fantasy series and other SNES titles.
