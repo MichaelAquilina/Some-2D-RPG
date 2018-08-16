@@ -1,7 +1,9 @@
 Game Development
 ================
 
-This Github project is my way of getting familiar with game development techniques used in many modern day games. I chose 
+> NOTE: This project has long been dead but feel free to use its content or take inspiration from its code
+
+This Github project is my way of getting familiar with game development techniques used in many modern day games. I chose
 to first focus on 2D development since this would provide me with a nice starting point, all the while being
 able to make use of more advanced techniques like shaders. I also have a personal love for retro 2D games like the older
 final fantasy series and other SNES titles.
@@ -23,7 +25,7 @@ Suggestions and Feedback
 ------------------------
 
 If you have any suggestions or feedback that you would like to give regarding this project then feel free to post in the
-'Issues' section of this repository. 
+'Issues' section of this repository.
 
 Development Platform
 --------------------
@@ -42,16 +44,16 @@ Game Engine
 -----------
 Because my main focus of this project was to gain some insight into the technical details about how games tick, i chose
 to develop the Game Engine from scratch rather than make use of XNA Game Engines like [Flat Red Ball](http://flatredball.com/)
-The engine in development currently provides an interface to create top down 2D games. 
+The engine in development currently provides an interface to create top down 2D games.
 
 Some current features found in the Engine include:
 * Composite Animation Support (Including loading from XML files)
 * Inbuilt pathfinding support using the A-star algorithm.
 * Entity framework for Players, NPCs, Monsters, objects etc..
 * Extension Methods for quicker development (Parsing XML, Smart Reflection, Keyboard locking etc..)
-* Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting). *In its current state, these 
+* Custom Game Shader interface for easy application of shaders to levels (Like 2D lighting). *In its current state, these
   are technically only post-effect shaders however i plan to support an interface for tile and pre entity shading*
-* Large support for loading [Tiled](http://www.mapeditor.org/) map files. This also includes integration support for converting map objects into Entities. 
+* Large support for loading [Tiled](http://www.mapeditor.org/) map files. This also includes integration support for converting map objects into Entities.
 * Efficient Collision Detection using a HashList OR QuadTree implementation. Ability to use your own data structure instead is also an option using the interface provided.
 * Adjustable viewports of the current Game state, including the ability to Scale.
 * Detailed Diagnostic information about engine performance that will allow easy detection of bottlenecks. (see *DebugInfo*)
@@ -87,8 +89,8 @@ from the [TASKS.md file](https://github.com/KillaW0lf04/Some-2D-RPG/blob/master/
 Game
 ----
 
-Currently, any game design that is being done, is purely for testing and expanding upon the requirements of the game engine. 
-Once Game Engine development is close to completion i intend to try and perform some actual game design that could demo the 
+Currently, any game design that is being done, is purely for testing and expanding upon the requirements of the game engine.
+Once Game Engine development is close to completion i intend to try and perform some actual game design that could demo the
 capabilities of the engine and allow me to further my understanding.
 
 Controls
@@ -104,7 +106,7 @@ Debugging Tools:
 * F1: Show/Hide Bounding Boxes.
 * F2: Show/Hide Debugging Information.
 * F3: Enable/Disable Light Shader.
-* F4: 
+* F4:
 * F5: Show/Hide Tile Grid.
 * F6: Show/Hide Collider.
 * F7: Show/Hide performance diagnostic information.
@@ -120,6 +122,15 @@ Assets
 All my art Assets come from the fantastic website [OpenGameArt.org](http://opengameart.org/). In particular, i am making use of
 Assets that were made for the [Liberated Pixel Cup](http://lpc.opengameart.org/) challenge that was being organised by the same site.
 
-I may attempt to design/draw some pixel art myself in the future, but i have decided to currently focus on development 
+I may attempt to design/draw some pixel art myself in the future, but i have decided to currently focus on development
 rather than the creative design aspects (including sound/music).
 
+Screenshots
+===========
+
+![](./Images/GameProgress.png)
+![](./Images/GameProgress2.png)
+![](./Images/GameProgress3.png)
+![](./Images/HighEntities.png)
+![](./Images/QuadTree.gif)
+![](./Images/SimpleChest.gif)
